@@ -1,18 +1,20 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import HomeView from './views/HomeView';
-import MyShifts from './views/MyShifts';
+import MisTurnos from './views/MisTurnos';
 import Profile from './views/Profile';
 import PortalView from './views/PortalView';
 import Layout from './layouts/Layout';
+import Turnos from './views/Turnos';
 
 export default function Router() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<PortalView />} index />
         <Route element={<Layout />}>
-          <Route path="/" element={<PortalView />} index />
           <Route path="/inicio" element={<HomeView />} index />
-          <Route path="/mis-turnos" element={<MyShifts />} />
+          <Route path="/turnos" element={<Turnos />} />
+          <Route path="/mis-turnos" element={<MisTurnos />} />
           <Route path="/mi-perfil" element={<Profile />} />
         </Route>
       </Routes>

@@ -1,6 +1,6 @@
-import { formatDate } from '../utils';
+import { formatDate } from '../../utils/index';
 
-export default function FormShift() {
+export default function FormTurno() {
   const today = new Date();
   const todayFormatted = formatDate(today);
   return (
@@ -20,14 +20,14 @@ export default function FormShift() {
 
         <div className="flex flex-col gap-2">
           <label htmlFor="doctor" className="text-lg text-gray-800 underline uppercase font-bold">
-            Doctor/a:
+            Profesional:
           </label>
           <select name="doctor" id="doctor" className="p-2 bg-white">
             <option value="">-- Seleccione --</option>
           </select>
         </div>
 
-        <div className="flex flex-col gap-2">
+        {/* <div className="flex flex-col gap-2">
           <label htmlFor="date" className="text-lg text-gray-800 underline uppercase font-bold">
             Fecha:
           </label>
@@ -51,7 +51,7 @@ export default function FormShift() {
             id="observaciones"
             className="w-full p-3 bg-white border border-gray-100"
           ></textarea>
-        </div>
+        </div> */}
       </div>
     </>
   );

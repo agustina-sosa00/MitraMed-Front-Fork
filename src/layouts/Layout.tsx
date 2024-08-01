@@ -2,27 +2,34 @@ import { Outlet } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Logo from '../components/Logo';
-// import Nav from '../components/Nav';
+import Nav from '../components/Nav';
 
 export default function Layout() {
   return (
     <>
       <header className="py-5 md:py-2">
         <div className="flex justify-between items-center mx-5 md:mx-10">
-          <div className="">
-            <Logo />
-          </div>
+          <Logo />
 
-          <div className="flex justify-center items-center px-3 md:px-10 h-12 md:text-lg border border-gray-400 bg-gray-100">
-            Tel: +9 54 999 9999 99
-          </div>
-          {/* <div className="flex items-center mr-10">
+          <div className="flex justify-evenly max-w-xl w-full ">
             <Nav />
-          </div> */}
+          </div>
         </div>
       </header>
 
-      <div>
+      {/* Background Image */}
+      <div className="relative h-60 lg:h-40 w-full">
+        <div className="absolute inset-0">
+          <img
+            src="/img/centro-medico-recepcion.jpeg"
+            alt="Centro Medico Edificio"
+            className="w-full h-full object-cover opacity-70"
+          />
+          <div className="absolute inset-0 bg-black opacity-80"></div>
+        </div>
+      </div>
+
+      <div className="h-[35rem]">
         <Outlet />
       </div>
 

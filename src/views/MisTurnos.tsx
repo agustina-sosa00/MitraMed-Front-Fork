@@ -1,4 +1,4 @@
-export default function MyShifts() {
+export default function MisTurnos() {
   return (
     <>
       <div>Mis Turnos</div>
