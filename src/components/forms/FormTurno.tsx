@@ -1,8 +1,16 @@
+import { useQuery } from '@tanstack/react-query';
+import { getEspecialidades } from '../../services/EspecialidadesService';
 import { formatDate } from '../../utils/index';
 
 export default function FormTurno() {
   const today = new Date();
   const todayFormatted = formatDate(today);
+
+  const { data } = useQuery({
+    queryKey: ['especialidades'],
+    queryFn: getEspecialidades,
+  });
+
   return (
     <>
       <div className="flex flex-col gap-3 max-w-3xl">
@@ -15,6 +23,11 @@ export default function FormTurno() {
           </label>
           <select name="especialidad" id="especialidad" className="p-2 bg-white">
             <option value="">-- Seleccione --</option>
+            {data?.map((especialidad) => (
+              <option key={especialidad.ID} value={especialidad.NOMBRE_ESPECIALIDAD}>
+                {especialidad.NOMBRE_ESPECIALIDAD}
+              </option>
+            ))}
           </select>
         </div>
 

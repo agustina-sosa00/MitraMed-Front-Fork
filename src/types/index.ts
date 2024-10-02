@@ -16,3 +16,11 @@ export type Account = Pick<NewAccount, 'email' | 'password'>;
 export type FormData = {
   email: Account['email'];
 };
+
+/* Especialidades */
+export const especialidadesSchema = z.object({
+  ID: z.number(),
+  NOMBRE_ESPECIALIDAD: z.string(),
+});
+
+export const turnosEspecialidadesSchema = z.array(especialidadesSchema);
