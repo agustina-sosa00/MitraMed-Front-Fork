@@ -34,12 +34,16 @@ export default function SignInForm() {
     onSuccess: (data) => {
       console.log(data);
       toast.success(data.message);
+
+      // Almacenar el token en localStorage
+      localStorage.setItem('authToken', data.token);
+
       navigate('/inicio');
     },
   });
 
   const handleForm = (formData: Account) => {
-    console.log(formData);
+    // console.log(formData);
     mutate(formData);
   };
   return (

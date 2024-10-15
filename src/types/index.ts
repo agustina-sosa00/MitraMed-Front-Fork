@@ -14,9 +14,13 @@ export type NewAccount = z.infer<typeof accountSchema>;
 export type Account = Pick<NewAccount, 'email' | 'password'>;
 
 /* Especialidades */
-export const especialidadesSchema = z.object({
-  ID: z.number(),
-  NOMBRE_ESPECIALIDAD: z.string(),
-});
+export interface Especialidad {
+  idespecialidad: number;
+  nombre: string;
+}
 
-export const turnosEspecialidadesSchema = z.array(especialidadesSchema);
+export interface Doctor {
+  iddoctor: number;
+  nombre: string;
+  apellido: string;
+}

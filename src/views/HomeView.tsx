@@ -5,10 +5,9 @@ export default function HomeView() {
     <>
       <div className="flex flex-col items-center">
         <h2 className="text-3xl font-semibold italic my-5">¡Te damos la bienvenida!</h2>
-        <p className="mx-3 text-xl font-medium text-slate-800">
-          Aquí podrás realizar la gestión de tus turnos, ver los turnos agendados y ver el historial
-          de turnos pasados.
-        </p>
+        {/* <p className="mx-3 text-xl font-medium text-slate-800">
+          Aquí podrás realizar la gestión de tus turnos.
+        </p> */}
       </div>
 
       <div className="flex flex-col gap-4 md:grid grid-cols-6 mt-10">
@@ -22,7 +21,7 @@ export default function HomeView() {
           </Link>
         </div>
 
-        <div className="col-span-3 p-5 mx-5 md:mx-16 max-w-3xl bg-gray-200 shadow-xl">
+        {/* <div className="col-span-3 p-5 mx-5 md:mx-16 max-w-3xl bg-gray-200 shadow-xl">
           <p className="text-center text-xl mb-5 font-medium">
             ¿Quieres ver tu historial de turnos agendados?
           </p>
@@ -32,7 +31,7 @@ export default function HomeView() {
           >
             <p className="text-lg md:text-xl text-white font-semibold uppercase">Mis turnos</p>
           </Link>
-        </div>
+        </div> */}
       </div>
     </>
   );
