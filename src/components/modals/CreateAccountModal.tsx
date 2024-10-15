@@ -3,11 +3,11 @@ import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Dialog, Transition, TransitionChild, DialogPanel, DialogTitle } from '@headlessui/react';
-import { NewAccount } from '../../types';
-import { createAccount } from '../../services/UserService';
-import RegisterForm from '../forms/RegisterForm';
 import { toast } from 'react-toastify';
-import { generateToken, sendRegisterEmail } from '../../utils/index';
+// import { generateToken, sendRegisterEmail } from '../../utils/index';
+import { crearCuenta } from '../../services/UserService';
+import { NewAccount } from '../../types';
+import RegisterForm from '../forms/RegisterForm';
 // import Captcha from '../forms/Captcha';
 
 export default function CreateAccountModal() {
@@ -23,7 +23,7 @@ export default function CreateAccountModal() {
     apellido: '',
     email: '',
     fnac: '',
-    gen: '',
+    genero: '',
     password: '',
     confirmPassword: '',
   };
@@ -37,9 +37,9 @@ export default function CreateAccountModal() {
   } = useForm({ defaultValues: initialValues });
 
   const { mutate } = useMutation({
-    mutationFn: createAccount,
+    mutationFn: crearCuenta,
     onError: (error) => {
-      console.log(error.message);
+      console.log(error);
     },
     onSuccess: (data) => {
       toast.success(data);
@@ -49,17 +49,22 @@ export default function CreateAccountModal() {
   });
 
   const handleForm = (formData: NewAccount) => {
-    const token = generateToken();
+    console.log(formData);
+    const { password, confirmPassword } = formData;
 
-    console.log('Email to send:', formData.email);
+    if (password !== confirmPassword) {
+      toast.error('Las contraseñas deben ser idénticas');
+      return;
+    }
 
-    sendRegisterEmail({
-      userName: formData.nombre,
-      userEmail: formData.email,
-      token: token,
-    });
     mutate(formData);
   };
+  // const token = generateToken();
+  // sendRegisterEmail({
+  //   userName: formData.nombre,
+  //   userEmail: formData.email,
+  //   token: token,
+  // });
 
   return (
     <>

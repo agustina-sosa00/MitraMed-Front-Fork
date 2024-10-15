@@ -2,11 +2,13 @@ import { Fragment } from 'react';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Dialog, Transition, TransitionChild, DialogPanel, DialogTitle } from '@headlessui/react';
-import InputField from '../InputField';
-import { FormData } from '../../types';
-import ErrorMessage from '../ErrorMessage';
-import { sendForgotPasswordEmail } from '../../utils/index';
+import { useMutation } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
+import { olvidePassword } from '../../services/UserService';
+import InputField from '../InputField';
+import ErrorMessage from '../ErrorMessage';
+// import { Account } from '@/types/index';
+// import { sendForgotPasswordEmail } from '../../utils/index';
 
 export default function ForgotPasswordModal() {
   const navigate = useNavigate();
@@ -23,12 +25,24 @@ export default function ForgotPasswordModal() {
     reset,
   } = useForm({ defaultValues: { email: '' } });
 
-  const handleForm = (formData: FormData) => {
-    console.log(formData.email);
-    sendForgotPasswordEmail(formData.email);
-    toast.success('Solicitud exitosa. Revisa tu correo');
-    reset();
-    navigate('/');
+  const { mutate } = useMutation({
+    mutationFn: olvidePassword,
+    onError: (error) => {
+      console.log(error);
+      toast.error(error.message);
+    },
+    onSuccess: (data) => {
+      console.log(data);
+      toast.success('Solicitud exitosa. Revisa tu correo');
+      reset();
+      navigate('/');
+    },
+  });
+
+  const handleForm = (formData: { email: string }) => {
+    console.log(formData);
+
+    mutate(formData);
   };
 
   return (
@@ -69,12 +83,11 @@ export default function ForgotPasswordModal() {
                     as="h3"
                     className="text-3xl font-semibold mb-4 underline underline-offset-4 decoration-2"
                   >
-                    Recuperar contraseña
+                    Recuperar cuenta
                   </DialogTitle>
 
                   <p className="text-lg mb-5">
-                    Ingrese su email de registro, donde se le indicará como reestablecer su
-                    contraseña:
+                    Ingrese su email de registro, donde se le indicará como recuperar su cuenta:
                   </p>
                   <form className="flex flex-col" noValidate onSubmit={handleSubmit(handleForm)}>
                     <div className="flex flex-col">

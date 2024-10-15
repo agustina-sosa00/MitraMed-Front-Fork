@@ -14,25 +14,24 @@ export default function HomeView() {
       <div className="flex flex-col gap-4 md:grid grid-cols-6 mt-10">
         <div className="col-span-3 p-5 mx-5 md:mx-16 max-w-3xl bg-gray-200 shadow-xl">
           <p className="text-center text-xl mb-5 font-medium">¿Quieres sacar un nuevo turno?</p>
-          <div className="text-center p-2 w-full bg-green-600 hover:bg-green-700 hover:shadow-lg">
-            <Link to="/turnos" className="text-lg md:text-2xl text-white font-semibold uppercase">
-              Turnos online
-            </Link>
-          </div>
+          <Link
+            to="/turnos"
+            className="flex justify-center p-2 w-full bg-green-600 hover:bg-green-700 transition hover:shadow-lg"
+          >
+            <p className="text-lg md:text-xl text-white font-semibold uppercase">Turnos online</p>
+          </Link>
         </div>
 
         <div className="col-span-3 p-5 mx-5 md:mx-16 max-w-3xl bg-gray-200 shadow-xl">
           <p className="text-center text-xl mb-5 font-medium">
             ¿Quieres ver tu historial de turnos agendados?
           </p>
-          <div className="text-center p-2 w-full bg-green-600 hover:bg-green-700 hover:shadow-lg">
-            <Link
-              to="/mis-turnos"
-              className="text-lg md:text-2xl text-white font-semibold uppercase"
-            >
-              Mis turnos
-            </Link>
-          </div>
+          <Link
+            to="/mis-turnos"
+            className="flex justify-center p-2 w-full bg-green-600 hover:bg-green-700 transition hover:shadow-lg"
+          >
+            <p className="text-lg md:text-xl text-white font-semibold uppercase">Mis turnos</p>
+          </Link>
         </div>
       </div>
     </>

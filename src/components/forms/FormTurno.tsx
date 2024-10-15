@@ -1,16 +1,21 @@
 import { useQuery } from '@tanstack/react-query';
-import { getEspecialidades } from '../../services/EspecialidadesService';
-import { formatDate } from '../../utils/index';
+import { obtenerEspecialidades } from '../../services/TurnosService';
+// import { formatDate } from '../../utils/index';
+
+interface Especialidad {
+  especialidad: string;
+}
 
 export default function FormTurno() {
-  const today = new Date();
-  const todayFormatted = formatDate(today);
+  // const today = new Date();
+  // const todayFormatted = formatDate(today);
 
-  const { data } = useQuery({
+  const { data } = useQuery<Especialidad[]>({
     queryKey: ['especialidades'],
-    queryFn: getEspecialidades,
+    queryFn: obtenerEspecialidades,
   });
 
+  console.log(data);
   return (
     <>
       <div className="flex flex-col gap-3 max-w-3xl">
@@ -23,9 +28,9 @@ export default function FormTurno() {
           </label>
           <select name="especialidad" id="especialidad" className="p-2 bg-white">
             <option value="">-- Seleccione --</option>
-            {data?.map((especialidad) => (
-              <option key={especialidad.ID} value={especialidad.NOMBRE_ESPECIALIDAD}>
-                {especialidad.NOMBRE_ESPECIALIDAD}
+            {data?.map((especialidadObj) => (
+              <option key={especialidadObj.especialidad} value={especialidadObj.especialidad}>
+                {especialidadObj.especialidad}
               </option>
             ))}
           </select>
@@ -34,6 +39,15 @@ export default function FormTurno() {
         <div className="flex flex-col gap-2">
           <label htmlFor="doctor" className="text-lg text-gray-800 underline uppercase font-bold">
             Profesional:
+          </label>
+          <select name="doctor" id="doctor" className="p-2 bg-white">
+            <option value="">-- Seleccione --</option>
+          </select>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <label htmlFor="doctor" className="text-lg text-gray-800 underline uppercase font-bold">
+            Horarios:
           </label>
           <select name="doctor" id="doctor" className="p-2 bg-white">
             <option value="">-- Seleccione --</option>

@@ -17,7 +17,7 @@ export default function RegisterForm({ register, errors, watch }: RegisterFormPr
   return (
     <>
       <div className="flex flex-col w-full">
-        <div className="flex gap-4">
+        <div className="flex justify-between">
           <div className="flex flex-col">
             <InputField
               id={'nombre'}
@@ -72,13 +72,13 @@ export default function RegisterForm({ register, errors, watch }: RegisterFormPr
           {errors.fnac && <ErrorMessage>{errors.fnac.message}</ErrorMessage>}
         </div>
         <div className="flex flex-col mb-1">
-          <label htmlFor="gen" className="font-semibold text-lg p-1">
+          <label htmlFor="genero" className="font-semibold text-lg p-1">
             Sexo:
           </label>
           <select
-            id="gen"
+            id="genero"
             className="w-full p-2 max-w-2xl font-semibold bg-white border-2 border-opacity-40 border-slate-500 outline-none transition duration-200 focus:border-blue-500"
-            {...register('gen', {
+            {...register('genero', {
               required: {
                 value: true,
                 message: 'El sexo es obligatorio',
@@ -89,7 +89,7 @@ export default function RegisterForm({ register, errors, watch }: RegisterFormPr
             <option value="Masculino">Masculino</option>
             <option value="Femenino">Femenino</option>
           </select>
-          {errors.gen && <ErrorMessage>{errors.gen.message}</ErrorMessage>}
+          {errors.genero && <ErrorMessage>{errors.genero.message}</ErrorMessage>}
         </div>
         <div className="flex flex-col">
           <InputField

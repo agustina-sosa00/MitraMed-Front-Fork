@@ -1,38 +1,62 @@
-import { Fragment } from 'react';
-import { useForm } from 'react-hook-form';
+import { Fragment, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Dialog, Transition, TransitionChild, DialogPanel, DialogTitle } from '@headlessui/react';
-import InputField from '../InputField';
-import { FormData } from '../../types';
-import ErrorMessage from '../ErrorMessage';
+import api from '../../lib/axios';
+import { isAxiosError } from 'axios';
 
 export default function ConfirmAccountModal() {
   const navigate = useNavigate();
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const modal = queryParams.get('confirmAccount');
+
+  const modal = queryParams.get('confirmar_cuenta');
   const show = modal ? true : false;
+  const token = queryParams.get('token');
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm({ defaultValues: { email: '' } });
+  const [backendMessage, setBackendMessage] = useState<string>('');
+  const [isTokenValid, setIsTokenValid] = useState<boolean | null>(null);
+  const [hasFetched, setHasFetched] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const handleForm = (formData: FormData) => console.log(formData);
+  useEffect(() => {
+    if (show) {
+      setIsLoading(true);
+      if (!hasFetched) {
+        const fetchMessage = async () => {
+          try {
+            const data = await api(`/auth/confirmar_cuenta?token=${token}`);
+            setBackendMessage(data.data);
+            setIsTokenValid(true);
+            setHasFetched(true);
+          } catch (error) {
+            if (isAxiosError(error) && error.response) {
+              setBackendMessage(error.response.data);
+              setIsTokenValid(false); // Token inválido
+            } else {
+              console.log(error);
+              setBackendMessage('Error desconocido al confirmar cuenta');
+              setIsTokenValid(false);
+            }
+          } finally {
+            setIsLoading(false); // Finalizar carga
+            setHasFetched(true);
+          }
+        };
+
+        fetchMessage();
+      }
+    } else {
+      // Si el modal se cierra, restablece el estado
+      setHasFetched(false);
+      setBackendMessage(''); // O cualquier valor predeterminado que desees
+    }
+  }, [show, token]);
 
   return (
     <>
       <Transition appear show={show} as={Fragment}>
-        <Dialog
-          as="div"
-          className="relative z-10"
-          onClose={() => {
-            navigate(-1), reset();
-          }}
-        >
+        <Dialog as="div" className="relative z-10" onClose={() => navigate('/')}>
           <TransitionChild
             as={Fragment}
             enter="ease-out duration-300"
@@ -56,44 +80,47 @@ export default function ConfirmAccountModal() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <DialogPanel className="w-full max-w-2xl transform overflow-hidden bg-white text-left text-slate-800 font-serif align-middle shadow-xl transition-all p-8 ">
-                  <DialogTitle
-                    as="h3"
-                    className="text-3xl font-semibold mb-4 underline underline-offset-4 decoration-2"
-                  >
-                    Confirmar cuenta
-                  </DialogTitle>
+                <DialogPanel className="flex flex-col items-center w-full max-w-2xl transform overflow-hidden bg-white text-left text-slate-800 font-serif align-middle shadow-xl transition-all p-8 ">
+                  {isLoading ? (
+                    <p>Cargando...</p> // Puedes mostrar un loader o mensaje de carga aquí
+                  ) : (
+                    <>
+                      {isTokenValid ? (
+                        <div>
+                          <svg
+                            className="success icon-large fa-check-circle"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 512 512"
+                            style={{
+                              fill: 'green',
+                              width: '100px',
+                              height: '100px',
+                              opacity: '0.8',
+                            }}
+                          >
+                            <path d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z"></path>
+                          </svg>
+                        </div>
+                      ) : (
+                        <div>
+                          <svg
+                            className="error-icon"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="red"
+                            width="120"
+                            height="120"
+                          >
+                            <path d="M12 10.586l-4.293-4.293-1.414 1.414L10.586 12l-4.293 4.293 1.414 1.414L12 13.414l4.293 4.293 1.414-1.414L13.414 12l4.293-4.293-1.414-1.414z" />
+                          </svg>
+                        </div>
+                      )}
+                    </>
+                  )}
 
-                  <p className="text-lg mb-5">
-                    Ingrese su email de registro, donde se le enviará nuevamente el email de
-                    confirmación:
-                  </p>
-                  <form className="flex flex-col" noValidate onSubmit={handleSubmit(handleForm)}>
-                    <div className="flex flex-col">
-                      <InputField
-                        id={'email'}
-                        type={'text'}
-                        label={'Email'}
-                        placeholder={'Ingresa tu email'}
-                        register={register('email', {
-                          required: {
-                            value: true,
-                            message: 'El email es obligatorio',
-                          },
-                          pattern: {
-                            value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
-                            message: 'Email inválido',
-                          },
-                        })}
-                      />
-                      {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
-                    </div>
-                    <input
-                      type="submit"
-                      value="Enviar"
-                      className="p-2 my-3 w-full max-w-2xl text-white text-base uppercase bg-lime-700 hover:bg-lime-800  transition-colors cursor-pointer shadow-lg"
-                    />
-                  </form>
+                  <DialogTitle as="h3" className="text-xl font-semibold mt-6 decoration-2">
+                    {backendMessage}
+                  </DialogTitle>
                 </DialogPanel>
               </TransitionChild>
             </div>

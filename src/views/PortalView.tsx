@@ -1,10 +1,11 @@
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import ConfirmAccountModal from '../components/modals/ConfirmAccountModal';
 import CreateAccountModal from '../components/modals/CreateAccountModal';
 import ForgotPasswordModal from '../components/modals/ForgotPasswordModal';
 import SignInForm from '../components/forms/SignInForm';
 import Logo from '../components/Logo';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import NewPasswordModal from '../components/modals/NewPasswordModal';
 
 export default function PortalView() {
   return (
@@ -77,6 +78,7 @@ export default function PortalView() {
       <CreateAccountModal />
       <ForgotPasswordModal />
       <ConfirmAccountModal />
+      <NewPasswordModal />
       <ToastContainer pauseOnHover={false} pauseOnFocusLoss={false} hideProgressBar={true} />
     </>
   );

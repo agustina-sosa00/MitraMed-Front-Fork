@@ -2,10 +2,13 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
+import { useMutation } from '@tanstack/react-query';
 import { Account } from '@/types/index';
+import { iniciarSesion } from '../../services/UserService';
 // import Captcha from '../Captcha';
 import InputField from '../InputField';
 import ErrorMessage from '../ErrorMessage';
+import { toast } from 'react-toastify';
 
 export default function SignInForm() {
   const navigate = useNavigate();
@@ -22,12 +25,27 @@ export default function SignInForm() {
     formState: { errors },
   } = useForm({ defaultValues: initialValues });
 
-  const handleForm = (formData: Account) => console.log(formData);
+  const { mutate } = useMutation({
+    mutationFn: iniciarSesion,
+    onError: (error) => {
+      console.log(error);
+      toast.error(error.message);
+    },
+    onSuccess: (data) => {
+      console.log(data);
+      toast.success(data.message);
+      navigate('/inicio');
+    },
+  });
 
+  const handleForm = (formData: Account) => {
+    console.log(formData);
+    mutate(formData);
+  };
   return (
     <>
       <div className="px-3 my-5 font-serif">
-        <h1 className="text-3xl text-slate-800 font-semibold underline underline-offset-4 decoration-2">
+        <h1 className="text-2xl text-slate-800 font-semibold underline underline-offset-4 decoration-2">
           Iniciar sesión
         </h1>
       </div>
@@ -106,13 +124,6 @@ export default function SignInForm() {
           onClick={() => navigate(location.pathname + '?forgotPassword=true')}
         >
           Olvidé mi contraseña
-        </button>
-
-        <button
-          className="text-blue-600 hover:underline"
-          onClick={() => navigate(location.pathname + '?confirmAccount=true')}
-        >
-          No recibí el correo de confirmación
         </button>
       </div>
     </>

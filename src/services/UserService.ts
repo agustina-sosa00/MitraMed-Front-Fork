@@ -1,13 +1,67 @@
 import { isAxiosError } from 'axios';
 import api from '../lib/axios';
-import { NewAccount } from '../types';
+import { Account, NewAccount } from '../types';
 
-export async function createAccount(formData: NewAccount) {
+export async function crearCuenta(formData: NewAccount) {
   try {
-    const { data } = await api.post('/create-account', formData);
+    const { confirmPassword, ...dataToSend } = formData;
+
+    const { data } = await api.post('/auth/registrar', dataToSend);
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
+      console.log(error.response.data);
+      throw new Error(error.response.data.error);
+    } else {
+      throw new Error('Hubo un error...');
+    }
+  }
+}
+
+export async function olvidePassword(email: { email: string }) {
+  try {
+    const { data } = await api.post('/auth/olvide_password', email);
+    console.log(data);
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      console.log(error.response.data);
+      throw new Error(error.response.data.error);
+    } else {
+      throw new Error('Hubo un error...');
+    }
+  }
+}
+
+export async function iniciarSesion(formData: Account) {
+  try {
+    const { data } = await api.post('/auth/iniciar_sesion', formData);
+    console.log(data);
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      console.log(error.response.data);
+      throw new Error(error.response.data.error);
+    } else {
+      throw new Error('Hubo un error...');
+    }
+  }
+}
+
+export async function reestablecerPassword({
+  token,
+  password,
+}: {
+  token: string;
+  password: string;
+}) {
+  try {
+    const { data } = await api.post(`/auth/reestablecer_password?token=${token}`, { password });
+    console.log(data);
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      console.log(error.response.data);
       throw new Error(error.response.data.error);
     } else {
       throw new Error('Hubo un error...');

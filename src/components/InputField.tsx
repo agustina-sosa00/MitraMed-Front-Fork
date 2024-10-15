@@ -18,7 +18,7 @@ export default function InputField({ id, type, label, placeholder, register }: I
         id={id}
         type={type}
         placeholder={placeholder}
-        className="w-full p-2 max-w-2xl font-semibold bg-white border-2 border-opacity-40 border-slate-500 outline-none transition duration-200 focus:border-blue-300"
+        className="w-full p-2 max-w-2xl font-semibold bg-white border-2 border-opacity-40 border-slate-500 outline-none transition duration-200 focus:border-blue-300 placeholder:text-base"
         {...register}
       />
     </div>
