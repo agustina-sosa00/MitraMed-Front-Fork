@@ -33,6 +33,21 @@ export async function olvidePassword(email: { email: string }) {
   }
 }
 
+export async function nuevoToken(email: { email: string }) {
+  try {
+    const { data } = await api.post('/auth/reenviar_tokenconfirm', email);
+    console.log(data);
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      console.log(error.response.data);
+      throw new Error(error.response.data.error);
+    } else {
+      throw new Error('Hubo un error...');
+    }
+  }
+}
+
 export async function iniciarSesion(formData: Account) {
   try {
     const { data } = await api.post('/auth/iniciar_sesion', formData);

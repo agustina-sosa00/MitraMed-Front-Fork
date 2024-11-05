@@ -7,6 +7,8 @@ import { toast } from 'react-toastify';
 import { reestablecerPassword } from '../../services/UserService';
 import NewPasswordForm from '../forms/NewPasswordForm';
 import api from '../../lib/axios';
+import { isAxiosError } from 'axios';
+import { ClipLoader } from 'react-spinners';
 // import { Account } from '@/types/index';
 // import { sendForgotPasswordEmail } from '../../utils/index';
 
@@ -20,25 +22,38 @@ export default function NewPasswordModal() {
 
   const token = queryParams.get('token');
 
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasFetched, setHasFetched] = useState(false);
+  const [backendMessage, setBackendMessage] = useState('');
   const [isTokenValid, setIsTokenValid] = useState<boolean | null>(null);
 
   useEffect(() => {
     const validateToken = async () => {
+      setIsLoading(true);
       try {
         const response = await api.get(`/auth/verificar_token?token=${token}`);
         console.log(response);
         if (response.status === 200) {
           setIsTokenValid(true);
-        } else {
-          setIsTokenValid(false);
         }
       } catch (error) {
         console.log(error);
-        setIsTokenValid(false);
+        if (isAxiosError(error) && error.response) {
+          setBackendMessage(error.response.data.error);
+          setIsTokenValid(false); // Token inválido
+        } else {
+          setBackendMessage('Error desconocido');
+          setIsTokenValid(false);
+        }
+      } finally {
+        setIsLoading(false);
+        setHasFetched(true);
       }
     };
 
-    validateToken();
+    if (token) {
+      validateToken();
+    }
   }, [token]);
 
   const {
@@ -124,16 +139,14 @@ export default function NewPasswordModal() {
                     as="h3"
                     className="text-3xl font-semibold mb-4 underline underline-offset-4 decoration-2"
                   >
-                    {isTokenValid === null
-                      ? ''
-                      : isTokenValid === true
-                      ? 'Reestablecer contraseña'
-                      : ''}
+                    {isLoading || backendMessage ? '' : 'Reestablecer contraseña'}
                   </DialogTitle>
 
-                  {isTokenValid === null ? (
-                    <p className="text-center">Verificando el enlace...</p>
-                  ) : isTokenValid ? (
+                  {isLoading ? (
+                    <div className="flex justify-center items-center mt-5">
+                      <ClipLoader color="#36d7b7" size={80} />
+                    </div>
+                  ) : hasFetched && isTokenValid ? (
                     <form className="flex flex-col" noValidate onSubmit={handleSubmit(handleForm)}>
                       <NewPasswordForm register={register} errors={errors} />
 
@@ -144,9 +157,19 @@ export default function NewPasswordModal() {
                       />
                     </form>
                   ) : (
-                    <p className="text-center mt-5">
-                      El enlace para reestablecer su contraseña ha expirado o es inválido.
-                    </p>
+                    <div className="flex flex-col justify-center items-center">
+                      <svg
+                        className="error-icon"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="red"
+                        width="120"
+                        height="120"
+                      >
+                        <path d="M12 10.586l-4.293-4.293-1.414 1.414L10.586 12l-4.293 4.293 1.414 1.414L12 13.414l4.293 4.293 1.414-1.414L13.414 12l4.293-4.293-1.414-1.414z" />
+                      </svg>
+                      <p className="text-center">{backendMessage}</p>
+                    </div>
                   )}
                 </DialogPanel>
               </TransitionChild>

@@ -1,14 +1,12 @@
 import { Fragment } from 'react';
 import { useForm } from 'react-hook-form';
-import { useMutation } from '@tanstack/react-query';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { Dialog, Transition, TransitionChild, DialogPanel, DialogTitle } from '@headlessui/react';
-import { toast } from 'react-toastify';
-// import { generateToken, sendRegisterEmail } from '../../utils/index';
-import { crearCuenta } from '../../services/UserService';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { NewAccount } from '../../types';
 import RegisterForm from '../forms/RegisterForm';
-// import Captcha from '../forms/Captcha';
+import { useMutation } from '@tanstack/react-query';
+import { crearCuenta } from '@/services/UserService';
+import { toast } from 'react-toastify';
 
 export default function CreateAccountModal() {
   const navigate = useNavigate();
@@ -39,32 +37,16 @@ export default function CreateAccountModal() {
   const { mutate } = useMutation({
     mutationFn: crearCuenta,
     onError: (error) => {
-      console.log(error);
+      toast.error(error.message);
     },
     onSuccess: (data) => {
       toast.success(data);
-      reset();
       navigate('/');
+      reset();
     },
   });
 
-  const handleForm = (formData: NewAccount) => {
-    console.log(formData);
-    const { password, confirmPassword } = formData;
-
-    if (password !== confirmPassword) {
-      toast.error('Las contraseñas deben ser idénticas');
-      return;
-    }
-
-    mutate(formData);
-  };
-  // const token = generateToken();
-  // sendRegisterEmail({
-  //   userName: formData.nombre,
-  //   userEmail: formData.email,
-  //   token: token,
-  // });
+  const handleForm = (formData: NewAccount) => mutate(formData);
 
   return (
     <>
@@ -73,7 +55,7 @@ export default function CreateAccountModal() {
           as="div"
           className="relative z-10"
           onClose={() => {
-            navigate(-1), reset();
+            navigate('/'), reset();
           }}
         >
           <TransitionChild
@@ -115,8 +97,6 @@ export default function CreateAccountModal() {
                   <form className="mt-5" noValidate onSubmit={handleSubmit(handleForm)}>
                     <div className="flex flex-col gap-4">
                       <RegisterForm register={register} errors={errors} watch={watch} />
-
-                      {/* <Captcha /> */}
                       <input
                         type="submit"
                         value="Registrarme"
@@ -130,7 +110,7 @@ export default function CreateAccountModal() {
                       Ya tienes una cuenta?{' '}
                       <button
                         className="text-blue-600 hover:underline"
-                        onClick={() => navigate(-1)}
+                        onClick={() => navigate('/')}
                       >
                         Inicia sesión aquí
                       </button>

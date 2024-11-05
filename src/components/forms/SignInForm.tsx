@@ -6,6 +6,7 @@ import { useMutation } from '@tanstack/react-query';
 import { Account } from '@/types/index';
 import { iniciarSesion } from '../../services/UserService';
 // import Captcha from '../Captcha';
+import Cookies from 'js-cookie';
 import InputField from '../InputField';
 import ErrorMessage from '../ErrorMessage';
 import { toast } from 'react-toastify';
@@ -35,8 +36,9 @@ export default function SignInForm() {
       console.log(data);
       toast.success(data.message);
 
-      // Almacenar el token en localStorage
-      localStorage.setItem('authToken', data.token);
+      // Almacenar los tokens en cookies
+      Cookies.set('accessToken', data.token_acceso, { expires: 1 / 48 }); // 30 minutos
+      Cookies.set('refreshToken', data.token_refresh, { expires: 1 }); // 1 día
 
       navigate('/inicio');
     },
@@ -48,7 +50,7 @@ export default function SignInForm() {
   };
   return (
     <>
-      <div className="px-3 my-5 font-serif">
+      <div className="px-3 my-2 font-serif">
         <h1 className="text-2xl text-slate-800 font-semibold underline underline-offset-4 decoration-2">
           Iniciar sesión
         </h1>
@@ -113,7 +115,7 @@ export default function SignInForm() {
         />
       </form>
 
-      <div className="flex flex-col items-start my-3 mx-2 gap-2 font-serif">
+      <div className="flex flex-col items-start mt-3 mx-2 gap-2 font-serif">
         <p className="">
           No tienes cuenta?{' '}
           <button
@@ -128,6 +130,12 @@ export default function SignInForm() {
           onClick={() => navigate(location.pathname + '?forgotPassword=true')}
         >
           Olvidé mi contraseña
+        </button>
+        <button
+          className="text-blue-600 hover:underline"
+          onClick={() => navigate(location.pathname + '?newTokenConfirm=true')}
+        >
+          Reenviar correo de confirmación
         </button>
       </div>
     </>

@@ -1,10 +1,11 @@
 import { Navigate, Outlet } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 export default function ProtectedRoute() {
-  const authToken = localStorage.getItem('authToken');
+  const accessToken = Cookies.get('accessToken');
 
   // Si no hay token, redirige a la página de inicio de sesión
-  if (!authToken) {
+  if (!accessToken) {
     return <Navigate to="/" />;
   }
 

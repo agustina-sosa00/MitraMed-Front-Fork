@@ -53,3 +53,27 @@ export const sendForgotPasswordEmail = async (userEmail: string) => {
     console.log(error);
   }
 };
+
+export function getDateFromIddia(iddia: number): string {
+  // Obtener la fecha de hoy
+  const today = new Date();
+
+  // Obtener el día actual (1 = lunes, 2 = martes, ..., 7 = domingo)
+  const currentDay = today.getDay() === 0 ? 7 : today.getDay(); // 0 = domingo
+
+  // Calcular la diferencia entre el día de la semana actual y el iddia
+  const diff = iddia - currentDay;
+
+  // Ajustar la fecha basándose en la diferencia de días
+  const targetDate = new Date(today);
+  targetDate.setDate(today.getDate() + diff);
+
+  // Formatear la fecha como dd-mm-yyyy
+  const formattedDate = targetDate.toLocaleDateString('es-ES', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  });
+
+  return formattedDate;
+}

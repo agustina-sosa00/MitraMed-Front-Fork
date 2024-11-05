@@ -6,6 +6,7 @@ import ForgotPasswordModal from '../components/modals/ForgotPasswordModal';
 import SignInForm from '../components/forms/SignInForm';
 import Logo from '../components/Logo';
 import NewPasswordModal from '../components/modals/NewPasswordModal';
+import NewTokenConfirm from '@/components/modals/NewTokenConfirm';
 
 export default function PortalView() {
   return (
@@ -26,7 +27,7 @@ export default function PortalView() {
       </header>
 
       {/* Background Image */}
-      <div className="relative h-60 lg:h-40 w-full">
+      <div className="relative h-60 lg:h-32 w-full">
         <div className="absolute inset-0">
           <img
             src="/img/centro-medico-recepcion.jpeg"
@@ -41,9 +42,9 @@ export default function PortalView() {
       <div className="flex flex-col items-center md:items-start md:grid md:grid-cols-5 w-full gap-4 md:gap-0 lg:px-5 lg:py-3">
         <div className="col-span-3 mt-5 lg:mt-2 px-6">
           <h2 className="text-2xl font-semibold text-center lg:text-left text-gray-700 mb-5 underline">
-            Mitra Med - Centro Médico
+            MitraMed - Centro Médico
           </h2>
-          <div className="lg:mt-10 space-y-4 lg:space-y-10">
+          <div className="lg:mt-10 lg:space-y-10">
             <p className="text-gray-700 text-lg text-justify lg:text-balance indent-4">
               Este portal está diseñado para facilitar la gestión de turnos en nuestro Centro
               Médico. Aquí, puedes reservar tus citas de manera rápida y sencilla.
@@ -69,16 +70,22 @@ export default function PortalView() {
         </div>
       </div>
 
-      <footer className="bg-slate-600 py-5 mt-16">
-        <p className="text-white text-center font-medium">
-          Todos los derechos reservados {new Date().getFullYear()}
-        </p>
+      <footer className="bg-slate-700 py-5 mt-16">
+        <div className="">
+          <p className="text-white text-center font-medium">
+            Todos los derechos reservados {new Date().getFullYear()} - Desarrollado por {''}
+            <span className="text-amber-400 hover:text-amber-500 cursor-pointer transition">
+              Nova Software
+            </span>
+          </p>
+        </div>
       </footer>
 
       <CreateAccountModal />
       <ForgotPasswordModal />
       <ConfirmAccountModal />
       <NewPasswordModal />
+      <NewTokenConfirm />
       <ToastContainer pauseOnHover={false} pauseOnFocusLoss={false} hideProgressBar={true} />
     </>
   );

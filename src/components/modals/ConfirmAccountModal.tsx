@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Dialog, Transition, TransitionChild, DialogPanel, DialogTitle } from '@headlessui/react';
 import api from '../../lib/axios';
 import { isAxiosError } from 'axios';
+import { ClipLoader } from 'react-spinners';
 
 export default function ConfirmAccountModal() {
   const navigate = useNavigate();
@@ -17,41 +18,39 @@ export default function ConfirmAccountModal() {
   const [backendMessage, setBackendMessage] = useState<string>('');
   const [isTokenValid, setIsTokenValid] = useState<boolean | null>(null);
   const [hasFetched, setHasFetched] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true); // Inicializar en false
 
   useEffect(() => {
-    if (show) {
-      setIsLoading(true);
-      if (!hasFetched) {
-        const fetchMessage = async () => {
-          try {
-            const data = await api(`/auth/confirmar_cuenta?token=${token}`);
-            setBackendMessage(data.data);
-            setIsTokenValid(true);
-            setHasFetched(true);
-          } catch (error) {
-            if (isAxiosError(error) && error.response) {
-              setBackendMessage(error.response.data);
-              setIsTokenValid(false); // Token inválido
-            } else {
-              console.log(error);
-              setBackendMessage('Error desconocido al confirmar cuenta');
-              setIsTokenValid(false);
-            }
-          } finally {
-            setIsLoading(false); // Finalizar carga
-            setHasFetched(true);
+    if (show && token && !hasFetched) {
+      setIsLoading(true); // Inicia carga
+      const fetchMessage = async () => {
+        try {
+          const { data } = await api.get(`/auth/confirmar_cuenta?token=${token}`);
+          console.log(data);
+          setBackendMessage(data);
+          setIsTokenValid(true);
+        } catch (error) {
+          if (isAxiosError(error) && error.response) {
+            setBackendMessage(error.response.data);
+            setIsTokenValid(false); // Token inválido
+          } else {
+            setBackendMessage('Error desconocido al confirmar cuenta');
+            setIsTokenValid(false);
           }
-        };
+        } finally {
+          setIsLoading(false); // Finaliza carga
+          setHasFetched(true); // Marca como fetch realizado
+        }
+      };
 
-        fetchMessage();
-      }
-    } else {
+      fetchMessage();
+    } else if (!show) {
       // Si el modal se cierra, restablece el estado
       setHasFetched(false);
-      setBackendMessage(''); // O cualquier valor predeterminado que desees
+      setBackendMessage('');
+      // setIsTokenValid(null); // Restablece el estado del token
     }
-  }, [show, token]);
+  }, [show, token, hasFetched]); // Asegúrate de que 'hasFetched' esté en las dependencias
 
   return (
     <>
@@ -82,7 +81,9 @@ export default function ConfirmAccountModal() {
               >
                 <DialogPanel className="flex flex-col items-center w-full max-w-2xl transform overflow-hidden bg-white text-left text-slate-800 font-serif align-middle shadow-xl transition-all p-8 ">
                   {isLoading ? (
-                    <p>Cargando...</p> // Puedes mostrar un loader o mensaje de carga aquí
+                    <div className="flex justify-center items-center mt-5">
+                      <ClipLoader color="#36d7b7" size={80} />
+                    </div>
                   ) : (
                     <>
                       {isTokenValid ? (

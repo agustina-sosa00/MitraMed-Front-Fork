@@ -24,3 +24,10 @@ export interface Doctor {
   nombre: string;
   apellido: string;
 }
+
+export interface Horario {
+  iddoctor: number;
+  iddia: number;
+  idhorario: number;
+  hora_ini: string;
+}
