@@ -53,8 +53,6 @@ export async function iniciarSesion(formData: Account) {
     const { data } = await api.post('/auth/iniciar_sesion', formData);
     console.log(data);
 
-    if (data.token) localStorage.setItem('authToken', data.token);
-
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
