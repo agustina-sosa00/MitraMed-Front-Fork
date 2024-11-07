@@ -37,8 +37,8 @@ export default function SignInForm() {
       toast.success(data.message);
 
       // Almacenar los tokens en cookies
-      Cookies.set('accessToken', data.token_acceso, { expires: 1 / 288 }); // 5 minutos
-      Cookies.set('refreshToken', data.token_refresh, { expires: 1 }); // 1 día
+      Cookies.set('accessToken', data.token_acceso, { expires: 1 }); 
+      Cookies.set('refreshToken', data.token_refresh, { expires: 1 });
 
       navigate('/inicio');
     },

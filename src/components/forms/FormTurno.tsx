@@ -1,12 +1,8 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import {
-  obtenerDoctores,
-  obtenerEspecialidades,
-  obtenerHorarios,
-} from '../../services/TurnosService';
-import { Doctor, Especialidad, Horario } from '../../types/index';
-import { getDateFromIddia } from '../../utils/index';
+import { obtenerDoctores, obtenerEspecialidades } from '../../services/TurnosService';
+import { Doctor, Especialidad } from '../../types/index';
+// import { getDateFromIddia } from '../../utils/index';
 
 // Estado inicial con el día de mañana
 const today = new Date();
@@ -16,6 +12,8 @@ tomorrow.setDate(today.getDate() + 1);
 export default function FormTurno() {
   const [idEspecialidad, setIdespecialidad] = useState<string>('');
   const [idDoctor, setiDdoctor] = useState<string>('');
+
+  console.log(idDoctor);
   // const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   const { data: especialidades } = useQuery<Especialidad[], Error>({
@@ -29,22 +27,24 @@ export default function FormTurno() {
     enabled: !!idEspecialidad,
   });
 
-  const { data: horarios, isLoading: loadingHorarios } = useQuery<Horario[], Error>({
-    queryKey: ['horarios', idEspecialidad, idDoctor],
-    queryFn: () => obtenerHorarios({ idEspecialidad, idDoctor }),
-    enabled: !!idEspecialidad && !!idDoctor,
-    initialData: [],
-  });
+  // const { data: horarios, isLoading: loadingHorarios } = useQuery<Horario[], Error>({
+  //   queryKey: ['horarios', idEspecialidad, idDoctor],
+  //   queryFn: () => obtenerHorarios({ idEspecialidad, idDoctor }),
+  //   enabled: !!idEspecialidad && !!idDoctor,
+  //   initialData: [],
+  // });
 
-  const [horario, setHorario] = useState([horarios]);
+  // const [horario, setHorario] = useState([horarios]);
 
-  // Función para alternar la selección de la fila
-  const toggleRowSelection = (index: number) => {
-    const updatedHorarios = horario.map((hora, i) =>
-      i === index ? { ...hora, selected: !hora.selected } : hora
-    );
-    setHorario(updatedHorarios);
-  };
+  // // Función para alternar la selección de la fila
+  // const toggleRowSelection = (index: number) => {
+  //   // const updatedHorarios = horario.map((hora, i) =>
+  //   //   i === index ? { ...hora, selected: !hora.selected } : hora
+  //   // );
+  //   // setHorario(updatedHorarios);
+
+  //   console.log(index);
+  // };
 
   return (
     <>
@@ -95,7 +95,7 @@ export default function FormTurno() {
             )}
           </select>
         </div>
-        <div className="flex items-center justify-between gap-2  max-w-xl">
+        {/* <div className="flex items-center justify-between gap-2  max-w-xl">
           <label htmlFor="horario" className="w-44 text-lg text-gray-800 font-semibold text-right">
             Horarios:
           </label>
@@ -134,7 +134,7 @@ export default function FormTurno() {
               </tbody>
             </table>
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );
