@@ -29,7 +29,15 @@ export default function NewPasswordModal() {
 
   useEffect(() => {
     const validateToken = async () => {
+      if (!token) {
+        setBackendMessage('Token inválido');
+        setIsTokenValid(false);
+        setIsLoading(false);
+        return;
+      }
+
       setIsLoading(true);
+
       try {
         const response = await api.get(`/auth/verificar_token?token=${token}`);
         console.log(response);
@@ -51,10 +59,10 @@ export default function NewPasswordModal() {
       }
     };
 
-    if (token) {
+    if (show && token) {
       validateToken();
     }
-  }, [token]);
+  }, [show, token]);
 
   const {
     register,
