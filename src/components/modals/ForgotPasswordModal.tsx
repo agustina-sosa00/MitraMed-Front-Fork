@@ -32,16 +32,13 @@ export default function ForgotPasswordModal() {
       toast.error(error.message);
     },
     onSuccess: (data) => {
-      console.log(data);
-      toast.success('Solicitud exitosa. Revisa tu correo');
+      toast.success(data);
       reset();
       navigate('/');
     },
   });
 
   const handleForm = (formData: { email: string }) => {
-    console.log(formData);
-
     mutate(formData);
   };
 
