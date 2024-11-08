@@ -1,9 +1,9 @@
 import { Fragment, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Dialog, Transition, TransitionChild, DialogPanel, DialogTitle } from '@headlessui/react';
-import api from '../../lib/axios';
 import { isAxiosError } from 'axios';
 import { ClipLoader } from 'react-spinners';
+import apiNoAuth from '@/lib/axiosNoAuth';
 
 export default function ConfirmAccountModal() {
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ export default function ConfirmAccountModal() {
       setIsLoading(true); // Inicia carga
       const fetchMessage = async () => {
         try {
-          const { data } = await api.get(`/auth/confirmar_cuenta?token=${token}`);
+          const { data } = await apiNoAuth.get(`/auth/confirmar_cuenta?token=${token}`);
           console.log(data);
           setBackendMessage(data);
           setIsTokenValid(true);

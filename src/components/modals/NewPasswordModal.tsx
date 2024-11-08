@@ -6,9 +6,9 @@ import { useMutation } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import { reestablecerPassword } from '../../services/UserService';
 import NewPasswordForm from '../forms/NewPasswordForm';
-import api from '../../lib/axios';
 import { isAxiosError } from 'axios';
 import { ClipLoader } from 'react-spinners';
+import apiNoAuth from '@/lib/axiosNoAuth';
 // import { Account } from '@/types/index';
 // import { sendForgotPasswordEmail } from '../../utils/index';
 
@@ -39,13 +39,12 @@ export default function NewPasswordModal() {
       setIsLoading(true);
 
       try {
-        const response = await api.get(`/auth/verificar_token?token=${token}`);
-        console.log(response);
+        const response = await apiNoAuth.get(`/auth/verificar_token?token=${token}`);
+
         if (response.status === 200) {
           setIsTokenValid(true);
         }
       } catch (error) {
-        console.log(error);
         if (isAxiosError(error) && error.response) {
           setBackendMessage(error.response.data.error);
           setIsTokenValid(false); // Token inválido
@@ -75,10 +74,10 @@ export default function NewPasswordModal() {
     mutationFn: reestablecerPassword,
     onError: (error) => {
       console.log(error);
+      toast.error(error.message);
     },
     onSuccess: (data) => {
-      console.log(data);
-      toast.success('Contraseña reestablecida exitosamente. Ahora puedes iniciar sesión');
+      toast.success(data);
       reset();
       navigate('/');
     },
@@ -116,7 +115,8 @@ export default function NewPasswordModal() {
           as="div"
           className="relative z-10"
           onClose={() => {
-            navigate('/'), reset();
+            navigate('/');
+            reset();
           }}
         >
           <TransitionChild
