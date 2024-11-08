@@ -49,7 +49,7 @@ export default function ForgotPasswordModal() {
           as="div"
           className="relative z-10"
           onClose={() => {
-            navigate(-1), reset();
+            navigate('/'), reset();
           }}
         >
           <TransitionChild
@@ -83,9 +83,13 @@ export default function ForgotPasswordModal() {
                     Recuperar cuenta
                   </DialogTitle>
 
-                  <p className="text-lg mb-5">
+                  <p className="text-lg mb-2">
                     Ingresa tu email de registro, donde se te indicará como recuperar tu cuenta:
                   </p>
+                  <span className="text-amber-500 font-thin text-xs italic my-2">
+                    * Recuerda que los links de recuperacion expiran. Te recomendamos confirmar tu
+                    cuenta lo antes posible
+                  </span>
                   <form className="flex flex-col" noValidate onSubmit={handleSubmit(handleForm)}>
                     <div className="flex flex-col">
                       <InputField

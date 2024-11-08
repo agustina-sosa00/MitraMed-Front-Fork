@@ -156,6 +156,10 @@ export default function NewPasswordModal() {
                     </div>
                   ) : hasFetched && isTokenValid ? (
                     <form className="flex flex-col" noValidate onSubmit={handleSubmit(handleForm)}>
+                      <p className="text-amber-500 font-thin text-xs italic my-2">
+                        *Esta ventana es de un solo uso. Te recomendamos cambiar tu contraseña antes
+                        de salir. De lo contrario, deberás solicitar un nuevo link de recuperación.
+                      </p>
                       <NewPasswordForm register={register} errors={errors} />
 
                       <input

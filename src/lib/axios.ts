@@ -35,7 +35,7 @@ api.interceptors.response.use(
 
     // 403: No hay access token
     if (error.response && error.response.status === 403) {
-      console.log('Token inválido o no disponible');
+      // console.log('Token inválido o no disponible');
       // Redirigir al login si no hay un token válido
       window.location.href = '/';
     }
