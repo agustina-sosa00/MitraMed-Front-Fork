@@ -7,6 +7,7 @@ import SignInForm from '../components/forms/SignInForm';
 import Logo from '../components/Logo';
 import NewPasswordModal from '../components/modals/NewPasswordModal';
 import NewTokenConfirm from '@/components/modals/NewTokenConfirm';
+import { Link } from 'react-router-dom';
 
 export default function PortalView() {
   return (
@@ -40,28 +41,36 @@ export default function PortalView() {
 
       {/* Portal */}
       <div className="flex flex-col items-center md:items-start md:grid md:grid-cols-5 w-full gap-4 md:gap-0 lg:px-5 lg:py-3">
-        <div className="col-span-3 mt-5 lg:mt-2 px-6">
-          <h2 className="text-2xl font-semibold text-center lg:text-left text-gray-700 mb-5 underline">
+        <div className="col-span-3 mt-5 lg:mt-2 px-6 space-y-8">
+          <h2 className="text-3xl font-bold text-center lg:text-left text-gray-800 mb-8 underline  decoration-4 underline-offset-4">
             MitraMed - Centro Médico
           </h2>
-          <div className="lg:mt-10 lg:space-y-10">
-            <p className="text-gray-700 text-lg text-justify lg:text-balance indent-4">
-              Este portal está diseñado para facilitar la gestión de turnos en nuestro Centro
+
+          <div className="space-y-8 ">
+            <p className="text-gray-800 text-lg lg:text-xl text-justify lg:text-left indent-6 leading-relaxed">
+              Este portal está diseñado para facilitar la{' '}
+              <span className="font-medium text-blue-600">gestión de turnos</span> en nuestro Centro
               Médico. Aquí, puedes reservar tus citas de manera rápida y sencilla.
             </p>
-            <p className="text-gray-700 text-lg text-justify lg:text-balance indent-4">
+
+            <p className="text-gray-800 text-lg lg:text-xl text-justify lg:text-left indent-6 leading-relaxed">
               Para acceder a nuestras funcionalidades y poder{' '}
-              <span className="underline underline-offset-2">gestionar tus turnos</span>, es
-              necesario que inicies sesión en tu cuenta. Si aún no tienes una, te invitamos a
-              registrarte para comenzar a utilizar nuestros servicios.
+              <span className="underline decoration-amber-500 decoration-2 underline-offset-2 font-medium">
+                gestionar tus turnos
+              </span>
+              , es necesario que inicies sesión en tu cuenta. Si aún no tienes una,{' '}
+              <span className="text-blue-600 font-semibold">regístrate</span> para comenzar a
+              utilizar nuestros servicios.
             </p>
-            <p className="text-gray-700 text-lg text-justify lg:text-balance indent-4">
+
+            <p className="text-gray-800 text-lg lg:text-xl text-justify lg:text-left indent-6 leading-relaxed">
               Ofrecemos un servicio personalizado y eficiente para que puedas planificar tus visitas
               de acuerdo a tus necesidades y a las de tu familia.
             </p>
           </div>
-          <p className="text-xl italic text-center mt-10 font-semibold text-blue-700">
-            Gracias por elegirnos para tu atención médica!!!
+
+          <p className="text-2xl italic text-center mt-10 font-semibold text-blue-600 tracking-wide">
+            ¡Gracias por elegirnos para tu atención médica!
           </p>
         </div>
 
@@ -70,15 +79,17 @@ export default function PortalView() {
         </div>
       </div>
 
-      <footer className="bg-slate-700 py-5 mt-16">
-        <div className="">
-          <p className="text-white text-center font-medium">
-            Todos los derechos reservados {new Date().getFullYear()} - Desarrollado por {''}
-            <span className="text-amber-400 hover:text-amber-500 cursor-pointer transition">
-              Nova Software
-            </span>
-          </p>
-        </div>
+      <footer className="bg-slate-700 py-5">
+        <p className="text-white text-center font-medium">
+          Todos los derechos reservados {new Date().getFullYear()} - Desarrollado por{' '}
+          <Link
+            to="https://www.novagestion.com.ar/"
+            target="_blank"
+            className="text-amber-400 hover:text-amber-500 cursor-pointer transition"
+          >
+            Nova Software
+          </Link>
+        </p>
       </footer>
 
       <CreateAccountModal />
