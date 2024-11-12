@@ -1,7 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import HomeView from './views/HomeView';
 import MisTurnos from './views/MisTurnos';
-import Profile from './views/Profile';
 import PortalView from './views/PortalView';
 import Layout from './layouts/Layout';
 import Turnos from './views/Turnos';
