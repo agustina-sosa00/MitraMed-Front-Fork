@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Logo from '../components/Logo';
@@ -17,25 +17,20 @@ export default function Layout() {
         </div>
       </header>
 
-      {/* Background Image */}
-      <div className="relative h-60 lg:h-40 w-full">
-        <div className="absolute inset-0">
-          <img
-            src="/img/centro-medico-recepcion.jpeg"
-            alt="Centro Medico Edificio"
-            className="w-full h-full object-cover opacity-70"
-          />
-          <div className="absolute inset-0 bg-black opacity-80"></div>
-        </div>
-      </div>
-
       <div className="h-full">
         <Outlet />
       </div>
 
-      <footer className="bg-slate-600 py-5 mt-16">
+      <footer className="bg-slate-700 py-5">
         <p className="text-white text-center font-medium">
-          Todos los derechos reservados {new Date().getFullYear()}
+          Todos los derechos reservados {new Date().getFullYear()} - Desarrollado por{' '}
+          <Link
+            to="https://www.novagestion.com.ar/"
+            target="_blank"
+            className="text-amber-400 hover:text-amber-500 cursor-pointer transition"
+          >
+            Nova Software
+          </Link>
         </p>
       </footer>
 

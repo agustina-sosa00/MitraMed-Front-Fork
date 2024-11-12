@@ -2,37 +2,62 @@ import { Link } from 'react-router-dom';
 
 export default function HomeView() {
   return (
-    <>
-      <div className="flex flex-col items-center">
-        <h2 className="text-3xl font-semibold italic my-5">¡Te damos la bienvenida!</h2>
-        {/* <p className="mx-3 text-xl font-medium text-slate-800">
-          Aquí podrás realizar la gestión de tus turnos.
-        </p> */}
+    <div className="flex flex-col items-center min-h-full mb-20">
+      {/* Sección de bienvenida */}
+      <div className="text-center w-full bg-gradient-to-r from-gray-800 via-gray-700 to-gray-900 p-8 shadow-xl mt-10">
+        <h2 className="text-4xl font-bold text-green-300 mb-4">
+          ¡Bienvenido a nuestro Centro Médico!
+        </h2>
+        <p className="text-lg font-medium text-gray-100 max-w-4xl mt-6 mb-4 mx-auto">
+          Nos enorgullecemos de ofrecer una atención médica personalizada y eficiente, comprometidos
+          con tu salud y la de tu familia. Nuestro objetivo es brindarte un servicio de calidad,
+          confiable y accesible, porque tu bienestar es nuestra prioridad.
+        </p>
       </div>
 
-      <div className="flex flex-col gap-4 md:grid grid-cols-6 mt-10">
-        <div className="col-span-3 p-5 mx-5 md:mx-16 max-w-3xl bg-gray-200 shadow-xl">
-          <p className="text-center text-xl mb-5 font-medium">¿Quieres sacar un nuevo turno?</p>
+      {/* Sección de acciones */}
+      <div className="flex justify-around mt-16 w-full">
+        <div className="max-w-xl w-full bg-blue-800 rounded-lg shadow-lg p-6 text-center">
+          <p className="text-2xl text-white font-semibold mb-4">¿Necesitas un turno?</p>
+          <p className="text-white mb-6">
+            Agenda tu próxima consulta de forma rápida y sencilla. Elige el horario que mejor se
+            adapte a ti.
+          </p>
           <Link
             to="/turnos"
-            className="flex justify-center p-2 w-full bg-green-600 hover:bg-green-700 transition hover:shadow-lg"
+            className="inline-block bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-lg text-lg transition duration-300"
           >
-            <p className="text-lg md:text-xl text-white font-semibold uppercase">Turnos online</p>
+            Gestionar Turnos
           </Link>
         </div>
-
-        {/* <div className="col-span-3 p-5 mx-5 md:mx-16 max-w-3xl bg-gray-200 shadow-xl">
-          <p className="text-center text-xl mb-5 font-medium">
-            ¿Quieres ver tu historial de turnos agendados?
+        <div className="max-w-xl w-full bg-blue-800 rounded-lg shadow-lg p-6 text-center">
+          <p className="text-2xl text-white font-semibold mb-4">¿Quieres ver tus turnos?</p>
+          <p className="text-white mb-6">
+            Consulta el historial de tus turnos reservados y mantente al tanto de tus próximas
+            citas.
           </p>
           <Link
             to="/mis-turnos"
-            className="flex justify-center p-2 w-full bg-green-600 hover:bg-green-700 transition hover:shadow-lg"
+            className="inline-block bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-lg text-lg transition duration-300"
           >
-            <p className="text-lg md:text-xl text-white font-semibold uppercase">Mis turnos</p>
+            Ver Mis Turnos
           </Link>
-        </div> */}
+        </div>
       </div>
-    </>
+    </div>
   );
+}
+
+{
+  /* <div className="col-span-3 p-5 mx-5 md:mx-16 max-w-3xl bg-gray-200 shadow-xl">
+  <p className="text-center text-xl mb-5 font-medium">
+    ¿Quieres ver tu historial de turnos agendados?
+  </p>
+  <Link
+    to="/mis-turnos"
+    className="flex justify-center p-2 w-full bg-green-600 hover:bg-green-700 transition hover:shadow-lg"
+  >
+    <p className="text-lg md:text-xl text-white font-semibold uppercase">Mis turnos</p>
+  </Link>
+</div> */
 }

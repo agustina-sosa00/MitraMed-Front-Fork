@@ -6,6 +6,7 @@ import PortalView from './views/PortalView';
 import Layout from './layouts/Layout';
 import Turnos from './views/Turnos';
 import ProtectedRoute from './components/ProtectedRoute';
+import ConfigView from './views/ConfigView';
 
 export default function Router() {
   return (
@@ -18,7 +19,7 @@ export default function Router() {
             <Route path="/inicio" element={<HomeView />} index />
             <Route path="/turnos" element={<Turnos />} />
             <Route path="/mis-turnos" element={<MisTurnos />} />
-            <Route path="/mi-perfil" element={<Profile />} />
+            <Route path="/configuracion" element={<ConfigView />} />
           </Route>
         </Route>
       </Routes>
