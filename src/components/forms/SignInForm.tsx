@@ -50,17 +50,13 @@ export default function SignInForm() {
   };
   return (
     <>
-      <div className="px-3 my-2 font-serif">
+      <div className="px-3 my-2">
         <h1 className="text-2xl text-slate-800 font-semibold underline underline-offset-4 decoration-2">
           Iniciar sesión
         </h1>
       </div>
 
-      <form
-        className="flex flex-col gap-2 p-2 font-serif"
-        noValidate
-        onSubmit={handleSubmit(handleForm)}
-      >
+      <form className="flex flex-col gap-2 p-2" noValidate onSubmit={handleSubmit(handleForm)}>
         <div className="flex flex-col">
           <InputField
             id={'email'}
@@ -115,7 +111,7 @@ export default function SignInForm() {
         />
       </form>
 
-      <div className="flex flex-col items-start mt-3 mx-2 gap-2 font-serif">
+      <div className="flex flex-col items-start mt-3 mx-2 gap-2">
         <p className="">
           No tienes cuenta?{' '}
           <button
