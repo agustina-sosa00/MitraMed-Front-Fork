@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.react-datepicker__current-month {
+  text-transform: capitalize;
+}
+
+.date-picker-input {
+  padding-right: 2rem; /* Ajusta el espacio necesario para el icono */
+}
+
+.react-datepicker__input-container input {
+  padding-left: 0.7rem; /* Asegura que no haya padding izquierdo innecesario */
+  padding-top: 0.5rem; /* Espacio arriba */
+  padding-bottom: 0.5rem; /* Espacio abajo */
+}
