@@ -48,24 +48,24 @@ export default function PortalView() {
 
           <div className="space-y-8 ">
             <p className="text-gray-800 text-lg lg:text-xl text-justify lg:text-left indent-6 leading-relaxed">
-              Este portal está diseñado para facilitar la{' '}
-              <span className="font-medium text-blue-600">gestión de turnos</span> en nuestro Centro
-              Médico. Aquí, puedes reservar tus citas de manera rápida y sencilla.
+              Este portal facilita la{' '}
+              <span className="font-medium text-blue-600">reserva de citas</span> en nuestro Centro
+              Médico, permitiéndote agendar tus consultas de forma rápida y sencilla.
             </p>
 
             <p className="text-gray-800 text-lg lg:text-xl text-justify lg:text-left indent-6 leading-relaxed">
-              Para acceder a nuestras funcionalidades y poder{' '}
+              Para acceder a todas nuestras opciones, es necesario{' '}
               <span className="underline decoration-amber-500 decoration-2 underline-offset-2 font-medium">
-                gestionar tus turnos
+                iniciar sesión en tu cuenta
               </span>
-              , es necesario que inicies sesión en tu cuenta. Si aún no tienes una,{' '}
-              <span className="text-blue-600 font-semibold">regístrate</span> para comenzar a
-              utilizar nuestros servicios.
+              . Si aún no tienes una,{' '}
+              <span className="text-blue-600 font-semibold">regístrate</span> para comenzar a usar
+              la plataforma.
             </p>
 
             <p className="text-gray-800 text-lg lg:text-xl text-justify lg:text-left indent-6 leading-relaxed">
-              Ofrecemos un servicio personalizado y eficiente para que puedas planificar tus visitas
-              de acuerdo a tus necesidades y a las de tu familia.
+              Nuestro servicio personalizado te permite planificar tus visitas de acuerdo a tus
+              necesidades y las de tu familia.
             </p>
           </div>
 
