@@ -26,8 +26,14 @@ export interface Doctor {
 }
 
 export interface Horario {
-  iddoctor: number;
-  iddia: number;
-  idhorario: number;
   hora_ini: string;
+  hora_fin: string;
+  habilitado: number;
+}
+
+export interface Turno {
+  idEspecialidad: string;
+  idDoctor: string;
+  fecha: string;
+  horario: string;
 }

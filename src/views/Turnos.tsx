@@ -1,7 +1,21 @@
+import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
+import { Turno } from '../types';
 import FormTurno from '../components/forms/FormTurno';
 
 export default function Turnos() {
+  // const [turnoSeleccionado, setTurnoSeleccionado] = useState<number | null>(null);
+
+  const { register, setValue, reset, watch, handleSubmit } = useForm<Turno>({
+    defaultValues: {
+      idEspecialidad: '',
+      idDoctor: '',
+      fecha: '',
+      horario: '',
+      turno: 0,
+    },
+  });
+
   return (
     <div className="flex justify-center relative">
       <div className="absolute mt-5 left-5 top-1/3">
@@ -22,13 +36,18 @@ export default function Turnos() {
             Selecciona especialidad y profesional para buscar disponibilidad de turnos
           </p>
         </div>
-        <form className="flex flex-col items-center">
-          <FormTurno />
+        <form className="">
+          <FormTurno register={register} setValue={setValue} reset={reset} watch={watch} />
           <div className="flex justify-center w-full">
             <input
               type="submit"
               value="Solicitar"
-              className="p-3 mt-8 max-w-lg w-full text-lg bg-green-600 hover:bg-green-700 text-white uppercase font-semibold rounded-lg cursor-pointer transition duration-200"
+              disabled={watch('turno') === null} // Deshabilita si no hay turno seleccionado
+              className={`p-3 mt-8 max-w-lg w-full text-lg uppercase font-semibold rounded-lg  transition duration-200 ${
+                watch('turno') === null
+                  ? 'bg-gray-400 cursor-not-allowed'
+                  : 'bg-green-600 hover:bg-green-700 cursor-pointer text-white'
+              }`}
             />
           </div>
         </form>

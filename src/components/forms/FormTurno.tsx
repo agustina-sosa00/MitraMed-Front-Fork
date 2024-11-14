@@ -1,38 +1,48 @@
-import { useEffect, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { obtenerDoctores, obtenerEspecialidades } from '../../services/TurnosService';
-import { Doctor, Especialidad } from '../../types/index';
-import { FaCalendarAlt } from 'react-icons/fa';
-import { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from 'react-datepicker';
-import Select from 'react-select';
+import Select, { SingleValue } from 'react-select';
+import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { FaCalendarAlt } from 'react-icons/fa';
+import { registerLocale } from 'react-datepicker';
+import { UseFormRegister, UseFormReset, UseFormSetValue, UseFormWatch } from 'react-hook-form';
+import { Doctor, Especialidad, Horario, Turno } from '../../types/index';
 import { es } from 'date-fns/locale/es';
-// import { getDateFromIddia } from '../../utils/index';
+import {
+  obtenerDiasSinAtencion,
+  obtenerDoctores,
+  obtenerEspecialidades,
+  obtenerTurnos,
+} from '../../services/TurnosService';
 
-export default function FormTurno() {
-  const [idEspecialidad, setIdespecialidad] = useState<string>('');
-  const [idDoctor, setIddoctor] = useState<string>('');
-  const [fecha, setFecha] = useState<Date | null>(null);
+type FormTurnoProps = {
+  register: UseFormRegister<Turno>;
+  setValue: UseFormSetValue<Turno>;
+  reset: UseFormReset<Turno>;
+  watch: UseFormWatch<Turno>;
+};
 
-  const today = new Date();
-  const tomorrow = new Date(today);
-  tomorrow.setDate(today.getDate() + 1);
+export default function FormTurno({ register, setValue, reset, watch }: FormTurnoProps) {
+  // const [idEspecialidad, setIdespecialidad] = useState<string>('');
+  // const [idDoctor, setIddoctor] = useState<string>('');
+  // const [fechaState, setFechaState] = useState<Date | null>(null);
+  // console.log(fechaState);
+  const idEspecialidad = watch('idEspecialidad');
+  const idDoctor = watch('idDoctor');
+  const fecha = watch('fecha');
+  const turnoSeleccionado = watch('turno');
 
   const fechaDeshabilitada = !idEspecialidad || !idDoctor;
 
-  // Controlar cuando se vacíen idEspecialidad o idDoctor
-  useEffect(() => {
-    if (!idEspecialidad || !idDoctor) {
-      setFecha(null); // Limpiar la fecha si no hay especialidad ni doctor
-    }
-  }, [idEspecialidad, idDoctor]);
+  const minDate = new Date();
+  minDate.setDate(minDate.getDate() + 1); // Fecha de mañana
 
-  registerLocale('es', es); // Registra el idioma español
+  const maxDate = new Date();
+  maxDate.setMonth(maxDate.getMonth() + 1); // Fecha de un mes
 
-  console.log(idDoctor);
-  // const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  registerLocale('es', es); // Idioma español
 
+  // Consultas al Backend con useQuery
   const { data: especialidades, isLoading: loadingEspecialidades } = useQuery<
     Especialidad[],
     Error
@@ -41,30 +51,28 @@ export default function FormTurno() {
     queryFn: obtenerEspecialidades,
   });
 
+  // console.log('idEspecialidad desde useForm:', idEspecialidad);
+
   const { data: doctores, isLoading: loadingDoctores } = useQuery<Doctor[], Error>({
     queryKey: ['doctores', idEspecialidad],
-    queryFn: () => obtenerDoctores(idEspecialidad as string),
+    queryFn: () => obtenerDoctores(idEspecialidad),
     enabled: !!idEspecialidad,
   });
 
-  // const { data: horarios, isLoading: loadingHorarios } = useQuery<Horario[], Error>({
-  //   queryKey: ['horarios', idEspecialidad, idDoctor],
-  //   queryFn: () => obtenerHorarios({ idEspecialidad, idDoctor }),
-  //   enabled: !!idEspecialidad && !!idDoctor,
-  //   initialData: [],
-  // });
+  // console.log('idEspecialidad para useQuery:', idEspecialidad);
 
-  // const [horario, setHorario] = useState([horarios]);
+  const { data: diasSinAtencion } = useQuery<number[], Error>({
+    queryKey: ['dias-sinatencion', idEspecialidad, idDoctor],
+    queryFn: () => obtenerDiasSinAtencion({ idEspecialidad, idDoctor }),
+    enabled: !!idEspecialidad && !!idDoctor,
+    initialData: [],
+  });
 
-  // // Función para alternar la selección de la fila
-  // const toggleRowSelection = (index: number) => {
-  //   // const updatedHorarios = horario.map((hora, i) =>
-  //   //   i === index ? { ...hora, selected: !hora.selected } : hora
-  //   // );
-  //   // setHorario(updatedHorarios);
-
-  //   console.log(index);
-  // };
+  const { data: turnos, isLoading: isLoadingTurnos } = useQuery<Horario[], Error>({
+    queryKey: ['turnos', idEspecialidad, idDoctor, fecha],
+    queryFn: () => obtenerTurnos({ idEspecialidad, idDoctor, fecha }),
+    enabled: !!idEspecialidad && !!idDoctor && !!fecha,
+  });
 
   // Estructura las opciones para los select
   const especialidadOptions = especialidades?.map((esp) => ({
@@ -77,23 +85,59 @@ export default function FormTurno() {
     label: `${doc.apellido.toUpperCase()}, ${doc.nombre}`,
   }));
 
+  const handleEspecialidad = (e: SingleValue<{ value: string; label: string }>) => {
+    setValue('idEspecialidad', e?.value || ''); // Actualiza el valor en useForm
+    // console.log('Especialidad seleccionada:', e?.value);
+    setValue('idDoctor', ''); // Limpiar el doctor al cambiar especialidad
+  };
+
+  const handleDoctor = (e: SingleValue<{ value: string; label: string }>) => {
+    setValue('idDoctor', e?.value || '');
+  };
+
+  const handleFecha = (date: Date | null) => {
+    if (date) {
+      // Ajustar la fecha a la zona horaria local
+      const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+      const formattedDate = localDate.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+      console.log('Fecha: ', formattedDate);
+      setValue('fecha', formattedDate); // Actualizamos el valor en useForm
+    } else {
+      setValue('fecha', ''); // En caso de que la fecha sea null
+    }
+  };
+
+  // const handleFecha = (date: Date | null) => {
+  //   setFechaState(date); // Mantén la fecha original en el estado local
+
+  //   // Si la fecha es válida, la formateas a YYYY-MM-DD y la guardas en useForm
+  //   const formattedDate = date ? date.toISOString().split('T')[0] : '';
+  //   // setValue('fecha', formattedDate); // Guarda la fecha formateada en el formulario
+  //   console.log(formattedDate);
+  // };
+
+  // Control cuando se vacía especialidad o doctor
+  // useEffect(() => {
+  //   if (!idEspecialidad || !idDoctor) {
+  //     reset({
+  //       fecha: '',
+  //       turno: 0,
+  //     });
+  //   }
+  // }, [idEspecialidad, idDoctor, reset]);
+
   return (
-    <div className="flex justify-center mr-32">
-      <div className="flex flex-col items-start gap-3 my-5 ">
+    <>
+      <div className="flex flex-col items-start gap-3 my-5 ml-16">
         <div className="flex items-center justify-between gap-2 max-w-xl ">
-          <label
-            htmlFor="especialidad"
-            className="w-44 text-lg text-gray-200 font-semibold text-right "
-          >
+          <label className="w-44 text-lg text-gray-200 font-semibold text-right ">
             Especialidad:
           </label>
 
           <Select
+            {...register('idEspecialidad')}
             options={especialidadOptions}
-            onChange={(e) => {
-              setIdespecialidad(e?.value || '');
-              setIddoctor('');
-            }}
+            onChange={handleEspecialidad}
             value={especialidadOptions?.find((opt) => opt.value === idEspecialidad)}
             placeholder="Selecciona una especialidad"
             isClearable
@@ -111,12 +155,13 @@ export default function FormTurno() {
         </div>
 
         <div className="flex items-center justify-between gap-2 max-w-xl">
-          <label htmlFor="doctor" className="w-44 text-lg text-gray-200 font-semibold text-right">
+          <label className="w-44 text-lg text-gray-200 font-semibold text-right">
             Profesional:
           </label>
           <Select
+            {...register('idDoctor')}
             options={doctorOptions}
-            onChange={(e) => setIddoctor(e?.value || '')}
+            onChange={handleDoctor}
             value={idDoctor ? doctorOptions?.find((opt) => opt.value === idDoctor) : null}
             placeholder="Selecciona un doctor"
             noOptionsMessage={() => 'Sin opciones'}
@@ -135,20 +180,24 @@ export default function FormTurno() {
         </div>
 
         <div className="flex items-center justify-between gap-2 max-w-xl">
-          <label htmlFor="fecha" className="w-44 text-lg text-gray-200 font-semibold text-right">
-            Fecha:
-          </label>
+          <label className="w-44 text-lg text-gray-200 font-semibold text-right">Fecha:</label>
 
           <DatePicker
-            selected={fecha} // Fecha seleccionada
-            onChange={(date) => setFecha(date)} // Cambia la fecha
-            minDate={new Date(new Date().setDate(new Date().getDate() + 1))}
-            maxDate={new Date(new Date().setMonth(new Date().getMonth() + 1))}
+            selected={fecha ? new Date(fecha + 'T00:00:00') : null} // Convierte a Date si es una cadena válida
+            onChange={handleFecha} // Cambia la fecha
+            minDate={minDate}
+            maxDate={maxDate}
             placeholderText="Selecciona una fecha"
             disabled={fechaDeshabilitada}
+            filterDate={(date) =>
+              !diasSinAtencion.includes(date.getDay()) && date.getDay() !== 0 && date.getDay() !== 6
+            }
+            dayClassName={(date) =>
+              date.getDay() === 0 || date.getDay() === 6 ? 'fin-de-semana' : ''
+            }
             toggleCalendarOnIconClick
             locale="es"
-            dateFormat="dd 'de' MMMM 'de' yyyy"
+            dateFormat="dd/MM/yyy"
             showIcon
             icon={
               <FaCalendarAlt
@@ -163,47 +212,68 @@ export default function FormTurno() {
           />
         </div>
 
-        <div className="flex items-center justify-between gap-2  max-w-xl">
-          <label htmlFor="horario" className="w-44 text-lg text-gray-200 font-semibold text-right">
-            Horarios:
-          </label>
-          {/* <div className="bg-white flex-1 ml-2 rounded text-base border border-gray-300">
-            <table className="w-full border border-gray-300 text-base bg-white">
-              <thead>
-                <tr className="bg-gray-100">
-                  <th className="p-2 border w-36">Fecha</th>
-                  <th className="p-2 border w-16">Turno</th>
-                  <th className="p-2 border w-24">Horario</th>
-                  <th className="p-2 border">Disponible</th>
-                </tr>
-              </thead>
-              <tbody>
-                {loadingHorarios ? (
-                  <tr>
-                    <td>Cargando horarios...</td>
-                  </tr> // Mensaje mientras se carga
+        {fecha && (
+          <div className="flex items-start justify-between gap-2">
+            <label className="w-44 text-lg text-gray-200 font-semibold text-right">Horarios:</label>
+
+            <div className="w-[500px] h-full text-sm ml-2 bg-gray-100 border border-gray-400 overflow-x-auto rounded-md">
+              <div className="text-gray-500 border-b border-gray-400 text-center">
+                <div className="grid grid-cols-4 text-gray-700 font-semibold bg-gray-400 py-1 px-2 border-b border-gray-400">
+                  <div>N° Turno</div>
+                  <div>Hora Inicio</div>
+                  <div>Hora Fin</div>
+                  <div>Disponibilidad</div>
+                </div>
+
+                {isLoadingTurnos ? (
+                  <div className="col-span-4 text-center py-4 text-gray-500">
+                    Cargando turnos...
+                  </div>
                 ) : (
-                  horarios?.map((horario, index) => (
-                    <tr
+                  turnos?.map((turno, index) => (
+                    <div
                       key={index}
-                      className={`cursor-pointer ${horario.selected ? 'bg-blue-200' : ''}`}
-                      onClick={() => toggleRowSelection(index)} // Cambiar fondo al hacer clic
+                      className={`grid grid-cols-4 text-center border-b border-gray-400 relative ${
+                        turno.habilitado === 0 ? 'cursor-pointer' : 'cursor-not-allowed'
+                      } ${
+                        turnoSeleccionado === index && turno.habilitado === 0
+                          ? 'bg-blue-500 bg-opacity-40'
+                          : 'bg-gradient-to-r from-gray-100 via-gray-200 to-gray-300'
+                      }`}
+                      onClick={() => {
+                        if (turno.habilitado === 0) {
+                          setValue('turno', index);
+                        }
+                      }}
                     >
-                      <td className="p-1 border text-end">{getDateFromIddia(horario.iddia)}</td>
-                      <td className="p-1 border text-end">{horario.idhorario}</td>
-                      <td className="p-1 border text-end">
-                        {new Date(horario.hora_ini).getUTCHours().toString().padStart(2, '0') +
-                          ':' +
-                          new Date(horario.hora_ini).getUTCMinutes().toString().padStart(2, '0')}
-                      </td>
-                    </tr>
+                      {/* Fila con los valores */}
+                      <div className="p-1 border-r ">{index + 1}</div>
+                      <div className="p-1 border-r">{turno.hora_ini}</div>
+                      <div className="p-1 border-r">{turno.hora_fin}</div>
+                      <div className="p-1">
+                        {turno.habilitado === 0 ? (
+                          <span className="font-medium text-green-500">Disponible</span>
+                        ) : (
+                          <span className="font-medium text-red-500">No Disponible</span>
+                        )}
+                      </div>
+
+                      {/* Contenedor para el hover */}
+                      <div
+                        className={`absolute inset-0 bg-transparent ${
+                          turno.habilitado === 0
+                            ? ' hover:bg-blue-500 hover:bg-opacity-30'
+                            : 'hover:bg-red-500 hover:bg-opacity-30'
+                        } transition duration-300 ease-in-out z-10`}
+                      ></div>
+                    </div>
                   ))
                 )}
-              </tbody>
-            </table>
-          </div> */}
-        </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
-    </div>
+    </>
   );
 }

@@ -20,9 +20,9 @@ export async function obtenerEspecialidades() {
   }
 }
 
-export async function obtenerDoctores(especialidadId: string): Promise<Doctor[]> {
+export async function obtenerDoctores(idEspecialidad: string): Promise<Doctor[]> {
   try {
-    const { data } = await api(`/turnos/obtener_doctores/${especialidadId}`);
+    const { data } = await api(`/turnos/obtener_doctores/${idEspecialidad}`);
 
     return data;
   } catch (error) {
@@ -35,16 +35,41 @@ export async function obtenerDoctores(especialidadId: string): Promise<Doctor[]>
   }
 }
 
-export async function obtenerHorarios({
+export async function obtenerDiasSinAtencion({
   idEspecialidad,
   idDoctor,
 }: {
   idEspecialidad: string;
   idDoctor: string;
-}): Promise<Horario[]> {
+}): Promise<number[]> {
   try {
-    const { data } = await api(`/turnos/obtener_horariosdoctor/${idEspecialidad}/${idDoctor}`);
-    console.log(data);
+    const { data } = await api(`/turnos/obtener_diassinatencion/${idEspecialidad}/${idDoctor}`);
+    // console.log(data);
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error);
+      // console.log(error.response.data);
+    } else {
+      throw new Error('Hubo un error...');
+    }
+  }
+}
+
+export async function obtenerTurnos({
+  idEspecialidad,
+  idDoctor,
+  fecha,
+}: {
+  idEspecialidad: string;
+  idDoctor: string;
+  fecha: string;
+}) {
+  try {
+    const { data } = await api<Horario[]>(
+      `/turnos/obtener_turnos/${idEspecialidad}/${idDoctor}/${fecha}`
+    );
+    // console.log(data);
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {

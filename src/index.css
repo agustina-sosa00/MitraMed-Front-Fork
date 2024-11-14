@@ -15,3 +15,11 @@
   padding-top: 0.5rem; /* Espacio arriba */
   padding-bottom: 0.5rem; /* Espacio abajo */
 }
+
+.react-datepicker-popper {
+  z-index: 50 !important;
+}
+
+.fin-de-semana {
+  color: red;
+}
