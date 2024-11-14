@@ -4,8 +4,8 @@ export default function HomeView() {
   return (
     <div className="flex flex-col items-center min-h-full mb-20">
       {/* Sección de bienvenida */}
-      <div className="text-center w-full bg-gradient-to-r from-gray-800 via-gray-700 to-gray-900 p-8 shadow-xl mt-10">
-        <h2 className="text-4xl font-bold text-green-300 mb-4">
+      <div className="text-center w-full bg-gradient-to-r from-gray-800 via-gray-700 to-gray-900 p-8 shadow-xl mt-8">
+        <h2 className="text-4xl font-bold text-green-300 mb-8">
           ¡Bienvenido a nuestro Centro Médico!
         </h2>
         <p className="text-lg font-medium text-gray-100 max-w-4xl mt-6 mb-4 mx-auto">
@@ -16,7 +16,7 @@ export default function HomeView() {
       </div>
 
       {/* Sección de acciones */}
-      <div className="flex justify-around mt-16 w-full">
+      <div className="flex justify-around mt-7 w-full">
         <div className="max-w-xl w-full bg-blue-800 rounded-lg shadow-lg p-6 text-center">
           <p className="text-2xl text-white font-semibold mb-4">¿Necesitas un turno?</p>
           <p className="text-white mb-6">
@@ -46,18 +46,4 @@ export default function HomeView() {
       </div>
     </div>
   );
-}
-
-{
-  /* <div className="col-span-3 p-5 mx-5 md:mx-16 max-w-3xl bg-gray-200 shadow-xl">
-  <p className="text-center text-xl mb-5 font-medium">
-    ¿Quieres ver tu historial de turnos agendados?
-  </p>
-  <Link
-    to="/mis-turnos"
-    className="flex justify-center p-2 w-full bg-green-600 hover:bg-green-700 transition hover:shadow-lg"
-  >
-    <p className="text-lg md:text-xl text-white font-semibold uppercase">Mis turnos</p>
-  </Link>
-</div> */
 }

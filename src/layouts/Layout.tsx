@@ -7,7 +7,7 @@ import Nav from '../components/Nav';
 export default function Layout() {
   return (
     <>
-      <header className="py-5 md:py-2">
+      <header className="pt-5">
         <div className="flex justify-between items-center mx-5 md:mx-10">
           <Logo />
 
