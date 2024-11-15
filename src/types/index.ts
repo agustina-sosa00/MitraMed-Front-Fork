@@ -33,7 +33,15 @@ export interface Horario {
 
 export interface Turno {
   idEspecialidad: string;
+  nombreEspecialidad: string;
   idDoctor: string;
+  nombreDoctor: string;
   fecha: string;
-  horario: string;
+  turno: number;
+  horaTurno: string;
 }
+
+export type TurnoData = Pick<
+  Turno,
+  'nombreEspecialidad' | 'nombreDoctor' | 'fecha' | 'turno' | 'horaTurno'
+>;
