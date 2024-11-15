@@ -51,7 +51,7 @@ export async function nuevoToken(email: { email: string }) {
 export async function iniciarSesion(formData: Account) {
   try {
     const { data } = await apiNoAuth.post('/auth/iniciar_sesion', formData);
-    console.log(data);
+    // console.log(data);
 
     return data;
   } catch (error) {

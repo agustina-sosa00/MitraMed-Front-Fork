@@ -33,8 +33,8 @@ export default function SignInForm() {
       toast.error(error.message);
     },
     onSuccess: (data) => {
-      console.log(data);
-      toast.success(data);
+      // console.log(data);
+      // toast.success(data.message);
 
       // Almacenar los tokens en cookies
       Cookies.set('accessToken', data.token_acceso, { expires: 1 });
