@@ -23,10 +23,6 @@ type FormTurnoProps = {
 };
 
 export default function FormTurno({ register, setValue, reset, watch }: FormTurnoProps) {
-  // const [idEspecialidad, setIdespecialidad] = useState<string>('');
-  // const [idDoctor, setIddoctor] = useState<string>('');
-  // const [fechaState, setFechaState] = useState<Date | null>(null);
-
   const idEspecialidad = watch('idEspecialidad');
   const idDoctor = watch('idDoctor');
   const fecha = watch('fecha');
@@ -51,15 +47,11 @@ export default function FormTurno({ register, setValue, reset, watch }: FormTurn
     queryFn: obtenerEspecialidades,
   });
 
-  // console.log('idEspecialidad desde useForm:', idEspecialidad);
-
   const { data: doctores, isLoading: loadingDoctores } = useQuery<Doctor[], Error>({
     queryKey: ['doctores', idEspecialidad],
     queryFn: () => obtenerDoctores(idEspecialidad),
     enabled: !!idEspecialidad,
   });
-
-  // console.log('idEspecialidad para useQuery:', idEspecialidad);
 
   const { data: diasSinAtencion } = useQuery<number[], Error>({
     queryKey: ['dias-sinatencion', idEspecialidad, idDoctor],
@@ -89,6 +81,7 @@ export default function FormTurno({ register, setValue, reset, watch }: FormTurn
     const especialidadValue = e?.value || '';
 
     setValue('idEspecialidad', especialidadValue);
+    setValue('nombreEspecialidad', e?.label || '');
 
     if (especialidadValue === '') {
       setValue('idDoctor', '');
@@ -98,6 +91,7 @@ export default function FormTurno({ register, setValue, reset, watch }: FormTurn
   const handleDoctor = (e: SingleValue<string | { value: string; label: string }>) => {
     // Si el valor es un objeto, accedemos al valor con `e?.value`, si es un string, simplemente lo usamos.
     setValue('idDoctor', typeof e === 'string' ? e : e?.value || '');
+    setValue('nombreDoctor', typeof e === 'string' ? e : e?.label || '');
   };
 
   const handleFecha = (date: Date | null) => {
@@ -107,8 +101,11 @@ export default function FormTurno({ register, setValue, reset, watch }: FormTurn
       const formattedDate = localDate.toISOString().split('T')[0]; // Formato YYYY-MM-DD
       console.log('Fecha: ', formattedDate);
       setValue('fecha', formattedDate); // Actualizamos el valor en useForm
+      // Reseteamos el valor del turno a 0
+      setValue('turno', 0);
     } else {
       setValue('fecha', ''); // En caso de que la fecha sea null
+      setValue('turno', 0); // Reseteamos el turno a 0 si no hay fecha
     }
   };
 
@@ -239,6 +236,7 @@ export default function FormTurno({ register, setValue, reset, watch }: FormTurn
                       onClick={() => {
                         if (turno.habilitado === 0) {
                           setValue('turno', index + 1);
+                          setValue('horaTurno', turno.hora_ini);
                         }
                       }}
                     >

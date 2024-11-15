@@ -1,29 +1,43 @@
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
-import { Turno } from '../types';
+import { Link, useNavigate } from 'react-router-dom';
+import { Turno, TurnoData } from '../types';
 import FormTurno from '../components/forms/FormTurno';
-import { useEffect } from 'react';
+import ConfirmTurnoModal from '@/components/modals/turnos/ConfirmTurnoModal';
 
 export default function Turnos() {
-  // const [turnoSeleccionado, setTurnoSeleccionado] = useState<number | null>(null);
+  const navigate = useNavigate();
 
-  const { register, setValue, reset, watch, handleSubmit } = useForm<Turno>({
+  const [turnoData, setTurnoData] = useState<TurnoData | null>(null);
+
+  const { register, setValue, reset, watch } = useForm<Turno>({
     defaultValues: {
       idEspecialidad: '',
+      nombreEspecialidad: '',
       idDoctor: '',
+      nombreDoctor: '',
       fecha: '',
-      horario: '',
       turno: 0,
+      horaTurno: '',
     },
   });
 
-  // En el efecto:
+  const handleSolicitar = () => {
+    setTurnoData({
+      nombreEspecialidad: watch('nombreEspecialidad'),
+      nombreDoctor: watch('nombreDoctor'),
+      fecha: watch('fecha'),
+      turno: watch('turno'),
+      horaTurno: watch('horaTurno'),
+    });
+    navigate(`${location.pathname}?confirmarTurno=true`);
+  };
+
   useEffect(() => {
-    reset(); // Restaura los valores predeterminados automáticamente
+    reset();
   }, []);
 
   return (
-    // <div key={key}>
     <div className="flex justify-center relative">
       <div className="absolute mt-5 left-5 top-1/3">
         <Link
@@ -34,7 +48,6 @@ export default function Turnos() {
         </Link>
       </div>
       <div className="p-6 pb-10 w-full max-w-4xl h-full  my-5 bg-blue-800 shadow-xl border border-black border-opacity-20 rounded-lg">
-        {/* Botón de enlace para volver al inicio */}
         <div className="text-center">
           <h2 className="text-3xl font-bold text-gray-200 underline uppercase mb-4">
             Turnos Online
@@ -43,10 +56,32 @@ export default function Turnos() {
             Selecciona especialidad y profesional para buscar disponibilidad de turnos
           </p>
         </div>
-        <form className="">
+        <form onSubmit={(e) => e.preventDefault()}>
           <FormTurno register={register} setValue={setValue} reset={reset} watch={watch} />
+
           <div className="flex justify-center w-full">
-            <input
+            <button
+              type="button" // No es un submit, solo un botón que maneja la acción
+              className={`p-3 mt-8 max-w-md w-full text-lg uppercase font-semibold rounded-lg  transition duration-200 ${
+                watch('turno') === 0
+                  ? 'bg-gray-400 cursor-not-allowed'
+                  : 'bg-green-600 hover:bg-green-700 cursor-pointer text-white'
+              }`}
+              onClick={handleSolicitar}
+              // disabled={watch('turno') === 0}
+            >
+              Solicitar
+            </button>
+          </div>
+        </form>
+      </div>
+      <ConfirmTurnoModal turnoData={turnoData} />
+    </div>
+  );
+}
+
+{
+  /* <input
               type="submit"
               value="Solicitar"
               disabled={watch('turno') === 0} // Deshabilita si no hay turno seleccionado
@@ -55,11 +90,5 @@ export default function Turnos() {
                   ? 'bg-gray-400 cursor-not-allowed'
                   : 'bg-green-600 hover:bg-green-700 cursor-pointer text-white'
               }`}
-            />
-          </div>
-        </form>
-      </div>
-    </div>
-    // </div>
-  );
+            /> */
 }
