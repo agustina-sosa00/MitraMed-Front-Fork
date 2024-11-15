@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { Turno } from '../types';
 import FormTurno from '../components/forms/FormTurno';
+import { useEffect } from 'react';
 
 export default function Turnos() {
   // const [turnoSeleccionado, setTurnoSeleccionado] = useState<number | null>(null);
@@ -16,7 +17,13 @@ export default function Turnos() {
     },
   });
 
+  // En el efecto:
+  useEffect(() => {
+    reset(); // Restaura los valores predeterminados automáticamente
+  }, []);
+
   return (
+    // <div key={key}>
     <div className="flex justify-center relative">
       <div className="absolute mt-5 left-5 top-1/3">
         <Link
@@ -42,9 +49,9 @@ export default function Turnos() {
             <input
               type="submit"
               value="Solicitar"
-              disabled={watch('turno') === null} // Deshabilita si no hay turno seleccionado
-              className={`p-3 mt-8 max-w-lg w-full text-lg uppercase font-semibold rounded-lg  transition duration-200 ${
-                watch('turno') === null
+              disabled={watch('turno') === 0} // Deshabilita si no hay turno seleccionado
+              className={`p-3 mt-8 max-w-md w-full text-lg uppercase font-semibold rounded-lg  transition duration-200 ${
+                watch('turno') === 0
                   ? 'bg-gray-400 cursor-not-allowed'
                   : 'bg-green-600 hover:bg-green-700 cursor-pointer text-white'
               }`}
@@ -53,5 +60,6 @@ export default function Turnos() {
         </form>
       </div>
     </div>
+    // </div>
   );
 }

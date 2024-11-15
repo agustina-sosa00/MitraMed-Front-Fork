@@ -1,7 +1,7 @@
 import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from 'react-datepicker';
 import Select, { SingleValue } from 'react-select';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { FaCalendarAlt } from 'react-icons/fa';
 import { registerLocale } from 'react-datepicker';
@@ -26,7 +26,7 @@ export default function FormTurno({ register, setValue, reset, watch }: FormTurn
   // const [idEspecialidad, setIdespecialidad] = useState<string>('');
   // const [idDoctor, setIddoctor] = useState<string>('');
   // const [fechaState, setFechaState] = useState<Date | null>(null);
-  // console.log(fechaState);
+
   const idEspecialidad = watch('idEspecialidad');
   const idDoctor = watch('idDoctor');
   const fecha = watch('fecha');
@@ -86,13 +86,18 @@ export default function FormTurno({ register, setValue, reset, watch }: FormTurn
   }));
 
   const handleEspecialidad = (e: SingleValue<{ value: string; label: string }>) => {
-    setValue('idEspecialidad', e?.value || ''); // Actualiza el valor en useForm
-    // console.log('Especialidad seleccionada:', e?.value);
-    setValue('idDoctor', ''); // Limpiar el doctor al cambiar especialidad
+    const especialidadValue = e?.value || '';
+
+    setValue('idEspecialidad', especialidadValue);
+
+    if (especialidadValue === '') {
+      setValue('idDoctor', '');
+    }
   };
 
-  const handleDoctor = (e: SingleValue<{ value: string; label: string }>) => {
-    setValue('idDoctor', e?.value || '');
+  const handleDoctor = (e: SingleValue<string | { value: string; label: string }>) => {
+    // Si el valor es un objeto, accedemos al valor con `e?.value`, si es un string, simplemente lo usamos.
+    setValue('idDoctor', typeof e === 'string' ? e : e?.value || '');
   };
 
   const handleFecha = (date: Date | null) => {
@@ -107,24 +112,15 @@ export default function FormTurno({ register, setValue, reset, watch }: FormTurn
     }
   };
 
-  // const handleFecha = (date: Date | null) => {
-  //   setFechaState(date); // Mantén la fecha original en el estado local
-
-  //   // Si la fecha es válida, la formateas a YYYY-MM-DD y la guardas en useForm
-  //   const formattedDate = date ? date.toISOString().split('T')[0] : '';
-  //   // setValue('fecha', formattedDate); // Guarda la fecha formateada en el formulario
-  //   console.log(formattedDate);
-  // };
-
-  // Control cuando se vacía especialidad o doctor
-  // useEffect(() => {
-  //   if (!idEspecialidad || !idDoctor) {
-  //     reset({
-  //       fecha: '',
-  //       turno: 0,
-  //     });
-  //   }
-  // }, [idEspecialidad, idDoctor, reset]);
+  useEffect(() => {
+    if (!idEspecialidad || !idDoctor) {
+      reset((formValues) => ({
+        ...formValues,
+        fecha: '',
+        turno: 0,
+      }));
+    }
+  }, [idEspecialidad, idDoctor, reset]);
 
   return (
     <>
@@ -138,7 +134,7 @@ export default function FormTurno({ register, setValue, reset, watch }: FormTurn
             {...register('idEspecialidad')}
             options={especialidadOptions}
             onChange={handleEspecialidad}
-            value={especialidadOptions?.find((opt) => opt.value === idEspecialidad)}
+            value={especialidadOptions?.find((opt) => opt.value === watch('idEspecialidad'))}
             placeholder="Selecciona una especialidad"
             isClearable
             isLoading={loadingEspecialidades}
@@ -162,7 +158,7 @@ export default function FormTurno({ register, setValue, reset, watch }: FormTurn
             {...register('idDoctor')}
             options={doctorOptions}
             onChange={handleDoctor}
-            value={idDoctor ? doctorOptions?.find((opt) => opt.value === idDoctor) : null}
+            value={idDoctor ? doctorOptions?.find((opt) => opt.value === watch('idDoctor')) : ''}
             placeholder="Selecciona un doctor"
             noOptionsMessage={() => 'Sin opciones'}
             isClearable
@@ -236,13 +232,13 @@ export default function FormTurno({ register, setValue, reset, watch }: FormTurn
                       className={`grid grid-cols-4 text-center border-b border-gray-400 relative ${
                         turno.habilitado === 0 ? 'cursor-pointer' : 'cursor-not-allowed'
                       } ${
-                        turnoSeleccionado === index && turno.habilitado === 0
+                        turnoSeleccionado === index + 1 && turno.habilitado === 0
                           ? 'bg-blue-500 bg-opacity-40'
                           : 'bg-gradient-to-r from-gray-100 via-gray-200 to-gray-300'
                       }`}
                       onClick={() => {
                         if (turno.habilitado === 0) {
-                          setValue('turno', index);
+                          setValue('turno', index + 1);
                         }
                       }}
                     >
