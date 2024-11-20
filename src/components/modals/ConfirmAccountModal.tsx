@@ -79,7 +79,7 @@ export default function ConfirmAccountModal() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <DialogPanel className="flex flex-col items-center w-full max-w-2xl transform overflow-hidden bg-white text-left text-slate-800 font-serif align-middle shadow-xl transition-all p-8 ">
+                <DialogPanel className="flex flex-col items-center w-full max-w-2xl transform overflow-hidden bg-white text-left text-slate-800 align-middle shadow-xl transition-all p-8 ">
                   {isLoading ? (
                     <div className="flex justify-center items-center mt-5">
                       <ClipLoader color="#36d7b7" size={80} />

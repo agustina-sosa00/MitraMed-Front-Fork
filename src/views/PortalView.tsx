@@ -49,7 +49,7 @@ export default function PortalView() {
           <div className="space-y-8 ">
             <p className="text-gray-800 text-lg lg:text-xl text-justify lg:text-left indent-6 leading-relaxed">
               Este portal facilita la{' '}
-              <span className="font-medium text-blue-600">reserva de citas</span> en nuestro Centro
+              <span className="font-medium text-blue-600">reserva de turnos</span> en nuestro Centro
               Médico, permitiéndote agendar tus consultas de forma rápida y sencilla.
             </p>
 

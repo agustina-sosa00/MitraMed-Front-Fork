@@ -1,6 +1,6 @@
 import api from '../lib/axios';
 import { isAxiosError } from 'axios';
-import { Doctor, Horario } from '../types';
+import { Doctor, Horario, Turno } from '../types';
 // import { turnosEspecialidadesSchema } from '../types';
 
 export async function obtenerEspecialidades() {
@@ -75,6 +75,22 @@ export async function obtenerTurnos({
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.error);
       // console.log(error.response.data);
+    } else {
+      throw new Error('Hubo un error...');
+    }
+  }
+}
+
+export async function confirmarTurno(dataTurno: Turno) {
+  try {
+    // console.log(dataTurno);
+    const { data } = await api.post('/turnos/confirmar_turno', dataTurno);
+
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error);
+      // console.log(error.response.data.error);
     } else {
       throw new Error('Hubo un error...');
     }

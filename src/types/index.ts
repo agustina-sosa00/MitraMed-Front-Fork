@@ -38,10 +38,6 @@ export interface Turno {
   nombreDoctor: string;
   fecha: string;
   turno: number;
-  horaTurno: string;
+  hora_ini: string;
+  hora_fin: string;
 }
-
-export type TurnoData = Pick<
-  Turno,
-  'nombreEspecialidad' | 'nombreDoctor' | 'fecha' | 'turno' | 'horaTurno'
->;
