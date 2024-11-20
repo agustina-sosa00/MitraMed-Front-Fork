@@ -75,7 +75,7 @@ export default function ForgotPasswordModal() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <DialogPanel className="w-full max-w-2xl transform overflow-hidden bg-white text-left text-slate-800 font-serif align-middle shadow-xl transition-all p-8 ">
+                <DialogPanel className="w-full max-w-2xl transform overflow-hidden bg-white text-left text-slate-800 align-middle shadow-xl transition-all p-8 ">
                   <DialogTitle
                     as="h3"
                     className="text-3xl font-semibold mb-4 underline underline-offset-4 decoration-2"

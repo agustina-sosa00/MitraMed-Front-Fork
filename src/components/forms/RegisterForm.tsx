@@ -33,7 +33,7 @@ export default function RegisterForm({ register, errors, watch }: RegisterFormPr
             />
             {errors.nombre && <ErrorMessage>{errors.nombre.message}</ErrorMessage>}
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col mr-12">
             <InputField
               id={'apellido'}
               type={'text'}

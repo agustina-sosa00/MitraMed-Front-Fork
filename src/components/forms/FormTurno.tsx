@@ -121,9 +121,9 @@ export default function FormTurno({ register, setValue, reset, watch }: FormTurn
 
   return (
     <>
-      <div className="flex flex-col items-start gap-3 my-5 ml-16">
-        <div className="flex items-center justify-between gap-2 max-w-xl ">
-          <label className="w-44 text-lg text-gray-200 font-semibold text-right ">
+      <div className="flex flex-col items-start gap-3 my-5 w-[430px] ml-32">
+        <div className="flex items-center justify-between gap-2 w-[420px] ">
+          <label className="w-[110px] text-lg text-gray-200 font-semibold text-right">
             Especialidad:
           </label>
 
@@ -147,8 +147,8 @@ export default function FormTurno({ register, setValue, reset, watch }: FormTurn
           />
         </div>
 
-        <div className="flex items-center justify-between gap-2 max-w-xl">
-          <label className="w-44 text-lg text-gray-200 font-semibold text-right">
+        <div className="flex items-center justify-between gap-2 w-[420px]">
+          <label className="w-[110px] text-lg text-gray-200 font-semibold text-right">
             Profesional:
           </label>
           <Select
@@ -172,8 +172,8 @@ export default function FormTurno({ register, setValue, reset, watch }: FormTurn
           />
         </div>
 
-        <div className="flex items-center justify-between gap-2 max-w-xl">
-          <label className="w-44 text-lg text-gray-200 font-semibold text-right">Fecha:</label>
+        <div className="flex items-center justify-between gap-2 w-[420px]">
+          <label className="w-[110px] text-lg text-gray-200 font-semibold text-right">Fecha:</label>
 
           <DatePicker
             selected={fecha ? new Date(fecha + 'T00:00:00') : null} // Convierte a Date si es una cadena válida
@@ -207,7 +207,9 @@ export default function FormTurno({ register, setValue, reset, watch }: FormTurn
 
         {fecha && (
           <div className="flex items-start justify-between gap-2">
-            <label className="w-44 text-lg text-gray-200 font-semibold text-right">Horarios:</label>
+            <label className="w-[110px] text-lg text-gray-200 font-semibold text-right">
+              Horarios:
+            </label>
 
             <div className="w-[500px] h-full text-sm ml-2 bg-gray-100 border border-gray-400 overflow-x-auto rounded-md">
               <div className="text-gray-500 border-b border-gray-400 text-center">
@@ -236,7 +238,8 @@ export default function FormTurno({ register, setValue, reset, watch }: FormTurn
                       onClick={() => {
                         if (turno.habilitado === 0) {
                           setValue('turno', index + 1);
-                          setValue('horaTurno', turno.hora_ini);
+                          setValue('hora_ini', turno.hora_ini);
+                          setValue('hora_fin', turno.hora_fin);
                         }
                       }}
                     >

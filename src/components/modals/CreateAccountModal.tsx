@@ -81,7 +81,7 @@ export default function CreateAccountModal() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <DialogPanel className="w-full max-w-xl transform overflow-hidden bg-white text-left text-slate-800 font-serif align-middle shadow-xl transition-all px-10 py-7 rounded">
+                <DialogPanel className="w-full max-w-xl transform overflow-hidden bg-white text-left text-slate-800 align-middle shadow-xl transition-all px-10 py-7 rounded">
                   <DialogTitle
                     as="h3"
                     className="text-3xl font-semibold mb-4 underline underline-offset-4 decoration-2"
@@ -105,7 +105,7 @@ export default function CreateAccountModal() {
                     </div>
                   </form>
 
-                  <div className="flex flex-col items-start my-3 mx-2 gap-2 font-serif">
+                  <div className="flex flex-col items-start my-3 mx-2 gap-2">
                     <p className="">
                       Ya tienes una cuenta?{' '}
                       <button

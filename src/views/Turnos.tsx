@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import { Turno, TurnoData } from '../types';
+import { Turno } from '../types';
 import FormTurno from '../components/forms/FormTurno';
 import ConfirmTurnoModal from '@/components/modals/turnos/ConfirmTurnoModal';
 
 export default function Turnos() {
   const navigate = useNavigate();
 
-  const [turnoData, setTurnoData] = useState<TurnoData | null>(null);
+  const [turnoData, setTurnoData] = useState<Turno | null>(null);
 
   const { register, setValue, reset, watch } = useForm<Turno>({
     defaultValues: {
@@ -18,17 +18,21 @@ export default function Turnos() {
       nombreDoctor: '',
       fecha: '',
       turno: 0,
-      horaTurno: '',
+      hora_ini: '',
+      hora_fin: '',
     },
   });
 
   const handleSolicitar = () => {
     setTurnoData({
+      idEspecialidad: watch('idEspecialidad'),
       nombreEspecialidad: watch('nombreEspecialidad'),
+      idDoctor: watch('idDoctor'),
       nombreDoctor: watch('nombreDoctor'),
       fecha: watch('fecha'),
       turno: watch('turno'),
-      horaTurno: watch('horaTurno'),
+      hora_ini: watch('hora_ini'),
+      hora_fin: watch('hora_fin'),
     });
     navigate(`${location.pathname}?confirmarTurno=true`);
   };
@@ -68,14 +72,14 @@ export default function Turnos() {
                   : 'bg-green-600 hover:bg-green-700 cursor-pointer text-white'
               }`}
               onClick={handleSolicitar}
-              // disabled={watch('turno') === 0}
+              disabled={watch('turno') === 0}
             >
               Solicitar
             </button>
           </div>
         </form>
       </div>
-      <ConfirmTurnoModal turnoData={turnoData} />
+      {turnoData && <ConfirmTurnoModal turnoData={turnoData} />}
     </div>
   );
 }

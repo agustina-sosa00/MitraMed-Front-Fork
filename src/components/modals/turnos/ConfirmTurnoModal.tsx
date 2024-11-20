@@ -1,17 +1,22 @@
 import { Fragment } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Dialog, Transition, TransitionChild, DialogPanel } from '@headlessui/react';
-import { TurnoData } from '@/types/index';
+import { Turno } from '@/types/index';
+import { useMutation } from '@tanstack/react-query';
+import { confirmarTurno } from '@/services/TurnosService';
+import { toast } from 'react-toastify';
 // import { isAxiosError } from 'axios';
 // import { ClipLoader } from 'react-spinners';
 // import apiAuth from '@/lib/axiosNoAuth';
 
 type ConfirmTurnoModalProps = {
-  turnoData: TurnoData | null;
+  turnoData: Turno;
 };
 
 export default function ConfirmTurnoModal({ turnoData }: ConfirmTurnoModalProps) {
   const navigate = useNavigate();
+
+  // console.log(turnoData);
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -20,43 +25,20 @@ export default function ConfirmTurnoModal({ turnoData }: ConfirmTurnoModalProps)
 
   const fecha = new Date(turnoData?.fecha + 'T00:00:00'); // Asegúrate de que tenga una hora especificada para evitar problemas de zona horaria
   const fechaFormateada = fecha.toLocaleDateString('es-ES');
-  console.log(fechaFormateada);
+  // console.log(fecha);
+  // console.log(fechaFormateada);
 
-  //   const fecha = new Date(turnoData?.fecha + 'T00:00:00');
-  //   const fechaFormateada = new Intl.DateTimeFormat('es-ES').format(fecha);
-
-  //   const [backendMessage, setBackendMessage] = useState<string>('');
-  //   const [hasFetched, setHasFetched] = useState(false);
-  //   const [isLoading, setIsLoading] = useState(true); // Inicializar en false
-
-  //   useEffect(() => {
-  //     if (show && !hasFetched) {
-  //       setIsLoading(true); // Inicia carga
-  //       const fetchMessage = async () => {
-  //         try {
-  //           const { data } = await apiAuth.get(`/auth/confirmar_turno`);
-  //           console.log(data);
-  //           setBackendMessage(data);
-  //         } catch (error) {
-  //           if (isAxiosError(error) && error.response) {
-  //             setBackendMessage(error.response.data);
-  //           } else {
-  //             setBackendMessage('Error desconocido al confirmar cuenta');
-  //           }
-  //         } finally {
-  //           setIsLoading(false); // Finaliza carga
-  //           //   setHasFetched(true); // Marca como fetch realizado
-  //         }
-  //       };
-
-  //       fetchMessage();
-  //     } else if (!show) {
-  //       // Si el modal se cierra, restablece el estado
-  //       setHasFetched(false);
-  //       setBackendMessage('');
-  //       // setIsTokenValid(null); // Restablece el estado del token
-  //     }
-  //   }, [show, hasFetched]); // Asegúrate de que 'hasFetched' esté en las dependencias
+  const { mutate } = useMutation({
+    mutationFn: confirmarTurno,
+    onError: (error) => {
+      console.log(error);
+    },
+    onSuccess: (data) => {
+      // console.log(data);
+      toast.success(data.message);
+      navigate('/turnos');
+    },
+  });
 
   return (
     <>
@@ -109,7 +91,7 @@ export default function ConfirmTurnoModal({ turnoData }: ConfirmTurnoModalProps)
 
                     <div className="flex justify-start gap-2 items-center text-base">
                       <p className="w-[100px] text-right font-semibold text-gray-800">Hora:</p>
-                      <p className="text-gray-600 italic">{turnoData?.horaTurno}</p>
+                      <p className="text-gray-600 italic">{turnoData?.hora_ini}</p>
                     </div>
                   </div>
                   <div className="bg-blue-50 border-l-4 border-blue-600 text-gray-700 p-4 mt-10 mb-6">
@@ -124,7 +106,7 @@ export default function ConfirmTurnoModal({ turnoData }: ConfirmTurnoModalProps)
                   {/* Botón Confirmar */}
                   <div className="mt-6 w-full flex justify-center gap-6">
                     <button
-                      onClick={() => navigate('/turnos')} // Aquí agregas la lógica para confirmar el turno
+                      onClick={() => mutate(turnoData)} // Aquí agregas la lógica para confirmar el turno
                       className="px-6 py-2 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 transition duration-200 uppercase"
                     >
                       Confirmar Turno
