@@ -9,7 +9,7 @@ export default function Layout() {
     <>
       <Header />
 
-      <div className="h-full my-20">
+      <div className="h-full my-10">
         <Outlet />
       </div>
 
