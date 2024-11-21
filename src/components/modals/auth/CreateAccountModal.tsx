@@ -2,8 +2,8 @@ import { Fragment } from 'react';
 import { useForm } from 'react-hook-form';
 import { Dialog, Transition, TransitionChild, DialogPanel, DialogTitle } from '@headlessui/react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { NewAccount } from '../../types';
-import RegisterForm from '../forms/RegisterForm';
+import { NewAccount } from '../../../types';
+import RegisterForm from '../../forms/RegisterForm';
 import { useMutation } from '@tanstack/react-query';
 import { crearCuenta } from '@/services/UserService';
 import { toast } from 'react-toastify';
@@ -81,17 +81,17 @@ export default function CreateAccountModal() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <DialogPanel className="w-full max-w-xl transform overflow-hidden bg-white text-left text-slate-800 align-middle shadow-xl transition-all px-10 py-7 rounded">
+                <DialogPanel className="w-full max-w-xl transform overflow-hidden bg-white text-left text-slate-800 shadow-xl transition-all px-8 py-8 rounded-lg">
                   <DialogTitle
                     as="h3"
-                    className="text-3xl font-semibold mb-4 underline underline-offset-4 decoration-2"
+                    className="text-3xl font-semibold mb-6 text-center text-gray-800 underline"
                   >
                     Crea tu cuenta
                   </DialogTitle>
 
-                  <p className="text-lg">
-                    Llena el formulario para registrarte. <br /> Recibirás un correo para confirmar
-                    tu cuenta
+                  <p className="text-sm text-gray-600 mb-6 text-center">
+                    Llena el formulario para registrarte y recibirás un correo para confirmar tu
+                    cuenta.
                   </p>
 
                   <form className="mt-5" noValidate onSubmit={handleSubmit(handleForm)}>

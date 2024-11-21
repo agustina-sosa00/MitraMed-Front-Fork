@@ -4,11 +4,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Dialog, Transition, TransitionChild, DialogPanel, DialogTitle } from '@headlessui/react';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
-import { reestablecerPassword } from '../../services/UserService';
-import NewPasswordForm from '../forms/NewPasswordForm';
+import { reestablecerPassword } from '@/services/UserService';
 import { isAxiosError } from 'axios';
 import { ClipLoader } from 'react-spinners';
 import apiNoAuth from '@/lib/axiosNoAuth';
+import NewPasswordForm from '@/components/forms/NewPasswordForm';
 // import { Account } from '@/types/index';
 // import { sendForgotPasswordEmail } from '../../utils/index';
 
