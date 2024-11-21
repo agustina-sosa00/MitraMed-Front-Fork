@@ -3,15 +3,21 @@ import { Link } from 'react-router-dom';
 export default function HomeView() {
   return (
     <div className="flex flex-col items-center min-h-full mb-20">
-      <div className="w-full py-14 px-6 text-center">
-        <h2 className="text-5xl font-extrabold text-green-600 mb-6">
-          ¡Bienvenido a nuestra web oficial!
-        </h2>
-        <p className="text-xl font-medium text-gray-700 max-w-3xl mx-auto leading-relaxed">
-          Nos enorgullecemos de ofrecer atención médica personalizada y eficiente. Tu salud es
-          nuestra prioridad, y nos comprometemos a brindarte un servicio de calidad, accesible y
-          confiable.
-        </p>
+      <div className="w-full py-20 px-6 text-center relative mb-10">
+        <div
+          className="absolute inset-0 bg-black bg-contain opacity-20"
+          style={{ backgroundImage: 'url(/med/herramientas-1.jpg)' }}
+        ></div>
+        <div className="relative z-10">
+          <h2 className="text-5xl font-extrabold text-green-600 mb-6">
+            ¡Bienvenido a nuestra web oficial!
+          </h2>
+          <p className="text-xl font-medium text-gray-700 max-w-3xl mx-auto leading-relaxed">
+            Nos enorgullecemos de ofrecer atención médica personalizada y eficiente. Tu salud es
+            nuestra prioridad, y nos comprometemos a brindarte un servicio de calidad, accesible y
+            confiable.
+          </p>
+        </div>
       </div>
 
       {/* Sección de acciones */}
