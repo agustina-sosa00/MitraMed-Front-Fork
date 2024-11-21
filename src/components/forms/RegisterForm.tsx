@@ -49,7 +49,7 @@ export default function RegisterForm({ register, errors, watch }: RegisterFormPr
             {errors.apellido && <ErrorMessage>{errors.apellido.message}</ErrorMessage>}
           </div>
         </div>
-        <div className="flex flex-col w-full">
+        <div className="flex flex-col">
           <InputField
             id={'fnac'}
             type={'date'}
@@ -136,7 +136,7 @@ export default function RegisterForm({ register, errors, watch }: RegisterFormPr
           </button>
           {errors.password && <ErrorMessage>{errors.password.message}</ErrorMessage>}
         </div>
-        <div className="flex flex-col relative">
+        <div className="flex flex-col relative ">
           <InputField
             id={'confirmPassword'}
             type={showPassword ? 'text' : 'password'}

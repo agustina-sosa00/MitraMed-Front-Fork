@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { FaUserCircle } from 'react-icons/fa';
 import { RiLogoutBoxLine } from 'react-icons/ri';
 import { TbSettings } from 'react-icons/tb';
 import { Link, useNavigate } from 'react-router-dom';
@@ -29,36 +30,47 @@ export default function Nav() {
       >
         Inicio
       </Link>
+
       <div
-        className="flex justify-center w-full h-16 relative"
+        className="flex justify-center items-end w-auto relative "
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <p className="flex items-end font-semibold h-full text-xl hover:text-amber-400 transition hover:cursor-default">
-          Perfil
-        </p>
+        <div className="flex items-center space-x-2">
+          <p className="font-semibold text-xl text-gray-800 hover:text-amber-400 transition hover:cursor-default">
+            Perfil
+          </p>
+        </div>
 
         {/* Menú desplegable */}
         {isMenuOpen && (
-          <div className="absolute mt-16 w-44 bg-white shadow-lg rounded-lg z-10">
-            <Link
-              to="/configuracion"
-              className="block px-4 pt-5 text-gray-800 hover:text-amber-500 transition"
-            >
-              <div className="flex items-center">
-                <TbSettings className="mr-2" />
-                Configuración
-              </div>
-            </Link>
-            <button
-              onClick={handleLogout}
-              className="block w-full text-left px-4 py-4 text-gray-800 hover:text-amber-500 transition"
-            >
-              <div className="flex items-center">
-                <RiLogoutBoxLine className="mr-2" />
-                Cerrar sesión
-              </div>
-            </button>
+          <div className="absolute top-7 w-44 bg-white shadow-lg rounded-lg z-10">
+            <div className="flex flex-col items-center mt-2">
+              <FaUserCircle className="text-xl text-gray-400" />
+              <p className="font-semibold text-base text-gray-500 hover:text-sky-400 transition hover:cursor-default mt-1">
+                Usuario
+              </p>
+            </div>
+            <div className="mt-2 ml-1">
+              <Link
+                to="/configuracion"
+                className="block px-4 pt-3 text-gray-800 hover:text-amber-500 transition"
+              >
+                <div className="flex items-center text-sm">
+                  <TbSettings className="mr-2" />
+                  Configuración
+                </div>
+              </Link>
+              <button
+                onClick={handleLogout}
+                className="block w-full text-left px-4 py-4 text-gray-800 hover:text-amber-500 transition"
+              >
+                <div className="flex items-center text-sm">
+                  <RiLogoutBoxLine className="mr-2" />
+                  Cerrar sesión
+                </div>
+              </button>
+            </div>
           </div>
         )}
       </div>
