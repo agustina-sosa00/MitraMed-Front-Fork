@@ -77,7 +77,7 @@ export default function RegisterForm({ register, errors, watch }: RegisterFormPr
           </label>
           <select
             id="genero"
-            className="w-full p-2 max-w-2xl font-semibold bg-white border-2 border-opacity-40 border-slate-500 outline-none transition duration-200 focus:border-blue-500"
+            className="w-full p-2 max-w-2xl font-semibold bg-white border border-opacity-40 border-slate-500 outline-none transition duration-200 focus:border-blue-400 focus:ring-1"
             {...register('genero', {
               required: {
                 value: true,
@@ -129,7 +129,7 @@ export default function RegisterForm({ register, errors, watch }: RegisterFormPr
           />
           <button
             type="button"
-            className="absolute right-3 top-11 text-xl"
+            className="absolute right-3 top-12 text-xl"
             onClick={() => setShowPassword(!showPassword)}
           >
             {showPassword ? <FiEye /> : <FiEyeOff />}
@@ -153,7 +153,7 @@ export default function RegisterForm({ register, errors, watch }: RegisterFormPr
           />
           <button
             type="button"
-            className="absolute right-3 top-11 text-xl"
+            className="absolute right-3 top-12 text-xl"
             onClick={() => setShowPassword(!showPassword)}
           >
             {showPassword ? <FiEye /> : <FiEyeOff />}

@@ -7,10 +7,23 @@ import ForgotPasswordModal from '@/components/modals/auth/ForgotPasswordModal';
 import NewPasswordModal from '@/components/modals/auth/NewPasswordModal';
 import NewTokenConfirm from '@/components/modals/auth/NewTokenConfirm';
 import CarrouselPortal from '@/components/CarrouselPortal';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Cookies from 'js-cookie';
 
 export default function PortalView() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const accessToken = Cookies.get('accessToken');
+
+    if (accessToken) {
+      navigate('/inicio'); // Redirige si el token existe
+    }
+  }, []);
+
   return (
     <>
       <Header />
@@ -18,13 +31,13 @@ export default function PortalView() {
       <CarrouselPortal />
 
       {/* Portal */}
-      <div className="flex flex-col md:flex-row justify-between lg:px-10 py-6 w-full gap-10">
+      <div className="flex flex-col md:flex-row justify-between lg:px-10 py-1 lg:py-6 w-full gap-10">
         <div className="flex flex-col items-start space-y-6 lg:w-2/3">
-          <h2 className="text-4xl font-semibold text-gray-800 text-center mb-6 underline decoration-4 underline-offset-4 mx-auto">
+          <h2 className="text-2xl lg:text-4xl font-semibold lg:font-normal font-serif text-gray-800 text-center mb-6 underline lg:decoration-4 underline-offset-4 mx-auto">
             MitraMed - Centro Médico
           </h2>
 
-          <div className="space-y-6">
+          <div className="space-y-6 mx-5 indent-8">
             <p className="text-lg lg:text-xl text-gray-800 text-justify leading-relaxed">
               Bienvenido al portal de{' '}
               <span className="font-medium text-blue-600">reserva de turnos</span> para nuestro
@@ -47,12 +60,12 @@ export default function PortalView() {
             </p>
           </div>
 
-          <p className="text-xl lg:text-2xl italic text-center mt-16 font-semibold text-blue-600 tracking-wide">
-            ¡Gracias por elegirnos para tu atención médica!
+          <p className="text-xl lg:text-2xl italic text-center mt-16 font-semibold text-blue-600 tracking-wide mx-auto">
+            ¡Gracias por elegirnos!
           </p>
         </div>
 
-        <div className="w-full lg:w-1/3 border-2 border-slate-400 bg-gray-50 p-3 rounded-lg shadow-lg">
+        <div className="mx-5 mb-10 lg:w-1/3 border-2 border-black border-opacity-30 p-5 shadow-xl rounded">
           <SignInForm />
         </div>
       </div>

@@ -114,7 +114,7 @@ export default function NewTokenConfirm() {
                     <input
                       type="submit"
                       value="Enviar"
-                      className="p-2 my-3 w-full max-w-2xl text-white text-base uppercase bg-lime-700 hover:bg-lime-800  transition-colors cursor-pointer shadow-lg"
+                      className="p-2 my-3 w-full max-w-2xl text-white text-base uppercase bg-blue-600 hover:bg-blue-700  transition-colors cursor-pointer shadow-lg rounded"
                     />
                   </form>
                 </DialogPanel>
