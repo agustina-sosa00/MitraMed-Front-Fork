@@ -17,7 +17,7 @@ export default function RegisterForm({ register, errors, watch }: RegisterFormPr
   return (
     <>
       <div className="flex flex-col w-full">
-        <div className="flex justify-between">
+        <div className="flex gap-3 justify-between md:mr-12">
           <div className="flex flex-col">
             <InputField
               id={'nombre'}
@@ -33,7 +33,7 @@ export default function RegisterForm({ register, errors, watch }: RegisterFormPr
             />
             {errors.nombre && <ErrorMessage>{errors.nombre.message}</ErrorMessage>}
           </div>
-          <div className="flex flex-col mr-12">
+          <div className="flex flex-col">
             <InputField
               id={'apellido'}
               type={'text'}
