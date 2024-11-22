@@ -65,8 +65,10 @@ export default function PortalView() {
           </p>
         </div>
 
-        <div className="mb-10 p-5 w-full max-w-md lg:w-1/3 border-2 border-black border-opacity-30 shadow-xl rounded">
-          <SignInForm />
+        <div className="max-w-sm w-full md:mr-4">
+          <div className="mb-10 p-5 mt-10  mx:mt-0 border-2 border-black border-opacity-30 shadow-xl rounded">
+            <SignInForm />
+          </div>
         </div>
       </div>
 
