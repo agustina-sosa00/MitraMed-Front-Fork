@@ -18,38 +18,40 @@ export default function CarrouselPortal() {
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 7000,
+    autoplaySpeed: 10000,
     afterChange: (current: number) => {
       setCurrentSlide(current); // Actualiza el índice del slide cuando cambia
     },
   };
 
   return (
-    <div className="relative h-full sm:h-[500px] w-full overflow-hidden mb-5 lg:mb-11">
+    <div className="relative h-full lg:h-[480px] w-full overflow-hidden mb-5">
       <Slider {...sliderSettings}>
         <div className="relative">
           <img
             src="/med/doc-1.webp"
             alt="Doctor"
-            className={`w-full h-full object-bottom ${imageLoaded ? '' : 'opacity-0'}`}
+            className={`w-full h-full object-cover ${imageLoaded ? '' : 'opacity-0'}`}
             onLoad={handleImageLoad}
+            style={{ pointerEvents: 'none' }}
           />
           <div
-            className={`absolute inset-10 flex justify-start items-end text-center mb-20 transition-opacity duration-1000 ${
+            className={`absolute top-1/2 mx:top-1/3 text-center mb-5 ml-5 mx:mt-5 transition-opacity duration-1000 ${
               imageLoaded && currentSlide === 0 ? 'opacity-100' : 'opacity-0'
             } sm:block hidden`}
           >
-            <div className="flex flex-col items-start bg-black bg-opacity-60 p-6 rounded-lg max-w-xl">
-              <h2 className="text-3xl font-semibold text-white mb-3">
-                Bienvenido a nuestro Centro Médico
+            <div className="flex flex-col items-start bg-black bg-opacity-60 py-4 px-2 ml-3 mt-6 rounded-lg max-w-sm mx:max-w-md mx:px-6 mx:py-6">
+              <h2 className="text-xl mx:text-2xl font-semibold text-white mb-3">
+                Te damos la {''} <span className="text-blue-400">bienvenida</span>!
               </h2>
-              <p className="text-base text-white text-start max-w-xl mb-6">
+              <p className="text-xs mx:text-base text-white text-start mx:mb-4">
                 Agenda tus consultas médicas de manera fácil y rápida.
-                <br />
-                ¡Comienza a cuidar de ti y tu familia hoy mismo!
               </p>
-              <div className="bg-blue-600 p-4 rounded-md text-white text-center">
-                <p>¡Crea tu cuenta y conoce todos nuestros servicios!</p>
+              <div className="hidden mx:block text-xs mx:text-base text-white p-2 text-start bg-blue-600 rounded-lg">
+                <p>
+                  ¡Crea tu {''}
+                  <span className="underline"> cuenta</span> y conoce todos nuestros servicios!
+                </p>
               </div>
             </div>
           </div>
@@ -59,22 +61,31 @@ export default function CarrouselPortal() {
         <div className="relative">
           <img
             src="/med/doc-7.webp"
-            alt="Doctor"
-            className={`w-full h-full object-bottom ${imageLoaded ? '' : 'opacity-0'}`}
+            alt="Doctor2"
+            className={`w-full h-full object-cover ${imageLoaded ? '' : 'opacity-0'}`}
             onLoad={handleImageLoad}
+            style={{ pointerEvents: 'none' }}
           />
+
           <div
-            className={`absolute inset-10 flex justify-start items-end text-center mb-20 transition-opacity duration-1000 ${
+            className={`absolute top-1/2 mx:top-1/3 text-center mb-5 ml-5 mx:mt-5 transition-opacity duration-1000 ${
               imageLoaded && currentSlide === 1 ? 'opacity-100' : 'opacity-0'
             } sm:block hidden`}
           >
-            <div className="flex flex-col items-start bg-black bg-opacity-60 p-6 rounded-lg max-w-xl">
-              <h2 className="text-3xl font-semibold text-white mb-3">Atención personalizada</h2>
-              <p className="text-base text-white text-start max-w-xl mb-6">
-                Ofrecemos un servicio cercano, comprensivo y adaptado a tus necesidades.
+            <div className="flex flex-col items-start bg-black bg-opacity-60 py-4 px-2 ml-3 mt-6 rounded-lg max-w-sm mx:max-w-md mx:px-6 mx:py-6">
+              <h2 className="text-xl mx:text-2xl font-semibold text-white mb-3">
+                Atención {''} <span className="text-blue-400"> personalizada</span>
+              </h2>
+              <p className="text-xs mx:text-base text-white text-start mx:mb-4">
+                Ofrecemos un {''}
+                <span className="underline"> servicio {''}</span> cercano y adaptado a tus
+                necesidades.
               </p>
-              <div className="bg-blue-600 p-4 rounded-md text-white text-center">
-                <p>¡Comienza tu camino hacia la salud hoy!</p>
+              <div className="hidden mx:block text-xs mx:text-base text-white p-2 text-start bg-blue-600 rounded-lg">
+                <p>
+                  ¡Comienza tu camino hacia la {''}
+                  <span className="underline"> salud {''}</span> hoy!
+                </p>
               </div>
             </div>
           </div>
@@ -82,27 +93,31 @@ export default function CarrouselPortal() {
 
         <div className="relative">
           <img
-            src="/med/doc-8.webp"
+            src="/med/doc-2.jpg"
             alt="Doctor"
-            className={`w-full h-full object-bottom ${imageLoaded ? '' : 'opacity-0'}`}
+            className={`w-full h-full object-cover ${imageLoaded ? '' : 'opacity-0'}`}
             onLoad={handleImageLoad}
+            style={{ pointerEvents: 'none' }}
           />
           <div
-            className={`absolute inset-10 flex justify-start items-end text-center mb-10 transition-opacity duration-1000 ${
+            className={`absolute top-1/2 mx:top-1/3 text-center mb-5 ml-5 mx:mt-5 transition-opacity duration-1000 ${
               imageLoaded && currentSlide === 2 ? 'opacity-100' : 'opacity-0'
             } sm:block hidden`}
           >
-            <div className="flex flex-col items-start bg-black bg-opacity-60 p-6 rounded-lg max-w-xl">
-              <h2 className="text-3xl font-semibold text-white mb-3">
-                Cuidado médico a tu alcance
+            <div className="flex flex-col items-start bg-black bg-opacity-60 py-4 px-2 ml-3 mt-6 rounded-lg max-w-sm mx:max-w-md mx:px-6 mx:py-6">
+              <h2 className="text-xl mx:text-2xl font-semibold text-white mb-3">
+                Cuidado médico a tu {''} <span className="text-blue-400"> alcance</span>
               </h2>
-              <p className="text-base text-white text-start max-w-xl mb-6">
-                Accede a consultas médicas de calidad para ti y tu familia
-                <br />
-                con tan solo iniciar sesión.
+
+              <p className="text-xs mx:text-base text-white text-start mx:mb-4">
+                Accede a consultas médicas con solo {''}
+                <span className="underline"> iniciar sesión{''}</span>.
               </p>
-              <div className="bg-blue-600 p-4 rounded-md text-white text-center">
-                <p>¡Haz tu primera consulta ahora mismo!</p>
+              <div className="hidden mx:block text-xs mx:text-base text-white p-2 text-start bg-blue-600 rounded-lg">
+                <p>
+                  ¡Haz un seguimiento de tus {''}
+                  <span className="underline"> turnos</span>!
+                </p>
               </div>
             </div>
           </div>

@@ -23,10 +23,10 @@ export default function Nav() {
   };
 
   return (
-    <div className="flex max-w-xs w-full justify-around">
+    <div className="flex max-w-xs w-full mx:justify-around">
       <Link
         to="/inicio"
-        className="flex items-end justify-center font-semibold h-full w-full text-xl hover:text-amber-400 transition"
+        className="flex items-end justify-center font-semibold h-full w-full mx:text-xl hover:text-amber-400 transition"
       >
         Inicio
       </Link>
@@ -37,7 +37,7 @@ export default function Nav() {
         onMouseLeave={handleMouseLeave}
       >
         <div className="flex items-center space-x-2">
-          <p className="font-semibold text-xl text-gray-800 hover:text-amber-400 transition hover:cursor-default">
+          <p className="font-semibold mx:text-xl text-gray-800 hover:text-amber-400 transition hover:cursor-default">
             Perfil
           </p>
         </div>
