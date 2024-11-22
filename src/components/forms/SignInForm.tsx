@@ -3,13 +3,12 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { useMutation } from '@tanstack/react-query';
+import { toast } from 'react-toastify';
 import { Account } from '@/types/index';
 import { iniciarSesion } from '../../services/UserService';
-// import Captcha from '../Captcha';
 import Cookies from 'js-cookie';
 import InputField from '../InputField';
 import ErrorMessage from '../ErrorMessage';
-import { toast } from 'react-toastify';
 
 export default function SignInForm() {
   const navigate = useNavigate();
@@ -37,8 +36,8 @@ export default function SignInForm() {
       // toast.success(data.message);
 
       // Almacenar los tokens en cookies
-      Cookies.set('accessToken', data.token_acceso, { expires: 1 });
-      Cookies.set('refreshToken', data.token_refresh, { expires: 1 });
+      Cookies.set('accessToken', data.token_acceso, { expires: 0.3333 }); // 8 horas
+      Cookies.set('refreshToken', data.token_refresh, { expires: 0.5 }); // 12 horas
 
       navigate('/inicio');
     },
@@ -50,13 +49,15 @@ export default function SignInForm() {
   };
   return (
     <>
-      <div className="px-3 my-2">
-        <h1 className="text-2xl text-slate-800 font-semibold underline underline-offset-4 decoration-2">
-          Iniciar sesión
-        </h1>
-      </div>
+      {/* <div className="px-3 my-2 text-center">
+        <h1 className="text-3xl text-indigo-600 font-bold underline">Iniciar sesión</h1>
+      </div> */}
 
-      <form className="flex flex-col gap-2 p-2" noValidate onSubmit={handleSubmit(handleForm)}>
+      <form
+        className="flex flex-col gap-4 px-0.5 lg:px-2"
+        noValidate
+        onSubmit={handleSubmit(handleForm)}
+      >
         <div className="flex flex-col">
           <InputField
             id={'email'}
@@ -76,6 +77,7 @@ export default function SignInForm() {
           />
           {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
         </div>
+
         <div className="flex flex-col relative">
           <InputField
             id={'password'}
@@ -89,13 +91,13 @@ export default function SignInForm() {
               },
               minLength: {
                 value: 8,
-                message: 'La contraseña debe tener mínimo 8 carácteres',
+                message: 'La contraseña debe tener mínimo 8 caracteres',
               },
             })}
           />
           <button
             type="button"
-            className="absolute right-3 top-12 text-xl"
+            className="absolute right-4 top-[50px] text-blue-700"
             onClick={() => setShowPassword(!showPassword)}
           >
             {showPassword ? <FiEye /> : <FiEyeOff />}
@@ -103,32 +105,31 @@ export default function SignInForm() {
           {errors.password && <ErrorMessage>{errors.password.message}</ErrorMessage>}
         </div>
 
-        {/* <Captcha /> */}
         <input
           type="submit"
           value="Iniciar sesión"
-          className="p-3 mt-4 max-w-lg text-white text-base uppercase bg-lime-700 hover:bg-lime-800  transition-colors cursor-pointer shadow-lg"
+          className="p-2 mt-4 w-full text-white text-base font-semibold uppercase bg-blue-600 hover:bg-blue-700 transition-all cursor-pointer shadow-md rounded-lg"
         />
       </form>
 
-      <div className="flex flex-col items-start mt-3 mx-2 gap-2">
-        <p className="">
+      <div className="flex flex-col items-start pl-1 lg:pl-3 mt-5 gap-2 text-sm text-gray-700">
+        <p>
           No tienes cuenta?{' '}
           <button
-            className="text-blue-600 hover:underline"
+            className="hover:underline hover:text-indigo-600"
             onClick={() => navigate(location.pathname + '?createAccount=true')}
           >
             Regístrate aquí
           </button>
         </p>
         <button
-          className="text-blue-600 hover:underline"
+          className="hover:underline hover:text-indigo-600"
           onClick={() => navigate(location.pathname + '?forgotPassword=true')}
         >
           Olvidé mi contraseña
         </button>
         <button
-          className="text-blue-600 hover:underline"
+          className="hover:underline hover:text-indigo-600"
           onClick={() => navigate(location.pathname + '?newTokenConfirm=true')}
         >
           Reenviar correo de confirmación

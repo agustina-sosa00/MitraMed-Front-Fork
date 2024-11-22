@@ -27,7 +27,7 @@ export default function Footer() {
         {/* Derechos Reservados */}
         <div className="flex flex-col justify-center items-center md:items-end">
           <p className="text-sm text-gray-400 mb-2">
-            © {new Date().getFullYear()} MitraMed. Todos los derechos reservados.
+            © {new Date().getFullYear()} Todos los derechos reservados.
           </p>
           <p className="text-sm text-gray-400">
             Powered by{' '}

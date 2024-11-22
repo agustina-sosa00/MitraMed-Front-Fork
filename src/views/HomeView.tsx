@@ -5,12 +5,13 @@ export default function HomeView() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   return (
     <div className="flex flex-col items-center min-h-full mb-20">
       <div className="w-full py-20 px-6 text-center relative mb-10">
         <div
           className="absolute inset-0 bg-black bg-contain opacity-20"
-          style={{ backgroundImage: 'url(/med/herramientas-1.jpg)' }}
+          style={{ backgroundImage: 'url(/med/herramientas-1.webp)' }}
         ></div>
         <div className="relative z-10">
           <h2 className="text-5xl font-extrabold text-green-600 mb-6">
@@ -28,9 +29,9 @@ export default function HomeView() {
       <div className="flex justify-around mt-8 w-full gap-8 px-4 mb-10">
         <div className="max-w-xl w-full bg-blue-800 rounded-lg shadow-lg p-6 text-center relative overflow-hidden">
           <div
-            className="absolute inset-0 bg-cover bg-center transition-transform duration-300 ease-in-out transform hover:scale-110 z-0 opacity-40"
+            className="absolute inset-0 bg-cover bg-center transition-transform duration-300 ease-in-out transform hover:scale-110 z-0 opacity-20"
             style={{
-              backgroundImage: 'url(/med/doc-h.jpg)',
+              backgroundImage: 'url(/med/doc-3.webp)',
             }}
           ></div>
 
@@ -55,9 +56,9 @@ export default function HomeView() {
         {/* Card para ver turnos */}
         <div className="max-w-xl w-full bg-blue-800 rounded-lg shadow-lg p-6 text-center relative overflow-hidden">
           <div
-            className="absolute inset-0 bg-cover bg-center transition-transform duration-300 ease-in-out transform hover:scale-110 z-0 opacity-30"
+            className="absolute inset-0 bg-cover bg-center transition-transform duration-300 ease-in-out transform hover:scale-110 z-0 opacity-20"
             style={{
-              backgroundImage: 'url(/med/misturnos.jpg)',
+              backgroundImage: 'url(/med/doc-6.webp)',
             }}
           ></div>
 
