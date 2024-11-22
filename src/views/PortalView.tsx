@@ -31,13 +31,13 @@ export default function PortalView() {
       <CarrouselPortal />
 
       {/* Portal */}
-      <div className="flex flex-col md:flex-row justify-between lg:px-10 py-1 lg:py-6 w-full gap-10">
-        <div className="flex flex-col items-start space-y-6 lg:w-2/3">
-          <h2 className="text-2xl lg:text-4xl font-semibold lg:font-normal font-serif text-gray-800 text-center mb-6 underline lg:decoration-4 underline-offset-4 mx-auto">
+      <div className="flex flex-col items-center lg:items-baseline mx:flex-row justify-between py-1 w-full mb-11">
+        <div className="flex flex-col items-start space-y-6 lg:w-4/6 xl:max-w-4xl">
+          <h2 className="text-2xl lg:text-4xl font-semibold lg:font-normal font-serif text-gray-800 text-center mb-6 mx-auto underline lg:decoration-4 underline-offset-4">
             MitraMed - Centro Médico
           </h2>
 
-          <div className="space-y-6 mx-5 indent-8">
+          <div className="space-y-6 ml-5 mr-8 indent-8 sm:mx-10 sm:indent-0 mx:indent-8">
             <p className="text-lg lg:text-xl text-gray-800 text-justify leading-relaxed">
               Bienvenido al portal de{' '}
               <span className="font-medium text-blue-600">reserva de turnos</span> para nuestro
@@ -65,7 +65,7 @@ export default function PortalView() {
           </p>
         </div>
 
-        <div className="mx-5 mb-10 lg:w-1/3 border-2 border-black border-opacity-30 p-5 shadow-xl rounded">
+        <div className="mb-10 p-5 w-full max-w-md lg:w-1/3 border-2 border-black border-opacity-30 shadow-xl rounded">
           <SignInForm />
         </div>
       </div>
