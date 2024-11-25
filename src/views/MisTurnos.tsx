@@ -1,12 +1,17 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function MisTurnos() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
-    <div className="flex justify-center relative min-h-[530px]">
-      <div className="absolute mt-5 left-5 top-1/3">
+    <div className="flex justify-center relative min-h-full">
+      <div className="absolute -top-5 left-1">
         <Link
           to="/inicio"
-          className="py-1 px-6 text-sm font-semibold bg-gray-700 hover:bg-gray-800 text-white transition duration-200"
+          className="py-2 px-4 text-xs sm:text-base font-semibold bg-gray-700 hover:bg-gray-800 text-white rounded-lg transition duration-200"
         >
           Volver
         </Link>

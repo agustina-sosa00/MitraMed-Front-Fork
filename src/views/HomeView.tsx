@@ -13,9 +13,8 @@ export default function HomeView() {
 
     window.scrollTo(0, 0);
 
-    // Oculta brevemente el contenido hasta que se complete el scroll
     setTimeout(() => {
-      setIsLoading(false); // Muestra el contenido después de un breve lapso
+      setIsLoading(false);
     }, 1000);
 
     return () => {

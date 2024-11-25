@@ -38,32 +38,33 @@ export default function Turnos() {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     reset();
   }, []);
 
   return (
-    <div className="flex justify-center relative">
-      <div className="absolute mt-5 left-5 top-1/3">
+    <div className="flex justify-center sm:min-h-screen lg:min-h-full mx-4 relative">
+      <div className="absolute -top-5 left-1">
         <Link
           to="/inicio"
-          className="py-1 px-6 text-sm font-semibold bg-gray-700 hover:bg-gray-800 text-white transition duration-200"
+          className="py-2 px-4 text-xs sm:text-base font-semibold bg-gray-700 hover:bg-gray-800 text-white rounded-lg transition duration-200"
         >
           Volver
         </Link>
       </div>
-      <div className="p-6 pb-10 w-full max-w-4xl h-full  my-5 bg-blue-800 shadow-xl border border-black border-opacity-20 rounded-lg">
-        <div className="text-center">
-          <h2 className="text-3xl font-bold text-gray-200 underline uppercase mb-4">
+      <div className=" w-full max-w-4xl h-full my-5 bg-blue-800 shadow-xl border border-black border-opacity-20 rounded-lg">
+        <div className="my-4 sm:p-6 text-center">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-200 underline uppercase">
             Turnos Online
           </h2>
-          <p className="mt-6 mb-8 text-lg text-gray-200">
+          <p className="mt-4 sm:mt-6 text-sm sm:text-lg text-gray-200">
             Selecciona especialidad y profesional para buscar disponibilidad de turnos
           </p>
         </div>
         <form onSubmit={(e) => e.preventDefault()}>
           <FormTurno register={register} setValue={setValue} reset={reset} watch={watch} />
 
-          <div className="flex justify-center w-full">
+          <div className="flex justify-center w-full p-2 ">
             <button
               type="button" // No es un submit, solo un botón que maneja la acción
               className={`p-3 mt-8 max-w-md w-full text-lg uppercase font-semibold rounded-lg  transition duration-200 ${

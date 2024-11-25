@@ -121,9 +121,9 @@ export default function FormTurno({ register, setValue, reset, watch }: FormTurn
 
   return (
     <>
-      <div className="flex flex-col items-start gap-3 my-5 w-[430px] ml-32">
-        <div className="flex items-center justify-between gap-2 w-[420px] ">
-          <label className="w-[110px] text-lg text-gray-200 font-semibold text-right">
+      <div className="flex flex-col items-start gap-3 mt-5 sm:w-[430px] sm:ml-32 lg:ml-52">
+        <div className="flex items-center justify-between gap-2 sm:w-[420px]">
+          <label className="w-[90px] small:w-[110px] sm:text-lg text-gray-200 font-semibold text-right  ">
             Especialidad:
           </label>
 
@@ -136,7 +136,7 @@ export default function FormTurno({ register, setValue, reset, watch }: FormTurn
             isClearable
             isLoading={loadingEspecialidades}
             loadingMessage={() => 'Cargando especialidades...'}
-            className="w-72 border-0 text-sm placeholder:text-gray-300 ml-2 focus:outline-none focus:ring-0"
+            className="w-40 small:w-48 mini:w-56 sm:w-72 border-0 text-sm placeholder:text-gray-300 ml-2 sm:ml-4 focus:outline-none focus:ring-0 bg-amber-200"
             styles={{
               control: (provided) => ({ ...provided, boxShadow: 'none' }),
               placeholder: (provided) => ({
@@ -147,8 +147,8 @@ export default function FormTurno({ register, setValue, reset, watch }: FormTurn
           />
         </div>
 
-        <div className="flex items-center justify-between gap-2 w-[420px]">
-          <label className="w-[110px] text-lg text-gray-200 font-semibold text-right">
+        <div className="flex items-center gap-2 sm:w-[420px]">
+          <label className="w-[90px] small:w-[110px] sm:text-lg text-gray-200 font-semibold text-right  ">
             Profesional:
           </label>
           <Select
@@ -161,7 +161,7 @@ export default function FormTurno({ register, setValue, reset, watch }: FormTurn
             isClearable
             isLoading={loadingDoctores}
             loadingMessage={() => 'Cargando doctores...'}
-            className="w-72 border-0 text-sm  ml-2 focus:outline-none focus:ring-0"
+            className="w-40 small:w-48 mini:w-56 sm:w-72 border-0 text-sm ml-2 sm:ml-4 focus:outline-none focus:ring-0 bg-blue-200"
             styles={{
               control: (provided) => ({ ...provided, boxShadow: 'none' }),
               placeholder: (provided) => ({
@@ -172,8 +172,10 @@ export default function FormTurno({ register, setValue, reset, watch }: FormTurn
           />
         </div>
 
-        <div className="flex items-center justify-between gap-2 w-[420px]">
-          <label className="w-[110px] text-lg text-gray-200 font-semibold text-right">Fecha:</label>
+        <div className="flex items-center gap-2 w-full sm:w-[420px]">
+          <label className="w-[90px] small:w-[110px] sm:text-lg text-gray-200 font-semibold text-right ">
+            Fecha:
+          </label>
 
           <DatePicker
             selected={fecha ? new Date(fecha + 'T00:00:00') : null} // Convierte a Date si es una cadena válida
@@ -194,24 +196,24 @@ export default function FormTurno({ register, setValue, reset, watch }: FormTurn
             showIcon
             icon={
               <FaCalendarAlt
-                className={`absolute right-1 top-1/2 transform -translate-y-1/2 text-sm text-gray-500 ${
+                className={`invisible small:visible absolute right-1 top-1/2 transform -translate-y-1/2 text-sm text-gray-500 ${
                   fechaDeshabilitada ? 'hover:cursor-not-allowed' : 'hover:cursor-pointer'
                 }`}
               />
             }
-            className={`w-72 border border-neutral-400 border-opacity-60 bg-white rounded text-sm ml-2 pl-3 ${
+            className={`w-40 small:w-48 mini:w-56 sm:w-72 border border-neutral-400 border-opacity-60 bg-white rounded text-sm ml-2 sm:ml-4 pl-3 focus:outline-none focus:ring-0 ${
               fechaDeshabilitada ? 'cursor-not-allowed' : 'cursor-pointer'
             }`}
           />
         </div>
 
         {fecha && (
-          <div className="flex items-start justify-between gap-2">
-            <label className="w-[110px] text-lg text-gray-200 font-semibold text-right">
+          <div className="flex items-start justify-center sm:justify-between gap-2 ">
+            {/* <label className="hidden sm:flex sm:justify-end mr-2 w-[110px] sm:text-lg text-gray-200 font-semibold text-right ">
               Horarios:
-            </label>
+            </label> */}
 
-            <div className="w-[500px] h-full text-sm ml-2 bg-gray-100 border border-gray-400 overflow-x-auto rounded-md">
+            <div className="sm:w-[500px] h-full text-sm mx-2 bg-gray-100 border border-gray-400 overflow-x-auto rounded-md">
               <div className="text-gray-500 border-b border-gray-400 text-center">
                 <div className="grid grid-cols-4 text-gray-700 font-semibold bg-gray-400 py-1 px-2 border-b border-gray-400">
                   <div>N° Turno</div>
@@ -249,9 +251,13 @@ export default function FormTurno({ register, setValue, reset, watch }: FormTurn
                       <div className="p-1 border-r">{turno.hora_fin}</div>
                       <div className="p-1">
                         {turno.habilitado === 0 ? (
-                          <span className="font-medium text-green-500">Disponible</span>
+                          <span className="font-medium text-xs sm:text-base text-green-500">
+                            Disponible
+                          </span>
                         ) : (
-                          <span className="font-medium text-red-500">No Disponible</span>
+                          <span className="font-medium text-xs sm:text-base text-red-500">
+                            No Disponible
+                          </span>
                         )}
                       </div>
 

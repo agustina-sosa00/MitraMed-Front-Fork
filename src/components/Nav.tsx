@@ -44,12 +44,6 @@ export default function Nav() {
 
   return (
     <div className="flex justify-end sm:justify-between items-center max-w-xs w-full mx:justify-around py-4 px-6 ">
-      {/* <div className="flex items-center sm:hidden">
-        <button onClick={handleHamburgerClick} className="text-2xl">
-          
-        </button>
-      </div> */}
-
       <div className="sm:flex max-w-xs w-full mx:justify-around">
         <Link
           to="/inicio"
@@ -58,7 +52,7 @@ export default function Nav() {
           Inicio
         </Link>
 
-        <div className="relative flex justify-center items-end w-auto">
+        <div className="relative flex justify-center items-end sm:w-autO">
           <div
             className="hidden sm:flex items-center space-x-2"
             onMouseEnter={handleMouseEnter}
@@ -79,7 +73,9 @@ export default function Nav() {
           {isMenuOpen && (
             <div
               ref={menuRef}
-              className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 w-40 bg-white bg-opacity-90 shadow-lg rounded-lg z-10"
+              className="absolute top-full left-1/2 transform -translate-x-1/2 w-40 bg-white shadow-lg rounded-lg z-10"
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
             >
               <div className="flex flex-col items-center mt-2">
                 <FaUserCircle className="text-xl text-gray-400" />
