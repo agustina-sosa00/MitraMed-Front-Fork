@@ -68,7 +68,7 @@ export default function ConfirmTurnoModal({ turnoData }: ConfirmTurnoModalProps)
                 leaveTo="opacity-0 scale-95"
               >
                 <DialogPanel className="flex flex-col items-center w-full max-w-2xl transform overflow-hidden bg-white text-left text-slate-800 rounded-lg shadow-xl transition-all p-8">
-                  <div className="w-auto py-4 px-16 space-y-3 border-2 border-gray-500 rounded-lg bg-gray-100">
+                  <div className="w-auto py-4 px-10 sm:px-16 space-y-3 border-2 border-gray-500 rounded-lg bg-gray-100 ">
                     <h3 className="text-xl text-center font-semibold text-blue-600 mb-2 underline">
                       Detalles del turno:
                     </h3>
@@ -107,13 +107,13 @@ export default function ConfirmTurnoModal({ turnoData }: ConfirmTurnoModalProps)
                   <div className="mt-6 w-full flex justify-center gap-6">
                     <button
                       onClick={() => mutate(turnoData)} // Aquí agregas la lógica para confirmar el turno
-                      className="px-6 py-2 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 transition duration-200 uppercase"
+                      className="px-6 py-2 bg-green-600 text-white text-sm sm:text-base font-semibold rounded-lg shadow-md hover:bg-green-700 transition duration-200 uppercase"
                     >
                       Confirmar Turno
                     </button>
                     <button
                       onClick={() => navigate('/turnos')} // Aquí agregas la lógica para confirmar el turno
-                      className="px-6 py-2 bg-red-600 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 transition duration-200 uppercase"
+                      className="px-6 py-2 bg-red-600 text-white font-semibold text-sm sm:text-base rounded-lg shadow-md hover:bg-red-700 transition duration-200 uppercase"
                     >
                       Cancelar
                     </button>
