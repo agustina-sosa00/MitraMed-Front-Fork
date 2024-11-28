@@ -13,7 +13,14 @@ export const accountSchema = z.object({
 export type NewAccount = z.infer<typeof accountSchema>;
 export type Account = Pick<NewAccount, 'email' | 'password'>;
 
-/* Especialidades */
+export type Usuario = {
+  nombre: string;
+  apellido: string;
+  email: string;
+  fnac: string;
+  genero: string;
+};
+
 export interface Especialidad {
   idespecialidad: number;
   nombre: string;

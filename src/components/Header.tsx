@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 import Nav from './Nav';
 
 export default function Header() {
-  const isLoggedIn = Cookies.get('accessToken');
+  const isLoggedIn = Cookies.get('accessToken') && Cookies.get('refreshToken');
 
   return (
     <header
@@ -34,18 +34,6 @@ export default function Header() {
             <Nav />
           </div>
         )}
-
-        {/* {!isLoggedIn && (
-          <div className="flex justify-center items-center px-3 md:px-10 h-12 md:text-lg border border-gray-400 bg-gray-100">
-            Tel: +9 54 999 9999 99
-          </div>
-        )}
-
-        {isLoggedIn && (
-          <div className="flex justify-evenly w-40 sm:w-80 lg:mr-20">
-            <Nav />
-          </div>
-        )} */}
       </div>
     </header>
   );

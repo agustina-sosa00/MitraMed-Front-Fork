@@ -35,6 +35,8 @@ export default function SignInForm() {
       // console.log(data);
       // toast.success(data.message);
 
+      localStorage.setItem('nombreUsuario', data.nombre_usuario);
+
       // Almacenar los tokens en cookies
       Cookies.set('accessToken', data.token_acceso, { expires: 0.3333 }); // 8 horas
       Cookies.set('refreshToken', data.token_refresh, { expires: 0.5 }); // 12 horas

@@ -9,6 +9,7 @@ export default function Nav() {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const nombreUsuario = localStorage.getItem('nombreUsuario') || 'Usuario';
 
   const handleMouseEnter = () => {
     setIsMenuOpen(true);
@@ -80,7 +81,7 @@ export default function Nav() {
               <div className="flex flex-col items-center mt-2">
                 <FaUserCircle className="text-xl text-gray-400" />
                 <p className="font-semibold text-base text-gray-500 hover:text-sky-400 transition cursor-default mt-1">
-                  Usuario
+                  {nombreUsuario}
                 </p>
               </div>
               <div className="mt-2">

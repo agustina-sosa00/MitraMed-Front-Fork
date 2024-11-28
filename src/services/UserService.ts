@@ -75,7 +75,7 @@ export async function reestablecerPassword({
     const { data } = await apiNoAuth.post(`/auth/reestablecer_password?token=${token}`, {
       password,
     });
-    console.log(data);
+    // console.log(data);
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
