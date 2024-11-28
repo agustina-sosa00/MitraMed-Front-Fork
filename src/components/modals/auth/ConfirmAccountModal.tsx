@@ -4,6 +4,7 @@ import { Dialog, Transition, TransitionChild, DialogPanel, DialogTitle } from '@
 import { isAxiosError } from 'axios';
 import { ClipLoader } from 'react-spinners';
 import apiNoAuth from '@/lib/axiosNoAuth';
+// import Cookies from 'js-cookie';
 
 export default function ConfirmAccountModal() {
   const navigate = useNavigate();
@@ -51,6 +52,17 @@ export default function ConfirmAccountModal() {
       // setIsTokenValid(null); // Restablece el estado del token
     }
   }, [show, token, hasFetched]); // Asegúrate de que 'hasFetched' esté en las dependencias
+
+  // const handleClose = () => {
+  //   const accessToken = Cookies.get('accessToken');
+  //   const refreshToken = Cookies.get('refreshToken');
+
+  //   if (accessToken && refreshToken) {
+  //     navigate('/configuracion');
+  //   } else {
+  //     navigate('/');
+  //   }
+  // };
 
   return (
     <>

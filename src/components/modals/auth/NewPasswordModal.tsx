@@ -9,6 +9,8 @@ import { isAxiosError } from 'axios';
 import { ClipLoader } from 'react-spinners';
 import apiNoAuth from '@/lib/axiosNoAuth';
 import NewPasswordForm from '@/components/forms/NewPasswordForm';
+import Cookies from 'js-cookie';
+
 // import { Account } from '@/types/index';
 // import { sendForgotPasswordEmail } from '../../utils/index';
 
@@ -20,6 +22,7 @@ export default function NewPasswordModal() {
   const modal = queryParams.get('reestablecer_password');
   const show = modal ? true : false;
 
+  const internalRequest = queryParams.get('internal') === 'true';
   const token = queryParams.get('token');
 
   const [isLoading, setIsLoading] = useState(true);
@@ -27,12 +30,22 @@ export default function NewPasswordModal() {
   const [backendMessage, setBackendMessage] = useState('');
   const [isTokenValid, setIsTokenValid] = useState<boolean | null>(null);
 
+  const accessToken = Cookies.get('accessToken');
+
   useEffect(() => {
     const validateToken = async () => {
+      if (internalRequest) {
+        setIsTokenValid(true);
+        setHasFetched(true);
+        setIsLoading(false);
+        return;
+      }
+
       if (!token) {
         setBackendMessage('Token inválido');
         setIsTokenValid(false);
         setIsLoading(false);
+        setHasFetched(true);
         return;
       }
 
@@ -58,10 +71,10 @@ export default function NewPasswordModal() {
       }
     };
 
-    if (show && token) {
+    if (show) {
       validateToken();
     }
-  }, [show, token]);
+  }, [show, token, internalRequest]);
 
   const {
     register,
@@ -79,7 +92,7 @@ export default function NewPasswordModal() {
     onSuccess: (data) => {
       toast.success(data);
       reset();
-      navigate('/');
+      navigate(location.pathname, { replace: true });
     },
   });
 
@@ -90,20 +103,16 @@ export default function NewPasswordModal() {
     password: string;
     repite_password: string;
   }) => {
-    console.log();
-
     if (password !== repite_password) {
-      console.error('Las contraseñas no coinciden');
       toast.error('Las contraseñas no coinciden');
       return;
     }
 
     if (token) {
-      // Verificar que token no sea null
-      console.log({ token, password });
-      mutate({ token, password }); // Pasar el objeto con token y password
+      mutate({ token, password });
+    } else if (!token && accessToken) {
+      mutate({ token: accessToken, password });
     } else {
-      console.error('Token no válido');
       toast.error('Token no válido');
     }
   };
@@ -115,7 +124,7 @@ export default function NewPasswordModal() {
           as="div"
           className="relative z-10"
           onClose={() => {
-            navigate('/');
+            navigate(location.pathname, { replace: true });
             reset();
           }}
         >
@@ -142,10 +151,10 @@ export default function NewPasswordModal() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <DialogPanel className="w-full max-w-2xl transform overflow-hidden bg-white text-left text-slate-800 align-middle shadow-xl transition-all p-8 ">
+                <DialogPanel className="w-full max-w-xl transform overflow-hidden bg-white text-left text-slate-800 align-middle shadow-xl transition-all p-8">
                   <DialogTitle
                     as="h3"
-                    className="text-3xl font-semibold mb-4 underline underline-offset-4 decoration-2"
+                    className="text-xl sm:text-3xl font-semibold mb-4 underline underline-offset-4 decoration-2"
                   >
                     {isLoading || backendMessage ? '' : 'Reestablecer contraseña'}
                   </DialogTitle>
@@ -155,17 +164,25 @@ export default function NewPasswordModal() {
                       <ClipLoader color="#36d7b7" size={80} />
                     </div>
                   ) : hasFetched && isTokenValid ? (
-                    <form className="flex flex-col" noValidate onSubmit={handleSubmit(handleForm)}>
-                      <p className="text-amber-500 font-thin text-xs italic my-2">
-                        *Esta ventana es de un solo uso. Te recomendamos cambiar tu contraseña antes
-                        de salir. De lo contrario, deberás solicitar un nuevo link de recuperación.
-                      </p>
+                    <form
+                      className="flex flex-col max-w-md"
+                      noValidate
+                      onSubmit={handleSubmit(handleForm)}
+                    >
+                      {token && (
+                        <p className="text-amber-500 font-thin text-xs italic my-2">
+                          *Esta ventana es de un solo uso. Te recomendamos cambiar tu contraseña
+                          antes de salir. De lo contrario, deberás solicitar un nuevo link de
+                          recuperación.
+                        </p>
+                      )}
+
                       <NewPasswordForm register={register} errors={errors} />
 
                       <input
                         type="submit"
                         value="Enviar"
-                        className="p-2 my-3 w-full max-w-2xl text-white text-base uppercase bg-blue-600 hover:bg-blue-700  transition-colors cursor-pointer shadow-lg rounded"
+                        className="py-1 sm:p-2 my-3 w-full text-white text-base uppercase bg-blue-600 hover:bg-blue-700  transition-colors cursor-pointer shadow-lg rounded"
                       />
                     </form>
                   ) : (

@@ -1,5 +1,10 @@
-import Footer from '@/components/Footer';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Cookies from 'js-cookie';
 import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 import SignInForm from '@/components/forms/SignInForm';
 import CreateAccountModal from '@/components/modals/auth/CreateAccountModal';
 import ConfirmAccountModal from '@/components/modals/auth/ConfirmAccountModal';
@@ -7,20 +12,24 @@ import ForgotPasswordModal from '@/components/modals/auth/ForgotPasswordModal';
 import NewPasswordModal from '@/components/modals/auth/NewPasswordModal';
 import NewTokenConfirm from '@/components/modals/auth/NewTokenConfirm';
 import CarrouselPortal from '@/components/CarrouselPortal';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import Cookies from 'js-cookie';
 
 export default function PortalView() {
   const navigate = useNavigate();
 
   useEffect(() => {
     const accessToken = Cookies.get('accessToken');
+    const refreshToken = Cookies.get('refreshToken');
 
-    if (accessToken) {
-      navigate('/inicio'); // Redirige si el token existe
+    const queryParams = new URLSearchParams(window.location.search);
+
+    // Si hay parámetros relacionados con la confirmación, no redirige
+    if (!queryParams.has('confirmar_cuenta')) {
+      if (accessToken) {
+        navigate('/inicio');
+      }
+      if (!accessToken || !refreshToken) {
+        navigate('/');
+      }
     }
   }, []);
 
@@ -82,17 +91,4 @@ export default function PortalView() {
       <ToastContainer pauseOnHover={false} pauseOnFocusLoss={false} hideProgressBar={true} />
     </>
   );
-}
-
-{
-  /* <div className="relative h-60 lg:h-32 w-full">
-        <div className="absolute inset-0">
-          <img
-            src="/img/centro-medico-recepcion.jpeg"
-            alt="Centro Medico Edificio"
-            className="w-full h-full object-cover opacity-70"
-          />
-          <div className="absolute inset-0 bg-black opacity-80"></div>
-        </div>
-      </div> */
 }

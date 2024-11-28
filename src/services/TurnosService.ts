@@ -3,6 +3,38 @@ import { isAxiosError } from 'axios';
 import { Doctor, Horario, Turno } from '../types';
 // import { turnosEspecialidadesSchema } from '../types';
 
+export async function obtenerDatosUsuario() {
+  try {
+    const { data } = await api('/turnos/obtener_datosusuario');
+    // console.log(data);
+
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error);
+      // console.log(error.response.data);
+    } else {
+      throw new Error('Hubo un error...');
+    }
+  }
+}
+
+export async function actualizarEmail(email: string) {
+  try {
+    const { data } = await api.patch('/turnos/actualizar_emailusuario', { email });
+    console.log(data);
+
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error);
+      // console.log(error.response.data);
+    } else {
+      throw new Error('Hubo un error...');
+    }
+  }
+}
+
 export async function obtenerEspecialidades() {
   try {
     const { data } = await api('/turnos/obtener_especialidades');

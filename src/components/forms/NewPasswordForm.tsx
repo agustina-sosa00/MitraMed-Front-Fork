@@ -5,7 +5,7 @@ import ErrorMessage from '../ErrorMessage';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
 
 interface NewPasswordFormProps {
-  register: UseFormRegister<any>; // Asegúrate de poner el tipo correcto
+  register: UseFormRegister<any>;
   errors: FieldErrors;
 }
 
@@ -14,7 +14,7 @@ export default function NewPasswordForm({ register, errors }: NewPasswordFormPro
 
   return (
     <>
-      <div className="flex flex-col relative">
+      <div className="flex flex-col relative max-w-md">
         <InputField
           id={'password'}
           type={showPassword ? 'text' : 'password'}
@@ -33,7 +33,7 @@ export default function NewPasswordForm({ register, errors }: NewPasswordFormPro
         />
         <button
           type="button"
-          className="absolute right-3 top-12 text-xl"
+          className="absolute right-2 sm:right-3 top-10 sm:top-12 text-xl"
           onClick={() => setShowPassword(!showPassword)}
         >
           {showPassword ? <FiEye /> : <FiEyeOff />}
@@ -42,7 +42,7 @@ export default function NewPasswordForm({ register, errors }: NewPasswordFormPro
           <ErrorMessage>{errors.password.message}</ErrorMessage>
         )}
       </div>
-      <div className="flex flex-col relative">
+      <div className="flex flex-col relative max-w-md">
         <InputField
           id={'repite_password'}
           type={showPassword ? 'text' : 'password'}
@@ -61,7 +61,7 @@ export default function NewPasswordForm({ register, errors }: NewPasswordFormPro
         />
         <button
           type="button"
-          className="absolute right-3 top-12 text-xl"
+          className="absolute right-2 sm:right-3 top-10 sm:top-12 text-xl"
           onClick={() => setShowPassword(!showPassword)}
         >
           {showPassword ? <FiEye /> : <FiEyeOff />}
