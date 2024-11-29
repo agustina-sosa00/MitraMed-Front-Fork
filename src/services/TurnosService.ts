@@ -1,8 +1,8 @@
 import api from '../lib/axios';
 import { isAxiosError } from 'axios';
 import { Doctor, Horario, Turno } from '../types';
-// import { turnosEspecialidadesSchema } from '../types';
 
+// Services de usuarios
 export async function obtenerDatosUsuario() {
   try {
     const { data } = await api('/turnos/obtener_datosusuario');
@@ -35,6 +35,37 @@ export async function actualizarEmail(email: string) {
   }
 }
 
+export async function obtenerTurnosUsuario() {
+  try {
+    const { data } = await api('/turnos/obtener_turnosusuario');
+
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error);
+      // console.log(error.response.data);
+    } else {
+      throw new Error('Hubo un error...');
+    }
+  }
+}
+
+export async function anularTurnoUsuario(idTurno: number) {
+  try {
+    const { data } = await api.patch('/turnos/anular_turnousuario', { idTurno });
+
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error);
+      // console.log(error.response.data);
+    } else {
+      throw new Error('Hubo un error...');
+    }
+  }
+}
+
+// Services de doctores y turnos
 export async function obtenerEspecialidades() {
   try {
     const { data } = await api('/turnos/obtener_especialidades');
@@ -88,7 +119,7 @@ export async function obtenerDiasSinAtencion({
   }
 }
 
-export async function obtenerTurnos({
+export async function obtenerTurnosDisponibles({
   idEspecialidad,
   idDoctor,
   fecha,
@@ -98,8 +129,10 @@ export async function obtenerTurnos({
   fecha: string;
 }) {
   try {
+    const url = `/turnos/obtener_turnosdisponibles/${idEspecialidad}/${idDoctor}/${fecha}`;
+    console.log('URL:', url); // Verifica la URL formada
     const { data } = await api<Horario[]>(
-      `/turnos/obtener_turnos/${idEspecialidad}/${idDoctor}/${fecha}`
+      `/turnos/obtener_turnosdisponibles/${idEspecialidad}/${idDoctor}/${fecha}`
     );
     // console.log(data);
     return data;

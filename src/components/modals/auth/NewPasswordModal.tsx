@@ -11,9 +11,6 @@ import apiNoAuth from '@/lib/axiosNoAuth';
 import NewPasswordForm from '@/components/forms/NewPasswordForm';
 import Cookies from 'js-cookie';
 
-// import { Account } from '@/types/index';
-// import { sendForgotPasswordEmail } from '../../utils/index';
-
 export default function NewPasswordModal() {
   const navigate = useNavigate();
 
@@ -21,7 +18,6 @@ export default function NewPasswordModal() {
   const queryParams = new URLSearchParams(location.search);
   const modal = queryParams.get('reestablecer_password');
   const show = modal ? true : false;
-
   const internalRequest = queryParams.get('internal') === 'true';
   const token = queryParams.get('token');
 
@@ -29,7 +25,6 @@ export default function NewPasswordModal() {
   const [hasFetched, setHasFetched] = useState(false);
   const [backendMessage, setBackendMessage] = useState('');
   const [isTokenValid, setIsTokenValid] = useState<boolean | null>(null);
-
   const accessToken = Cookies.get('accessToken');
 
   useEffect(() => {
@@ -50,7 +45,6 @@ export default function NewPasswordModal() {
       }
 
       setIsLoading(true);
-
       try {
         const response = await apiNoAuth.get(`/auth/verificar_token?token=${token}`);
 

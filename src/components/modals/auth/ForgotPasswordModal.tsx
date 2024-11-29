@@ -79,15 +79,15 @@ export default function ForgotPasswordModal() {
                 <DialogPanel className="w-full max-w-2xl transform overflow-hidden bg-white text-left text-slate-800 align-middle shadow-xl transition-all p-8 ">
                   <DialogTitle
                     as="h3"
-                    className="text-3xl font-semibold mb-4 underline underline-offset-4 decoration-2"
+                    className="text-2xl sm:text-3xl font-semibold mb-4 underline underline-offset-4 decoration-2"
                   >
                     Recuperar cuenta
                   </DialogTitle>
 
-                  <p className="text-lg mb-2">
+                  <p className="sm:text-lg mb-2">
                     Ingresa tu email de registro, donde se te indicará como recuperar tu cuenta:
                   </p>
-                  <span className="text-amber-500 font-thin text-xs italic my-2">
+                  <span className="text-amber-500 font-thin text-sm sm:text-xs italic my-2">
                     * Recuerda que los links de recuperacion expiran. Te recomendamos confirmar tu
                     cuenta lo antes posible
                   </span>

@@ -2,48 +2,56 @@ import { Fragment } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Dialog, Transition, TransitionChild, DialogPanel } from '@headlessui/react';
 import { Turno } from '@/types/index';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { confirmarTurno } from '@/services/TurnosService';
 import { toast } from 'react-toastify';
+import { UseFormSetValue } from 'react-hook-form';
 // import { isAxiosError } from 'axios';
 // import { ClipLoader } from 'react-spinners';
 // import apiAuth from '@/lib/axiosNoAuth';
 
 type ConfirmTurnoModalProps = {
   turnoData: Turno;
+  setValue: UseFormSetValue<Turno>;
 };
 
-export default function ConfirmTurnoModal({ turnoData }: ConfirmTurnoModalProps) {
+export default function ConfirmTurnoModal({ turnoData, setValue }: ConfirmTurnoModalProps) {
   const navigate = useNavigate();
-
-  // console.log(turnoData);
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const modal = queryParams.get('confirmarTurno');
   const show = modal ? true : false;
 
-  const fecha = new Date(turnoData?.fecha + 'T00:00:00'); // Asegúrate de que tenga una hora especificada para evitar problemas de zona horaria
+  const fecha = new Date(turnoData?.fecha + 'T00:00:00');
   const fechaFormateada = fecha.toLocaleDateString('es-ES');
-  // console.log(fecha);
-  // console.log(fechaFormateada);
+
+  const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
     mutationFn: confirmarTurno,
     onError: (error) => {
       console.log(error);
+      toast.error(error.message);
     },
     onSuccess: (data) => {
       // console.log(data);
       toast.success(data.message);
-      navigate('/turnos');
+      setValue('turno', 0);
+      queryClient.invalidateQueries({ queryKey: ['turnos'] });
+
+      navigate(location.pathname, { replace: true });
     },
   });
 
   return (
     <>
       <Transition appear show={show} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={() => navigate('/turnos')}>
+        <Dialog
+          as="div"
+          className="relative z-10"
+          onClose={() => navigate(location.pathname, { replace: true })}
+        >
           <TransitionChild
             as={Fragment}
             enter="ease-out duration-300"
