@@ -80,20 +80,7 @@ export default function Turnos() {
           </div>
         </form>
       </div>
-      {turnoData && <ConfirmTurnoModal turnoData={turnoData} />}
+      {turnoData && <ConfirmTurnoModal turnoData={turnoData} setValue={setValue} />}
     </div>
   );
-}
-
-{
-  /* <input
-              type="submit"
-              value="Solicitar"
-              disabled={watch('turno') === 0} // Deshabilita si no hay turno seleccionado
-              className={`p-3 mt-8 max-w-md w-full text-lg uppercase font-semibold rounded-lg  transition duration-200 ${
-                watch('turno') === 0
-                  ? 'bg-gray-400 cursor-not-allowed'
-                  : 'bg-green-600 hover:bg-green-700 cursor-pointer text-white'
-              }`}
-            /> */
 }

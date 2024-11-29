@@ -22,8 +22,11 @@ export default function PortalView() {
 
     const queryParams = new URLSearchParams(window.location.search);
 
-    // Si hay parámetros relacionados con la confirmación, no redirige
     if (!queryParams.has('confirmar_cuenta')) {
+      if (queryParams.has('reestablecer_password')) {
+        return;
+      }
+
       if (accessToken) {
         navigate('/inicio');
       }

@@ -21,6 +21,17 @@ export type Usuario = {
   genero: string;
 };
 
+export type TurnosUsuario = {
+  idturno: number;
+  especialidad: string;
+  iddoctor: number;
+  ndoctor: string;
+  f_turno: string;
+  hora_ini: string;
+  asistecia: number;
+  habilitado: number;
+};
+
 export interface Especialidad {
   idespecialidad: number;
   nombre: string;

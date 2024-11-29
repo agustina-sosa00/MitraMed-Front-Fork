@@ -39,7 +39,7 @@ export default function HomeView() {
           }}
         ></div>
         <div className="relative z-10">
-          <h2 className="text-5xl font-extrabold text-green-600 mb-6">
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-green-600 mb-6">
             ¡Bienvenido a nuestra web oficial!
           </h2>
           <p className="text-xl font-medium text-gray-700 max-w-3xl mx-auto leading-relaxed">

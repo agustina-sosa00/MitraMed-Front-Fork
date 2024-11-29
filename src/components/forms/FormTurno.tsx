@@ -12,7 +12,7 @@ import {
   obtenerDiasSinAtencion,
   obtenerDoctores,
   obtenerEspecialidades,
-  obtenerTurnos,
+  obtenerTurnosDisponibles,
 } from '../../services/TurnosService';
 
 type FormTurnoProps = {
@@ -62,7 +62,7 @@ export default function FormTurno({ register, setValue, reset, watch }: FormTurn
 
   const { data: turnos, isLoading: isLoadingTurnos } = useQuery<Horario[], Error>({
     queryKey: ['turnos', idEspecialidad, idDoctor, fecha],
-    queryFn: () => obtenerTurnos({ idEspecialidad, idDoctor, fecha }),
+    queryFn: () => obtenerTurnosDisponibles({ idEspecialidad, idDoctor, fecha }),
     enabled: !!idEspecialidad && !!idDoctor && !!fecha,
   });
 

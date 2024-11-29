@@ -78,16 +78,16 @@ export default function NewTokenConfirm() {
                 <DialogPanel className="w-full max-w-2xl transform overflow-hidden bg-white text-left text-slate-800 align-middle shadow-xl transition-all p-8 ">
                   <DialogTitle
                     as="h3"
-                    className="text-3xl font-semibold mb-4 underline underline-offset-4 decoration-2"
+                    className="text-2xl sm:text-3xl font-semibold mb-4 underline underline-offset-4 decoration-2"
                   >
                     Reenviar correo de confirmación
                   </DialogTitle>
 
-                  <p className="text-lg">
+                  <p className="sm:text-lg">
                     Ingresa tu email de registro, donde se te reenviará el correo para confirmar tu
                     cuenta:
                   </p>
-                  <span className="text-amber-500 font-thin text-xs italic my-2">
+                  <span className="text-amber-500 font-thin text-sm sm:text-xs italic my-2">
                     * Recuerda que los links de confirmación expiran. Te recomendamos confirmar tu
                     cuenta lo antes posible
                   </span>
