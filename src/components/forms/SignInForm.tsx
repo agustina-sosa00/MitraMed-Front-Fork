@@ -99,7 +99,7 @@ export default function SignInForm() {
           />
           <button
             type="button"
-            className="absolute right-4 top-[42px] text-blue-700"
+            className="absolute right-4 top-[42px] sm:top-12  text-gray-700"
             onClick={() => setShowPassword(!showPassword)}
           >
             {showPassword ? <FiEye /> : <FiEyeOff />}
