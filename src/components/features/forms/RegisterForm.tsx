@@ -1,0 +1,298 @@
+import { useState } from 'react';
+import { UseFormRegister, FieldErrors, UseFormWatch, Controller, Control } from 'react-hook-form';
+import { FiEye, FiEyeOff } from 'react-icons/fi';
+import { NewAccount } from '@/types/index';
+import Select from 'react-select';
+import ErrorMessage from '../../ui/ErrorMessage';
+import InputField from '../../ui/InputField';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { FaCalendarAlt } from 'react-icons/fa';
+
+type RegisterFormProps = {
+  register: UseFormRegister<NewAccount>;
+  errors: FieldErrors<NewAccount>;
+  watch: UseFormWatch<NewAccount>;
+  control: Control<NewAccount>;
+};
+
+interface OptionType {
+  value: string;
+  label: string;
+}
+
+export default function RegisterForm({ register, errors, watch, control }: RegisterFormProps) {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const generoOptions: OptionType[] = [
+    { value: 'Masculino', label: 'Masculino' },
+    { value: 'Femenino', label: 'Femenino' },
+  ];
+
+  return (
+    <>
+      <div className="flex flex-col w-full">
+        <div className="flex gap-3 justify-between md:mr-12">
+          <div className="flex flex-col">
+            <InputField
+              id={'nombre'}
+              type={'text'}
+              label={'Nombre'}
+              placeholder={'Ingresa tu nombre'}
+              register={register('nombre', {
+                required: {
+                  value: true,
+                  message: 'El nombre es obligatorio',
+                },
+                setValueAs: (value) => value.trim(),
+              })}
+            />
+            {errors.nombre && <ErrorMessage>{errors.nombre.message}</ErrorMessage>}
+          </div>
+          <div className="flex flex-col">
+            <InputField
+              id={'apellido'}
+              type={'text'}
+              label={'Apellido'}
+              placeholder={'Ingresa tu apellido'}
+              register={register('apellido', {
+                required: {
+                  value: true,
+                  message: 'El apellido es obligatorio',
+                },
+                setValueAs: (value) => value.trim(),
+              })}
+            />
+            {errors.apellido && <ErrorMessage>{errors.apellido.message}</ErrorMessage>}
+          </div>
+        </div>
+        <div className="flex flex-col">
+          <label htmlFor="fnac" className="font-semibold sm:text-lg xl:text-2xl p-1 text-gray-700">
+            Fecha de Nacimiento
+          </label>
+          <Controller
+            name="fnac"
+            control={control} // 'control' es proporcionado por el hook useForm
+            rules={{
+              required: {
+                value: true,
+                message: 'La fecha de nacimiento es obligatoria',
+              },
+              validate: (value) => {
+                const fechaNacimiento = new Date(value);
+                const fechaActual = new Date();
+                const edad = fechaActual.getFullYear() - fechaNacimiento.getFullYear();
+
+                if (edad < 18) {
+                  return 'Debes ser mayor de edad para registrarte';
+                }
+                return true; // Si la edad es mayor o igual a 18, es válido
+              },
+            }}
+            render={({ field }) => (
+              <DatePicker
+                id="fnac"
+                selected={field.value ? new Date(field.value) : null}
+                onChange={(date) => {
+                  field.onChange(date); // Asegura que se registre el valor de 'DatePicker' en react-hook-form
+                }}
+                onChangeRaw={(e) => {
+                  if (e) e.preventDefault(); // Asegura que 'e' no sea undefined
+                }}
+                placeholderText="Selecciona tu fecha de nacimiento"
+                dateFormat="dd/MM/yyyy"
+                showYearDropdown
+                dropdownMode="select"
+                yearDropdownItemNumber={100}
+                className="w-full px-2 py-1 sm:p-2 xl:p-3 max-w-2xl xl:mt-2 xl:text-lg font-semibold bg-white border border-opacity-40 border-slate-500 outline-none transition duration-200 focus:ring-1 placeholder:text-sm xl:placeholder:text-lg placeholder:text-gray-300 placeholder:font-medium cursor-pointer"
+                onKeyDown={(e) => {
+                  if (e) e.preventDefault(); // Asegura que 'e' no sea undefined
+                }}
+                showIcon
+                toggleCalendarOnIconClick
+                icon={
+                  <FaCalendarAlt
+                    className={`invisible small:visible absolute right-1 top-1/2 transform -translate-y-1/2 text-sm cursor-pointer text-gray-500`}
+                  />
+                }
+              />
+            )}
+          />
+          {errors.fnac && <ErrorMessage>{errors.fnac.message}</ErrorMessage>}
+        </div>
+        <div className="flex flex-col mb-1">
+          <label htmlFor="genero" className="font-semibold text-lg p-1">
+            Sexo:
+          </label>
+          <Controller
+            name="genero"
+            control={control}
+            rules={{ required: 'El sexo es obligatorio' }}
+            render={({ field }) => (
+              <Select<OptionType>
+                {...field}
+                options={generoOptions}
+                value={generoOptions.find((option) => option.value === field.value)}
+                onChange={(selectedOption) => field.onChange(selectedOption?.value)} // Guardar solo el valor
+                placeholder="Selecciona un género"
+                isClearable
+                isSearchable={false}
+                className="w-full border-1 text-sm sm:text-base font-semibold border-slate-300 outline-none transition duration-200 focus:ring-1 bg-blue-200 rounded-none"
+                styles={{
+                  control: (provided) => ({
+                    ...provided,
+                    borderRadius: '0',
+                    '&:focus': {
+                      borderColor: '#60a5fa',
+                      boxShadow: '0 0 0 1px rgba(124, 191, 255, 0.5)',
+                    },
+                  }),
+                  placeholder: (provided) => ({
+                    ...provided,
+                    color: '#d1d5db',
+                    fontWeight: '500',
+                  }),
+                }}
+              />
+            )}
+          />
+
+          {errors.genero && <ErrorMessage>{errors.genero.message}</ErrorMessage>}
+        </div>
+        <div className="flex flex-col">
+          <InputField
+            id={'email'}
+            type={'text'}
+            label={'Email'}
+            placeholder={'Ingresa tu email'}
+            register={register('email', {
+              required: {
+                value: true,
+                message: 'El email es obligatorio',
+              },
+              pattern: {
+                value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
+                message: 'Email inválido',
+              },
+              setValueAs: (value) => value.trim(),
+            })}
+          />
+          {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
+        </div>
+        <div className="flex flex-col gap-1 mb-2">
+          <p className="font-semibold sm:text-lg mt-2 text-gray-700">Teléfono</p>
+          <div className="flex items-center w-full gap-7">
+            <div className="flex flex-col w-1/6">
+              <input
+                id="codarea"
+                type="text"
+                placeholder={'Cod. Área'}
+                className={`w-full px-2 py-1 sm:p-2 max-w-2xl font-semibold bg-white border border-opacity-40 border-slate-500 outline-none transition duration-200 focus:ring-1 placeholder:text-sm placeholder:text-gray-300 placeholder:font-medium`}
+                {...register('codarea', {
+                  required: {
+                    value: true,
+                    message: 'El código de área es obligatorio',
+                  },
+                  pattern: {
+                    value: /^[0-9]{2,4}$/,
+                    message: 'Código inválido',
+                  },
+                  validate: {
+                    suma10: (value) => {
+                      const telefono = watch('tel') || '';
+                      const totalDigitos = value.trim().length + telefono.trim().length;
+                      return (
+                        totalDigitos === 10 || 'El código de área y teléfono deben sumar 10 dígitos'
+                      );
+                    },
+                  },
+                })}
+              />
+            </div>
+            <p className="font-semibold text-gray-400">15</p>
+            <div className="flex flex-col w-3/4">
+              <input
+                id="tel"
+                type="text"
+                placeholder={'Ingresa tu número de teléfono'}
+                className={`w-full px-2 py-1 sm:p-2 max-w-2xl font-semibold bg-white border border-opacity-40 border-slate-500 outline-none transition duration-200 focus:ring-1 placeholder:text-sm placeholder:text-gray-300 placeholder:font-medium`}
+                {...register('tel', {
+                  required: {
+                    value: true,
+                    message: 'El número de teléfono es obligatorio',
+                  },
+                  pattern: {
+                    value: /^[0-9]{6,10}$/,
+                    message: 'Número inválido',
+                  },
+                  validate: {
+                    suma10: (value) => {
+                      const codarea = watch('codarea') || '';
+                      const totalDigitos = value.trim().length + codarea.trim().length;
+                      return (
+                        totalDigitos === 10 || 'El código de área y teléfono deben sumar 10 dígitos'
+                      );
+                    },
+                  },
+                })}
+              />
+            </div>
+          </div>
+          {errors.codarea && <ErrorMessage>{errors.codarea.message}</ErrorMessage>}
+          {errors.tel && <ErrorMessage>{errors.tel.message}</ErrorMessage>}
+        </div>
+
+        <div className="flex flex-col relative">
+          <InputField
+            id={'password'}
+            type={showPassword ? 'text' : 'password'}
+            label={'Contraseña'}
+            placeholder={'Ingresa tu contraseña'}
+            register={register('password', {
+              required: {
+                value: true,
+                message: 'La contraseña es obligatoria',
+              },
+              minLength: {
+                value: 8,
+                message: 'La contraseña debe tener mínimo 8 carácteres',
+              },
+            })}
+          />
+          <button
+            type="button"
+            className="absolute right-3 top-12 text-xl"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? <FiEye /> : <FiEyeOff />}
+          </button>
+          {errors.password && <ErrorMessage>{errors.password.message}</ErrorMessage>}
+        </div>
+        <div className="flex flex-col relative ">
+          <InputField
+            id={'confirmPassword'}
+            type={showPassword ? 'text' : 'password'}
+            label={'Confirmar Contraseña'}
+            placeholder={'Ingresa nuevamente tu contraseña'}
+            register={register('confirmPassword', {
+              required: {
+                value: true,
+                message: 'Confirmar la contraseña es obligatorio',
+              },
+              validate: (value) =>
+                value === watch('password') || 'Las contraseñas deben ser idénticas',
+            })}
+          />
+          <button
+            type="button"
+            className="absolute right-3 top-12 text-xl"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? <FiEye /> : <FiEyeOff />}
+          </button>
+          {errors.confirmPassword && <ErrorMessage>{errors.confirmPassword.message}</ErrorMessage>}
+        </div>
+      </div>
+    </>
+  );
+}

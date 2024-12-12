@@ -1,11 +1,11 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import HomeView from './views/HomeView';
-import MisTurnos from './views/MisTurnos';
-import PortalView from './views/PortalView';
+import HomeView from './views/dashboard/HomeView';
+import MisTurnos from './views/dashboard/MisTurnos';
+import PortalView from './views/auth/PortalView';
 import Layout from './layouts/Layout';
-import Turnos from './views/Turnos';
-import ProtectedRoute from './components/ProtectedRoute';
-import ConfigView from './views/ConfigView';
+import Turnos from './views/dashboard/Turnos';
+import ProtectedRoute from './components/features/ProtectedRoute';
+import ConfigView from './views/dashboard/ConfigView';
 
 export default function Router() {
   return (

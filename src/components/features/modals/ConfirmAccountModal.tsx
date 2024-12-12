@@ -4,7 +4,6 @@ import { Dialog, Transition, TransitionChild, DialogPanel, DialogTitle } from '@
 import { isAxiosError } from 'axios';
 import { ClipLoader } from 'react-spinners';
 import apiNoAuth from '@/lib/axiosNoAuth';
-// import Cookies from 'js-cookie';
 
 export default function ConfirmAccountModal() {
   const navigate = useNavigate();
@@ -19,11 +18,11 @@ export default function ConfirmAccountModal() {
   const [backendMessage, setBackendMessage] = useState<string>('');
   const [isTokenValid, setIsTokenValid] = useState<boolean | null>(null);
   const [hasFetched, setHasFetched] = useState(false);
-  const [isLoading, setIsLoading] = useState(true); // Inicializar en false
+  const [isLoading, setIsLoading] = useState(true); 
 
   useEffect(() => {
     if (show && token && !hasFetched) {
-      setIsLoading(true); // Inicia carga
+      setIsLoading(true);
       const fetchMessage = async () => {
         try {
           const { data } = await apiNoAuth.get(`/auth/confirmar_cuenta?token=${token}`);
@@ -33,14 +32,14 @@ export default function ConfirmAccountModal() {
         } catch (error) {
           if (isAxiosError(error) && error.response) {
             setBackendMessage(error.response.data);
-            setIsTokenValid(false); // Token inválido
+            setIsTokenValid(false);
           } else {
             setBackendMessage('Error desconocido al confirmar cuenta');
             setIsTokenValid(false);
           }
         } finally {
-          setIsLoading(false); // Finaliza carga
-          setHasFetched(true); // Marca como fetch realizado
+          setIsLoading(false);
+          setHasFetched(true); 
         }
       };
 
@@ -49,20 +48,8 @@ export default function ConfirmAccountModal() {
       // Si el modal se cierra, restablece el estado
       setHasFetched(false);
       setBackendMessage('');
-      // setIsTokenValid(null); // Restablece el estado del token
     }
-  }, [show, token, hasFetched]); // Asegúrate de que 'hasFetched' esté en las dependencias
-
-  // const handleClose = () => {
-  //   const accessToken = Cookies.get('accessToken');
-  //   const refreshToken = Cookies.get('refreshToken');
-
-  //   if (accessToken && refreshToken) {
-  //     navigate('/configuracion');
-  //   } else {
-  //     navigate('/');
-  //   }
-  // };
+  }, [show, token, hasFetched]);
 
   return (
     <>

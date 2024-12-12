@@ -21,7 +21,7 @@ export async function crearCuenta(formData: NewAccount) {
 export async function olvidePassword(email: { email: string }) {
   try {
     const { data } = await apiNoAuth.post('/auth/olvide_password', email);
-    console.log(data);
+    // console.log(data);
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
@@ -36,7 +36,7 @@ export async function olvidePassword(email: { email: string }) {
 export async function nuevoToken(email: { email: string }) {
   try {
     const { data } = await apiNoAuth.post('/auth/reenviar_tokenconfirm', email);
-    console.log(data);
+    // console.log(data);
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {

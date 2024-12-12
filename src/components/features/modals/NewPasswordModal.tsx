@@ -8,7 +8,7 @@ import { reestablecerPassword } from '@/services/UserService';
 import { isAxiosError } from 'axios';
 import { ClipLoader } from 'react-spinners';
 import apiNoAuth from '@/lib/axiosNoAuth';
-import NewPasswordForm from '@/components/forms/NewPasswordForm';
+import NewPasswordForm from '@/components/features/forms/NewPasswordForm';
 import Cookies from 'js-cookie';
 
 export default function NewPasswordModal() {

@@ -1,28 +1,35 @@
-import { actualizarEmail, obtenerDatosUsuario } from '@/services/TurnosService';
+import { actualizarEmail, actualizarTelefono, obtenerDatosUsuario } from '@/services/TurnosService';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useQueryClient } from '@tanstack/react-query';
-import { Usuario } from '../types';
+import { Usuario } from '@/types/index';
 import { SlUser, SlUserFemale } from 'react-icons/sl';
 
-interface EmailForm {
+interface EmailTelefono {
   email: string;
+  codarea: string;
+  telefono: string;
 }
 
 export default function ConfigView() {
   const navigate = useNavigate();
 
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditingTelefono, setIsEditingTelefono] = useState(false);
+  const [isEditingEmail, setIsEditingEmail] = useState(false);
   const [emailInput, setEmailInput] = useState<string>('');
+  const [codareaInput, setCodareaInput] = useState<string>('');
+  const [telefonoInput, setTelefonoInput] = useState<string>('');
   const [usuario, setUsuario] = useState<Usuario | null>(null);
   const [shouldRefetch, setShouldRefetch] = useState(true);
 
-  const { register, setValue, handleSubmit } = useForm<EmailForm>({
+  const { register, setValue, handleSubmit } = useForm<EmailTelefono>({
     defaultValues: {
       email: '',
+      codarea: '',
+      telefono: '',
     },
   });
 
@@ -44,6 +51,8 @@ export default function ConfigView() {
     enabled: shouldRefetch,
   });
 
+  // console.log(dataUsuario[0]);
+
   useEffect(() => {
     if (dataUsuario) {
       setUsuario(dataUsuario[0]);
@@ -54,12 +63,14 @@ export default function ConfigView() {
   useEffect(() => {
     if (usuario) {
       setValue('email', usuario.email);
+      setValue('codarea', usuario.codarea);
+      setValue('telefono', usuario.telefono);
     }
   }, [usuario, setValue]);
 
   const queryClient = useQueryClient();
 
-  const { mutate } = useMutation({
+  const { mutate: mutateEmail } = useMutation({
     mutationFn: (email: string) => actualizarEmail(email),
     onError: (error) => {
       console.log(error);
@@ -67,7 +78,8 @@ export default function ConfigView() {
     },
     onSuccess: (data) => {
       console.log(data);
-      setIsEditing(false);
+      toast.success(data.message);
+      setIsEditingEmail(false);
       if (usuario) {
         const updatedUsuario = { ...usuario, email: emailInput };
         setUsuario(updatedUsuario);
@@ -79,9 +91,38 @@ export default function ConfigView() {
     },
   });
 
-  const onSubmit = (data: EmailForm) => {
+  const { mutate: mutateTelefono } = useMutation({
+    mutationFn: ({ codarea, telefono }: { codarea: string; telefono: string }) =>
+      actualizarTelefono({ codarea, telefono }),
+    onError: (error) => {
+      console.log(error);
+      toast.error(error.message);
+    },
+    onSuccess: (data) => {
+      console.log(data);
+      toast.success(data.message);
+      setIsEditingTelefono(false);
+      if (usuario) {
+        const updatedUsuario = { ...usuario, codarea: codareaInput, telefono: telefonoInput };
+        setUsuario(updatedUsuario);
+      }
+      queryClient.invalidateQueries({ queryKey: ['usuario'] });
+
+      queryClient.refetchQueries({ queryKey: ['usuario'] });
+      setShouldRefetch(true);
+    },
+  });
+
+  const handleCambiarTelefono = (data: { codarea: string; telefono: string }) => {
+    setCodareaInput(data.codarea);
+    setTelefonoInput(data.telefono);
+
+    mutateTelefono(data);
+  };
+
+  const handleEmail = (data: EmailTelefono) => {
     setEmailInput(data.email);
-    mutate(data.email);
+    mutateEmail(data.email);
   };
 
   return (
@@ -128,11 +169,45 @@ export default function ConfigView() {
             ))}
           </div>
 
+          {/* Telefono */}
+          <div className="grid grid-cols-1 mb-5">
+            <div className="flex items-center w-full">
+              <label className="w-1/6 text-sm sm:text-base font-medium text-gray-600">
+                Teléfono
+              </label>
+              {isEditingTelefono ? (
+                <div className="w-2/3 flex gap-2">
+                  <input
+                    type="text"
+                    className="w-1/4 text-sm sm:text-base py-1 px-2 min-h-[35px] border border-gray-300 rounded-md focus:outline-none focus:border-blue-600 focus:ring-1 transition"
+                    {...register('codarea')}
+                  />
+                  <span className="text-sm sm:text-base flex items-center">15</span>
+                  <input
+                    type="text"
+                    className="w-2/5 text-sm sm:text-base py-1 px-2 min-h-[35px] border border-gray-300 rounded-md focus:outline-none focus:border-blue-600 focus:ring-1 transition"
+                    {...register('telefono')}
+                  />
+                </div>
+              ) : (
+                <div className="w-2/3 flex gap-2">
+                  <p className="w-1/4 text-sm sm:text-base py-1 px-2 min-h-[35px] border border-gray-300 rounded-md bg-gray-200">
+                    {usuario?.codarea}
+                  </p>
+                  <span className="text-sm sm:text-base flex items-center">15</span>
+                  <p className="w-2/5 text-sm sm:text-base py-1 px-2 min-h-[35px] border border-gray-300 rounded-md bg-gray-200">
+                    {usuario?.telefono}
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+
           {/* Email */}
           <div className="grid grid-cols-1">
             <div className="flex items-center w-full">
               <label className="w-1/6 text-sm sm:text-base font-medium text-gray-600">Email</label>
-              {isEditing ? (
+              {isEditingEmail ? (
                 <input
                   type="email"
                   className="w-2/3 text-sm sm:text-base sm:w-2/4 py-1 px-2 min-h-[35px]  border border-gray-300 rounded-md focus:outline-none focus:border-blue-600 focus:ring-1 transition"
@@ -147,10 +222,37 @@ export default function ConfigView() {
           </div>
 
           <div className="flex flex-col items-start gap-3 mt-5">
-            {!isEditing ? (
+            {!isEditingTelefono ? (
               <button
                 type="button"
-                onClick={() => setIsEditing(true)}
+                onClick={() => setIsEditingTelefono(true)}
+                className="text-sm sm:text-base text-gray-600 bg-gray-300 hover:bg-gray-400 py-2 px-4 rounded-lg font-semibold transition duration-200"
+              >
+                Cambiar Telefono
+              </button>
+            ) : (
+              <div className="flex gap-3">
+                <button
+                  type="button"
+                  onClick={handleSubmit(handleCambiarTelefono)}
+                  className="text-sm sm:text-base text-white bg-blue-600 hover:bg-blue-700 py-2 px-4 rounded-lg font-semibold transition duration-200"
+                >
+                  Confirmar
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsEditingTelefono(false)}
+                  className="text-sm sm:text-base  text-white bg-red-600 hover:bg-red-700 py-2 px-4 rounded-lg font-semibold transition duration-200"
+                >
+                  Cancelar
+                </button>
+              </div>
+            )}
+
+            {!isEditingEmail ? (
+              <button
+                type="button"
+                onClick={() => setIsEditingEmail(true)}
                 className="text-sm sm:text-base text-gray-600 bg-gray-300 hover:bg-gray-400 py-2 px-4 rounded-lg font-semibold transition duration-200"
               >
                 Cambiar Email
@@ -159,14 +261,14 @@ export default function ConfigView() {
               <div className="flex gap-3">
                 <button
                   type="button"
-                  onClick={handleSubmit(onSubmit)}
+                  onClick={handleSubmit(handleEmail)}
                   className="text-sm sm:text-base text-white bg-blue-600 hover:bg-blue-700 py-2 px-4 rounded-lg font-semibold transition duration-200"
                 >
                   Confirmar
                 </button>
                 <button
                   type="button"
-                  onClick={() => setIsEditing(false)}
+                  onClick={() => setIsEditingEmail(false)}
                   className="text-sm sm:text-base  text-white bg-red-600 hover:bg-red-700 py-2 px-4 rounded-lg font-semibold transition duration-200"
                 >
                   Cancelar

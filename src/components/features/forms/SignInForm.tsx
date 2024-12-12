@@ -5,10 +5,10 @@ import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import { Account } from '@/types/index';
-import { iniciarSesion } from '../../services/UserService';
+import { iniciarSesion } from '../../../services/UserService';
 import Cookies from 'js-cookie';
-import InputField from '../InputField';
-import ErrorMessage from '../ErrorMessage';
+import InputField from '../../ui/InputField';
+import ErrorMessage from '../../ui/ErrorMessage';
 
 export default function SignInForm() {
   const navigate = useNavigate();
@@ -51,10 +51,6 @@ export default function SignInForm() {
   };
   return (
     <>
-      {/* <div className="px-3 my-2 text-center">
-        <h1 className="text-3xl text-indigo-600 font-bold underline">Iniciar sesión</h1>
-      </div> */}
-
       <form
         className="flex flex-col gap-4 px-0.5 lg:px-2"
         noValidate
@@ -99,7 +95,7 @@ export default function SignInForm() {
           />
           <button
             type="button"
-            className="absolute right-4 top-[42px] sm:top-12  text-gray-700"
+            className="absolute right-4 xl:right-6 top-[42px] sm:top-12 xl:top-[62px] xl:text-2xl  text-gray-700"
             onClick={() => setShowPassword(!showPassword)}
           >
             {showPassword ? <FiEye /> : <FiEyeOff />}
@@ -110,11 +106,11 @@ export default function SignInForm() {
         <input
           type="submit"
           value="Iniciar sesión"
-          className="p-2 mt-4 w-full text-white text-base font-semibold uppercase bg-blue-600 hover:bg-blue-700 transition-all cursor-pointer shadow-md rounded-lg"
+          className="p-2 xl:p-3 mt-4 w-full text-white text-base xl:text-lg font-semibold uppercase bg-blue-600 hover:bg-blue-700 transition-all cursor-pointer shadow-md rounded-lg"
         />
       </form>
 
-      <div className="flex flex-col items-start pl-1 lg:pl-3 mt-5 gap-2 text-sm text-gray-700">
+      <div className="flex flex-col items-start pl-1 lg:pl-3 mt-5 gap-2 text-sm xl:text-base text-gray-700">
         <p>
           No tienes cuenta?{' '}
           <button

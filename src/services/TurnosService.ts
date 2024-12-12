@@ -1,12 +1,34 @@
 import api from '../lib/axios';
 import { isAxiosError } from 'axios';
-import { Doctor, Horario, Turno } from '../types';
+import { Doctor, Horario, Turno, Usuario } from '../types';
 
 // Services de usuarios
 export async function obtenerDatosUsuario() {
   try {
-    const { data } = await api('/turnos/obtener_datosusuario');
+    const { data } = await api<Usuario[]>('/turnos/obtener_datosusuario');
     // console.log(data);
+
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error);
+      // console.log(error.response.data);
+    } else {
+      throw new Error('Hubo un error...');
+    }
+  }
+}
+
+export async function actualizarTelefono({
+  codarea,
+  telefono,
+}: {
+  codarea: string;
+  telefono: string;
+}) {
+  try {
+    const { data } = await api.patch('/turnos/actualizar_telefonousuario', { codarea, telefono });
+    console.log(data);
 
     return data;
   } catch (error) {
@@ -22,7 +44,7 @@ export async function obtenerDatosUsuario() {
 export async function actualizarEmail(email: string) {
   try {
     const { data } = await api.patch('/turnos/actualizar_emailusuario', { email });
-    console.log(data);
+    // console.log(data);
 
     return data;
   } catch (error) {
@@ -38,6 +60,40 @@ export async function actualizarEmail(email: string) {
 export async function obtenerTurnosUsuario() {
   try {
     const { data } = await api('/turnos/obtener_turnosusuario');
+
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error);
+      // console.log(error.response.data);
+    } else {
+      throw new Error('Hubo un error...');
+    }
+  }
+}
+
+export async function obtenerTurnosPendientes() {
+  try {
+    const { data } = await api('/turnos/obtener_turnospendientes');
+
+    console.log(data)
+    
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error);
+      // console.log(error.response.data);
+    } else {
+      throw new Error('Hubo un error...');
+    }
+  }
+}
+
+export async function obtenerTurnosHistoricos() {
+  try {
+    const { data } = await api('/turnos/obtener_turnoshistoricos');
+
+    console.log(data)
 
     return data;
   } catch (error) {
@@ -119,6 +175,29 @@ export async function obtenerDiasSinAtencion({
   }
 }
 
+// export async function prueba({
+//   idEspecialidad,
+//   idDoctor,
+//   fecha,
+// }: {
+//   idEspecialidad: string;
+//   idDoctor: string;
+//   fecha: string;
+// }) {
+//   try {
+//     const { data } = await api(`/turnos/prueba/${idEspecialidad}/${idDoctor}/${fecha}`);
+//     console.log(data);
+//     return data;
+//   } catch (error) {
+//     if (isAxiosError(error) && error.response) {
+//       throw new Error(error.response.data.error);
+//       // console.log(error.response.data);
+//     } else {
+//       throw new Error('Hubo un error...');
+//     }
+//   }
+// }
+
 export async function obtenerTurnosDisponibles({
   idEspecialidad,
   idDoctor,
@@ -129,8 +208,6 @@ export async function obtenerTurnosDisponibles({
   fecha: string;
 }) {
   try {
-    const url = `/turnos/obtener_turnosdisponibles/${idEspecialidad}/${idDoctor}/${fecha}`;
-    console.log('URL:', url); // Verifica la URL formada
     const { data } = await api<Horario[]>(
       `/turnos/obtener_turnosdisponibles/${idEspecialidad}/${idDoctor}/${fecha}`
     );
