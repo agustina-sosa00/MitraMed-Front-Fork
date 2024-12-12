@@ -1,7 +1,7 @@
 {
   "name": "mitra-med",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -11,20 +11,14 @@
     "start": "vite preview --host --port 5500"
   },
   "dependencies": {
-    "@chakra-ui/react": "^2.10.4",
     "@emailjs/browser": "^4.4.1",
-    "@emotion/react": "^11.8.1",
-    "@emotion/styled": "^11.13.0",
     "@headlessui/react": "^2.1.2",
     "@tanstack/react-query": "^5.51.15",
     "@tanstack/react-query-devtools": "^5.51.18",
     "axios": "^1.7.2",
-    "chakra-react-select": "^5.0.2",
     "date-fns": "^4.1.0",
-    "framer-motion": "^6.5.1",
     "js-cookie": "^3.0.5",
     "react": "^18.3.1",
-    "react-calendar": "^5.0.0",
     "react-datepicker": "^7.5.0",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.52.1",

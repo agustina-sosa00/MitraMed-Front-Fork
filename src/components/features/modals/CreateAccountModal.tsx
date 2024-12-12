@@ -2,11 +2,11 @@ import { Fragment } from 'react';
 import { useForm } from 'react-hook-form';
 import { Dialog, Transition, TransitionChild, DialogPanel, DialogTitle } from '@headlessui/react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { NewAccount } from '../../../types';
-import RegisterForm from '../../forms/RegisterForm';
+import { NewAccount } from '@/types/index';
 import { useMutation } from '@tanstack/react-query';
 import { crearCuenta } from '@/services/UserService';
 import { toast } from 'react-toastify';
+import RegisterForm from '../forms/RegisterForm';
 
 export default function CreateAccountModal() {
   const navigate = useNavigate();
@@ -21,6 +21,8 @@ export default function CreateAccountModal() {
     apellido: '',
     email: '',
     fnac: '',
+    codarea: '',
+    tel: '',
     genero: '',
     password: '',
     confirmPassword: '',
@@ -32,6 +34,7 @@ export default function CreateAccountModal() {
     formState: { errors },
     reset,
     watch,
+    control,
   } = useForm({ defaultValues: initialValues });
 
   const { mutate } = useMutation({
@@ -46,7 +49,12 @@ export default function CreateAccountModal() {
     },
   });
 
-  const handleForm = (formData: NewAccount) => mutate(formData);
+  const handleForm = (formData: NewAccount) => {
+    const formattedDate = new Date(formData.fnac).toISOString().split('T')[0];
+    const dataToSend = { ...formData, fnac: formattedDate };
+    // console.log(dataToSend);
+    mutate(dataToSend);
+  };
 
   return (
     <>
@@ -96,7 +104,12 @@ export default function CreateAccountModal() {
 
                   <form className="mt-5" noValidate onSubmit={handleSubmit(handleForm)}>
                     <div className="flex flex-col gap-4">
-                      <RegisterForm register={register} errors={errors} watch={watch} />
+                      <RegisterForm
+                        register={register}
+                        errors={errors}
+                        watch={watch}
+                        control={control}
+                      />
                       <input
                         type="submit"
                         value="Registrarme"

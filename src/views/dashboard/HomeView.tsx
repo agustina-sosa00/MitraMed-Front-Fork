@@ -40,12 +40,11 @@ export default function HomeView() {
         ></div>
         <div className="relative z-10">
           <h2 className="text-3xl sm:text-5xl font-extrabold text-green-600 mb-6">
-            ¡Bienvenido a nuestra web oficial!
+            Tu salud, nuestra prioridad
           </h2>
           <p className="text-xl font-medium text-gray-700 max-w-3xl mx-auto leading-relaxed">
-            Nos enorgullecemos de ofrecer atención médica personalizada y eficiente. Tu salud es
-            nuestra prioridad, y nos comprometemos a brindarte un servicio de calidad, accesible y
-            confiable.
+            Estamos aquí para hacer tu experiencia más sencilla y conveniente. Nuestro compromiso es
+            ofrecerte soluciones rápidas, seguras y adaptadas a tus necesidades.
           </p>
         </div>
       </div>
@@ -64,9 +63,7 @@ export default function HomeView() {
             <p className="text-2xl text-white font-semibold mb-4">¿Necesitas un turno?</p>
           </div>
           <div className="relative z-10 w-fit mx-auto">
-            <p className="text-white mb-6">
-              Agenda tu próxima consulta de forma rápida y sencilla.
-            </p>
+            <p className="text-white mb-6">Agenda tu próxima consulta de rápida y eficazmente.</p>
           </div>
           <div className="relative z-10 w-fit mx-auto mt-12">
             <Link

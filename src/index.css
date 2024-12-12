@@ -20,17 +20,13 @@
   z-index: 50 !important;
 }
 
-.fin-de-semana {
-  color: red;
-}
-
-/* Personalizar la barra de desplazamiento */
+/* Personalizar la barra de scroll */
 .max-h-96 {
-  max-height: 24rem; /* Ajusta la altura máxima como necesites */
+  max-height: 24rem;
   overflow-y: auto;
 }
 
-/* Barra de desplazamiento */
+/* Barra de scroll */
 .max-h-96::-webkit-scrollbar {
   width: 8px; /* Ancho de la barra */
 }

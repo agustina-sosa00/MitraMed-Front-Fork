@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Dialog, Transition, TransitionChild, DialogPanel } from '@headlessui/react';
 import { Turno } from '@/types/index';
@@ -7,7 +7,7 @@ import { confirmarTurno } from '@/services/TurnosService';
 import { toast } from 'react-toastify';
 import { UseFormSetValue } from 'react-hook-form';
 // import { isAxiosError } from 'axios';
-// import { ClipLoader } from 'react-spinners';
+import { ClipLoader } from 'react-spinners';
 // import apiAuth from '@/lib/axiosNoAuth';
 
 type ConfirmTurnoModalProps = {
@@ -26,6 +26,8 @@ export default function ConfirmTurnoModal({ turnoData, setValue }: ConfirmTurnoM
   const fecha = new Date(turnoData?.fecha + 'T00:00:00');
   const fechaFormateada = fecha.toLocaleDateString('es-ES');
 
+  const [loadingConfirm, setLoadingConfirm] = useState(false);
+
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
@@ -43,6 +45,13 @@ export default function ConfirmTurnoModal({ turnoData, setValue }: ConfirmTurnoM
       navigate(location.pathname, { replace: true });
     },
   });
+
+  const handleConfirmar = () => {
+    setLoadingConfirm(true); // Activa el loader
+    mutate(turnoData, {
+      onSettled: () => setLoadingConfirm(false), // Desactiva el loader después de completar
+    });
+  };
 
   return (
     <>
@@ -98,6 +107,17 @@ export default function ConfirmTurnoModal({ turnoData, setValue }: ConfirmTurnoM
                     </div>
 
                     <div className="flex justify-start gap-2 items-center text-base">
+                      <p className="w-[100px] text-right font-semibold text-gray-800">Día:</p>
+                      <p className="text-gray-600 italic">
+                        {
+                          ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'][
+                            new Date(turnoData?.fecha).getDay()
+                          ]
+                        }
+                      </p>
+                    </div>
+
+                    <div className="flex justify-start gap-2 items-center text-base">
                       <p className="w-[100px] text-right font-semibold text-gray-800">Hora:</p>
                       <p className="text-gray-600 italic">{turnoData?.hora_ini}</p>
                     </div>
@@ -112,19 +132,37 @@ export default function ConfirmTurnoModal({ turnoData, setValue }: ConfirmTurnoM
                   </div>
 
                   {/* Botón Confirmar */}
-                  <div className="mt-6 w-full flex justify-center gap-6">
+                  <div className="mt-6 w-full flex justify-center gap-6 relative">
                     <button
-                      onClick={() => mutate(turnoData)} // Aquí agregas la lógica para confirmar el turno
-                      className="px-6 py-2 bg-green-600 text-white text-sm sm:text-base font-semibold rounded-lg shadow-md hover:bg-green-700 transition duration-200 uppercase"
+                      onClick={handleConfirmar}
+                      disabled={loadingConfirm} // Desactiva el botón durante la carga
+                      className={`px-6 py-2 bg-green-600 text-white text-sm sm:text-base font-semibold rounded-lg shadow-md 
+                                ${
+                                  loadingConfirm
+                                    ? 'opacity-50 cursor-not-allowed'
+                                    : 'hover:bg-green-700'
+                                }
+                                transition duration-200 uppercase`}
                     >
-                      Confirmar Turno
+                      {loadingConfirm ? 'Confirmando...' : 'Confirmar Turno'}
                     </button>
-                    <button
-                      onClick={() => navigate('/turnos')} // Aquí agregas la lógica para confirmar el turno
-                      className="px-6 py-2 bg-red-600 text-white font-semibold text-sm sm:text-base rounded-lg shadow-md hover:bg-red-700 transition duration-200 uppercase"
-                    >
-                      Cancelar
-                    </button>
+
+                    {/* Oculta el botón de cancelar si está cargando */}
+                    {!loadingConfirm && (
+                      <button
+                        onClick={() => navigate('/turnos')}
+                        className="px-6 py-2 bg-red-600 text-white font-semibold text-sm sm:text-base rounded-lg shadow-md hover:bg-red-700 transition duration-200 uppercase"
+                      >
+                        Cancelar
+                      </button>
+                    )}
+
+                    {/* Loader en el centro del modal */}
+                    {loadingConfirm && (
+                      <div className="absolute bottom-11 flex justify-center items-center">
+                        <ClipLoader size={40} color="#16a34a" />
+                      </div>
+                    )}
                   </div>
                 </DialogPanel>
               </TransitionChild>

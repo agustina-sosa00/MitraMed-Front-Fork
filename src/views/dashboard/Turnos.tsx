@@ -1,16 +1,16 @@
-import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Turno } from '../types';
-import FormTurno from '../components/forms/FormTurno';
-import ConfirmTurnoModal from '@/components/modals/turnos/ConfirmTurnoModal';
+import { Turno } from '@/types/index';
+import FormTurno from '@/components/features/forms/FormTurno';
+import ConfirmTurnoModal from '@/components/features/modals/ConfirmTurnoModal';
 
 export default function Turnos() {
   const navigate = useNavigate();
 
   const [turnoData, setTurnoData] = useState<Turno | null>(null);
 
-  const { register, setValue, reset, watch } = useForm<Turno>({
+  const { register, setValue, getValues, reset, watch } = useForm<Turno>({
     defaultValues: {
       idEspecialidad: '',
       nombreEspecialidad: '',
@@ -62,11 +62,17 @@ export default function Turnos() {
           </p>
         </div>
         <form onSubmit={(e) => e.preventDefault()}>
-          <FormTurno register={register} setValue={setValue} reset={reset} watch={watch} />
+          <FormTurno
+            register={register}
+            setValue={setValue}
+            getValues={getValues}
+            reset={reset}
+            watch={watch}
+          />
 
           <div className="flex justify-center w-full p-2 ">
             <button
-              type="button" // No es un submit, solo un botón que maneja la acción
+              type="button"
               className={`p-3 mt-8 max-w-md w-full text-lg uppercase font-semibold rounded-lg  transition duration-200 ${
                 watch('turno') === 0
                   ? 'bg-gray-400 cursor-not-allowed'

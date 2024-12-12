@@ -14,20 +14,24 @@ export default function Header() {
       <div className="flex justify-around  items-center w-full">
         <div className="flex flex-col md:flex-row justify-center items-center gap-3 p-2">
           <Link to={`${isLoggedIn ? '/inicio' : '/'}`} className="mx-3 flex gap-3">
-            <img src="/logos/mitra-med-logo-no-bg.webp" alt="logo" className="max-w-20 max-h-20" />
+            <img
+              src="/logos/mitra-med-logo-no-bg.webp"
+              alt="logo"
+              className="max-w-20 xl:max-w-32 max-h-20 xl:max-h-32"
+            />
           </Link>
           <div className="hidden md:flex items-center">
             <img
               src="/logos/mitra-med-letras_no-bg1.webp"
               alt="logo-letras"
-              className="max-w-44 max-h-44"
+              className="max-w-44 max-h-44 xl:max-w-lg xl:max-h-lg xl:w-56 xl:h-14"
             />
           </div>
         </div>
 
         {!isLoggedIn ? (
-          <div className="flex justify-center items-center px-3 md:px-10 h-12 md:text-lg border border-gray-400 bg-gray-100">
-            Tel: +9 54 999 9999 99
+          <div className="flex justify-center items-center px-3 md:px-10 h-12 xl:h-16 md:text-lg xl:text-xl border border-gray-400 bg-gray-100">
+            Tel: +54 9 351 633-0700
           </div>
         ) : (
           <div className="flex justify-evenly w-40 sm:w-80 lg:mr-20">

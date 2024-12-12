@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import InputField from '../InputField';
+import InputField from '../../ui/InputField';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
-import ErrorMessage from '../ErrorMessage';
+import ErrorMessage from '../../ui/ErrorMessage';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
 
 interface NewPasswordFormProps {

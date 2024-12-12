@@ -1,28 +1,35 @@
 import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from 'react-datepicker';
-import Select, { SingleValue } from 'react-select';
+import Select, { ActionMeta, SingleValue } from 'react-select';
 import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { FaCalendarAlt } from 'react-icons/fa';
 import { registerLocale } from 'react-datepicker';
-import { UseFormRegister, UseFormReset, UseFormSetValue, UseFormWatch } from 'react-hook-form';
-import { Doctor, Especialidad, Horario, Turno } from '../../types/index';
+import {
+  UseFormGetValues,
+  UseFormRegister,
+  UseFormReset,
+  UseFormSetValue,
+  UseFormWatch,
+} from 'react-hook-form';
+import { Doctor, Especialidad, Horario, Turno } from '../../../types/index';
 import { es } from 'date-fns/locale/es';
 import {
   obtenerDiasSinAtencion,
   obtenerDoctores,
   obtenerEspecialidades,
   obtenerTurnosDisponibles,
-} from '../../services/TurnosService';
+} from '../../../services/TurnosService';
 
 type FormTurnoProps = {
   register: UseFormRegister<Turno>;
   setValue: UseFormSetValue<Turno>;
+  getValues: UseFormGetValues<Turno>;
   reset: UseFormReset<Turno>;
   watch: UseFormWatch<Turno>;
 };
 
-export default function FormTurno({ register, setValue, reset, watch }: FormTurnoProps) {
+export default function FormTurno({ register, setValue, getValues, reset, watch }: FormTurnoProps) {
   const idEspecialidad = watch('idEspecialidad');
   const idDoctor = watch('idDoctor');
   const fecha = watch('fecha');
@@ -31,7 +38,7 @@ export default function FormTurno({ register, setValue, reset, watch }: FormTurn
   const fechaDeshabilitada = !idEspecialidad || !idDoctor;
 
   const minDate = new Date();
-  minDate.setDate(minDate.getDate() + 1); // Fecha de mañana
+  minDate.setDate(minDate.getDate());
 
   const maxDate = new Date();
   maxDate.setMonth(maxDate.getMonth() + 1); // Fecha de un mes
@@ -60,6 +67,8 @@ export default function FormTurno({ register, setValue, reset, watch }: FormTurn
     initialData: [],
   });
 
+  console.log(diasSinAtencion);
+
   const { data: turnos, isLoading: isLoadingTurnos } = useQuery<Horario[], Error>({
     queryKey: ['turnos', idEspecialidad, idDoctor, fecha],
     queryFn: () => obtenerTurnosDisponibles({ idEspecialidad, idDoctor, fecha }),
@@ -83,15 +92,25 @@ export default function FormTurno({ register, setValue, reset, watch }: FormTurn
     setValue('idEspecialidad', especialidadValue);
     setValue('nombreEspecialidad', e?.label || '');
 
-    if (especialidadValue === '') {
-      setValue('idDoctor', '');
-    }
+    // Limpiar campos dependientes siempre
+    setValue('idDoctor', '');
+    setValue('nombreDoctor', '');
+    setValue('fecha', '');
+    setValue('turno', 0);
   };
 
-  const handleDoctor = (e: SingleValue<string | { value: string; label: string }>) => {
-    // Si el valor es un objeto, accedemos al valor con `e?.value`, si es un string, simplemente lo usamos.
-    setValue('idDoctor', typeof e === 'string' ? e : e?.value || '');
-    setValue('nombreDoctor', typeof e === 'string' ? e : e?.label || '');
+  const handleDoctor = (
+    newValue: SingleValue<{ value: string; label: string }>,
+    _: ActionMeta<{ value: string; label: string }>
+  ) => {
+    const doctorValue = newValue?.value || '';
+
+    setValue('idDoctor', doctorValue);
+    setValue('nombreDoctor', newValue?.label || '');
+
+    // Limpiar campos dependientes siempre
+    setValue('fecha', '');
+    setValue('turno', 0);
   };
 
   const handleFecha = (date: Date | null) => {
@@ -122,7 +141,7 @@ export default function FormTurno({ register, setValue, reset, watch }: FormTurn
   return (
     <>
       <div className="flex flex-col items-start gap-3 mt-5 sm:w-[430px] sm:ml-32 lg:ml-52">
-        <div className="flex items-center justify-between gap-2 sm:w-[420px]">
+        <div className="flex items-center justify-between gap-2 sm:w-[420px] relative">
           <label className="w-[90px] small:w-[110px] sm:text-lg text-gray-200 font-semibold text-right  ">
             Especialidad:
           </label>
@@ -134,6 +153,7 @@ export default function FormTurno({ register, setValue, reset, watch }: FormTurn
             value={especialidadOptions?.find((opt) => opt.value === watch('idEspecialidad'))}
             placeholder="Selecciona una especialidad"
             isClearable
+            isSearchable={false}
             isLoading={loadingEspecialidades}
             loadingMessage={() => 'Cargando especialidades...'}
             className="w-40 small:w-48 mini:w-56 sm:w-72 border-0 text-sm placeholder:text-gray-300 ml-2 sm:ml-4 focus:outline-none focus:ring-0 bg-amber-200"
@@ -155,10 +175,15 @@ export default function FormTurno({ register, setValue, reset, watch }: FormTurn
             {...register('idDoctor')}
             options={doctorOptions}
             onChange={handleDoctor}
-            value={idDoctor ? doctorOptions?.find((opt) => opt.value === watch('idDoctor')) : ''}
+            value={
+              getValues('idDoctor') // Si existe un valor, mapea al objeto esperado
+                ? { value: getValues('idDoctor'), label: getValues('nombreDoctor') }
+                : null // Si no hay valor, pasa `null`
+            }
             placeholder="Selecciona un doctor"
             noOptionsMessage={() => 'Sin opciones'}
             isClearable
+            isSearchable={false}
             isLoading={loadingDoctores}
             loadingMessage={() => 'Cargando doctores...'}
             className="w-40 small:w-48 mini:w-56 sm:w-72 border-0 text-sm ml-2 sm:ml-4 focus:outline-none focus:ring-0 bg-blue-200"
@@ -172,8 +197,8 @@ export default function FormTurno({ register, setValue, reset, watch }: FormTurn
           />
         </div>
 
-        <div className="flex items-center gap-2 w-full sm:w-[420px]">
-          <label className="w-[90px] small:w-[110px] sm:text-lg text-gray-200 font-semibold text-right ">
+        <div className="flex items-center gap-2 w-full sm:w-[420px] ml-2 sm:ml-4">
+          <label className="w-[90px] small:w-[110px] pr-2 sm:pr-4 sm:text-lg text-gray-200 font-semibold text-right ">
             Fecha:
           </label>
 
@@ -184,12 +209,13 @@ export default function FormTurno({ register, setValue, reset, watch }: FormTurn
             maxDate={maxDate}
             placeholderText="Selecciona una fecha"
             disabled={fechaDeshabilitada}
-            filterDate={(date) =>
-              !diasSinAtencion.includes(date.getDay()) && date.getDay() !== 0 && date.getDay() !== 6
-            }
-            dayClassName={(date) =>
-              date.getDay() === 0 || date.getDay() === 6 ? 'fin-de-semana' : ''
-            }
+            className={`w-40 small:w-48 mini:w-56 sm:w-72 text-sm border border-neutral-400 border-opacity-60 bg-white focus:outline-none focus:ring-0 ${
+              fechaDeshabilitada ? 'cursor-not-allowed' : 'cursor-pointer'
+            }`}
+            filterDate={(date) => diasSinAtencion.includes(date.getDay())}
+            // dayClassName={(date) =>
+            //   date.getDay() === 0 || date.getDay() === 6 ? 'fin-de-semana' : ''
+            // }
             toggleCalendarOnIconClick
             locale="es"
             dateFormat="dd/MM/yyy"
@@ -201,9 +227,6 @@ export default function FormTurno({ register, setValue, reset, watch }: FormTurn
                 }`}
               />
             }
-            className={`w-40 small:w-48 mini:w-56 sm:w-72 border border-neutral-400 border-opacity-60 bg-white rounded text-sm ml-2 sm:ml-4 pl-3 focus:outline-none focus:ring-0 ${
-              fechaDeshabilitada ? 'cursor-not-allowed' : 'cursor-pointer'
-            }`}
           />
         </div>
 

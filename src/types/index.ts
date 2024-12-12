@@ -5,6 +5,8 @@ export const accountSchema = z.object({
   apellido: z.string(),
   email: z.string(),
   fnac: z.string(),
+  codarea: z.string(),
+  tel: z.string(),
   genero: z.string(),
   password: z.string(),
   confirmPassword: z.string(),
@@ -17,19 +19,18 @@ export type Usuario = {
   nombre: string;
   apellido: string;
   email: string;
+  codarea: string;
+  telefono: string;
   fnac: string;
   genero: string;
 };
 
 export type TurnosUsuario = {
   idturno: number;
-  especialidad: string;
-  iddoctor: number;
+  nespecialidad: string;
   ndoctor: string;
   f_turno: string;
   hora_ini: string;
-  asistecia: number;
-  habilitado: number;
 };
 
 export interface Especialidad {

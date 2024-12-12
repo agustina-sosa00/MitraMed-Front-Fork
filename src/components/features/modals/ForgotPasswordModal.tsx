@@ -4,18 +4,19 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Dialog, Transition, TransitionChild, DialogPanel, DialogTitle } from '@headlessui/react';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
-import { nuevoToken } from '@/services/UserService';
-import InputField from '@/components/InputField';
-import ErrorMessage from '@/components/ErrorMessage';
+import { olvidePassword } from '@/services/UserService';
+import InputField from '@/components/ui/InputField';
+import ErrorMessage from '@/components/ui/ErrorMessage';
+
 // import { Account } from '@/types/index';
 // import { sendForgotPasswordEmail } from '../../utils/index';
 
-export default function NewTokenConfirm() {
+export default function ForgotPasswordModal() {
   const navigate = useNavigate();
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const modal = queryParams.get('newTokenConfirm');
+  const modal = queryParams.get('forgotPassword');
   const show = modal ? true : false;
 
   const {
@@ -26,7 +27,7 @@ export default function NewTokenConfirm() {
   } = useForm({ defaultValues: { email: '' } });
 
   const { mutate } = useMutation({
-    mutationFn: nuevoToken,
+    mutationFn: olvidePassword,
     onError: (error) => {
       console.log(error);
       toast.error(error.message);
@@ -80,15 +81,14 @@ export default function NewTokenConfirm() {
                     as="h3"
                     className="text-2xl sm:text-3xl font-semibold mb-4 underline underline-offset-4 decoration-2"
                   >
-                    Reenviar correo de confirmación
+                    Recuperar cuenta
                   </DialogTitle>
 
-                  <p className="sm:text-lg">
-                    Ingresa tu email de registro, donde se te reenviará el correo para confirmar tu
-                    cuenta:
+                  <p className="sm:text-lg mb-2">
+                    Ingresa tu email de registro, donde se te indicará como recuperar tu cuenta:
                   </p>
                   <span className="text-amber-500 font-thin text-sm sm:text-xs italic my-2">
-                    * Recuerda que los links de confirmación expiran. Te recomendamos confirmar tu
+                    * Recuerda que los links de recuperacion expiran. Te recomendamos confirmar tu
                     cuenta lo antes posible
                   </span>
                   <form className="flex flex-col" noValidate onSubmit={handleSubmit(handleForm)}>

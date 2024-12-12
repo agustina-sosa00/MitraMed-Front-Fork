@@ -48,7 +48,7 @@ export default function Nav() {
       <div className="sm:flex max-w-xs w-full mx:justify-around">
         <Link
           to="/inicio"
-          className="hidden sm:flex items-end justify-center font-semibold h-full w-full sm:text-xl hover:text-amber-400 transition"
+          className="hidden sm:flex items-end justify-center font-semibold h-full w-full sm:text-xl xl:text-2xl hover:text-amber-400 transition"
         >
           Inicio
         </Link>
@@ -59,7 +59,7 @@ export default function Nav() {
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
-            <p className="font-semibold sm:text-xl text-gray-800 hover:text-amber-400 transition cursor-default">
+            <p className="font-semibold sm:text-xl xl:text-2xl text-gray-800 hover:text-amber-400 transition cursor-default">
               Perfil
             </p>
           </div>
@@ -79,8 +79,8 @@ export default function Nav() {
               onMouseLeave={handleMouseLeave}
             >
               <div className="flex flex-col items-center mt-2">
-                <FaUserCircle className="text-xl text-gray-400" />
-                <p className="font-semibold text-base text-gray-500 hover:text-sky-400 transition cursor-default mt-1">
+                <FaUserCircle className="text-xl xl:text-3xl text-gray-400" />
+                <p className="font-semibold text-base xl:text-xl text-gray-500 hover:text-sky-400 transition cursor-default mt-1">
                   {nombreUsuario}
                 </p>
               </div>
@@ -89,7 +89,7 @@ export default function Nav() {
                   to="/configuracion"
                   className="block px-4 pt-3 text-gray-800 hover:text-amber-500 transition"
                 >
-                  <div className="flex items-center text-sm">
+                  <div className="flex items-center text-sm xl:text-base">
                     <TbSettings className="mr-2" />
                     Configuración
                   </div>
@@ -98,7 +98,7 @@ export default function Nav() {
                   onClick={handleLogout}
                   className="block w-full text-left px-4 py-4 text-gray-800 hover:text-amber-500 transition"
                 >
-                  <div className="flex items-center text-sm">
+                  <div className="flex items-center text-sm xl:text-base">
                     <RiLogoutBoxLine className="mr-2" />
                     Cerrar sesión
                   </div>
