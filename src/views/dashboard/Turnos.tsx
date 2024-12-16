@@ -18,6 +18,7 @@ export default function Turnos() {
       nombreDoctor: '',
       fecha: '',
       turno: 0,
+      idhorario: 0,
       hora_ini: '',
       hora_fin: '',
     },
@@ -31,6 +32,7 @@ export default function Turnos() {
       nombreDoctor: watch('nombreDoctor'),
       fecha: watch('fecha'),
       turno: watch('turno'),
+      idhorario: watch('idhorario'),
       hora_ini: watch('hora_ini'),
       hora_fin: watch('hora_fin'),
     });

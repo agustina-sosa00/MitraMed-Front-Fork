@@ -46,6 +46,7 @@ export interface Doctor {
 }
 
 export interface Horario {
+  idhorario: number;
   hora_ini: string;
   hora_fin: string;
   habilitado: number;
@@ -58,6 +59,7 @@ export interface Turno {
   nombreDoctor: string;
   fecha: string;
   turno: number;
+  idhorario: number;
   hora_ini: string;
   hora_fin: string;
 }

@@ -238,3 +238,19 @@ export async function confirmarTurno(dataTurno: Turno) {
     }
   }
 }
+
+export async function pruebaGrabarTurno(dataTurno: Turno) {
+  try {
+    // console.log(dataTurno);
+    const { data } = await api.post('/turnos/prueba', dataTurno);
+
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error);
+      // console.log(error.response.data.error);
+    } else {
+      throw new Error('Hubo un error...');
+    }
+  }
+}
