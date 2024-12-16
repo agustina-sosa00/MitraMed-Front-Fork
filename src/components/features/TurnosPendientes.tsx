@@ -38,8 +38,9 @@ export default function TurnosPendientes({ turnosPendientes }: TurnosPendientesP
 
   const handleConfirm = () => {
     if (turnoAnula !== null) {
-      // setIsLoadingAnula(true); // Iniciar carga
+      setIsLoadingAnula(true); // Iniciar carga
       console.log('Turno que desea anular: ', turnoAnula); // Llamar la función de anulación
+      setIsLoadingAnula(false); // Finaliza carga
     }
   };
 

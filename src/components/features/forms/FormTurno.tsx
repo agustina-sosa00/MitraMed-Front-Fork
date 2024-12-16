@@ -67,7 +67,7 @@ export default function FormTurno({ register, setValue, getValues, reset, watch 
     initialData: [],
   });
 
-  console.log(diasSinAtencion);
+  // console.log(diasSinAtencion);
 
   const { data: turnos, isLoading: isLoadingTurnos } = useQuery<Horario[], Error>({
     queryKey: ['turnos', idEspecialidad, idDoctor, fecha],
@@ -118,7 +118,7 @@ export default function FormTurno({ register, setValue, getValues, reset, watch 
       // Ajustar la fecha a la zona horaria local
       const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
       const formattedDate = localDate.toISOString().split('T')[0]; // Formato YYYY-MM-DD
-      console.log('Fecha: ', formattedDate);
+      // console.log('Fecha: ', formattedDate);
       setValue('fecha', formattedDate); // Actualizamos el valor en useForm
       // Reseteamos el valor del turno a 0
       setValue('turno', 0);
@@ -232,10 +232,6 @@ export default function FormTurno({ register, setValue, getValues, reset, watch 
 
         {fecha && (
           <div className="flex items-start justify-center sm:justify-between gap-2 ">
-            {/* <label className="hidden sm:flex sm:justify-end mr-2 w-[110px] sm:text-lg text-gray-200 font-semibold text-right ">
-              Horarios:
-            </label> */}
-
             <div className="sm:w-[500px] h-full text-sm mx-2 bg-gray-100 border border-gray-400 overflow-x-auto rounded-md">
               <div className="text-gray-500 border-b border-gray-400 text-center">
                 <div className="grid grid-cols-4 text-gray-700 font-semibold bg-gray-400 py-1 px-2 border-b border-gray-400">
@@ -263,6 +259,7 @@ export default function FormTurno({ register, setValue, getValues, reset, watch 
                       onClick={() => {
                         if (turno.habilitado === 0) {
                           setValue('turno', index + 1);
+                          setValue('idhorario', turno.idhorario);
                           setValue('hora_ini', turno.hora_ini);
                           setValue('hora_fin', turno.hora_fin);
                         }
