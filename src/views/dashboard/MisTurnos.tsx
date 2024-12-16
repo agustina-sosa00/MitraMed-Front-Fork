@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import {
-  anularTurnoUsuario,
-  obtenerTurnosUsuario,
+  // anularTurnoUsuario,
+  // obtenerTurnosUsuario,
   obtenerTurnosPendientes,
   obtenerTurnosHistoricos,
 } from '@/services/TurnosService';
@@ -35,13 +35,13 @@ export default function MisTurnos() {
     queryFn: obtenerTurnosHistoricos,
   });
 
-  const formatearFecha = (fecha: string): string => {
-    const date = new Date(fecha);
-    const dia = String(date.getDate()).padStart(2, '0');
-    const mes = String(date.getMonth() + 1).padStart(2, '0');
-    const anio = date.getFullYear();
-    return `${dia}-${mes}-${anio}`;
-  };
+  // const formatearFecha = (fecha: string): string => {
+  //   const date = new Date(fecha);
+  //   const dia = String(date.getDate()).padStart(2, '0');
+  //   const mes = String(date.getMonth() + 1).padStart(2, '0');
+  //   const anio = date.getFullYear();
+  //   return `${dia}-${mes}-${anio}`;
+  // };
 
   return (
     <div className="flex justify-center relative min-h-full">
