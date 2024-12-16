@@ -29,7 +29,8 @@ export type TurnosUsuario = {
   idturno: number;
   nespecialidad: string;
   ndoctor: string;
-  f_turno: string;
+  fecha: string;
+  dia: string;
   hora_ini: string;
 };
 

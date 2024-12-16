@@ -76,8 +76,8 @@ export async function obtenerTurnosPendientes() {
   try {
     const { data } = await api('/turnos/obtener_turnospendientes');
 
-    console.log(data)
-    
+    console.log(data);
+
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
@@ -93,7 +93,7 @@ export async function obtenerTurnosHistoricos() {
   try {
     const { data } = await api('/turnos/obtener_turnoshistoricos');
 
-    console.log(data)
+    // console.log(data)
 
     return data;
   } catch (error) {
