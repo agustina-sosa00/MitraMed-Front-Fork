@@ -25,6 +25,7 @@ export default function MisTurnos() {
   >({
     queryKey: ['turnos-pendientes'],
     queryFn: obtenerTurnosPendientes,
+    refetchOnWindowFocus: false,
   });
 
   const { data: turnosHistoricos, isLoading: isLoadingHistoricos } = useQuery<
@@ -33,15 +34,8 @@ export default function MisTurnos() {
   >({
     queryKey: ['turnos-historicos'],
     queryFn: obtenerTurnosHistoricos,
+    refetchOnWindowFocus: false,
   });
-
-  // const formatearFecha = (fecha: string): string => {
-  //   const date = new Date(fecha);
-  //   const dia = String(date.getDate()).padStart(2, '0');
-  //   const mes = String(date.getMonth() + 1).padStart(2, '0');
-  //   const anio = date.getFullYear();
-  //   return `${dia}-${mes}-${anio}`;
-  // };
 
   return (
     <div className="flex justify-center relative min-h-full">
