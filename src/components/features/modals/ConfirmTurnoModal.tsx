@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Dialog, Transition, TransitionChild, DialogPanel } from '@headlessui/react';
 import { Turno } from '@/types/index';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { pruebaGrabarTurno } from '@/services/TurnosService';
+import { confirmarTurno } from '@/services/TurnosService';
 import { toast } from 'react-toastify';
 import { UseFormSetValue } from 'react-hook-form';
 // import { isAxiosError } from 'axios';
@@ -18,7 +18,7 @@ type ConfirmTurnoModalProps = {
 export default function ConfirmTurnoModal({ turnoData, setValue }: ConfirmTurnoModalProps) {
   const navigate = useNavigate();
 
-  // console.log(turnoData);
+  console.log(turnoData);
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -33,13 +33,13 @@ export default function ConfirmTurnoModal({ turnoData, setValue }: ConfirmTurnoM
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
-    mutationFn: pruebaGrabarTurno,
+    mutationFn: confirmarTurno,
     onError: (error) => {
       console.log(error);
       toast.error(error.message);
     },
     onSuccess: (data) => {
-      // console.log(data[0].grabar_turno);
+      console.log(data);
       toast.success(data);
       setValue('turno', 0);
       queryClient.invalidateQueries({ queryKey: ['turnos'] });
