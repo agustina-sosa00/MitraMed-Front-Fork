@@ -1,5 +1,8 @@
+import { anularTurnoUsuario } from '@/services/TurnosService';
 import { TurnosUsuario } from '@/types/index';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 interface TurnosPendientesProps {
   turnosPendientes: TurnosUsuario[] | undefined;
@@ -26,6 +29,23 @@ export default function TurnosPendientes({ turnosPendientes }: TurnosPendientesP
     return `${dia}-${mes}-${anio}`;
   };
 
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: anularTurnoUsuario,
+    onError: (error) => {
+      console.log(error);
+    },
+    onSuccess: (data) => {
+      console.log(data);
+      toast.success(data);
+      setIsLoadingAnula(false);
+      setMostrarModalAnular(false);
+      setTurnoAnula(null);
+      queryClient.invalidateQueries({ queryKey: ['turnos-pendientes'] });
+    },
+  });
+
   const handleAnular = (idTurno: number) => {
     setTurnoAnula(idTurno); // Establecer el turno a anular
     setMostrarModalAnular(true); // Mostrar el modal
@@ -40,7 +60,7 @@ export default function TurnosPendientes({ turnosPendientes }: TurnosPendientesP
     if (turnoAnula !== null) {
       setIsLoadingAnula(true); // Iniciar carga
       console.log('Turno que desea anular: ', turnoAnula); // Llamar la función de anulación
-      setIsLoadingAnula(false); // Finaliza carga
+      mutate(turnoAnula);
     }
   };
 
