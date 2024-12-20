@@ -6,12 +6,16 @@ import Layout from './layouts/Layout';
 import Turnos from './views/dashboard/Turnos';
 import ProtectedRoute from './components/features/ProtectedRoute';
 import ConfigView from './views/dashboard/ConfigView';
+import PrivacyPolicy from './views/PrivacyPolicy';
+import TermsOfService from './views/TermsOfService';
 
 export default function Router() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<PortalView />} index />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms-of-service" element={<TermsOfService />} />
         {/* Rutas protegidas */}
         <Route element={<ProtectedRoute />}>
           <Route element={<Layout />}>
