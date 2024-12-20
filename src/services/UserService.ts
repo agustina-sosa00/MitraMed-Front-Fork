@@ -1,5 +1,5 @@
 import { isAxiosError } from 'axios';
-import { Account, NewAccount } from '../types';
+import { Account, NewAccount, UserGoogle } from '../types';
 import apiNoAuth from '@/lib/axiosNoAuth';
 
 export async function crearCuenta(formData: NewAccount) {
@@ -51,6 +51,21 @@ export async function nuevoToken(email: { email: string }) {
 export async function iniciarSesion(formData: Account) {
   try {
     const { data } = await apiNoAuth.post('/auth/iniciar_sesion', formData);
+    // console.log(data);
+
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      console.log(error.response.data);
+      throw new Error(error.response.data.error);
+    } else {
+      throw new Error('Hubo un error...');
+    }
+  }
+}
+export async function googleAuth(googleData: UserGoogle) {
+  try {
+    const { data } = await apiNoAuth.post('/auth/google_auth', googleData);
     // console.log(data);
 
     return data;

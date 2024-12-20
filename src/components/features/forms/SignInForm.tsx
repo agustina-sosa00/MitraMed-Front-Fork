@@ -110,6 +110,24 @@ export default function SignInForm() {
         />
       </form>
 
+      <div className="flex justify-center my-6">
+        <button
+          type="button"
+          aria-label="Continuar con Google ID"
+          className="flex items-center gap-2 p-2 border border-gray-600 rounded bg-gray-100 bg-opacity-20 hover:bg-opacity-30"
+          onClick={() => {
+            window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${
+              import.meta.env.VITE_CLIENT_ID
+            }&redirect_uri=${
+              import.meta.env.VITE_REDIRECT_URI
+            }&response_type=code&scope=openid%20email%20https://www.googleapis.com/auth/userinfo.profile%20https://www.googleapis.com/auth/user.birthday.read%20https://www.googleapis.com/auth/user.gender.read%20https://www.googleapis.com/auth/user.phonenumbers.read`;
+          }}
+        >
+          <img src="/google-icon.png" alt="Google Icon" className="w-8 h-8" />
+          <span className="text-sm font-medium text-gray-700">Continuar con Google</span>
+        </button>
+      </div>
+
       <div className="flex flex-col items-start pl-1 lg:pl-3 mt-5 gap-2 text-sm xl:text-base text-gray-700">
         <p>
           No tienes cuenta?{' '}

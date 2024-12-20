@@ -12,6 +12,7 @@ import ForgotPasswordModal from '@/components/features/modals/ForgotPasswordModa
 import NewPasswordModal from '@/components/features/modals/NewPasswordModal';
 import NewTokenConfirm from '@/components/features/modals/NewTokenConfirm';
 import CarrouselPortal from '@/components/ui/CarrouselPortal';
+import GoogleAuthModal from '@/components/features/modals/GoogleAuthModal';
 
 export default function PortalView() {
   const navigate = useNavigate();
@@ -21,6 +22,12 @@ export default function PortalView() {
     const refreshToken = Cookies.get('refreshToken');
 
     const queryParams = new URLSearchParams(window.location.search);
+
+    if (queryParams.has('google_auth')) {
+      if (queryParams.has('code')) {
+        return;
+      }
+    }
 
     if (!queryParams.has('confirmar_cuenta')) {
       if (queryParams.has('reestablecer_password')) {
@@ -89,6 +96,7 @@ export default function PortalView() {
       <CreateAccountModal />
       <ForgotPasswordModal />
       <ConfirmAccountModal />
+      <GoogleAuthModal />
       <NewPasswordModal />
       <NewTokenConfirm />
       <ToastContainer pauseOnHover={false} pauseOnFocusLoss={false} hideProgressBar={true} />
