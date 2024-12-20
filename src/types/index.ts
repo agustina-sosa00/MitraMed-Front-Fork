@@ -25,6 +25,15 @@ export type Usuario = {
   genero: string;
 };
 
+export type UserGoogle = {
+  idToken: string;
+  nombre: string;
+  apellido: string;
+  email: string;
+  fnac: string;
+  genero: string;
+};
+
 export type TurnosUsuario = {
   idturno: number;
   nespecialidad: string;
