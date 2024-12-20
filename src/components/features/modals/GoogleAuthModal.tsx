@@ -1,9 +1,7 @@
 import { Fragment, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Dialog, Transition, TransitionChild, DialogPanel, DialogTitle } from '@headlessui/react';
-import { isAxiosError } from 'axios';
 import { ClipLoader } from 'react-spinners';
-import apiNoAuth from '@/lib/axiosNoAuth';
 import { useMutation } from '@tanstack/react-query';
 import { googleAuth } from '@/services/UserService';
 import { toast } from 'react-toastify';
