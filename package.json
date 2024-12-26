@@ -13,6 +13,8 @@
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
     "@headlessui/react": "^2.1.2",
+    "@rollup/plugin-commonjs": "^28.0.2",
+    "@rollup/plugin-node-resolve": "^16.0.0",
     "@tanstack/react-query": "^5.51.15",
     "@tanstack/react-query-devtools": "^5.51.18",
     "axios": "^1.7.2",
@@ -28,6 +30,7 @@
     "react-slick": "^0.30.2",
     "react-spinners": "^0.14.1",
     "react-toastify": "^10.0.5",
+    "rollup": "^4.29.1",
     "slick-carousel": "^1.8.1",
     "zod": "^3.23.8"
   },
