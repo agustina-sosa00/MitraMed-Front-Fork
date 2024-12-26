@@ -7,6 +7,7 @@ import Footer from '@/components/ui/Footer';
 import Cookies from 'js-cookie';
 import Header from '@/components/ui/Header';
 import NewPasswordModal from '@/components/features/modals/NewPasswordModal';
+import WhatsApp from '@/components/features/WhatsApp';
 
 export default function Layout() {
   const navigate = useNavigate();
@@ -27,6 +28,8 @@ export default function Layout() {
       <div className="flex-grow my-10">
         <Outlet />
       </div>
+
+      <WhatsApp />
 
       <Footer />
 

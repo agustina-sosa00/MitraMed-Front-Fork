@@ -2,12 +2,7 @@ import { Link } from 'react-router-dom';
 // import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import {
-  // anularTurnoUsuario,
-  // obtenerTurnosUsuario,
-  obtenerTurnosPendientes,
-  obtenerTurnosHistoricos,
-} from '@/services/TurnosService';
+import { obtenerTurnosHistoricos, obtenerTurnosPendientes } from '@/services/TurnosService';
 import { TurnosUsuario } from '@/types/index';
 import TurnosPendientes from '@/components/features/TurnosPendientes';
 import HistorialTurnos from '@/components/features/HistorialTurnos';
