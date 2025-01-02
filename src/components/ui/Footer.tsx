@@ -1,5 +1,5 @@
-import { FaPhoneAlt, FaEnvelope } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { FaPhoneAlt, FaEnvelope } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
@@ -27,12 +27,26 @@ export default function Footer() {
         </div>
 
         {/* Derechos Reservados */}
-        <div className="flex flex-col justify-center items-center md:items-end">
+        <div className="flex flex-col justify-center items-center md:items-end gap-y-3">
+          <div className="flex flex-col space-x-4 space-y-2 mb-2">
+            <Link
+              to="/privacy-policy"
+              className="text-sm xl:text-xl text-gray-400 hover:text-amber-500 cursor-pointer transition"
+            >
+              Política de privacidad
+            </Link>
+            <Link
+              to="/terms-of-service"
+              className="text-sm xl:text-xl text-gray-400 hover:text-amber-500 cursor-pointer transition"
+            >
+              Términos de servicio
+            </Link>
+          </div>
           <p className="text-sm xl:text-xl text-gray-400 mb-2">
             © {new Date().getFullYear()} Todos los derechos reservados.
           </p>
           <p className="text-sm xl:text-xl text-gray-400">
-            Powered by{' '}
+            Powered by{" "}
             <Link
               to="https://www.novagestion.com.ar/"
               target="_blank"
