@@ -7,7 +7,7 @@ import Footer from '@/components/ui/Footer';
 import Cookies from 'js-cookie';
 import Header from '@/components/ui/Header';
 import NewPasswordModal from '@/components/features/modals/NewPasswordModal';
-import WhatsApp from '@/components/features/WhatsApp';
+// import WhatsApp from '@/components/features/WhatsApp';
 
 export default function Layout() {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ export default function Layout() {
         <Outlet />
       </div>
 
-      <WhatsApp />
+      {/* <WhatsApp /> */}
 
       <Footer />
 
