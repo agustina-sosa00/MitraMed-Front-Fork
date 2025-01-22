@@ -13,7 +13,7 @@ import NewPasswordModal from '@/components/features/modals/NewPasswordModal';
 import NewTokenConfirm from '@/components/features/modals/NewTokenConfirm';
 import CarrouselPortal from '@/components/ui/CarrouselPortal';
 import GoogleAuthModal from '@/components/features/modals/GoogleAuthModal';
-import WhatsApp from '@/components/features/WhatsApp';
+// import WhatsApp from '@/components/features/WhatsApp';
 
 export default function PortalView() {
   const navigate = useNavigate();
@@ -92,7 +92,7 @@ export default function PortalView() {
         </div>
       </div>
 
-      <WhatsApp />
+      {/* <WhatsApp /> */}
 
       <Footer />
 

@@ -1,9 +1,20 @@
 import { defineConfig } from 'vite';
+import { createHtmlPlugin } from 'vite-plugin-html';
 import react from '@vitejs/plugin-react';
 import path from 'path';
+import packageInfo from './package.json';
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    createHtmlPlugin({
+      inject: {
+        data: {
+          title: `MitraMed  V${packageInfo.version}`,
+        },
+      },
+    }),
+  ],
   resolve: {
     alias: {
       '@/components': path.resolve(__dirname, 'src/components'),
