@@ -162,7 +162,7 @@ export async function obtenerDiasSinAtencion({
   idDoctor: string;
 }): Promise<number[]> {
   try {
-    const { data } = await api(`/turnos/obtener_diassinatencion/${idEspecialidad}/${idDoctor}`);
+    const { data } = await api(`/turnos/obtener_diasatencion/${idEspecialidad}/${idDoctor}`);
     // console.log(data);
     return data;
   } catch (error) {
