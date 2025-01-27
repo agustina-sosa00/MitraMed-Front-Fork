@@ -4,6 +4,7 @@ import Nav from './Nav';
 
 export default function Header() {
   const isLoggedIn = Cookies.get('accessToken') && Cookies.get('refreshToken');
+  const isDevelopment = import.meta.env.VITE_ENV === 'development';
 
   return (
     <header
@@ -28,6 +29,12 @@ export default function Header() {
             />
           </div>
         </div>
+
+        {isDevelopment && (
+          <span className="text-blue-500 font-semibold bg-slate-300 px-2 py-1 rounded-md">
+            Estás en <span className="italic font-bold">Desarrollo</span>
+          </span>
+        )}
 
         {!isLoggedIn ? (
           <div className="flex justify-center items-center px-3 md:px-10 h-12 xl:h-16 md:text-lg xl:text-xl border border-gray-400 bg-gray-100">
