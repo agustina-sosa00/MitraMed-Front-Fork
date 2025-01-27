@@ -110,7 +110,7 @@ export default function SignInForm() {
         />
       </form>
 
-      {/* <div className="flex justify-center my-6">
+      <div className="flex justify-center my-6">
         <button
           type="button"
           aria-label="Continuar con Google ID"
@@ -126,7 +126,7 @@ export default function SignInForm() {
           <img src="/google-icon.png" alt="Google Icon" className="w-8 h-8" />
           <span className="text-sm font-medium text-gray-700">Continuar con Google</span>
         </button>
-      </div> */}
+      </div>
 
       <div className="flex flex-col items-start pl-1 lg:pl-3 mt-5 gap-2 text-sm xl:text-base text-gray-700">
         <p>
