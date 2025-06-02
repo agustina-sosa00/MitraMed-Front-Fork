@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-green: #518915;
+  --color-green-hover: #437311;
+  --color-green-focus: #a1d36c;
+  --color-blue: #022539;
+}
+
 .react-datepicker__current-month {
   text-transform: capitalize;
 }
