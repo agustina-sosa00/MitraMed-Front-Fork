@@ -1,31 +1,31 @@
-import { Fragment } from 'react';
-import { useForm } from 'react-hook-form';
-import { Dialog, Transition, TransitionChild, DialogPanel, DialogTitle } from '@headlessui/react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { NewAccount } from '@/types/index';
-import { useMutation } from '@tanstack/react-query';
-import { crearCuenta } from '@/services/UserService';
-import { toast } from 'react-toastify';
-import RegisterForm from '../forms/RegisterForm';
+import { Fragment } from "react";
+import { useForm } from "react-hook-form";
+import { Dialog, Transition, TransitionChild, DialogPanel, DialogTitle } from "@headlessui/react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { NewAccount } from "@/types/index";
+import { useMutation } from "@tanstack/react-query";
+import { crearCuenta } from "@/services/UserService";
+import { toast } from "react-toastify";
+import RegisterForm from "../forms/RegisterForm";
 
 export default function CreateAccountModal() {
   const navigate = useNavigate();
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const modal = queryParams.get('createAccount');
+  const modal = queryParams.get("createAccount");
   const show = modal ? true : false;
 
   const initialValues: NewAccount = {
-    nombre: '',
-    apellido: '',
-    email: '',
-    fnac: '',
-    codarea: '',
-    tel: '',
-    genero: '',
-    password: '',
-    confirmPassword: '',
+    nombre: "",
+    apellido: "",
+    email: "",
+    fnac: "",
+    codarea: "",
+    tel: "",
+    genero: "",
+    password: "",
+    confirmPassword: "",
   };
 
   const {
@@ -44,13 +44,13 @@ export default function CreateAccountModal() {
     },
     onSuccess: (data) => {
       toast.success(data);
-      navigate('/');
+      navigate("/");
       reset();
     },
   });
 
   const handleForm = (formData: NewAccount) => {
-    const formattedDate = new Date(formData.fnac).toISOString().split('T')[0];
+    const formattedDate = new Date(formData.fnac).toISOString().split("T")[0];
     const dataToSend = { ...formData, fnac: formattedDate };
     // console.log(dataToSend);
     mutate(dataToSend);
@@ -63,7 +63,7 @@ export default function CreateAccountModal() {
           as="div"
           className="relative z-10"
           onClose={() => {
-            navigate('/'), reset();
+            navigate("/"), reset();
           }}
         >
           <TransitionChild
@@ -120,10 +120,10 @@ export default function CreateAccountModal() {
 
                   <div className="flex flex-col items-start my-3 mx-2 gap-2">
                     <p className="">
-                      Ya tienes una cuenta?{' '}
+                      Ya tienes una cuenta?{" "}
                       <button
                         className="text-amber-500 hover:underline"
-                        onClick={() => navigate('/')}
+                        onClick={() => navigate("/")}
                       >
                         Inicia sesión aquí
                       </button>
