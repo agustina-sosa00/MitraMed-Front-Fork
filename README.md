@@ -2,7 +2,7 @@
 
 Este es el frontend de Mitra Med, una plataforma de gestión de turnos médicos. Este proyecto está construido con **Vite**, **React**, y **TypeScript**, con un enfoque en la modularidad y la facilidad de mantenimiento.
 
-## Tecnologías usadas
+## Tecnologías usadas:
 
 - Vite
 - React
