@@ -36,6 +36,8 @@ export default function Turnos() {
       hora_ini: watch('hora_ini'),
       hora_fin: watch('hora_fin'),
     });
+
+    console.log(watch('idhorario'));
     navigate(`${location.pathname}?confirmarTurno=true`);
   };
 

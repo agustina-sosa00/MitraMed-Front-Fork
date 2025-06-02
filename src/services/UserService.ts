@@ -66,7 +66,7 @@ export async function iniciarSesion(formData: Account) {
 
 export async function googleAuth(googleData: UserGoogle) {
   try {
-    const { data } = await apiNoAuth.post("/auth/google_auth", googleData);
+    const { data } = await apiNoAuth.post('/auth/google_auth', googleData);
     // console.log(data);
 
     return data;
@@ -75,15 +75,15 @@ export async function googleAuth(googleData: UserGoogle) {
       console.log(error.response.data);
       throw new Error(error.response.data.error);
     } else {
-      throw new Error("Hubo un error...");
+      throw new Error('Hubo un error...');
     }
   }
 }
 
 export async function whatsAppNum(): Promise<{ numero: string }[]> {
   try {
-    const { data } = await apiNoAuth("/auth/obtiene_wspnum");
-    // console.log(data);
+    const { data } = await apiNoAuth('/auth/obtiene_wspnum');
+    console.log(data);
 
     return data;
   } catch (error) {
@@ -91,7 +91,7 @@ export async function whatsAppNum(): Promise<{ numero: string }[]> {
       console.log(error.response.data);
       throw new Error(error.response.data.error);
     } else {
-      throw new Error("Hubo un error...");
+      throw new Error('Hubo un error...');
     }
   }
 }
