@@ -48,6 +48,8 @@ export default function ConfirmTurnoModal({ turnoData, setValue }: ConfirmTurnoM
     },
   });
 
+  console.log(turnoData);
+
   const handleConfirmar = () => {
     setLoadingConfirm(true); // Activa el loader
     mutate(turnoData, {
