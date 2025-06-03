@@ -37,20 +37,17 @@ export default function Header({ state, setState }: IProp) {
 
   return (
     <header
-      className={` md:py-2  flex justify-center items-center bg-gray-100 h-20 sticky top-0 z-30  ${
+      className={` md:py-2  flex justify-center items-center bg-gray-100 h-20 sticky top-0 z-50  ${
         scrolled ? "shadow-md shadow-black/20" : ""
       } `}
     >
-      <div className="relative flex items-center justify-between w-full px-5">
-        <div className="flex flex-col items-center justify-center p-2 gap md:flex-row">
-          <Link
-            to={`${isLoggedIn ? "/inicio" : "/"}`}
-            className="flex gap-3 mx-3"
-          >
+      <div className="relative flex items-center justify-between w-full px-16">
+        <div className="flex flex-col items-center justify-center md:flex-row">
+          <Link to={`${isLoggedIn ? "/inicio" : "/"}`} className="flex gap-3 ">
             <img
               src="/logos/mitra-med-logo-no-bg.webp"
               alt="logo"
-              className="max-w-20 xl:max-w-32 max-h-16 xl:max-h-16"
+              className="max-w-12 xl:max-w-20 max-h-16 xl:max-h-16"
             />
           </Link>
           <div className="items-center hidden md:flex">
