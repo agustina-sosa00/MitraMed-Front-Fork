@@ -14,7 +14,7 @@ import NewTokenConfirm from "@/components/features/modals/NewTokenConfirm";
 import CarrouselPortal from "@/components/ui/CarrouselPortal";
 import GoogleAuthModal from "@/components/features/modals/GoogleAuthModal";
 import WhatsApp from "@/components/features/WhatsApp";
-import { About } from "./About";
+import { About } from "./About/About";
 import { CardsAbout } from "@/components/ui/CardsAbout";
 
 export default function PortalView() {
