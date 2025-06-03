@@ -53,7 +53,7 @@ export default function PortalView() {
 
       <CarrouselPortal state={isopenDrawer} setState={setIsOpenDrawer} />
       <CardsAbout />
-      <About />
+      <About state={isopenDrawer} setState={setIsOpenDrawer} />
 
       <WhatsApp />
 
