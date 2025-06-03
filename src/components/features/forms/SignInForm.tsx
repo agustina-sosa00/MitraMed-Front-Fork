@@ -108,7 +108,7 @@ export default function SignInForm() {
         <input
           type="submit"
           value="Iniciar sesión"
-          className="p-2 xl:p-3 mt-4 w-full text-white text-base xl:text-lg font-semibold uppercase bg-[var(--color-green)] hover:bg-[var(--color-green-hover)] transition-all cursor-pointer shadow-md rounded-lg"
+          className="w-full p-2 mt-4 text-base font-semibold text-white uppercase transition-all rounded-lg shadow-md cursor-pointer xl:p-3 xl:text-lg bg-green hover:bg-greenHover"
         />
       </form>
 
@@ -136,20 +136,20 @@ export default function SignInForm() {
         <p>
           No tienes cuenta?{" "}
           <button
-            className="hover:underline hover:text-[var(--color-green)]"
+            className="hover:underline hover:text-green"
             onClick={() => navigate(location.pathname + "?createAccount=true")}
           >
             Regístrate aquí
           </button>
         </p>
         <button
-          className="hover:underline hover:text-[var(--color-green)]"
+          className="hover:underline hover:text-green"
           onClick={() => navigate(location.pathname + "?forgotPassword=true")}
         >
           Olvidé mi contraseña
         </button>
         <button
-          className="hover:underline hover:text-[var(--color-green)]"
+          className="hover:underline hover:text-green"
           onClick={() => navigate(location.pathname + "?newTokenConfirm=true")}
         >
           Reenviar correo de confirmación

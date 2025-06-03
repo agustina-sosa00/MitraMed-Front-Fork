@@ -34,7 +34,7 @@ export default function CarrouselPortal({ state, setState }: IProp) {
     setState(!state);
   };
   return (
-    <div className="relative h-full lg:h-[90vh] w-full overflow-hidden mb-5">
+    <div className="relative h-full lg:h-[90vh] w-full overflow-hidden">
       <Slider {...sliderSettings}>
         {arrayInfoCarousel.map((item, index) => (
           <div className="relative" key={index}>
@@ -58,17 +58,15 @@ export default function CarrouselPortal({ state, setState }: IProp) {
                     : "opacity-0"
                 }`}
               >
-                <h1 className="mb-3  w-[90%] font-semibold text-[var(--color-blue)] text-xl md:text-3xl lg:text-5xl">
+                <h1 className="mb-3  w-[90%] font-semibold text-blue text-xl md:text-3xl lg:text-5xl">
                   {item.title}
-                  <span className="text-[var(--color-green-hover)]">
-                    {item.span}
-                  </span>
+                  <span className="text-greenHover">{item.span}</span>
                 </h1>
-                <p className=" text-[var(--color-blue)] text-sm w-2/3 md:text-base lg:text-lg xl:text-xl text-start mb-2 md:mb-4">
+                <p className="w-2/3 mb-2 text-sm text-blue md:text-base lg:text-lg xl:text-xl text-start md:mb-4">
                   {item.text}
                 </p>
                 <button
-                  className=" p-2 text-sm md:text-base text-white bg-[var(--color-green)] hover:bg-[var(--color-green-hover)] cursor-pointer rounded-lg mx:block lg:text-lg xl:text-xl xl:p-3 text-start"
+                  className="p-2 text-sm text-white rounded-lg cursor-pointer md:text-base bg-green hover:bg-greenHover mx:block lg:text-lg xl:text-xl xl:p-3 text-start"
                   onClick={handleOpenDrawer}
                 >
                   <p>{item.textoImportant}</p>
