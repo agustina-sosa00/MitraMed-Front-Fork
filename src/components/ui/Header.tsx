@@ -4,12 +4,15 @@ import Nav from "./Nav";
 import { useEffect, useState } from "react";
 import { Drawer } from "../features/DrawerLogin/Drawer";
 
-export default function Header() {
+interface IProp {
+  state: boolean;
+  setState: React.Dispatch<React.SetStateAction<boolean>>;
+}
+export default function Header({ state, setState }: IProp) {
   const isLoggedIn = Cookies.get("accessToken") && Cookies.get("refreshToken");
   const isDevelopment = import.meta.env.VITE_ENV === "development";
 
   const [scrolled, setScrolled] = useState(false);
-  const [isopenDrawer, setIsOpenDrawer] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,7 +32,7 @@ export default function Header() {
   }, []);
 
   const handleOpenDrawer = () => {
-    setIsOpenDrawer((prev) => !prev);
+    setState(!state);
   };
 
   return (
@@ -47,7 +50,7 @@ export default function Header() {
             <img
               src="/logos/mitra-med-logo-no-bg.webp"
               alt="logo"
-              className="max-w-20 xl:max-w-32 max-h-16 xl:max-h-28"
+              className="max-w-20 xl:max-w-32 max-h-16 xl:max-h-16"
             />
           </Link>
           <div className="items-center hidden md:flex">
@@ -81,7 +84,7 @@ export default function Header() {
           </div>
         )}
 
-        <Drawer handle={handleOpenDrawer} open={isopenDrawer} />
+        <Drawer handle={handleOpenDrawer} open={state} />
       </div>
     </header>
   );

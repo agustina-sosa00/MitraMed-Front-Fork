@@ -88,7 +88,7 @@ export default function CreateAccountModal() {
             <input
               type="submit"
               value="Registrarme"
-              className="max-w-lg p-2 my-3 text-base text-white uppercase transition-colors bg-blue-600 rounded shadow-lg cursor-pointer hover:bg-blue-700"
+              className="max-w-lg p-2 my-3 text-base text-white uppercase transition-colors bg-[var(--color-green)] rounded shadow-lg cursor-pointer hover:bg-[var(--color-green-hover)] "
             />
           </div>
         </form>
@@ -97,7 +97,7 @@ export default function CreateAccountModal() {
           <p className="">
             Ya tienes una cuenta?{" "}
             <button
-              className="text-amber-500 hover:underline"
+              className="text-[var(--color-green)] hover:underline"
               onClick={() => navigate("/")}
             >
               Inicia sesión aquí
