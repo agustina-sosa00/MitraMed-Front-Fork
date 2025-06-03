@@ -1,9 +1,14 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-
-export const InfoAbout = () => {
+interface IProp {
+  state: boolean;
+  setState: React.Dispatch<React.SetStateAction<boolean>>;
+}
+export const InfoAbout = ({ state, setState }: IProp) => {
   const navigate = useNavigate();
-
+  const handleOpenDrawer = () => {
+    setState(!state);
+  };
   return (
     <div className="flex flex-col items-center justify-center w-full h-full gap-3 py-5 lg:py-0 lg:items-start lg:w-1/2">
       <h1 className="font-serif text-2xl text-green md:text-4xl">
@@ -12,17 +17,18 @@ export const InfoAbout = () => {
 
       <div className="w-[80%] gap-2 flex flex-col">
         <p className="leading-relaxed text-center lg:text-start text-blue xl:text-lg">
-          Bienvenido al portal de
-          <span className="font-bold text-greenHover"> reserva de turnos </span>
-          para nuestro Centro Médico, donde podrás agendar tus consultas de
-          forma rápida y sencilla.
+          Bienvenido al portal de reserva de turnos para nuestro Centro Médico,
+          donde podrás agendar tus consultas de forma rápida y sencilla.
         </p>
 
         <p className="leading-relaxed text-center lg:text-start text-blue xl:text-lg">
           Para disfrutar de todas las funciones,{" "}
-          <span className="font-bold text-greenHover">
+          <button
+            onClick={handleOpenDrawer}
+            className="font-bold text-greenHover hover:underline"
+          >
             inicia sesión en tu cuenta
-          </span>
+          </button>
           . Si aún no tienes una,{" "}
           <button
             onClick={() => navigate(location.pathname + "?createAccount=true")}
