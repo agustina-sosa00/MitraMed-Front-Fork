@@ -74,7 +74,7 @@ export default function Header({ state, setState }: IProp) {
           // </div>
           <button
             onClick={handleOpenDrawer}
-            className="py-2 px-4 border-2 border-[var(--color-green)] rounded-xl text-[var(--color-green)] hover:bg-[var(--color-green)] hover:text-white transition-all duration-200"
+            className="px-4 py-2 transition-all duration-200 border-2 border-green rounded-xl text-green hover:bg-green hover:text-white"
           >
             Iniciar sesión
           </button>
