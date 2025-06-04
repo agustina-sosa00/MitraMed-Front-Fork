@@ -1,29 +1,31 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Outlet } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import Footer from '@/components/ui/Footer';
-import Cookies from 'js-cookie';
-import Header from '@/components/ui/Header';
-import NewPasswordModal from '@/components/features/modals/NewPasswordModal';
-import WhatsApp from '@/components/features/WhatsApp';
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Footer from "@/components/ui/Footer";
+import Cookies from "js-cookie";
+import Header from "@/components/ui/Header";
+import NewPasswordModal from "@/components/features/modals/NewPasswordModal";
+import WhatsApp from "@/components/features/WhatsApp";
 
 export default function Layout() {
+  const [isopenDrawer, setIsOpenDrawer] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    const accessToken = Cookies.get('accessToken');
-    const refreshToken = Cookies.get('refreshToken');
+    const accessToken = Cookies.get("accessToken");
+    const refreshToken = Cookies.get("refreshToken");
 
     if (!accessToken || !refreshToken) {
-      navigate('/');
+      navigate("/");
     }
   }, [navigate]);
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
+    <div className="flex flex-col min-h-screen">
+      <Header state={isopenDrawer} setState={setIsOpenDrawer} />
 
       <div className="flex-grow my-10">
         <Outlet />
@@ -35,7 +37,11 @@ export default function Layout() {
 
       <NewPasswordModal />
 
-      <ToastContainer pauseOnHover={false} pauseOnFocusLoss={false} hideProgressBar={true} />
+      <ToastContainer
+        pauseOnHover={false}
+        pauseOnFocusLoss={false}
+        hideProgressBar={true}
+      />
     </div>
   );
 }

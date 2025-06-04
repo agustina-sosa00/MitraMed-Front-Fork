@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
-import Header from "@/components/ui/Header";
 import Footer from "@/components/ui/Footer";
 // import SignInForm from "@/components/features/forms/SignInForm";
 import CreateAccountModal from "@/components/features/modals/CreateAccountModal";
@@ -16,6 +15,7 @@ import GoogleAuthModal from "@/components/features/modals/GoogleAuthModal";
 import WhatsApp from "@/components/features/WhatsApp";
 import { About } from "./About/About";
 import { CardsAbout } from "@/components/ui/CardsAbout";
+import Header from "@/components/ui/Header";
 
 export default function PortalView() {
   const navigate = useNavigate();
