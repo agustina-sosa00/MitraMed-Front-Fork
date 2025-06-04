@@ -34,7 +34,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                +549 351633-0700
+                +549351633-0700
               </a>
             </div>
 
