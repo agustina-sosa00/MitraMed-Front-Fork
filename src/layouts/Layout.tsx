@@ -27,7 +27,7 @@ export default function Layout() {
     <div className="flex flex-col min-h-screen">
       <Header state={isopenDrawer} setState={setIsOpenDrawer} />
 
-      <div className="flex-grow my-10">
+      <div className="flex-grow ">
         <Outlet />
       </div>
 
