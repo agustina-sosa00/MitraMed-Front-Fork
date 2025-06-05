@@ -7,14 +7,20 @@ import { Drawer } from "../features/DrawerLogin/Drawer";
 interface IProp {
   state: boolean;
   setState: React.Dispatch<React.SetStateAction<boolean>>;
+  currentRol?: "paciente" | "profesional";
+  handleOpenDrawer: (rol: "paciente" | "profesional") => void;
+  handleCloseDrawer: () => void;
 }
-export default function Header({ state, setState }: IProp) {
+export default function Header({
+  state,
+  currentRol,
+  handleCloseDrawer,
+  handleOpenDrawer,
+}: IProp) {
   const isLoggedIn = Cookies.get("accessToken") && Cookies.get("refreshToken");
   const isDevelopment = import.meta.env.VITE_ENV === "development";
 
   const [scrolled, setScrolled] = useState(false);
-  type RolType = "paciente" | "profesional";
-  const [currentRol, setCurrentRol] = useState<RolType | undefined>();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,23 +39,13 @@ export default function Header({ state, setState }: IProp) {
     };
   }, []);
 
-  const handleOpenDrawer = (rol: RolType) => {
-    setCurrentRol(rol);
-    setState(true);
-  };
-
-  const handleCloseDrawer = () => {
-    setState(false);
-    setCurrentRol(undefined);
-  };
-
   return (
     <header
       className={` md:py-2  flex justify-center items-center bg-gray-100 h-20 sticky top-0 z-50  ${
         scrolled ? "shadow-md shadow-black/20" : ""
       } `}
     >
-      <div className="relative flex items-center justify-between w-full px-16">
+      <div className="relative flex items-center justify-between w-full px-10 lg:px-16">
         <div className="flex flex-col items-center justify-center md:flex-row">
           <Link to={`${isLoggedIn ? "/inicio" : "/"}`} className="flex gap-3 ">
             <img
@@ -77,13 +73,13 @@ export default function Header({ state, setState }: IProp) {
           <div className="flex gap-2">
             <button
               onClick={() => handleOpenDrawer("profesional")}
-              className="px-4 py-2 transition-all duration-200 border-2 border-green rounded-xl text-green hover:bg-green hover:text-white"
+              className="px-2 py-1 text-xs transition-all duration-200 border rounded lg:text-base lg:px-4 border-green text-green hover:bg-green hover:text-white"
             >
-              Acceso para profesionales
+              Profesionales
             </button>
             <button
               onClick={() => handleOpenDrawer("paciente")}
-              className="px-4 py-2 transition-all duration-200 border-2 border-green rounded-xl text-green hover:bg-green hover:text-white"
+              className="px-2 py-1 text-xs transition-all duration-200 border rounded lg:text-base lg:px-4 border-green text-green hover:bg-green hover:text-white"
             >
               Iniciar sesión
             </button>

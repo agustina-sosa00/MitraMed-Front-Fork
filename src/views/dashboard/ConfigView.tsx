@@ -1,12 +1,16 @@
-import { actualizarEmail, actualizarTelefono, obtenerDatosUsuario } from '@/services/TurnosService';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { useQueryClient } from '@tanstack/react-query';
-import { Usuario } from '@/types/index';
-import { SlUser, SlUserFemale } from 'react-icons/sl';
+import {
+  actualizarEmail,
+  actualizarTelefono,
+  obtenerDatosUsuario,
+} from "@/services/TurnosService";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useQueryClient } from "@tanstack/react-query";
+import { Usuario } from "@/types/index";
+import { SlUser, SlUserFemale } from "react-icons/sl";
 
 interface EmailTelefono {
   email: string;
@@ -19,36 +23,36 @@ export default function ConfigView() {
 
   const [isEditingTelefono, setIsEditingTelefono] = useState(false);
   const [isEditingEmail, setIsEditingEmail] = useState(false);
-  const [emailInput, setEmailInput] = useState<string>('');
-  const [codareaInput, setCodareaInput] = useState<string>('');
-  const [telefonoInput, setTelefonoInput] = useState<string>('');
+  const [emailInput, setEmailInput] = useState<string>("");
+  const [codareaInput, setCodareaInput] = useState<string>("");
+  const [telefonoInput, setTelefonoInput] = useState<string>("");
   const [usuario, setUsuario] = useState<Usuario | null>(null);
   const [shouldRefetch, setShouldRefetch] = useState(true);
 
-  console.log('Codarea: ', codareaInput.trim());
+  console.log("Codarea: ", codareaInput.trim());
   // console.log('Telefono: ', telefonoInput);
 
   const { register, setValue, handleSubmit } = useForm<EmailTelefono>({
     defaultValues: {
-      email: '',
-      codarea: '',
-      telefono: '',
+      email: "",
+      codarea: "",
+      telefono: "",
     },
   });
 
   const formatDate = (date: string) => {
     // Si el formato es DD-MM-YYYY, lo cambiamos a YYYY-MM-DD
-    const parts = date.split('-');
+    const parts = date.split("-");
     const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
     const d = new Date(formattedDate);
-    const day = String(d.getDate()).padStart(2, '0');
-    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, "0");
+    const month = String(d.getMonth() + 1).padStart(2, "0");
     const year = d.getFullYear();
     return `${day}/${month}/${year}`;
   };
 
   const { data: dataUsuario } = useQuery<Usuario[], Error>({
-    queryKey: ['usuario'],
+    queryKey: ["usuario"],
     queryFn: obtenerDatosUsuario,
     initialData: [],
     enabled: shouldRefetch,
@@ -65,9 +69,9 @@ export default function ConfigView() {
 
   useEffect(() => {
     if (usuario) {
-      setValue('email', usuario.email);
-      setValue('codarea', usuario.codarea);
-      setValue('telefono', usuario.telefono);
+      setValue("email", usuario.email);
+      setValue("codarea", usuario.codarea);
+      setValue("telefono", usuario.telefono);
     }
   }, [usuario, setValue]);
 
@@ -87,16 +91,21 @@ export default function ConfigView() {
         const updatedUsuario = { ...usuario, email: emailInput };
         setUsuario(updatedUsuario);
       }
-      queryClient.invalidateQueries({ queryKey: ['usuario'] });
+      queryClient.invalidateQueries({ queryKey: ["usuario"] });
 
-      queryClient.refetchQueries({ queryKey: ['usuario'] });
+      queryClient.refetchQueries({ queryKey: ["usuario"] });
       setShouldRefetch(true);
     },
   });
 
   const { mutate: mutateTelefono } = useMutation({
-    mutationFn: ({ codarea, telefono }: { codarea: string; telefono: string }) =>
-      actualizarTelefono({ codarea, telefono }),
+    mutationFn: ({
+      codarea,
+      telefono,
+    }: {
+      codarea: string;
+      telefono: string;
+    }) => actualizarTelefono({ codarea, telefono }),
     onError: (error) => {
       console.log(error);
       toast.error(error.message);
@@ -106,21 +115,28 @@ export default function ConfigView() {
       toast.success(data.message);
       setIsEditingTelefono(false);
       if (usuario) {
-        const updatedUsuario = { ...usuario, codarea: codareaInput, telefono: telefonoInput };
+        const updatedUsuario = {
+          ...usuario,
+          codarea: codareaInput,
+          telefono: telefonoInput,
+        };
         setUsuario(updatedUsuario);
       }
-      queryClient.invalidateQueries({ queryKey: ['usuario'] });
+      queryClient.invalidateQueries({ queryKey: ["usuario"] });
 
-      queryClient.refetchQueries({ queryKey: ['usuario'] });
+      queryClient.refetchQueries({ queryKey: ["usuario"] });
       setShouldRefetch(true);
     },
   });
 
-  const handleCambiarTelefono = (data: { codarea: string; telefono: string }) => {
+  const handleCambiarTelefono = (data: {
+    codarea: string;
+    telefono: string;
+  }) => {
     setCodareaInput(data.codarea);
     setTelefonoInput(data.telefono);
 
-    console.log('data.codarea: ', data.codarea.trim());
+    console.log("data.codarea: ", data.codarea.trim());
 
     mutateTelefono(data);
   };
@@ -131,44 +147,51 @@ export default function ConfigView() {
   };
 
   return (
-    <div className="flex p-6 relative mb-28">
-      <div className="absolute -top-5 left-1">
+    <div className="relative flex flex-col items-center justify-center h-full px-4 py-10 sm:min-h-screen">
+      <div className="w-full max-w-4xl mb-5 top-5 ">
         <Link
           to="/inicio"
-          className="py-2 px-4 text-xs sm:text-base font-semibold bg-gray-700 hover:bg-gray-800 text-white rounded-lg transition duration-200"
+          className="px-4 py-1 text-sm font-semibold text-white transition duration-200 rounded-lg bg-green sm:text-base hover:bg-greenHover"
         >
-          Volver
+          Volver al inicio
         </Link>
       </div>
 
-      <div className="flex flex-col w-full lg:flex-row items-center lg:items-start gap-6 lg:gap-8">
+      <div className="flex flex-col items-center w-full gap-6 lg:flex-row lg:items-start ">
         {/* Imagen de perfil */}
-        <div className="flex-shrink-0 w-full lg:w-1/3 flex items-center justify-center">
-          <div className="w-40 h-40 text-5xl bg-white border rounded-full flex items-center justify-center">
-            <span className="text-5xl">
-              {usuario?.genero === 'Masculino' ? <SlUser /> : <SlUserFemale />}
+        <div className="flex items-center justify-end w-full px-5 lg:w-1/3">
+          <div className="flex items-center justify-center w-40 h-40 text-5xl bg-white border rounded-full">
+            <span className="text-5xl text-blue ">
+              {usuario?.genero === "Masculino" ? <SlUser /> : <SlUserFemale />}
             </span>
           </div>
         </div>
 
         {/* Datos solo lectura */}
-        <div className="flex flex-col max-w-lg lg:max-w-3xl w-full sm:flex-grow lg:w-2/3">
-          <h2 className="text-2xl sm:text-4xl font-semibold mb-4 text-center sm:text-left">
+        <div className="flex flex-col w-full max-w-lg lg:max-w-3xl sm:flex-grow lg:w-2/3">
+          <h2 className="mb-4 text-2xl font-semibold text-center sm:text-4xl sm:text-left text-green">
             Datos del Perfil
           </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6 lg:mt-5">
-            {(['nombre', 'apellido', 'fnac', 'genero'] as (keyof Usuario)[]).map((field) => (
+          <div className="grid grid-cols-1 gap-4 mb-6 sm:grid-cols-2 lg:mt-5">
+            {(
+              ["nombre", "apellido", "fnac", "genero"] as (keyof Usuario)[]
+            ).map((field) => (
               <div key={field} className="flex items-center sm:gap-3">
-                <label className="w-1/3 text-sm sm:text-base font-medium text-gray-600">
-                  {field === 'fnac'
-                    ? 'Fecha de Nacimiento'
-                    : (field as string).charAt(0).toUpperCase() + (field as string).slice(1)}
+                <label className="w-1/3 text-sm font-medium text-blue sm:text-base">
+                  {field === "fnac"
+                    ? "Fecha de Nacimiento"
+                    : (field as string).charAt(0).toUpperCase() +
+                      (field as string).slice(1)}
                 </label>
                 <p
                   className={`w-2/3 py-1 px-2 min-h-[35px] text-sm sm:text-base border border-gray-300 rounded-md bg-gray-200`}
                 >
-                  {usuario ? (field === 'fnac' ? formatDate(usuario[field]) : usuario[field]) : ''}
+                  {usuario
+                    ? field === "fnac"
+                      ? formatDate(usuario[field])
+                      : usuario[field]
+                    : ""}
                 </p>
               </div>
             ))}
@@ -177,29 +200,33 @@ export default function ConfigView() {
           {/* Telefono */}
           <div className="grid grid-cols-1 mb-5">
             <div className="flex items-center w-full">
-              <label className="w-1/6 text-sm sm:text-base font-medium text-gray-600">
+              <label className="w-1/6 text-sm font-medium text-blue sm:text-base">
                 Teléfono
               </label>
               {isEditingTelefono ? (
-                <div className="w-2/3 flex gap-2">
+                <div className="flex w-2/3 gap-2">
                   <input
                     type="text"
                     className="w-1/4 text-sm sm:text-base py-1 px-2 min-h-[35px] border border-gray-300 rounded-md focus:outline-none focus:border-blue-600 focus:ring-1 transition"
-                    {...register('codarea')}
+                    {...register("codarea")}
                   />
-                  <span className="text-sm sm:text-base flex items-center">15</span>
+                  <span className="flex items-center text-sm sm:text-base">
+                    15
+                  </span>
                   <input
                     type="text"
                     className="w-2/5 text-sm sm:text-base py-1 px-2 min-h-[35px] border border-gray-300 rounded-md focus:outline-none focus:border-blue-600 focus:ring-1 transition"
-                    {...register('telefono')}
+                    {...register("telefono")}
                   />
                 </div>
               ) : (
-                <div className="w-2/3 flex gap-2">
+                <div className="flex w-2/3 gap-2">
                   <p className="w-1/4 text-sm sm:text-base py-1 px-2 min-h-[35px] border border-gray-300 rounded-md bg-gray-200">
                     {usuario?.codarea}
                   </p>
-                  <span className="text-sm sm:text-base flex items-center">15</span>
+                  <span className="flex items-center text-sm sm:text-base">
+                    15
+                  </span>
                   <p className="w-2/5 text-sm sm:text-base py-1 px-2 min-h-[35px] border border-gray-300 rounded-md bg-gray-200">
                     {usuario?.telefono}
                   </p>
@@ -211,12 +238,14 @@ export default function ConfigView() {
           {/* Email */}
           <div className="grid grid-cols-1">
             <div className="flex items-center w-full">
-              <label className="w-1/6 text-sm sm:text-base font-medium text-gray-600">Email</label>
+              <label className="w-1/6 text-sm font-medium text-blue sm:text-base">
+                Email
+              </label>
               {isEditingEmail ? (
                 <input
                   type="email"
                   className="w-2/3 text-sm sm:text-base sm:w-2/4 py-1 px-2 min-h-[35px]  border border-gray-300 rounded-md focus:outline-none focus:border-blue-600 focus:ring-1 transition"
-                  {...register('email')}
+                  {...register("email")}
                 />
               ) : (
                 <p className="w-2/3 text-sm sm:text-base sm:w-2/4 py-1 px-2 min-h-[35px]  border border-gray-300 rounded-md bg-gray-200">
@@ -231,7 +260,7 @@ export default function ConfigView() {
               <button
                 type="button"
                 onClick={() => setIsEditingTelefono(true)}
-                className="text-sm sm:text-base text-gray-600 bg-gray-300 hover:bg-gray-400 py-2 px-4 rounded-lg font-semibold transition duration-200"
+                className="px-4 py-1 text-sm font-semibold text-gray-600 transition duration-200 bg-gray-300 rounded-lg sm:text-base hover:bg-gray-400"
               >
                 Cambiar Telefono
               </button>
@@ -240,14 +269,14 @@ export default function ConfigView() {
                 <button
                   type="button"
                   onClick={handleSubmit(handleCambiarTelefono)}
-                  className="text-sm sm:text-base text-white bg-blue-600 hover:bg-blue-700 py-2 px-4 rounded-lg font-semibold transition duration-200"
+                  className="px-4 py-1 text-sm font-semibold text-white transition duration-200 bg-blue-600 rounded-lg sm:text-base hover:bg-blue-700"
                 >
                   Confirmar
                 </button>
                 <button
                   type="button"
                   onClick={() => setIsEditingTelefono(false)}
-                  className="text-sm sm:text-base  text-white bg-red-600 hover:bg-red-700 py-2 px-4 rounded-lg font-semibold transition duration-200"
+                  className="px-4 py-1 text-sm font-semibold text-white transition duration-200 bg-red-600 rounded-lg sm:text-base hover:bg-red-700"
                 >
                   Cancelar
                 </button>
@@ -258,7 +287,7 @@ export default function ConfigView() {
               <button
                 type="button"
                 onClick={() => setIsEditingEmail(true)}
-                className="text-sm sm:text-base text-gray-600 bg-gray-300 hover:bg-gray-400 py-2 px-4 rounded-lg font-semibold transition duration-200"
+                className="px-4 py-1 text-sm font-semibold text-gray-600 transition duration-200 bg-gray-300 rounded-lg sm:text-base hover:bg-gray-400"
               >
                 Cambiar Email
               </button>
@@ -267,22 +296,24 @@ export default function ConfigView() {
                 <button
                   type="button"
                   onClick={handleSubmit(handleEmail)}
-                  className="text-sm sm:text-base text-white bg-blue-600 hover:bg-blue-700 py-2 px-4 rounded-lg font-semibold transition duration-200"
+                  className="px-4 py-1 text-sm font-semibold text-white transition duration-200 bg-blue-600 rounded-lg sm:text-base hover:bg-blue-700"
                 >
                   Confirmar
                 </button>
                 <button
                   type="button"
                   onClick={() => setIsEditingEmail(false)}
-                  className="text-sm sm:text-base  text-white bg-red-600 hover:bg-red-700 py-2 px-4 rounded-lg font-semibold transition duration-200"
+                  className="px-4 py-1 text-sm font-semibold text-white transition duration-200 bg-red-600 rounded-lg sm:text-base hover:bg-red-700"
                 >
                   Cancelar
                 </button>
               </div>
             )}
             <button
-              className="text-sm sm:text-base  text-gray-600 bg-gray-300 hover:bg-gray-400 py-2 px-4 rounded-lg font-semibold transition duration-200"
-              onClick={() => navigate('?reestablecer_password=true&internal=true')}
+              className="px-4 py-1 text-sm font-semibold text-gray-600 transition duration-200 bg-gray-300 rounded-lg sm:text-base hover:bg-gray-400"
+              onClick={() =>
+                navigate("?reestablecer_password=true&internal=true")
+              }
             >
               Cambiar Contraseña
             </button>

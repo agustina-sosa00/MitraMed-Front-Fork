@@ -49,7 +49,7 @@ export default function Nav() {
   return (
     <div className="flex items-center justify-end w-full gap-2 ">
       <Link to="/inicio" className="">
-        <button className="hidden px-4 py-2 transition-all duration-200 border-2 md:flex border-green rounded-xl text-green hover:bg-green hover:text-white">
+        <button className="hidden px-2 py-1 text-xs transition-all duration-200 border lg:px-4 lg:text-base md:flex border-green rounded-xl text-green hover:bg-green hover:text-white">
           Inicio
         </button>
       </Link>
@@ -60,7 +60,7 @@ export default function Nav() {
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
-          <p className="px-4 py-2 transition-all duration-200 border-2 border-green rounded-xl text-green hover:bg-green hover:text-white">
+          <p className="px-2 py-1 text-xs transition-all duration-200 border lg:px-4 lg:text-base border-green rounded-xl text-green hover:bg-green hover:text-white">
             Perfil
           </p>
         </div>
@@ -75,7 +75,7 @@ export default function Nav() {
         {isMenuOpen && (
           <div
             ref={menuRef}
-            className="absolute z-10 w-40 transform -translate-x-1/2 bg-white rounded-lg shadow-lg top-full left-1/2"
+            className="absolute z-10 w-40 transform translate-x-1/2 bg-white rounded-lg shadow-lg right-12 top-8 "
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
