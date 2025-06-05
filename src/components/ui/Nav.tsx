@@ -1,15 +1,16 @@
-import { useState } from 'react';
-import { FaBars, FaUserCircle } from 'react-icons/fa';
-import { RiLogoutBoxLine } from 'react-icons/ri';
-import { TbSettings } from 'react-icons/tb';
-import { Link, useNavigate } from 'react-router-dom';
-import { useEffect, useRef } from 'react';
+import { useState } from "react";
+import { FaBars, FaUserCircle } from "react-icons/fa";
+import { FaHouse } from "react-icons/fa6";
+import { IoMdSettings } from "react-icons/io";
+import { PiSignOutBold } from "react-icons/pi";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useRef } from "react";
 
 export default function Nav() {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-  const nombreUsuario = localStorage.getItem('nombreUsuario') || 'Usuario';
+  const nombreUsuario = localStorage.getItem("nombreUsuario") || "Usuario";
 
   const handleMouseEnter = () => {
     setIsMenuOpen(true);
@@ -25,9 +26,11 @@ export default function Nav() {
   };
 
   const handleLogout = () => {
-    document.cookie = 'accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-    document.cookie = 'refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-    navigate('/');
+    document.cookie =
+      "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie =
+      "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    navigate("/");
   };
 
   useEffect(() => {
@@ -37,76 +40,82 @@ export default function Nav() {
       }
     };
 
-    document.addEventListener('click', handleClickOutside);
+    document.addEventListener("click", handleClickOutside);
     return () => {
-      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener("click", handleClickOutside);
     };
   }, []);
 
   return (
-    <div className="flex justify-end sm:justify-between items-center max-w-xs w-full mx:justify-around py-4 px-6 ">
-      <div className="sm:flex max-w-xs w-full mx:justify-around">
-        <Link
-          to="/inicio"
-          className="hidden sm:flex items-end justify-center font-semibold h-full w-full sm:text-xl xl:text-2xl hover:text-amber-400 transition"
-        >
+    <div className="flex items-center justify-end w-full gap-2 ">
+      <Link to="/inicio" className="">
+        <button className="hidden px-4 py-2 transition-all duration-200 border-2 md:flex border-green rounded-xl text-green hover:bg-green hover:text-white">
           Inicio
-        </Link>
+        </button>
+      </Link>
 
-        <div className="relative flex justify-center items-end sm:w-autO">
+      <div className="relative flex items-end justify-center sm:w-autO">
+        <div
+          className="items-center hidden space-x-2 sm:flex hover:cursor-pointer"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <p className="px-4 py-2 transition-all duration-200 border-2 border-green rounded-xl text-green hover:bg-green hover:text-white">
+            Perfil
+          </p>
+        </div>
+        <button
+          className="block text-xl font-semibold text-green sm:hidden"
+          onClick={toggleMenu}
+        >
+          <FaBars />
+        </button>
+
+        {/* Menú desplegable */}
+        {isMenuOpen && (
           <div
-            className="hidden sm:flex items-center space-x-2"
+            ref={menuRef}
+            className="absolute z-10 w-40 transform -translate-x-1/2 bg-white rounded-lg shadow-lg top-full left-1/2"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
-            <p className="font-semibold sm:text-xl xl:text-2xl text-gray-800 hover:text-amber-400 transition cursor-default">
-              Perfil
-            </p>
-          </div>
-          <button
-            className="block sm:hidden font-semibold text-xl text-gray-800"
-            onClick={toggleMenu}
-          >
-            <FaBars />
-          </button>
-
-          {/* Menú desplegable */}
-          {isMenuOpen && (
-            <div
-              ref={menuRef}
-              className="absolute top-full left-1/2 transform -translate-x-1/2 w-40 bg-white shadow-lg rounded-lg z-10"
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-            >
-              <div className="flex flex-col items-center mt-2">
-                <FaUserCircle className="text-xl xl:text-3xl text-gray-400" />
-                <p className="font-semibold text-base xl:text-xl text-gray-500 hover:text-sky-400 transition cursor-default mt-1">
-                  {nombreUsuario}
-                </p>
-              </div>
-              <div className="mt-2">
-                <Link
-                  to="/configuracion"
-                  className="block px-4 pt-3 text-gray-800 hover:text-amber-500 transition"
-                >
-                  <div className="flex items-center text-sm xl:text-base">
-                    <TbSettings className="mr-2" />
-                    Configuración
-                  </div>
-                </Link>
-                <button
-                  onClick={handleLogout}
-                  className="block w-full text-left px-4 py-4 text-gray-800 hover:text-amber-500 transition"
-                >
-                  <div className="flex items-center text-sm xl:text-base">
-                    <RiLogoutBoxLine className="mr-2" />
-                    Cerrar sesión
-                  </div>
-                </button>
-              </div>
+            <div className="flex flex-col items-center mt-2">
+              <FaUserCircle className="text-xl text-gray-400 xl:text-3xl" />
+              <p className="mt-1 text-base font-semibold text-gray-500 transition cursor-default xl:text-xl hover:text-greenHover">
+                {nombreUsuario}
+              </p>
             </div>
-          )}
-        </div>
+            <div className="mt-2">
+              <Link
+                to="/"
+                className="block px-4 pt-3 transition text-blue hover:text-greenHover"
+              >
+                <div className="flex items-center text-sm xl:text-base">
+                  <FaHouse className="mr-2" />
+                  Inicio
+                </div>
+              </Link>
+              <Link
+                to="/configuracion"
+                className="block px-4 pt-3 transition text-blue hover:text-greenHover"
+              >
+                <div className="flex items-center text-sm xl:text-base">
+                  <IoMdSettings className="mr-2" />
+                  Configuración
+                </div>
+              </Link>
+              <button
+                onClick={handleLogout}
+                className="block w-full px-4 py-4 text-left transition text-blue hover:text-greenHover"
+              >
+                <div className="flex items-center text-sm xl:text-base">
+                  <PiSignOutBold className="mr-2" />
+                  Cerrar sesión
+                </div>
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
