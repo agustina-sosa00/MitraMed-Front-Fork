@@ -11,6 +11,19 @@ import NewPasswordModal from "@/components/features/modals/NewPasswordModal";
 
 export default function Layout() {
   const [isopenDrawer, setIsOpenDrawer] = useState(false);
+  const [currentRol, setCurrentRol] = useState<
+    "paciente" | "profesional" | undefined
+  >();
+
+  const handleOpenDrawer = (rol: "paciente" | "profesional") => {
+    setCurrentRol(rol);
+    setIsOpenDrawer(true);
+  };
+
+  const handleCloseDrawer = () => {
+    setIsOpenDrawer(false);
+    setCurrentRol(undefined);
+  };
 
   const navigate = useNavigate();
 
@@ -25,7 +38,13 @@ export default function Layout() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Header state={isopenDrawer} setState={setIsOpenDrawer} />
+      <Header
+        state={isopenDrawer}
+        setState={setIsOpenDrawer}
+        currentRol={currentRol}
+        handleOpenDrawer={handleOpenDrawer}
+        handleCloseDrawer={handleCloseDrawer}
+      />
 
       <div className="flex-grow ">
         <Outlet />

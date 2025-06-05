@@ -1,31 +1,37 @@
-import { Fragment, useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Dialog, Transition, TransitionChild, DialogPanel, DialogTitle } from '@headlessui/react';
-import { useMutation } from '@tanstack/react-query';
-import { toast } from 'react-toastify';
-import { reestablecerPassword } from '@/services/UserService';
-import { isAxiosError } from 'axios';
-import { ClipLoader } from 'react-spinners';
-import apiNoAuth from '@/lib/axiosNoAuth';
-import NewPasswordForm from '@/components/features/forms/NewPasswordForm';
-import Cookies from 'js-cookie';
+import { Fragment, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useLocation, useNavigate } from "react-router-dom";
+import {
+  Dialog,
+  Transition,
+  TransitionChild,
+  DialogPanel,
+  DialogTitle,
+} from "@headlessui/react";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+import { reestablecerPassword } from "@/services/UserService";
+import { isAxiosError } from "axios";
+import { ClipLoader } from "react-spinners";
+import apiNoAuth from "@/lib/axiosNoAuth";
+import NewPasswordForm from "@/components/features/forms/NewPasswordForm";
+import Cookies from "js-cookie";
 
 export default function NewPasswordModal() {
   const navigate = useNavigate();
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const modal = queryParams.get('reestablecer_password');
+  const modal = queryParams.get("reestablecer_password");
   const show = modal ? true : false;
-  const internalRequest = queryParams.get('internal') === 'true';
-  const token = queryParams.get('token');
+  const internalRequest = queryParams.get("internal") === "true";
+  const token = queryParams.get("token");
 
   const [isLoading, setIsLoading] = useState(true);
   const [hasFetched, setHasFetched] = useState(false);
-  const [backendMessage, setBackendMessage] = useState('');
+  const [backendMessage, setBackendMessage] = useState("");
   const [isTokenValid, setIsTokenValid] = useState<boolean | null>(null);
-  const accessToken = Cookies.get('accessToken');
+  const accessToken = Cookies.get("accessToken");
 
   useEffect(() => {
     const validateToken = async () => {
@@ -37,7 +43,7 @@ export default function NewPasswordModal() {
       }
 
       if (!token) {
-        setBackendMessage('Token inválido');
+        setBackendMessage("Token inválido");
         setIsTokenValid(false);
         setIsLoading(false);
         setHasFetched(true);
@@ -46,7 +52,9 @@ export default function NewPasswordModal() {
 
       setIsLoading(true);
       try {
-        const response = await apiNoAuth.get(`/auth/verificar_token?token=${token}`);
+        const response = await apiNoAuth.get(
+          `/auth/verificar_token?token=${token}`
+        );
 
         if (response.status === 200) {
           setIsTokenValid(true);
@@ -56,7 +64,7 @@ export default function NewPasswordModal() {
           setBackendMessage(error.response.data.error);
           setIsTokenValid(false); // Token inválido
         } else {
-          setBackendMessage('Error desconocido');
+          setBackendMessage("Error desconocido");
           setIsTokenValid(false);
         }
       } finally {
@@ -75,7 +83,7 @@ export default function NewPasswordModal() {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm({ defaultValues: { password: '', repite_password: '' } });
+  } = useForm({ defaultValues: { password: "", repite_password: "" } });
 
   const { mutate } = useMutation({
     mutationFn: reestablecerPassword,
@@ -98,7 +106,7 @@ export default function NewPasswordModal() {
     repite_password: string;
   }) => {
     if (password !== repite_password) {
-      toast.error('Las contraseñas no coinciden');
+      toast.error("Las contraseñas no coinciden");
       return;
     }
 
@@ -107,7 +115,7 @@ export default function NewPasswordModal() {
     } else if (!token && accessToken) {
       mutate({ token: accessToken, password });
     } else {
-      toast.error('Token no válido');
+      toast.error("Token no válido");
     }
   };
 
@@ -135,7 +143,7 @@ export default function NewPasswordModal() {
           </TransitionChild>
 
           <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
+            <div className="flex items-center justify-center min-h-full p-4 text-center">
               <TransitionChild
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -145,16 +153,18 @@ export default function NewPasswordModal() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <DialogPanel className="w-full max-w-xl transform overflow-hidden bg-white text-left text-slate-800 align-middle shadow-xl transition-all p-8">
+                <DialogPanel className="w-full max-w-xl p-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl text-slate-800">
                   <DialogTitle
                     as="h3"
-                    className="text-xl sm:text-3xl font-semibold mb-4 underline underline-offset-4 decoration-2"
+                    className="mb-4 text-xl font-semibold underline sm:text-3xl underline-offset-4 decoration-2"
                   >
-                    {isLoading || backendMessage ? '' : 'Reestablecer contraseña'}
+                    {isLoading || backendMessage
+                      ? ""
+                      : "Reestablecer contraseña"}
                   </DialogTitle>
 
                   {isLoading ? (
-                    <div className="flex justify-center items-center mt-5">
+                    <div className="flex items-center justify-center mt-5">
                       <ClipLoader color="#36d7b7" size={80} />
                     </div>
                   ) : hasFetched && isTokenValid ? (
@@ -164,10 +174,10 @@ export default function NewPasswordModal() {
                       onSubmit={handleSubmit(handleForm)}
                     >
                       {token && (
-                        <p className="text-amber-500 font-thin text-xs italic my-2">
-                          *Esta ventana es de un solo uso. Te recomendamos cambiar tu contraseña
-                          antes de salir. De lo contrario, deberás solicitar un nuevo link de
-                          recuperación.
+                        <p className="my-2 text-xs italic font-thin text-amber-500">
+                          *Esta ventana es de un solo uso. Te recomendamos
+                          cambiar tu contraseña antes de salir. De lo contrario,
+                          deberás solicitar un nuevo link de recuperación.
                         </p>
                       )}
 
@@ -176,11 +186,11 @@ export default function NewPasswordModal() {
                       <input
                         type="submit"
                         value="Enviar"
-                        className="py-1 sm:p-2 my-3 w-full text-white text-base uppercase bg-blue-600 hover:bg-blue-700  transition-colors cursor-pointer shadow-lg rounded"
+                        className="w-1/2 py-1 my-3 text-base text-white uppercase transition-colors rounded shadow-lg cursor-pointer bg-green sm:p-2 hover:bg-greenHover"
                       />
                     </form>
                   ) : (
-                    <div className="flex flex-col justify-center items-center">
+                    <div className="flex flex-col items-center justify-center">
                       <svg
                         className="error-icon"
                         xmlns="http://www.w3.org/2000/svg"

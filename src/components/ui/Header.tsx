@@ -7,14 +7,20 @@ import { Drawer } from "../features/DrawerLogin/Drawer";
 interface IProp {
   state: boolean;
   setState: React.Dispatch<React.SetStateAction<boolean>>;
+  currentRol?: "paciente" | "profesional";
+  handleOpenDrawer: (rol: "paciente" | "profesional") => void;
+  handleCloseDrawer: () => void;
 }
-export default function Header({ state, setState }: IProp) {
+export default function Header({
+  state,
+  currentRol,
+  handleCloseDrawer,
+  handleOpenDrawer,
+}: IProp) {
   const isLoggedIn = Cookies.get("accessToken") && Cookies.get("refreshToken");
   const isDevelopment = import.meta.env.VITE_ENV === "development";
 
   const [scrolled, setScrolled] = useState(false);
-  type RolType = "paciente" | "profesional";
-  const [currentRol, setCurrentRol] = useState<RolType | undefined>();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,16 +38,6 @@ export default function Header({ state, setState }: IProp) {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
-  const handleOpenDrawer = (rol: RolType) => {
-    setCurrentRol(rol);
-    setState(true);
-  };
-
-  const handleCloseDrawer = () => {
-    setState(false);
-    setCurrentRol(undefined);
-  };
 
   return (
     <header
