@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -8,8 +7,11 @@ import { arrayInfoCarousel } from "../../mock/arrayInfoCarousel";
 interface IProp {
   state: boolean;
   setState: React.Dispatch<React.SetStateAction<boolean>>;
+  currentRol?: "paciente" | "profesional";
+  handleOpenDrawer: (rol: "paciente" | "profesional") => void;
+  handleCloseDrawer: () => void;
 }
-export default function CarrouselPortal({ state, setState }: IProp) {
+export default function CarrouselPortal({ handleOpenDrawer }: IProp) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -30,9 +32,6 @@ export default function CarrouselPortal({ state, setState }: IProp) {
     },
   };
 
-  const handleOpenDrawer = () => {
-    setState(!state);
-  };
   return (
     <div className="relative h-full lg:h-[90vh] w-full overflow-hidden">
       <Slider {...sliderSettings}>
@@ -67,7 +66,7 @@ export default function CarrouselPortal({ state, setState }: IProp) {
                 </p>
                 <button
                   className="p-2 text-sm text-white rounded-lg cursor-pointer md:text-base bg-green hover:bg-greenHover mx:block lg:text-lg xl:text-xl xl:p-3 text-start"
-                  onClick={handleOpenDrawer}
+                  onClick={() => handleOpenDrawer("paciente")}
                 >
                   <p>{item.textoImportant}</p>
                 </button>

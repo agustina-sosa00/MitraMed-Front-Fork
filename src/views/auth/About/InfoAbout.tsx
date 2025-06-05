@@ -3,12 +3,13 @@ import { useNavigate } from "react-router-dom";
 interface IProp {
   state: boolean;
   setState: React.Dispatch<React.SetStateAction<boolean>>;
+  currentRol?: "paciente" | "profesional";
+  handleOpenDrawer: (rol: "paciente" | "profesional") => void;
+  handleCloseDrawer: () => void;
 }
-export const InfoAbout = ({ state, setState }: IProp) => {
+export const InfoAbout = ({ handleOpenDrawer }: IProp) => {
   const navigate = useNavigate();
-  const handleOpenDrawer = () => {
-    setState(!state);
-  };
+
   return (
     <div className="flex flex-col items-center justify-center w-full h-full gap-3 py-5 lg:py-0 lg:items-start lg:w-1/2">
       <h1 className="font-serif text-2xl text-green md:text-4xl">
@@ -24,7 +25,7 @@ export const InfoAbout = ({ state, setState }: IProp) => {
         <p className="leading-relaxed text-center lg:text-start text-blue xl:text-lg">
           Para disfrutar de todas las funciones,{" "}
           <button
-            onClick={handleOpenDrawer}
+            onClick={() => handleOpenDrawer("paciente")}
             className="font-bold text-greenHover hover:underline"
           >
             inicia sesión en tu cuenta

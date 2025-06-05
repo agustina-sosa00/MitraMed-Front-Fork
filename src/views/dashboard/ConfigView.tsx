@@ -147,21 +147,21 @@ export default function ConfigView() {
   };
 
   return (
-    <div className="relative flex p-6 mb-28">
-      <div className="absolute -top-5 left-1">
+    <div className="relative flex flex-col items-center justify-center h-full px-4 py-10 sm:min-h-screen">
+      <div className="w-full max-w-4xl mb-5 top-5 ">
         <Link
           to="/inicio"
-          className="px-4 py-2 text-xs font-semibold text-white transition duration-200 bg-gray-700 rounded-lg sm:text-base hover:bg-gray-800"
+          className="px-4 py-1 text-sm font-semibold text-white transition duration-200 rounded-lg bg-green sm:text-base hover:bg-greenHover"
         >
-          Volver
+          Volver al inicio
         </Link>
       </div>
 
-      <div className="flex flex-col items-center w-full gap-6 lg:flex-row lg:items-start lg:gap-8">
+      <div className="flex flex-col items-center w-full gap-6 lg:flex-row lg:items-start ">
         {/* Imagen de perfil */}
-        <div className="flex items-center justify-center flex-shrink-0 w-full lg:w-1/3">
+        <div className="flex items-center justify-end w-full px-5 lg:w-1/3">
           <div className="flex items-center justify-center w-40 h-40 text-5xl bg-white border rounded-full">
-            <span className="text-5xl">
+            <span className="text-5xl text-blue ">
               {usuario?.genero === "Masculino" ? <SlUser /> : <SlUserFemale />}
             </span>
           </div>
@@ -169,7 +169,7 @@ export default function ConfigView() {
 
         {/* Datos solo lectura */}
         <div className="flex flex-col w-full max-w-lg lg:max-w-3xl sm:flex-grow lg:w-2/3">
-          <h2 className="mb-4 text-2xl font-semibold text-center sm:text-4xl sm:text-left">
+          <h2 className="mb-4 text-2xl font-semibold text-center sm:text-4xl sm:text-left text-green">
             Datos del Perfil
           </h2>
 
@@ -178,7 +178,7 @@ export default function ConfigView() {
               ["nombre", "apellido", "fnac", "genero"] as (keyof Usuario)[]
             ).map((field) => (
               <div key={field} className="flex items-center sm:gap-3">
-                <label className="w-1/3 text-sm font-medium text-gray-600 sm:text-base">
+                <label className="w-1/3 text-sm font-medium text-blue sm:text-base">
                   {field === "fnac"
                     ? "Fecha de Nacimiento"
                     : (field as string).charAt(0).toUpperCase() +
@@ -200,7 +200,7 @@ export default function ConfigView() {
           {/* Telefono */}
           <div className="grid grid-cols-1 mb-5">
             <div className="flex items-center w-full">
-              <label className="w-1/6 text-sm font-medium text-gray-600 sm:text-base">
+              <label className="w-1/6 text-sm font-medium text-blue sm:text-base">
                 Teléfono
               </label>
               {isEditingTelefono ? (
@@ -238,7 +238,7 @@ export default function ConfigView() {
           {/* Email */}
           <div className="grid grid-cols-1">
             <div className="flex items-center w-full">
-              <label className="w-1/6 text-sm font-medium text-gray-600 sm:text-base">
+              <label className="w-1/6 text-sm font-medium text-blue sm:text-base">
                 Email
               </label>
               {isEditingEmail ? (
@@ -260,7 +260,7 @@ export default function ConfigView() {
               <button
                 type="button"
                 onClick={() => setIsEditingTelefono(true)}
-                className="px-4 py-2 text-sm font-semibold text-gray-600 transition duration-200 bg-gray-300 rounded-lg sm:text-base hover:bg-gray-400"
+                className="px-4 py-1 text-sm font-semibold text-gray-600 transition duration-200 bg-gray-300 rounded-lg sm:text-base hover:bg-gray-400"
               >
                 Cambiar Telefono
               </button>
@@ -269,14 +269,14 @@ export default function ConfigView() {
                 <button
                   type="button"
                   onClick={handleSubmit(handleCambiarTelefono)}
-                  className="px-4 py-2 text-sm font-semibold text-white transition duration-200 bg-blue-600 rounded-lg sm:text-base hover:bg-blue-700"
+                  className="px-4 py-1 text-sm font-semibold text-white transition duration-200 bg-blue-600 rounded-lg sm:text-base hover:bg-blue-700"
                 >
                   Confirmar
                 </button>
                 <button
                   type="button"
                   onClick={() => setIsEditingTelefono(false)}
-                  className="px-4 py-2 text-sm font-semibold text-white transition duration-200 bg-red-600 rounded-lg sm:text-base hover:bg-red-700"
+                  className="px-4 py-1 text-sm font-semibold text-white transition duration-200 bg-red-600 rounded-lg sm:text-base hover:bg-red-700"
                 >
                   Cancelar
                 </button>
@@ -287,7 +287,7 @@ export default function ConfigView() {
               <button
                 type="button"
                 onClick={() => setIsEditingEmail(true)}
-                className="px-4 py-2 text-sm font-semibold text-gray-600 transition duration-200 bg-gray-300 rounded-lg sm:text-base hover:bg-gray-400"
+                className="px-4 py-1 text-sm font-semibold text-gray-600 transition duration-200 bg-gray-300 rounded-lg sm:text-base hover:bg-gray-400"
               >
                 Cambiar Email
               </button>
@@ -296,21 +296,21 @@ export default function ConfigView() {
                 <button
                   type="button"
                   onClick={handleSubmit(handleEmail)}
-                  className="px-4 py-2 text-sm font-semibold text-white transition duration-200 bg-blue-600 rounded-lg sm:text-base hover:bg-blue-700"
+                  className="px-4 py-1 text-sm font-semibold text-white transition duration-200 bg-blue-600 rounded-lg sm:text-base hover:bg-blue-700"
                 >
                   Confirmar
                 </button>
                 <button
                   type="button"
                   onClick={() => setIsEditingEmail(false)}
-                  className="px-4 py-2 text-sm font-semibold text-white transition duration-200 bg-red-600 rounded-lg sm:text-base hover:bg-red-700"
+                  className="px-4 py-1 text-sm font-semibold text-white transition duration-200 bg-red-600 rounded-lg sm:text-base hover:bg-red-700"
                 >
                   Cancelar
                 </button>
               </div>
             )}
             <button
-              className="px-4 py-2 text-sm font-semibold text-gray-600 transition duration-200 bg-gray-300 rounded-lg sm:text-base hover:bg-gray-400"
+              className="px-4 py-1 text-sm font-semibold text-gray-600 transition duration-200 bg-gray-300 rounded-lg sm:text-base hover:bg-gray-400"
               onClick={() =>
                 navigate("?reestablecer_password=true&internal=true")
               }

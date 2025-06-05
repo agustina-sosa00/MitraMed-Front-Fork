@@ -67,12 +67,12 @@ export default function CreateAccountModal() {
       >
         <DialogTitle
           as="h3"
-          className="mb-6 text-3xl font-semibold text-center text-gray-800 underline"
+          className="mb-6 text-3xl font-semibold text-center text-green"
         >
           Crea tu cuenta
         </DialogTitle>
 
-        <p className="mb-6 text-sm text-center text-gray-600">
+        <p className="mb-6 text-sm text-center text-blue">
           Llena el formulario para registrarte y recibirás un correo para
           confirmar tu cuenta.
         </p>
@@ -88,7 +88,7 @@ export default function CreateAccountModal() {
             <input
               type="submit"
               value="Registrarme"
-              className="max-w-lg p-2 my-3 text-base text-white uppercase transition-colors bg-[var(--color-green)] rounded shadow-lg cursor-pointer hover:bg-[var(--color-green-hover)] "
+              className="max-w-lg px-4 py-1 my-3 text-base text-white uppercase transition-colors rounded shadow-lg cursor-pointer bg-green hover:bg-greenHover "
             />
           </div>
         </form>
@@ -97,7 +97,7 @@ export default function CreateAccountModal() {
           <p className="">
             Ya tienes una cuenta?{" "}
             <button
-              className="text-[var(--color-green)] hover:underline"
+              className="text-green hover:text-greenHover hover:underline"
               onClick={() => navigate("/")}
             >
               Inicia sesión aquí

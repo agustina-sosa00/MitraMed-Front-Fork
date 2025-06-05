@@ -70,7 +70,7 @@ export default function ConfirmTurnoModal({
       <Transition appear show={show} as={Fragment}>
         <Dialog
           as="div"
-          className="relative z-10"
+          className="relative z-30"
           onClose={() => navigate(location.pathname, { replace: true })}
         >
           <TransitionChild
@@ -86,7 +86,7 @@ export default function ConfirmTurnoModal({
           </TransitionChild>
 
           <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex items-center justify-center min-h-full p-4 text-center">
+            <div className="flex items-center justify-center min-h-screen p-4 text-center">
               <TransitionChild
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -96,40 +96,37 @@ export default function ConfirmTurnoModal({
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <DialogPanel className="flex flex-col items-center w-full max-w-2xl p-8 overflow-hidden text-left transition-all transform bg-white rounded-lg shadow-xl text-slate-800">
-                  <div className="w-auto px-10 py-4 space-y-3 bg-gray-100 border-2 border-gray-500 rounded-lg sm:px-16 ">
-                    <h3 className="mb-2 text-xl font-semibold text-center text-blue-600 underline">
-                      Detalles del turno:
-                    </h3>
-                    <div className="flex items-center justify-start gap-2 text-base">
-                      <p className="w-[100px] text-right font-semibold text-gray-800">
-                        Especialidad:
-                      </p>
+                <DialogPanel className="flex flex-col items-center w-full max-w-2xl p-8 overflow-y-auto max-h-[70vh] text-left transition-all transform bg-white rounded-lg shadow-xl text-slate-800 gap-5">
+                  <div className="w-auto px-10 py-4  bg-gray-100  border-[#f1f1f1] rounded-lg sm:px-16 flex flex-col justify-center items-start  ">
+                    <div className="flex items-center justify-center w-full">
+                      <h3 className="mb-2 text-xl font-semibold text-center text-green">
+                        Detalles del turno:
+                      </h3>
+                    </div>
+
+                    <div className="flex items-start justify-start w-full gap-2 text-base">
+                      <p className="font-semibold text-blue">Especialidad:</p>
                       <p className="italic text-gray-600">
                         {turnoData?.nombreEspecialidad}
                       </p>
                     </div>
 
-                    <div className="flex items-center justify-start gap-2 text-base">
-                      <p className="w-[100px] text-right font-semibold text-gray-800">
-                        Doctor:
-                      </p>
+                    <div className="flex items-start justify-start w-full gap-2 text-base">
+                      <p className="font-semibold text-blue">Doctor:</p>
                       <p className="italic text-gray-600">
                         {turnoData?.nombreDoctor}
                       </p>
                     </div>
 
                     <div className="flex items-center justify-start gap-2 text-base">
-                      <p className="w-[100px] text-right font-semibold text-gray-800">
+                      <p className="font-semibold text-right text-blue">
                         Fecha:
                       </p>
                       <p className="italic text-gray-600">{fechaFormateada}</p>
                     </div>
 
                     <div className="flex items-center justify-start gap-2 text-base">
-                      <p className="w-[100px] text-right font-semibold text-gray-800">
-                        Día:
-                      </p>
+                      <p className="font-semibold text-right text-blue">Día:</p>
                       <p className="italic text-gray-600">
                         {
                           [
@@ -145,7 +142,7 @@ export default function ConfirmTurnoModal({
                     </div>
 
                     <div className="flex items-center justify-start gap-2 text-base">
-                      <p className="w-[100px] text-right font-semibold text-gray-800">
+                      <p className="font-semibold text-right text-blue">
                         Hora:
                       </p>
                       <p className="italic text-gray-600">
@@ -153,7 +150,7 @@ export default function ConfirmTurnoModal({
                       </p>
                     </div>
                   </div>
-                  <div className="p-4 mt-10 mb-6 text-gray-700 border-l-4 border-blue-600 bg-blue-50">
+                  <div className="p-4 mb-6 border-l-4 border-blue-600 text-blue bg-blue-50">
                     <p className="mb-2 font-semibold">Importante:</p>
                     <ul className="pl-5 list-disc">
                       <li>Se enviará un email con los detalles del turno.</li>
@@ -169,15 +166,15 @@ export default function ConfirmTurnoModal({
                   </div>
 
                   {/* Botón Confirmar */}
-                  <div className="relative flex justify-center w-full gap-6 mt-6">
+                  <div className="relative flex justify-center w-full gap-6 ">
                     <button
                       onClick={handleConfirmar}
                       disabled={loadingConfirm} // Desactiva el botón durante la carga
-                      className={`px-6 py-2 bg-green-600 text-white text-sm sm:text-base font-semibold rounded-lg shadow-md 
+                      className={`px-6 py-2 bg-green text-white text-sm sm:text-base font-semibold rounded-lg shadow-md 
                                 ${
                                   loadingConfirm
                                     ? "opacity-50 cursor-not-allowed"
-                                    : "hover:bg-green-700"
+                                    : "hover:bg-greenHover"
                                 }
                                 transition duration-200 uppercase`}
                     >

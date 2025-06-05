@@ -20,6 +20,19 @@ import Header from "@/components/ui/Header";
 export default function PortalView() {
   const navigate = useNavigate();
   const [isopenDrawer, setIsOpenDrawer] = useState(false);
+  const [currentRol, setCurrentRol] = useState<
+    "paciente" | "profesional" | undefined
+  >();
+
+  const handleOpenDrawer = (rol: "paciente" | "profesional") => {
+    setCurrentRol(rol);
+    setIsOpenDrawer(true);
+  };
+
+  const handleCloseDrawer = () => {
+    setIsOpenDrawer(false);
+    setCurrentRol(undefined);
+  };
 
   useEffect(() => {
     const accessToken = Cookies.get("accessToken");
@@ -49,11 +62,29 @@ export default function PortalView() {
 
   return (
     <>
-      <Header state={isopenDrawer} setState={setIsOpenDrawer} />
+      <Header
+        state={isopenDrawer}
+        setState={setIsOpenDrawer}
+        currentRol={currentRol}
+        handleOpenDrawer={handleOpenDrawer}
+        handleCloseDrawer={handleCloseDrawer}
+      />
 
-      <CarrouselPortal state={isopenDrawer} setState={setIsOpenDrawer} />
+      <CarrouselPortal
+        state={isopenDrawer}
+        setState={setIsOpenDrawer}
+        currentRol={currentRol}
+        handleOpenDrawer={handleOpenDrawer}
+        handleCloseDrawer={handleCloseDrawer}
+      />
       <CardsAbout />
-      <About state={isopenDrawer} setState={setIsOpenDrawer} />
+      <About
+        state={isopenDrawer}
+        setState={setIsOpenDrawer}
+        currentRol={currentRol}
+        handleOpenDrawer={handleOpenDrawer}
+        handleCloseDrawer={handleCloseDrawer}
+      />
 
       {/* <WhatsApp /> */}
 
