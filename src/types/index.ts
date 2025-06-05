@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export const accountSchema = z.object({
   nombre: z.string(),
@@ -10,10 +10,11 @@ export const accountSchema = z.object({
   genero: z.string(),
   password: z.string(),
   confirmPassword: z.string(),
+  dni: z.string().optional(),
 });
 
 export type NewAccount = z.infer<typeof accountSchema>;
-export type Account = Pick<NewAccount, 'email' | 'password'>;
+export type Account = Pick<NewAccount, "email" | "password" | "dni">;
 
 export type Usuario = {
   nombre: string;

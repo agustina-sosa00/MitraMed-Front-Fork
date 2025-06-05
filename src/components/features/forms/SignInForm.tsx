@@ -9,13 +9,18 @@ import Cookies from "js-cookie";
 import InputField from "../../ui/InputField";
 import ErrorMessage from "../../ui/ErrorMessage";
 
-export default function SignInForm() {
+interface IProp {
+  rol?: string;
+}
+
+export default function SignInForm({ rol }: IProp) {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
   const initialValues: Account = {
     email: "",
     password: "",
+    dni: "",
   };
 
   const {
@@ -27,13 +32,9 @@ export default function SignInForm() {
   const { mutate } = useMutation({
     mutationFn: iniciarSesion,
     onError: (error) => {
-      console.log(error);
       toast.error(error.message);
     },
     onSuccess: (data) => {
-      // console.log(data);
-      // toast.success(data.message);
-
       localStorage.setItem("nombreUsuario", data.nombre_usuario);
 
       // Almacenar los tokens en cookies
@@ -45,7 +46,6 @@ export default function SignInForm() {
   });
 
   const handleForm = (formData: Account) => {
-    // console.log(formData);
     mutate(formData);
   };
 
@@ -60,25 +60,51 @@ export default function SignInForm() {
         noValidate
         onSubmit={handleSubmit(handleForm)}
       >
-        <div className="flex flex-col">
-          <InputField
-            id={"email"}
-            type={"text"}
-            label={"Email"}
-            placeholder={"Ingresa tu email"}
-            register={register("email", {
-              required: {
-                value: true,
-                message: "El email es obligatorio",
-              },
-              pattern: {
-                value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
-                message: "Email inválido",
-              },
-            })}
-          />
-          {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
-        </div>
+        {rol === "paciente" ? (
+          <div className="flex flex-col">
+            <InputField
+              id={"email"}
+              type={"text"}
+              label={"Email"}
+              placeholder={"Ingresa tu email"}
+              register={register("email", {
+                required: {
+                  value: true,
+                  message: "El email es obligatorio",
+                },
+                pattern: {
+                  value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
+                  message: "Email inválido",
+                },
+              })}
+            />
+            {errors.email && (
+              <ErrorMessage>{errors.email.message}</ErrorMessage>
+            )}
+          </div>
+        ) : (
+          <div className="flex flex-col">
+            <InputField
+              id={"dni"}
+              type={"text"}
+              label={"DNI"}
+              placeholder={"Ingresa tu DNI"}
+              register={register("dni", {
+                required: {
+                  value: true,
+                  message: "El email es obligatorio",
+                },
+                pattern: {
+                  value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
+                  message: "Email inválido",
+                },
+              })}
+            />
+            {errors.email && (
+              <ErrorMessage>{errors.email.message}</ErrorMessage>
+            )}
+          </div>
+        )}
 
         <div className="relative flex flex-col w-full ">
           <InputField
@@ -111,37 +137,43 @@ export default function SignInForm() {
           className="w-full p-2 mt-4 text-base font-semibold text-white uppercase transition-all rounded-lg shadow-md cursor-pointer xl:p-3 xl:text-lg bg-green hover:bg-greenHover"
         />
       </form>
-
-      <div className="flex justify-center my-6">
-        <button
-          type="button"
-          aria-label="Continuar con Google ID"
-          className="flex items-center gap-2 p-2 bg-gray-100 border border-gray-600 rounded bg-opacity-20 hover:bg-opacity-30"
-          onClick={() => {
-            window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${
-              import.meta.env.VITE_CLIENT_ID
-            }&redirect_uri=${
-              import.meta.env.VITE_REDIRECT_URI
-            }&response_type=code&scope=openid%20email%20https://www.googleapis.com/auth/userinfo.profile%20https://www.googleapis.com/auth/user.birthday.read%20https://www.googleapis.com/auth/user.gender.read%20https://www.googleapis.com/auth/user.phonenumbers.read`;
-          }}
-        >
-          <img src="/google-icon.png" alt="Google Icon" className="w-8 h-8" />
-          <span className="text-sm font-medium text-gray-700">
-            Continuar con Google
-          </span>
-        </button>
-      </div>
+      {rol === "paciente" ? (
+        <div className="flex justify-center my-6">
+          <button
+            type="button"
+            aria-label="Continuar con Google ID"
+            className="flex items-center gap-2 p-2 bg-gray-100 border border-gray-600 rounded bg-opacity-20 hover:bg-opacity-30"
+            onClick={() => {
+              window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${
+                import.meta.env.VITE_CLIENT_ID
+              }&redirect_uri=${
+                import.meta.env.VITE_REDIRECT_URI
+              }&response_type=code&scope=openid%20email%20https://www.googleapis.com/auth/userinfo.profile%20https://www.googleapis.com/auth/user.birthday.read%20https://www.googleapis.com/auth/user.gender.read%20https://www.googleapis.com/auth/user.phonenumbers.read`;
+            }}
+          >
+            <img src="/google-icon.png" alt="Google Icon" className="w-8 h-8" />
+            <span className="text-sm font-medium text-gray-700">
+              Continuar con Google
+            </span>
+          </button>
+        </div>
+      ) : null}
 
       <div className="flex flex-col items-start gap-2 pl-1 mt-5 text-sm text-gray-700 lg:pl-3 xl:text-base">
-        <p>
-          No tienes cuenta?{" "}
-          <button
-            className="hover:underline hover:text-green"
-            onClick={() => navigate(location.pathname + "?createAccount=true")}
-          >
-            Regístrate aquí
-          </button>
-        </p>
+        {rol === "paciente" ? (
+          <p>
+            No tienes cuenta?{" "}
+            <button
+              className="hover:underline hover:text-green"
+              onClick={() =>
+                navigate(location.pathname + "?createAccount=true")
+              }
+            >
+              Regístrate aquí
+            </button>
+          </p>
+        ) : null}
+
         <button
           className="hover:underline hover:text-green"
           onClick={() => navigate(location.pathname + "?forgotPassword=true")}
