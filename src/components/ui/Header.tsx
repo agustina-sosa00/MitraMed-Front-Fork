@@ -13,6 +13,8 @@ export default function Header({ state, setState }: IProp) {
   const isDevelopment = import.meta.env.VITE_ENV === "development";
 
   const [scrolled, setScrolled] = useState(false);
+  type RolType = "paciente" | "profesional";
+  const [currentRol, setCurrentRol] = useState<RolType | undefined>();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,8 +33,14 @@ export default function Header({ state, setState }: IProp) {
     };
   }, []);
 
-  const handleOpenDrawer = () => {
-    setState(!state);
+  const handleOpenDrawer = (rol: RolType) => {
+    setCurrentRol(rol);
+    setState(true);
+  };
+
+  const handleCloseDrawer = () => {
+    setState(false);
+    setCurrentRol(undefined);
   };
 
   return (
@@ -66,22 +74,27 @@ export default function Header({ state, setState }: IProp) {
         )}
 
         {!isLoggedIn ? (
-          // <div className="flex items-center justify-center h-12 px-3 bg-gray-100 border border-gray-400 md:px-10 xl:h-16 md:text-lg xl:text-xl">
-          //   Tel: +54 9 351 633-0700
-          // </div>
-          <button
-            onClick={handleOpenDrawer}
-            className="px-4 py-2 transition-all duration-200 border-2 border-green rounded-xl text-green hover:bg-green hover:text-white"
-          >
-            Iniciar sesión
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={() => handleOpenDrawer("profesional")}
+              className="px-4 py-2 transition-all duration-200 border-2 border-green rounded-xl text-green hover:bg-green hover:text-white"
+            >
+              Acceso para profesionales
+            </button>
+            <button
+              onClick={() => handleOpenDrawer("paciente")}
+              className="px-4 py-2 transition-all duration-200 border-2 border-green rounded-xl text-green hover:bg-green hover:text-white"
+            >
+              Iniciar sesión
+            </button>
+          </div>
         ) : (
-          <div className="flex w-40 justify-evenly sm:w-80 lg:mr-20">
+          <div className="flex ">
             <Nav />
           </div>
         )}
 
-        <Drawer handle={handleOpenDrawer} open={state} />
+        <Drawer handle={handleCloseDrawer} open={state} rol={currentRol} />
       </div>
     </header>
   );
