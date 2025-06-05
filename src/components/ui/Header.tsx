@@ -61,7 +61,7 @@ export default function Header({ state, setState }: IProp) {
 
         {isDevelopment && (
           <span className="px-2 py-1 font-semibold text-blue-500 rounded-md bg-slate-300">
-            Estás en <span className="italic font-bold">Desarrollo</span>
+            Estás en <span className="italic font-bold">desarrollo</span>
           </span>
         )}
 
