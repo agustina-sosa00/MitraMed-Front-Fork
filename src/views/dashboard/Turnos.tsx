@@ -51,17 +51,17 @@ export default function Turnos() {
       <div className="w-full max-w-4xl mb-5 top-5 left-3">
         <Link
           to="/inicio"
-          className="px-4 py-2 text-xs font-semibold text-white transition duration-200 rounded-lg bg-green sm:text-base hover:bg-greenHover"
+          className="px-4 py-1 text-sm font-semibold text-white transition duration-200 rounded-lg bg-green sm:text-base hover:bg-greenHover"
         >
           Volver al inicio
         </Link>
       </div>
-      <div className="w-full max-w-4xl  border border-black rounded-lg shadow-xl bg-[#f1f1f1] border-opacity-20 relative">
+      <div className="w-full max-w-4xl  border border-black rounded-lg shadow-xl bg-[#f1f1f1] border-opacity-20 ">
         <div className="py-5 text-center ">
           <h2 className="text-2xl font-bold underline uppercase text-green sm:text-3xl">
             Turnos Online
           </h2>
-          <p className="mt-4 text-sm text-blue sm:mt-6 sm:text-lg">
+          <p className="mt-4 text-sm text-blue sm:mt-6 sm:text-base">
             Selecciona especialidad y profesional para buscar disponibilidad de
             turnos
           </p>
@@ -75,10 +75,10 @@ export default function Turnos() {
             watch={watch}
           />
 
-          <div className="flex justify-center w-full px-2 py-5">
+          <div className="flex items-center justify-center w-full px-2 py-4 ">
             <button
               type="button"
-              className={`p-3 mt-8 max-w-md w-full text-lg uppercase font-semibold rounded-lg  transition duration-200 ${
+              className={`px-8 py-2  uppercase font-semibold rounded  transition duration-200 ${
                 watch("turno") === 0
                   ? "bg-gray-400 cursor-not-allowed"
                   : "bg-green hover:bg-greenHover cursor-pointer text-white"

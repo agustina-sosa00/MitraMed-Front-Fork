@@ -73,7 +73,7 @@ export default function HomeView() {
             <div className="relative z-10 mx-auto w-fit">
               <Link
                 to="/turnos"
-                className="inline-block px-8 py-3 text-lg font-semibold text-white transition duration-300 rounded-lg bg-green hover:bg-greenHover"
+                className="inline-block px-4 py-1 text-lg font-semibold text-white transition duration-300 rounded-lg bg-green hover:bg-greenHover"
               >
                 Sacar un Turno
               </Link>
@@ -102,7 +102,7 @@ export default function HomeView() {
             <div className="relative z-10 mx-auto w-fit">
               <Link
                 to="/mis-turnos"
-                className="inline-block px-8 py-3 text-lg font-semibold text-white transition duration-300 rounded-lg bg-green hover:bg-greenHover"
+                className="inline-block px-4 py-1 text-lg font-semibold text-white transition duration-300 rounded-lg bg-green hover:bg-greenHover"
               >
                 Ver mis Turnos
               </Link>
