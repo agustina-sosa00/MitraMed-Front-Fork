@@ -20,7 +20,7 @@ export const Card: React.FC<IProp> = ({
   id,
 }: IProp) => {
   return (
-    <div className="flex flex-col justify-between bg-white rounded w-[250px] min-h-52  ">
+    <div className="flex flex-col justify-between bg-[#f1f1f1] rounded w-[250px] min-h-52  ">
       <div className="px-6 py-5 ">
         <div className="flex items-center justify-center w-full text-left">
           <div className="flex flex-col w-full gap-1 ">

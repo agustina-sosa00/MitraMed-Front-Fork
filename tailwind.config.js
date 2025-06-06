@@ -19,6 +19,10 @@ export default {
         greenFocus: "#a1d36c",
         blue: "#022539",
       },
+      backgroundImage: {
+        misturnos: "url('https://i.imgur.com/yb9cgvt.png')",
+        perfil: "url('https://i.imgur.com/V4xSfb8.png')",
+      },
     },
   },
   plugins: [],
