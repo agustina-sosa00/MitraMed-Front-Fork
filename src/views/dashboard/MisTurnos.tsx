@@ -36,8 +36,8 @@ export default function MisTurnos() {
   });
 
   return (
-    <div className="relative flex flex-col items-center justify-center h-full px-4 py-10 sm:min-h-screen">
-      <div className="w-full max-w-4xl mb-5 top-5 left-3">
+    <div className="relative flex flex-col items-center justify-center h-full py-10 mx-4 bg-bottom bg-cover sm:min-h-screen bg-misturnos ">
+      <div className="w-full max-w-6xl top-5 left-3">
         <Link
           to="/inicio"
           className="px-4 py-1 text-sm font-semibold text-white transition duration-200 rounded-lg bg-green sm:text-base hover:bg-greenHover"
@@ -46,7 +46,7 @@ export default function MisTurnos() {
         </Link>
       </div>
 
-      <div className="w-full h-full max-w-4xl  my-5 bg-[#f1f1f1] border border-black rounded-lg shadow-xl border-opacity-20">
+      <div className="w-full h-full max-w-6xl  my-5 bg-[white] border border-black rounded-lg shadow-xl border-opacity-20">
         <div className="flex flex-col gap-5 py-5 text-center ">
           <h2 className="text-2xl font-bold uppercase text-green sm:text-3xl">
             Mis turnos
