@@ -47,8 +47,8 @@ export default function Turnos() {
   }, []);
 
   return (
-    <div className="relative flex flex-col items-center justify-center h-full py-10 mx-4 sm:min-h-screen">
-      <div className="w-full max-w-4xl mb-5 top-5 left-3">
+    <div className="relative flex flex-col items-center justify-center h-full px-5 py-10 bg-bottom bg-cover lg:mx-4 bg-opacity-10 sm:min-h-screen bg-misturnos ">
+      <div className="w-full max-w-4xl top-5 left-3">
         <Link
           to="/inicio"
           className="px-4 py-1 text-sm font-semibold text-white transition duration-200 rounded-lg bg-green sm:text-base hover:bg-greenHover"
@@ -56,8 +56,8 @@ export default function Turnos() {
           Volver al inicio
         </Link>
       </div>
-      <div className="w-full max-w-4xl  border border-black rounded-lg shadow-xl bg-[#f1f1f1] border-opacity-20 ">
-        <div className="py-5 text-center ">
+      <div className="w-full max-w-4xl  my-5 border border-black rounded-lg shadow-xl bg-[#f1f1f1] border-opacity-20 ">
+        <div className="px-5 py-5 text-center ">
           <h2 className="text-2xl font-bold underline uppercase text-green sm:text-3xl">
             Turnos Online
           </h2>
@@ -66,7 +66,10 @@ export default function Turnos() {
             turnos
           </p>
         </div>
-        <form onSubmit={(e) => e.preventDefault()}>
+        <form
+          onSubmit={(e) => e.preventDefault()}
+          className="sm:flex sm:flex-col sm:items-center sm:justify-center sm:w-full"
+        >
           <FormTurno
             register={register}
             setValue={setValue}

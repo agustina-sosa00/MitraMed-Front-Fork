@@ -40,7 +40,7 @@ export default function HomeView() {
         ></div>
         <div className="relative z-10">
           <h2 className="mb-6 text-3xl font-extrabold text-green sm:text-5xl">
-            Tu salud, nuestra prioridad.
+            Tu salud es nuestra prioridad.
           </h2>
           <p className="max-w-3xl mx-auto text-xl font-medium leading-relaxed text-blue">
             Estamos aquí para hacer tu experiencia más sencilla y conveniente.

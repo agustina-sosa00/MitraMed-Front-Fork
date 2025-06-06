@@ -147,8 +147,8 @@ export default function ConfigView() {
   };
 
   return (
-    <div className="relative flex flex-col items-center justify-center h-full px-4 py-10 sm:min-h-screen">
-      <div className="w-full max-w-4xl mb-5 top-5 ">
+    <div className="relative flex flex-col items-center justify-center h-full px-4 py-10 bg-bottom bg-cover bg-perfil sm:min-h-screen">
+      <div className="w-full max-w-6xl top-5 left-3">
         <Link
           to="/inicio"
           className="px-4 py-1 text-sm font-semibold text-white transition duration-200 rounded-lg bg-green sm:text-base hover:bg-greenHover"
@@ -157,18 +157,18 @@ export default function ConfigView() {
         </Link>
       </div>
 
-      <div className="flex flex-col items-center w-full gap-6 lg:flex-row lg:items-start ">
+      <div className="w-full h-full max-w-6xl flex flex-col lg:flex-row justify-center items-center lg:items-start  my-5 bg-[white] border border-black rounded-lg py-5  shadow-xl border-opacity-20">
         {/* Imagen de perfil */}
-        <div className="flex items-center justify-end w-full px-5 lg:w-1/3">
-          <div className="flex items-center justify-center w-40 h-40 text-5xl bg-white border rounded-full">
-            <span className="text-5xl text-blue ">
+        <div className="flex items-start justify-center w-full h-full lg:w-1/4 ">
+          <div className="flex items-center justify-center w-20 h-20 text-5xl bg-white border rounded-full md:w-32 md:h-32 lg:w-40 lg:h-40">
+            <span className="text-2xl md:text-4xl lg:text-5xl text-blue ">
               {usuario?.genero === "Masculino" ? <SlUser /> : <SlUserFemale />}
             </span>
           </div>
         </div>
 
         {/* Datos solo lectura */}
-        <div className="flex flex-col w-full max-w-lg lg:max-w-3xl sm:flex-grow lg:w-2/3">
+        <div className="flex flex-col w-full px-5 lg:pr-5 lg:w-2/3 sm:flex-grow">
           <h2 className="mb-4 text-2xl font-semibold text-center sm:text-4xl sm:text-left text-green">
             Datos del Perfil
           </h2>
@@ -236,7 +236,7 @@ export default function ConfigView() {
           </div>
 
           {/* Email */}
-          <div className="grid grid-cols-1">
+          <div className="grid w-full grid-cols-1 ">
             <div className="flex items-center w-full">
               <label className="w-1/6 text-sm font-medium text-blue sm:text-base">
                 Email
@@ -244,7 +244,7 @@ export default function ConfigView() {
               {isEditingEmail ? (
                 <input
                   type="email"
-                  className="w-2/3 text-sm sm:text-base sm:w-2/4 py-1 px-2 min-h-[35px]  border border-gray-300 rounded-md focus:outline-none focus:border-blue-600 focus:ring-1 transition"
+                  className="w-full text-sm sm:text-base  py-1 px-2 min-h-[35px]  border border-gray-300 rounded-md focus:outline-none focus:border-blue focus:ring-1 transition"
                   {...register("email")}
                 />
               ) : (

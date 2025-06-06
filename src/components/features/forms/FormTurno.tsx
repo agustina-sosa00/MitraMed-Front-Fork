@@ -157,9 +157,9 @@ export default function FormTurno({
 
   return (
     <>
-      <div className="flex flex-col items-start gap-3 mt-5 sm:w-[430px] sm:ml-32 lg:ml-52">
-        <div className="flex items-center justify-between gap-2 sm:w-[420px] relative">
-          <label className="w-[90px] small:w-[110px] sm:text-lg text-blue font-semibold text-right  ">
+      <div className="flex flex-col items-start justify-center gap-3 px-2 mt-5 lg:items-center sm:w-2/3 ">
+        <div className="relative flex items-center justify-between w-full gap-2 lg:w-auto ">
+          <label className="font-semibold text-right sm:text-lg text-blue">
             Especialidad:
           </label>
 
@@ -186,8 +186,9 @@ export default function FormTurno({
           />
         </div>
 
-        <div className="flex items-center gap-2 sm:w-[420px]">
-          <label className="w-[90px] small:w-[110px] sm:text-lg text-blue font-semibold text-right  ">
+        <div className="flex items-center justify-between   gap-2 sm:w-[420px] relative">
+          {" "}
+          <label className="font-semibold text-right sm:text-lg text-blue">
             Profesional:
           </label>
           <Select
@@ -219,11 +220,11 @@ export default function FormTurno({
           />
         </div>
 
-        <div className="flex items-center gap-2 w-full sm:w-[420px] ml-2 sm:ml-4">
-          <label className="w-[90px] small:w-[110px] pr-2 sm:pr-4 sm:text-lg text-blue font-semibold text-right ">
+        <div className="flex items-center justify-between   gap-2 sm:w-[420px] relative">
+          {" "}
+          <label className="px-2 font-semibold text-right sm:text-lg text-blue">
             Fecha:
           </label>
-
           <DatePicker
             selected={fecha ? new Date(fecha + "T00:00:00") : null} // Convierte a Date si es una cadena válida
             onChange={handleFecha} // Cambia la fecha
