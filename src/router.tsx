@@ -1,13 +1,17 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import HomeView from './views/dashboard/HomeView';
-import MisTurnos from './views/dashboard/MisTurnos';
-import PortalView from './views/auth/PortalView';
-import Layout from './layouts/Layout';
-import Turnos from './views/dashboard/Turnos';
-import ProtectedRoute from './components/features/ProtectedRoute';
-import ConfigView from './views/dashboard/ConfigView';
-import PrivacyPolicy from './views/PrivacyPolicy';
-import TermsOfService from './views/TermsOfService';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import HomeView from "./views/dashboard/HomeView";
+import MisTurnos from "./views/dashboard/MisTurnos";
+import PortalView from "./views/auth/PortalView";
+import Layout from "./layouts/Layout";
+import Turnos from "./views/dashboard/Turnos";
+import ProtectedRoute from "./components/features/ProtectedRoute";
+import ConfigView from "./views/dashboard/ConfigView";
+import PrivacyPolicy from "./views/PrivacyPolicy";
+import TermsOfService from "./views/TermsOfService";
+import { Professional } from "./views/dashboardProfessional/Professional";
+import { ProfessionalProtectedRoute } from "./components/features/ProfessionalProtectedRoute";
+import ProfessionalLayout from "./layouts/ProfessionalLayout";
+import { TableSchedules } from "./views/dashboardProfessional/TableSchedules";
 
 export default function Router() {
   return (
@@ -23,6 +27,13 @@ export default function Router() {
             <Route path="/turnos" element={<Turnos />} />
             <Route path="/mis-turnos" element={<MisTurnos />} />
             <Route path="/configuracion" element={<ConfigView />} />
+          </Route>
+        </Route>
+        {/* Rutas protegidas PROFESIONAL */}
+        <Route element={<ProfessionalProtectedRoute />}>
+          <Route element={<ProfessionalLayout />}>
+            <Route path="/profesionales/inicio" element={<Professional />} />
+            <Route path="/profesionales/turnos" element={<TableSchedules />} />
           </Route>
         </Route>
       </Routes>

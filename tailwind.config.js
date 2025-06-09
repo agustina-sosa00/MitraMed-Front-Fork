@@ -18,10 +18,12 @@ export default {
         greenHover: "#437311",
         greenFocus: "#a1d36c",
         blue: "#022539",
+        lightGray: "#f1f1f1",
       },
       backgroundImage: {
         misturnos: "url('https://i.imgur.com/yb9cgvt.png')",
         perfil: "url('https://i.imgur.com/V4xSfb8.png')",
+        profesional: "url('https://i.imgur.com/V4xSfb8.png')",
       },
     },
   },
