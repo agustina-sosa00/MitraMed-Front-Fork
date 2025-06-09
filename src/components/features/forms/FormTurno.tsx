@@ -281,7 +281,7 @@ export default function FormTurno({
                       } ${
                         turnoSeleccionado === index + 1 &&
                         turno.habilitado === 0
-                          ? "bg-blue-500 bg-opacity-40"
+                          ? "bg-green/90 text-white "
                           : "bg-gradient-to-r from-gray-100 via-gray-200 to-gray-300"
                       }`}
                       onClick={() => {
@@ -298,7 +298,12 @@ export default function FormTurno({
                       <div className="p-1 border-r">{turno.hora_ini}</div>
                       <div className="p-1 border-r">{turno.hora_fin}</div>
                       <div className="p-1">
-                        {turno.habilitado === 0 ? (
+                        {turnoSeleccionado === index + 1 &&
+                        turno.habilitado === 0 ? (
+                          <span className="text-xs font-medium text-white sm:text-base">
+                            Disponible
+                          </span>
+                        ) : turno.habilitado === 0 ? (
                           <span className="text-xs font-medium text-green sm:text-base">
                             Disponible
                           </span>
