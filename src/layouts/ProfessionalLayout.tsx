@@ -2,7 +2,6 @@ import { SideBar } from "@/components/ui/SideBar";
 import { Outlet } from "react-router-dom";
 import { FaHouse } from "react-icons/fa6";
 import { FaNotesMedical } from "react-icons/fa";
-import { PiSignOutBold } from "react-icons/pi";
 
 const buttons = [
   {
@@ -14,11 +13,6 @@ const buttons = [
     name: "turnos",
     icon: FaNotesMedical,
     link: "/profesionales/turnos",
-  },
-  {
-    name: "cerrar sesión",
-    icon: PiSignOutBold,
-    link: "",
   },
 ];
 

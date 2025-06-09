@@ -33,6 +33,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
-  "exclude": ["src/frontend-resourses"]
+  "include": ["src"]
+  // "exclude": ["src/frontend-resourses"]
 }
