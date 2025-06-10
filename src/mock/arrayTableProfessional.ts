@@ -1,7 +1,25 @@
-export const tableSchedules = [
+export interface IDataTable {
+  id: number;
+  day: string;
+  hourInit: string;
+  hourFinish: string;
+  name: string;
+  state: string;
+  obs: string;
+}
+export const tableSchedules: IDataTable[] = [
   {
     id: 1,
-    day: "08/06/2025",
+    day: "15/06/2025",
+    hourInit: "18:30",
+    hourFinish: "18:30",
+    name: "Agustina Sosa",
+    state: "presente",
+    obs: "IOMA",
+  },
+  {
+    id: 1,
+    day: "10/06/2025",
     hourInit: "18:30",
     hourFinish: "18:30",
     name: "Agustina Sosa",
@@ -19,7 +37,16 @@ export const tableSchedules = [
   },
   {
     id: 3,
-    day: "09/06/2025",
+    day: "15/06/2025",
+    hourInit: "18:30",
+    hourFinish: "18:30",
+    name: "Jean Pietro Mortarini",
+    state: "presente",
+    obs: "IOMA",
+  },
+  {
+    id: 3,
+    day: "23/06/2025",
     hourInit: "18:30",
     hourFinish: "18:30",
     name: "Jean Pietro Mortarini",
@@ -27,8 +54,8 @@ export const tableSchedules = [
     obs: "",
   },
   {
-    id: 2,
-    day: "15/06/2025",
+    id: 4,
+    day: "19/06/2025",
     hourInit: "18:30",
     hourFinish: "18:30",
     name: "Leandro Mortarini",
@@ -36,8 +63,35 @@ export const tableSchedules = [
     obs: "MEDIFE",
   },
   {
-    id: 3,
-    day: "09/06/2025",
+    id: 5,
+    day: "10/06/2025",
+    hourInit: "18:30",
+    hourFinish: "18:30",
+    name: "Jean Pietro Mortarini",
+    state: "",
+    obs: "",
+  },
+  {
+    id: 6,
+    day: "08/06/2025",
+    hourInit: "18:30",
+    hourFinish: "18:30",
+    name: "Jean Pietro Mortarini",
+    state: "",
+    obs: "",
+  },
+  {
+    id: 7,
+    day: "07/07/2025",
+    hourInit: "18:30",
+    hourFinish: "18:30",
+    name: "Jean Pietro Mortarini",
+    state: "",
+    obs: "",
+  },
+  {
+    id: 8,
+    day: "10/07/2025",
     hourInit: "18:30",
     hourFinish: "18:30",
     name: "Jean Pietro Mortarini",

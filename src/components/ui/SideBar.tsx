@@ -19,7 +19,7 @@ export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
   };
   return (
     <nav className="flex-col justify-between h-screen rounded w-60">
-      <section className="flex flex-col justify-between h-full bg-gray-300 ">
+      <section className="flex flex-col justify-between h-full bg-gray-200 ">
         {/* BOX 1 */}
         <div className="flex  pl-8 items-center h-[10%] ">
           {/* <h2 className="px-2 py-5 text-lg font-bold tracking-wider uppercase text-blue">
@@ -35,6 +35,7 @@ export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
         <div className="flex flex-col  w-full gap-3 pl-5 py-5 h-[65%] ">
           {buttons.map((item) => (
             <Link
+              key={item.name}
               to={item.link}
               className="flex items-center gap-2 pl-5  py-1 w-[90%] text-lg font-medium text-blue capitalize rounded cursor-pointer hover:bg-green hover:text-white"
             >
