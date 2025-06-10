@@ -2,6 +2,7 @@ import { SideBar } from "@/components/ui/SideBar";
 import { Outlet } from "react-router-dom";
 import { FaHouse } from "react-icons/fa6";
 import { FaNotesMedical } from "react-icons/fa";
+import { Navbar } from "@/components/features/PanelProfessional/Navbar";
 
 const buttons = [
   {
@@ -18,9 +19,10 @@ const buttons = [
 
 export default function ProfessionalLayout() {
   return (
-    <div className="flex min-h-screen">
+    <div className="flex flex-col w-full min-h-screen bg-right lg:flex-row bg-profesional">
+      <Navbar logo={"https://i.imgur.com/HBsiL82.png"} buttons={buttons} />
       <SideBar logo={"https://i.imgur.com/HBsiL82.png"} buttons={buttons} />
-      <div className="flex-grow">
+      <div className="w-full ">
         <Outlet />
       </div>
     </div>

@@ -18,7 +18,7 @@ export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
     navigate("/");
   };
   return (
-    <nav className="flex-col justify-between h-screen rounded w-60">
+    <nav className="flex-col justify-between hidden w-64 h-screen  md:flex">
       <section className="flex flex-col justify-between h-full bg-gray-200 ">
         {/* BOX 1 */}
         <div className="flex  pl-8 items-center h-[10%] ">
