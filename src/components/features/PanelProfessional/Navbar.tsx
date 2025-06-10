@@ -14,7 +14,7 @@ export const Navbar: React.FC<IProp> = ({ logo, buttons }) => {
     setOpenMenu((prev) => !prev);
   };
   return (
-    <div className="fixed top-0 z-50 w-full ">
+    <div className="fixed top-0 z-50 hidden w-full md:flex ">
       <nav className="bg-gray-200 ">
         <div className="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto">
           <a
