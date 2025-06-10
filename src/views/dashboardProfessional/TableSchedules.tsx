@@ -26,10 +26,9 @@ export const TableSchedules: React.FC = () => {
   }, [daySchedule]);
 
   return (
-    <div className="flex items-start justify-center w-full h-screen py-10">
-      <div className="w-[80%] flex justify-center flex-col items-center gap-5">
+    <div className="flex items-center justify-center w-full h-screen">
+      <div className="w-[80%] h-[60%] flex flex-col justify-start items-center gap-8  ">
         <h1 className="text-4xl font-medium uppercase text-green">
-          {" "}
           Mis turnos
         </h1>
         <FilterTableSchedules state={daySchedule} setState={setDaySchedule} />

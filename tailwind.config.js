@@ -23,7 +23,7 @@ export default {
       backgroundImage: {
         misturnos: "url('https://i.imgur.com/yb9cgvt.png')",
         perfil: "url('https://i.imgur.com/V4xSfb8.png')",
-        profesional: "url('https://i.imgur.com/V4xSfb8.png')",
+        profesional: "url('https://i.imgur.com/ZuyE1U1.png')",
       },
     },
   },
