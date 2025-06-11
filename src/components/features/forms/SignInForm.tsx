@@ -55,11 +55,7 @@ export default function SignInForm({ rol }: IProp) {
 
   return (
     <>
-      <form
-        className="flex flex-col gap-4 px-0.5 "
-        noValidate
-        onSubmit={handleSubmit(handleForm)}
-      >
+      <form className="flex flex-col gap-4 px-0.5 " noValidate onSubmit={handleSubmit(handleForm)}>
         {rol === "paciente" ? (
           <div className="flex flex-col">
             <InputField
@@ -78,9 +74,7 @@ export default function SignInForm({ rol }: IProp) {
                 },
               })}
             />
-            {errors.email && (
-              <ErrorMessage>{errors.email.message}</ErrorMessage>
-            )}
+            {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
           </div>
         ) : (
           <div className="flex flex-col">
@@ -100,9 +94,7 @@ export default function SignInForm({ rol }: IProp) {
                 },
               })}
             />
-            {errors.email && (
-              <ErrorMessage>{errors.email.message}</ErrorMessage>
-            )}
+            {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
           </div>
         )}
 
@@ -126,9 +118,7 @@ export default function SignInForm({ rol }: IProp) {
             })}
           />
 
-          {errors.password && (
-            <ErrorMessage>{errors.password.message}</ErrorMessage>
-          )}
+          {errors.password && <ErrorMessage>{errors.password.message}</ErrorMessage>}
         </div>
 
         <input
@@ -145,7 +135,7 @@ export default function SignInForm({ rol }: IProp) {
       {/* B U T T O N  G O O G L E */}
       {/* B U T T O N  G O O G L E */}
 
-      {/* {rol === "paciente" ? (
+      {rol === "paciente" ? (
         <div className="flex justify-center my-6">
           <button
             type="button"
@@ -160,12 +150,10 @@ export default function SignInForm({ rol }: IProp) {
             }}
           >
             <img src="/google-icon.png" alt="Google Icon" className="w-8 h-8" />
-            <span className="text-sm font-medium text-gray-700">
-              Continuar con Google
-            </span>
+            <span className="text-sm font-medium text-gray-700">Continuar con Google</span>
           </button>
         </div>
-      ) : null} */}
+      ) : null}
 
       <div className="flex flex-col items-start gap-2 pl-1 mt-5 text-sm text-gray-700 lg:pl-3 xl:text-base">
         {rol === "paciente" ? (
@@ -173,9 +161,7 @@ export default function SignInForm({ rol }: IProp) {
             No tienes cuenta?{" "}
             <button
               className="hover:underline hover:text-green"
-              onClick={() =>
-                navigate(location.pathname + "?createAccount=true")
-              }
+              onClick={() => navigate(location.pathname + "?createAccount=true")}
             >
               Regístrate aquí
             </button>
