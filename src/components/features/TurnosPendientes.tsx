@@ -40,7 +40,6 @@ export default function TurnosPendientes({
       console.log(error);
     },
     onSuccess: (data) => {
-      console.log(data);
       toast.success(data);
       setIsLoadingAnula(false);
       setMostrarModalAnular(false);
@@ -62,7 +61,6 @@ export default function TurnosPendientes({
   const handleConfirm = () => {
     if (turnoAnula !== null) {
       setIsLoadingAnula(true); // Iniciar carga
-      console.log("Turno que desea anular: ", turnoAnula); // Llamar la función de anulación
       mutate(turnoAnula);
     }
   };

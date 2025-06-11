@@ -1,9 +1,15 @@
-import { Fragment, useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Dialog, Transition, TransitionChild, DialogPanel, DialogTitle } from '@headlessui/react';
-import { isAxiosError } from 'axios';
-import { ClipLoader } from 'react-spinners';
-import apiNoAuth from '@/lib/axiosNoAuth';
+import { Fragment, useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import {
+  Dialog,
+  Transition,
+  TransitionChild,
+  DialogPanel,
+  DialogTitle,
+} from "@headlessui/react";
+import { isAxiosError } from "axios";
+import { ClipLoader } from "react-spinners";
+import apiNoAuth from "@/lib/axiosNoAuth";
 
 export default function ConfirmAccountModal() {
   const navigate = useNavigate();
@@ -11,22 +17,23 @@ export default function ConfirmAccountModal() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
 
-  const modal = queryParams.get('confirmar_cuenta');
+  const modal = queryParams.get("confirmar_cuenta");
   const show = modal ? true : false;
-  const token = queryParams.get('token');
+  const token = queryParams.get("token");
 
-  const [backendMessage, setBackendMessage] = useState<string>('');
+  const [backendMessage, setBackendMessage] = useState<string>("");
   const [isTokenValid, setIsTokenValid] = useState<boolean | null>(null);
   const [hasFetched, setHasFetched] = useState(false);
-  const [isLoading, setIsLoading] = useState(true); 
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (show && token && !hasFetched) {
       setIsLoading(true);
       const fetchMessage = async () => {
         try {
-          const { data } = await apiNoAuth.get(`/auth/confirmar_cuenta?token=${token}`);
-          console.log(data);
+          const { data } = await apiNoAuth.get(
+            `/auth/confirmar_cuenta?token=${token}`
+          );
           setBackendMessage(data);
           setIsTokenValid(true);
         } catch (error) {
@@ -34,12 +41,12 @@ export default function ConfirmAccountModal() {
             setBackendMessage(error.response.data);
             setIsTokenValid(false);
           } else {
-            setBackendMessage('Error desconocido al confirmar cuenta');
+            setBackendMessage("Error desconocido al confirmar cuenta");
             setIsTokenValid(false);
           }
         } finally {
           setIsLoading(false);
-          setHasFetched(true); 
+          setHasFetched(true);
         }
       };
 
@@ -47,14 +54,18 @@ export default function ConfirmAccountModal() {
     } else if (!show) {
       // Si el modal se cierra, restablece el estado
       setHasFetched(false);
-      setBackendMessage('');
+      setBackendMessage("");
     }
   }, [show, token, hasFetched]);
 
   return (
     <>
       <Transition appear show={show} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={() => navigate('/')}>
+        <Dialog
+          as="div"
+          className="relative z-10"
+          onClose={() => navigate("/")}
+        >
           <TransitionChild
             as={Fragment}
             enter="ease-out duration-300"
@@ -68,7 +79,7 @@ export default function ConfirmAccountModal() {
           </TransitionChild>
 
           <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
+            <div className="flex items-center justify-center min-h-full p-4 text-center">
               <TransitionChild
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -78,9 +89,9 @@ export default function ConfirmAccountModal() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <DialogPanel className="flex flex-col items-center w-full max-w-2xl transform overflow-hidden bg-white text-left text-slate-800 align-middle shadow-xl transition-all p-8 ">
+                <DialogPanel className="flex flex-col items-center w-full max-w-2xl p-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl text-slate-800 ">
                   {isLoading ? (
-                    <div className="flex justify-center items-center mt-5">
+                    <div className="flex items-center justify-center mt-5">
                       <ClipLoader color="#36d7b7" size={80} />
                     </div>
                   ) : (
@@ -92,10 +103,10 @@ export default function ConfirmAccountModal() {
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 512 512"
                             style={{
-                              fill: 'green',
-                              width: '100px',
-                              height: '100px',
-                              opacity: '0.8',
+                              fill: "green",
+                              width: "100px",
+                              height: "100px",
+                              opacity: "0.8",
                             }}
                           >
                             <path d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z"></path>
@@ -118,7 +129,10 @@ export default function ConfirmAccountModal() {
                     </>
                   )}
 
-                  <DialogTitle as="h3" className="text-xl font-semibold mt-6 decoration-2">
+                  <DialogTitle
+                    as="h3"
+                    className="mt-6 text-xl font-semibold decoration-2"
+                  >
                     {backendMessage}
                   </DialogTitle>
                 </DialogPanel>
