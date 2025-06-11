@@ -95,16 +95,16 @@ export default function GoogleAuthModal() {
                     nombre: userData.names[0]?.givenName,
                     apellido: userData.names[0]?.familyName,
                     email: userData.emailAddresses[0]?.value,
-                    fnac: `${userData.birthdays[0]?.date?.year}-${String(
-                      userData.birthdays[0]?.date?.month
-                    ).padStart(2, "0")}-${String(
-                      userData.birthdays[0]?.date?.day
-                    ).padStart(2, "0")}`,
-                    genero:
-                      userData.genders[0]?.value === "male"
-                        ? "Masculino"
-                        : "Femenino",
-                    tel: userData.phoneNumbers?.[0]?.value ?? "",
+                    // fnac: `${userData.birthdays[0]?.date?.year}-${String(
+                    //   userData.birthdays[0]?.date?.month
+                    // ).padStart(2, "0")}-${String(
+                    //   userData.birthdays[0]?.date?.day
+                    // ).padStart(2, "0")}`,
+                    // genero:
+                    //   userData.genders[0]?.value === "male"
+                    //     ? "Masculino"
+                    //     : "Femenino",
+                    // tel: userData.phoneNumbers?.[0]?.value ?? "",
                   },
                 });
 
