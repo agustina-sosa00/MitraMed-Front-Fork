@@ -1,12 +1,18 @@
-import { Fragment } from 'react';
-import { useForm } from 'react-hook-form';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Dialog, Transition, TransitionChild, DialogPanel, DialogTitle } from '@headlessui/react';
-import { useMutation } from '@tanstack/react-query';
-import { toast } from 'react-toastify';
-import { olvidePassword } from '@/services/UserService';
-import InputField from '@/components/ui/InputField';
-import ErrorMessage from '@/components/ui/ErrorMessage';
+import { Fragment } from "react";
+import { useForm } from "react-hook-form";
+import { useLocation, useNavigate } from "react-router-dom";
+import {
+  Dialog,
+  Transition,
+  TransitionChild,
+  DialogPanel,
+  DialogTitle,
+} from "@headlessui/react";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+import { olvidePassword } from "@/services/UserService";
+import InputField from "@/components/ui/InputField";
+import ErrorMessage from "@/components/ui/ErrorMessage";
 
 // import { Account } from '@/types/index';
 // import { sendForgotPasswordEmail } from '../../utils/index';
@@ -16,7 +22,7 @@ export default function ForgotPasswordModal() {
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const modal = queryParams.get('forgotPassword');
+  const modal = queryParams.get("forgotPassword");
   const show = modal ? true : false;
 
   const {
@@ -24,7 +30,7 @@ export default function ForgotPasswordModal() {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm({ defaultValues: { email: '' } });
+  } = useForm({ defaultValues: { email: "" } });
 
   const { mutate } = useMutation({
     mutationFn: olvidePassword,
@@ -35,7 +41,7 @@ export default function ForgotPasswordModal() {
     onSuccess: (data) => {
       toast.success(data);
       reset();
-      navigate('/');
+      navigate("/");
     },
   });
 
@@ -48,9 +54,9 @@ export default function ForgotPasswordModal() {
       <Transition appear show={show} as={Fragment}>
         <Dialog
           as="div"
-          className="relative z-10"
+          className="relative z-50"
           onClose={() => {
-            navigate('/'), reset();
+            navigate("/"), reset();
           }}
         >
           <TransitionChild
@@ -66,7 +72,7 @@ export default function ForgotPasswordModal() {
           </TransitionChild>
 
           <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
+            <div className="flex items-center justify-center min-h-full p-4 text-center">
               <TransitionChild
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -76,45 +82,52 @@ export default function ForgotPasswordModal() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <DialogPanel className="w-full max-w-2xl transform overflow-hidden bg-white text-left text-slate-800 align-middle shadow-xl transition-all p-8 ">
+                <DialogPanel className="w-full max-w-2xl p-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl text-slate-800 ">
                   <DialogTitle
                     as="h3"
-                    className="text-2xl sm:text-3xl font-semibold mb-4 underline underline-offset-4 decoration-2"
+                    className="mb-4 text-2xl font-semibold underline sm:text-3xl underline-offset-4 decoration-2"
                   >
                     Recuperar cuenta
                   </DialogTitle>
 
-                  <p className="sm:text-lg mb-2">
-                    Ingresa tu email de registro, donde se te indicará como recuperar tu cuenta:
+                  <p className="mb-2 sm:text-lg">
+                    Ingresa tu email de registro, donde se te indicará como
+                    recuperar tu cuenta:
                   </p>
-                  <span className="text-amber-500 font-thin text-sm sm:text-xs italic my-2">
-                    * Recuerda que los links de recuperacion expiran. Te recomendamos confirmar tu
-                    cuenta lo antes posible
+                  <span className="my-2 text-sm italic font-thin text-green sm:text-xs">
+                    * Recuerda que los links de recuperacion expiran. Te
+                    recomendamos confirmar tu cuenta lo antes posible
                   </span>
-                  <form className="flex flex-col" noValidate onSubmit={handleSubmit(handleForm)}>
+                  <form
+                    className="flex flex-col"
+                    noValidate
+                    onSubmit={handleSubmit(handleForm)}
+                  >
                     <div className="flex flex-col">
                       <InputField
-                        id={'email'}
-                        type={'text'}
-                        label={'Email'}
-                        placeholder={'Ingresa tu email'}
-                        register={register('email', {
+                        id={"email"}
+                        type={"text"}
+                        label={"Email"}
+                        placeholder={"Ingresa tu email"}
+                        register={register("email", {
                           required: {
                             value: true,
-                            message: 'El email es obligatorio',
+                            message: "El email es obligatorio",
                           },
                           pattern: {
                             value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
-                            message: 'Email inválido',
+                            message: "Email inválido",
                           },
                         })}
                       />
-                      {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
+                      {errors.email && (
+                        <ErrorMessage>{errors.email.message}</ErrorMessage>
+                      )}
                     </div>
                     <input
                       type="submit"
                       value="Enviar"
-                      className="p-2 my-3 w-full max-w-2xl text-white text-base uppercase bg-blue-600 hover:bg-blue-700  transition-colors cursor-pointer shadow-lg rounded"
+                      className="w-full max-w-2xl p-2 my-3 text-base text-white uppercase transition-colors rounded shadow-lg cursor-pointer bg-green hover:bg-blue-700"
                     />
                   </form>
                 </DialogPanel>
