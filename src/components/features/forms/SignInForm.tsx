@@ -137,7 +137,15 @@ export default function SignInForm({ rol }: IProp) {
           className="w-full p-2 mt-4 text-base font-semibold text-white uppercase transition-all rounded-lg shadow-md cursor-pointer xl:p-3 xl:text-lg bg-green hover:bg-greenHover"
         />
       </form>
-      {rol === "paciente" ? (
+
+      {/* B U T T O N  G O O G L E */}
+      {/* B U T T O N  G O O G L E */}
+      {/* B U T T O N  G O O G L E */}
+      {/* B U T T O N  G O O G L E */}
+      {/* B U T T O N  G O O G L E */}
+      {/* B U T T O N  G O O G L E */}
+
+      {/* {rol === "paciente" ? (
         <div className="flex justify-center my-6">
           <button
             type="button"
@@ -157,7 +165,7 @@ export default function SignInForm({ rol }: IProp) {
             </span>
           </button>
         </div>
-      ) : null}
+      ) : null} */}
 
       <div className="flex flex-col items-start gap-2 pl-1 mt-5 text-sm text-gray-700 lg:pl-3 xl:text-base">
         {rol === "paciente" ? (
