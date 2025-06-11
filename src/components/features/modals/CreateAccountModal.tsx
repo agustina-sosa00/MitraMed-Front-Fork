@@ -15,19 +15,19 @@ export default function CreateAccountModal() {
   const queryParams = new URLSearchParams(location.search);
   const modal = queryParams.get("createAccount");
   const show = modal ? true : false;
+  const datosGoogle = location.state as Partial<NewAccount> | null;
 
-  const initialValues: NewAccount = {
-    nombre: "",
-    apellido: "",
-    email: "",
-    fnac: "",
+  const defaultValues: NewAccount = {
+    nombre: datosGoogle?.nombre || "",
+    apellido: datosGoogle?.apellido || "",
+    email: datosGoogle?.email || "",
+    fnac: datosGoogle?.fnac || "",
     codarea: "",
-    tel: "",
-    genero: "",
+    tel: datosGoogle?.tel || "",
+    genero: datosGoogle?.genero || "",
     password: "",
     confirmPassword: "",
   };
-
   const {
     register,
     handleSubmit,
@@ -35,7 +35,7 @@ export default function CreateAccountModal() {
     reset,
     watch,
     control,
-  } = useForm({ defaultValues: initialValues });
+  } = useForm<NewAccount>({ defaultValues });
 
   const { mutate } = useMutation({
     mutationFn: crearCuenta,
@@ -52,7 +52,6 @@ export default function CreateAccountModal() {
   const handleForm = (formData: NewAccount) => {
     const formattedDate = new Date(formData.fnac).toISOString().split("T")[0];
     const dataToSend = { ...formData, fnac: formattedDate };
-    // console.log(dataToSend);
     mutate(dataToSend);
   };
 
