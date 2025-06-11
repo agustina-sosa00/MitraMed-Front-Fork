@@ -99,6 +99,7 @@ export default function CreateAccountModal() {
               errors={errors}
               watch={watch}
               control={control}
+              datosGoogle={datosGoogle ?? undefined}
             />
             <input
               type="submit"
