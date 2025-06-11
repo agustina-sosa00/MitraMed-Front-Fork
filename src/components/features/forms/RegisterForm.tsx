@@ -20,6 +20,7 @@ type RegisterFormProps = {
   errors: FieldErrors<NewAccount>;
   watch: UseFormWatch<NewAccount>;
   control: Control<NewAccount>;
+  datosGoogle?: Partial<NewAccount>;
 };
 
 interface OptionType {
@@ -32,6 +33,7 @@ export default function RegisterForm({
   errors,
   watch,
   control,
+  datosGoogle,
 }: RegisterFormProps) {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -189,6 +191,7 @@ export default function RegisterForm({
             id={"email"}
             type={"text"}
             label={"Email"}
+            readOnly={!!datosGoogle?.email}
             placeholder={"Ingresa tu email"}
             register={register("email", {
               required: {
