@@ -36,6 +36,21 @@ export default function CreateAccountModal() {
     watch,
     control,
   } = useForm<NewAccount>({ defaultValues });
+  useEffect(() => {
+    if (datosGoogle) {
+      reset({
+        nombre: datosGoogle.nombre || "",
+        apellido: datosGoogle.apellido || "",
+        email: datosGoogle.email || "",
+        fnac: "",
+        codarea: "",
+        tel: "",
+        genero: "",
+        password: "",
+        confirmPassword: "",
+      });
+    }
+  }, [datosGoogle, reset]);
 
   const { mutate } = useMutation({
     mutationFn: crearCuenta,
