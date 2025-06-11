@@ -26,8 +26,6 @@ export default function ConfirmTurnoModal({
 }: ConfirmTurnoModalProps) {
   const navigate = useNavigate();
 
-  console.log(turnoData);
-
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const modal = queryParams.get("confirmarTurno");
@@ -47,7 +45,6 @@ export default function ConfirmTurnoModal({
       toast.error(error.message);
     },
     onSuccess: (data) => {
-      console.log(data);
       toast.success(data);
       setValue("turno", 0);
       queryClient.invalidateQueries({ queryKey: ["turnos"] });
@@ -55,8 +52,6 @@ export default function ConfirmTurnoModal({
       navigate(location.pathname, { replace: true });
     },
   });
-
-  console.log(turnoData);
 
   const handleConfirmar = () => {
     setLoadingConfirm(true); // Activa el loader

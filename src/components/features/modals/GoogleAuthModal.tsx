@@ -26,26 +26,6 @@ export default function GoogleAuthModal() {
   // Estado para manejar el código de Google
   const [authCode, setAuthCode] = useState<string | null>(null);
 
-  // const { mutate } = useMutation({
-  //   mutationFn: googleAuth,
-  //   onError: (error) => {
-  //     console.log(error);
-  //     toast.error(error.message);
-  //   },
-  //   onSuccess: (data) => {
-  //     // console.log(data);
-  //     // toast.success(data.message);
-
-  //     localStorage.setItem("nombreUsuario", data.nombre_usuario);
-
-  //     // Almacenar los tokens en cookies
-  //     Cookies.set("accessToken", data.token_acceso, { expires: 0.3333 }); // 8 horas
-  //     Cookies.set("refreshToken", data.token_refresh, { expires: 0.5 }); // 12 horas
-
-  //     navigate("/inicio");
-  //   },
-  // });
-
   useEffect(() => {
     const code = queryParams.get("code");
     if (code) {
@@ -72,8 +52,6 @@ export default function GoogleAuthModal() {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log("Tokens recibidos:", data);
-
           const accessToken = data.access_token;
 
           // Hacer una segunda solicitud para obtener los datos del usuario
@@ -89,47 +67,14 @@ export default function GoogleAuthModal() {
             )
               .then((response) => response.json())
               .then((userData) => {
-                console.log("Datos adicionales del usuario:", userData);
                 navigate(location.pathname + "?createAccount=true", {
+                  //redirigir al usuario al formulario de registro para que termine de completar los datos
                   state: {
                     nombre: userData.names[0]?.givenName,
                     apellido: userData.names[0]?.familyName,
                     email: userData.emailAddresses[0]?.value,
-                    // fnac: `${userData.birthdays[0]?.date?.year}-${String(
-                    //   userData.birthdays[0]?.date?.month
-                    // ).padStart(2, "0")}-${String(
-                    //   userData.birthdays[0]?.date?.day
-                    // ).padStart(2, "0")}`,
-                    // genero:
-                    //   userData.genders[0]?.value === "male"
-                    //     ? "Masculino"
-                    //     : "Femenino",
-                    // tel: userData.phoneNumbers?.[0]?.value ?? "",
                   },
                 });
-
-                // Manejar la información adicional del usuario aquí
-                // const fnacimiento = `${userData.birthdays[0]?.date?.year}-${String(
-                //   userData.birthdays[0]?.date?.month
-                // ).padStart(2, '0')}-${String(userData.birthdays[0]?.date?.day).padStart(2, '0')}`;
-
-                // let gen: string;
-
-                // if (userData.genders[0]?.value === 'male') {
-                //   gen = 'Masculino';
-                // } else {
-                //   gen = 'Femenino';
-                // }
-
-                // mutate({
-                //   idToken: data.id_token,
-                //   nombre: userData.names[0]?.givenName,
-                //   apellido: userData.names[0]?.familyName,
-                //   email: userData.emailAddresses[0]?.value,
-                //   fnac: fnacimiento,
-                //   genero: gen,
-                //   // tel: userData.phoneNumbers[0]?.value,
-                // });
               })
               .catch((error) => {
                 console.error("Error al obtener datos adicionales:", error);

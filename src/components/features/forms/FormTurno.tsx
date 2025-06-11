@@ -76,8 +76,6 @@ export default function FormTurno({
     initialData: [],
   });
 
-  // console.log(diasSinAtencion);
-
   const { data: turnos, isLoading: isLoadingTurnos } = useQuery<
     Horario[],
     Error
@@ -135,7 +133,6 @@ export default function FormTurno({
         date.getTime() - date.getTimezoneOffset() * 60000
       );
       const formattedDate = localDate.toISOString().split("T")[0]; // Formato YYYY-MM-DD
-      // console.log('Fecha: ', formattedDate);
       setValue("fecha", formattedDate); // Actualizamos el valor en useForm
       // Reseteamos el valor del turno a 0
       setValue("turno", 0);

@@ -1,10 +1,10 @@
-import emailjs from '@emailjs/browser';
-import { NewAccount } from '../types';
+import emailjs from "@emailjs/browser";
+import { NewAccount } from "../types";
 
 export const formatDate = (date: Date) => {
   const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
 
   return `${year}-${month}-${day}`;
 };
@@ -14,11 +14,15 @@ export const generateToken = () => {
 };
 
 type SendEmailProps = {
-  userName: NewAccount['nombre'];
-  userEmail: NewAccount['email'];
+  userName: NewAccount["nombre"];
+  userEmail: NewAccount["email"];
   token: number;
 };
-export const sendRegisterEmail = async ({ userName, userEmail, token }: SendEmailProps) => {
+export const sendRegisterEmail = async ({
+  userName,
+  userEmail,
+  token,
+}: SendEmailProps) => {
   try {
     const templateParams = {
       userName: userName,
@@ -27,10 +31,10 @@ export const sendRegisterEmail = async ({ userName, userEmail, token }: SendEmai
     };
 
     const result = await emailjs.send(
-      'service_84ua4i1',
-      'template_cyxj48w',
+      "service_84ua4i1",
+      "template_cyxj48w",
       templateParams,
-      'kDRsDtSZ5TO3_j3Ze'
+      "kDRsDtSZ5TO3_j3Ze"
     );
     console.log(result.status, result.text);
   } catch (error) {
@@ -43,10 +47,10 @@ export const sendForgotPasswordEmail = async (userEmail: string) => {
     const templateParams = { userEmail };
 
     const result = await emailjs.send(
-      'service_84ua4i1',
-      'template_nvlpq2d',
+      "service_84ua4i1",
+      "template_nvlpq2d",
       templateParams,
-      'kDRsDtSZ5TO3_j3Ze'
+      "kDRsDtSZ5TO3_j3Ze"
     );
     console.log(result.status, result.text);
   } catch (error) {
@@ -69,10 +73,10 @@ export function getDateFromIddia(iddia: number): string {
   targetDate.setDate(today.getDate() + diff);
 
   // Formatear la fecha como dd-mm-yyyy
-  const formattedDate = targetDate.toLocaleDateString('es-ES', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
+  const formattedDate = targetDate.toLocaleDateString("es-ES", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
   });
 
   return formattedDate;
