@@ -9,10 +9,10 @@ import {
   DialogTitle,
 } from "@headlessui/react";
 import { ClipLoader } from "react-spinners";
-import { useMutation } from "@tanstack/react-query";
-import { googleAuth } from "@/services/UserService";
-import { toast } from "react-toastify";
-import Cookies from "js-cookie";
+// import { useMutation } from "@tanstack/react-query";
+// import { googleAuth } from "@/services/UserService";
+// import { toast } from "react-toastify";
+// import Cookies from "js-cookie";
 
 export default function GoogleAuthModal() {
   const navigate = useNavigate();
@@ -26,25 +26,25 @@ export default function GoogleAuthModal() {
   // Estado para manejar el código de Google
   const [authCode, setAuthCode] = useState<string | null>(null);
 
-  const { mutate } = useMutation({
-    mutationFn: googleAuth,
-    onError: (error) => {
-      console.log(error);
-      toast.error(error.message);
-    },
-    onSuccess: (data) => {
-      // console.log(data);
-      // toast.success(data.message);
+  // const { mutate } = useMutation({
+  //   mutationFn: googleAuth,
+  //   onError: (error) => {
+  //     console.log(error);
+  //     toast.error(error.message);
+  //   },
+  //   onSuccess: (data) => {
+  //     // console.log(data);
+  //     // toast.success(data.message);
 
-      localStorage.setItem("nombreUsuario", data.nombre_usuario);
+  //     localStorage.setItem("nombreUsuario", data.nombre_usuario);
 
-      // Almacenar los tokens en cookies
-      Cookies.set("accessToken", data.token_acceso, { expires: 0.3333 }); // 8 horas
-      Cookies.set("refreshToken", data.token_refresh, { expires: 0.5 }); // 12 horas
+  //     // Almacenar los tokens en cookies
+  //     Cookies.set("accessToken", data.token_acceso, { expires: 0.3333 }); // 8 horas
+  //     Cookies.set("refreshToken", data.token_refresh, { expires: 0.5 }); // 12 horas
 
-      navigate("/inicio");
-    },
-  });
+  //     navigate("/inicio");
+  //   },
+  // });
 
   useEffect(() => {
     const code = queryParams.get("code");
