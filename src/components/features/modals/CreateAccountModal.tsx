@@ -17,7 +17,6 @@ export default function CreateAccountModal() {
   const modal = queryParams.get("createAccount");
   const show = modal ? true : false;
   const datosGoogle = location.state as Partial<NewAccount> | null;
-  console.log("datos recibidos en el form ---->>>>>", datosGoogle);
   const defaultValues: NewAccount = {
     nombre: datosGoogle?.nombre || "",
     apellido: datosGoogle?.apellido || "",
