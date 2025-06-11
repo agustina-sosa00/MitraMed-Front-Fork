@@ -7,15 +7,25 @@ import { crearCuenta } from "@/services/UserService";
 import { toast } from "react-toastify";
 import RegisterForm from "../forms/RegisterForm";
 import { Modal } from "@/components/ui/Modal";
-import { useEffect } from "react";
-
+import { useEffect, useMemo } from "react";
+import Cookies from "js-cookie";
 export default function CreateAccountModal() {
   const navigate = useNavigate();
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const modal = queryParams.get("createAccount");
-  const show = modal ? true : false;
+
+  const token = Cookies.get("accessToken"); // o localStorage.getItem("accessToken")
+
+  const show = useMemo(() => modal && !token, [modal, token]);
+
+  useEffect(() => {
+    if (token) {
+      navigate("/inicio");
+    }
+  }, [token, navigate]);
+
   const datosGoogle = location.state as Partial<NewAccount> | null;
   const defaultValues: NewAccount = {
     nombre: datosGoogle?.nombre || "",
@@ -77,7 +87,7 @@ export default function CreateAccountModal() {
           navigate("/");
           reset();
         }}
-        open={show}
+        open={!!show}
       >
         <DialogTitle
           as="h3"
