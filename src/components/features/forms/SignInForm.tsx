@@ -145,7 +145,7 @@ export default function SignInForm({ rol }: IProp) {
       {/* B U T T O N  G O O G L E */}
       {/* B U T T O N  G O O G L E */}
 
-      {/* {rol === "paciente" ? (
+      {rol === "paciente" ? (
         <div className="flex justify-center my-6">
           <button
             type="button"
@@ -165,7 +165,7 @@ export default function SignInForm({ rol }: IProp) {
             </span>
           </button>
         </div>
-      ) : null} */}
+      ) : null}
 
       <div className="flex flex-col items-start gap-2 pl-1 mt-5 text-sm text-gray-700 lg:pl-3 xl:text-base">
         {rol === "paciente" ? (
