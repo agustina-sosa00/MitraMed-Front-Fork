@@ -200,3 +200,42 @@
 .card4:hover .go-arrow {
   opacity: 1;
 }
+
+/* @media screen and (min-width: 520px) and (max-width: )  {
+  
+}
+@media screen and (min-width: 520px) and (max-width: )  {
+  
+} */
+@media screen and (min-width: 521px) and (max-width: 900px) {
+  .card1 {
+    height: 170px;
+    width: 500px;
+  }
+  .card p {
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: #666;
+  }
+
+  .card p.small {
+    font-size: 1rem;
+    font-weight: 400;
+  }
+}
+@media screen and (max-width: 520px) {
+  .card1 {
+    height: 170px;
+    width: 300px;
+  }
+  .card p {
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: #666;
+  }
+
+  .card p.small {
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
+}

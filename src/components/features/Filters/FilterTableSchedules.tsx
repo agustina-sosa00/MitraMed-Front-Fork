@@ -9,7 +9,7 @@ export const FilterTableSchedules = ({ state, setState }: IProp) => {
   };
   return (
     <div className="w-full ">
-      <div className="flex items-center justify-start w-1/3 gap-1 p-2 ">
+      <div className="flex items-center justify-center gap-1 p-2 lg:justify-start w-ful lg:w-1/3 ">
         <label className="text-sm font-medium text-blue">
           Filtrar por dia:{" "}
         </label>
