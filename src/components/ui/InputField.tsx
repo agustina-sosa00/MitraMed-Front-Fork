@@ -10,6 +10,7 @@ type InputFieldProps = {
   className?: string;
   show?: boolean;
   setShow?: () => void;
+  readOnly?: boolean;
 };
 
 export default function InputField({
@@ -20,6 +21,7 @@ export default function InputField({
   register,
   className,
   show,
+  readOnly,
   setShow,
 }: InputFieldProps) {
   const handleButtonEye = () => {
@@ -37,6 +39,7 @@ export default function InputField({
         <input
           id={id}
           type={type}
+          readOnly={readOnly}
           placeholder={placeholder}
           className={`w-full px-2 py-1 sm:p-2 xl:p-3 max-w-2xl xl:mt-2 xl:text-lg font-semibold bg-white rounded-xl border border-opacity-40 border-slate-500 outline-none transition duration-200 focus:ring-1 focus:ring-greenFocus placeholder:text-sm xl:placeholder:text-lg placeholder:text-gray-300 placeholder:font-medium ${className}`}
           {...register}
