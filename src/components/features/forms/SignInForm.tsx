@@ -146,7 +146,7 @@ export default function SignInForm({ rol }: IProp) {
                 import.meta.env.VITE_CLIENT_ID
               }&redirect_uri=${
                 import.meta.env.VITE_REDIRECT_URI
-              }&response_type=code&access_type=offline&include_granted_scopes=true&prompt=consent&scope=openid%20email%20https://www.googleapis.com/auth/userinfo.profile%20https://www.googleapis.com/auth/user.birthday.read%20https://www.googleapis.com/auth/user.gender.read%20https://www.googleapis.com/auth/user.phonenumbers.read`;
+              }&response_type=code&scope=openid%20email%20https://www.googleapis.com/auth/userinfo.profile%20https://www.googleapis.com/auth/user.birthday.read%20https://www.googleapis.com/auth/user.gender.read%20https://www.googleapis.com/auth/user.phonenumbers.read`;
             }}
           >
             <img src="/google-icon.png" alt="Google Icon" className="w-8 h-8" />
