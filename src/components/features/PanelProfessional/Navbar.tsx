@@ -14,19 +14,19 @@ export const Navbar: React.FC<IProp> = ({ logo, buttons }) => {
     setOpenMenu((prev) => !prev);
   };
   return (
-    <div className="fixed top-0 z-50 block w-full md:hidden ">
+    <div className="fixed top-0 z-50 block w-full lg:hidden ">
       <nav className="bg-gray-200 ">
         <div className="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto">
           <a
             href="https://flowbite.com/"
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
-            <img src={logo} className="h-12" alt="MitraMed Logo" />
+            <img src={logo} className="h-14" alt="MitraMed Logo" />
           </a>
           <button
             type="button"
             onClick={handleOpenMenu}
-            className="inline-flex items-center justify-center w-10 h-10 text-sm rounded-lg text-blue md:hidden "
+            className="inline-flex items-center justify-center w-10 h-10 text-sm rounded-lg text-blue lg:hidden "
           >
             {openMenu ? (
               <IoClose className="text-4xl" />
@@ -41,16 +41,15 @@ export const Navbar: React.FC<IProp> = ({ logo, buttons }) => {
           className="absolute z-50 flex items-start justify-end w-full gap-2 "
           id="navbar-default"
         >
-          <div className="flex flex-col items-start justify-start w-1/3 pt-5 pb-20 bg-gray-200 rounded-b-md ">
+          <div className="flex flex-col items-start justify-start w-1/3 pt-5 pb-20 bg-gray-200 md:w-1/4 rounded-b-md ">
             {" "}
             {buttons.map((item) => (
               <Link
                 key={item.name}
                 to={item.link}
-                className="flex items-center justify-end gap-2   py-1 w-[90%] text-lg font-medium text-blue capitalize rounded cursor-pointer hover:bg-green hover:text-white"
+                className="flex items-center justify-end gap-2   py-1 w-[90%] text-lg md:text-xl font-medium text-blue capitalize rounded cursor-pointer hover:text-green"
               >
                 {item.name}
-                {/* <item.icon className="" /> */}
               </Link>
             ))}
           </div>
