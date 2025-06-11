@@ -9,6 +9,7 @@ import {
   DialogTitle,
 } from "@headlessui/react";
 import { ClipLoader } from "react-spinners";
+import { useMutation } from "@tanstack/react-query";
 // import { useMutation } from "@tanstack/react-query";
 // import { googleAuth } from "@/services/UserService";
 // import { toast } from "react-toastify";
@@ -67,6 +68,10 @@ export default function GoogleAuthModal() {
             )
               .then((response) => response.json())
               .then((userData) => {
+                console.log(
+                  "data del google------------>>>>>>>>>>>>>>>>>>",
+                  userData
+                );
                 navigate(location.pathname + "?createAccount=true", {
                   //redirigir al usuario al formulario de registro para que termine de completar los datos
                   state: {
