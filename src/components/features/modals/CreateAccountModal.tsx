@@ -7,6 +7,7 @@ import { crearCuenta } from "@/services/UserService";
 import { toast } from "react-toastify";
 import RegisterForm from "../forms/RegisterForm";
 import { Modal } from "@/components/ui/Modal";
+import { useEffect } from "react";
 
 export default function CreateAccountModal() {
   const navigate = useNavigate();
