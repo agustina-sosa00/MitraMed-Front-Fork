@@ -1,14 +1,15 @@
 import { useForm } from "react-hook-form";
 import { DialogTitle } from "@headlessui/react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { NewAccount } from "@/types/index";
+import { NewAccount, UserGoogle } from "@/types/index";
 import { useMutation } from "@tanstack/react-query";
-import { crearCuenta } from "@/services/UserService";
+import { crearCuenta, googleAuth } from "@/services/UserService";
 import { toast } from "react-toastify";
 import RegisterForm from "../forms/RegisterForm";
 import { Modal } from "@/components/ui/Modal";
 import { useEffect, useMemo } from "react";
 import Cookies from "js-cookie";
+type DatosGoogleCompletos = Partial<NewAccount> & Pick<UserGoogle, "idToken">;
 export default function CreateAccountModal() {
   const navigate = useNavigate();
 
@@ -17,6 +18,7 @@ export default function CreateAccountModal() {
   const modal = queryParams.get("createAccount");
 
   const token = Cookies.get("accessToken"); // o localStorage.getItem("accessToken")
+  const datosGoogle = location.state as DatosGoogleCompletos | null;
 
   const show = useMemo(() => modal && !token, [modal, token]);
 
@@ -26,7 +28,6 @@ export default function CreateAccountModal() {
     }
   }, [token, navigate]);
 
-  const datosGoogle = location.state as Partial<NewAccount> | null;
   const defaultValues: NewAccount = {
     nombre: datosGoogle?.nombre || "",
     apellido: datosGoogle?.apellido || "",
@@ -62,22 +63,40 @@ export default function CreateAccountModal() {
     }
   }, [datosGoogle, reset]);
 
-  const { mutate } = useMutation({
+  const crearCuentaMutation = useMutation({
     mutationFn: crearCuenta,
-    onError: (error) => {
-      toast.error(error.message);
-    },
     onSuccess: (data) => {
-      toast.success(data);
-      navigate("/");
-      reset();
+      Cookies.set("accessToken", data.token_acceso, { expires: 0.3333 });
+      Cookies.set("refreshToken", data.token_refresh, { expires: 0.5 });
+      navigate("/inicio");
     },
+    onError: (error) => toast.error(error.message),
+  });
+
+  const googleAuthMutation = useMutation({
+    mutationFn: googleAuth,
+    onSuccess: (data) => {
+      Cookies.set("accessToken", data.token_acceso, { expires: 0.3333 });
+      Cookies.set("refreshToken", data.token_refresh, { expires: 0.5 });
+      navigate("/inicio");
+    },
+    onError: (error) => toast.error(error.message),
   });
 
   const handleForm = (formData: NewAccount) => {
-    const formattedDate = new Date(formData.fnac).toISOString().split("T")[0];
-    const dataToSend = { ...formData, fnac: formattedDate };
-    mutate(dataToSend);
+    if (datosGoogle?.idToken) {
+      googleAuthMutation.mutate({
+        idToken: datosGoogle.idToken,
+        nombre: formData.nombre,
+        apellido: formData.apellido,
+        email: formData.email,
+        fnac: formData.fnac,
+        genero: formData.genero,
+      });
+    } else {
+      const formattedDate = new Date(formData.fnac).toISOString().split("T")[0];
+      crearCuentaMutation.mutate({ ...formData, fnac: formattedDate });
+    }
   };
 
   return (
