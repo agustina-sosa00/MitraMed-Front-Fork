@@ -29,9 +29,6 @@ export default function ConfigView() {
   const [usuario, setUsuario] = useState<Usuario | null>(null);
   const [shouldRefetch, setShouldRefetch] = useState(true);
 
-  console.log("Codarea: ", codareaInput.trim());
-  // console.log('Telefono: ', telefonoInput);
-
   const { register, setValue, handleSubmit } = useForm<EmailTelefono>({
     defaultValues: {
       email: "",
@@ -58,8 +55,6 @@ export default function ConfigView() {
     enabled: shouldRefetch,
   });
 
-  // console.log(dataUsuario[0]);
-
   useEffect(() => {
     if (dataUsuario) {
       setUsuario(dataUsuario[0]);
@@ -84,7 +79,6 @@ export default function ConfigView() {
       toast.error(error.message);
     },
     onSuccess: (data) => {
-      console.log(data);
       toast.success(data.message);
       setIsEditingEmail(false);
       if (usuario) {
@@ -111,7 +105,6 @@ export default function ConfigView() {
       toast.error(error.message);
     },
     onSuccess: (data) => {
-      console.log(data);
       toast.success(data.message);
       setIsEditingTelefono(false);
       if (usuario) {
@@ -135,8 +128,6 @@ export default function ConfigView() {
   }) => {
     setCodareaInput(data.codarea);
     setTelefonoInput(data.telefono);
-
-    console.log("data.codarea: ", data.codarea.trim());
 
     mutateTelefono(data);
   };
