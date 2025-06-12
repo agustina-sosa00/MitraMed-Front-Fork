@@ -176,7 +176,7 @@ export default function ConfigView() {
                       (field as string).slice(1)}
                 </label>
                 <p
-                  className={`w-2/3 py-1 px-2 min-h-[35px] text-sm sm:text-base border border-gray-300 rounded-md bg-gray-200`}
+                  className={`w-2/3 py-1 px-2 min-h-[35px] text-sm sm:text-base border border-gray-300 rounded  text-blue bg-gray-200`}
                 >
                   {usuario
                     ? field === "fnac"
@@ -198,27 +198,27 @@ export default function ConfigView() {
                 <div className="flex w-2/3 gap-2">
                   <input
                     type="text"
-                    className="w-1/4 text-sm sm:text-base py-1 px-2 min-h-[35px] border border-gray-300 rounded-md focus:outline-none focus:border-blue-600 focus:ring-1 transition"
+                    className="w-1/4 text-sm sm:text-base py-1 px-2 min-h-[35px] border  border-gray-300 rounded focus:outline-none focus:border-blue focus:ring-1 transition"
                     {...register("codarea")}
                   />
-                  <span className="flex items-center text-sm sm:text-base">
+                  <span className="flex items-center text-sm text-blue sm:text-base">
                     15
                   </span>
                   <input
                     type="text"
-                    className="w-2/5 text-sm sm:text-base py-1 px-2 min-h-[35px] border border-gray-300 rounded-md focus:outline-none focus:border-blue-600 focus:ring-1 transition"
+                    className="w-2/5 text-sm sm:text-base py-1 px-2  min-h-[35px] border border-gray-300 rounded focus:outline-none focus:border-blue focus:ring-1 transition"
                     {...register("telefono")}
                   />
                 </div>
               ) : (
                 <div className="flex w-2/3 gap-2">
-                  <p className="w-1/4 text-sm sm:text-base py-1 px-2 min-h-[35px] border border-gray-300 rounded-md bg-gray-200">
+                  <p className="w-1/4 text-sm sm:text-base py-1 px-2 min-h-[35px]  text-blue border border-gray-300 rounded bg-gray-200">
                     {usuario?.codarea}
                   </p>
-                  <span className="flex items-center text-sm sm:text-base">
+                  <span className="flex items-center text-sm text-blue sm:text-base">
                     15
                   </span>
-                  <p className="w-2/5 text-sm sm:text-base py-1 px-2 min-h-[35px] border border-gray-300 rounded-md bg-gray-200">
+                  <p className="w-2/5 text-sm sm:text-base py-1 px-2 min-h-[35px] border border-gray-300 rounded text-blue bg-gray-200">
                     {usuario?.telefono}
                   </p>
                 </div>
@@ -235,11 +235,11 @@ export default function ConfigView() {
               {isEditingEmail ? (
                 <input
                   type="email"
-                  className="w-full text-sm sm:text-base  py-1 px-2 min-h-[35px]  border border-gray-300 rounded-md focus:outline-none focus:border-blue focus:ring-1 transition"
+                  className="w-full text-sm sm:text-base  py-1 px-2 min-h-[35px]  border border-gray-300 rounded focus:outline-none focus:border-blue focus:ring-1 transition"
                   {...register("email")}
                 />
               ) : (
-                <p className="w-2/3 text-sm sm:text-base sm:w-2/4 py-1 px-2 min-h-[35px]  border border-gray-300 rounded-md bg-gray-200">
+                <p className="w-2/3 text-sm sm:text-base sm:w-2/4 py-1 px-2 min-h-[35px] text-blue  border border-gray-300 rounded bg-gray-200">
                   {usuario?.email}
                 </p>
               )}
@@ -251,7 +251,7 @@ export default function ConfigView() {
               <button
                 type="button"
                 onClick={() => setIsEditingTelefono(true)}
-                className="px-4 py-1 text-sm font-semibold text-gray-600 transition duration-200 bg-gray-300 rounded-lg sm:text-base hover:bg-gray-400"
+                className="px-4 py-1 text-sm font-semibold text-gray-600 transition duration-200 bg-gray-300 rounded sm:text-base hover:bg-gray-400"
               >
                 Cambiar Telefono
               </button>
@@ -260,14 +260,14 @@ export default function ConfigView() {
                 <button
                   type="button"
                   onClick={handleSubmit(handleCambiarTelefono)}
-                  className="px-4 py-1 text-sm font-semibold text-white transition duration-200 bg-blue-600 rounded-lg sm:text-base hover:bg-blue-700"
+                  className="px-4 py-1 text-sm font-semibold text-white transition duration-200 rounded bg-green sm:text-base hover:bg-blue-700"
                 >
                   Confirmar
                 </button>
                 <button
                   type="button"
                   onClick={() => setIsEditingTelefono(false)}
-                  className="px-4 py-1 text-sm font-semibold text-white transition duration-200 bg-red-600 rounded-lg sm:text-base hover:bg-red-700"
+                  className="px-4 py-1 text-sm font-semibold text-white transition duration-200 bg-red-600 rounded sm:text-base hover:bg-red-700"
                 >
                   Cancelar
                 </button>
@@ -278,7 +278,7 @@ export default function ConfigView() {
               <button
                 type="button"
                 onClick={() => setIsEditingEmail(true)}
-                className="px-4 py-1 text-sm font-semibold text-gray-600 transition duration-200 bg-gray-300 rounded-lg sm:text-base hover:bg-gray-400"
+                className="px-4 py-1 text-sm font-semibold text-gray-600 transition duration-200 bg-gray-300 rounded sm:text-base hover:bg-gray-400"
               >
                 Cambiar Email
               </button>
@@ -287,21 +287,21 @@ export default function ConfigView() {
                 <button
                   type="button"
                   onClick={handleSubmit(handleEmail)}
-                  className="px-4 py-1 text-sm font-semibold text-white transition duration-200 bg-blue-600 rounded-lg sm:text-base hover:bg-blue-700"
+                  className="px-4 py-1 text-sm font-semibold text-white transition duration-200 rounded bg-green sm:text-base hover:bg-blue-700"
                 >
                   Confirmar
                 </button>
                 <button
                   type="button"
                   onClick={() => setIsEditingEmail(false)}
-                  className="px-4 py-1 text-sm font-semibold text-white transition duration-200 bg-red-600 rounded-lg sm:text-base hover:bg-red-700"
+                  className="px-4 py-1 text-sm font-semibold text-white transition duration-200 bg-red-600 rounded sm:text-base hover:bg-red-700"
                 >
                   Cancelar
                 </button>
               </div>
             )}
             <button
-              className="px-4 py-1 text-sm font-semibold text-gray-600 transition duration-200 bg-gray-300 rounded-lg sm:text-base hover:bg-gray-400"
+              className="px-4 py-1 text-sm font-semibold text-gray-600 transition duration-200 bg-gray-300 rounded sm:text-base hover:bg-gray-400"
               onClick={() =>
                 navigate("?reestablecer_password=true&internal=true")
               }
