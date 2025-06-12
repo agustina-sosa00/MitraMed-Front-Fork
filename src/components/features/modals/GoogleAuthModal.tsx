@@ -45,6 +45,7 @@ export default function GoogleAuthModal() {
       // toast.success(data.message);
 
       if (data && data.status === 202) {
+        console.log("data del baaack->>>>>", data);
         navigate(location.pathname + "?confirmDataUser=true");
       } else {
         localStorage.setItem("nombreUsuario", data.nombre_usuario);
