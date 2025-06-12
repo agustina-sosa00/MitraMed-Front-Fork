@@ -1,37 +1,25 @@
 import { useForm } from "react-hook-form";
 import { DialogTitle } from "@headlessui/react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { NewAccount, UserGoogle } from "@/types/index";
+import { NewAccount } from "@/types/index";
 import { useMutation } from "@tanstack/react-query";
-import { crearCuenta, googleAuth } from "@/services/UserService";
+import { crearCuenta } from "@/services/UserService";
 import { toast } from "react-toastify";
 import RegisterForm from "../forms/RegisterForm";
 import { Modal } from "@/components/ui/Modal";
-import { useEffect, useMemo } from "react";
-import Cookies from "js-cookie";
-type DatosGoogleCompletos = Partial<NewAccount> & Pick<UserGoogle, "idToken">;
+
 export default function CreateAccountModal() {
   const navigate = useNavigate();
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const modal = queryParams.get("createAccount");
+  const show = modal ? true : false;
 
-  const token = Cookies.get("accessToken"); // o localStorage.getItem("accessToken")
-  const datosGoogle = location.state as DatosGoogleCompletos | null;
-
-  const show = useMemo(() => modal && !token, [modal, token]);
-
-  useEffect(() => {
-    if (token) {
-      navigate("/inicio");
-    }
-  }, [token, navigate]);
-
-  const defaultValues: NewAccount = {
-    nombre: datosGoogle?.nombre || "",
-    apellido: datosGoogle?.apellido || "",
-    email: datosGoogle?.email || "",
+  const initialValues: NewAccount = {
+    nombre: "",
+    apellido: "",
+    email: "",
     fnac: "",
     codarea: "",
     tel: "",
@@ -39,6 +27,7 @@ export default function CreateAccountModal() {
     password: "",
     confirmPassword: "",
   };
+
   const {
     register,
     handleSubmit,
@@ -46,57 +35,25 @@ export default function CreateAccountModal() {
     reset,
     watch,
     control,
-  } = useForm<NewAccount>({ defaultValues });
-  useEffect(() => {
-    if (datosGoogle) {
-      reset({
-        nombre: datosGoogle.nombre || "",
-        apellido: datosGoogle.apellido || "",
-        email: datosGoogle.email || "",
-        fnac: "",
-        codarea: "",
-        tel: "",
-        genero: "",
-        password: "",
-        confirmPassword: "",
-      });
-    }
-  }, [datosGoogle, reset]);
+  } = useForm({ defaultValues: initialValues });
 
-  const crearCuentaMutation = useMutation({
+  const { mutate } = useMutation({
     mutationFn: crearCuenta,
-    onSuccess: (data) => {
-      Cookies.set("accessToken", data.token_acceso, { expires: 0.3333 });
-      Cookies.set("refreshToken", data.token_refresh, { expires: 0.5 });
-      navigate("/inicio");
+    onError: (error) => {
+      toast.error(error.message);
     },
-    onError: (error) => toast.error(error.message),
-  });
-
-  const googleAuthMutation = useMutation({
-    mutationFn: googleAuth,
     onSuccess: (data) => {
-      Cookies.set("accessToken", data.token_acceso, { expires: 0.3333 });
-      Cookies.set("refreshToken", data.token_refresh, { expires: 0.5 });
-      navigate("/inicio");
+      toast.success(data);
+      navigate("/");
+      reset();
     },
-    onError: (error) => toast.error(error.message),
   });
 
   const handleForm = (formData: NewAccount) => {
-    if (datosGoogle?.idToken) {
-      googleAuthMutation.mutate({
-        idToken: datosGoogle.idToken,
-        nombre: formData.nombre,
-        apellido: formData.apellido,
-        email: formData.email,
-        fnac: formData.fnac,
-        genero: formData.genero,
-      });
-    } else {
-      const formattedDate = new Date(formData.fnac).toISOString().split("T")[0];
-      crearCuentaMutation.mutate({ ...formData, fnac: formattedDate });
-    }
+    const formattedDate = new Date(formData.fnac).toISOString().split("T")[0];
+    const dataToSend = { ...formData, fnac: formattedDate };
+    // console.log(dataToSend);
+    mutate(dataToSend);
   };
 
   return (
@@ -106,7 +63,7 @@ export default function CreateAccountModal() {
           navigate("/");
           reset();
         }}
-        open={!!show}
+        open={show}
       >
         <DialogTitle
           as="h3"
@@ -127,7 +84,6 @@ export default function CreateAccountModal() {
               errors={errors}
               watch={watch}
               control={control}
-              datosGoogle={datosGoogle ?? undefined}
             />
             <input
               type="submit"
