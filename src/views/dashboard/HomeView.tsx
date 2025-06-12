@@ -30,7 +30,7 @@ export default function HomeView() {
     >
       <div className="relative w-full px-6 py-20 text-center">
         <div
-          className="absolute inset-0 bg-black opacity-50"
+          className="absolute inset-0 opacity-50"
           style={{
             backgroundImage: "url(/med/herramientas-1.webp)",
             backgroundSize: "cover",
