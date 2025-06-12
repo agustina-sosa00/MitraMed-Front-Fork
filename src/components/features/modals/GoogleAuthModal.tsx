@@ -46,11 +46,12 @@ export default function GoogleAuthModal() {
 
       if (data && data.status === 202) {
         console.log("data del baaack->>>>>", data);
-        navigate(location.pathname + "/?confirmDataUser=true", {
+        navigate(location.pathname + "?confirmDataUser=true", {
           state: {
             dataBack: data.faltantes,
             dataGoogle: dataUserGoogle,
           },
+          replace: true,
         });
       } else {
         localStorage.setItem("nombreUsuario", data.nombre_usuario);
