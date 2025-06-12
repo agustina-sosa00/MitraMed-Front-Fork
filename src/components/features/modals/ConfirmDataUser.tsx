@@ -11,9 +11,7 @@ export const ConfirmDataUser = () => {
   const location = useLocation();
   const dataFromBack = location.state?.dataBack;
   const faltantes = dataFromBack;
-  const dataFromGoogle = location.state?.dataGoogle;
-  console.log("data del  back", dataFromBack);
-  console.log("data del  google", dataFromGoogle);
+  // const dataFromGoogle = location.state?.dataGoogle;
   const queryParams = new URLSearchParams(location.search);
 
   const modal = queryParams.get("confirmDataUser");
@@ -37,10 +35,9 @@ export const ConfirmDataUser = () => {
       confirmPassword: "",
     },
   });
-  const handleOnSubmit = (data: NewAccount) => {
+  const handleOnSubmit = () => {
     toast.success("Datos confirmados");
-    console.log(data);
-    // navigate("/");
+    navigate("/inicio");
   };
   return (
     <Modal
