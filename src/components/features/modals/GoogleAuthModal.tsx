@@ -21,7 +21,7 @@ export default function GoogleAuthModal() {
 
   const modal = queryParams.get("google_auth");
   const show = modal ? true : false;
-
+  const [tokenGoogle, setTokenGoogle] = useState("");
   const [dataUserGoogle, setDataUserGoogle] = useState({
     idToken: "",
     nombre: "",
@@ -50,6 +50,7 @@ export default function GoogleAuthModal() {
           state: {
             dataBack: data?.faltantes,
             dataGoogle: dataUserGoogle,
+            token: tokenGoogle,
           },
           replace: true,
         });
@@ -97,6 +98,7 @@ export default function GoogleAuthModal() {
 
           // Hacer una segunda solicitud para obtener los datos del usuario
           if (accessToken) {
+            setTokenGoogle(accessToken);
             fetch(
               "https://people.googleapis.com/v1/people/me?personFields=names,emailAddresses,birthdays,genders,phoneNumbers",
               {
