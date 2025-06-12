@@ -60,7 +60,7 @@ export const ConfirmDataUser = () => {
         faltantes.
       </p>
       <form onSubmit={handleSubmit(handleOnSubmit)} className="p-2">
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 px-10">
           <RegisterForm
             register={register}
             errors={errors}
