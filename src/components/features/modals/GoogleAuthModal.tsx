@@ -41,11 +41,9 @@ export default function GoogleAuthModal() {
       toast.error(error.message);
     },
     onSuccess: (data) => {
-      // console.log(data);
       // toast.success(data.message);
 
       if (data && data.status === 202) {
-        console.log("data del baaack->>>>>", data);
         navigate(location.pathname + "?confirmDataUser=true", {
           state: {
             dataBack: data?.faltantes,
@@ -92,8 +90,6 @@ export default function GoogleAuthModal() {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log("Tokens recibidos:", data);
-
           const accessToken = data.access_token;
 
           // Hacer una segunda solicitud para obtener los datos del usuario
@@ -110,8 +106,6 @@ export default function GoogleAuthModal() {
             )
               .then((response) => response.json())
               .then((userData) => {
-                console.log("Datos adicionales del usuario:", userData);
-
                 setDataUserGoogle(userData);
                 // Manejar la información adicional del usuario aquí
                 // const fnacimiento = `${

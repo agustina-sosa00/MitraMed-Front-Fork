@@ -16,8 +16,6 @@ export const ConfirmDataUser = () => {
   const faltantes = dataFromBack;
   const dataFromGoogle = location.state?.dataGoogle;
   const idToken = location.state?.token;
-  console.log("data del  back", dataFromBack);
-  console.log("data del  google", dataFromGoogle);
   const queryParams = new URLSearchParams(location.search);
 
   const modal = queryParams.get("confirmDataUser");
@@ -67,7 +65,6 @@ export const ConfirmDataUser = () => {
   });
 
   const handleOnSubmit = (data: NewAccount) => {
-    console.log("data del submit", data);
     toast.success("Datos confirmados");
     const dataToSend = {
       ...data,

@@ -173,7 +173,6 @@ export async function obtenerDiasSinAtencion({
 // }) {
 //   try {
 //     const { data } = await api(`/turnos/prueba/${idEspecialidad}/${idDoctor}/${fecha}`);
-//     console.log(data);
 //     return data;
 //   } catch (error) {
 //     if (isAxiosError(error) && error.response) {
@@ -224,7 +223,6 @@ export async function confirmarTurno(dataTurno: Turno) {
 
 // export async function pruebaGrabarTurno(dataTurno: Turno) {
 //   try {
-//     // console.log(dataTurno);
 //     const { data } = await api.post('/turnos/prueba', dataTurno);
 
 //     return data;
