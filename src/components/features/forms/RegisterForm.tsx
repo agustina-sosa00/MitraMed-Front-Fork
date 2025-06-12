@@ -21,7 +21,7 @@ type RegisterFormProps = {
   watch: UseFormWatch<NewAccount>;
   control: Control<NewAccount>;
   formGoogle?: boolean;
-  faltantes: string[];
+  faltantes?: string[];
 };
 
 interface OptionType {
