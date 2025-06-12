@@ -52,7 +52,6 @@ export default function CreateAccountModal() {
   const handleForm = (formData: NewAccount) => {
     const formattedDate = new Date(formData.fnac).toISOString().split("T")[0];
     const dataToSend = { ...formData, fnac: formattedDate };
-    // console.log(dataToSend);
     mutate(dataToSend);
   };
 
