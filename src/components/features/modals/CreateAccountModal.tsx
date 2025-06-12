@@ -22,7 +22,7 @@ export default function CreateAccountModal() {
     email: "",
     fnac: "",
     codarea: "",
-    tel: "",
+    telefono: "",
     genero: "",
     password: "",
     confirmPassword: "",
