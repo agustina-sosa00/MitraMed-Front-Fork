@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Fragment, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
@@ -9,11 +8,10 @@ import {
   DialogTitle,
 } from "@headlessui/react";
 import { ClipLoader } from "react-spinners";
-// import { useMutation } from "@tanstack/react-query";
-// import { useMutation } from "@tanstack/react-query";
-// import { googleAuth } from "@/services/UserService";
-// import { toast } from "react-toastify";
-// import Cookies from "js-cookie";
+import { useMutation } from "@tanstack/react-query";
+import { googleAuth } from "@/services/UserService";
+import { toast } from "react-toastify";
+import Cookies from "js-cookie";
 
 export default function GoogleAuthModal() {
   const navigate = useNavigate();
@@ -24,8 +22,41 @@ export default function GoogleAuthModal() {
   const modal = queryParams.get("google_auth");
   const show = modal ? true : false;
 
+  const [dataUserGoogle, setDataUserGoogle] = useState({
+    idToken: "",
+    nombre: "",
+    apellido: "",
+    email: "",
+    fnac: "",
+    genero: "",
+  });
+
   // Estado para manejar el código de Google
   const [authCode, setAuthCode] = useState<string | null>(null);
+
+  const { mutate } = useMutation({
+    mutationFn: googleAuth,
+    onError: (error) => {
+      console.log(error);
+      toast.error(error.message);
+    },
+    onSuccess: (data) => {
+      // console.log(data);
+      // toast.success(data.message);
+
+      if (data && data.status === 202) {
+        navigate(location.pathname + "?confirmDataUser=true");
+      } else {
+        localStorage.setItem("nombreUsuario", data.nombre_usuario);
+
+        // Almacenar los tokens en cookies
+        Cookies.set("accessToken", data.token_acceso, { expires: 0.3333 }); // 8 horas
+        Cookies.set("refreshToken", data.token_refresh, { expires: 0.5 }); // 12 horas
+
+        navigate("/inicio");
+      }
+    },
+  });
 
   useEffect(() => {
     const code = queryParams.get("code");
@@ -53,6 +84,8 @@ export default function GoogleAuthModal() {
       })
         .then((response) => response.json())
         .then((data) => {
+          console.log("Tokens recibidos:", data);
+
           const accessToken = data.access_token;
 
           // Hacer una segunda solicitud para obtener los datos del usuario
@@ -68,18 +101,29 @@ export default function GoogleAuthModal() {
             )
               .then((response) => response.json())
               .then((userData) => {
-                console.log(
-                  "data del google------------>>>>>>>>>>>>>>>>>>",
-                  userData
-                );
-                navigate(location.pathname + "?createAccount=true", {
-                  //redirigir al usuario al formulario de registro para que termine de completar los datos
-                  state: {
-                    nombre: userData.names[0]?.givenName,
-                    apellido: userData.names[0]?.familyName,
-                    email: userData.emailAddresses[0]?.value,
-                  },
-                });
+                console.log("Datos adicionales del usuario:", userData);
+
+                setDataUserGoogle(userData);
+                // Manejar la información adicional del usuario aquí
+                // const fnacimiento = `${
+                //   userData.birthdays[0]?.date?.year
+                // }-${String(userData.birthdays[0]?.date?.month).padStart(
+                //   2,
+                //   "0"
+                // )}-${String(userData.birthdays[0]?.date?.day).padStart(
+                //   2,
+                //   "0"
+                // )}`;
+
+                // let gen: string;
+
+                // if (userData.genders[0]?.value === "male") {
+                //   gen = "Masculino";
+                // } else {
+                //   gen = "Femenino";
+                // }
+
+                mutate(dataUserGoogle);
               })
               .catch((error) => {
                 console.error("Error al obtener datos adicionales:", error);
