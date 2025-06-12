@@ -6,7 +6,7 @@ export const accountSchema = z.object({
   email: z.string(),
   fnac: z.string(),
   codarea: z.string(),
-  tel: z.string(),
+  telefono: z.string(),
   genero: z.string(),
   password: z.string(),
   confirmPassword: z.string(),

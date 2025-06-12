@@ -35,7 +35,7 @@ export const ConfirmDataUser = () => {
       email: "",
       fnac: "",
       codarea: "",
-      tel: "",
+      telefono: "",
       genero: "",
       password: "",
       confirmPassword: "",

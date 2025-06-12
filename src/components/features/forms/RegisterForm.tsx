@@ -252,7 +252,7 @@ export default function RegisterForm({
                       },
                       validate: {
                         suma10: (value) => {
-                          const telefono = watch("tel") || "";
+                          const telefono = watch("telefono") || "";
                           const totalDigitos =
                             value.trim().length + telefono.trim().length;
                           return (
@@ -271,7 +271,7 @@ export default function RegisterForm({
                     type="text"
                     placeholder={"Ingresa tu número de teléfono"}
                     className={`w-full px-2 py-1 sm:p-2 max-w-2xl font-semibold bg-white border border-opacity-40 border-slate-500 outline-none transition duration-200 focus:ring-1  placeholder:text-sm placeholder:text-gray-300 placeholder:font-medium`}
-                    {...register("tel", {
+                    {...register("telefono", {
                       required: {
                         value: true,
                         message: "El número de teléfono es obligatorio",
@@ -298,7 +298,9 @@ export default function RegisterForm({
               {errors.codarea && (
                 <ErrorMessage>{errors.codarea.message}</ErrorMessage>
               )}
-              {errors.tel && <ErrorMessage>{errors.tel.message}</ErrorMessage>}
+              {errors.telefono && (
+                <ErrorMessage>{errors.telefono.message}</ErrorMessage>
+              )}
             </div>
           )}
         </div>
