@@ -20,7 +20,7 @@ type RegisterFormProps = {
   errors: FieldErrors<NewAccount>;
   watch: UseFormWatch<NewAccount>;
   control: Control<NewAccount>;
-  datosGoogle?: Partial<NewAccount>;
+  formGoogle?: boolean;
 };
 
 interface OptionType {
@@ -33,7 +33,7 @@ export default function RegisterForm({
   errors,
   watch,
   control,
-  datosGoogle,
+  formGoogle,
 }: RegisterFormProps) {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -191,7 +191,6 @@ export default function RegisterForm({
             id={"email"}
             type={"text"}
             label={"Email"}
-            readOnly={!!datosGoogle?.email}
             placeholder={"Ingresa tu email"}
             register={register("email", {
               required: {
@@ -277,62 +276,66 @@ export default function RegisterForm({
           )}
           {errors.tel && <ErrorMessage>{errors.tel.message}</ErrorMessage>}
         </div>
-
-        <div className="relative flex flex-col">
-          <InputField
-            id={"password"}
-            type={showPassword ? "text" : "password"}
-            label={"Contraseña"}
-            placeholder={"Ingresa tu contraseña"}
-            register={register("password", {
-              required: {
-                value: true,
-                message: "La contraseña es obligatoria",
-              },
-              minLength: {
-                value: 8,
-                message: "La contraseña debe tener mínimo 8 carácteres",
-              },
-            })}
-          />
-          <button
-            type="button"
-            className="absolute text-xl right-3 top-12"
-            onClick={() => setShowPassword(!showPassword)}
-          >
-            {showPassword ? <FiEye /> : <FiEyeOff />}
-          </button>
-          {errors.password && (
-            <ErrorMessage>{errors.password.message}</ErrorMessage>
-          )}
-        </div>
-        <div className="relative flex flex-col ">
-          <InputField
-            id={"confirmPassword"}
-            type={showPassword ? "text" : "password"}
-            label={"Confirmar Contraseña"}
-            placeholder={"Ingresa nuevamente tu contraseña"}
-            register={register("confirmPassword", {
-              required: {
-                value: true,
-                message: "Confirmar la contraseña es obligatorio",
-              },
-              validate: (value) =>
-                value === watch("password") ||
-                "Las contraseñas deben ser idénticas",
-            })}
-          />
-          <button
-            type="button"
-            className="absolute text-xl right-3 top-12"
-            onClick={() => setShowPassword(!showPassword)}
-          >
-            {showPassword ? <FiEye /> : <FiEyeOff />}
-          </button>
-          {errors.confirmPassword && (
-            <ErrorMessage>{errors.confirmPassword.message}</ErrorMessage>
-          )}
-        </div>
+        {!formGoogle ? (
+          <>
+            {" "}
+            <div className="relative flex flex-col">
+              <InputField
+                id={"password"}
+                type={showPassword ? "text" : "password"}
+                label={"Contraseña"}
+                placeholder={"Ingresa tu contraseña"}
+                register={register("password", {
+                  required: {
+                    value: true,
+                    message: "La contraseña es obligatoria",
+                  },
+                  minLength: {
+                    value: 8,
+                    message: "La contraseña debe tener mínimo 8 carácteres",
+                  },
+                })}
+              />
+              <button
+                type="button"
+                className="absolute text-xl right-3 top-12"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FiEye /> : <FiEyeOff />}
+              </button>
+              {errors.password && (
+                <ErrorMessage>{errors.password.message}</ErrorMessage>
+              )}
+            </div>
+            <div className="relative flex flex-col ">
+              <InputField
+                id={"confirmPassword"}
+                type={showPassword ? "text" : "password"}
+                label={"Confirmar Contraseña"}
+                placeholder={"Ingresa nuevamente tu contraseña"}
+                register={register("confirmPassword", {
+                  required: {
+                    value: true,
+                    message: "Confirmar la contraseña es obligatorio",
+                  },
+                  validate: (value) =>
+                    value === watch("password") ||
+                    "Las contraseñas deben ser idénticas",
+                })}
+              />
+              <button
+                type="button"
+                className="absolute text-xl right-3 top-12"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FiEye /> : <FiEyeOff />}
+              </button>
+              {errors.confirmPassword && (
+                <ErrorMessage>{errors.confirmPassword.message}</ErrorMessage>
+              )}
+            </div>
+          </>
+        ) : null}
       </div>
     </>
   );
