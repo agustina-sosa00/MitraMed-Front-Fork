@@ -5,6 +5,9 @@ import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import RegisterForm from "../forms/RegisterForm";
+import { useMutation } from "@tanstack/react-query";
+import { googleAuth } from "@/services/UserService";
+import Cookies from "js-cookie";
 
 export const ConfirmDataUser = () => {
   const navigate = useNavigate();
@@ -12,6 +15,7 @@ export const ConfirmDataUser = () => {
   const dataFromBack = location.state?.dataBack;
   const faltantes = dataFromBack;
   const dataFromGoogle = location.state?.dataGoogle;
+  const idToken = location.state?.token;
   console.log("data del  back", dataFromBack);
   console.log("data del  google", dataFromGoogle);
   const queryParams = new URLSearchParams(location.search);
@@ -37,10 +41,39 @@ export const ConfirmDataUser = () => {
       confirmPassword: "",
     },
   });
+
+  const { mutate } = useMutation({
+    mutationFn: googleAuth,
+    onError: (error) => {
+      console.log(error);
+      toast.error(error.message);
+    },
+    onSuccess: (data) => {
+      if (data && data.status === 202) {
+        navigate(location.pathname + "?confirmDataUser=true", {
+          state: {
+            dataBack: data?.faltantes,
+            dataGoogle: dataFromGoogle,
+          },
+          replace: true,
+        });
+      } else {
+        localStorage.setItem("nombreUsuario", data.nombre_usuario);
+        Cookies.set("accessToken", data.token_acceso, { expires: 0.3333 });
+        Cookies.set("refreshToken", data.token_refresh, { expires: 0.5 });
+        navigate("/inicio");
+      }
+    },
+  });
+
   const handleOnSubmit = (data: NewAccount) => {
     console.log("data del submit", data);
     toast.success("Datos confirmados");
-    // navigate("/inicio");
+    const dataToSend = {
+      ...data,
+      idToken: idToken,
+    };
+    mutate(dataToSend);
   };
   return (
     <Modal
