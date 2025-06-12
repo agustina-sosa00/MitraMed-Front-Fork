@@ -49,8 +49,8 @@ export default function RegisterForm({
 
   return (
     <>
-      <div className="flex flex-col w-full">
-        <div className="flex flex-col items-center justify-center gap-3 md:mr-12">
+      <div className="flex flex-col w-full ">
+        <div className="flex flex-col justify-center w-full gap-3 md:mr-12">
           {fieldsRender("nombre") && (
             <div className="flex flex-col">
               <InputField
