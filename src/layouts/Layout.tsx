@@ -45,7 +45,6 @@ export default function Layout() {
         handleOpenDrawer={handleOpenDrawer}
         handleCloseDrawer={handleCloseDrawer}
       />
-
       <div className="flex-grow ">
         <Outlet />
       </div>

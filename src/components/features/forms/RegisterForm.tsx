@@ -50,7 +50,7 @@ export default function RegisterForm({
   return (
     <>
       <div className="flex flex-col w-full">
-        <div className="flex justify-between gap-3 md:mr-12">
+        <div className="flex flex-col justify-between gap-3 md:mr-12">
           {fieldsRender("nombre") && (
             <div className="flex flex-col">
               <InputField
