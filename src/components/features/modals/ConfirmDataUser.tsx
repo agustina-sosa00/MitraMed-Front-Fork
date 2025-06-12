@@ -2,13 +2,18 @@ import { Modal } from "@/components/ui/Modal";
 import { NewAccount } from "@/types/index";
 import { DialogTitle } from "@headlessui/react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import RegisterForm from "../forms/RegisterForm";
 
 export const ConfirmDataUser = () => {
   const navigate = useNavigate();
-
+  const location = useLocation();
+  const dataFromBack = location.state?.dataBack;
+  const faltantes = dataFromBack.faltantes;
+  const dataFromGoogle = location.state?.dataGoogle;
+  console.log("data del  back", dataFromBack);
+  console.log("data del  google", dataFromGoogle);
   const queryParams = new URLSearchParams(location.search);
 
   const modal = queryParams.get("confirmDataUser");
@@ -62,6 +67,7 @@ export const ConfirmDataUser = () => {
             watch={watch}
             control={control}
             formGoogle={true}
+            faltantes={faltantes}
           />
           <input
             type="submit"
