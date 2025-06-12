@@ -48,7 +48,7 @@ export default function GoogleAuthModal() {
         console.log("data del baaack->>>>>", data);
         navigate(location.pathname + "?confirmDataUser=true", {
           state: {
-            dataBack: data.faltantes,
+            dataBack: data?.faltantes,
             dataGoogle: dataUserGoogle,
           },
           replace: true,

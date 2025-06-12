@@ -10,7 +10,7 @@ export const ConfirmDataUser = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const dataFromBack = location.state?.dataBack;
-  const faltantes = dataFromBack.faltantes;
+  const faltantes = dataFromBack;
   const dataFromGoogle = location.state?.dataGoogle;
   console.log("data del  back", dataFromBack);
   console.log("data del  google", dataFromGoogle);
