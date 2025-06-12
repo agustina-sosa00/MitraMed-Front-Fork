@@ -16,6 +16,7 @@ import WhatsApp from "@/components/features/WhatsApp";
 import { About } from "./About/About";
 import { CardsAbout } from "@/components/ui/CardsAbout";
 import Header from "@/components/ui/Header";
+import { ConfirmDataUser } from "@/components/features/modals/ConfirmDataUser";
 
 export default function PortalView() {
   const navigate = useNavigate();
@@ -89,7 +90,7 @@ export default function PortalView() {
       <WhatsApp />
 
       <Footer />
-
+      <ConfirmDataUser />
       <CreateAccountModal />
       <ForgotPasswordModal />
       <ConfirmAccountModal />
