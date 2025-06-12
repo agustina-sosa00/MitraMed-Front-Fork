@@ -240,7 +240,7 @@ export default function RegisterForm({
                     id="codarea"
                     type="text"
                     placeholder={"Cod. Área"}
-                    className={`w-full px-2 py-1 sm:p-2 max-w-2xl font-semibold bg-white border border-opacity-40 border-slate-500 outline-none transition duration-200 focus:ring-1 placeholder:text-sm placeholder:text-gray-300 placeholder:font-medium`}
+                    className={`w-full px-2 py-1 sm:p-2 max-w-2xl font-semibold  bg-white border border-opacity-40 border-slate-500 outline-none transition duration-200 focus:ring-1 placeholder:text-sm placeholder:text-gray-300 placeholder:font-medium`}
                     {...register("codarea", {
                       required: {
                         value: true,
@@ -270,7 +270,7 @@ export default function RegisterForm({
                     id="tel"
                     type="text"
                     placeholder={"Ingresa tu número de teléfono"}
-                    className={`w-full px-2 py-1 sm:p-2 max-w-2xl font-semibold bg-white border border-opacity-40 border-slate-500 outline-none transition duration-200 focus:ring-1 placeholder:text-sm placeholder:text-gray-300 placeholder:font-medium`}
+                    className={`w-full px-2 py-1 sm:p-2 max-w-2xl font-semibold bg-white border border-opacity-40 border-slate-500 outline-none transition duration-200 focus:ring-1  placeholder:text-sm placeholder:text-gray-300 placeholder:font-medium`}
                     {...register("tel", {
                       required: {
                         value: true,
