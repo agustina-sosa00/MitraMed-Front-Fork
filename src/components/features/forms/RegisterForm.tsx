@@ -229,81 +229,78 @@ export default function RegisterForm({
             </div>
           )}
 
-          {fieldsRender("codarea") ||
-            (fieldsRender("teléfono") && (
-              <div className="flex flex-col gap-1 mb-2">
-                <p className="mt-2 font-semibold text-gray-700 sm:text-lg">
-                  Teléfono
-                </p>
-                <div className="flex items-center w-full gap-7">
-                  <div className="flex flex-col w-1/6">
-                    <input
-                      id="codarea"
-                      type="text"
-                      placeholder={"Cod. Área"}
-                      className={`w-full px-2 py-1 sm:p-2 max-w-2xl font-semibold bg-white border border-opacity-40 border-slate-500 outline-none transition duration-200 focus:ring-1 placeholder:text-sm placeholder:text-gray-300 placeholder:font-medium`}
-                      {...register("codarea", {
-                        required: {
-                          value: true,
-                          message: "El código de área es obligatorio",
+          {(fieldsRender("codarea") || fieldsRender("teléfono")) && (
+            <div className="flex flex-col gap-1 mb-2">
+              <p className="mt-2 font-semibold text-gray-700 sm:text-lg">
+                Teléfono
+              </p>
+              <div className="flex items-center w-full gap-7">
+                <div className="flex flex-col w-1/6">
+                  <input
+                    id="codarea"
+                    type="text"
+                    placeholder={"Cod. Área"}
+                    className={`w-full px-2 py-1 sm:p-2 max-w-2xl font-semibold bg-white border border-opacity-40 border-slate-500 outline-none transition duration-200 focus:ring-1 placeholder:text-sm placeholder:text-gray-300 placeholder:font-medium`}
+                    {...register("codarea", {
+                      required: {
+                        value: true,
+                        message: "El código de área es obligatorio",
+                      },
+                      pattern: {
+                        value: /^[0-9]{2,4}$/,
+                        message: "Código inválido",
+                      },
+                      validate: {
+                        suma10: (value) => {
+                          const telefono = watch("tel") || "";
+                          const totalDigitos =
+                            value.trim().length + telefono.trim().length;
+                          return (
+                            totalDigitos === 10 ||
+                            "El código de área y teléfono deben sumar 10 dígitos"
+                          );
                         },
-                        pattern: {
-                          value: /^[0-9]{2,4}$/,
-                          message: "Código inválido",
-                        },
-                        validate: {
-                          suma10: (value) => {
-                            const telefono = watch("tel") || "";
-                            const totalDigitos =
-                              value.trim().length + telefono.trim().length;
-                            return (
-                              totalDigitos === 10 ||
-                              "El código de área y teléfono deben sumar 10 dígitos"
-                            );
-                          },
-                        },
-                      })}
-                    />
-                  </div>
-                  <p className="font-semibold text-gray-400">15</p>
-                  <div className="flex flex-col w-3/4">
-                    <input
-                      id="tel"
-                      type="text"
-                      placeholder={"Ingresa tu número de teléfono"}
-                      className={`w-full px-2 py-1 sm:p-2 max-w-2xl font-semibold bg-white border border-opacity-40 border-slate-500 outline-none transition duration-200 focus:ring-1 placeholder:text-sm placeholder:text-gray-300 placeholder:font-medium`}
-                      {...register("tel", {
-                        required: {
-                          value: true,
-                          message: "El número de teléfono es obligatorio",
-                        },
-                        pattern: {
-                          value: /^[0-9]{6,10}$/,
-                          message: "Número inválido",
-                        },
-                        validate: {
-                          suma10: (value) => {
-                            const codarea = watch("codarea") || "";
-                            const totalDigitos =
-                              value.trim().length + codarea.trim().length;
-                            return (
-                              totalDigitos === 10 ||
-                              "El código de área y teléfono deben sumar 10 dígitos"
-                            );
-                          },
-                        },
-                      })}
-                    />
-                  </div>
+                      },
+                    })}
+                  />
                 </div>
-                {errors.codarea && (
-                  <ErrorMessage>{errors.codarea.message}</ErrorMessage>
-                )}
-                {errors.tel && (
-                  <ErrorMessage>{errors.tel.message}</ErrorMessage>
-                )}
+                <p className="font-semibold text-gray-400">15</p>
+                <div className="flex flex-col w-3/4">
+                  <input
+                    id="tel"
+                    type="text"
+                    placeholder={"Ingresa tu número de teléfono"}
+                    className={`w-full px-2 py-1 sm:p-2 max-w-2xl font-semibold bg-white border border-opacity-40 border-slate-500 outline-none transition duration-200 focus:ring-1 placeholder:text-sm placeholder:text-gray-300 placeholder:font-medium`}
+                    {...register("tel", {
+                      required: {
+                        value: true,
+                        message: "El número de teléfono es obligatorio",
+                      },
+                      pattern: {
+                        value: /^[0-9]{6,10}$/,
+                        message: "Número inválido",
+                      },
+                      validate: {
+                        suma10: (value) => {
+                          const codarea = watch("codarea") || "";
+                          const totalDigitos =
+                            value.trim().length + codarea.trim().length;
+                          return (
+                            totalDigitos === 10 ||
+                            "El código de área y teléfono deben sumar 10 dígitos"
+                          );
+                        },
+                      },
+                    })}
+                  />
+                </div>
               </div>
-            ))}
+              {errors.codarea && (
+                <ErrorMessage>{errors.codarea.message}</ErrorMessage>
+              )}
+              {errors.tel && <ErrorMessage>{errors.tel.message}</ErrorMessage>}
+            </div>
+          )}
         </div>
 
         {!formGoogle ? (
