@@ -78,7 +78,7 @@ export default function CreateAccountModal() {
         </p>
 
         <form className="mt-5" noValidate onSubmit={handleSubmit(handleForm)}>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 px-10">
             <RegisterForm
               register={register}
               errors={errors}
