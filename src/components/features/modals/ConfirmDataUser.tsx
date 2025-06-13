@@ -40,7 +40,6 @@ export const ConfirmDataUser = () => {
   });
 
   useEffect(() => {
-    console.log("dataFromGoogle:", dataFromGoogle);
     if (dataFromGoogle) {
       reset({ ...dataFromGoogle });
     }
