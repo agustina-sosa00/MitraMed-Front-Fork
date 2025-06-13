@@ -12,6 +12,7 @@ import { useMutation } from "@tanstack/react-query";
 import { googleAuth } from "@/services/UserService";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
+import { Usuario } from "@/types/index";
 
 export default function GoogleAuthModal() {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ export default function GoogleAuthModal() {
   const modal = queryParams.get("google_auth");
   const show = modal ? true : false;
   const [tokenGoogle, setTokenGoogle] = useState("");
-  const [dataUserGoogle, setDataUserGoogle] = useState({
+  const [dataUserGoogle, setDataUserGoogle] = useState<Usuario>({
     nombre: "",
     apellido: "",
     email: "",
