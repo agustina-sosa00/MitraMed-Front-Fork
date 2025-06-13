@@ -1,5 +1,5 @@
 import { isAxiosError } from "axios";
-import { Account, NewAccount, UserGoogle } from "../types";
+import { Account, NewAccount, Usuario } from "../types";
 import apiNoAuth from "@/lib/axiosNoAuth";
 
 export async function crearCuenta(formData: NewAccount) {
@@ -56,7 +56,7 @@ export async function iniciarSesion(formData: Account) {
   }
 }
 
-export async function googleAuth(googleData: UserGoogle) {
+export async function googleAuth(googleData: Usuario) {
   try {
     const { data } = await apiNoAuth.post("/auth/google_auth", googleData);
     return data;
