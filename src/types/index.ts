@@ -8,8 +8,8 @@ export const accountSchema = z.object({
   codarea: z.string(),
   telefono: z.string(),
   genero: z.string(),
-  password: z.string(),
-  confirmPassword: z.string(),
+  password: z.string().optional(),
+  confirmPassword: z.string().optional(),
   dni: z.string().optional(),
 });
 
