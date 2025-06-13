@@ -107,25 +107,7 @@ export default function GoogleAuthModal() {
               .then((response) => response.json())
               .then((userData) => {
                 setDataUserGoogle(userData);
-                // Manejar la información adicional del usuario aquí
-                // const fnacimiento = `${
-                //   userData.birthdays[0]?.date?.year
-                // }-${String(userData.birthdays[0]?.date?.month).padStart(
-                //   2,
-                //   "0"
-                // )}-${String(userData.birthdays[0]?.date?.day).padStart(
-                //   2,
-                //   "0"
-                // )}`;
-
-                // let gen: string;
-
-                // if (userData.genders[0]?.value === "male") {
-                //   gen = "Masculino";
-                // } else {
-                //   gen = "Femenino";
-                // }
-
+                console.log("data de google", userData);
                 mutate(dataUserGoogle);
               })
               .catch((error) => {
