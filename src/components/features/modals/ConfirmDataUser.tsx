@@ -27,13 +27,13 @@ export const ConfirmDataUser = () => {
     control,
   } = useForm<Usuario>({
     defaultValues: {
-      nombre: dataFromGoogle.nombre,
-      apellido: dataFromGoogle.apellido,
-      email: dataFromGoogle.email,
-      fnac: dataFromGoogle.fnac,
-      codarea: dataFromGoogle.codarea,
-      telefono: dataFromGoogle.telefono,
-      genero: dataFromGoogle.genero,
+      nombre: dataFromGoogle?.nombre,
+      apellido: dataFromGoogle?.apellido,
+      email: dataFromGoogle?.email,
+      fnac: dataFromGoogle?.fnac,
+      codarea: dataFromGoogle?.codarea,
+      telefono: dataFromGoogle?.telefono,
+      genero: dataFromGoogle?.genero,
     },
   });
 
