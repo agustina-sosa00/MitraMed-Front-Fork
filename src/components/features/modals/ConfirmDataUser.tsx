@@ -8,6 +8,7 @@ import RegisterForm from "../forms/RegisterForm";
 import { useMutation } from "@tanstack/react-query";
 import { googleAuth } from "@/services/UserService";
 import Cookies from "js-cookie";
+import { useEffect } from "react";
 
 export const ConfirmDataUser = () => {
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ export const ConfirmDataUser = () => {
     formState: { errors },
     watch,
     control,
+    reset,
   } = useForm<Usuario>({
     defaultValues: {
       nombre: dataFromGoogle?.nombre,
@@ -36,6 +38,13 @@ export const ConfirmDataUser = () => {
       genero: dataFromGoogle?.genero,
     },
   });
+
+  useEffect(() => {
+    console.log("dataFromGoogle:", dataFromGoogle);
+    if (dataFromGoogle) {
+      reset({ ...dataFromGoogle });
+    }
+  }, [dataFromGoogle, reset]);
 
   const { mutate } = useMutation({
     mutationFn: googleAuth,
