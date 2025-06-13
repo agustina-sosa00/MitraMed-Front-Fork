@@ -71,8 +71,6 @@ export const ConfirmDataUser = () => {
 
   const handleOnSubmit = (data: Usuario) => {
     toast.success("Datos confirmados");
-
-    console.log(data);
     mutate(data);
   };
   return (
