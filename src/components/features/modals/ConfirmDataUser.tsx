@@ -1,5 +1,5 @@
 import { Modal } from "@/components/ui/Modal";
-import { NewAccount, Usuario } from "@/types/index";
+import { Usuario } from "@/types/index";
 import { DialogTitle } from "@headlessui/react";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -25,17 +25,15 @@ export const ConfirmDataUser = () => {
     formState: { errors },
     watch,
     control,
-  } = useForm<NewAccount>({
+  } = useForm<Usuario>({
     defaultValues: {
-      nombre: "",
-      apellido: "",
-      email: "",
-      fnac: "",
-      codarea: "",
-      telefono: "",
-      genero: "",
-      password: "",
-      confirmPassword: "",
+      nombre: dataFromGoogle.nombre,
+      apellido: dataFromGoogle.apellido,
+      email: dataFromGoogle.email,
+      fnac: dataFromGoogle.fnac,
+      codarea: dataFromGoogle.codarea,
+      telefono: dataFromGoogle.telefono,
+      genero: dataFromGoogle.genero,
     },
   });
 
@@ -65,6 +63,7 @@ export const ConfirmDataUser = () => {
 
   const handleOnSubmit = (data: Usuario) => {
     toast.success("Datos confirmados");
+
     console.log(data);
     mutate(data);
   };
