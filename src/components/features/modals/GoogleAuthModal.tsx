@@ -23,12 +23,13 @@ export default function GoogleAuthModal() {
   const show = modal ? true : false;
   const [tokenGoogle, setTokenGoogle] = useState("");
   const [dataUserGoogle, setDataUserGoogle] = useState({
-    idToken: "",
     nombre: "",
     apellido: "",
     email: "",
     fnac: "",
     genero: "",
+    codarea: "",
+    telefono: "",
   });
 
   // Estado para manejar el código de Google
@@ -106,9 +107,7 @@ export default function GoogleAuthModal() {
             )
               .then((response) => response.json())
               .then((userData) => {
-                setDataUserGoogle(userData);
                 const dataSend = {
-                  idToken: tokenGoogle,
                   nombre: userData?.names[0]?.givenName || "",
                   apellido: userData.names[0].familyName || "",
                   email: userData.emailAddresses[0].value || "",
@@ -123,8 +122,12 @@ export default function GoogleAuthModal() {
                       ? "Masculino"
                       : "Femenino"
                     : "",
+                  codarea: "",
+                  telefono: "",
                 };
-                console.log("data de google", userData);
+                setDataUserGoogle(dataSend);
+
+                console.log("data de google", dataSend);
                 mutate(dataSend);
               })
               .catch((error) => {
