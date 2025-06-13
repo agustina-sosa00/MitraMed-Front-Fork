@@ -66,17 +66,17 @@ export default function CreateAccountModal() {
       >
         <DialogTitle
           as="h3"
-          className="mb-6 text-3xl font-semibold text-center text-green"
+          className="text-3xl font-semibold text-center text-green"
         >
           Crea tu cuenta
         </DialogTitle>
 
-        <p className="mb-6 text-sm text-center text-blue">
+        <p className="py-2 text-sm text-center text-blue">
           Llena el formulario para registrarte y recibirás un correo para
           confirmar tu cuenta.
         </p>
 
-        <form className="mt-5" noValidate onSubmit={handleSubmit(handleForm)}>
+        <form className="py-2" noValidate onSubmit={handleSubmit(handleForm)}>
           <div className="flex flex-col gap-4 px-10">
             <RegisterForm
               register={register}
@@ -87,12 +87,12 @@ export default function CreateAccountModal() {
             <input
               type="submit"
               value="Registrarme"
-              className="max-w-lg px-4 py-1 my-3 text-base text-white uppercase transition-colors rounded shadow-lg cursor-pointer bg-green hover:bg-greenHover "
+              className="max-w-lg px-4 py-1 text-base text-white uppercase transition-colors rounded shadow-lg cursor-pointer bg-green hover:bg-greenHover "
             />
           </div>
         </form>
 
-        <div className="flex flex-col items-start gap-2 mx-2 my-3">
+        <div className="flex flex-col items-start gap-2 mx-2 ">
           <p className="">
             Ya tienes una cuenta?{" "}
             <button
