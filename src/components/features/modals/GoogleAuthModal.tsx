@@ -107,8 +107,25 @@ export default function GoogleAuthModal() {
               .then((response) => response.json())
               .then((userData) => {
                 setDataUserGoogle(userData);
+                const dataSend = {
+                  idToken: tokenGoogle,
+                  nombre: userData?.names[0]?.givenName || "",
+                  apellido: userData.names[0].familyName || "",
+                  email: userData.emailAddresses[0].value || "",
+                  fnac:
+                    `${userData.birthdays[0]?.date?.year}-${String(
+                      userData.birthdays[0]?.date?.month
+                    ).padStart(2, "0")}-${String(
+                      userData.birthdays[0]?.date?.day
+                    ).padStart(2, "0")}` || "",
+                  genero: userData.genders?.[0]?.value
+                    ? userData.genders[0].value === "male"
+                      ? "Masculino"
+                      : "Femenino"
+                    : "",
+                };
                 console.log("data de google", userData);
-                mutate(dataUserGoogle);
+                mutate(dataSend);
               })
               .catch((error) => {
                 console.error("Error al obtener datos adicionales:", error);
