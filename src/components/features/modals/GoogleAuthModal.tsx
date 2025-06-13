@@ -43,8 +43,6 @@ export default function GoogleAuthModal() {
       toast.error(error.message);
     },
     onSuccess: (data) => {
-      // toast.success(data.message);
-
       if (data && data.status === 202) {
         navigate(location.pathname + "?confirmDataUser=true", {
           state: {
@@ -128,7 +126,6 @@ export default function GoogleAuthModal() {
                 };
                 setDataUserGoogle(dataSend);
 
-                console.log("data de google", dataSend);
                 mutate(dataSend);
               })
               .catch((error) => {
