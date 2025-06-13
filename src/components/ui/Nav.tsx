@@ -1,24 +1,16 @@
 import { useState } from "react";
 import { FaBars, FaUserCircle } from "react-icons/fa";
 import { FaHouse } from "react-icons/fa6";
-import { IoMdSettings } from "react-icons/io";
+import { IoMdPerson } from "react-icons/io";
 import { PiSignOutBold } from "react-icons/pi";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
 export default function Nav() {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const nombreUsuario = localStorage.getItem("nombreUsuario") || "Usuario";
-
-  const handleMouseEnter = () => {
-    setIsMenuOpen(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsMenuOpen(false);
-  };
 
   const toggleMenu = (event: React.MouseEvent) => {
     event.stopPropagation();
@@ -33,37 +25,28 @@ export default function Nav() {
     navigate("/");
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setIsMenuOpen(false);
-      }
-    };
-
-    document.addEventListener("click", handleClickOutside);
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, []);
-
   return (
     <div className="flex items-center justify-end w-full gap-2 ">
       <Link to="/inicio" className="">
-        <button className="hidden px-2 py-1 text-xs transition-all duration-200 border lg:px-4 lg:text-base md:flex border-green rounded-xl text-green hover:bg-green hover:text-white">
+        <button className="hidden px-2 py-1 text-xs transition-all duration-200 border rounded lg:px-4 lg:text-base md:flex border-green text-green hover:bg-green hover:text-white">
           Inicio
         </button>
       </Link>
-
-      <div className="relative flex items-end justify-center sm:w-autO">
-        <div
-          className="items-center hidden space-x-2 sm:flex hover:cursor-pointer"
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-        >
-          <p className="px-2 py-1 text-xs transition-all duration-200 border lg:px-4 lg:text-base border-green rounded-xl text-green hover:bg-green hover:text-white">
-            Perfil
-          </p>
-        </div>
+      <Link
+        to="/configuracion"
+        className="items-center hidden space-x-2 sm:flex hover:cursor-pointer"
+      >
+        <p className="px-2 py-1 text-xs transition-all duration-200 border rounded lg:px-4 lg:text-base border-green text-green hover:bg-green hover:text-white">
+          Perfil
+        </p>
+      </Link>
+      <button
+        onClick={handleLogout}
+        className="hidden px-2 py-1 text-xs transition-all duration-200 border rounded sm:flex lg:px-4 lg:text-base border-green text-green hover:bg-green hover:text-white"
+      >
+        Cerrar sesión
+      </button>
+      <div className="relative flex items-end justify-center sm:w-auto">
         <button
           className="block text-xl font-semibold text-green sm:hidden"
           onClick={toggleMenu}
@@ -76,8 +59,6 @@ export default function Nav() {
           <div
             ref={menuRef}
             className="absolute z-10 w-40 transform translate-x-1/2 bg-white rounded-lg shadow-lg right-12 top-8 "
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
           >
             <div className="flex flex-col items-center mt-2">
               <FaUserCircle className="text-xl text-gray-400 xl:text-3xl" />
@@ -100,8 +81,8 @@ export default function Nav() {
                 className="block px-4 pt-3 transition text-blue hover:text-greenHover"
               >
                 <div className="flex items-center text-sm xl:text-base">
-                  <IoMdSettings className="mr-2" />
-                  Configuración
+                  <IoMdPerson className="mr-2" />
+                  Perfil
                 </div>
               </Link>
               <button
