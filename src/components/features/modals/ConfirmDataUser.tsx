@@ -15,7 +15,6 @@ export const ConfirmDataUser = () => {
   const dataFromBack = location.state?.dataBack;
   const faltantes = dataFromBack;
   const dataFromGoogle = location.state?.dataGoogle;
-  const idToken = location.state?.token;
   const queryParams = new URLSearchParams(location.search);
 
   const modal = queryParams.get("confirmDataUser");
