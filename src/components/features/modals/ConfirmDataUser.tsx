@@ -1,5 +1,5 @@
 import { Modal } from "@/components/ui/Modal";
-import { NewAccount } from "@/types/index";
+import { NewAccount, Usuario } from "@/types/index";
 import { DialogTitle } from "@headlessui/react";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -64,13 +64,10 @@ export const ConfirmDataUser = () => {
     },
   });
 
-  const handleOnSubmit = (data: NewAccount) => {
+  const handleOnSubmit = (data: Usuario) => {
     toast.success("Datos confirmados");
-    const dataToSend = {
-      ...data,
-      idToken: idToken,
-    };
-    mutate(dataToSend);
+    console.log(data);
+    mutate(data);
   };
   return (
     <Modal
