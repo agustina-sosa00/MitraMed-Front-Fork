@@ -172,7 +172,7 @@ export default function GoogleAuthModal() {
               >
                 <DialogPanel className="flex flex-col items-center w-full max-w-2xl p-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl text-slate-800 ">
                   <div className="flex items-center justify-center mt-5">
-                    <ClipLoader color="#36d7b7" size={80} />
+                    <ClipLoader color="#518915" size={80} />
                   </div>
 
                   <DialogTitle
