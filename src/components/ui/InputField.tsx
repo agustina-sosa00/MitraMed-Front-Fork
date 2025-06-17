@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 
@@ -9,7 +10,8 @@ type InputFieldProps = {
   register: UseFormRegisterReturn;
   className?: string;
   show?: boolean;
-  setShow?: () => void;
+  setShow?: Dispatch<SetStateAction<boolean>>;
+  readOnly?: boolean;
 };
 
 export default function InputField({
@@ -20,16 +22,17 @@ export default function InputField({
   register,
   className,
   show,
+  readOnly,
   setShow,
 }: InputFieldProps) {
   const handleButtonEye = () => {
-    if (setShow) setShow();
+    if (setShow) setShow(!show);
   };
   return (
     <div className="flex flex-col mb-1">
       <label
         htmlFor={label}
-        className="font-semibold text-gray-700 sm:text-lg xl:text-2xl"
+        className="font-semibold text-gray-700 sm:text-base"
       >
         {label}
       </label>
@@ -37,15 +40,23 @@ export default function InputField({
         <input
           id={id}
           type={type}
+          readOnly={readOnly}
           placeholder={placeholder}
-          className={`w-full px-2 py-1 sm:p-2 xl:p-3 max-w-2xl xl:mt-2 xl:text-lg font-semibold bg-white rounded-xl border border-opacity-40 border-slate-500 outline-none transition duration-200 focus:ring-1 focus:ring-greenFocus placeholder:text-sm xl:placeholder:text-lg placeholder:text-gray-300 placeholder:font-medium ${className}`}
+          className={`w-full px-2 py-1  max-w-2xl xl:mt-2 text-sm font-semibold bg-white  border border-opacity-40 border-gray-400 outline-none transition duration-200 focus:ring-1 focus:ring-greenFocus placeholder:text-sm xl:placeholder:text-sm placeholder:text-gray-300 placeholder:font-medium ${className}`}
           {...register}
         />
 
         <button
           type="button"
-          className={`absolute right-4 xl:right-6 top-3 md:top-4 xl:top-7 xl:text-2xl   text-gray-700 ${
-            id !== "password" && "hidden"
+          className={`absolute right-4 xl:right-6 top-3 md:top-2 xl:top-7 xl:text-2xl   text-gray-700 ${
+            (id === "tel" ||
+              id === "codarea" ||
+              id === "email" ||
+              id === "genero" ||
+              id === "fnac" ||
+              id === "apellido" ||
+              id === "nombre") &&
+            "hidden"
           }`}
           onClick={handleButtonEye}
         >

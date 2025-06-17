@@ -137,6 +137,14 @@ export default function SignInForm({ rol }: IProp) {
           className="w-full p-2 mt-4 text-base font-semibold text-white uppercase transition-all rounded-lg shadow-md cursor-pointer xl:p-3 xl:text-lg bg-green hover:bg-greenHover"
         />
       </form>
+
+      {/* B U T T O N  G O O G L E */}
+      {/* B U T T O N  G O O G L E */}
+      {/* B U T T O N  G O O G L E */}
+      {/* B U T T O N  G O O G L E */}
+      {/* B U T T O N  G O O G L E */}
+      {/* B U T T O N  G O O G L E */}
+
       {rol === "paciente" ? (
         <div className="flex justify-center my-6">
           <button
@@ -148,7 +156,7 @@ export default function SignInForm({ rol }: IProp) {
                 import.meta.env.VITE_CLIENT_ID
               }&redirect_uri=${
                 import.meta.env.VITE_REDIRECT_URI
-              }&response_type=code&scope=openid%20email%20https://www.googleapis.com/auth/userinfo.profile%20https://www.googleapis.com/auth/user.birthday.read%20https://www.googleapis.com/auth/user.gender.read%20https://www.googleapis.com/auth/user.phonenumbers.read`;
+              }&response_type=code&scope=openid%20email%20https://www.googleapis.com/auth/userinfo.profile%20https://www.googleapis.com/auth/user.birthday.read%20https://www.googleapis.com/auth/user.gender.read%20https://www.googleapis.com/auth/user.phonenumbers.read&prompt=select_account`;
             }}
           >
             <img src="/google-icon.png" alt="Google Icon" className="w-8 h-8" />
