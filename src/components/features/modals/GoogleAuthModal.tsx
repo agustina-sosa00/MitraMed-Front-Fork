@@ -5,14 +5,13 @@ import {
   Transition,
   TransitionChild,
   DialogPanel,
-  DialogTitle,
 } from "@headlessui/react";
-import { ClipLoader } from "react-spinners";
 import { useMutation } from "@tanstack/react-query";
 import { googleAuth } from "@/services/UserService";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import { Usuario } from "@/types/index";
+import { Loader } from "@/components/ui/Loader";
 
 export default function GoogleAuthModal() {
   const navigate = useNavigate();
@@ -171,16 +170,7 @@ export default function GoogleAuthModal() {
                 leaveTo="opacity-0 scale-95"
               >
                 <DialogPanel className="flex flex-col items-center w-full max-w-2xl p-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl text-slate-800 ">
-                  <div className="flex items-center justify-center mt-5">
-                    <ClipLoader color="#518915" size={80} />
-                  </div>
-
-                  <DialogTitle
-                    as="h3"
-                    className="mt-6 text-xl font-semibold decoration-2"
-                  >
-                    Verificando datos de Google. Aguarda un momento...
-                  </DialogTitle>
+                  <Loader message="Verificando datos de Google. Aguarde un momento..." />
                 </DialogPanel>
               </TransitionChild>
             </div>
