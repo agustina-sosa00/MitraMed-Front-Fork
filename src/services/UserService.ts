@@ -1,97 +1,84 @@
-import { isAxiosError } from 'axios';
-import { Account, NewAccount, UserGoogle } from '../types';
-import apiNoAuth from '@/lib/axiosNoAuth';
+import { isAxiosError } from "axios";
+import { Account, NewAccount, Usuario } from "../types";
+import apiNoAuth from "@/lib/axiosNoAuth";
 
 export async function crearCuenta(formData: NewAccount) {
   try {
     const { confirmPassword, ...dataToSend } = formData;
 
-    const { data } = await apiNoAuth.post('/auth/registrar', dataToSend);
+    const { data } = await apiNoAuth.post("/auth/registrar", dataToSend);
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
-      console.log(error.response.data);
       throw new Error(error.response.data.error);
     } else {
-      throw new Error('Hubo un error...');
+      throw new Error("Hubo un error...");
     }
   }
 }
 
 export async function olvidePassword(email: { email: string }) {
   try {
-    const { data } = await apiNoAuth.post('/auth/olvide_password', email);
-    // console.log(data);
+    const { data } = await apiNoAuth.post("/auth/olvide_password", email);
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
-      console.log(error.response.data);
       throw new Error(error.response.data.error);
     } else {
-      throw new Error('Hubo un error...');
+      throw new Error("Hubo un error...");
     }
   }
 }
 
 export async function nuevoToken(email: { email: string }) {
   try {
-    const { data } = await apiNoAuth.post('/auth/reenviar_tokenconfirm', email);
-    // console.log(data);
+    const { data } = await apiNoAuth.post("/auth/reenviar_tokenconfirm", email);
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
-      console.log(error.response.data);
       throw new Error(error.response.data.error);
     } else {
-      throw new Error('Hubo un error...');
+      throw new Error("Hubo un error...");
     }
   }
 }
 
 export async function iniciarSesion(formData: Account) {
   try {
-    const { data } = await apiNoAuth.post('/auth/iniciar_sesion', formData);
-    // console.log(data);
-
+    const { data } = await apiNoAuth.post("/auth/iniciar_sesion", formData);
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
-      console.log(error.response.data);
       throw new Error(error.response.data.error);
     } else {
-      throw new Error('Hubo un error...');
+      throw new Error("Hubo un error...");
     }
   }
 }
 
-export async function googleAuth(googleData: UserGoogle) {
+export async function googleAuth(googleData: Usuario) {
   try {
-    const { data } = await apiNoAuth.post('/auth/google_auth', googleData);
-    // console.log(data);
-
+    const { data } = await apiNoAuth.post("/auth/google_auth", googleData);
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
-      console.log(error.response.data);
       throw new Error(error.response.data.error);
     } else {
-      throw new Error('Hubo un error...');
+      throw new Error("Hubo un error...");
     }
   }
 }
 
 export async function whatsAppNum(): Promise<{ numero: string }[]> {
   try {
-    const { data } = await apiNoAuth('/auth/obtiene_wspnum');
-    console.log(data);
+    const { data } = await apiNoAuth("/auth/obtiene_wspnum");
 
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
-      console.log(error.response.data);
       throw new Error(error.response.data.error);
     } else {
-      throw new Error('Hubo un error...');
+      throw new Error("Hubo un error...");
     }
   }
 }
@@ -104,17 +91,18 @@ export async function reestablecerPassword({
   password: string;
 }) {
   try {
-    const { data } = await apiNoAuth.post(`/auth/reestablecer_password?token=${token}`, {
-      password,
-    });
-    // console.log(data);
+    const { data } = await apiNoAuth.post(
+      `/auth/reestablecer_password?token=${token}`,
+      {
+        password,
+      }
+    );
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
-      console.log(error.response.data);
       throw new Error(error.response.data.error);
     } else {
-      throw new Error('Hubo un error...');
+      throw new Error("Hubo un error...");
     }
   }
 }
