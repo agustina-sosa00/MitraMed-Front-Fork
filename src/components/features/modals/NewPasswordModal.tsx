@@ -9,13 +9,13 @@ import {
   DialogTitle,
 } from "@headlessui/react";
 import { useMutation } from "@tanstack/react-query";
-import { toast } from "react-toastify";
 import { reestablecerPassword } from "@/services/UserService";
 import { isAxiosError } from "axios";
 import { ClipLoader } from "react-spinners";
 import apiNoAuth from "@/lib/axiosNoAuth";
 import NewPasswordForm from "@/components/features/forms/NewPasswordForm";
 import Cookies from "js-cookie";
+import Swal from "sweetalert2";
 
 export default function NewPasswordModal() {
   const navigate = useNavigate();
@@ -89,10 +89,17 @@ export default function NewPasswordModal() {
     mutationFn: reestablecerPassword,
     onError: (error) => {
       console.log(error);
-      toast.error(error.message);
+      Swal.fire({
+        icon: "error",
+        title: error.message,
+      });
     },
     onSuccess: (data) => {
-      toast.success(data);
+      Swal.fire({
+        title: data,
+        icon: "success",
+        draggable: true,
+      });
       reset();
       navigate(location.pathname, { replace: true });
     },
@@ -106,7 +113,10 @@ export default function NewPasswordModal() {
     repite_password: string;
   }) => {
     if (password !== repite_password) {
-      toast.error("Las contraseñas no coinciden");
+      Swal.fire({
+        icon: "error",
+        title: "Las contraseñas no coinciden",
+      });
       return;
     }
 
@@ -115,7 +125,10 @@ export default function NewPasswordModal() {
     } else if (!token && accessToken) {
       mutate({ token: accessToken, password });
     } else {
-      toast.error("Token no válido");
+      Swal.fire({
+        icon: "error",
+        title: "Token no válido",
+      });
     }
   };
 
