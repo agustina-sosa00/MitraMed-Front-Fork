@@ -55,7 +55,11 @@ export default function SignInForm({ rol }: IProp) {
 
   return (
     <>
-      <form className="flex flex-col gap-4 px-0.5 " noValidate onSubmit={handleSubmit(handleForm)}>
+      <form
+        className="flex flex-col gap-4 px-0.5 "
+        noValidate
+        onSubmit={handleSubmit(handleForm)}
+      >
         {rol === "paciente" ? (
           <div className="flex flex-col">
             <InputField
@@ -74,7 +78,9 @@ export default function SignInForm({ rol }: IProp) {
                 },
               })}
             />
-            {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
+            {errors.email && (
+              <ErrorMessage>{errors.email.message}</ErrorMessage>
+            )}
           </div>
         ) : (
           <div className="flex flex-col">
@@ -94,7 +100,9 @@ export default function SignInForm({ rol }: IProp) {
                 },
               })}
             />
-            {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
+            {errors.email && (
+              <ErrorMessage>{errors.email.message}</ErrorMessage>
+            )}
           </div>
         )}
 
@@ -118,7 +126,9 @@ export default function SignInForm({ rol }: IProp) {
             })}
           />
 
-          {errors.password && <ErrorMessage>{errors.password.message}</ErrorMessage>}
+          {errors.password && (
+            <ErrorMessage>{errors.password.message}</ErrorMessage>
+          )}
         </div>
 
         <input
@@ -146,11 +156,13 @@ export default function SignInForm({ rol }: IProp) {
                 import.meta.env.VITE_CLIENT_ID
               }&redirect_uri=${
                 import.meta.env.VITE_REDIRECT_URI
-              }&response_type=code&scope=openid%20email%20https://www.googleapis.com/auth/userinfo.profile%20https://www.googleapis.com/auth/user.birthday.read%20https://www.googleapis.com/auth/user.gender.read%20https://www.googleapis.com/auth/user.phonenumbers.read`;
+              }&response_type=code&scope=openid%20email%20https://www.googleapis.com/auth/userinfo.profile%20https://www.googleapis.com/auth/user.birthday.read%20https://www.googleapis.com/auth/user.gender.read%20https://www.googleapis.com/auth/user.phonenumbers.read&prompt=select_account`;
             }}
           >
             <img src="/google-icon.png" alt="Google Icon" className="w-8 h-8" />
-            <span className="text-sm font-medium text-gray-700">Continuar con Google</span>
+            <span className="text-sm font-medium text-gray-700">
+              Continuar con Google
+            </span>
           </button>
         </div>
       ) : null}
@@ -161,7 +173,9 @@ export default function SignInForm({ rol }: IProp) {
             No tienes cuenta?{" "}
             <button
               className="hover:underline hover:text-green"
-              onClick={() => navigate(location.pathname + "?createAccount=true")}
+              onClick={() =>
+                navigate(location.pathname + "?createAccount=true")
+              }
             >
               Regístrate aquí
             </button>
