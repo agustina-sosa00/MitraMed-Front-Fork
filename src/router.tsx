@@ -12,6 +12,7 @@ import { Professional } from "./views/dashboardProfessional/Professional";
 import { ProfessionalProtectedRoute } from "./components/features/ProfessionalProtectedRoute";
 import ProfessionalLayout from "./layouts/ProfessionalLayout";
 import { TableSchedules } from "./views/dashboardProfessional/TableSchedules";
+import { UploadStudy } from "./views/dashboardProfessional/uploadStudy";
 
 export default function Router() {
   return (
@@ -34,6 +35,10 @@ export default function Router() {
           <Route element={<ProfessionalLayout />}>
             <Route path="/profesionales/inicio" element={<Professional />} />
             <Route path="/profesionales/turnos" element={<TableSchedules />} />
+            <Route
+              path="/profesionales/subir-estudio"
+              element={<UploadStudy />}
+            />
           </Route>
         </Route>
       </Routes>
