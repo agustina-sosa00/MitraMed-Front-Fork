@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import { FaHouse } from "react-icons/fa6";
 import { FaNotesMedical } from "react-icons/fa";
 import { Navbar } from "@/components/features/PanelProfessional/Navbar";
+import { RiFolderUploadFill } from "react-icons/ri";
 
 const buttons = [
   {
@@ -14,6 +15,11 @@ const buttons = [
     name: "turnos",
     icon: FaNotesMedical,
     link: "/profesionales/turnos",
+  },
+  {
+    name: "subir estudio",
+    icon: RiFolderUploadFill,
+    link: "/profesionales/subir-estudio",
   },
 ];
 
