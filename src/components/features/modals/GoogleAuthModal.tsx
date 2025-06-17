@@ -8,10 +8,10 @@ import {
 } from "@headlessui/react";
 import { useMutation } from "@tanstack/react-query";
 import { googleAuth } from "@/services/UserService";
-import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import { Usuario } from "@/types/index";
 import { Loader } from "@/components/ui/Loader";
+import Swal from "sweetalert2";
 
 export default function GoogleAuthModal() {
   const navigate = useNavigate();
@@ -39,7 +39,10 @@ export default function GoogleAuthModal() {
     mutationFn: googleAuth,
     onError: (error) => {
       console.log(error);
-      toast.error(error.message);
+      Swal.fire({
+        icon: "error",
+        title: error.message,
+      });
     },
     onSuccess: (data) => {
       if (data && data.status === 202) {

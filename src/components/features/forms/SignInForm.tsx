@@ -2,12 +2,12 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import { toast } from "react-toastify";
 import { Account } from "@/types/index";
 import { iniciarSesion } from "../../../services/UserService";
 import Cookies from "js-cookie";
 import InputField from "../../ui/InputField";
 import ErrorMessage from "../../ui/ErrorMessage";
+import Swal from "sweetalert2";
 
 interface IProp {
   rol?: string;
@@ -32,7 +32,10 @@ export default function SignInForm({ rol }: IProp) {
   const { mutate } = useMutation({
     mutationFn: iniciarSesion,
     onError: (error) => {
-      toast.error(error.message);
+      Swal.fire({
+        icon: "error",
+        title: error.message,
+      });
     },
     onSuccess: (data) => {
       localStorage.setItem("nombreUsuario", data.nombre_usuario);
