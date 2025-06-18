@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { IoCloudUploadOutline } from "react-icons/io5";
 
 import Dropzone from "react-dropzone";
 export const UploadStudy: React.FC = () => {
@@ -24,7 +25,7 @@ export const UploadStudy: React.FC = () => {
     }
   };
   return (
-    <div className="w-full h-screen">
+    <div className="w-full h-screen pt-24">
       {/* Dropzone es un componente que espera como children una funcion */}
       <Dropzone onDrop={handleDrop}>
         {/* al soltar o seleccionar un archivo se dispara onDrop */}
@@ -32,15 +33,18 @@ export const UploadStudy: React.FC = () => {
         {/* esta funcion recibe getRootProps que se usa para hacer el input que al hacer click te permite seleccionar un archivo */}
         {({ getRootProps, getInputProps }) => (
           <section className="flex items-center justify-center w-full ">
-            <div
-              {...getRootProps()}
-              className="flex justify-center w-2/3 p-10 border border-gray-300 rounded bg-greenFocus "
-            >
-              <input {...getInputProps()} />
-              <p>
-                Arrastre y suelte un archivo aquí, o haga clic para
-                seleccionarlo.
-              </p>
+            <div className="w-2/3 p-3 rounded bg-[#f1f1f1]">
+              <div
+                {...getRootProps()}
+                className="flex flex-col items-center justify-center p-5 border border-gray-400 border-dashed rounded cursor-pointer"
+              >
+                <IoCloudUploadOutline className="text-3xl text-gray-500 lg:text-5xl" />
+                <input {...getInputProps()} />
+                <p className="text-xs text-center text-gray-500 lg:text-sm">
+                  Arrastre y suelte un archivo aquí, o haga clic para
+                  seleccionarlo.
+                </p>
+              </div>
             </div>
           </section>
         )}
