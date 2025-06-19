@@ -1,6 +1,11 @@
-import { Modal } from "@/components/ui/Modal";
 import { Usuario } from "@/types/index";
-import { DialogTitle } from "@headlessui/react";
+import {
+  Dialog,
+  DialogPanel,
+  DialogTitle,
+  Transition,
+  TransitionChild,
+} from "@headlessui/react";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -8,7 +13,7 @@ import RegisterForm from "../forms/RegisterForm";
 import { useMutation } from "@tanstack/react-query";
 import { googleAuth } from "@/services/UserService";
 import Cookies from "js-cookie";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Loader } from "@/components/ui/Loader";
 
 export const ConfirmDataUser = () => {
@@ -77,40 +82,69 @@ export const ConfirmDataUser = () => {
   };
   return (
     <>
-      <Modal
-        onClose={() => {
-          navigate("/");
-        }}
-        open={!!show}
-      >
-        <DialogTitle
-          as="h3"
-          className="mb-6 text-3xl font-semibold text-center text-green"
+      <Transition appear show={!!show} as={Fragment}>
+        <Dialog
+          onClose={() => {
+            navigate("/");
+          }}
         >
-          Confirma tus datos
-        </DialogTitle>
-        <p className="mb-6 text-sm text-center text-blue">
-          Para completar el proceso de autenticación, por favor complete los
-          datos faltantes.
-        </p>
-        <form onSubmit={handleSubmit(handleOnSubmit)} className="p-2">
-          <div className="flex flex-col gap-3 px-10">
-            <RegisterForm
-              register={register}
-              errors={errors}
-              watch={watch}
-              control={control}
-              formGoogle={true}
-              faltantes={faltantes}
-            />
-            <input
-              type="submit"
-              value="Confirmar"
-              className="max-w-lg px-4 py-1 my-3 text-base text-white uppercase transition-colors rounded shadow-lg cursor-pointer bg-green hover:bg-greenHover"
-            />
+          <TransitionChild
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-25" />
+          </TransitionChild>
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex items-center justify-center min-h-full p-4 text-center">
+              <TransitionChild
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <DialogPanel className="flex flex-col items-center w-full max-w-2xl p-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl text-slate-800 ">
+                  <DialogTitle
+                    as="h3"
+                    className="mb-6 text-3xl font-semibold text-center text-green"
+                  >
+                    Confirma tus datos
+                  </DialogTitle>
+                  <p className="mb-6 text-sm text-center text-blue">
+                    Para completar el proceso de autenticación, por favor
+                    complete los datos faltantes.
+                  </p>
+                  <form onSubmit={handleSubmit(handleOnSubmit)} className="p-2">
+                    <div className="flex flex-col gap-3 px-10">
+                      <RegisterForm
+                        register={register}
+                        errors={errors}
+                        watch={watch}
+                        control={control}
+                        formGoogle={true}
+                        faltantes={faltantes}
+                      />
+                      <input
+                        type="submit"
+                        value="Confirmar"
+                        className="max-w-lg px-4 py-1 my-3 text-base text-white uppercase transition-colors rounded shadow-lg cursor-pointer bg-green hover:bg-greenHover"
+                      />
+                    </div>
+                  </form>
+                </DialogPanel>
+              </TransitionChild>{" "}
+            </div>{" "}
           </div>
-        </form>
-      </Modal>
+        </Dialog>
+      </Transition>
+
       {loader && <Loader message="Guardando datos. Aguarde un momento..." />}
     </>
   );
