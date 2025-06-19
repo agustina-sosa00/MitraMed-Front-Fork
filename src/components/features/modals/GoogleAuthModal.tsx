@@ -116,7 +116,7 @@ export default function GoogleAuthModal() {
                       userData?.birthdays[0]?.date?.day
                     ).padStart(2, "0")}` || "",
                   genero: userData?.genders?.[0]?.value
-                    ? userData?.genders[0].value === "male"
+                    ? userData?.genders[0]?.value === "male"
                       ? "Masculino"
                       : "Femenino"
                     : "",
