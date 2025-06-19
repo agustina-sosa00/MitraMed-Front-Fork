@@ -23,17 +23,42 @@ export const TableSchedules: React.FC = () => {
     const array = newArray.filter(
       (item) => item.day === daySchedule.split("-").reverse().join("/")
     );
-    setArrayFilter(array);
+
+    if (array.length > 0) {
+      setArrayFilter(array);
+    } else {
+      // Genera 5 filas con IDs únicos vacías
+      const emptyRows = Array.from({ length: 5 }, (_, i) => ({
+        id: i + 1, // o Date.now() + i para que nunca se repita
+        day: "",
+        hourInit: "",
+        hourFinish: "",
+        name: "",
+        state: "",
+        obs: "",
+      }));
+      setArrayFilter(emptyRows);
+    }
   }, [daySchedule]);
+
+  const changeDay = (dias: number) => {
+    const nuevaFecha = new Date(daySchedule);
+    nuevaFecha.setDate(nuevaFecha.getDate() + dias);
+    setDaySchedule(nuevaFecha.toISOString().split("T")[0]);
+  };
 
   return (
     <div className="flex justify-center w-full min-h-screen pt-24 lg:h-screen ">
-      <div className=" w-full lg:w-[80%] h-[60%] flex flex-col justify-center lg:justify-start items-center gap-8  ">
+      <div className=" w-full lg:w-[85%] xl:w-[70%] h-[60%] flex flex-col justify-center lg:justify-start items-center gap-8  ">
         <h1 className="text-2xl font-medium text-center uppercase lg:text-4xl text-green">
           Mis turnos
         </h1>
-        <FilterTableSchedules state={daySchedule} setState={setDaySchedule} />
-        <div className="hidden text-xl lg:block text-blue">
+        <FilterTableSchedules
+          handle={changeDay}
+          state={daySchedule}
+          setState={setDaySchedule}
+        />
+        <div className="hidden text-xl lg:block text-blue max-h-[300px]">
           <TablaDefault
             props={{
               datosParaTabla: arrayFilter,
@@ -47,7 +72,7 @@ export const TableSchedules: React.FC = () => {
             }}
           />
         </div>
-        <div className="block w-full px-5 lg:hidden">
+        <div className="flex justify-center max-h-[200px]  overflow-y-auto w-full px-5 lg:hidden">
           <TablaMobile data={arrayFilter} />
         </div>
       </div>

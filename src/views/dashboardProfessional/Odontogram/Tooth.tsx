@@ -8,7 +8,7 @@ export const Tooth = ({ key }) => {
     <div className="">
       <svg
         viewBox="0 0 28 33"
-        className="w-8 h-8 xl:bg-yellow-500 lg:h-14 lg:w-14 xl:w-16 xl:h-16 "
+        className="w-8 h-8 lg:h-14 lg:w-14 xl:w-16 xl:h-16 "
       >
         <polygon
           stroke="#a3a3a3" //border
