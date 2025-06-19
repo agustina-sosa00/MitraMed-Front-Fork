@@ -105,6 +105,7 @@ export default function GoogleAuthModal() {
             )
               .then((response) => response.json())
               .then((userData) => {
+                console.log("userdta", userData);
                 const dataSend = {
                   nombre: userData?.names[0]?.givenName || "",
                   apellido: userData?.names[0]?.familyName || "",
@@ -115,7 +116,7 @@ export default function GoogleAuthModal() {
                     ).padStart(2, "0")}-${String(
                       userData?.birthdays[0]?.date?.day
                     ).padStart(2, "0")}` || "",
-                  genero: userData?.genders?.[0]?.value
+                  genero: userData?.genders[0]?.value
                     ? userData?.genders[0]?.value === "male"
                       ? "Masculino"
                       : "Femenino"
