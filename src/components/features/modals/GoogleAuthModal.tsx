@@ -105,6 +105,7 @@ export default function GoogleAuthModal() {
             )
               .then((response) => response.json())
               .then((userData) => {
+                console.log("userdta", userData);
                 const dataSend = {
                   nombre: userData?.names[0]?.givenName || "",
                   apellido: userData?.names[0]?.familyName || "",
