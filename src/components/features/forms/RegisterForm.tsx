@@ -35,7 +35,7 @@ export default function RegisterForm({
   const [showPassword, setShowPassword] = useState(false);
 
   const fieldsRender = (field: string) =>
-    !faltantes || faltantes.includes(field);
+    !faltantes || faltantes?.includes(field);
 
   return (
     <>
