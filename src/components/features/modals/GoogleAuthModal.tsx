@@ -106,26 +106,35 @@ export default function GoogleAuthModal() {
               .then((response) => response.json())
               .then((userData) => {
                 console.log("userdta", userData);
+
+                const birthday = userData?.birthdays?.[0]?.date;
+                const fnac =
+                  birthday?.year && birthday?.month && birthday?.day
+                    ? `${birthday.year}-${String(birthday.month).padStart(
+                        2,
+                        "0"
+                      )}-${String(birthday.day).padStart(2, "0")}`
+                    : "";
+
+                const generoGoogle = userData?.genders?.[0]?.value ?? "";
+                const genero =
+                  generoGoogle === "male"
+                    ? "Masculino"
+                    : generoGoogle === "female"
+                    ? "Femenino"
+                    : "";
+
                 const dataSend = {
-                  nombre: userData?.names[0]?.givenName || "",
-                  apellido: userData?.names[0]?.familyName || "",
-                  email: userData?.emailAddresses[0]?.value || "",
-                  fnac:
-                    `${userData?.birthdays[0]?.date?.year}-${String(
-                      userData?.birthdays[0]?.date?.month
-                    ).padStart(2, "0")}-${String(
-                      userData?.birthdays[0]?.date?.day
-                    ).padStart(2, "0")}` || "",
-                  genero: userData?.genders[0]?.value
-                    ? userData?.genders[0]?.value === "male"
-                      ? "Masculino"
-                      : "Femenino"
-                    : "",
+                  nombre: userData?.names?.[0]?.givenName ?? "",
+                  apellido: userData?.names?.[0]?.familyName ?? "",
+                  email: userData?.emailAddresses?.[0]?.value ?? "",
+                  fnac,
+                  genero,
                   codarea: "",
                   telefono: "",
                 };
-                setDataUserGoogle(dataSend);
 
+                setDataUserGoogle(dataSend);
                 mutate(dataSend);
               })
               .catch((error) => {
