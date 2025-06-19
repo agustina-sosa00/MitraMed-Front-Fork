@@ -6,6 +6,7 @@ export interface IDataTable {
   name: string;
   state: string;
   obs: string;
+  saco: string;
 }
 export const tableSchedules: IDataTable[] = [
   {
@@ -16,6 +17,7 @@ export const tableSchedules: IDataTable[] = [
     name: "Agustina Sosa",
     state: "presente",
     obs: "IOMA",
+    saco: "WEB",
   },
   {
     id: 2,
@@ -25,6 +27,7 @@ export const tableSchedules: IDataTable[] = [
     name: "Agustina Sosa",
     state: "presente",
     obs: "IOMA",
+    saco: "MTR",
   },
   {
     id: 3,
@@ -34,6 +37,7 @@ export const tableSchedules: IDataTable[] = [
     name: "Leandro Mortarini",
     state: "ausente",
     obs: "SWISS",
+    saco: "WEB",
   },
   {
     id: 4,
@@ -43,6 +47,7 @@ export const tableSchedules: IDataTable[] = [
     name: "Jean Pietro Mortarini",
     state: "presente",
     obs: "IOMA",
+    saco: "MTR",
   },
   {
     id: 5,
@@ -52,6 +57,7 @@ export const tableSchedules: IDataTable[] = [
     name: "Jean Pietro Mortarini",
     state: "",
     obs: "",
+    saco: "MTR",
   },
   {
     id: 6,
@@ -61,6 +67,7 @@ export const tableSchedules: IDataTable[] = [
     name: "Leandro Mortarini",
     state: "presente",
     obs: "MEDIFE",
+    saco: "WEB",
   },
   {
     id: 7,
@@ -70,6 +77,7 @@ export const tableSchedules: IDataTable[] = [
     name: "Jean Pietro Mortarini",
     state: "",
     obs: "",
+    saco: "WEB",
   },
   {
     id: 8,
@@ -79,6 +87,7 @@ export const tableSchedules: IDataTable[] = [
     name: "Jean Pietro Mortarini",
     state: "",
     obs: "",
+    saco: "WEB",
   },
   {
     id: 9,
@@ -88,6 +97,7 @@ export const tableSchedules: IDataTable[] = [
     name: "Jean Pietro Mortarini",
     state: "",
     obs: "",
+    saco: "MTR",
   },
   {
     id: 10,
@@ -97,6 +107,7 @@ export const tableSchedules: IDataTable[] = [
     name: "Jean Pietro Mortarini",
     state: "",
     obs: "",
+    saco: "MTR",
   },
   {
     id: 11,
@@ -106,6 +117,7 @@ export const tableSchedules: IDataTable[] = [
     name: "Jean Pietro Mortarini",
     state: "",
     obs: "",
+    saco: "WEB",
   },
   {
     id: 12,
@@ -115,6 +127,7 @@ export const tableSchedules: IDataTable[] = [
     name: "Jean Pietro Mortarini",
     state: "",
     obs: "SWISS",
+    saco: "MTR",
   },
   {
     id: 13,
@@ -124,6 +137,7 @@ export const tableSchedules: IDataTable[] = [
     name: "Jean Pietro Mortarini",
     state: "",
     obs: "",
+    saco: "MTR",
   },
   {
     id: 14,
@@ -133,6 +147,7 @@ export const tableSchedules: IDataTable[] = [
     name: "Jean Pietro Mortarini",
     state: "",
     obs: "IOMA",
+    saco: "WEB",
   },
 ];
 
@@ -146,8 +161,8 @@ export const tableColumnData = [
   {
     key: "day",
     label: "DÍA",
-    minWidth: "150",
-    maxWidth: "150",
+    minWidth: "120",
+    maxWidth: "120",
   },
   {
     key: "hourInit",
@@ -164,8 +179,8 @@ export const tableColumnData = [
   {
     key: "name",
     label: "NOMBRE Y APELLIDO",
-    minWidth: "400",
-    maxWidth: "400",
+    minWidth: "300",
+    maxWidth: "300",
   },
   {
     key: "state",
@@ -176,7 +191,13 @@ export const tableColumnData = [
   {
     key: "obs",
     label: "OBRA SOCIAL",
-    minWidth: "100",
-    maxWidth: "100",
+    minWidth: "120",
+    maxWidth: "120",
+  },
+  {
+    key: "saco",
+    label: "SACO",
+    minWidth: "60",
+    maxWidth: "60",
   },
 ];
