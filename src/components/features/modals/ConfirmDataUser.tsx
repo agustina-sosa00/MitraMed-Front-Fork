@@ -49,10 +49,6 @@ export const ConfirmDataUser = () => {
     if (dataFromGoogle) {
       reset({ ...dataFromGoogle });
     }
-    console.log(
-      "confirm data user -lo que llega de google ->>>>>",
-      dataFromGoogle
-    );
   }, [dataFromGoogle, reset]);
 
   const { mutate } = useMutation({
