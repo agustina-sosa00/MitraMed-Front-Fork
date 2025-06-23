@@ -180,7 +180,10 @@ export default function GoogleAuthModal() {
                 leaveTo="opacity-0 scale-95"
               >
                 <DialogPanel className="flex flex-col items-center w-full max-w-2xl p-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl text-slate-800 ">
-                  <Loader message="Verificando datos de Google. Aguarde un momento..." />
+                  <Loader
+                    show={true}
+                    message="Verificando datos de Google. Aguarde un momento..."
+                  />
                 </DialogPanel>
               </TransitionChild>
             </div>
