@@ -8,6 +8,7 @@ import Cookies from "js-cookie";
 import InputField from "../../ui/InputField";
 import ErrorMessage from "../../ui/ErrorMessage";
 import Swal from "sweetalert2";
+import { authProfessional } from "@/services/ProfessionalService";
 
 interface IProp {
   rol?: string;
@@ -48,8 +49,31 @@ export default function SignInForm({ rol }: IProp) {
     },
   });
 
+  const { mutate: loginProfessional } = useMutation({
+    mutationFn: authProfessional,
+    onError: (error) => {
+      Swal.fire({
+        icon: "error",
+        title: error.message,
+      });
+    },
+    onSuccess: (data) => {
+      console.log("data back loguin professional", data);
+    },
+  });
+
   const handleForm = (formData: Account) => {
-    mutate(formData);
+    if (rol === "paciente") {
+      mutate(formData);
+    } else {
+      const data = {
+        dni: formData.dni,
+        password: formData.password,
+      };
+      console.log("handle Form", data);
+
+      loginProfessional(data);
+    }
   };
 
   const handleSetShow = () => {
@@ -95,17 +119,15 @@ export default function SignInForm({ rol }: IProp) {
               register={register("dni", {
                 required: {
                   value: true,
-                  message: "El email es obligatorio",
+                  message: "El DNI es obligatorio",
                 },
                 pattern: {
-                  value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
-                  message: "Email inválido",
+                  value: /^[0-9]{7,8}$/, // solo números de 7 u 8 dígitos
+                  message: "DNI inválido",
                 },
               })}
             />
-            {errors.email && (
-              <ErrorMessage>{errors.email.message}</ErrorMessage>
-            )}
+            {errors.dni && <ErrorMessage>{errors.dni.message}</ErrorMessage>}
           </div>
         )}
 
