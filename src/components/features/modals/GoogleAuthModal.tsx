@@ -133,7 +133,7 @@ export default function GoogleAuthModal() {
                   codarea: "",
                   telefono: "",
                 };
-
+                console.log("dataSend", dataSend);
                 setDataUserGoogle(dataSend);
                 mutate(dataSend);
               })

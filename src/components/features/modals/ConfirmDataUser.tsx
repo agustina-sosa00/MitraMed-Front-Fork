@@ -49,6 +49,10 @@ export const ConfirmDataUser = () => {
     if (dataFromGoogle) {
       reset({ ...dataFromGoogle });
     }
+    console.log(
+      "confirm data user -lo que llega de google ->>>>>",
+      dataFromGoogle
+    );
   }, [dataFromGoogle, reset]);
 
   const { mutate } = useMutation({
@@ -58,7 +62,7 @@ export const ConfirmDataUser = () => {
       toast.error(error.message);
     },
     onSuccess: (data) => {
-      if (data && data.status === 202) {
+      if (data && data?.status === 202) {
         navigate(location.pathname + "?confirmDataUser=true", {
           state: {
             dataBack: data?.faltantes,
