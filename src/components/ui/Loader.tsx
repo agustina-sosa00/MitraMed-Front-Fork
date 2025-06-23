@@ -11,13 +11,14 @@ import { Fragment } from "react/jsx-runtime";
 
 interface IProp {
   message: string;
+  show: boolean;
 }
 
-export const Loader = ({ message }: IProp) => {
+export const Loader = ({ message, show }: IProp) => {
   const navigate = useNavigate();
   return (
     <div>
-      <Transition>
+      <Transition appear show={show} as={Fragment}>
         <Dialog
           onClose={() => {
             navigate("/");

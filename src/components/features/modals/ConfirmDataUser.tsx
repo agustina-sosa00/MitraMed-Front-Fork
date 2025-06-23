@@ -149,7 +149,9 @@ export const ConfirmDataUser = () => {
         </Dialog>
       </Transition>
 
-      {loader && <Loader message="Guardando datos. Aguarde un momento..." />}
+      {loader && (
+        <Loader show={true} message="Guardando datos. Aguarde un momento..." />
+      )}
     </>
   );
 };
