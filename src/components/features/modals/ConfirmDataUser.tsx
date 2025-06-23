@@ -8,13 +8,13 @@ import {
 } from "@headlessui/react";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import RegisterForm from "../forms/RegisterForm";
 import { useMutation } from "@tanstack/react-query";
 import { googleAuth } from "@/services/UserService";
 import Cookies from "js-cookie";
 import { Fragment, useEffect, useState } from "react";
 import { Loader } from "@/components/ui/Loader";
+import Swal from "sweetalert2";
 
 export const ConfirmDataUser = () => {
   const navigate = useNavigate();
@@ -55,7 +55,10 @@ export const ConfirmDataUser = () => {
     mutationFn: googleAuth,
     onError: (error) => {
       console.log(error);
-      toast.error(error.message);
+      Swal.fire({
+        icon: "error",
+        title: error.message,
+      });
     },
     onSuccess: (data) => {
       if (data && data?.status === 202) {

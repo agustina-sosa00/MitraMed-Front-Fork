@@ -9,10 +9,10 @@ import {
   DialogTitle,
 } from "@headlessui/react";
 import { useMutation } from "@tanstack/react-query";
-import { toast } from "react-toastify";
 import { nuevoToken } from "@/services/UserService";
 import InputField from "@/components/ui/InputField";
 import ErrorMessage from "@/components/ui/ErrorMessage";
+import Swal from "sweetalert2";
 // import { Account } from '@/types/index';
 // import { sendForgotPasswordEmail } from '../../utils/index';
 
@@ -35,10 +35,17 @@ export default function NewTokenConfirm() {
     mutationFn: nuevoToken,
     onError: (error) => {
       console.log(error);
-      toast.error(error.message);
+      Swal.fire({
+        icon: "error",
+        title: error.message,
+      });
     },
     onSuccess: (data) => {
-      toast.success(data);
+      Swal.fire({
+        title: "Drag me!",
+        icon: data,
+        draggable: true,
+      });
       reset();
       navigate("/");
     },

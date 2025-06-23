@@ -9,11 +9,9 @@ import {
 import { Turno } from "@/types/index";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { confirmarTurno } from "@/services/TurnosService";
-import { toast } from "react-toastify";
 import { UseFormSetValue } from "react-hook-form";
-// import { isAxiosError } from 'axios';
 import { ClipLoader } from "react-spinners";
-// import apiAuth from '@/lib/axiosNoAuth';
+import Swal from "sweetalert2";
 
 type ConfirmTurnoModalProps = {
   turnoData: Turno;
@@ -42,10 +40,17 @@ export default function ConfirmTurnoModal({
     mutationFn: confirmarTurno,
     onError: (error) => {
       console.log(error);
-      toast.error(error.message);
+      Swal.fire({
+        icon: "error",
+        title: error.message,
+      });
     },
     onSuccess: (data) => {
-      toast.success(data);
+      Swal.fire({
+        title: data,
+        icon: "success",
+        draggable: true,
+      });
       setValue("turno", 0);
       queryClient.invalidateQueries({ queryKey: ["turnos"] });
 

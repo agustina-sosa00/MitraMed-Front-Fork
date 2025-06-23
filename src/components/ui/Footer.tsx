@@ -1,13 +1,17 @@
 import { FaWhatsapp, FaEnvelope, FaInstagram } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 export default function Footer() {
   const handleCopyEmail = () => {
     const email = "mitramed.docta@gmail.com";
     navigator.clipboard.writeText(email).then(
       () => {
-        toast.success("¡Correo copiado al portapapeles!");
+        Swal.fire({
+          title: "¡Correo copiado al portapapeles!",
+          icon: "success",
+          draggable: true,
+        });
       },
       (err) => {
         console.error("Error al copiar el correo: ", err);
