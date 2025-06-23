@@ -2,8 +2,8 @@ import { anularTurnoUsuario } from "@/services/TurnosService";
 import { TurnosUsuario } from "@/types/index";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { toast } from "react-toastify";
 import { Card } from "../ui/Card";
+import Swal from "sweetalert2";
 
 interface TurnosPendientesProps {
   turnosPendientes: TurnosUsuario[] | undefined;
@@ -40,7 +40,11 @@ export default function TurnosPendientes({
       console.log(error);
     },
     onSuccess: (data) => {
-      toast.success(data);
+      Swal.fire({
+        title: data,
+        icon: "success",
+        draggable: true,
+      });
       setIsLoadingAnula(false);
       setMostrarModalAnular(false);
       setTurnoAnula(null);
