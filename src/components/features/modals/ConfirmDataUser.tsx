@@ -119,10 +119,10 @@ export const ConfirmDataUser = () => {
                     as="h3"
                     className="mb-6 text-3xl font-semibold text-center text-green"
                   >
-                    Confirma tus datos
+                    Completa tus datos
                   </DialogTitle>
                   <p className="mb-6 text-sm text-center text-blue">
-                    Para completar el proceso de autenticación, por favor
+                    Para finalizar el proceso de autenticación, por favor
                     complete los datos faltantes.
                   </p>
                   <form onSubmit={handleSubmit(handleOnSubmit)} className="p-2">
