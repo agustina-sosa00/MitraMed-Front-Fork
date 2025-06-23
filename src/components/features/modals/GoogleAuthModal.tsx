@@ -105,8 +105,6 @@ export default function GoogleAuthModal() {
             )
               .then((response) => response.json())
               .then((userData) => {
-                console.log("userdta", userData);
-
                 const birthday = userData?.birthdays?.[0]?.date;
                 const fnac =
                   birthday?.year && birthday?.month && birthday?.day
@@ -133,7 +131,6 @@ export default function GoogleAuthModal() {
                   codarea: "",
                   telefono: "",
                 };
-                console.log("dataSend", dataSend);
                 setDataUserGoogle(dataSend);
                 mutate(dataSend);
               })
