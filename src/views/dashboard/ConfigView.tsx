@@ -37,14 +37,18 @@ export default function ConfigView() {
   });
 
   const formatDate = (date: string) => {
-    // Si el formato es DD-MM-YYYY, lo cambiamos a YYYY-MM-DD
     const parts = date.split("-");
-    const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
-    const d = new Date(formattedDate);
-    const day = String(d.getDate()).padStart(2, "0");
-    const month = String(d.getMonth() + 1).padStart(2, "0");
-    const year = d.getFullYear();
-    return `${day}/${month}/${year}`;
+    const day = parseInt(parts[0], 10);
+    const month = parseInt(parts[1], 10) - 1;
+    const year = parseInt(parts[2], 10);
+
+    const d = new Date(year, month, day);
+
+    const formattedDay = String(d.getDate()).padStart(2, "0");
+    const formattedMonth = String(d.getMonth() + 1).padStart(2, "0");
+    const formattedYear = d.getFullYear();
+
+    return `${formattedDay}/${formattedMonth}/${formattedYear}`;
   };
 
   const { data: dataUsuario } = useQuery<Usuario[], Error>({
