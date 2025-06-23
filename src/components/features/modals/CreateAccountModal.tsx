@@ -4,9 +4,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { NewAccount } from "@/types/index";
 import { useMutation } from "@tanstack/react-query";
 import { crearCuenta } from "@/services/UserService";
-import { toast } from "react-toastify";
 import RegisterForm from "../forms/RegisterForm";
 import { Modal } from "@/components/ui/Modal";
+import Swal from "sweetalert2";
 
 export default function CreateAccountModal() {
   const navigate = useNavigate();
@@ -40,10 +40,17 @@ export default function CreateAccountModal() {
   const { mutate } = useMutation({
     mutationFn: crearCuenta,
     onError: (error) => {
-      toast.error(error.message);
+      Swal.fire({
+        icon: "error",
+        title: error.message,
+      });
     },
     onSuccess: (data) => {
-      toast.success(data);
+      Swal.fire({
+        title: data,
+        icon: "success",
+        draggable: true,
+      });
       navigate("/");
       reset();
     },

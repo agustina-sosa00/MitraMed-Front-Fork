@@ -8,10 +8,10 @@ import {
 } from "@headlessui/react";
 import { useMutation } from "@tanstack/react-query";
 import { googleAuth } from "@/services/UserService";
-import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import { Usuario } from "@/types/index";
 import { Loader } from "@/components/ui/Loader";
+import Swal from "sweetalert2";
 
 export default function GoogleAuthModal() {
   const navigate = useNavigate();
@@ -39,7 +39,10 @@ export default function GoogleAuthModal() {
     mutationFn: googleAuth,
     onError: (error) => {
       console.log(error);
-      toast.error(error.message);
+      Swal.fire({
+        icon: "error",
+        title: error.message,
+      });
     },
     onSuccess: (data) => {
       if (data && data.status === 202) {
@@ -105,26 +108,33 @@ export default function GoogleAuthModal() {
             )
               .then((response) => response.json())
               .then((userData) => {
+                const birthday = userData?.birthdays?.[0]?.date;
+                const fnac =
+                  birthday?.year && birthday?.month && birthday?.day
+                    ? `${birthday.year}-${String(birthday.month).padStart(
+                        2,
+                        "0"
+                      )}-${String(birthday.day).padStart(2, "0")}`
+                    : "";
+
+                const generoGoogle = userData?.genders?.[0]?.value ?? "";
+                const genero =
+                  generoGoogle === "male"
+                    ? "Masculino"
+                    : generoGoogle === "female"
+                    ? "Femenino"
+                    : "";
+
                 const dataSend = {
-                  nombre: userData?.names[0]?.givenName || "",
-                  apellido: userData?.names[0]?.familyName || "",
-                  email: userData?.emailAddresses[0]?.value || "",
-                  fnac:
-                    `${userData?.birthdays[0]?.date?.year}-${String(
-                      userData?.birthdays[0]?.date?.month
-                    ).padStart(2, "0")}-${String(
-                      userData?.birthdays[0]?.date?.day
-                    ).padStart(2, "0")}` || "",
-                  genero: userData?.genders?.[0]?.value
-                    ? userData?.genders[0].value === "male"
-                      ? "Masculino"
-                      : "Femenino"
-                    : "",
+                  nombre: userData?.names?.[0]?.givenName ?? "",
+                  apellido: userData?.names?.[0]?.familyName ?? "",
+                  email: userData?.emailAddresses?.[0]?.value ?? "",
+                  fnac,
+                  genero,
                   codarea: "",
                   telefono: "",
                 };
                 setDataUserGoogle(dataSend);
-
                 mutate(dataSend);
               })
               .catch((error) => {
@@ -170,7 +180,10 @@ export default function GoogleAuthModal() {
                 leaveTo="opacity-0 scale-95"
               >
                 <DialogPanel className="flex flex-col items-center w-full max-w-2xl p-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl text-slate-800 ">
-                  <Loader message="Verificando datos de Google. Aguarde un momento..." />
+                  <Loader
+                    show={true}
+                    message="Verificando datos de Google. Aguarde un momento..."
+                  />
                 </DialogPanel>
               </TransitionChild>
             </div>
