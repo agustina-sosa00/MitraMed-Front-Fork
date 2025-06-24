@@ -1,24 +1,49 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { IoIosArrowDown } from "react-icons/io";
 
 export const Tooth = ({ toothNumber, isActive, setState }) => {
+  const [width, setWidth] = useState<boolean>(false);
+  console.log(width);
   const [positionMenu, setPositionMenu] = useState({
     x: 0,
     y: 0,
   });
 
-  const handleClick = (tooth: number) => {
-    console.log(tooth);
-  };
-  console.log(toothNumber);
   const handleContextMenu = (e) => {
     e.preventDefault();
-    setState(toothNumber); // sólo este diente activa el menú
-    setPositionMenu({ x: e.pageX, y: e.pageY });
+    setState(toothNumber);
+    const menuWidth = 210;
+    const menuHeight = 64;
+    let posX = e.clientX;
+    let posY = e.clientY;
+
+    if (posX + menuWidth > window.innerWidth) {
+      posX = window.innerWidth - menuWidth;
+    }
+
+    if (posY + menuHeight > window.innerHeight) {
+      posY = window.innerHeight - menuHeight;
+    }
+
+    setPositionMenu({ x: posX, y: posY });
   };
+
+  useEffect(() => {
+    const widthTotal = window.innerWidth;
+    console.log("width total --->", widthTotal);
+    console.log("width click --->", positionMenu.x);
+    if (widthTotal - positionMenu.x > 385) {
+      console.log("resta", widthTotal - positionMenu.x);
+      setWidth(true);
+    } else {
+      console.log("resta", widthTotal - positionMenu.x);
+      setWidth(false);
+    }
+  }, [positionMenu.x]);
 
   return (
     <div
-      onClick={() => handleClick(toothNumber)}
+      // onClick={() => handleClick(toothNumber)}
       onContextMenu={(e) => handleContextMenu(e)}
     >
       <svg
@@ -66,43 +91,51 @@ export const Tooth = ({ toothNumber, isActive, setState }) => {
       </svg>
       {isActive && (
         <div
-          className={`absolute bg-[#f1f1f1] shadow shadow-gray-300 w-28`}
+          className={`absolute  bg-white shadow shadow-gray-300 h-16  w-52`}
           style={{ top: positionMenu.y, left: positionMenu.x }}
         >
           <div className="relative group">
-            <div className="w-full px-5 py-2 cursor-pointer text-blue bg-ligthGray hover:text-white hover:bg-green">
-              Realizado
+            <div className="w-full flex justify-between items-center px-3 border-b border-[#dbdbdb] py-2 cursor-pointer text-blue bg-white text-sm group-hover:text-white group-hover:bg-green transition-all duration-300">
+              Realizado <IoIosArrowDown className="-rotate-90" />
             </div>
-            <div className="absolute top-0 hidden bg-white group-hover:block left-full">
-              <div className="w-full px-6 py-1 border-b border-[#f1f1f1]">
+            <div
+              className={`absolute top-0 hidden bg-white group-hover:block ${
+                width ? "left-full" : "right-full"
+              } `}
+            >
+              <div className="w-44 px-3 py-2 text-sm border-b  cursor-pointer hover:text-white hover:bg-green transition-all duration-300 border-[#f1f1f1]">
                 Extracción
               </div>
-              <div className="w-full px-6 py-1 border-b border-[#f1f1f1]">
+              <div className="w-full px-3 py-2 text-sm border-b cursor-pointer  hover:text-white hover:bg-green transition-all duration-300 border-[#f1f1f1]">
                 Corona
               </div>
-              <div className="w-full px-6 py-1 border-b border-[#f1f1f1]">
+              <div className="w-full px-3 py-2 text-sm border-b cursor-pointer hover:text-white hover:bg-green transition-all duration-300 border-[#f1f1f1]">
                 Restauraciones
               </div>
-              <div className="w-full px-6 py-1 border-b border-[#f1f1f1]">
+              <div className="w-full px-3 py-2 text-sm border-b cursor-pointer hover:text-white hover:bg-green transition-all duration-300 border-[#f1f1f1]">
                 Sellado
               </div>
             </div>
           </div>
           <div className="relative group">
-            <div className="w-full px-5 py-2 cursor-pointer text-blue bg-ligthGray hover:text-white hover:bg-green">
-              A realizar
+            <div className="flex items-center justify-between w-full px-3 py-2 text-sm transition-all duration-300 bg-white cursor-pointer text-blue group-hover:text-white group-hover:bg-green">
+              A realizar <IoIosArrowDown className="-rotate-90" />
             </div>
-            <div className="absolute top-0 hidden bg-white group-hover:block left-full">
-              <div className="w-full px-6 py-1 border-b border-[#f1f1f1]">
+            <div
+              className={`absolute top-0 hidden bg-white group-hover:block ${
+                width ? "left-full" : "right-full"
+              } `}
+            >
+              <div className="w-full px-3 py-2 text-sm border-b cursor-pointer hover:text-white hover:bg-green transition-all duration-300 border-[#f1f1f1]">
                 Extracción
               </div>
-              <div className="w-full px-6 py-1 border-b border-[#f1f1f1]">
+              <div className="w-full px-3 py-2 text-sm border-b cursor-pointer hover:text-white hover:bg-green transition-all duration-300 border-[#f1f1f1]">
                 Corona
               </div>
-              <div className="w-full px-6 py-1 border-b border-[#f1f1f1]">
+              <div className="w-full px-3 py-2 text-sm border-b cursor-pointer hover:text-white hover:bg-green transition-all duration-300 border-[#f1f1f1]">
                 Restauraciones
               </div>
-              <div className="w-full px-6 py-1 border-b border-[#f1f1f1]">
+              <div className="w-full px-3 py-2 text-sm border-b cursor-pointer hover:text-white hover:bg-green transition-all duration-300 border-[#f1f1f1]">
                 Sellado
               </div>
             </div>
