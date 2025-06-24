@@ -21,7 +21,7 @@ export default function SignInForm({ rol }: IProp) {
   const initialValues: Account = {
     email: "",
     password: "",
-    dni: "",
+    usuario: "",
   };
 
   const {
@@ -58,7 +58,12 @@ export default function SignInForm({ rol }: IProp) {
       });
     },
     onSuccess: (data) => {
-      console.log("data back loguin professional", data);
+      if (data.status === 200) {
+        Cookies.set("accessProfessional", "true");
+
+        console.log(data);
+        navigate("/profesionales/inicio");
+      }
     },
   });
 
@@ -67,7 +72,7 @@ export default function SignInForm({ rol }: IProp) {
       mutate(formData);
     } else {
       const data = {
-        dni: formData.dni,
+        dni: formData.usuario,
         password: formData.password,
       };
       console.log("handle Form", data);
@@ -112,22 +117,24 @@ export default function SignInForm({ rol }: IProp) {
         ) : (
           <div className="flex flex-col">
             <InputField
-              id={"dni"}
+              id={"usuario"}
               type={"text"}
-              label={"DNI"}
-              placeholder={"Ingresa tu DNI"}
-              register={register("dni", {
+              label={"Usuario"}
+              placeholder={"Ingresa tu usuario"}
+              register={register("usuario", {
                 required: {
                   value: true,
-                  message: "El DNI es obligatorio",
+                  message: "El Usuario es obligatorio",
                 },
                 pattern: {
-                  value: /^[0-9]{7,8}$/, // solo números de 7 u 8 dígitos
-                  message: "DNI inválido",
+                  value: /^[a-zA-Z0-9]+$/,
+                  message: "Usuario inválido",
                 },
               })}
             />
-            {errors.dni && <ErrorMessage>{errors.dni.message}</ErrorMessage>}
+            {errors.usuario && (
+              <ErrorMessage>{errors.usuario.message}</ErrorMessage>
+            )}
           </div>
         )}
 
@@ -145,7 +152,7 @@ export default function SignInForm({ rol }: IProp) {
                 message: "La contraseña es obligatoria",
               },
               minLength: {
-                value: 8,
+                value: 5,
                 message: "La contraseña debe tener mínimo 8 caracteres",
               },
             })}
