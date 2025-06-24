@@ -10,11 +10,11 @@ export const accountSchema = z.object({
   genero: z.string(),
   password: z.string().optional(),
   confirmPassword: z.string().optional(),
-  dni: z.string().optional(),
+  usuario: z.string().optional(),
 });
 
 export type NewAccount = z.infer<typeof accountSchema>;
-export type Account = Pick<NewAccount, "email" | "password" | "dni">;
+export type Account = Pick<NewAccount, "email" | "password" | "usuario">;
 
 export type Usuario = {
   nombre: string;
