@@ -3,6 +3,12 @@ import { Tooth } from "./Tooth";
 
 export const Odontogram = () => {
   const [contextMenu, setContextMenu] = useState<number | null>(null);
+  const [selectedTreatments, setSelectedTreatments] = useState<{
+    [toothNumber: number]: {
+      action: "realizado" | "a realizar";
+      tratamiento: string;
+    };
+  }>({});
   const handleShowMenu = () => {
     setContextMenu(null);
   };
@@ -21,6 +27,13 @@ export const Odontogram = () => {
                 toothNumber={index + 11}
                 isActive={contextMenu === index + 11}
                 setState={setContextMenu}
+                selectedOption={selectedTreatments[index + 11]}
+                onSelectOption={(option) =>
+                  setSelectedTreatments((prev) => ({
+                    ...prev,
+                    [index + 11]: option,
+                  }))
+                }
               />
             </div>
           ))}
@@ -34,6 +47,13 @@ export const Odontogram = () => {
                 toothNumber={index + 21}
                 isActive={contextMenu === index + 21}
                 setState={setContextMenu}
+                selectedOption={selectedTreatments[index + 21]}
+                onSelectOption={(option) =>
+                  setSelectedTreatments((prev) => ({
+                    ...prev,
+                    [index + 21]: option,
+                  }))
+                }
               />
             </div>
           ))}
@@ -47,6 +67,13 @@ export const Odontogram = () => {
                 toothNumber={index + 41}
                 isActive={contextMenu === index + 41}
                 setState={setContextMenu}
+                selectedOption={selectedTreatments[index + 41]}
+                onSelectOption={(option) =>
+                  setSelectedTreatments((prev) => ({
+                    ...prev,
+                    [index + 41]: option,
+                  }))
+                }
               />
             </div>
           ))}
@@ -60,6 +87,13 @@ export const Odontogram = () => {
                 toothNumber={index + 31}
                 isActive={contextMenu === index + 31}
                 setState={setContextMenu}
+                selectedOption={selectedTreatments[index + 31]}
+                onSelectOption={(option) =>
+                  setSelectedTreatments((prev) => ({
+                    ...prev,
+                    [index + 31]: option,
+                  }))
+                }
               />
             </div>
           ))}
@@ -75,6 +109,13 @@ export const Odontogram = () => {
                 toothNumber={index + 51}
                 isActive={contextMenu === index + 51}
                 setState={setContextMenu}
+                selectedOption={selectedTreatments[index + 51]}
+                onSelectOption={(option) =>
+                  setSelectedTreatments((prev) => ({
+                    ...prev,
+                    [index + 51]: option,
+                  }))
+                }
               />
             </div>
           ))}
@@ -88,6 +129,13 @@ export const Odontogram = () => {
                 toothNumber={index + 61}
                 isActive={contextMenu === index + 61}
                 setState={setContextMenu}
+                selectedOption={selectedTreatments[index + 61]}
+                onSelectOption={(option) =>
+                  setSelectedTreatments((prev) => ({
+                    ...prev,
+                    [index + 61]: option,
+                  }))
+                }
               />
             </div>
           ))}
@@ -101,6 +149,13 @@ export const Odontogram = () => {
                 toothNumber={index + 81}
                 isActive={contextMenu === index + 81}
                 setState={setContextMenu}
+                selectedOption={selectedTreatments[index + 81]}
+                onSelectOption={(option) =>
+                  setSelectedTreatments((prev) => ({
+                    ...prev,
+                    [index + 81]: option,
+                  }))
+                }
               />
             </div>
           ))}
@@ -115,6 +170,13 @@ export const Odontogram = () => {
                 toothNumber={index + 71}
                 isActive={contextMenu === index + 71}
                 setState={setContextMenu}
+                selectedOption={selectedTreatments[index + 71]}
+                onSelectOption={(option) =>
+                  setSelectedTreatments((prev) => ({
+                    ...prev,
+                    [index + 71]: option,
+                  }))
+                }
               />
             </div>
           ))}
