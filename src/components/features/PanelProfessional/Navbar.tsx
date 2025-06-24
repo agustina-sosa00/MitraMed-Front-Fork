@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { IconType } from "react-icons/lib";
 import { FiMenu } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
+import Cookies from "js-cookie";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 interface IProp {
   logo: string;
   buttons: { name: string; icon: IconType; link: string }[];
@@ -12,6 +13,12 @@ export const Navbar: React.FC<IProp> = ({ logo, buttons }) => {
   const [openMenu, setOpenMenu] = useState(false);
   const handleOpenMenu = () => {
     setOpenMenu((prev) => !prev);
+  };
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    Cookies.remove("accessProfessional");
+    navigate("/");
   };
   return (
     <div className="fixed top-0 z-50 block w-full lg:hidden ">
@@ -52,6 +59,12 @@ export const Navbar: React.FC<IProp> = ({ logo, buttons }) => {
                 {item.name}
               </Link>
             ))}
+            <button
+              className="flex items-center justify-end gap-2   py-1 w-[90%] text-lg md:text-xl font-medium text-green capitalize rounded cursor-pointer hover:text-green"
+              onClick={handleLogout}
+            >
+              cerrar sesión
+            </button>
           </div>
         </div>
       )}

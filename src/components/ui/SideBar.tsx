@@ -2,6 +2,8 @@ import React from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { IconType } from "react-icons/lib";
 import { Link, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+
 interface IProp {
   logo: string;
   buttons: { name: string; icon: IconType; link: string }[];
@@ -11,10 +13,7 @@ export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    document.cookie =
-      "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    document.cookie =
-      "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    Cookies.remove("accessProfessional");
     navigate("/");
   };
   return (
