@@ -41,5 +41,5 @@
     "src/frontend-resourses/components/Tables/TablaDefault/TablaDefault.tsx",
     "src/frontend-resourses/components/types.ts"
   ],
-  "exclude": []
+  "exclude": ["src/frontend-resourses"]
 }

@@ -1,10 +1,5 @@
 import { FilterTableSchedules } from "@/components/features/Filters/FilterTableSchedules";
-import TablaDefault from "../../frontend-resourses/components/Tables/TablaDefault/TablaDefault.tsx";
-import {
-  IDataTable,
-  tableColumnData,
-  tableSchedules,
-} from "../../mock/arrayTableProfessional";
+import { IDataTable, tableSchedules } from "../../mock/arrayTableProfessional";
 import React, { useEffect, useState } from "react";
 import { TablaMobile } from "@/components/features/PanelProfessional/TablaMobile.tsx";
 
@@ -60,21 +55,8 @@ export const TableSchedules: React.FC = () => {
           state={daySchedule}
           setState={setDaySchedule}
         />
-        <div className="hidden text-xl lg:block text-blue max-h-[300px]">
-          <TablaDefault
-            props={{
-              datosParaTabla: arrayFilter,
-              objectColumns: tableColumnData,
-              objectStyles: {
-                addHeaderColor: " #022539",
-                columnasNumber: [1],
-                addRowColor: "#f1f1f1",
-                heightContainer: "200px",
-              },
-            }}
-          />
-        </div>
-        <div className="flex justify-center max-h-[200px]  overflow-y-auto w-full px-5 lg:hidden">
+
+        <div className="flex justify-center max-h-[200px]   overflow-y-auto lg:overflow-visible w-full px-5 ">
           <TablaMobile data={arrayFilter} />
         </div>
       </div>

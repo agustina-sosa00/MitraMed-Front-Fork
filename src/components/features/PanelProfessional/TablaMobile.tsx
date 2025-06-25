@@ -6,9 +6,9 @@ interface TablaMobileProps {
 
 export const TablaMobile: React.FC<TablaMobileProps> = ({ data }) => {
   return (
-    <div className="relative max-w-[600px] !rounded overflow-x-auto">
+    <div className="relative max-w-[600px] lg:max-w-[800px]  !rounded overflow-x-auto">
       <table className="w-full text-left text-gray-500 ">
-        <thead className="sticky top-0 text-white uppercase  bg-blue">
+        <thead className="sticky top-0 text-white uppercase bg-blue">
           <tr className="">
             <th className="px-2 py-1 text-xs whitespace-nowrap">ID</th>
             <th className="px-4 py-3 text-xs whitespace-nowrap">Día</th>
