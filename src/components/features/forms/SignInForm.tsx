@@ -59,8 +59,8 @@ export default function SignInForm({ rol }: IProp) {
     },
     onSuccess: (data) => {
       if (data?.data?.data?.[0]?.idprofesional >= 1) {
+        console.log(data?.data?.data?.[0]?.idprofesional >= 1);
         Cookies.set("accessProfessional", "true");
-
         navigate("/profesionales/inicio");
       } else {
         Swal.fire({
@@ -77,7 +77,7 @@ export default function SignInForm({ rol }: IProp) {
       mutate(formData);
     } else {
       const data = {
-        dni: formData.usuario,
+        usuario: formData.usuario,
         password: formData.password,
       };
       console.log("handle Form", data);

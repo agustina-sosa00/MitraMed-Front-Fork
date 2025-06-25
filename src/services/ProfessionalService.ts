@@ -1,7 +1,7 @@
 import { apiPhp } from "@/lib/axiosPhp";
 
 export const authProfessional = async (data) => {
-  const login = `/apinovades/generico/obtenerUsuProfesional.php?_i={"_e":"20","_m":"homo","_u":"${data.dni}","_p":"${data.password}"}`;
+  const login = `/apinovades/generico/obtenerUsuProfesional.php?_i={"_e":"20","_m":"homo","_u":"${data.usuario}","_p":"${data.password}"}`;
   try {
     const response = await apiPhp(login);
     return response;
