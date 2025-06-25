@@ -58,10 +58,7 @@ export default function SignInForm({ rol }: IProp) {
       });
     },
     onSuccess: (data) => {
-      console.log("data", data);
-
       if (data?.data?.data?.[0]?.idprofesional >= 1) {
-        console.log(data?.data?.data?.[0]?.idprofesional >= 1);
         Cookies.set("accessProfessional", "true");
         navigate("/profesionales/inicio");
       } else if (data?.data?.code === 204) {
