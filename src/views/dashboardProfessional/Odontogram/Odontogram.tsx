@@ -7,6 +7,7 @@ export const Odontogram = () => {
     [toothNumber: number]: {
       action: "realizado" | "a realizar";
       tratamiento: string;
+      cara?: string;
     };
   }>({});
   const handleShowMenu = () => {
