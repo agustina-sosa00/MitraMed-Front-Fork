@@ -63,6 +63,7 @@ export default function SignInForm({ rol }: IProp) {
         Cookies.set("accessProfessional", "true");
         navigate("/profesionales/inicio");
       } else {
+        console.log("data", data);
         Swal.fire({
           icon: "error",
           title: "El usuario no pertenece a ningún profesional registrado.",
