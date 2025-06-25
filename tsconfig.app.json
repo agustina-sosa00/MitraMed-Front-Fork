@@ -15,7 +15,9 @@
       "@/services/*": ["services/*"],
       "@/types/*": ["types/*"],
       "@/utils/*": ["utils/*"],
-      "@/views/*": ["views/*"]
+      "@/views/*": ["views/*"],
+      "@/frontend-resourses/*": ["frontend-resourses/*"],
+      "@/Components/*": ["frontend-resourses/components/*"]
     },
 
     /* Bundler mode */
@@ -31,8 +33,13 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": false
   },
-  "include": ["src"],
+  "include": [
+    "src",
+    "src/frontend-resourses/components/Tables/TablaDefault/TablaDefault.tsx",
+    "src/frontend-resourses/components/types.ts"
+  ],
   "exclude": ["src/frontend-resourses"]
 }

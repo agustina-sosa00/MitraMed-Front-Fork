@@ -8,6 +8,7 @@ import Cookies from "js-cookie";
 import InputField from "../../ui/InputField";
 import ErrorMessage from "../../ui/ErrorMessage";
 import Swal from "sweetalert2";
+import { authProfessional } from "@/services/ProfessionalService";
 
 interface IProp {
   rol?: string;
@@ -20,7 +21,7 @@ export default function SignInForm({ rol }: IProp) {
   const initialValues: Account = {
     email: "",
     password: "",
-    dni: "",
+    usuario: "",
   };
 
   const {
@@ -48,8 +49,41 @@ export default function SignInForm({ rol }: IProp) {
     },
   });
 
+  const { mutate: loginProfessional } = useMutation({
+    mutationFn: authProfessional,
+    onError: (error) => {
+      Swal.fire({
+        icon: "error",
+        title: error.message,
+      });
+    },
+    onSuccess: (data) => {
+      if (data?.data?.data[0]?.idprofesional >= 1) {
+        Cookies.set("accessProfessional", "true");
+
+        navigate("/profesionales/inicio");
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "El usuario no pertenece a ningún profesional registrado.",
+          confirmButtonColor: "#022539",
+        });
+      }
+    },
+  });
+
   const handleForm = (formData: Account) => {
-    mutate(formData);
+    if (rol === "paciente") {
+      mutate(formData);
+    } else {
+      const data = {
+        dni: formData.usuario,
+        password: formData.password,
+      };
+      console.log("handle Form", data);
+
+      loginProfessional(data);
+    }
   };
 
   const handleSetShow = () => {
@@ -88,23 +122,23 @@ export default function SignInForm({ rol }: IProp) {
         ) : (
           <div className="flex flex-col">
             <InputField
-              id={"dni"}
+              id={"usuario"}
               type={"text"}
-              label={"DNI"}
-              placeholder={"Ingresa tu DNI"}
-              register={register("dni", {
+              label={"Usuario"}
+              placeholder={"Ingresa tu usuario"}
+              register={register("usuario", {
                 required: {
                   value: true,
-                  message: "El email es obligatorio",
+                  message: "El Usuario es obligatorio",
                 },
                 pattern: {
-                  value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
-                  message: "Email inválido",
+                  value: /^[a-zA-Z0-9]+$/,
+                  message: "Usuario inválido",
                 },
               })}
             />
-            {errors.email && (
-              <ErrorMessage>{errors.email.message}</ErrorMessage>
+            {errors.usuario && (
+              <ErrorMessage>{errors.usuario.message}</ErrorMessage>
             )}
           </div>
         )}
@@ -123,7 +157,7 @@ export default function SignInForm({ rol }: IProp) {
                 message: "La contraseña es obligatoria",
               },
               minLength: {
-                value: 8,
+                value: 5,
                 message: "La contraseña debe tener mínimo 8 caracteres",
               },
             })}
