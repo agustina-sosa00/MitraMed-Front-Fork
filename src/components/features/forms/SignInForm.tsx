@@ -62,12 +62,17 @@ export default function SignInForm({ rol }: IProp) {
         console.log(data?.data?.data?.[0]?.idprofesional >= 1);
         Cookies.set("accessProfessional", "true");
         navigate("/profesionales/inicio");
-      } else {
+      } else if (data?.data?.code === 204) {
         console.log("data", data);
         Swal.fire({
           icon: "error",
           title: "El usuario no pertenece a ningún profesional registrado.",
           confirmButtonColor: "#022539",
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: data?.data?.message,
         });
       }
     },
@@ -81,8 +86,6 @@ export default function SignInForm({ rol }: IProp) {
         usuario: formData.usuario,
         password: formData.password,
       };
-      console.log("handle Form", data);
-
       loginProfessional(data);
     }
   };

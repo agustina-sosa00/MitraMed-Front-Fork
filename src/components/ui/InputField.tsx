@@ -55,7 +55,8 @@ export default function InputField({
               id === "genero" ||
               id === "fnac" ||
               id === "apellido" ||
-              id === "nombre") &&
+              id === "nombre" ||
+              id === "usuario") &&
             "hidden"
           }`}
           onClick={handleButtonEye}
