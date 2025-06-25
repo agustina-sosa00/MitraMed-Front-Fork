@@ -10,7 +10,7 @@ export const NotFound: React.FC = () => {
       <div className="flex flex-col items-center justify-center">
         <img src="/icons/programmer.png" alt="programmer" className="w-20" />
         <p className="text-blue">La página que buscas esta en desarrollo</p>
-        <p className="text-blue">Volve en otro momento</p>
+        <p className="text-blue">Regresa en otro momento</p>
       </div>
       <Link
         to={"/profesionales/inicio"}
