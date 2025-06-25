@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 
 interface IProp {
   logo: string;
-  buttons: { name: string; icon: IconType; link: string }[];
+  buttons: { name: string; icon: IconType; link: string; disabled: boolean }[];
 }
 
 export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
@@ -33,13 +33,18 @@ export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
 
         <div className="flex flex-col  w-full gap-3 pl-5 py-5 h-[65%] ">
           {buttons.map((item) => (
-            <Link
-              key={item.name}
-              to={item.link}
-              className="flex items-center gap-2 pl-5  py-1 w-[90%] text-lg font-medium text-blue capitalize rounded cursor-pointer hover:bg-green hover:text-white"
-            >
-              <item.icon className="" />
-              {item.name}
+            <Link key={item.name} to={item.link}>
+              <button
+                disabled={item.disabled}
+                className={`flex items-center gap-2 pl-5  py-1 w-[90%] text-lg font-medium  capitalize rounded ${
+                  item.disabled
+                    ? "text-gray-400 cursor-not-allowed"
+                    : "hover:bg-green hover:text-white text-blue cursor-pointer"
+                } `}
+              >
+                <item.icon className="" />
+                {item.name}
+              </button>
             </Link>
           ))}
         </div>

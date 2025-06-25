@@ -12,8 +12,9 @@ import { Professional } from "./views/dashboardProfessional/Professional";
 import { ProfessionalProtectedRoute } from "./components/features/ProfessionalProtectedRoute";
 import ProfessionalLayout from "./layouts/ProfessionalLayout";
 import { TableSchedules } from "./views/dashboardProfessional/TableSchedules";
-import { UploadStudy } from "./views/dashboardProfessional/UploadStudy";
-import { Odontogram } from "./views/dashboardProfessional/Odontogram/Odontogram";
+import { NotFound } from "./views/NotFound";
+// import { UploadStudy } from "./views/dashboardProfessional/UploadStudy";
+// import { Odontogram } from "./views/dashboardProfessional/Odontogram/Odontogram";
 
 export default function Router() {
   return (
@@ -36,13 +37,14 @@ export default function Router() {
           <Route element={<ProfessionalLayout />}>
             <Route path="/profesionales/inicio" element={<Professional />} />
             <Route path="/profesionales/turnos" element={<TableSchedules />} />
-            <Route
+            {/* <Route
               path="/profesionales/subir-estudio"
               element={<UploadStudy />}
-            />
-            <Route path="/profesionales/odontograma" element={<Odontogram />} />
+              /> */}
+            {/* <Route path="/profesionales/odontograma" element={<Odontogram />} /> */}
           </Route>
         </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );

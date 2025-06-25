@@ -10,21 +10,25 @@ const buttons = [
     name: "inicio",
     icon: FaHouse,
     link: "/profesionales/inicio",
+    disabled: false,
   },
   {
     name: "turnos",
     icon: FaNotesMedical,
     link: "/profesionales/turnos",
+    disabled: false,
   },
   {
     name: "subir estudio",
     icon: RiFolderUploadFill,
     link: "/profesionales/subir-estudio",
+    disabled: true,
   },
   {
     name: "odontograma",
     icon: FaTooth,
     link: "/profesionales/odontograma",
+    disabled: true,
   },
 ];
 

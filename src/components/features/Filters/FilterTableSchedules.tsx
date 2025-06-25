@@ -19,19 +19,15 @@ export const FilterTableSchedules = ({ state, setState, handle }: IProp) => {
         ? "text-green"
         : "text-yellow-500"
     );
-    console.log(state);
     const selectedDay = new Date(state + "T12:00:00");
     const options = { weekday: "long" } as const;
-    console.log(selectedDay);
 
     const name = selectedDay.toLocaleDateString("es-AR", options);
-    console.log(name);
 
     setNameDay(name);
   }, [day, state]);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("input", e.target);
     setState && setState(e.target.value);
   };
   return (
