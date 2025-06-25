@@ -7,7 +7,7 @@ interface ButtonSubMenuProps {
     tratamiento: string;
   }) => void;
 }
-const treatmentList = ["Extracción", "Corona", "Restauraciones", "Sellado"];
+const treatmentList = ["Extracción", "Corona", "Sellado"];
 
 export const ButtonSubMenu: React.FC<ButtonSubMenuProps> = ({
   width,
@@ -30,16 +30,17 @@ export const ButtonSubMenu: React.FC<ButtonSubMenuProps> = ({
             })
           }
           className={`w-44 px-3 py-2 text-start text-sm border-b cursor-pointer hover:text-white hover:bg-green transition-all duration-300 border-gray-300 ${
-            index === 0
-              ? "rounded-t"
-              : index === treatmentList.length - 1
-              ? "rounded-b"
-              : ""
+            index === 0 && "rounded-t"
           }`}
         >
           {item}
         </button>
       ))}
+      <button
+        className={`w-44 px-3 py-2 text-start text-sm border-b cursor-pointer hover:text-white hover:bg-green transition-all duration-300 border-gray-300 rounded-b`}
+      >
+        Restauraciones
+      </button>
     </div>
   );
 };
