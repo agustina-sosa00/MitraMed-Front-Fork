@@ -1,7 +1,7 @@
 import { SideBar } from "@/components/ui/SideBar";
 import { Outlet } from "react-router-dom";
 import { FaHouse } from "react-icons/fa6";
-import { FaNotesMedical } from "react-icons/fa";
+import { FaNotesMedical, FaTooth } from "react-icons/fa";
 import { Navbar } from "@/components/features/PanelProfessional/Navbar";
 import { RiFolderUploadFill } from "react-icons/ri";
 
@@ -20,6 +20,11 @@ const buttons = [
     name: "subir estudio",
     icon: RiFolderUploadFill,
     link: "/profesionales/subir-estudio",
+  },
+  {
+    name: "odontograma",
+    icon: FaTooth,
+    link: "/profesionales/odontograma",
   },
 ];
 

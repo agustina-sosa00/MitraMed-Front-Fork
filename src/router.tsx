@@ -13,6 +13,7 @@ import { ProfessionalProtectedRoute } from "./components/features/ProfessionalPr
 import ProfessionalLayout from "./layouts/ProfessionalLayout";
 import { TableSchedules } from "./views/dashboardProfessional/TableSchedules";
 import { UploadStudy } from "./views/dashboardProfessional/UploadStudy";
+import { Odontogram } from "./views/dashboardProfessional/Odontogram/Odontogram";
 
 export default function Router() {
   return (
@@ -39,6 +40,7 @@ export default function Router() {
               path="/profesionales/subir-estudio"
               element={<UploadStudy />}
             />
+            <Route path="/profesionales/odontograma" element={<Odontogram />} />
           </Route>
         </Route>
       </Routes>

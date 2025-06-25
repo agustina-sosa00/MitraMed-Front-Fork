@@ -12,11 +12,25 @@ export const Odontogram = () => {
   const handleShowMenu = () => {
     setContextMenu(null);
   };
+  const paciente = "Agustina Sosa";
+  const dni = "11234567";
   return (
     <div
-      className="flex flex-col w-full h-screen px-5 py-20 bg-white"
+      className="flex flex-col w-full h-screen gap-5 px-5 py-20 "
       onClick={handleShowMenu}
     >
+      <div className="flex flex-col w-full px-16">
+        <h1 className="text-2xl font-medium uppercase lg:text-4xl text-green">
+          odontograma
+        </h1>
+        <h3 className="text-sm text-blue">
+          Paciente: <span className="text-base font-medium">{paciente}</span>
+        </h3>
+        <h3 className="text-sm text-blue">
+          DNI: <span className="text-base font-medium">{dni}</span>
+        </h3>
+      </div>
+
       <div className="flex flex-wrap w-full h-1/2">
         <div className="flex flex-row-reverse items-end justify-start w-1/2 gap-1 p-2 border-b border-r border-black h-1/2 ">
           {Array.from({ length: 8 }).map((_, index) => (

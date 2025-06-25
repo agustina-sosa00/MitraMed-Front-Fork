@@ -6,7 +6,7 @@ export interface IDataTable {
   name: string;
   state: string;
   obs: string;
-  saco: string;
+  saco?: string;
 }
 export const tableSchedules: IDataTable[] = [
   {
