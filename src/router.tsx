@@ -14,7 +14,7 @@ import ProfessionalLayout from "./layouts/ProfessionalLayout";
 import { TableSchedules } from "./views/dashboardProfessional/TableSchedules";
 import { NotFound } from "./views/NotFound";
 // import { UploadStudy } from "./views/dashboardProfessional/UploadStudy";
-// import { Odontogram } from "./views/dashboardProfessional/Odontogram/Odontogram";
+import { Odontogram } from "./views/dashboardProfessional/Odontogram/Odontogram";
 
 export default function Router() {
   return (
@@ -41,7 +41,7 @@ export default function Router() {
               path="/profesionales/subir-estudio"
               element={<UploadStudy />}
               /> */}
-            {/* <Route path="/profesionales/odontograma" element={<Odontogram />} /> */}
+            <Route path="/profesionales/odontograma" element={<Odontogram />} />
           </Route>
         </Route>
         <Route path="*" element={<NotFound />} />
