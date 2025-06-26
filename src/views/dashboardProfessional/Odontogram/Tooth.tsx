@@ -41,26 +41,30 @@ export const Tooth: React.FC<ToothProps> = ({
     e.preventDefault();
     setState(toothNumber);
     setToothSelectState(toothNumber);
-    const menuWidth = 210;
-    const menuHeight = 64;
-    let posX = e.clientX;
-    let posY = e.clientY;
-
-    if (posX + menuWidth > window.innerWidth) {
-      posX = window.innerWidth - menuWidth;
-    }
-
-    if (posY + menuHeight > window.innerHeight) {
-      posY = window.innerHeight - menuHeight;
-    }
-
-    setPositionMenu({ x: posX, y: posY });
+    setPositionMenu({ x: e.clientX, y: e.clientY });
   };
 
   useEffect(() => {
     const widthTotal = window.innerWidth;
-    setWidth(widthTotal - positionMenu.x > 385);
-  }, [positionMenu.x]);
+    const heightTotal = window.innerHeight;
+
+    const menuWidth = 210;
+    const menuHeight = 130;
+
+    let newX = positionMenu.x;
+    let newY = positionMenu.y;
+
+    if (newX + menuWidth > widthTotal) {
+      newX = widthTotal - menuWidth;
+    }
+
+    if (newY + menuHeight > heightTotal) {
+      newY = heightTotal - menuHeight;
+    }
+
+    setPositionMenu({ x: newX, y: newY });
+    setWidth(widthTotal - newX > 385);
+  }, [positionMenu.x, positionMenu.y]);
 
   return (
     <div onContextMenu={handleContextMenu}>
@@ -118,12 +122,11 @@ export const Tooth: React.FC<ToothProps> = ({
                   : "#0369a1"
                 : "#fff"
             } //backgrounds
-            // onClick={() => handleClick("vesibular")}
             className="cursor-pointer "
             points="1.0136711597442627,1.35626420378685 7.767158031463623,9.155386298894882 21.696229934692383,9.155386298894882 28.449718475341797,1.35626420378685 "
           />
           <polygon
-            stroke="#a3a3a3"
+            stroke="#a3a3a3" //border
             fill={
               position?.includes("izquierda") && data.cara === "mesial"
                 ? data.action === "realizado"
@@ -134,13 +137,12 @@ export const Tooth: React.FC<ToothProps> = ({
                   ? "#ef4444"
                   : "#0369a1"
                 : "#fff"
-            }
-            // onClick={() => handleClick("derecha")}
+            } //backgrounds
             points="21.445681169629097,9.104242324829102 21.445681169629097,25.189937591552734 28.19916971027851,32.98905944824219 28.41021592915058,0.8176754713058472"
             className="cursor-pointer"
           />
           <polygon
-            stroke="#a3a3a3"
+            stroke="#a3a3a3" //border
             fill={
               position?.includes("izquierda") && data.cara === "palatino"
                 ? data.action === "realizado"
@@ -151,13 +153,12 @@ export const Tooth: React.FC<ToothProps> = ({
                   ? "#ef4444"
                   : "#0369a1"
                 : "#fff"
-            }
-            // onClick={() => handleClick("abajo")}
+            } //background
             points="21.445680618286133,25.29296439886093 28.199169158935547,33.092128217220306 0.7631232142448425,33.092128217220306 7.516610622406006,25.29296439886093"
             className="cursor-pointer"
           />
           <polygon
-            stroke="#a3a3a3"
+            stroke="#a3a3a3" //border
             fill={
               position?.includes("izquierda") && data.cara === "distal"
                 ? data.action === "realizado"
@@ -168,13 +169,12 @@ export const Tooth: React.FC<ToothProps> = ({
                   ? "#ef4444"
                   : "#0369a1"
                 : "#fff"
-            }
-            // onClick={() => handleClick("izquierda")}
+            } //background
             points="0.7631232291460037,1.3051201105117798 0.7631232291460037,33.232784271240234 7.516610696911812,25.189937591552734 7.516610696911812,25.189937591552734 7.516610696911812,9.104242324829102"
             className="cursor-pointer"
           />
           <polygon
-            stroke="#a3a3a3"
+            stroke="#a3a3a3" //border
             fill={
               position?.includes("izquierda") && data.cara === "oclusal"
                 ? data.action === "realizado"
@@ -185,8 +185,7 @@ export const Tooth: React.FC<ToothProps> = ({
                   ? "#ef4444"
                   : "#0369a1"
                 : "#fff"
-            }
-            // onClick={() => handleClick("centro")}
+            } // background
             points="7.516610696911812,9.104242324829102 21.445681169629097,9.104242324829102 21.445681169629097,25.189937591552734 7.516610696911812,25.189937591552734"
             className="cursor-pointer"
           />
