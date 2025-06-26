@@ -15,7 +15,7 @@ export const ButtonSubMenu: React.FC<ButtonSubMenuProps> = ({
 }) => {
   return (
     <div
-      className={`absolute top-0 hidden bg-white border border-gray-300 rounded group-hover:block ${
+      className={`absolute top-0  bg-white border border-gray-300 rounded block ${
         width ? "left-full" : "right-full"
       }`}
     >
@@ -34,7 +34,10 @@ export const ButtonSubMenu: React.FC<ButtonSubMenuProps> = ({
       ))}
       <button
         className={`w-44 px-3 py-2 text-start text-sm border-b cursor-pointer hover:text-white hover:bg-green transition-all duration-300 border-gray-300 rounded-b`}
-        onClick={handle}
+        onClick={() => {
+          updateTooth({ action: actionText, tratamiento: "restauraciones" });
+          handle();
+        }}
       >
         Restauraciones
       </button>

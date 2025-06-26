@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { ButtonSubMenu } from "./ButtonSubMenu";
 
@@ -14,44 +15,63 @@ export const MenuTooth: React.FC<MenuToothProps> = ({
   updateTooth,
   handle,
 }) => {
+  const [openSubMenu, setOpenSubMenu] = useState<
+    "realizado" | "a realizar" | null
+  >(null);
+
   return (
     <div
-      className={`absolute z-50 h-20 flex flex-col justify-between border rounded border-gray-300 w-52`}
+      className={`absolute z-50 flex flex-col border rounded border-gray-300 w-52 bg-white`}
       style={{ top: positionMenu.y, left: positionMenu.x }}
     >
-      <div className="relative rounded-t group h-1/2">
-        <div className="flex items-center justify-between w-full h-full px-3 py-2 text-sm transition-all duration-300 bg-white border-b border-gray-300 rounded-t cursor-pointer text-blue group-hover:text-white group-hover:bg-green">
+      {/* Bloque Realizado */}
+      <div
+        className="relative h-1/2"
+        onMouseEnter={() => setOpenSubMenu("realizado")}
+        onMouseLeave={() => setOpenSubMenu(null)}
+      >
+        <div className="flex items-center justify-between w-full h-full px-3 py-2 text-sm border-b border-gray-300 rounded-t cursor-pointer text-blue hover:text-white hover:bg-green">
           Realizado <IoIosArrowDown className="-rotate-90" />
         </div>
-        <div
-          className={`absolute top-0 hidden bg-white group-hover:block ${
-            width ? "left-full" : "right-full"
-          }`}
-        >
-          <ButtonSubMenu
-            width={width}
-            actionText="realizado"
-            updateTooth={updateTooth}
-            handle={handle}
-          />
-        </div>
+        {openSubMenu === "realizado" && (
+          <div
+            className={`absolute top-0 ${
+              width ? "left-full" : "right-full"
+            } bg-white`}
+          >
+            <ButtonSubMenu
+              width={width}
+              actionText="realizado"
+              updateTooth={updateTooth}
+              handle={handle}
+            />
+          </div>
+        )}
       </div>
-      <div className="relative rounded-b group h-1/2">
-        <div className="flex items-center justify-between w-full h-full px-3 py-2 text-sm transition-all duration-300 bg-white rounded-b cursor-pointer text-blue group-hover:text-white group-hover:bg-green">
+
+      {/* Bloque A Realizar */}
+      <div
+        className="relative h-1/2"
+        onMouseEnter={() => setOpenSubMenu("a realizar")}
+        onMouseLeave={() => setOpenSubMenu(null)}
+      >
+        <div className="flex items-center justify-between w-full h-full px-3 py-2 text-sm rounded-b cursor-pointer text-blue hover:text-white hover:bg-green">
           A realizar <IoIosArrowDown className="-rotate-90" />
         </div>
-        <div
-          className={`absolute top-0 hidden bg-white group-hover:block ${
-            width ? "left-full" : "right-full"
-          }`}
-        >
-          <ButtonSubMenu
-            width={width}
-            actionText="a realizar"
-            updateTooth={updateTooth}
-            handle={handle}
-          />
-        </div>
+        {openSubMenu === "a realizar" && (
+          <div
+            className={`absolute top-0 ${
+              width ? "left-full" : "right-full"
+            } bg-white`}
+          >
+            <ButtonSubMenu
+              width={width}
+              actionText="a realizar"
+              updateTooth={updateTooth}
+              handle={handle}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

@@ -11,14 +11,12 @@ interface ModalSelectFaceToothProps {
 export const ModalSelectFaceTooth: React.FC<ModalSelectFaceToothProps> = ({
   show,
   onClose,
-  setAction,
+
   setFace,
-  action,
 }) => {
   if (!show) return null;
 
   const buttons = ["vesibular", "mesial", "palatino", "distal", "oclusal"];
-
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30"
@@ -35,7 +33,7 @@ export const ModalSelectFaceTooth: React.FC<ModalSelectFaceToothProps> = ({
               key={item}
               onClick={() => {
                 setFace(item);
-                setAction(action);
+
                 onClose();
               }}
               className="px-3 py-2 text-sm text-white capitalize transition-all duration-300 rounded bg-green hover:bg-greenHover"

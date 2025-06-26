@@ -107,25 +107,17 @@ export const Tooth: React.FC<ToothProps> = ({
         >
           <polygon
             stroke="#a3a3a3" //border
-            fill={`
-              ${
-                (position === "arriba-izquierda" ||
-                  position === "arriba-derecha" ||
-                  position === "abajo-izquierda" ||
-                  position === "abajo-derecha") &&
-                data?.action === "a realizar" &&
-                data?.cara === "vesibular"
-                  ? "#0369a1"
-                  : (position === "arriba-izquierda" ||
-                      position === "arriba-derecha" ||
-                      position === "abajo-izquierda" ||
-                      position === "abajo-derecha") &&
-                    data?.action === "realizado" &&
-                    data?.cara === "vesibular"
+            fill={
+              position?.includes("izquierda") && data.cara === "vesibular"
+                ? data.action === "realizado"
                   ? "#ef4444"
-                  : "#fff"
-              }
-              `} //backgrounds
+                  : "#0369a1"
+                : position?.includes("derecha") && data.cara === "vesibular"
+                ? data.action === "realizado"
+                  ? "#ef4444"
+                  : "#0369a1"
+                : "#fff"
+            } //backgrounds
             // onClick={() => handleClick("vesibular")}
             className="cursor-pointer "
             points="1.0136711597442627,1.35626420378685 7.767158031463623,9.155386298894882 21.696229934692383,9.155386298894882 28.449718475341797,1.35626420378685 "
@@ -143,24 +135,58 @@ export const Tooth: React.FC<ToothProps> = ({
                   : "#0369a1"
                 : "#fff"
             }
+            // onClick={() => handleClick("derecha")}
             points="21.445681169629097,9.104242324829102 21.445681169629097,25.189937591552734 28.19916971027851,32.98905944824219 28.41021592915058,0.8176754713058472"
             className="cursor-pointer"
           />
           <polygon
             stroke="#a3a3a3"
-            fill="#fff"
+            fill={
+              position?.includes("izquierda") && data.cara === "palatino"
+                ? data.action === "realizado"
+                  ? "#ef4444"
+                  : "#0369a1"
+                : position?.includes("derecha") && data.cara === "palatino"
+                ? data.action === "realizado"
+                  ? "#ef4444"
+                  : "#0369a1"
+                : "#fff"
+            }
+            // onClick={() => handleClick("abajo")}
             points="21.445680618286133,25.29296439886093 28.199169158935547,33.092128217220306 0.7631232142448425,33.092128217220306 7.516610622406006,25.29296439886093"
             className="cursor-pointer"
           />
           <polygon
             stroke="#a3a3a3"
-            fill="#fff"
+            fill={
+              position?.includes("izquierda") && data.cara === "distal"
+                ? data.action === "realizado"
+                  ? "#ef4444"
+                  : "#0369a1"
+                : position?.includes("derecha") && data.cara === "mesial"
+                ? data.action === "realizado"
+                  ? "#ef4444"
+                  : "#0369a1"
+                : "#fff"
+            }
+            // onClick={() => handleClick("izquierda")}
             points="0.7631232291460037,1.3051201105117798 0.7631232291460037,33.232784271240234 7.516610696911812,25.189937591552734 7.516610696911812,25.189937591552734 7.516610696911812,9.104242324829102"
             className="cursor-pointer"
           />
           <polygon
             stroke="#a3a3a3"
-            fill="#fff"
+            fill={
+              position?.includes("izquierda") && data.cara === "oclusal"
+                ? data.action === "realizado"
+                  ? "#ef4444"
+                  : "#0369a1"
+                : position?.includes("derecha") && data.cara === "oclusal"
+                ? data.action === "realizado"
+                  ? "#ef4444"
+                  : "#0369a1"
+                : "#fff"
+            }
+            // onClick={() => handleClick("centro")}
             points="7.516610696911812,9.104242324829102 21.445681169629097,9.104242324829102 21.445681169629097,25.189937591552734 7.516610696911812,25.189937591552734"
             className="cursor-pointer"
           />
