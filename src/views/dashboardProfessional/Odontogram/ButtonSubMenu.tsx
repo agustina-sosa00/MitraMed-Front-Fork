@@ -3,6 +3,7 @@ interface ButtonSubMenuProps {
   actionText: string;
   updateTooth: (newData: { action?: string; tratamiento?: string }) => void;
   handle: () => void;
+  y: number;
 }
 
 const treatmentList = ["Extracción", "Corona", "Sellado"];
@@ -12,10 +13,15 @@ export const ButtonSubMenu: React.FC<ButtonSubMenuProps> = ({
   actionText,
   updateTooth,
   handle,
+  y,
 }) => {
+  const submenuHeight = 150;
+  const openUpwards = y + submenuHeight > window.innerHeight;
   return (
     <div
-      className={`absolute top-0  bg-white border border-gray-300 rounded block ${
+      className={`absolute ${
+        openUpwards ? "-bottom-10" : "top-0"
+      } bg-white border border-gray-300 rounded ${
         width ? "left-full" : "right-full"
       }`}
     >
