@@ -1,21 +1,22 @@
 import { IoIosArrowDown } from "react-icons/io";
 import { ButtonSubMenu } from "./ButtonSubMenu";
+
 interface MenuToothProps {
   positionMenu: { x: number; y: number };
   width: boolean;
-  onSelectOption: (option: {
-    action: "realizado" | "a realizar";
-    tratamiento: string;
-  }) => void;
+  updateTooth: (newData: { action?: string; tratamiento?: string }) => void;
+  handle: () => void;
 }
+
 export const MenuTooth: React.FC<MenuToothProps> = ({
   positionMenu,
   width,
-  onSelectOption,
+  updateTooth,
+  handle,
 }) => {
   return (
     <div
-      className={`absolute z-50 h-20 flex flex-col justify-between border rounded border-gray-300  w-52`}
+      className={`absolute z-50 h-20 flex flex-col justify-between border rounded border-gray-300 w-52`}
       style={{ top: positionMenu.y, left: positionMenu.x }}
     >
       <div className="relative rounded-t group h-1/2">
@@ -25,12 +26,13 @@ export const MenuTooth: React.FC<MenuToothProps> = ({
         <div
           className={`absolute top-0 hidden bg-white group-hover:block ${
             width ? "left-full" : "right-full"
-          } `}
+          }`}
         >
           <ButtonSubMenu
             width={width}
-            onSelect={onSelectOption}
             actionText="realizado"
+            updateTooth={updateTooth}
+            handle={handle}
           />
         </div>
       </div>
@@ -41,12 +43,13 @@ export const MenuTooth: React.FC<MenuToothProps> = ({
         <div
           className={`absolute top-0 hidden bg-white group-hover:block ${
             width ? "left-full" : "right-full"
-          } `}
+          }`}
         >
           <ButtonSubMenu
             width={width}
-            onSelect={onSelectOption}
             actionText="a realizar"
+            updateTooth={updateTooth}
+            handle={handle}
           />
         </div>
       </div>
