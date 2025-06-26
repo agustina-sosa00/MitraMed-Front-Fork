@@ -117,7 +117,7 @@ export const Odontogram = () => {
               },
             }))
           }
-          action={teethState[toothSelect]?.action || ""}
+          action={teethState[toothSelect]?.action}
           setAction={(action) =>
             setTeethState((prev) => ({
               ...prev,
