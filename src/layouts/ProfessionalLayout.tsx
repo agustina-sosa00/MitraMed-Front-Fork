@@ -28,7 +28,7 @@ const buttons = [
     name: "odontograma",
     icon: FaTooth,
     link: "/profesionales/odontograma",
-    disabled: true,
+    disabled: false,
   },
 ];
 
