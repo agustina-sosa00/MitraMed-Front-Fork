@@ -3,6 +3,7 @@ import { dataTableTurns, IDataTable } from "../../mock/arrayTableProfessional";
 import React, { useEffect, useState } from "react";
 import { TablaMobile } from "@/components/features/PanelProfessional/TablaMobile.tsx";
 import { TableProfessionals } from "./TableProfessionals";
+import { BoxButton } from "@/components/features/PanelSecretariat/BoxButton";
 
 export const Turnos: React.FC = () => {
   const getToday = (): string => {
@@ -44,21 +45,25 @@ export const Turnos: React.FC = () => {
   };
 
   return (
-    <div className="flex justify-center w-full min-h-screen pt-24 lg:h-screen ">
-      <div className=" w-full  xl:w-[70%] h-[60%] flex flex-col justify-center lg:justify-start items-center gap-8  ">
+    <div className="flex justify-center w-full min-h-screen pt-24 lg:pt-0 lg:h-screen">
+      <div className=" w-full  xl:w-[70%] flex flex-col justify-center  pt-5 lg:justify-start items-center gap-8  ">
         <div className="flex flex-col w-[80%] ">
           <h1 className="text-2xl font-medium uppercase lg:text-4xl text-green">
             Mis turnos
           </h1>
         </div>
-        <FilterTableSchedules
-          handle={changeDay}
-          state={daySchedule}
-          setState={setDaySchedule}
-          styles="w-[80%]"
-        />
+        <div className="flex items-center justify-center w-full gap-4">
+          <FilterTableSchedules
+            handle={changeDay}
+            state={daySchedule}
+            setState={setDaySchedule}
+            styles="w-1/2"
+            subStyles="flex justify-center items-end"
+          />
+          <BoxButton />
+        </div>
 
-        <div className="flex  justify-between max-h-[200px] px-1 overflow-y-auto lg:overflow-visible w-full  ">
+        <div className="flex  justify-between max-h-[700px] px-1 overflow-y-auto lg:overflow-visible w-full  ">
           <TableProfessionals />
           <TablaMobile
             data={arrayFilter}
