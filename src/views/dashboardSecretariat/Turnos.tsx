@@ -1,5 +1,5 @@
 import { FilterTableSchedules } from "@/components/features/Filters/FilterTableSchedules";
-import { IDataTable, tableSchedules } from "../../mock/arrayTableProfessional";
+import { dataTableTurns, IDataTable } from "../../mock/arrayTableProfessional";
 import React, { useEffect, useState } from "react";
 import { TablaMobile } from "@/components/features/PanelProfessional/TablaMobile.tsx";
 import { TableProfessionals } from "./TableProfessionals";
@@ -14,7 +14,7 @@ export const Turnos: React.FC = () => {
   };
   const [daySchedule, setDaySchedule] = useState(getToday);
   const [arrayFilter, setArrayFilter] = useState<IDataTable[]>([]);
-  const newArray = [...tableSchedules];
+  const newArray = [...dataTableTurns];
   useEffect(() => {
     const array = newArray.filter(
       (item) => item.day === daySchedule.split("-").reverse().join("/")
@@ -58,13 +58,12 @@ export const Turnos: React.FC = () => {
           styles="w-[80%]"
         />
 
-        <div className="flex  justify-between max-h-[200px]  overflow-y-auto lg:overflow-visible w-full  ">
+        <div className="flex  justify-between max-h-[200px] px-1 overflow-y-auto lg:overflow-visible w-full  ">
           <TableProfessionals />
           <TablaMobile
             data={arrayFilter}
             columns={[
               { key: "id", label: "ID" },
-              { key: "day", label: "Día" },
               { key: "hourInit", label: "Hora Inicio" },
               { key: "hourFinish", label: "Hora Fin" },
               { key: "name", label: "Nombre y Apellido" },
