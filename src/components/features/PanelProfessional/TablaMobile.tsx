@@ -10,7 +10,7 @@ interface TablaMobileProps {
 
 export const TablaMobile: React.FC<TablaMobileProps> = ({ data, columns }) => {
   return (
-    <div className="relative flex-[2] border border-gray-200 !rounded overflow-x-auto">
+    <div className="relative flex-[2] border  border-gray-200  !rounded overflow-x-auto">
       <table className="w-full text-left text-gray-500">
         <thead className="sticky top-0 text-white uppercase bg-blue">
           <tr>
