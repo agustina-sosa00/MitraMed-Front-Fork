@@ -3,9 +3,19 @@ import { dataTableTurns, IDataTable } from "../../mock/arrayTableProfessional";
 import React, { useEffect, useState } from "react";
 import { TablaMobile } from "@/components/features/PanelProfessional/TablaMobile.tsx";
 import { TableProfessionals } from "./TableProfessionals";
-import { BoxButton } from "@/components/features/PanelSecretariat/BoxButton";
+import { BoxButton } from "../../components/features/PanelProfessional/BoxButton";
+import { Modal } from "@/components/features/PanelProfessional/Modal";
+import { ModalAltaTurno } from "./ModalAltaTurno";
 
 export const Turnos: React.FC = () => {
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [modalName, setModalName] = useState<string>("");
+
+  const handleOpenModal = (item: string) => {
+    console.log(item);
+    setModalName(item);
+    setOpenModal(!openModal);
+  };
   const getToday = (): string => {
     const today = new Date();
     const year = today.getFullYear();
@@ -49,10 +59,10 @@ export const Turnos: React.FC = () => {
       <div className=" w-full  xl:w-[70%] flex flex-col justify-center  pt-5 lg:justify-start items-center gap-8  ">
         <div className="flex flex-col w-[80%] ">
           <h1 className="text-2xl font-medium uppercase lg:text-4xl text-green">
-            Mis turnos
+            Turnos
           </h1>
         </div>
-        <div className="flex items-center justify-center w-full gap-4">
+        <div className="flex items-end justify-center w-full gap-4">
           <FilterTableSchedules
             handle={changeDay}
             state={daySchedule}
@@ -60,7 +70,10 @@ export const Turnos: React.FC = () => {
             styles="w-1/2"
             subStyles="flex justify-center items-end"
           />
-          <BoxButton />
+          <BoxButton
+            handleButton={handleOpenModal}
+            button={["alta turno", "prestación", "facturación"]}
+          />
         </div>
 
         <div className="flex  justify-between max-h-[700px] px-1 overflow-y-auto lg:overflow-visible w-full  ">
@@ -78,6 +91,11 @@ export const Turnos: React.FC = () => {
           />
         </div>
       </div>
+      {openModal && modalName === "alta turno" && (
+        <Modal close={() => setOpenModal(!openModal)} title="Alta Turno">
+          <ModalAltaTurno />
+        </Modal>
+      )}
     </div>
   );
 };
