@@ -5,8 +5,14 @@ interface IProp {
   state: string;
   setState: (ag: string) => void;
   handle: (num: number) => void;
+  styles?: string;
 }
-export const FilterTableSchedules = ({ state, setState, handle }: IProp) => {
+export const FilterTableSchedules = ({
+  state,
+  setState,
+  handle,
+  styles,
+}: IProp) => {
   const [dayColor, setDayColor] = useState<string>("");
   const [nameDay, setNameDay] = useState("");
   const newDay = new Date();
@@ -31,7 +37,7 @@ export const FilterTableSchedules = ({ state, setState, handle }: IProp) => {
     setState && setState(e.target.value);
   };
   return (
-    <div className="w-full ">
+    <div className={`${styles ? styles : "w-full"}`}>
       <div className="flex items-end justify-center w-full gap-1 p-2 lg:justify-start ">
         <label className="text-sm font-medium text-blue">
           Filtrar por dia:

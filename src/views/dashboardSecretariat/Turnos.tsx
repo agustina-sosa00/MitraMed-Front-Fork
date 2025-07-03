@@ -2,8 +2,9 @@ import { FilterTableSchedules } from "@/components/features/Filters/FilterTableS
 import { IDataTable, tableSchedules } from "../../mock/arrayTableProfessional";
 import React, { useEffect, useState } from "react";
 import { TablaMobile } from "@/components/features/PanelProfessional/TablaMobile.tsx";
+import { TableProfessionals } from "./TableProfessionals";
 
-export const TableSchedules: React.FC = () => {
+export const Turnos: React.FC = () => {
   const getToday = (): string => {
     const today = new Date();
     const year = today.getFullYear();
@@ -44,8 +45,8 @@ export const TableSchedules: React.FC = () => {
 
   return (
     <div className="flex justify-center w-full min-h-screen pt-24 lg:h-screen ">
-      <div className=" w-full lg:w-[85%] xl:w-[70%] h-[60%] flex flex-col justify-center lg:justify-start items-center gap-8  ">
-        <div className="flex flex-col w-full ">
+      <div className=" w-full  xl:w-[70%] h-[60%] flex flex-col justify-center lg:justify-start items-center gap-8  ">
+        <div className="flex flex-col w-[80%] ">
           <h1 className="text-2xl font-medium uppercase lg:text-4xl text-green">
             Mis turnos
           </h1>
@@ -54,9 +55,11 @@ export const TableSchedules: React.FC = () => {
           handle={changeDay}
           state={daySchedule}
           setState={setDaySchedule}
+          styles="w-[80%]"
         />
 
-        <div className="flex justify-center max-h-[200px]   overflow-y-auto lg:overflow-visible w-full px-5 ">
+        <div className="flex  justify-between max-h-[200px]  overflow-y-auto lg:overflow-visible w-full  ">
+          <TableProfessionals />
           <TablaMobile
             data={arrayFilter}
             columns={[
