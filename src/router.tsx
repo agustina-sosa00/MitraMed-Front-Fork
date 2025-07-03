@@ -3,7 +3,7 @@ import HomeView from "./views/dashboard/HomeView";
 import MisTurnos from "./views/dashboard/MisTurnos";
 import PortalView from "./views/auth/PortalView";
 import Layout from "./layouts/Layout";
-import Turnos from "./views/dashboard/Turnos";
+import { Turnos } from "./views/dashboardSecretariat/Turnos";
 import ProtectedRoute from "./components/features/ProtectedRoute";
 import ConfigView from "./views/dashboard/ConfigView";
 import PrivacyPolicy from "./views/PrivacyPolicy";
@@ -50,6 +50,7 @@ export default function Router() {
         <Route element={<SecretariatProtectedRoute />}>
           <Route element={<SecretariatLayout />}>
             <Route path="/secretaria/inicio" element={<Secretariat />} />
+            <Route path="/secretaria/turnos" element={<Turnos />} />
           </Route>
         </Route>
         <Route path="*" element={<NotFound />} />

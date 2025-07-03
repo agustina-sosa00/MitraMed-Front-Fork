@@ -8,6 +8,35 @@ export interface IDataTable {
   obs: string;
   saco?: string;
 }
+
+export const tableProfessionals = [
+  {
+    id: 1,
+    name: "Agustina Sosa",
+    speciality: "Pediatria",
+  },
+  {
+    id: 2,
+    name: "Leandro Mortarini",
+    speciality: "Cirugia General",
+  },
+  {
+    id: 3,
+    name: "Jean Pietro Mortarini",
+    speciality: "Cirugia General",
+  },
+  {
+    id: 4,
+    name: "Tomas Sosa",
+    speciality: "Cirugia General",
+  },
+  {
+    id: 5,
+    name: "Sofia Sosa",
+    speciality: "Odontologia",
+  },
+];
+
 export const tableSchedules: IDataTable[] = [
   {
     id: 1,
