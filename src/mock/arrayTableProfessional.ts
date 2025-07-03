@@ -1,39 +1,73 @@
 export interface IDataTable {
   id: number;
-  day: string;
-  hourInit: string;
-  hourFinish: string;
-  name: string;
-  state: string;
-  obs: string;
+  day?: string;
+  hourInit?: string;
+  hourFinish?: string;
+  name?: string;
+  state?: string;
+  obs?: string;
   saco?: string;
+  especiality?: string;
 }
 
 export const tableProfessionals = [
   {
     id: 1,
     name: "Agustina Sosa",
-    speciality: "Pediatria",
+    especiality: "Pediatria",
   },
   {
     id: 2,
     name: "Leandro Mortarini",
-    speciality: "Cirugia General",
+    especiality: "Cirugia General",
   },
   {
     id: 3,
     name: "Jean Pietro Mortarini",
-    speciality: "Cirugia General",
+    especiality: "Cirugia General",
   },
   {
     id: 4,
     name: "Tomas Sosa",
-    speciality: "Cirugia General",
+    especiality: "Cirugia General",
   },
   {
     id: 5,
     name: "Sofia Sosa",
-    speciality: "Odontologia",
+    especiality: "Odontologia",
+  },
+];
+
+export const dataTableTurns = [
+  {
+    id: 1,
+    day: "03/07/2025",
+    hourInit: "18:30",
+    hourFinish: "19:00",
+  },
+  {
+    id: 2,
+    day: "03/07/2025",
+    hourInit: "19:00",
+    hourFinish: "19:30",
+  },
+  {
+    id: 3,
+    day: "03/07/2025",
+    hourInit: "19:30",
+    hourFinish: "20:00",
+  },
+  {
+    id: 4,
+    day: "03/07/2025",
+    hourInit: "20:00",
+    hourFinish: "20:30",
+  },
+  {
+    id: 5,
+    day: "03/07/2025",
+    hourInit: "20:30",
+    hourFinish: "21:00",
   },
 ];
 

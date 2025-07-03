@@ -38,7 +38,7 @@ export const FilterTableSchedules = ({
   };
   return (
     <div className={`${styles ? styles : "w-full"}`}>
-      <div className="flex items-end justify-center w-full gap-1 p-2 lg:justify-start ">
+      <div className="flex items-end justify-center w-full gap-1 py-2 lg:justify-start ">
         <label className="text-sm font-medium text-blue">
           Filtrar por dia:
         </label>
