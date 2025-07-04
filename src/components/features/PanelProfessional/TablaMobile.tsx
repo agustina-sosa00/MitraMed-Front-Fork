@@ -25,7 +25,7 @@ export const TablaMobile: React.FC<TablaMobileProps> = ({
     }
   };
   return (
-    <div className="relative flex-[2] border  border-gray-200  !rounded overflow-x-auto">
+    <div className="relative flex-[2] border  border-gray-400  !rounded overflow-x-auto">
       <table className="w-full text-left text-gray-500">
         <thead className="sticky top-0 text-white uppercase bg-blue">
           <tr>

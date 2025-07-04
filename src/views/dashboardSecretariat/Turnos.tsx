@@ -10,10 +10,12 @@ import { TableProfessionals } from "./TableProfessionals";
 import { BoxButton } from "../../components/features/PanelProfessional/BoxButton";
 import { Modal } from "@/components/features/PanelProfessional/Modal";
 import { ModalAltaTurno } from "./ModalAltaTurno";
+import Swal from "sweetalert2";
 
 export const Turnos: React.FC = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [modalName, setModalName] = useState<string>("");
+  console.log(modalName);
   const [selectProfessional, setSelectProfessional] = useState<number>();
   const [selectTurn, setSelectTurn] = useState<IDataTable>();
 
@@ -21,10 +23,49 @@ export const Turnos: React.FC = () => {
 
   console.log(dataModal);
   console.log(selectTurn);
+  const handleBoxButton = (item: string) => {
+    if (item === "alta turno") {
+      handleOpenModal(item);
+    } else if (item === "presentación") {
+      handlePresentacion();
+    } else if (item === "facturación") {
+      handleFacturacion();
+    }
+  };
   const handleOpenModal = (item: string) => {
     setModalName(item);
     setOpenModal(!openModal);
   };
+
+  const handleFacturacion = () => {
+    if (!selectTurn) return;
+
+    const updatedArray = arrayFilter.map((item) =>
+      item.id === selectTurn.id ? { ...item, state: "Factura pendiente" } : item
+    );
+    setArrayFilter(updatedArray);
+  };
+
+  const handlePresentacion = () => {
+    Swal.fire({
+      icon: "info",
+      title: "¿Confirama la presencia del paciente?",
+      confirmButtonText: "Si",
+      confirmButtonColor: "#518915",
+      cancelButtonText: "No",
+      showCancelButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (!selectTurn) return;
+
+        const updatedArray = arrayFilter.map((item) =>
+          item.id === selectTurn.id ? { ...item, state: "Presente" } : item
+        );
+        setArrayFilter(updatedArray);
+      }
+    });
+  };
+
   const getToday = (): string => {
     const today = new Date();
     const year = today.getFullYear();
@@ -98,8 +139,8 @@ export const Turnos: React.FC = () => {
             subStyles="flex justify-center items-end"
           />
           <BoxButton
-            handleButton={handleOpenModal}
-            button={["alta turno", "prestación", "facturación"]}
+            handleButton={handleBoxButton}
+            button={["alta turno", "presentación", "facturación"]}
           />
         </div>
 
