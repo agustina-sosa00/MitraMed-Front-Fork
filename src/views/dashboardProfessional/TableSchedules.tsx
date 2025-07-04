@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { TablaMobile } from "@/components/features/PanelProfessional/TablaMobile.tsx";
 
 export const TableSchedules: React.FC = () => {
+  // const []
   const getToday = (): string => {
     const today = new Date();
     const year = today.getFullYear();
@@ -57,7 +58,18 @@ export const TableSchedules: React.FC = () => {
         />
 
         <div className="flex justify-center max-h-[200px]   overflow-y-auto lg:overflow-visible w-full px-5 ">
-          <TablaMobile data={arrayFilter} />
+          <TablaMobile
+            data={arrayFilter}
+            columns={[
+              { key: "id", label: "ID" },
+              { key: "day", label: "Día" },
+              { key: "hourInit", label: "Hora Inicio" },
+              { key: "hourFinish", label: "Hora Fin" },
+              { key: "name", label: "Nombre y Apellido" },
+              { key: "state", label: "Estado" },
+              { key: "obs", label: "Obra Social" },
+            ]}
+          />
         </div>
       </div>
     </div>

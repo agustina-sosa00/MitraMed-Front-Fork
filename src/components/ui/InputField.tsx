@@ -56,6 +56,7 @@ export default function InputField({
               id === "fnac" ||
               id === "apellido" ||
               id === "nombre" ||
+              id === "hc" ||
               id === "usuario") &&
             "hidden"
           }`}

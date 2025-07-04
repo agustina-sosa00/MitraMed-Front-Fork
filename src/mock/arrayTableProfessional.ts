@@ -1,13 +1,161 @@
 export interface IDataTable {
   id: number;
-  day: string;
-  hourInit: string;
-  hourFinish: string;
-  name: string;
-  state: string;
-  obs: string;
+  day?: string;
+  hourInit?: string;
+  hourFinish?: string;
+  name?: string;
+  state?: string;
+  obs?: string;
   saco?: string;
+  especiality?: string;
 }
+export interface IFormState {
+  hc: string;
+  name: string;
+  obs: string;
+  codarea: number;
+  tel: number;
+}
+export const dataTableTurns = [
+  {
+    id: 1,
+    day: "04/07/2025",
+    hourInit: "18:30",
+    hourFinish: "19:00",
+  },
+  {
+    id: 2,
+    day: "04/07/2025",
+    hourInit: "19:00",
+    hourFinish: "19:30",
+  },
+  {
+    id: 3,
+    day: "04/07/2025",
+    hourInit: "19:30",
+    hourFinish: "20:00",
+  },
+  {
+    id: 4,
+    day: "04/07/2025",
+    hourInit: "20:00",
+    hourFinish: "20:30",
+  },
+  {
+    id: 5,
+    day: "04/07/2025",
+    hourInit: "20:30",
+    hourFinish: "21:00",
+  },
+];
+export const dataTableTurnsTwo = [
+  {
+    id: 1,
+    day: "04/07/2025",
+    hourInit: "8:30",
+    hourFinish: "9:00",
+  },
+  {
+    id: 2,
+    day: "04/07/2025",
+    hourInit: "9:00",
+    hourFinish: "9:30",
+  },
+  {
+    id: 3,
+    day: "04/07/2025",
+    hourInit: "9:30",
+    hourFinish: "10:00",
+  },
+  {
+    id: 4,
+    day: "04/07/2025",
+    hourInit: "10:00",
+    hourFinish: "10:30",
+  },
+  {
+    id: 5,
+    day: "04/07/2025",
+    hourInit: "10:30",
+    hourFinish: "11:00",
+  },
+];
+
+export const tableProfessionals = [
+  {
+    id: 1,
+    name: "Agustina Sosa",
+    especiality: "Pediatria",
+    turns: dataTableTurns,
+  },
+  {
+    id: 2,
+    name: "Leandro Mortarini",
+    especiality: "Cirugia General",
+    turns: dataTableTurnsTwo,
+  },
+  {
+    id: 3,
+    name: "Jean Pietro Mortarini",
+    especiality: "Cirugia General",
+  },
+  {
+    id: 4,
+    name: "Tomas Sosa",
+    especiality: "Cirugia General",
+  },
+  {
+    id: 5,
+    name: "Sofia Sosa",
+    especiality: "Odontologia",
+  },
+];
+
+export const dataPatient = [
+  {
+    hc: "0011",
+    name: "Florencia Cabral",
+    codarea: 11,
+    telefono: 12345678,
+  },
+  {
+    hc: "0032",
+    name: "Lucas Bilboa",
+    codarea: 11,
+    telefono: 12345678,
+  },
+  {
+    hc: "0023",
+    name: "Agustina Sosa",
+    codarea: 11,
+    telefono: 12345678,
+  },
+  {
+    hc: "0054",
+    name: "Leandro Mortarini",
+    codarea: 11,
+    telefono: 12345678,
+  },
+  {
+    hc: "0065",
+    name: "Jean Pietro Mortarini",
+    codarea: 11,
+    telefono: 12345678,
+  },
+  {
+    hc: "0076",
+    name: "Tomas Sosa",
+    codarea: 11,
+    telefono: 12345678,
+  },
+  {
+    hc: "0087",
+    name: "Sofia Sosa",
+    codarea: 11,
+    telefono: 12345678,
+  },
+];
+
 export const tableSchedules: IDataTable[] = [
   {
     id: 1,
