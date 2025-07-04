@@ -4,7 +4,7 @@ interface Column {
   label?: string;
 }
 interface TablaMobileProps {
-  data: IDataTable[];
+  data: IDataTable[] | undefined;
   columns: Column[];
   onSelect?: (item: number) => void;
   tableId?: string;
