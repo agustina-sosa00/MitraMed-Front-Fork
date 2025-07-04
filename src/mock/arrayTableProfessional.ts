@@ -16,16 +16,83 @@ export interface IFormState {
   codarea: number;
   tel: number;
 }
+export const dataTableTurns = [
+  {
+    id: 1,
+    day: "04/07/2025",
+    hourInit: "18:30",
+    hourFinish: "19:00",
+  },
+  {
+    id: 2,
+    day: "04/07/2025",
+    hourInit: "19:00",
+    hourFinish: "19:30",
+  },
+  {
+    id: 3,
+    day: "04/07/2025",
+    hourInit: "19:30",
+    hourFinish: "20:00",
+  },
+  {
+    id: 4,
+    day: "04/07/2025",
+    hourInit: "20:00",
+    hourFinish: "20:30",
+  },
+  {
+    id: 5,
+    day: "04/07/2025",
+    hourInit: "20:30",
+    hourFinish: "21:00",
+  },
+];
+export const dataTableTurnsTwo = [
+  {
+    id: 1,
+    day: "04/07/2025",
+    hourInit: "8:30",
+    hourFinish: "9:00",
+  },
+  {
+    id: 2,
+    day: "04/07/2025",
+    hourInit: "9:00",
+    hourFinish: "9:30",
+  },
+  {
+    id: 3,
+    day: "04/07/2025",
+    hourInit: "9:30",
+    hourFinish: "10:00",
+  },
+  {
+    id: 4,
+    day: "04/07/2025",
+    hourInit: "10:00",
+    hourFinish: "10:30",
+  },
+  {
+    id: 5,
+    day: "04/07/2025",
+    hourInit: "10:30",
+    hourFinish: "11:00",
+  },
+];
+
 export const tableProfessionals = [
   {
     id: 1,
     name: "Agustina Sosa",
     especiality: "Pediatria",
+    turns: dataTableTurns,
   },
   {
     id: 2,
     name: "Leandro Mortarini",
     especiality: "Cirugia General",
+    turns: dataTableTurnsTwo,
   },
   {
     id: 3,
@@ -86,39 +153,6 @@ export const dataPatient = [
     name: "Sofia Sosa",
     codarea: 11,
     telefono: 12345678,
-  },
-];
-
-export const dataTableTurns = [
-  {
-    id: 1,
-    day: "04/07/2025",
-    hourInit: "18:30",
-    hourFinish: "19:00",
-  },
-  {
-    id: 2,
-    day: "04/07/2025",
-    hourInit: "19:00",
-    hourFinish: "19:30",
-  },
-  {
-    id: 3,
-    day: "04/07/2025",
-    hourInit: "19:30",
-    hourFinish: "20:00",
-  },
-  {
-    id: 4,
-    day: "04/07/2025",
-    hourInit: "20:00",
-    hourFinish: "20:30",
-  },
-  {
-    id: 5,
-    day: "04/07/2025",
-    hourInit: "20:30",
-    hourFinish: "21:00",
   },
 ];
 

@@ -3,6 +3,7 @@ import {
   dataTableTurns,
   IDataTable,
   IFormState,
+  tableProfessionals,
 } from "../../mock/arrayTableProfessional";
 import React, { useEffect, useState } from "react";
 import { TablaMobile } from "@/components/features/PanelProfessional/TablaMobile.tsx";
@@ -32,6 +33,7 @@ export const Turnos: React.FC = () => {
       handleFacturacion();
     }
   };
+
   const handleOpenModal = (item: string) => {
     setModalName(item);
     setOpenModal(!openModal);
@@ -40,7 +42,7 @@ export const Turnos: React.FC = () => {
   const handleFacturacion = () => {
     if (!selectTurn) return;
 
-    const updatedArray = arrayFilter.map((item) =>
+    const updatedArray = arrayFilter?.map((item) =>
       item.id === selectTurn.id ? { ...item, state: "Factura pendiente" } : item
     );
     setArrayFilter(updatedArray);
@@ -58,7 +60,7 @@ export const Turnos: React.FC = () => {
       if (result.isConfirmed) {
         if (!selectTurn) return;
 
-        const updatedArray = arrayFilter.map((item) =>
+        const updatedArray = arrayFilter?.map((item) =>
           item.id === selectTurn.id ? { ...item, state: "Presente" } : item
         );
         setArrayFilter(updatedArray);
@@ -74,7 +76,7 @@ export const Turnos: React.FC = () => {
     return `${year}-${month}-${day}`;
   };
   const [daySchedule, setDaySchedule] = useState(getToday);
-  const [arrayFilter, setArrayFilter] = useState<IDataTable[]>([]);
+  const [arrayFilter, setArrayFilter] = useState<IDataTable[] | undefined>();
   const newArray = [...dataTableTurns];
   useEffect(() => {
     const array = newArray.filter(
@@ -103,6 +105,15 @@ export const Turnos: React.FC = () => {
     setDaySchedule(nuevaFecha.toISOString().split("T")[0]);
   };
 
+  useEffect(() => {
+    if (selectProfessional) {
+      const array = tableProfessionals.find(
+        (item) => item.id === selectProfessional
+      );
+      setArrayFilter(array?.turns);
+    }
+  }, [selectProfessional]);
+
   const handleSelectProfessional = (idProfessional) => {
     setSelectProfessional(idProfessional);
   };
@@ -113,7 +124,7 @@ export const Turnos: React.FC = () => {
   const handleChangeDataTurn = (form: IFormState) => {
     if (!selectTurn || !form) return;
 
-    const updatedArray = arrayFilter.map((item) =>
+    const updatedArray = arrayFilter?.map((item) =>
       item.id === selectTurn.id
         ? { ...item, name: form.name, obs: form.obs, saco: "MIT" }
         : item
