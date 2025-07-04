@@ -26,6 +26,7 @@ export const BoxButton: React.FC<IProp> = ({
     >
       {button.map((item) => (
         <button
+          type="button"
           key={item}
           onClick={() => handleClick(item)}
           className={

@@ -1,5 +1,9 @@
 import { FilterTableSchedules } from "@/components/features/Filters/FilterTableSchedules";
-import { dataTableTurns, IDataTable } from "../../mock/arrayTableProfessional";
+import {
+  dataTableTurns,
+  IDataTable,
+  IFormState,
+} from "../../mock/arrayTableProfessional";
 import React, { useEffect, useState } from "react";
 import { TablaMobile } from "@/components/features/PanelProfessional/TablaMobile.tsx";
 import { TableProfessionals } from "./TableProfessionals";
@@ -11,8 +15,12 @@ export const Turnos: React.FC = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [modalName, setModalName] = useState<string>("");
   const [selectProfessional, setSelectProfessional] = useState<number>();
-  const [selectTurn, setSelectTurn] = useState();
-  console.log(selectProfessional, selectTurn);
+  const [selectTurn, setSelectTurn] = useState<IDataTable>();
+
+  const [dataModal, setDataModal] = useState<IFormState>();
+
+  console.log(dataModal);
+  console.log(selectTurn);
   const handleOpenModal = (item: string) => {
     setModalName(item);
     setOpenModal(!openModal);
@@ -61,6 +69,18 @@ export const Turnos: React.FC = () => {
     setSelectTurn(turn);
   };
 
+  const handleChangeDataTurn = (form: IFormState) => {
+    if (!selectTurn || !form) return;
+
+    const updatedArray = arrayFilter.map((item) =>
+      item.id === selectTurn.id
+        ? { ...item, name: form.name, obs: form.obs, saco: "MIT" }
+        : item
+    );
+
+    setArrayFilter(updatedArray);
+  };
+
   return (
     <div className="flex justify-center w-full min-h-screen pt-24 lg:pt-0 lg:h-screen">
       <div className=" w-full  xl:w-[70%] flex flex-col justify-center  pt-5 lg:justify-start items-center gap-8  ">
@@ -96,16 +116,21 @@ export const Turnos: React.FC = () => {
               { key: "id", label: "ID" },
               { key: "hourInit", label: "Hora Inicio" },
               { key: "hourFinish", label: "Hora Fin" },
-              { key: "name", label: "Nombre y Apellido" },
               { key: "state", label: "Estado" },
-              { key: "obs", label: "Obra Social" },
+              { key: "name", label: "Nombre y Apellido" },
+              { key: "obs", label: "Observaciones" },
+              { key: "saco", label: "" },
             ]}
           />
         </div>
       </div>
       {openModal && modalName === "alta turno" && (
         <Modal close={() => setOpenModal(!openModal)} title="Alta Turno">
-          <ModalAltaTurno close={() => setOpenModal(!openModal)} />
+          <ModalAltaTurno
+            handleChange={handleChangeDataTurn}
+            setData={setDataModal}
+            close={() => setOpenModal(!openModal)}
+          />
         </Modal>
       )}
     </div>

@@ -34,10 +34,9 @@ export const TablaMobile: React.FC<TablaMobileProps> = ({
                 key={String(key)}
                 className="px-4 py-3 text-xs whitespace-nowrap"
               >
-                {label ||
-                  String(key)
-                    .replace(/([A-Z])/g, " $1")
-                    .replace(/^./, (str) => str.toUpperCase())}
+                {label
+                  ?.replace(/([A-Z])/g, " $1")
+                  .replace(/^./, (str) => str.toUpperCase())}
               </th>
             ))}
           </tr>
@@ -54,7 +53,7 @@ export const TablaMobile: React.FC<TablaMobileProps> = ({
                   className="px-4 py-2 text-xs"
                   onClick={() => handleOnClickRow(item)}
                 >
-                  {item[key] || "-"}
+                  {item[key] || ""}
                 </td>
               ))}
             </tr>

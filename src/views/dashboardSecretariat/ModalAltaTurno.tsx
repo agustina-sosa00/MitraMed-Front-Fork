@@ -1,20 +1,26 @@
 // import InputField from "@/components/ui/InputField";
 import { BoxButton } from "@/components/features/PanelProfessional/BoxButton";
-import { dataPatient } from "../../mock/arrayTableProfessional";
+import { dataPatient, IFormState } from "../../mock/arrayTableProfessional";
 import React, { useState } from "react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
+
 interface IProp {
   close?: () => void;
+  setData: (data: IFormState) => void;
+  handleChange: (form: IFormState) => void;
 }
-export const ModalAltaTurno: React.FC<IProp> = ({ close }) => {
-  const [formState, setFormState] = useState({
+export const ModalAltaTurno: React.FC<IProp> = ({
+  close,
+
+  handleChange,
+}) => {
+  const [formState, setFormState] = useState<IFormState>({
     hc: "",
     name: "",
     obs: "",
     codarea: 0,
     tel: 0,
   });
-  console.log(formState);
   const handleClose = () => {
     close && close();
   };
@@ -159,7 +165,8 @@ export const ModalAltaTurno: React.FC<IProp> = ({ close }) => {
             button={["guardar", "cancelar"]}
             handleButton={(val) => {
               if (val === "guardar") {
-                console.log("Guardar turno");
+                handleChange && handleChange(formState);
+                handleClose();
               } else {
                 handleClose();
               }
