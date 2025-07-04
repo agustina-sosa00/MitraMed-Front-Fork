@@ -9,7 +9,13 @@ export interface IDataTable {
   saco?: string;
   especiality?: string;
 }
-
+export interface IFormState {
+  hc: string;
+  name: string;
+  obs: string;
+  codarea: number;
+  tel: number;
+}
 export const tableProfessionals = [
   {
     id: 1,
