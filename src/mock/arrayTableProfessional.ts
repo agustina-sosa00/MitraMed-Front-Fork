@@ -38,34 +38,79 @@ export const tableProfessionals = [
   },
 ];
 
+export const dataPatient = [
+  {
+    hc: "0011",
+    name: "Florencia Cabral",
+    codarea: 11,
+    telefono: 12345678,
+  },
+  {
+    hc: "0032",
+    name: "Lucas Bilboa",
+    codarea: 11,
+    telefono: 12345678,
+  },
+  {
+    hc: "0023",
+    name: "Agustina Sosa",
+    codarea: 11,
+    telefono: 12345678,
+  },
+  {
+    hc: "0054",
+    name: "Leandro Mortarini",
+    codarea: 11,
+    telefono: 12345678,
+  },
+  {
+    hc: "0065",
+    name: "Jean Pietro Mortarini",
+    codarea: 11,
+    telefono: 12345678,
+  },
+  {
+    hc: "0076",
+    name: "Tomas Sosa",
+    codarea: 11,
+    telefono: 12345678,
+  },
+  {
+    hc: "0087",
+    name: "Sofia Sosa",
+    codarea: 11,
+    telefono: 12345678,
+  },
+];
+
 export const dataTableTurns = [
   {
     id: 1,
-    day: "03/07/2025",
+    day: "04/07/2025",
     hourInit: "18:30",
     hourFinish: "19:00",
   },
   {
     id: 2,
-    day: "03/07/2025",
+    day: "04/07/2025",
     hourInit: "19:00",
     hourFinish: "19:30",
   },
   {
     id: 3,
-    day: "03/07/2025",
+    day: "04/07/2025",
     hourInit: "19:30",
     hourFinish: "20:00",
   },
   {
     id: 4,
-    day: "03/07/2025",
+    day: "04/07/2025",
     hourInit: "20:00",
     hourFinish: "20:30",
   },
   {
     id: 5,
-    day: "03/07/2025",
+    day: "04/07/2025",
     hourInit: "20:30",
     hourFinish: "21:00",
   },

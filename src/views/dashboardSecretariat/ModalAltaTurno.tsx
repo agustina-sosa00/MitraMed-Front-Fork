@@ -1,5 +1,6 @@
 // import InputField from "@/components/ui/InputField";
 import { BoxButton } from "@/components/features/PanelProfessional/BoxButton";
+import { dataPatient } from "../../mock/arrayTableProfessional";
 import React, { useState } from "react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 interface IProp {
@@ -8,10 +9,10 @@ interface IProp {
 export const ModalAltaTurno: React.FC<IProp> = ({ close }) => {
   const [formState, setFormState] = useState({
     hc: "",
-    name: "agustina sosa",
+    name: "",
     obs: "",
-    codarea: "",
-    tel: "",
+    codarea: 0,
+    tel: 0,
   });
   console.log(formState);
   const handleClose = () => {
@@ -20,7 +21,19 @@ export const ModalAltaTurno: React.FC<IProp> = ({ close }) => {
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
+
     setFormState({ ...formState, [name]: value });
+  };
+
+  const handleFindPatient = () => {
+    const hc = formState.hc;
+    const patient = dataPatient.find((item) => item.hc === hc);
+    setFormState({
+      ...formState,
+      name: patient?.name || "",
+      codarea: patient?.codarea || 0,
+      tel: patient?.telefono || 0,
+    });
   };
 
   const handleOnSubmit = (e) => {
@@ -54,11 +67,15 @@ export const ModalAltaTurno: React.FC<IProp> = ({ close }) => {
               value={formState.hc}
               onChange={handleOnChange}
               id="hc"
-              placeholder="000111"
+              placeholder="0011"
               className={`px-2 py-1 text-sm font-bold border w-full border-gray-300 rounded  bg-lightGray focus:outline-none focus:ring-1 focus:ring-green focus:border-green `}
             />
           </div>
-          <button className="flex items-center justify-center w-8 transition-all duration-300 border border-gray-300 rounded bg-lightGray text-greenHover hover:bg-gray-200">
+          <button
+            type="button"
+            onClick={handleFindPatient}
+            className="flex items-center justify-center w-8 transition-all duration-300 border border-gray-300 rounded bg-lightGray text-greenHover hover:bg-gray-200"
+          >
             <FaMagnifyingGlass />
           </button>
           <div className="flex items-center w-2/3 gap-1">
