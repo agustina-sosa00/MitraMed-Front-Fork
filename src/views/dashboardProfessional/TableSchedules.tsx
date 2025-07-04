@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { TablaMobile } from "@/components/features/PanelProfessional/TablaMobile.tsx";
 
 export const TableSchedules: React.FC = () => {
+  // const []
   const getToday = (): string => {
     const today = new Date();
     const year = today.getFullYear();
