@@ -1,39 +1,61 @@
 import { IDataTable } from "mock/arrayTableProfessional";
-
+interface Column {
+  key: keyof IDataTable;
+  label?: string;
+}
 interface TablaMobileProps {
-  data: IDataTable[];
+  data: IDataTable[] | undefined;
+  columns: Column[];
+  onSelect?: (item: number) => void;
+  tableId?: string;
 }
 
-export const TablaMobile: React.FC<TablaMobileProps> = ({ data }) => {
+export const TablaMobile: React.FC<TablaMobileProps> = ({
+  data,
+  columns,
+  onSelect,
+  tableId,
+}) => {
+  const handleOnClickRow = (item) => {
+    if (onSelect && tableId === "profesionales") {
+      console.log(item);
+      onSelect && onSelect(item.id);
+    } else {
+      onSelect && onSelect(item);
+    }
+  };
   return (
-    <div className="relative max-w-[600px] lg:max-w-[800px]  !rounded overflow-x-auto">
-      <table className="w-full text-left text-gray-500 ">
+    <div className="relative flex-[2] border  border-gray-400  !rounded overflow-x-auto">
+      <table className="w-full text-left text-gray-500">
         <thead className="sticky top-0 text-white uppercase bg-blue">
-          <tr className="">
-            <th className="px-2 py-1 text-xs whitespace-nowrap">ID</th>
-            <th className="px-4 py-3 text-xs whitespace-nowrap">Día</th>
-            <th className="px-4 py-3 text-xs whitespace-nowrap">Hora Inicio</th>
-            <th className="px-4 py-3 text-xs whitespace-nowrap">Hora Fin</th>
-            <th className="px-4 py-3 text-xs whitespace-nowrap">
-              Nombre y Apellido
-            </th>
-            <th className="px-4 py-3 text-xs whitespace-nowrap">Estado</th>
-            <th className="px-4 py-3 text-xs whitespace-nowrap">Obra Social</th>
+          <tr>
+            {columns?.map(({ key, label }) => (
+              <th
+                key={String(key)}
+                className="px-4 py-3 text-xs whitespace-nowrap"
+              >
+                {label
+                  ?.replace(/([A-Z])/g, " $1")
+                  .replace(/^./, (str) => str.toUpperCase())}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
-          {data.map((item) => (
+          {data?.map((item, idx) => (
             <tr
-              key={`${item.id}-${item.day}`}
-              className="bg-[#f1f1f1] border-b text-blue border-gray-200 hover:bg-gray-50 odd:bg-white even:bg-[#f1f1f1]"
+              key={idx}
+              className="bg-[#f1f1f1] border-b text-blue border-gray-200 hover:bg-greenFocus/90 transition-all duration-300 odd:bg-white even:bg-[#f1f1f1]"
             >
-              <td className="px-4 py-2 text-xs text-end">{item.id}</td>
-              <td className="px-4 py-2 text-xs">{item.day}</td>
-              <td className="px-4 py-2 text-xs">{item.hourInit}</td>
-              <td className="px-4 py-2 text-xs">{item.hourFinish}</td>
-              <td className="px-4 py-2 text-xs">{item.name}</td>
-              <td className="px-4 py-2 text-xs">{item.state || "-"}</td>
-              <td className="px-4 py-2 text-xs">{item.obs || "-"}</td>
+              {columns?.map(({ key }) => (
+                <td
+                  key={String(key)}
+                  className="px-4 py-2 text-xs"
+                  onClick={() => handleOnClickRow(item)}
+                >
+                  {item[key] || ""}
+                </td>
+              ))}
             </tr>
           ))}
         </tbody>

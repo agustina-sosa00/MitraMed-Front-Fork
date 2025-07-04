@@ -3,7 +3,7 @@ import HomeView from "./views/dashboard/HomeView";
 import MisTurnos from "./views/dashboard/MisTurnos";
 import PortalView from "./views/auth/PortalView";
 import Layout from "./layouts/Layout";
-import Turnos from "./views/dashboard/Turnos";
+import { Turnos } from "./views/dashboardSecretariat/Turnos";
 import ProtectedRoute from "./components/features/ProtectedRoute";
 import ConfigView from "./views/dashboard/ConfigView";
 import PrivacyPolicy from "./views/PrivacyPolicy";
@@ -15,6 +15,9 @@ import { TableSchedules } from "./views/dashboardProfessional/TableSchedules";
 import { NotFound } from "./views/NotFound";
 // import { UploadStudy } from "./views/dashboardProfessional/UploadStudy";
 import { Odontogram } from "./views/dashboardProfessional/Odontogram/Odontogram";
+import { SecretariatProtectedRoute } from "./components/features/SecretariatProtectedRoute";
+import SecretariatLayout from "./layouts/SecretariatLayout";
+import { Secretariat } from "./views/dashboardSecretariat/Secretariat";
 
 export default function Router() {
   return (
@@ -42,6 +45,12 @@ export default function Router() {
               element={<UploadStudy />}
               /> */}
             <Route path="/profesionales/odontograma" element={<Odontogram />} />
+          </Route>
+        </Route>
+        <Route element={<SecretariatProtectedRoute />}>
+          <Route element={<SecretariatLayout />}>
+            <Route path="/secretaria/inicio" element={<Secretariat />} />
+            <Route path="/secretaria/turnos" element={<Turnos />} />
           </Route>
         </Route>
         <Route path="*" element={<NotFound />} />
