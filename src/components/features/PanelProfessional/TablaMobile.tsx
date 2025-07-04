@@ -1,4 +1,5 @@
 import { IDataTable } from "mock/arrayTableProfessional";
+import { useState } from "react";
 interface Column {
   key: keyof IDataTable;
   label?: string;
@@ -16,6 +17,7 @@ export const TablaMobile: React.FC<TablaMobileProps> = ({
   onSelect,
   tableId,
 }) => {
+  const [focus, setFocus] = useState<number | null>(null);
   const handleOnClickRow = (item) => {
     if (onSelect && tableId === "profesionales") {
       console.log(item);
@@ -45,13 +47,25 @@ export const TablaMobile: React.FC<TablaMobileProps> = ({
           {data?.map((item, idx) => (
             <tr
               key={idx}
-              className="bg-[#f1f1f1] border-b text-blue border-gray-200 hover:bg-greenFocus/90 transition-all duration-300 odd:bg-white even:bg-[#f1f1f1]"
+              className={` border-b text-blue border-gray-200 hover:bg-greenFocus/90   transition-all duration-300  cursor-pointer ${
+                focus === idx
+                  ? "bg-greenFocus/90"
+                  : "bg-[#f1f1f1] odd:bg-white even:bg-[#f1f1f1]"
+              }`}
             >
               {columns?.map(({ key }) => (
                 <td
                   key={String(key)}
                   className="px-4 py-2 text-xs"
-                  onClick={() => handleOnClickRow(item)}
+                  onClick={() => {
+                    if (focus === idx) {
+                      setFocus(null);
+                    } else {
+                      setFocus(idx);
+                    }
+
+                    handleOnClickRow(item);
+                  }}
                 >
                   {item[key] || ""}
                 </td>
