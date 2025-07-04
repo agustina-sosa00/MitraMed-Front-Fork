@@ -10,9 +10,10 @@ import { ModalAltaTurno } from "./ModalAltaTurno";
 export const Turnos: React.FC = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [modalName, setModalName] = useState<string>("");
-
+  const [selectProfessional, setSelectProfessional] = useState<number>();
+  const [selectTurn, setSelectTurn] = useState();
+  console.log(selectProfessional, selectTurn);
   const handleOpenModal = (item: string) => {
-    console.log(item);
     setModalName(item);
     setOpenModal(!openModal);
   };
@@ -34,9 +35,8 @@ export const Turnos: React.FC = () => {
     if (array.length > 0) {
       setArrayFilter(array);
     } else {
-      // Genera 5 filas con IDs únicos vacías
       const emptyRows = Array.from({ length: 5 }, (_, i) => ({
-        id: i + 1, // o Date.now() + i para que nunca se repita
+        id: i + 1,
         day: "",
         hourInit: "",
         hourFinish: "",
@@ -52,6 +52,13 @@ export const Turnos: React.FC = () => {
     const nuevaFecha = new Date(daySchedule);
     nuevaFecha.setDate(nuevaFecha.getDate() + dias);
     setDaySchedule(nuevaFecha.toISOString().split("T")[0]);
+  };
+
+  const handleSelectProfessional = (idProfessional) => {
+    setSelectProfessional(idProfessional);
+  };
+  const handleSelectTurn = (turn) => {
+    setSelectTurn(turn);
   };
 
   return (
@@ -77,9 +84,14 @@ export const Turnos: React.FC = () => {
         </div>
 
         <div className="flex  justify-between max-h-[700px] px-1 overflow-y-auto lg:overflow-visible w-full  ">
-          <TableProfessionals />
+          <TableProfessionals
+            tableID="profesionales"
+            onSelect={handleSelectProfessional}
+          />
           <TablaMobile
             data={arrayFilter}
+            tableId="turnos"
+            onSelect={handleSelectTurn}
             columns={[
               { key: "id", label: "ID" },
               { key: "hourInit", label: "Hora Inicio" },
@@ -93,7 +105,7 @@ export const Turnos: React.FC = () => {
       </div>
       {openModal && modalName === "alta turno" && (
         <Modal close={() => setOpenModal(!openModal)} title="Alta Turno">
-          <ModalAltaTurno />
+          <ModalAltaTurno close={() => setOpenModal(!openModal)} />
         </Modal>
       )}
     </div>
