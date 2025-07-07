@@ -10,13 +10,23 @@ interface IProp {
   currentRol?: "paciente" | "profesional";
   handleOpenDrawer: (rol: "paciente" | "profesional") => void;
   handleCloseDrawer: () => void;
+  setLoader: React.Dispatch<React.SetStateAction<boolean>>;
 }
-export default function CarrouselPortal({ handleOpenDrawer }: IProp) {
+export const CarrouselPortal = ({
+  handleOpenDrawer,
+
+  setLoader,
+}: IProp) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  const handleImageLoad = () => {
-    setImageLoaded(true);
+  const handleImageLoad = (index: number) => {
+    if (index === 0) {
+      setImageLoaded(true);
+      setTimeout(() => {
+        setLoader(false);
+      }, 300);
+    }
   };
 
   const sliderSettings = {
@@ -26,7 +36,7 @@ export default function CarrouselPortal({ handleOpenDrawer }: IProp) {
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 10000,
+    autoplaySpeed: 5000,
     afterChange: (current: number) => {
       setCurrentSlide(current); // Actualiza el índice del slide cuando cambia
     },
@@ -38,12 +48,14 @@ export default function CarrouselPortal({ handleOpenDrawer }: IProp) {
         {arrayInfoCarousel.map((item, index) => (
           <div className="relative" key={index}>
             <img
+              key={item.img}
+              loading="lazy"
               src={item.img}
               alt="MitraMed"
               className={` w-full  object-cover   ${
                 imageLoaded ? "" : "opacity-0"
               }`}
-              onLoad={handleImageLoad}
+              onLoad={() => handleImageLoad(index)}
               style={{ pointerEvents: "none" }}
             />
 
@@ -77,4 +89,4 @@ export default function CarrouselPortal({ handleOpenDrawer }: IProp) {
       </Slider>
     </div>
   );
-}
+};
