@@ -39,7 +39,7 @@ export const FilterTableSchedules = ({
     setState && setState(e.target.value);
   };
   return (
-    <div className={`${styles ? styles : "w-full bg-black "}`}>
+    <div className={`${styles ? styles : "w-full  "}`}>
       <div
         className={` w-full gap-1 py-2   ${
           subStyles
