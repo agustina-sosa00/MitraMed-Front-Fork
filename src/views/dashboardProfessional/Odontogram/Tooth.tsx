@@ -194,6 +194,7 @@ export const Tooth: React.FC<ToothProps> = ({
 
       {isActive && (
         <MenuTooth
+          tooth={toothNumber}
           width={width}
           positionMenu={positionMenu}
           updateTooth={updateTooth}
