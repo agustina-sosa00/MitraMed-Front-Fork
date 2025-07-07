@@ -6,7 +6,7 @@ interface ButtonSubMenuProps {
   y: number;
 }
 
-const treatmentList = ["Extracción", "Corona", "Sellado"];
+const treatmentList = ["Extracción", "Corona"];
 
 export const ButtonSubMenu: React.FC<ButtonSubMenuProps> = ({
   width,
@@ -38,6 +38,15 @@ export const ButtonSubMenu: React.FC<ButtonSubMenuProps> = ({
           {item}
         </button>
       ))}
+      <button
+        className={`w-44 px-3 py-2 text-start text-sm border-b cursor-pointer hover:text-white hover:bg-green transition-all duration-300 border-gray-300 rounded-b`}
+        onClick={() => {
+          updateTooth({ action: actionText, tratamiento: "sellado" });
+          handle();
+        }}
+      >
+        Sellados
+      </button>
       <button
         className={`w-44 px-3 py-2 text-start text-sm border-b cursor-pointer hover:text-white hover:bg-green transition-all duration-300 border-gray-300 rounded-b`}
         onClick={() => {
