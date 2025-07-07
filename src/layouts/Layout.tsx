@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -8,8 +8,10 @@ import Cookies from "js-cookie";
 import Header from "@/components/ui/Header";
 import NewPasswordModal from "@/components/features/modals/NewPasswordModal";
 import WhatsApp from "@/components/features/WhatsApp";
-
-export default function Layout() {
+interface IProp {
+  setLoader: React.Dispatch<React.SetStateAction<boolean>>;
+}
+export const Layout: React.FC<IProp> = ({ setLoader }) => {
   const [isopenDrawer, setIsOpenDrawer] = useState(false);
   const [currentRol, setCurrentRol] = useState<
     "paciente" | "profesional" | undefined
@@ -35,6 +37,12 @@ export default function Layout() {
       navigate("/");
     }
   }, [navigate]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoader(false);
+    }, 300);
+  }, [setLoader]);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -62,4 +70,4 @@ export default function Layout() {
       />
     </div>
   );
-}
+};
