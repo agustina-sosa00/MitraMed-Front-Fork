@@ -4,6 +4,7 @@ import { FaHouse } from "react-icons/fa6";
 import { FaNotesMedical, FaTooth } from "react-icons/fa";
 import { Navbar } from "@/components/features/PanelProfessional/Navbar";
 import { RiFolderUploadFill } from "react-icons/ri";
+import { useEffect } from "react";
 
 const buttons = [
   {
@@ -31,8 +32,15 @@ const buttons = [
     disabled: false,
   },
 ];
-
-export default function ProfessionalLayout() {
+interface IProp {
+  setLoader: React.Dispatch<React.SetStateAction<boolean>>;
+}
+export const ProfessionalLayout: React.FC<IProp> = ({ setLoader }) => {
+  useEffect(() => {
+    setTimeout(() => {
+      setLoader(false);
+    }, 300);
+  }, []);
   return (
     <div className="flex flex-col w-full min-h-screen bg-right bg-no-repeat lg:flex-row bg-profesional ">
       <Navbar logo={"https://i.imgur.com/HBsiL82.png"} buttons={buttons} />
@@ -42,4 +50,4 @@ export default function ProfessionalLayout() {
       </div>
     </div>
   );
-}
+};
