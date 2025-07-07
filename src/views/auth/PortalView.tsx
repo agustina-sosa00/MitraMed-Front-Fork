@@ -10,15 +10,18 @@ import ConfirmAccountModal from "@/components/features/modals/ConfirmAccountModa
 import ForgotPasswordModal from "@/components/features/modals/ForgotPasswordModal";
 import NewPasswordModal from "@/components/features/modals/NewPasswordModal";
 import NewTokenConfirm from "@/components/features/modals/NewTokenConfirm";
-import CarrouselPortal from "@/components/ui/CarrouselPortal";
+import { CarrouselPortal } from "@/components/ui/CarrouselPortal";
 import GoogleAuthModal from "@/components/features/modals/GoogleAuthModal";
 import WhatsApp from "@/components/features/WhatsApp";
 import { About } from "./About/About";
 import { CardsAbout } from "@/components/ui/CardsAbout";
 import Header from "@/components/ui/Header";
 import { ConfirmDataUser } from "@/components/features/modals/ConfirmDataUser";
-
-export default function PortalView() {
+interface IProp {
+  loader: boolean;
+  setLoader: React.Dispatch<React.SetStateAction<boolean>>;
+}
+export const PortalView: React.FC<IProp> = ({ setLoader }) => {
   const navigate = useNavigate();
   const [isopenDrawer, setIsOpenDrawer] = useState(false);
   const [currentRol, setCurrentRol] = useState<
@@ -72,6 +75,7 @@ export default function PortalView() {
       />
 
       <CarrouselPortal
+        setLoader={setLoader}
         state={isopenDrawer}
         setState={setIsOpenDrawer}
         currentRol={currentRol}
@@ -104,4 +108,4 @@ export default function PortalView() {
       />
     </>
   );
-}
+};
