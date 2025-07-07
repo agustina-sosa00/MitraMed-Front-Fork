@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomeView from "./views/dashboard/HomeView";
 import MisTurnos from "./views/dashboard/MisTurnos";
-import PortalView from "./views/auth/PortalView";
+import { PortalView } from "./views/auth/PortalView";
 import Layout from "./layouts/Layout";
 import { Turnos } from "./views/dashboardSecretariat/Turnos";
 import ProtectedRoute from "./components/features/ProtectedRoute";
@@ -18,12 +18,19 @@ import { Odontogram } from "./views/dashboardProfessional/Odontogram/Odontogram"
 import { SecretariatProtectedRoute } from "./components/features/SecretariatProtectedRoute";
 import SecretariatLayout from "./layouts/SecretariatLayout";
 import { Secretariat } from "./views/dashboardSecretariat/Secretariat";
-
-export default function Router() {
+interface RouterProps {
+  loader: boolean;
+  setLoader: React.Dispatch<React.SetStateAction<boolean>>;
+}
+export default function Router({ loader, setLoader }: RouterProps) {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<PortalView />} index />
+        <Route
+          path="/"
+          element={<PortalView loader={loader} setLoader={setLoader} />}
+          index
+        />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
         {/* Rutas protegidas */}
