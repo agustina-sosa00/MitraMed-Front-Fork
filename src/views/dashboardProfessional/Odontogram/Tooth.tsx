@@ -69,6 +69,16 @@ export const Tooth: React.FC<ToothProps> = ({
   return (
     <div onContextMenu={handleContextMenu}>
       <div className="relative">
+        {/* ----------------------------------------------- */}
+        {/* ----------------------------------------------- */}
+        {/* ----------------------------------------------- */}
+        {/* ----------------------------------------------- */}
+        {/* ------------T-R-A-T-A-M-I-E-N-T-O-S------------ */}
+        {/* ----------------------------------------------- */}
+        {/* ----------------------------------------------- */}
+        {/* ----------------------------------------------- */}
+        {/* ----------------------------------------------- */}
+
         {data.tratamiento && data.action && (
           <div className="absolute w-8 h-8 lg:h-14 lg:w-14 xl:w-16 xl:h-16">
             {data.tratamiento === "Corona" && (
@@ -85,25 +95,85 @@ export const Tooth: React.FC<ToothProps> = ({
                 }`}
               />
             )}
-            <div className="w-full h-1/4 "></div>
-            <div className="flex w-full">
-              <div className="w-1/4 h-7 "></div>
-              <div className="flex items-center justify-center w-1/2 h-7">
-                {data.tratamiento === "Sellado" && (
+            {data.tratamiento === "sellado" && (
+              <>
+                {data.cara === "oclusal" && (
                   <IoMdArrowDropup
-                    className={`text-2xl ${
+                    className={`absolute top-[1.1rem] left-[1.1rem] xl:top-5 xl:left-5 z-40 text-2xl ${
                       data.action === "realizado"
                         ? "text-red-500"
                         : "text-sky-700"
                     }`}
                   />
                 )}
-              </div>
-              <div className="w-1/4 h-7 "></div>
-            </div>
-            <div className="w-full h-1/4 "></div>
+                {data.cara === "vesibular" && (
+                  <IoMdArrowDropup
+                    className={`absolute -top-1 left-[1.1rem] xl:-top-1 xl:left-5 z-40 text-2xl ${
+                      data.action === "realizado"
+                        ? "text-red-500"
+                        : "text-sky-700"
+                    }`}
+                  />
+                )}
+                {data.cara === "palatino" && (
+                  <IoMdArrowDropup
+                    className={`absolute top-[2.3rem] left-[1.1rem] xl:top-11 xl:left-5 z-40 text-2xl ${
+                      data.action === "realizado"
+                        ? "text-red-500"
+                        : "text-sky-700"
+                    }`}
+                  />
+                )}
+                {data.cara === "distal" && position?.includes("izquierda") && (
+                  <IoMdArrowDropup
+                    className={`absolute top-[1.1rem] left-0 xl:top-5 xl:left-[0.1rem] z-40 text-xl ${
+                      data.action === "realizado"
+                        ? "text-red-500"
+                        : "text-sky-700"
+                    }`}
+                  />
+                )}
+                {data.cara === "distal" && position?.includes("derecha") && (
+                  <IoMdArrowDropup
+                    className={`absolute top-[1.1rem] left-9 xl:top-5 xl:left-11 z-40 text-xl ${
+                      data.action === "realizado"
+                        ? "text-red-500"
+                        : "text-sky-700"
+                    }`}
+                  />
+                )}
+                {data.cara === "mesial" && position?.includes("izquierda") && (
+                  <IoMdArrowDropup
+                    className={`absolute top-[1.1rem] left-9 xl:top-5 xl:left-11 z-40 text-xl ${
+                      data.action === "realizado"
+                        ? "text-red-500"
+                        : "text-sky-700"
+                    }`}
+                  />
+                )}
+                {data.cara === "mesial" && position?.includes("derecha") && (
+                  <IoMdArrowDropup
+                    className={`absolute top-[1.1rem] left-0 xl:top-5 xl:left-[0.1rem] z-40 text-xl ${
+                      data.action === "realizado"
+                        ? "text-red-500"
+                        : "text-sky-700"
+                    }`}
+                  />
+                )}
+              </>
+            )}
           </div>
         )}
+
+        {/* ----------------------------------------------- */}
+        {/* ----------------------------------------------- */}
+        {/* ----------------------------------------------- */}
+        {/* ----------------------------------------------- */}
+        {/* --------------------S-V-G---------------------- */}
+        {/* ----------------------------------------------- */}
+        {/* ----------------------------------------------- */}
+        {/* ----------------------------------------------- */}
+        {/* ----------------------------------------------- */}
 
         <svg
           viewBox="0 0 28 33"
@@ -112,11 +182,15 @@ export const Tooth: React.FC<ToothProps> = ({
           <polygon
             stroke="#a3a3a3" //border
             fill={
-              position?.includes("izquierda") && data.cara === "vesibular"
+              position?.includes("izquierda") &&
+              data.tratamiento === "restauraciones" &&
+              data.cara === "vesibular"
                 ? data.action === "realizado"
                   ? "#ef4444"
                   : "#0369a1"
-                : position?.includes("derecha") && data.cara === "vesibular"
+                : position?.includes("derecha") &&
+                  data.tratamiento === "restauraciones" &&
+                  data.cara === "vesibular"
                 ? data.action === "realizado"
                   ? "#ef4444"
                   : "#0369a1"
@@ -128,11 +202,15 @@ export const Tooth: React.FC<ToothProps> = ({
           <polygon
             stroke="#a3a3a3" //border
             fill={
-              position?.includes("izquierda") && data.cara === "mesial"
+              position?.includes("izquierda") &&
+              data.tratamiento === "restauraciones" &&
+              data.cara === "mesial"
                 ? data.action === "realizado"
                   ? "#ef4444"
                   : "#0369a1"
-                : position?.includes("derecha") && data.cara === "distal"
+                : position?.includes("derecha") &&
+                  data.tratamiento === "restauraciones" &&
+                  data.cara === "distal"
                 ? data.action === "realizado"
                   ? "#ef4444"
                   : "#0369a1"
@@ -144,11 +222,15 @@ export const Tooth: React.FC<ToothProps> = ({
           <polygon
             stroke="#a3a3a3" //border
             fill={
-              position?.includes("izquierda") && data.cara === "palatino"
+              position?.includes("izquierda") &&
+              data.tratamiento === "restauraciones" &&
+              data.cara === "palatino"
                 ? data.action === "realizado"
                   ? "#ef4444"
                   : "#0369a1"
-                : position?.includes("derecha") && data.cara === "palatino"
+                : position?.includes("derecha") &&
+                  data.tratamiento === "restauraciones" &&
+                  data.cara === "palatino"
                 ? data.action === "realizado"
                   ? "#ef4444"
                   : "#0369a1"
@@ -160,11 +242,15 @@ export const Tooth: React.FC<ToothProps> = ({
           <polygon
             stroke="#a3a3a3" //border
             fill={
-              position?.includes("izquierda") && data.cara === "distal"
+              position?.includes("izquierda") &&
+              data.tratamiento === "restauraciones" &&
+              data.cara === "distal"
                 ? data.action === "realizado"
                   ? "#ef4444"
                   : "#0369a1"
-                : position?.includes("derecha") && data.cara === "mesial"
+                : position?.includes("derecha") &&
+                  data.tratamiento === "restauraciones" &&
+                  data.cara === "mesial"
                 ? data.action === "realizado"
                   ? "#ef4444"
                   : "#0369a1"
@@ -176,11 +262,15 @@ export const Tooth: React.FC<ToothProps> = ({
           <polygon
             stroke="#a3a3a3" //border
             fill={
-              position?.includes("izquierda") && data.cara === "oclusal"
+              position?.includes("izquierda") &&
+              data.tratamiento === "restauraciones" &&
+              data.cara === "oclusal"
                 ? data.action === "realizado"
                   ? "#ef4444"
                   : "#0369a1"
-                : position?.includes("derecha") && data.cara === "oclusal"
+                : position?.includes("derecha") &&
+                  data.tratamiento === "restauraciones" &&
+                  data.cara === "oclusal"
                 ? data.action === "realizado"
                   ? "#ef4444"
                   : "#0369a1"
