@@ -83,29 +83,29 @@ export const dataTableTurnsTwo = [
 
 export const tableProfessionals = [
   {
-    id: "1",
+    id: 1,
     name: "Agustina Sosa",
     especiality: "Otorrinolaringologia",
     turns: dataTableTurns,
   },
   {
-    id: "2",
+    id: 2,
     name: "Leandro Mortarini",
     especiality: "Cirugia General",
     turns: dataTableTurnsTwo,
   },
   {
-    id: "3",
+    id: 3,
     name: "Jean Pietro Mortarini",
     especiality: "Cirugia General",
   },
   {
-    id: "4",
+    id: 4,
     name: "Tomas Sosa",
     especiality: "Cirugia General",
   },
   {
-    id: "5",
+    id: 5,
     name: "Sofia Sosa",
     especiality: "Odontologia",
   },
