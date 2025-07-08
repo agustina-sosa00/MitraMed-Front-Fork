@@ -16,10 +16,9 @@ import Swal from "sweetalert2";
 export const Turnos: React.FC = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [modalName, setModalName] = useState<string>("");
-  console.log(modalName);
   const [selectProfessional, setSelectProfessional] = useState<number>();
   const [selectTurn, setSelectTurn] = useState<IDataTable>();
-
+  console.log("selectProfessional--->", selectProfessional);
   const [dataModal, setDataModal] = useState<IFormState>();
 
   console.log(dataModal);
@@ -115,6 +114,7 @@ export const Turnos: React.FC = () => {
   }, [selectProfessional]);
 
   const handleSelectProfessional = (idProfessional) => {
+    console.log("idProfessional", idProfessional);
     setSelectProfessional(idProfessional);
   };
   const handleSelectTurn = (turn) => {
