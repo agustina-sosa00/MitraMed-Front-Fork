@@ -1,31 +1,19 @@
 import { tableProfessionals } from "../../mock/arrayTableProfessional";
-import React, { useState } from "react";
+import React from "react";
 import { TablaDefault } from "@/frontend-resourses/components";
 interface IProp {
   onSelect?: (item: number) => void;
   tableID?: string;
 }
 
-export const TableProfessionals: React.FC<IProp> = ({ onSelect, tableID }) => {
-  const [select, setSelect] = useState();
-  console.log("desde tabla profesional estado local", select);
+export const TableProfessionals: React.FC<IProp> = ({ onSelect }) => {
   return (
-    <div className="flex-[1] h-full ">
-      {/* <TablaMobile
-        tableId={tableID}
-        onSelect={onSelect}
-        data={tableProfessionals}
-        columns={[
-          { key: "id", label: "ID" },
-          { key: "name", label: "Nombre y Apellido" },
-          { key: "especiality", label: "Especialidad" },
-        ]}
-      /> */}
+    <div className="h-full ">
       <TablaDefault
         props={{
           selectFn: true,
           objectSelection: {
-            setSeleccionado: setSelect,
+            setSeleccionado: onSelect,
           },
           datosParaTabla: tableProfessionals,
           objectColumns: [

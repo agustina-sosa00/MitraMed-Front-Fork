@@ -6,23 +6,26 @@ import {
   tableProfessionals,
 } from "../../mock/arrayTableProfessional";
 import React, { useEffect, useState } from "react";
-import { TablaMobile } from "@/components/features/PanelProfessional/TablaMobile.tsx";
 import { TableProfessionals } from "./TableProfessionals";
 import { BoxButton } from "../../components/features/PanelProfessional/BoxButton";
 import { Modal } from "@/components/features/PanelProfessional/Modal";
 import { ModalAltaTurno } from "./ModalAltaTurno";
 import Swal from "sweetalert2";
+import { TablaDefault } from "@/frontend-resourses/components";
+import { TableNode } from "@/frontend-resourses/components/types";
 
 export const Turnos: React.FC = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [modalName, setModalName] = useState<string>("");
-  const [selectProfessional, setSelectProfessional] = useState<number>();
+  const [selectProfessional, setSelectProfessional] = useState<{
+    id: number;
+    name: string;
+    especiality: string;
+  }>();
   const [selectTurn, setSelectTurn] = useState<IDataTable>();
-  console.log("selectProfessional--->", selectProfessional);
   const [dataModal, setDataModal] = useState<IFormState>();
 
   console.log(dataModal);
-  console.log(selectTurn);
   const handleBoxButton = (item: string) => {
     if (item === "alta turno") {
       handleOpenModal(item);
@@ -75,7 +78,7 @@ export const Turnos: React.FC = () => {
     return `${year}-${month}-${day}`;
   };
   const [daySchedule, setDaySchedule] = useState(getToday);
-  const [arrayFilter, setArrayFilter] = useState<IDataTable[] | undefined>();
+  const [arrayFilter, setArrayFilter] = useState<TableNode[]>([]);
   const newArray = [...dataTableTurns];
   useEffect(() => {
     const array = newArray.filter(
@@ -107,18 +110,15 @@ export const Turnos: React.FC = () => {
   useEffect(() => {
     if (selectProfessional) {
       const array = tableProfessionals.find(
-        (item) => item.id === selectProfessional
+        (item) => item.id === selectProfessional.id
       );
-      setArrayFilter(array?.turns);
+      setArrayFilter(array?.turns ?? []);
     }
   }, [selectProfessional]);
 
   const handleSelectProfessional = (idProfessional) => {
     console.log("idProfessional", idProfessional);
     setSelectProfessional(idProfessional);
-  };
-  const handleSelectTurn = (turn) => {
-    setSelectTurn(turn);
   };
 
   const handleChangeDataTurn = (form: IFormState) => {
@@ -134,8 +134,8 @@ export const Turnos: React.FC = () => {
   };
 
   return (
-    <div className="flex justify-center w-full min-h-screen pt-24 lg:pt-0 lg:h-screen">
-      <div className=" w-full  xl:w-[70%] flex flex-col justify-center  pt-5 lg:justify-start items-center gap-8  ">
+    <div className="flex justify-center max-w-[900px] lg:max-w-full min-h-screen pt-24 lg:pt-0 lg:h-screen lg:overflow-x-auto ">
+      <div className="flex flex-col items-center justify-center w-full gap-8 pt-5 lg:justify-start">
         <div className="flex flex-col w-[80%] ">
           <h1 className="text-2xl font-medium uppercase lg:text-4xl text-green">
             Turnos
@@ -155,12 +155,61 @@ export const Turnos: React.FC = () => {
           />
         </div>
 
-        <div className="flex  justify-between max-h-[700px] px-1 overflow-y-auto lg:overflow-visible w-full  ">
+        <div className="flex gap-2 justify-between xl:justify-center max-h-[700px] px-1 overflow-y-auto lg:overflow-visible w-full  ">
           <TableProfessionals
             tableID="profesionales"
             onSelect={handleSelectProfessional}
           />
-          <TablaMobile
+          <TablaDefault
+            props={{
+              datosParaTabla: arrayFilter,
+              objectColumns: [
+                { key: "id", label: "ID", minWidth: "40", maxWidth: "40" },
+                {
+                  key: "hourInit",
+                  label: "Hora Inicio",
+                  minWidth: "80",
+                  maxWidth: "80",
+                },
+                {
+                  key: "hourFinish",
+                  label: "Hora Fin",
+                  minWidth: "80",
+                  maxWidth: "80",
+                },
+                {
+                  key: "state",
+                  label: "Estado",
+                  minWidth: "150",
+                  maxWidth: "150",
+                },
+                {
+                  key: "name",
+                  label: "Nombre y Apellido",
+                  minWidth: "180",
+                  maxWidth: "180",
+                },
+                {
+                  key: "obs",
+                  label: "Observaciones",
+                  minWidth: "180",
+                  maxWidth: "180",
+                },
+                { key: "saco", label: "", minWidth: "40", maxWidth: "40" },
+              ],
+              selectFn: true,
+              objectSelection: {
+                setSeleccionado: setSelectTurn,
+              },
+              objectStyles: {
+                withScrollbar: true,
+                addHeaderColor: "#022539",
+                columnasNumber: [1, 2, 3],
+                cursorPointer: true,
+              },
+            }}
+          />
+          {/* <TablaMobile
             data={arrayFilter}
             tableId="turnos"
             onSelect={handleSelectTurn}
@@ -173,7 +222,7 @@ export const Turnos: React.FC = () => {
               { key: "obs", label: "Observaciones" },
               { key: "saco", label: "" },
             ]}
-          />
+          /> */}
         </div>
       </div>
       {openModal && modalName === "alta turno" && (
