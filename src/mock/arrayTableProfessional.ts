@@ -85,7 +85,7 @@ export const tableProfessionals = [
   {
     id: 1,
     name: "Agustina Sosa",
-    especiality: "Pediatria",
+    especiality: "Otorrinolaringologia",
     turns: dataTableTurns,
   },
   {
