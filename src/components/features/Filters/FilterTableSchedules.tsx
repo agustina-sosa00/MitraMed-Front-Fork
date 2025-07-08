@@ -38,6 +38,10 @@ export const FilterTableSchedules = ({
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setState && setState(e.target.value);
   };
+  const handleToday = () => {
+    setState && setState(newDay.toISOString().split("T")[0]);
+  };
+
   return (
     <div className={`${styles ? styles : "w-full  "}`}>
       <div
@@ -56,9 +60,9 @@ export const FilterTableSchedules = ({
         >
           <HiArrowSmLeft className="text-2xl lg:text-3xl" />
         </button>
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-start">
           <p className={`capitalize lg:text-lg font-bold ${dayColor}`}>
-            <span className="text-sm font-medium text-blue">Día: </span>{" "}
+            <span className="text-sm font-medium w-11 text-blue">Día: </span>{" "}
             {nameDay}
           </p>
           <input
@@ -78,6 +82,12 @@ export const FilterTableSchedules = ({
         >
           {" "}
           <HiArrowSmLeft className="text-2xl rotate-180 lg:text-3xl " />
+        </button>
+        <button
+          onClick={handleToday}
+          className="px-2 py-1 text-lg font-medium capitalize transition-all duration-200 border border-gray-300 rounded text-blue bg-lightGray hover:bg-gray-300"
+        >
+          hoy
         </button>
       </div>
     </div>
