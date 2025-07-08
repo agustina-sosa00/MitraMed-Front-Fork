@@ -5,7 +5,6 @@ import {
   tableSchedules,
 } from "../../mock/arrayTableProfessional";
 import React, { useEffect, useState } from "react";
-// import { TablaMobile } from "@/components/features/PanelProfessional/TablaMobile.tsx";
 import { TablaDefault } from "../../frontend-resourses/components";
 
 export const TableSchedules: React.FC = () => {
@@ -62,18 +61,6 @@ export const TableSchedules: React.FC = () => {
         />
 
         <div className="flex justify-center max-h-[200px]   overflow-y-auto lg:overflow-visible w-full px-5 ">
-          {/* <TablaMobile
-            data={arrayFilter}
-            columns={[
-              { key: "id", label: "ID" },
-              { key: "day", label: "Día" },
-              { key: "hourInit", label: "Hora Inicio" },
-              { key: "hourFinish", label: "Hora Fin" },
-              { key: "name", label: "Nombre y Apellido" },
-              { key: "state", label: "Estado" },
-              { key: "obs", label: "Obra Social" },
-            ]}
-          /> */}
           <TablaDefault
             props={{
               datosParaTabla: arrayFilter,
