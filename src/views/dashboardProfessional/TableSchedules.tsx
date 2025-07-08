@@ -1,7 +1,12 @@
 import { FilterTableSchedules } from "@/components/features/Filters/FilterTableSchedules";
-import { IDataTable, tableSchedules } from "../../mock/arrayTableProfessional";
+import {
+  IDataTable,
+  tableColumnData,
+  tableSchedules,
+} from "../../mock/arrayTableProfessional";
 import React, { useEffect, useState } from "react";
-import { TablaMobile } from "@/components/features/PanelProfessional/TablaMobile.tsx";
+// import { TablaMobile } from "@/components/features/PanelProfessional/TablaMobile.tsx";
+import { TablaDefault } from "../../frontend-resourses/components";
 
 export const TableSchedules: React.FC = () => {
   // const []
@@ -23,9 +28,8 @@ export const TableSchedules: React.FC = () => {
     if (array.length > 0) {
       setArrayFilter(array);
     } else {
-      // Genera 5 filas con IDs únicos vacías
       const emptyRows = Array.from({ length: 5 }, (_, i) => ({
-        id: i + 1, // o Date.now() + i para que nunca se repita
+        id: i + 1,
         day: "",
         hourInit: "",
         hourFinish: "",
@@ -58,7 +62,7 @@ export const TableSchedules: React.FC = () => {
         />
 
         <div className="flex justify-center max-h-[200px]   overflow-y-auto lg:overflow-visible w-full px-5 ">
-          <TablaMobile
+          {/* <TablaMobile
             data={arrayFilter}
             columns={[
               { key: "id", label: "ID" },
@@ -69,6 +73,16 @@ export const TableSchedules: React.FC = () => {
               { key: "state", label: "Estado" },
               { key: "obs", label: "Obra Social" },
             ]}
+          /> */}
+          <TablaDefault
+            props={{
+              datosParaTabla: arrayFilter,
+              objectColumns: tableColumnData,
+              objectStyles: {
+                withScrollbar: true,
+                addHeaderColor: "#022539",
+              },
+            }}
           />
         </div>
       </div>
