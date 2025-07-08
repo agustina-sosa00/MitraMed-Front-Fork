@@ -16,8 +16,7 @@
       "@/types/*": ["types/*"],
       "@/utils/*": ["utils/*"],
       "@/views/*": ["views/*"],
-      "@/frontend-resourses/*": ["frontend-resourses/*"],
-      "@/Components/*": ["frontend-resourses/components/*"]
+      "@/frontend-resourses/*": ["frontend-resourses/*"]
     },
 
     /* Bundler mode */
