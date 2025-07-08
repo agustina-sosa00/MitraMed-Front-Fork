@@ -159,7 +159,7 @@ export const dataPatient = [
 export const tableSchedules: IDataTable[] = [
   {
     id: 1,
-    day: "19/06/2025",
+    day: "08/07/2025",
     hourInit: "18:30",
     hourFinish: "18:30",
     name: "Agustina Sosa",
@@ -169,7 +169,7 @@ export const tableSchedules: IDataTable[] = [
   },
   {
     id: 2,
-    day: "18/06/2025",
+    day: "08/07/2025",
     hourInit: "18:30",
     hourFinish: "18:30",
     name: "Agustina Sosa",
@@ -179,7 +179,7 @@ export const tableSchedules: IDataTable[] = [
   },
   {
     id: 3,
-    day: "19/06/2025",
+    day: "08/07/2025",
     hourInit: "18:30",
     hourFinish: "18:30",
     name: "Leandro Mortarini",
@@ -189,7 +189,7 @@ export const tableSchedules: IDataTable[] = [
   },
   {
     id: 4,
-    day: "20/06/2025",
+    day: "08/07/2025",
     hourInit: "18:30",
     hourFinish: "18:30",
     name: "Jean Pietro Mortarini",
@@ -199,7 +199,7 @@ export const tableSchedules: IDataTable[] = [
   },
   {
     id: 5,
-    day: "20/06/2025",
+    day: "08/07/2025",
     hourInit: "18:30",
     hourFinish: "18:30",
     name: "Jean Pietro Mortarini",
@@ -209,7 +209,7 @@ export const tableSchedules: IDataTable[] = [
   },
   {
     id: 6,
-    day: "19/06/2025",
+    day: "08/07/2025",
     hourInit: "18:30",
     hourFinish: "18:30",
     name: "Leandro Mortarini",
@@ -219,7 +219,7 @@ export const tableSchedules: IDataTable[] = [
   },
   {
     id: 7,
-    day: "18/06/2025",
+    day: "08/07/2025",
     hourInit: "18:30",
     hourFinish: "18:30",
     name: "Jean Pietro Mortarini",
@@ -229,7 +229,7 @@ export const tableSchedules: IDataTable[] = [
   },
   {
     id: 8,
-    day: "18/06/2025",
+    day: "08/07/2025",
     hourInit: "18:30",
     hourFinish: "18:30",
     name: "Jean Pietro Mortarini",
@@ -239,7 +239,7 @@ export const tableSchedules: IDataTable[] = [
   },
   {
     id: 9,
-    day: "18/06/2025",
+    day: "08/07/2025",
     hourInit: "18:30",
     hourFinish: "18:30",
     name: "Jean Pietro Mortarini",
@@ -249,7 +249,7 @@ export const tableSchedules: IDataTable[] = [
   },
   {
     id: 10,
-    day: "20/06/2025",
+    day: "08/07/2025",
     hourInit: "18:30",
     hourFinish: "18:30",
     name: "Jean Pietro Mortarini",
@@ -259,7 +259,7 @@ export const tableSchedules: IDataTable[] = [
   },
   {
     id: 11,
-    day: "19/06/2025",
+    day: "08/07/2025",
     hourInit: "18:30",
     hourFinish: "18:30",
     name: "Jean Pietro Mortarini",
@@ -269,7 +269,7 @@ export const tableSchedules: IDataTable[] = [
   },
   {
     id: 12,
-    day: "19/06/2025",
+    day: "08/07/2025",
     hourInit: "18:30",
     hourFinish: "18:30",
     name: "Jean Pietro Mortarini",
@@ -279,7 +279,7 @@ export const tableSchedules: IDataTable[] = [
   },
   {
     id: 13,
-    day: "20/06/2025",
+    day: "08/07/2025",
     hourInit: "18:30",
     hourFinish: "18:30",
     name: "Jean Pietro Mortarini",
@@ -289,7 +289,7 @@ export const tableSchedules: IDataTable[] = [
   },
   {
     id: 14,
-    day: "19/06/2025",
+    day: "08/07/2025",
     hourInit: "18:30",
     hourFinish: "18:30",
     name: "Jean Pietro Mortarini",
