@@ -40,6 +40,6 @@
     "src",
     "src/frontend-resourses/components/Tables/TablaDefault/TablaDefault.tsx",
     "src/frontend-resourses/components/types.ts"
-  ],
-  "exclude": ["src/frontend-resourses"]
+  ]
+  // "exclude": ["src/frontend-resourses"]
 }
