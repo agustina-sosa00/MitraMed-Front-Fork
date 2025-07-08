@@ -39,6 +39,9 @@
     "src",
     "src/frontend-resourses/components/Tables/TablaDefault/TablaDefault.tsx",
     "src/frontend-resourses/components/types.ts"
+  ],
+  "exclude": [
+    "src/frontend-resourses/components/Inputs/RangeDatesInput.tsx",
+    "src/frontend-resourses/components/Tables/TablaExpansible/TablaExpandible.tsx"
   ]
-  // "exclude": ["src/frontend-resourses"]
 }
