@@ -19,7 +19,7 @@ export const Odontogram = () => {
   }>({});
   const [dni, setDni] = useState<string>("");
   const [infoUser, setInfoUser] = useState<boolean>(false);
-
+  const [editOdontogram, setEditOdontogram] = useState<boolean>(false);
   const handleShowMenu = () => setContextMenu(null);
   const handleMenu = () => setOpenMenu(true);
   const handleCloseMenu = () => setOpenMenu(false);
@@ -90,6 +90,41 @@ export const Odontogram = () => {
     setInfoUser(!infoUser);
   };
 
+  const handleEditOdontogram = () => {
+    setEditOdontogram(!editOdontogram);
+  };
+  const handleSave = () => {
+    Swal.fire({
+      title: "¿Desea guardar los cambios?",
+      icon: "question",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Aceptar",
+      cancelButtonText: "Cancelar",
+      showCancelButton: true,
+      confirmButtonColor: "#518915",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setEditOdontogram(false);
+      }
+    });
+  };
+  const handleCancelEdit = () => {
+    Swal.fire({
+      title: "¿Desea cancelar?",
+      text: "Los cambios no se guardaran",
+      icon: "question",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Aceptar",
+      cancelButtonText: "Cancelar",
+      showCancelButton: true,
+      confirmButtonColor: "#518915",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setEditOdontogram(false);
+      }
+    });
+  };
+
   return (
     <div
       className="flex flex-col w-full h-screen gap-5 px-5 py-20"
@@ -129,9 +164,29 @@ export const Odontogram = () => {
             </div>
 
             <div className="flex justify-end h-8 gap-2 px-2 w-72">
-              <button className="flex items-center justify-center h-8 gap-2 px-2 py-1 text-white capitalize transition-all duration-300 rounded bg-green hover:bg-greenHover">
-                editar odontograma
-              </button>
+              {editOdontogram ? (
+                <>
+                  <button
+                    onClick={handleSave}
+                    className="flex items-center justify-center h-8 gap-2 px-2 py-1 text-white capitalize transition-all duration-300 rounded bg-green hover:bg-greenHover"
+                  >
+                    guardar
+                  </button>
+                  <button
+                    onClick={handleCancelEdit}
+                    className="flex items-center justify-center h-8 gap-2 px-2 py-1 text-white capitalize transition-all duration-300 bg-red-500 rounded hover:bg-red-600"
+                  >
+                    cancelar
+                  </button>
+                </>
+              ) : (
+                <button
+                  onClick={handleEditOdontogram}
+                  className="flex items-center justify-center h-8 gap-2 px-2 py-1 text-white capitalize transition-all duration-300 rounded bg-green hover:bg-greenHover"
+                >
+                  editar odontograma
+                </button>
+              )}
             </div>
           </div>
         ) : (
