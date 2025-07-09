@@ -19,6 +19,7 @@ export const FilterTableSchedules = ({
   const [nameDay, setNameDay] = useState("");
   const newDay = new Date();
   const day = `${newDay.toISOString().split("T")[0]}`;
+
   useEffect(() => {
     setDayColor(
       day < state

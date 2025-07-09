@@ -1,6 +1,5 @@
 import { FilterTableSchedules } from "@/components/features/Filters/FilterTableSchedules";
 import {
-  dataTableTurns,
   IDataTable,
   IFormState,
   tableProfessionals,
@@ -24,6 +23,7 @@ export const Turnos: React.FC = () => {
   }>();
   const [selectTurn, setSelectTurn] = useState<IDataTable>();
   const [dataModal, setDataModal] = useState<IFormState>();
+  const [arrayFilter, setArrayFilter] = useState<TableNode[]>([]);
 
   console.log(dataModal);
   const handleBoxButton = (item: string) => {
@@ -77,16 +77,34 @@ export const Turnos: React.FC = () => {
     const day = String(today.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
-  const [daySchedule, setDaySchedule] = useState(getToday);
-  const [arrayFilter, setArrayFilter] = useState<TableNode[]>([]);
-  const newArray = [...dataTableTurns];
-  useEffect(() => {
-    const array = newArray.filter(
-      (item) => item.day === daySchedule.split("-").reverse().join("/")
-    );
 
-    if (array.length > 0) {
-      setArrayFilter(array);
+  const [daySchedule, setDaySchedule] = useState(getToday);
+
+  const changeDay = (dias: number) => {
+    const nuevaFecha = new Date(daySchedule);
+    nuevaFecha.setDate(nuevaFecha.getDate() + dias);
+    setDaySchedule(nuevaFecha.toISOString().split("T")[0]);
+  };
+
+  useEffect(() => {
+    const diaFormateado = daySchedule.split("-").reverse().join("/");
+
+    let resultado: TableNode[] = [];
+
+    if (selectProfessional) {
+      const profesional = tableProfessionals.find(
+        (item) => item.id === selectProfessional.id
+      );
+
+      if (profesional?.turns) {
+        resultado = profesional.turns.filter(
+          (turno) => turno.day === diaFormateado
+        );
+      }
+    }
+
+    if (resultado.length > 0) {
+      setArrayFilter(resultado);
     } else {
       const emptyRows = Array.from({ length: 5 }, (_, i) => ({
         id: i + 1,
@@ -99,22 +117,7 @@ export const Turnos: React.FC = () => {
       }));
       setArrayFilter(emptyRows);
     }
-  }, [daySchedule]);
-
-  const changeDay = (dias: number) => {
-    const nuevaFecha = new Date(daySchedule);
-    nuevaFecha.setDate(nuevaFecha.getDate() + dias);
-    setDaySchedule(nuevaFecha.toISOString().split("T")[0]);
-  };
-
-  useEffect(() => {
-    if (selectProfessional) {
-      const array = tableProfessionals.find(
-        (item) => item.id === selectProfessional.id
-      );
-      setArrayFilter(array?.turns ?? []);
-    }
-  }, [selectProfessional]);
+  }, [daySchedule, selectProfessional]);
 
   const handleSelectProfessional = (idProfessional) => {
     console.log("idProfessional", idProfessional);
@@ -150,6 +153,7 @@ export const Turnos: React.FC = () => {
             subStyles="flex justify-center items-end"
           />
           <BoxButton
+            disabled={!selectTurn || !selectProfessional ? "disabled" : ""}
             handleButton={handleBoxButton}
             button={["alta turno", "presentación", "facturación"]}
           />
