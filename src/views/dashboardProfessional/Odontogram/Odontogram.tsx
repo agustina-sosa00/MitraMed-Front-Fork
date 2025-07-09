@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 
 export const Odontogram = () => {
   const [contextMenu, setContextMenu] = useState<number | null>(null);
+
   const [openMenu, setOpenMenu] = useState<boolean>(false);
   const [toothSelect, setToothSelect] = useState<number>(0);
   const [teethState, setTeethState] = useState<{
@@ -51,7 +52,7 @@ export const Odontogram = () => {
           <p className="text-xs text-[#6e6d6d]">{toothNumber}</p>
           <Tooth
             toothNumber={toothNumber}
-            isActive={contextMenu === toothNumber}
+            isActive={editOdontogram && contextMenu === toothNumber}
             setState={setContextMenu}
             position={position}
             handle={handleMenu}
