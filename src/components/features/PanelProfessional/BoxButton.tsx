@@ -1,19 +1,32 @@
 import React from "react";
+import Swal from "sweetalert2";
 interface IProp {
   handleButton?: (arg: string) => void;
   classButton?: (btn: string) => string;
   button: string[];
   type?: string;
   classContainer?: string;
+  disabled?: string;
 }
 export const BoxButton: React.FC<IProp> = ({
   handleButton,
   classButton,
   button,
   classContainer,
+  disabled,
 }) => {
   const handleClick = (item: string) => {
-    handleButton && handleButton(item);
+    if (disabled === "disabled") {
+      Swal.fire({
+        icon: "warning",
+        title: "Primero debes seleccionar un profesional y un turno",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#518915",
+      });
+      return;
+    } else {
+      handleButton && handleButton(item);
+    }
   };
 
   return (
