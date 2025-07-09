@@ -18,8 +18,8 @@ export const ModalAltaTurno: React.FC<IProp> = ({
     hc: "",
     name: "",
     obs: "",
-    codarea: 0,
-    tel: 0,
+    codarea: null,
+    tel: null,
   });
   const handleClose = () => {
     close && close();
@@ -55,7 +55,7 @@ export const ModalAltaTurno: React.FC<IProp> = ({
         onSubmit={handleOnSubmit}
       >
         <div className="flex justify-between w-full gap-1 ">
-          <div className="flex items-center w-1/3 gap-1 ml-1">
+          <div className="flex items-center w-1/3 gap-1 ">
             {/* --------- */}
             {/* --------- */}
             {/* --------- */}
@@ -64,7 +64,10 @@ export const ModalAltaTurno: React.FC<IProp> = ({
             {/* --------- */}
             {/* --------- */}
             {/* --------- */}
-            <label className="text-sm font-medium text-blue" htmlFor="hc">
+            <label
+              className="text-sm font-medium text-end min-w-16 text-blue"
+              htmlFor="hc"
+            >
               HC{" "}
             </label>
             <input
@@ -114,7 +117,10 @@ export const ModalAltaTurno: React.FC<IProp> = ({
           {/* --------- */}
           {/* --------- */}
           {/* --------- */}
-          <label className="text-sm font-medium text-blue" htmlFor="hc">
+          <label
+            className="text-sm font-medium text-end min-w-16 text-blue"
+            htmlFor="hc"
+          >
             Obs
           </label>
           <textarea
@@ -135,17 +141,20 @@ export const ModalAltaTurno: React.FC<IProp> = ({
           {/* --------- */}
           {/* --------- */}
           {/* --------- */}
-          <label className="text-sm font-medium text-blue" htmlFor="hc">
+          <label
+            className="text-sm font-medium text-end min-w-16 text-blue"
+            htmlFor="hc"
+          >
             Celular
           </label>
           <input
             type="text"
             name="codarea"
-            value={formState.codarea}
+            value={formState.codarea !== null ? String(formState.codarea) : ""}
             onChange={handleOnChange}
             id="codarea"
             placeholder="11"
-            className={`px-2 py-1 text-sm font-bold border w-full border-gray-300 rounded  bg-lightGray focus:outline-none focus:ring-1 focus:ring-green focus:border-green `}
+            className={`px-2 py-1 text-sm font-bold border w-20 border-gray-300 rounded  bg-lightGray focus:outline-none focus:ring-1 focus:ring-green focus:border-green `}
           />
           <label className="text-sm font-medium text-blue" htmlFor="hc">
             15
@@ -153,11 +162,11 @@ export const ModalAltaTurno: React.FC<IProp> = ({
           <input
             type="text"
             name="tel"
-            value={formState.tel}
+            value={formState.tel !== null ? String(formState.tel) : ""}
             onChange={handleOnChange}
             id="tel"
             placeholder="22334455"
-            className={`px-2 py-1 text-sm font-bold border w-full border-gray-300 rounded  bg-lightGray focus:outline-none focus:ring-1 focus:ring-green focus:border-green `}
+            className={`px-2 py-1 text-sm font-bold border w-36 border-gray-300 rounded  bg-lightGray focus:outline-none focus:ring-1 focus:ring-green focus:border-green `}
           />
         </div>
         <div className="flex justify-end w-full">
