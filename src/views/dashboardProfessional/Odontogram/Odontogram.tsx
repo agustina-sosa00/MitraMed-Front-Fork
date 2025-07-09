@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Tooth } from "./Tooth";
 import { ModalSelectFaceTooth } from "./ModalSelectFaceTooth";
 import { FaMagnifyingGlass, FaPencil } from "react-icons/fa6";
+import Swal from "sweetalert2";
 
 export const Odontogram = () => {
   const [contextMenu, setContextMenu] = useState<number | null>(null);
@@ -9,17 +10,38 @@ export const Odontogram = () => {
   const [toothSelect, setToothSelect] = useState<number>(0);
   const [teethState, setTeethState] = useState<{
     [key: number]: {
-      action: string;
-      tratamiento: string;
-      cara: string;
+      tratamientos: {
+        action: string;
+        tratamiento: string;
+        cara: string;
+      }[];
     };
   }>({});
   const [dni, setDni] = useState<string>("");
   const [infoUser, setInfoUser] = useState<boolean>(false);
-  console.log(infoUser);
+
   const handleShowMenu = () => setContextMenu(null);
   const handleMenu = () => setOpenMenu(true);
   const handleCloseMenu = () => setOpenMenu(false);
+
+  const clearTooth = (toothNumber: number) => {
+    Swal.fire({
+      title: `¿Desea vaciar los tratamientos en este diente n° ${toothNumber}?`,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Si",
+      cancelButtonText: "No",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setTeethState((prev) => ({
+          ...prev,
+          [toothNumber]: {
+            tratamientos: [],
+          },
+        }));
+      }
+    });
+  };
 
   const renderTeeth = (start: number, count: number, position: string) =>
     Array.from({ length: count }).map((_, i) => {
@@ -35,21 +57,25 @@ export const Odontogram = () => {
             handle={handleMenu}
             toothSelectState={toothSelect}
             setToothSelectState={setToothSelect}
-            data={
-              teethState[toothNumber] || {
-                action: "",
-                tratamiento: "",
-                cara: "",
-              }
-            }
+            data={teethState[toothNumber]?.tratamientos || []}
+            clearTooth={() => clearTooth(toothNumber)}
             updateTooth={(newData) =>
-              setTeethState((prev) => ({
-                ...prev,
-                [toothNumber]: {
-                  ...prev[toothNumber],
-                  ...newData,
-                },
-              }))
+              setTeethState((prev) => {
+                const current = prev[toothNumber]?.tratamientos || [];
+                return {
+                  ...prev,
+                  [toothNumber]: {
+                    tratamientos: [
+                      ...current,
+                      {
+                        action: newData.action!,
+                        tratamiento: newData.tratamiento!,
+                        cara: newData.cara!,
+                      },
+                    ],
+                  },
+                };
+              })
             }
           />
         </div>
@@ -57,8 +83,7 @@ export const Odontogram = () => {
     });
 
   const handleOnChangeDni = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const dni = e.target.value;
-    setDni(dni);
+    setDni(e.target.value);
   };
 
   const handleFindPatient = () => {
@@ -122,6 +147,7 @@ export const Odontogram = () => {
         )}
       </div>
 
+      {/* Dientes adultos */}
       <div className="flex flex-wrap w-full h-1/2">
         <div className="flex flex-row-reverse items-end justify-start w-1/2 gap-1 p-2 border-b border-r border-black h-1/2 ">
           {renderTeeth(11, 8, "arriba-izquierda")}
@@ -137,6 +163,7 @@ export const Odontogram = () => {
         </div>
       </div>
 
+      {/* Dientes niños */}
       <div className="flex flex-wrap w-full h-1/2">
         <div className="flex flex-row-reverse items-end justify-start w-1/2 gap-1 p-2 border-b border-r border-black h-1/2 ">
           {renderTeeth(51, 5, "arriba-izquierda-niño")}
@@ -152,28 +179,37 @@ export const Odontogram = () => {
         </div>
       </div>
 
+      {/* Modal de selección de cara y acción */}
       {openMenu && (
         <ModalSelectFaceTooth
           show={openMenu}
           onClose={handleCloseMenu}
           setFace={(cara) =>
-            setTeethState((prev) => ({
-              ...prev,
-              [toothSelect]: {
-                ...prev[toothSelect],
-                cara,
-              },
-            }))
+            setTeethState((prev) => {
+              const current = prev[toothSelect]?.tratamientos || [];
+              const last = current[current.length - 1] || {};
+              return {
+                ...prev,
+                [toothSelect]: {
+                  tratamientos: [...current.slice(0, -1), { ...last, cara }],
+                },
+              };
+            })
           }
-          action={teethState[toothSelect]?.action}
+          action={
+            teethState[toothSelect]?.tratamientos?.slice(-1)[0]?.action || ""
+          }
           setAction={(action) =>
-            setTeethState((prev) => ({
-              ...prev,
-              [toothSelect]: {
-                ...prev[toothSelect],
-                action,
-              },
-            }))
+            setTeethState((prev) => {
+              const current = prev[toothSelect]?.tratamientos || [];
+              const last = current[current.length - 1] || {};
+              return {
+                ...prev,
+                [toothSelect]: {
+                  tratamientos: [...current.slice(0, -1), { ...last, action }],
+                },
+              };
+            })
           }
         />
       )}
