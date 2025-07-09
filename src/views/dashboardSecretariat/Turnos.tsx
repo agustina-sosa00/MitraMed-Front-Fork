@@ -42,17 +42,30 @@ export const Turnos: React.FC = () => {
   };
 
   const handleFacturacion = () => {
-    if (!selectTurn) return;
+    Swal.fire({
+      icon: "question",
+      title: "¿Desea cambiar el estado a Factura pendiente?",
+      confirmButtonText: "Si",
+      confirmButtonColor: "#518915",
+      cancelButtonText: "No",
+      showCancelButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (!selectTurn) return;
 
-    const updatedArray = arrayFilter?.map((item) =>
-      item.id === selectTurn.id ? { ...item, state: "Factura pendiente" } : item
-    );
-    setArrayFilter(updatedArray);
+        const updatedArray = arrayFilter?.map((item) =>
+          item.id === selectTurn.id
+            ? { ...item, state: "Factura pendiente" }
+            : item
+        );
+        setArrayFilter(updatedArray);
+      }
+    });
   };
 
   const handlePresentacion = () => {
     Swal.fire({
-      icon: "info",
+      icon: "question",
       title: "¿Confirama la presencia del paciente?",
       confirmButtonText: "Si",
       confirmButtonColor: "#518915",
@@ -213,20 +226,6 @@ export const Turnos: React.FC = () => {
               },
             }}
           />
-          {/* <TablaMobile
-            data={arrayFilter}
-            tableId="turnos"
-            onSelect={handleSelectTurn}
-            columns={[
-              { key: "id", label: "ID" },
-              { key: "hourInit", label: "Hora Inicio" },
-              { key: "hourFinish", label: "Hora Fin" },
-              { key: "state", label: "Estado" },
-              { key: "name", label: "Nombre y Apellido" },
-              { key: "obs", label: "Observaciones" },
-              { key: "saco", label: "" },
-            ]}
-          /> */}
         </div>
       </div>
       {openModal && modalName === "alta turno" && (
