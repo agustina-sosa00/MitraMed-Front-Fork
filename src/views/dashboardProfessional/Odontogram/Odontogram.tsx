@@ -19,7 +19,7 @@ export const Odontogram = () => {
   }>({});
   const [dni, setDni] = useState<string>("");
   const [infoUser, setInfoUser] = useState<boolean>(false);
-
+  const [editOdontogram, setEditOdontogram] = useState<boolean>(false);
   const handleShowMenu = () => setContextMenu(null);
   const handleMenu = () => setOpenMenu(true);
   const handleCloseMenu = () => setOpenMenu(false);
@@ -90,6 +90,41 @@ export const Odontogram = () => {
     setInfoUser(!infoUser);
   };
 
+  const handleEditOdontogram = () => {
+    setEditOdontogram(!editOdontogram);
+  };
+  const handleSave = () => {
+    Swal.fire({
+      title: "¿Desea guardar los cambios?",
+      icon: "question",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Aceptar",
+      cancelButtonText: "Cancelar",
+      showCancelButton: true,
+      confirmButtonColor: "#518915",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setEditOdontogram(false);
+      }
+    });
+  };
+  const handleCancelEdit = () => {
+    Swal.fire({
+      title: "¿Desea cancelar?",
+      text: "Los cambios no se guardaran",
+      icon: "question",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Aceptar",
+      cancelButtonText: "Cancelar",
+      showCancelButton: true,
+      confirmButtonColor: "#518915",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setEditOdontogram(false);
+      }
+    });
+  };
+
   return (
     <div
       className="flex flex-col w-full h-screen gap-5 px-5 py-20"
@@ -100,7 +135,7 @@ export const Odontogram = () => {
           odontograma
         </h1>
         {infoUser ? (
-          <div className="flex items-end justify-between w-1/2 h-20 gap-1 py-1 ">
+          <div className="flex items-end justify-between w-full h-20 gap-1 py-1 ">
             <div className="flex items-end justify-start gap-1">
               <label className="text-sm font-medium text-blue">DNI: </label>
               <div className="h-8 px-2 py-1 font-bold border border-gray-300 rounded w-28 bg-lightGray focus:outline-none text-blue">
@@ -113,17 +148,46 @@ export const Odontogram = () => {
               >
                 <FaPencil />
               </button>
+              <div className="flex items-end justify-end gap-3 px-3">
+                <h3 className="text-sm text-blue">
+                  Paciente:{" "}
+                  <span className="text-base font-medium capitalize ">
+                    agustina sosa
+                  </span>
+                </h3>
+                <img
+                  src="/user.jpg"
+                  alt="user"
+                  className="w-16 h-16 border border-gray-300 rounded-full"
+                />
+              </div>
             </div>
 
-            <h3 className="text-sm text-blue">
-              Paciente:{" "}
-              <span className="text-base font-medium">Agustina Sosa</span>
-            </h3>
-            <img
-              src="/user.jpg"
-              alt="user"
-              className="w-16 h-16 border border-gray-300 rounded-full"
-            />
+            <div className="flex justify-end h-8 gap-2 px-2 w-72">
+              {editOdontogram ? (
+                <>
+                  <button
+                    onClick={handleSave}
+                    className="flex items-center justify-center h-8 gap-2 px-2 py-1 text-white capitalize transition-all duration-300 rounded bg-green hover:bg-greenHover"
+                  >
+                    guardar
+                  </button>
+                  <button
+                    onClick={handleCancelEdit}
+                    className="flex items-center justify-center h-8 gap-2 px-2 py-1 text-white capitalize transition-all duration-300 bg-red-500 rounded hover:bg-red-600"
+                  >
+                    cancelar
+                  </button>
+                </>
+              ) : (
+                <button
+                  onClick={handleEditOdontogram}
+                  className="flex items-center justify-center h-8 gap-2 px-2 py-1 text-white capitalize transition-all duration-300 rounded bg-green hover:bg-greenHover"
+                >
+                  editar odontograma
+                </button>
+              )}
+            </div>
           </div>
         ) : (
           <div className="flex items-end justify-start w-full h-20 gap-1 py-1">
