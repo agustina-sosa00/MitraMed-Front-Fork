@@ -13,8 +13,8 @@ export interface IFormState {
   hc: string;
   name: string;
   obs: string;
-  codarea: number;
-  tel: number;
+  codarea: number | null;
+  tel: number | null;
 }
 export const dataTableTurns = [
   {
