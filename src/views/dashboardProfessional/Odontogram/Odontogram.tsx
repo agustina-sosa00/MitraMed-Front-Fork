@@ -100,7 +100,7 @@ export const Odontogram = () => {
           odontograma
         </h1>
         {infoUser ? (
-          <div className="flex items-end justify-between w-1/2 h-20 gap-1 py-1 ">
+          <div className="flex items-end justify-between w-full h-20 gap-1 py-1 ">
             <div className="flex items-end justify-start gap-1">
               <label className="text-sm font-medium text-blue">DNI: </label>
               <div className="h-8 px-2 py-1 font-bold border border-gray-300 rounded w-28 bg-lightGray focus:outline-none text-blue">
@@ -113,17 +113,26 @@ export const Odontogram = () => {
               >
                 <FaPencil />
               </button>
+              <div className="flex items-end justify-end gap-3 px-3">
+                <h3 className="text-sm text-blue">
+                  Paciente:{" "}
+                  <span className="text-base font-medium capitalize ">
+                    agustina sosa
+                  </span>
+                </h3>
+                <img
+                  src="/user.jpg"
+                  alt="user"
+                  className="w-16 h-16 border border-gray-300 rounded-full"
+                />
+              </div>
             </div>
 
-            <h3 className="text-sm text-blue">
-              Paciente:{" "}
-              <span className="text-base font-medium">Agustina Sosa</span>
-            </h3>
-            <img
-              src="/user.jpg"
-              alt="user"
-              className="w-16 h-16 border border-gray-300 rounded-full"
-            />
+            <div className="flex justify-end h-8 gap-2 px-2 w-72">
+              <button className="flex items-center justify-center h-8 gap-2 px-2 py-1 text-white capitalize transition-all duration-300 rounded bg-green hover:bg-greenHover">
+                editar odontograma
+              </button>
+            </div>
           </div>
         ) : (
           <div className="flex items-end justify-start w-full h-20 gap-1 py-1">
