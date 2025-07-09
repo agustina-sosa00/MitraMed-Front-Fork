@@ -199,7 +199,7 @@ export const Turnos: React.FC = () => {
                   minWidth: "180",
                   maxWidth: "180",
                 },
-                { key: "saco", label: "", minWidth: "40", maxWidth: "40" },
+                { key: "saco", label: "", minWidth: "50", maxWidth: "50" },
               ],
               selectFn: true,
               objectSelection: {
