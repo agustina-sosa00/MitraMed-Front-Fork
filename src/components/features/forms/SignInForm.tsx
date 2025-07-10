@@ -40,7 +40,6 @@ export default function SignInForm({ rol }: IProp) {
     },
     onSuccess: (data) => {
       localStorage.setItem("nombreUsuario", data.nombre_usuario);
-
       // Almacenar los tokens en cookies
       Cookies.set("accessToken", data.token_acceso, { expires: 0.3333 }); // 8 horas
       Cookies.set("refreshToken", data.token_refresh, { expires: 0.5 }); // 12 horas
@@ -59,6 +58,10 @@ export default function SignInForm({ rol }: IProp) {
     },
     onSuccess: (data) => {
       if (data?.data?.data?.[0]?.idprofesional >= 1) {
+        Cookies.set(
+          "idProfesional",
+          String(data?.data?.data?.[0].idprofesional)
+        );
         Cookies.set("accessProfessional", "true");
         navigate("/profesionales/inicio");
       } else if (data?.data?.code === 204) {
