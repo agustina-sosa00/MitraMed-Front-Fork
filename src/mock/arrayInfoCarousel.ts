@@ -13,7 +13,7 @@ export const arrayInfoCarousel: IArrayInfo[] = [
     span: " salud",
     text: " Agenda tus consultas médicas en pocos pasos.",
     textoImportant: "¡Crea tu cuenta ahora!",
-    img: "https://i.imgur.com/v9EfShC.jpeg",
+    img: "https://i.imgur.com/2QjeH9q.jpeg",
   },
   {
     id: 2,
