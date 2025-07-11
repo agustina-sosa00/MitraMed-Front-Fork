@@ -3,7 +3,7 @@ import HomeView from "./views/dashboard/HomeView";
 import MisTurnos from "./views/dashboard/MisTurnos";
 import { PortalView } from "./views/auth/PortalView";
 import { Layout } from "./layouts/Layout";
-import { Turnos } from "./views/dashboardSecretariat/Turnos";
+import { TurnosSecretariat } from "./views/dashboardSecretariat/TurnosSecretariat";
 import ProtectedRoute from "./components/features/ProtectedRoute";
 import ConfigView from "./views/dashboard/ConfigView";
 import PrivacyPolicy from "./views/PrivacyPolicy";
@@ -18,6 +18,7 @@ import { Odontogram } from "./views/dashboardProfessional/Odontogram/Odontogram"
 import { SecretariatProtectedRoute } from "./components/features/SecretariatProtectedRoute";
 import { SecretariatLayout } from "./layouts/SecretariatLayout";
 import { Secretariat } from "./views/dashboardSecretariat/Secretariat";
+import Turnos from "./views/dashboard/Turnos";
 interface RouterProps {
   loader: boolean;
   setLoader: React.Dispatch<React.SetStateAction<boolean>>;
@@ -57,7 +58,7 @@ export default function Router({ loader, setLoader }: RouterProps) {
         <Route element={<SecretariatProtectedRoute />}>
           <Route element={<SecretariatLayout setLoader={setLoader} />}>
             <Route path="/secretaria/inicio" element={<Secretariat />} />
-            <Route path="/secretaria/turnos" element={<Turnos />} />
+            <Route path="/secretaria/turnos" element={<TurnosSecretariat />} />
           </Route>
         </Route>
         <Route path="*" element={<NotFound />} />

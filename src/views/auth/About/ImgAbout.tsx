@@ -33,17 +33,17 @@ export const ImgAbout: React.FC = () => {
           </div>
         </Slider>
       </div>
-      <div className="relative items-center justify-end hidden w-full lg:flex lg:h-full lg:w-1/2">
+      <div className="relative items-center justify-end hidden w-full lg:flex lg:h-full lg:w-1/2 ">
         <img
           src="https://i.imgur.com/yjcxNLD.png"
           alt="MitraMed-About"
-          className="absolute z-10 w-[350px] rounded  top-[25%] left-[10%]  "
+          className="absolute z-10 w-[350px] rounded  top-[25%] left-[10%] xl:w-[450px] 2xl:w-[500px]"
         />
 
         <img
           src="https://i.imgur.com/NA1X3Dp.png"
           alt="MitraMed-About2"
-          className="absolute z-20 w-[300px] rounded bottom-[20%] right-[10%]  "
+          className="absolute z-20 w-[300px] rounded bottom-[20%] right-[10%] xl:w-[400px] 2xl:w-[450px]"
         />
       </div>
     </>

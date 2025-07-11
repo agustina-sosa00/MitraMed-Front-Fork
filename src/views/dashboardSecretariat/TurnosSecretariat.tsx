@@ -13,7 +13,7 @@ import Swal from "sweetalert2";
 import { TablaDefault } from "@/frontend-resourses/components";
 import { TableNode } from "@/frontend-resourses/components/types";
 
-export const Turnos: React.FC = () => {
+export const TurnosSecretariat: React.FC = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [modalName, setModalName] = useState<string>("");
   const [selectProfessional, setSelectProfessional] = useState<{

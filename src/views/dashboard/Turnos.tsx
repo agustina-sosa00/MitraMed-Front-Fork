@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Turno } from "@/types/index";
 import FormTurno from "@/components/features/forms/FormTurno";
 import ConfirmTurnoModal from "@/components/features/modals/ConfirmTurnoModal";
@@ -47,14 +47,6 @@ export default function Turnos() {
 
   return (
     <div className="relative flex flex-col items-center justify-center h-full px-5 py-10 bg-bottom bg-cover lg:mx-4 bg-opacity-10 sm:min-h-screen bg-misturnos ">
-      <div className="w-full max-w-4xl top-5 left-3">
-        <Link
-          to="/inicio"
-          className="px-4 py-1 text-sm font-semibold text-white transition duration-200 rounded-lg bg-green sm:text-base hover:bg-greenHover"
-        >
-          Volver al inicio
-        </Link>
-      </div>
       <div className="w-full max-w-4xl  my-5 border border-black rounded-lg shadow-xl bg-[#f1f1f1] border-opacity-20 ">
         <div className="px-5 py-5 text-center ">
           <h2 className="text-2xl font-bold underline uppercase text-green sm:text-3xl">
