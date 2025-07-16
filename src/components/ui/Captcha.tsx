@@ -1,8 +1,16 @@
-export default function Captcha() {
-  return (
-    <div className="flex p-4 mt-2 w-52 gap-3 border-2 border-slate-500 border-opacity-50 rounded">
-      <input type="checkbox" className="" />
-      <span className="">No soy un robot</span>
-    </div>
-  );
+import { useRef } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
+interface IProps {
+  setState: React.Dispatch<React.SetStateAction<boolean>>;
+}
+export default function Captcha({ setState }: IProps) {
+  const api_site = import.meta.env.VITE_API_KEY_SITE_CAPTCHA;
+
+  const captcha = useRef(ReCAPTCHA || null);
+  const onChange = () => {
+    if (captcha.current && captcha.current.getValue()) {
+      setState(true);
+    }
+  };
+  return <ReCAPTCHA ref={captcha} sitekey={api_site} onChange={onChange} />;
 }
