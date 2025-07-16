@@ -11,7 +11,10 @@ interface IProp {
 
 export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
   const navigate = useNavigate();
+  const data = Cookies.get("dataProfessional");
+  const dataUser = data ? JSON.parse(data) : null;
 
+  console.log(dataUser);
   const handleLogout = () => {
     Cookies.remove("accessProfessional");
     navigate("/");
@@ -53,10 +56,12 @@ export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
         </div>
         {/* BOX 3 */}
 
-        <div className="flex flex-col  w-full gap-3 pl-10 py-5    h-[20%]  ">
+        <div className="flex flex-col  w-full gap-3  items-center py-5    h-[20%]  ">
           <div className="flex items-center justify-start gap-2 text-blue ">
             <FaUserCircle className="text-xl xl:text-3xl" />{" "}
-            <p>Dr. Juan Lopez</p>
+            <p>
+              Dr. {dataUser?.ndoctor} {dataUser?.adoctor}
+            </p>
           </div>
           <p className="text-sm ">
             ¿Quieres{" "}
@@ -64,7 +69,7 @@ export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
               onClick={handleLogout}
               className="font-bold cursor-pointer hover:text-green"
             >
-              cerrar sesión{" "}
+              cerrar sesión
             </span>
             ?{" "}
           </p>
