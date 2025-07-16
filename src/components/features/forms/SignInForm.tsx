@@ -63,6 +63,7 @@ export default function SignInForm({ rol }: IProp) {
           String(data?.data?.data?.[0].idprofesional)
         );
         Cookies.set("accessProfessional", "true");
+        Cookies.set("dataProfessional", JSON.stringify(data?.data?.data?.[0]));
         navigate("/profesionales/inicio");
       } else if (data?.data?.code === 204) {
         Swal.fire({
