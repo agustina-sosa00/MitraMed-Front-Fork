@@ -5,7 +5,7 @@ interface IProps {
 }
 export default function Captcha({ setState }: IProps) {
   const api_site = import.meta.env.VITE_API_KEY_SITE_CAPTCHA;
-
+  console.log("api:", api_site);
   const captcha = useRef(ReCAPTCHA || null);
   const onChange = () => {
     if (captcha.current && captcha.current.getValue()) {
