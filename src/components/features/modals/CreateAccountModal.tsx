@@ -7,8 +7,12 @@ import { crearCuenta } from "@/services/UserService";
 import RegisterForm from "../forms/RegisterForm";
 import { Modal } from "@/components/ui/Modal";
 import Swal from "sweetalert2";
+import Captcha from "@/components/ui/Captcha";
+import { useState } from "react";
 
 export default function CreateAccountModal() {
+  const [validateCaptcha, setValidateCaptcha] = useState(false);
+
   const navigate = useNavigate();
 
   const location = useLocation();
@@ -91,10 +95,18 @@ export default function CreateAccountModal() {
               watch={watch}
               control={control}
             />
+            <div className="flex justify-center w-full">
+              <Captcha setState={setValidateCaptcha} />
+            </div>
             <input
+              disabled={!validateCaptcha}
               type="submit"
               value="Registrarme"
-              className="max-w-lg px-4 py-1 text-base text-white uppercase transition-colors rounded shadow-lg cursor-pointer bg-green hover:bg-greenHover "
+              className={`w-full p-2 mt-4 text-base font-semibold uppercase transition-all rounded-lg shadow-md cursor-pointer xl:p-3 xl:text-lg  ${
+                !validateCaptcha
+                  ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                  : "bg-green hover:bg-greenHover text-white"
+              }`}
             />
           </div>
         </form>
