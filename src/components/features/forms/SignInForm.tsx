@@ -9,12 +9,15 @@ import InputField from "../../ui/InputField";
 import ErrorMessage from "../../ui/ErrorMessage";
 import Swal from "sweetalert2";
 import { authProfessional } from "@/services/ProfessionalService";
+import Captcha from "@/components/ui/Captcha";
 
 interface IProp {
   rol?: string;
 }
 
 export default function SignInForm({ rol }: IProp) {
+  const [validateCaptcha, setValidateCaptcha] = useState(false);
+
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -175,10 +178,19 @@ export default function SignInForm({ rol }: IProp) {
           )}
         </div>
 
+        <div className="flex justify-center w-full">
+          <Captcha setState={setValidateCaptcha} />
+        </div>
+
         <input
+          disabled={!validateCaptcha}
           type="submit"
           value="Iniciar sesión"
-          className="w-full p-2 mt-4 text-base font-semibold text-white uppercase transition-all rounded-lg shadow-md cursor-pointer xl:p-3 xl:text-lg bg-green hover:bg-greenHover"
+          className={`w-full p-2 mt-4 text-base font-semibold uppercase transition-all rounded-lg shadow-md xl:p-3 xl:text-lg  ${
+            !validateCaptcha
+              ? "bg-gray-200 text-gray-400 cursor-text"
+              : "bg-green hover:bg-greenHover text-white cursor-pointer"
+          }`}
         />
       </form>
 
@@ -216,7 +228,7 @@ export default function SignInForm({ rol }: IProp) {
           <p>
             No tienes cuenta?{" "}
             <button
-              className="hover:underline hover:text-green"
+              className="font-medium hover:underline text-green"
               onClick={() =>
                 navigate(location.pathname + "?createAccount=true")
               }
@@ -227,13 +239,13 @@ export default function SignInForm({ rol }: IProp) {
         ) : null}
 
         <button
-          className="hover:underline hover:text-green"
+          className="font-medium hover:underline text-green"
           onClick={() => navigate(location.pathname + "?forgotPassword=true")}
         >
           Olvidé mi contraseña
         </button>
         <button
-          className="hover:underline hover:text-green"
+          className="font-medium hover:underline text-green"
           onClick={() => navigate(location.pathname + "?newTokenConfirm=true")}
         >
           Reenviar correo de confirmación
