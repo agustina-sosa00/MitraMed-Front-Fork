@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import { FaHouse } from "react-icons/fa6";
 import { FaNotesMedical, FaTooth } from "react-icons/fa";
 import { Navbar } from "@/components/features/PanelProfessional/Navbar";
-import { RiFolderUploadFill } from "react-icons/ri";
+import { FaArchive } from "react-icons/fa";
 import { useEffect } from "react";
 
 const buttons = [
@@ -20,10 +20,10 @@ const buttons = [
     disabled: false,
   },
   {
-    name: "subir estudio",
-    icon: RiFolderUploadFill,
-    link: "/profesionales/subir-estudio",
-    disabled: true,
+    name: "historial",
+    icon: FaArchive,
+    link: "/profesionales/historial",
+    disabled: false,
   },
   {
     name: "odontograma",

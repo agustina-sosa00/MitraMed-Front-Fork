@@ -13,12 +13,12 @@ import { ProfessionalProtectedRoute } from "./components/features/ProfessionalPr
 import { ProfessionalLayout } from "./layouts/ProfessionalLayout";
 import { TableSchedules } from "./views/dashboardProfessional/TableSchedules";
 import { NotFound } from "./views/NotFound";
-// import { UploadStudy } from "./views/dashboardProfessional/UploadStudy";
 import { Odontogram } from "./views/dashboardProfessional/Odontogram/Odontogram";
 import { SecretariatProtectedRoute } from "./components/features/SecretariatProtectedRoute";
 import { SecretariatLayout } from "./layouts/SecretariatLayout";
 import { Secretariat } from "./views/dashboardSecretariat/Secretariat";
 import Turnos from "./views/dashboard/Turnos";
+import { MedicalHistory } from "./views/dashboardProfessional/MedicalHistory";
 interface RouterProps {
   loader: boolean;
   setLoader: React.Dispatch<React.SetStateAction<boolean>>;
@@ -48,10 +48,10 @@ export default function Router({ loader, setLoader }: RouterProps) {
           <Route element={<ProfessionalLayout setLoader={setLoader} />}>
             <Route path="/profesionales/inicio" element={<Professional />} />
             <Route path="/profesionales/turnos" element={<TableSchedules />} />
-            {/* <Route
-              path="/profesionales/subir-estudio"
-              element={<UploadStudy />}
-              /> */}
+            <Route
+              path="/profesionales/historial"
+              element={<MedicalHistory />}
+            />
             <Route path="/profesionales/odontograma" element={<Odontogram />} />
           </Route>
         </Route>

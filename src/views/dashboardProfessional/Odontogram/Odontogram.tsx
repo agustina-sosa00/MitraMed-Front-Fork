@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Tooth } from "./Tooth";
 import { ModalSelectFaceTooth } from "./ModalSelectFaceTooth";
-import { FaMagnifyingGlass, FaPencil } from "react-icons/fa6";
 import Swal from "sweetalert2";
 import Cookies from "js-cookie";
+import { SearchPatient } from "@/components/features/PanelProfessional/SearchPatient";
 export const Odontogram = () => {
   const idProfesional = Cookies.get("idProfesional");
   console.log("idProfesional:", idProfesional);
@@ -20,7 +20,6 @@ export const Odontogram = () => {
       }[];
     };
   }>({});
-  const [dni, setDni] = useState<string>("");
   const [infoUser, setInfoUser] = useState<boolean>(false);
   const [editOdontogram, setEditOdontogram] = useState<boolean>(false);
   const handleShowMenu = () => setContextMenu(null);
@@ -85,10 +84,6 @@ export const Odontogram = () => {
       );
     });
 
-  const handleOnChangeDni = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDni(e.target.value);
-  };
-
   const handleFindPatient = () => {
     setInfoUser(!infoUser);
   };
@@ -137,36 +132,14 @@ export const Odontogram = () => {
         <h1 className="text-2xl font-medium uppercase lg:text-4xl text-green">
           odontograma
         </h1>
-        {idProfesional !== "3" &&
-          (infoUser ? (
-            <div className="flex items-end justify-between w-full h-20 gap-1 py-1 ">
-              <div className="flex items-end justify-start gap-1">
-                <label className="text-sm font-medium text-blue">DNI: </label>
-                <div className="h-8 px-2 py-1 font-bold border border-gray-300 rounded w-28 bg-lightGray focus:outline-none text-blue">
-                  {dni}
-                </div>
-                <button
-                  type="button"
-                  onClick={handleFindPatient}
-                  className="flex items-center justify-center h-8 px-2 py-1 transition-all duration-300 border border-gray-300 rounded bg-lightGray text-greenHover hover:bg-gray-200"
-                >
-                  <FaPencil />
-                </button>
-                <div className="flex items-end justify-end gap-3 px-3">
-                  <h3 className="text-sm text-blue">
-                    Paciente:{" "}
-                    <span className="text-base font-medium capitalize ">
-                      agustina sosa
-                    </span>
-                  </h3>
-                  <img
-                    src="/user.jpg"
-                    alt="user"
-                    className="w-16 h-16 border border-gray-300 rounded-full"
-                  />
-                </div>
-              </div>
-
+        {idProfesional !== "3" && (
+          <div className="flex items-end justify-between w-full h-20 gap-1 py-1 ">
+            <SearchPatient
+              infoUser={infoUser}
+              handleFindPatient={handleFindPatient}
+              viewImg={true}
+            />
+            {infoUser && (
               <div className="flex justify-end h-8 gap-2 px-2 w-72">
                 {editOdontogram ? (
                   <>
@@ -192,27 +165,9 @@ export const Odontogram = () => {
                   </button>
                 )}
               </div>
-            </div>
-          ) : (
-            <div className="flex items-end justify-start w-full h-20 gap-1 py-1">
-              <label className="text-sm font-medium text-blue">DNI: </label>
-              <input
-                type="string"
-                name="dni"
-                value={dni}
-                placeholder="11222333"
-                onChange={handleOnChangeDni}
-                className="h-8 px-2 py-1 font-bold border border-gray-300 rounded w-28 bg-lightGray focus:outline-none text-blue"
-              />
-              <button
-                type="button"
-                onClick={handleFindPatient}
-                className="flex items-center justify-center h-8 px-2 py-1 transition-all duration-300 border border-gray-300 rounded bg-lightGray text-greenHover hover:bg-gray-200"
-              >
-                <FaMagnifyingGlass />
-              </button>
-            </div>
-          ))}
+            )}
+          </div>
+        )}
       </div>
 
       {/* Dientes adultos */}
