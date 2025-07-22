@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { UploadStudy } from "./UploadStudy";
 import { SearchPatient } from "@/components/features/PanelProfessional/SearchPatient";
+import { FormUploadHistory } from "@/components/features/PanelProfessional/FormUploadHistory";
 
 export const MedicalHistory: React.FC = () => {
   const [infoUser, setInfoUser] = useState<boolean>(false);
@@ -9,7 +9,7 @@ export const MedicalHistory: React.FC = () => {
     setInfoUser(!infoUser);
   };
   return (
-    <div className="w-full min-h-screen px-10 pt-10">
+    <div className="flex flex-col w-full min-h-screen px-10 pt-10 ">
       <div className="flex flex-col w-full ">
         <h1 className="text-2xl font-medium uppercase lg:text-4xl text-green">
           Historial médico
@@ -24,7 +24,10 @@ export const MedicalHistory: React.FC = () => {
         />
       </div>
 
-      <UploadStudy />
+      <div className="flex w-full ">
+        <div className="w-1/2">as</div>
+        <FormUploadHistory />
+      </div>
     </div>
   );
 };
