@@ -1,15 +1,15 @@
 import React from "react";
 
 interface IProp {
-  valueInput: string;
-  handleInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleTextarea: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  valueInput?: string;
+  handleInput?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleTextarea?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   placeholderInput?: string;
-  nameInput: string;
+  nameInput?: string;
   typeInput?: string;
-  labelInput: string;
+  labelInput?: string;
   requiredInput?: boolean;
-  field: boolean;
+  field?: boolean;
 }
 export const InputProfessional: React.FC<IProp> = ({
   valueInput,
