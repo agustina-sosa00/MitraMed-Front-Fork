@@ -137,7 +137,7 @@ export const Odontogram = () => {
         <h1 className="text-2xl font-medium uppercase lg:text-4xl text-green">
           odontograma
         </h1>
-        {idProfesional === "3" &&
+        {idProfesional !== "3" &&
           (infoUser ? (
             <div className="flex items-end justify-between w-full h-20 gap-1 py-1 ">
               <div className="flex items-end justify-start gap-1">
