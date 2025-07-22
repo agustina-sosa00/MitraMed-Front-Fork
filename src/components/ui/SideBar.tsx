@@ -20,7 +20,7 @@ export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
     navigate("/");
   };
   return (
-    <nav className="flex-col justify-between hidden w-64 h-screen lg:flex">
+    <nav className="flex-col justify-between hidden h-screen w-52 lg:flex">
       <section className="flex flex-col justify-between h-full bg-gray-200 ">
         {/* BOX 1 */}
         <div className="flex  pl-8 items-center h-[10%] ">
