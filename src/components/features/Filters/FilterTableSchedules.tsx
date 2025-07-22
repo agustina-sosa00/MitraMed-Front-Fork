@@ -70,7 +70,7 @@ export const FilterTableSchedules = ({
             required
             placeholder=""
             type="date"
-            className={`px-2 py-1 lg:text-lg font-bold border border-gray-300 rounded  bg-lightGray ${dayColor}`}
+            className={`px-2 py-1 lg:text-lg font-bold border border-gray-300 rounded focus:outline-none bg-lightGray ${dayColor}`}
             name="day"
             value={state}
             onChange={handleOnChange}

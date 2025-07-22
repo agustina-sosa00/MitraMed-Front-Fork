@@ -61,7 +61,7 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
         >
           <label className="text-sm font-medium text-blue">DNI: </label>
           <input
-            type="string"
+            type="text"
             name="dni"
             value={dni}
             placeholder="11222333"
