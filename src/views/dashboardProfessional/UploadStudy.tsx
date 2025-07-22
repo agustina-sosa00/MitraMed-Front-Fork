@@ -25,21 +25,35 @@ export const UploadStudy: React.FC = () => {
     }
   };
   return (
-    <div className="flex flex-col w-full h-screen gap-10 pt-24 ">
-      <div className="flex flex-col w-full px-20">
-        <h1 className="text-2xl font-medium uppercase lg:text-4xl text-green">
-          Subir nuevo estudio
-        </h1>
-      </div>
-      <div className="w-full">
-        {/* Dropzone es un componente que espera como children una funcion */}
-        <Dropzone onDrop={handleDrop}>
-          {/* al soltar o seleccionar un archivo se dispara onDrop */}
-          {/* esta funcion recibe getRootProps que se usa para hacer la zona de arrastre */}
-          {/* esta funcion recibe getRootProps que se usa para hacer el input que al hacer click te permite seleccionar un archivo */}
-          {({ getRootProps, getInputProps }) => (
-            <section className="flex items-center justify-center w-full ">
-              <div className="w-2/3 p-3 rounded bg-[#f1f1f1]">
+    <div className="flex-[1]">
+      {/* Dropzone es un componente que espera como children una funcion */}
+      <Dropzone onDrop={handleDrop}>
+        {/* al soltar o seleccionar un archivo se dispara onDrop */}
+        {/* esta funcion recibe getRootProps que se usa para hacer la zona de arrastre */}
+        {/* esta funcion recibe getRootProps que se usa para hacer el input que al hacer click te permite seleccionar un archivo */}
+        {({ getRootProps, getInputProps }) => (
+          <section className="flex items-center justify-center w-full ">
+            <div className="w-full p-3 border border-gray-300 rounded bg-lightGray">
+              {file ? (
+                <div className="flex flex-col items-center justify-start ">
+                  <p className="mb-2 font-semibold">
+                    Archivo seleccionado: {file.name}
+                  </p>
+
+                  {file.type.startsWith("image/") && (
+                    <img src={preview!} alt="Preview" className="border w-36" />
+                  )}
+
+                  {file.type === "application/pdf" && preview && (
+                    <iframe
+                      src={preview ?? ""}
+                      width="40%"
+                      height="500px"
+                      title="PDF preview"
+                    />
+                  )}
+                </div>
+              ) : (
                 <div
                   {...getRootProps()}
                   className="flex flex-col items-center justify-center p-5 border border-gray-400 border-dashed rounded cursor-pointer"
@@ -51,41 +65,11 @@ export const UploadStudy: React.FC = () => {
                     seleccionarlo.
                   </p>
                 </div>
-              </div>
-            </section>
-          )}
-        </Dropzone>
-        {file && (
-          <div className="flex flex-col items-center justify-start ">
-            <p className="mb-2 font-semibold">
-              Archivo seleccionado: {file.name}
-            </p>
-
-            {file.type.startsWith("image/") && (
-              <img src={preview!} alt="Preview" className="border w-36" />
-            )}
-
-            {file.type === "application/pdf" && preview && (
-              <iframe
-                src={preview ?? ""}
-                width="40%"
-                height="500px"
-                title="PDF preview"
-              />
-            )}
-            {preview && (
-              <a
-                href={preview}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-600 underline "
-              >
-                👉 Abrir PDF en nueva pestaña
-              </a>
-            )}
-          </div>
+              )}
+            </div>
+          </section>
         )}
-      </div>
+      </Dropzone>
     </div>
   );
 };
