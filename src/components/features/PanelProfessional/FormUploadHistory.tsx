@@ -1,17 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import { InputProfessional } from "./InputProfessional";
 import { UploadStudy } from "@/views/dashboardProfessional/UploadStudy";
 
 export const FormUploadHistory: React.FC = () => {
+  const [dataForm, setDataForm] = useState({
+    motivo: "",
+    descripcion: "",
+    archivo: "",
+    medicamentos: "",
+  });
+  console.log("dataForm", dataForm);
+  const handleOnChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setDataForm({ ...dataForm, [name]: value });
+  };
+  const handleOnChangeTextarea = (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setDataForm({ ...dataForm, [name]: value });
+  };
+
   return (
     <div className="flex flex-col items-start justify-center w-1/2 gap-2 p-3 bg-white border border-gray-300">
       <InputProfessional
-        placeholderInput={"jajaj"}
+        valueInput={dataForm.motivo}
+        nameInput="motivo"
+        handleInput={handleOnChangeInput}
+        placeholderInput={"control"}
         labelInput={"motivo de consulta"}
         field={true}
       />
       <InputProfessional
-        placeholderInput={"jajaj"}
+        valueInput={dataForm.descripcion}
+        nameInput="descripcion"
+        handleTextarea={handleOnChangeTextarea}
+        placeholderInput={"Peso: 57kg talla: 1.70m"}
         labelInput={"descripción"}
       />
       <div className="flex w-full">
@@ -25,6 +49,7 @@ export const FormUploadHistory: React.FC = () => {
         </div>
         <UploadStudy />
       </div>
+      <div className="whitespace-pre-line">{dataForm.descripcion}</div>
     </div>
   );
 };
