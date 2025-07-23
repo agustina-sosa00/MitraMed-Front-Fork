@@ -57,7 +57,7 @@ export const MedicalHistory: React.FC = () => {
       </div>
 
       <div className="flex w-full gap-2 ">
-        <div className="w-1/2">
+        <div className="w-1/2 overflow-x-auto">
           <TablaDefault
             props={{
               datosParaTabla: [
@@ -114,8 +114,8 @@ export const MedicalHistory: React.FC = () => {
                 {
                   key: "motivo",
                   label: "Motivo de consulta",
-                  minWidth: "250",
-                  maxWidth: "250",
+                  minWidth: "200",
+                  maxWidth: "200",
                 },
 
                 {
@@ -128,7 +128,7 @@ export const MedicalHistory: React.FC = () => {
               objectStyles: {
                 addHeaderColor: "#022539",
                 columnasNumber: [1],
-                containerClass: "border border-gray-300 rounded-t-lg",
+                containerClass: "border border-gray-300 rounded-t-lg ",
                 withBorder: false,
               },
             }}
@@ -136,6 +136,7 @@ export const MedicalHistory: React.FC = () => {
         </div>
         <FormUploadHistory />
       </div>
+      <div></div>
     </div>
   );
 };

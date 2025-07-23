@@ -7,7 +7,6 @@ export const UploadStudy: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
   //   estado preview guarda una url temporal para mostrar el archivo
   const [preview, setPreview] = useState<string | null>(null);
-  console.log(file);
 
   //   handleDrop: funcion que recibe por parametros un array con los archivos seleccionados
   const handleDrop = (acceptedFiles: File[]) => {
