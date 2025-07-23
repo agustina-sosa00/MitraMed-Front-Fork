@@ -48,7 +48,7 @@ export const UploadStudy: React.FC = () => {
                     <iframe
                       src={preview ?? ""}
                       width="40%"
-                      height="500px"
+                      height="400px"
                       title="PDF preview"
                     />
                   )}
@@ -56,11 +56,11 @@ export const UploadStudy: React.FC = () => {
               ) : (
                 <div
                   {...getRootProps()}
-                  className="flex flex-col items-center justify-center p-5 border border-gray-400 border-dashed rounded cursor-pointer"
+                  className="flex flex-col items-center justify-center py-5 border border-gray-400 border-dashed rounded cursor-pointer"
                 >
-                  <IoCloudUploadOutline className="text-3xl text-gray-500 lg:text-5xl" />
+                  <IoCloudUploadOutline className="text-3xl text-gray-500 lg:text-3xl" />
                   <input {...getInputProps()} />
-                  <p className="text-xs text-center text-gray-500 lg:text-sm">
+                  <p className="text-xs text-center text-gray-500 ">
                     Arrastre y suelte un archivo aquí, o haga clic para
                     seleccionarlo.
                   </p>
