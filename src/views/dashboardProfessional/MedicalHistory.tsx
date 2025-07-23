@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from "react";
 import {
   IObjetcPatient,
@@ -9,7 +8,7 @@ import { TablaDefault } from "@/frontend-resourses/components";
 
 export const MedicalHistory: React.FC = () => {
   const [showData, setShowData] = useState<boolean>(false);
-  const [dataPatient, setDataPatient] = useState<IObjetcPatient[]>([
+  const dataPatient: IObjetcPatient[] = [
     {
       label: "apellido",
       value: "Sosa",
@@ -34,7 +33,8 @@ export const MedicalHistory: React.FC = () => {
       label: "obra social",
       value: "OSDE",
     },
-  ]);
+  ];
+
   const handleFindPatient = () => {
     setShowData(!showData);
   };
