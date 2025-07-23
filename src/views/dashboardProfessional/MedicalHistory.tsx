@@ -1,13 +1,42 @@
 import React, { useState } from "react";
-import { SearchPatient } from "@/components/features/PanelProfessional/SearchPatient";
+import {
+  IObjetcPatient,
+  SearchPatient,
+} from "@/components/features/PanelProfessional/SearchPatient";
 import { FormUploadHistory } from "@/components/features/PanelProfessional/FormUploadHistory";
 import { TablaDefault } from "@/frontend-resourses/components";
 
 export const MedicalHistory: React.FC = () => {
-  const [infoUser, setInfoUser] = useState<boolean>(false);
+  const [showData, setShowData] = useState<boolean>(false);
+  const dataPatient: IObjetcPatient[] = [
+    {
+      label: "apellido",
+      value: "Sosa",
+    },
+    {
+      label: "nombre",
+      value: "Agustina",
+    },
+    {
+      label: "DNI",
+      value: "00234454",
+    },
+    {
+      label: "f. nacimiento",
+      value: "05/02/2000",
+    },
+    {
+      label: "edad",
+      value: "25",
+    },
+    {
+      label: "obra social",
+      value: "OSDE",
+    },
+  ];
 
   const handleFindPatient = () => {
-    setInfoUser(!infoUser);
+    setShowData(!showData);
   };
   return (
     <div className="flex flex-col w-full min-h-screen px-6 pt-10 ">
@@ -19,7 +48,9 @@ export const MedicalHistory: React.FC = () => {
 
       <div className="flex items-center justify-start w-full h-16 gap-1 py-1 ">
         <SearchPatient
-          infoUser={infoUser}
+          data={dataPatient}
+          labelSearch={"HC"}
+          showData={showData}
           handleFindPatient={handleFindPatient}
           viewImg={false}
         />

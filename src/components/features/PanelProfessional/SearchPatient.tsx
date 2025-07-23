@@ -2,15 +2,24 @@ import React, { useState } from "react";
 import { FaPencil } from "react-icons/fa6";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 
+export interface IObjetcPatient {
+  label: string;
+  value: string;
+}
+
 interface SearchPatientProps {
   handleFindPatient: () => void;
   viewImg: boolean;
-  infoUser: boolean;
+  showData: boolean;
+  labelSearch: string;
+  data: IObjetcPatient[];
 }
 export const SearchPatient: React.FC<SearchPatientProps> = ({
   handleFindPatient,
   viewImg,
-  infoUser,
+  showData,
+  labelSearch,
+  data,
 }) => {
   const [dni, setDni] = useState<string>("");
 
@@ -20,13 +29,15 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
 
   return (
     <>
-      {infoUser ? (
+      {showData ? (
         <div
           className={`flex  py-1 h-16 justify-start gap-1 w-full ${
             viewImg ? "items-end" : "items-center"
           } `}
         >
-          <label className="text-sm font-medium text-blue">DNI: </label>
+          <label className="text-sm font-medium text-blue">
+            {labelSearch}:{" "}
+          </label>
           <div className="h-8 px-2 py-1 font-bold border border-gray-300 rounded w-28 bg-lightGray focus:outline-none text-blue">
             {dni}
           </div>
@@ -38,12 +49,16 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
             <FaPencil />
           </button>
           <div className="flex items-end justify-end gap-3 px-3">
-            <h3 className="text-sm text-blue">
-              Paciente:{" "}
-              <span className="text-base font-medium capitalize ">
-                agustina sosa
-              </span>
-            </h3>
+            {data.map((item) => (
+              <h3 className="text-sm capitalize text-blue ">
+                {item.label}:{" "}
+                <span className="text-base font-medium capitalize ">
+                  {item.value}
+                </span>
+              </h3>
+            ))}
+
+            {/* datos para mostrar de historial medico opcionales */}
             {viewImg && (
               <img
                 src="/user.jpg"
@@ -59,7 +74,9 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
             viewImg ? "items-end" : "items-center"
           } `}
         >
-          <label className="text-sm font-medium text-blue">DNI: </label>
+          <label className="text-sm font-medium text-blue">
+            {labelSearch}:{" "}
+          </label>
           <input
             type="text"
             name="dni"

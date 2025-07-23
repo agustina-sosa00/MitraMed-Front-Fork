@@ -135,7 +135,9 @@ export const Odontogram = () => {
         {idProfesional !== "3" && (
           <div className="flex items-end justify-between w-full h-20 gap-1 py-1 ">
             <SearchPatient
-              infoUser={infoUser}
+              data={[{ label: "paciente", value: "agustina sosa" }]}
+              labelSearch="DNI"
+              showData={infoUser}
               handleFindPatient={handleFindPatient}
               viewImg={true}
             />
