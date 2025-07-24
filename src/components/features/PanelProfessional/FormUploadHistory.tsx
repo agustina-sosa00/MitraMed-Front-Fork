@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import { InputProfessional } from "./InputProfessional";
 import { UploadStudy } from "@/views/dashboardProfessional/UploadStudy";
-
-export const FormUploadHistory: React.FC = () => {
+import { renameFile } from "@/utils/renameFile";
+import { useMutation } from "@tanstack/react-query";
+import { updateArchive } from "@/services/UploadArchiveServices";
+import Swal from "sweetalert2";
+interface IProp {
+  hc: string;
+}
+export const FormUploadHistory: React.FC<IProp> = () => {
   const [dataForm, setDataForm] = useState({
     motivo: "",
     descripcion: "",
@@ -10,6 +16,9 @@ export const FormUploadHistory: React.FC = () => {
     medicamentos: "",
   });
   console.log("dataForm", dataForm);
+
+  const [file, setFile] = useState<File | null>(null);
+
   const handleOnChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setDataForm({ ...dataForm, [name]: value });
@@ -21,8 +30,38 @@ export const FormUploadHistory: React.FC = () => {
     setDataForm({ ...dataForm, [name]: value });
   };
 
+  //  MUTATE PARA GUARDAR ARCHIVOS EN EL VPS
+  const { mutate } = useMutation({
+    mutationFn: updateArchive,
+    onError: (error) => {
+      Swal.fire({
+        icon: "error",
+        title: error.message,
+      });
+    },
+    onSuccess: (data) => {
+      console.log("DATA QUE DEVUELVE EL BACK EN FILE", data);
+    },
+  });
+
+  const handleOnClickSave = () => {
+    // handle que se ejecuta al "agregar datos btn"
+    const newFile = renameFile(file);
+    console.log("newFile", newFile);
+
+    if (newFile) {
+      mutate(newFile);
+    }
+  };
+
   return (
-    <div className="flex flex-col items-start justify-center w-1/2 gap-2 p-3 bg-white border border-gray-300">
+    <div className="flex flex-col items-start justify-center w-1/2 gap-2 p-3 bg-white border border-gray-300 rounded">
+      <div className="flex justify-center w-full">
+        <h1 className="text-xl font-bold text-center text-blue">
+          Agregar datos de la consulta
+        </h1>
+      </div>
+
       <InputProfessional
         valueInput={dataForm.motivo}
         nameInput="motivo"
@@ -47,9 +86,17 @@ export const FormUploadHistory: React.FC = () => {
             Subir archivo:
           </label>
         </div>
-        <UploadStudy />
+        <UploadStudy setState={setFile} />
       </div>
-      <div className="whitespace-pre-line">{dataForm.descripcion}</div>
+      <div className="flex justify-end w-full">
+        <button
+          onClick={handleOnClickSave}
+          className={`text-center gap-2 px-5  py-1   font-medium  capitalize rounded bg-green hover:bg-greenHover text-white  cursor-pointer transition-all duration-300  `}
+        >
+          Agregar datos
+        </button>
+      </div>
+      {/* <div className="whitespace-pre-line">{dataForm.descripcion}</div> */}
     </div>
   );
 };

@@ -8,7 +8,7 @@ export interface IObjetcPatient {
 }
 
 interface SearchPatientProps {
-  handleFindPatient: () => void;
+  handleFindPatient: (arg: string) => void;
   viewImg: boolean;
   showData: boolean;
   labelSearch: string;
@@ -21,10 +21,10 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
   labelSearch,
   data,
 }) => {
-  const [dni, setDni] = useState<string>("");
+  const [hc, setHc] = useState<string>("");
 
   const handleOnChangeDni = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDni(e.target.value);
+    setHc(e.target.value);
   };
 
   return (
@@ -39,11 +39,11 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
             {labelSearch}:{" "}
           </label>
           <div className="h-8 px-2 py-1 font-bold border border-gray-300 rounded w-28 bg-lightGray focus:outline-none text-blue">
-            {dni}
+            {hc}
           </div>
           <button
             type="button"
-            onClick={handleFindPatient}
+            onClick={() => handleFindPatient(hc)}
             className="flex items-center justify-center h-8 px-2 py-1 transition-all duration-300 border border-gray-300 rounded bg-lightGray text-greenHover hover:bg-gray-200"
           >
             <FaPencil />
@@ -80,14 +80,14 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
           <input
             type="text"
             name="dni"
-            value={dni}
+            value={hc}
             placeholder="11222333"
             onChange={handleOnChangeDni}
             className="h-8 px-2 py-1 font-bold border border-gray-300 rounded w-28 bg-lightGray focus:outline-none text-blue"
           />
           <button
             type="button"
-            onClick={handleFindPatient}
+            onClick={() => handleFindPatient(hc)}
             className="flex items-center justify-center h-8 px-2 py-1 transition-all duration-300 border border-gray-300 rounded bg-lightGray text-greenHover hover:bg-gray-200"
           >
             <FaMagnifyingGlass />

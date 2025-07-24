@@ -1,14 +1,19 @@
-import React, { useState } from "react";
+// import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"; //luego borrar esta linea y descomentar la de arriba
 import { IoCloudUploadOutline } from "react-icons/io5";
-
 import Dropzone from "react-dropzone";
-export const UploadStudy: React.FC = () => {
+
+interface IProp {
+  setState: (arg: File) => void;
+}
+
+export const UploadStudy: React.FC<IProp> = ({ setState }) => {
   // estado file para guardar el archivo y su vista previa
   const [file, setFile] = useState<File | null>(null);
   //   estado preview guarda una url temporal para mostrar el archivo
   const [preview, setPreview] = useState<string | null>(null);
 
-  //   handleDrop: funcion que recibe por parametros un array con los archivos seleccionados
+  //   handleDrop: función que recibe por parámetros un array con los archivos seleccionados
   const handleDrop = (acceptedFiles: File[]) => {
     console.log("acceptedFiles", acceptedFiles);
     // tomamos solo el primer archivo subido o seleccionado
@@ -23,13 +28,18 @@ export const UploadStudy: React.FC = () => {
       setPreview(url);
     }
   };
+
+  useEffect(() => {
+    file && setState(file);
+  }, [file]);
+
   return (
     <div className="flex-[1]">
-      {/* Dropzone es un componente que espera como children una funcion */}
+      {/* Dropzone es un componente que espera como children una función */}
       <Dropzone onDrop={handleDrop}>
         {/* al soltar o seleccionar un archivo se dispara onDrop */}
-        {/* esta funcion recibe getRootProps que se usa para hacer la zona de arrastre */}
-        {/* esta funcion recibe getRootProps que se usa para hacer el input que al hacer click te permite seleccionar un archivo */}
+        {/* esta función recibe getRootProps que se usa para hacer la zona de arrastre */}
+        {/* esta función recibe getRootProps que se usa para hacer el input que al hacer click te permite seleccionar un archivo */}
         {({ getRootProps, getInputProps }) => (
           <section className="flex items-center justify-center w-full ">
             <div className="w-full p-3 border border-gray-300 rounded bg-lightGray">
