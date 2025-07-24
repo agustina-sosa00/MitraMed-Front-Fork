@@ -3,8 +3,12 @@ import { InputProfessional } from "./InputProfessional";
 import { UploadStudy } from "@/views/dashboardProfessional/UploadStudy";
 import { renameFile } from "@/utils/renameFile";
 import { useMutation } from "@tanstack/react-query";
-import { updateArchive } from "@/services/UploadArchiveServices";
+import {
+  downloadArchive,
+  updateArchive,
+} from "@/services/UploadArchiveServices";
 import Swal from "sweetalert2";
+
 interface IProp {
   hc: string;
 }
@@ -15,10 +19,10 @@ export const FormUploadHistory: React.FC<IProp> = () => {
     archivo: "",
     medicamentos: "",
   });
-  console.log("dataForm", dataForm);
 
   const [file, setFile] = useState<File | null>(null);
-
+  const [fileSaved, setFileSaved] = useState<File | null>(null);
+  console.log("fileSaved", fileSaved);
   const handleOnChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setDataForm({ ...dataForm, [name]: value });
@@ -44,14 +48,38 @@ export const FormUploadHistory: React.FC<IProp> = () => {
     },
   });
 
+  //  MUTATE PARA DESCARGAR ARCHIVOS EN EL VPS
+  const { mutate: mutateDownload } = useMutation({
+    mutationFn: downloadArchive,
+    onError: (error) => {
+      Swal.fire({
+        icon: "error",
+        title: error.message,
+      });
+    },
+    onSuccess: (data) => {
+      console.log("DATA QUE DEVUELVE EL BACK EN DOWNLOAD FILE", data);
+    },
+  });
+
   const handleOnClickSave = () => {
     // handle que se ejecuta al "agregar datos btn"
-    const newFile = renameFile(file);
-    console.log("newFile", newFile);
-
-    if (newFile) {
-      mutate(newFile);
+    if (file) {
+      const newFile = renameFile(file);
+      console.log("newFile", newFile);
+      setFileSaved(newFile);
+      newFile && mutate(newFile);
+    } else {
+      console.log("fileSaved", fileSaved);
     }
+  };
+
+  const handleOnDownload = () => {
+    if (!fileSaved) {
+      console.log("No hay archivo para descargar");
+      return;
+    }
+    mutateDownload(fileSaved.name);
   };
 
   return (
@@ -88,7 +116,13 @@ export const FormUploadHistory: React.FC<IProp> = () => {
         </div>
         <UploadStudy setState={setFile} />
       </div>
-      <div className="flex justify-end w-full">
+      <div className="flex justify-end w-full gap-5">
+        <button
+          onClick={handleOnDownload}
+          className={`text-center gap-2 px-5  py-1   font-medium  capitalize rounded bg-blue  text-white  cursor-pointer transition-all duration-300  `}
+        >
+          Descargar img
+        </button>
         <button
           onClick={handleOnClickSave}
           className={`text-center gap-2 px-5  py-1   font-medium  capitalize rounded bg-green hover:bg-greenHover text-white  cursor-pointer transition-all duration-300  `}
