@@ -42,7 +42,7 @@ export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
                 className={`flex items-center gap-2 pl-5  py-1 w-[90%] text-lg font-medium  capitalize rounded ${
                   item.disabled
                     ? "text-gray-400 cursor-not-allowed"
-                    : "hover:bg-green hover:text-white text-blue cursor-pointer"
+                    : "hover:bg-green hover:text-white text-blue cursor-pointer transition-all duration-300 "
                 } `}
               >
                 <item.icon className="" />
@@ -67,7 +67,7 @@ export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
             ¿Quieres{" "}
             <span
               onClick={handleLogout}
-              className="font-bold cursor-pointer hover:text-green"
+              className="font-bold transition-all duration-300 cursor-pointer hover:text-green "
             >
               cerrar sesión
             </span>
