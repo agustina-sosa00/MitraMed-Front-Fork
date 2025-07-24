@@ -34,8 +34,10 @@ export const MedicalHistory: React.FC = () => {
       value: "OSDE",
     },
   ];
+  const [history, setHistory] = useState<string>("");
 
-  const handleFindPatient = () => {
+  const handleFindPatient = (hc: string) => {
+    setHistory(hc);
     setShowData(!showData);
   };
   return (
@@ -134,7 +136,7 @@ export const MedicalHistory: React.FC = () => {
             }}
           />
         </div>
-        <FormUploadHistory />
+        <FormUploadHistory hc={history} />
       </div>
       <div></div>
     </div>
