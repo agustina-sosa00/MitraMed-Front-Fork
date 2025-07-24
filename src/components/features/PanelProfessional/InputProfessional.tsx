@@ -48,7 +48,7 @@ export const InputProfessional: React.FC<IProp> = ({
           value={valueInput}
           placeholder={placeholderInput}
           onChange={handleTextarea}
-          className=" flex-[1] px-2 py-1 overflow-hidden font-bold border border-gray-300 rounded  bg-lightGray focus:outline-none text-blue h-60"
+          className=" flex-[1] px-2 py-1 overflow-hidden font-bold border border-gray-300 rounded  bg-lightGray focus:outline-none text-blue h-44"
         ></textarea>
       )}
     </div>
