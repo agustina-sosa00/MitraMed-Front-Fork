@@ -24,11 +24,17 @@ export const updateArchive = async (file: File) => {
 export const downloadArchive = async (nameArchive: string) => {
   const downloadArchiveUrl = "/apinovades/archivos/descargarArchivo.php";
   try {
-    const response = await apiPhp.post(downloadArchiveUrl, {
-      empresa: "20",
-      modo: "homo",
-      nArchivo: nameArchive,
-    });
+    const response = await apiPhp.post(
+      downloadArchiveUrl,
+      {
+        empresa: "20",
+        modo: "homo",
+        nArchivo: nameArchive,
+      },
+      {
+        responseType: "blob",
+      }
+    );
     return response.data;
   } catch (error) {
     throw new Error(`${error}`);
