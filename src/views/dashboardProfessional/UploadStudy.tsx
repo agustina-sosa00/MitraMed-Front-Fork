@@ -1,15 +1,16 @@
 // import React, { useEffect, useState } from "react";
-import React, { useEffect, useState } from "react"; //luego borrar esta linea y descomentar la de arriba
+import React, { useState } from "react"; //luego borrar esta linea y descomentar la de arriba
 import { IoCloudUploadOutline } from "react-icons/io5";
 import Dropzone from "react-dropzone";
 
 interface IProp {
+  state: File;
   setState: (arg: File) => void;
 }
 
-export const UploadStudy: React.FC<IProp> = ({ setState }) => {
+export const UploadStudy: React.FC<IProp> = ({ state, setState }) => {
   // estado file para guardar el archivo y su vista previa
-  const [file, setFile] = useState<File | null>(null);
+  // const [file, setFile] = useState<File | null>(null);
   //   estado preview guarda una url temporal para mostrar el archivo
   const [preview, setPreview] = useState<string | null>(null);
 
@@ -19,8 +20,8 @@ export const UploadStudy: React.FC<IProp> = ({ setState }) => {
     // tomamos solo el primer archivo subido o seleccionado
     const uploaded = acceptedFiles[0];
     // seteamos el archivo al estado file
-    setFile(uploaded);
-
+    // setFile(uploaded);
+    setState(uploaded);
     if (uploaded) {
       // usamos createObjectURL() para generar una url temporal
       const url = URL.createObjectURL(uploaded);
@@ -29,9 +30,9 @@ export const UploadStudy: React.FC<IProp> = ({ setState }) => {
     }
   };
   console.log("preview", preview);
-  useEffect(() => {
-    file && setState(file);
-  }, [file]);
+  // useEffect(() => {
+  //   file &&
+  // }, [file]);
 
   return (
     <div className="flex-[1]">
@@ -43,13 +44,13 @@ export const UploadStudy: React.FC<IProp> = ({ setState }) => {
         {({ getRootProps, getInputProps }) => (
           <section className="flex items-center justify-center w-full ">
             <div className="w-full p-3 border border-gray-300 rounded bg-lightGray">
-              {file ? (
+              {state ? (
                 <div className="flex flex-col items-center justify-start ">
                   <p className="mb-2 font-semibold">
-                    Archivo seleccionado: {file.name}
+                    Archivo seleccionado: {state.name}
                   </p>
 
-                  {file.type.startsWith("image/") && (
+                  {state.type.startsWith("image/") && (
                     <img src={preview!} alt="Preview" className="border w-36" />
                   )}
 

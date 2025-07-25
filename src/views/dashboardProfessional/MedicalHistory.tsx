@@ -5,6 +5,7 @@ import {
 } from "@/components/features/PanelProfessional/SearchPatient";
 import { FormUploadHistory } from "@/components/features/PanelProfessional/FormUploadHistory";
 import { TablaDefault } from "@/frontend-resourses/components";
+import { IArrayTableHistorial } from "@/types/index";
 
 export const MedicalHistory: React.FC = () => {
   const [showData, setShowData] = useState<boolean>(false);
@@ -35,6 +36,9 @@ export const MedicalHistory: React.FC = () => {
     },
   ];
   const [history, setHistory] = useState<string>("");
+  const [arrayTableHistorialState, setArrayTableHistorialState] = useState<
+    IArrayTableHistorial[]
+  >([]);
 
   const handleFindPatient = (hc: string) => {
     setHistory(hc);
@@ -62,44 +66,7 @@ export const MedicalHistory: React.FC = () => {
         <div className="w-1/2 overflow-x-auto">
           <TablaDefault
             props={{
-              datosParaTabla: [
-                {
-                  id: "1",
-                  fecha: "08/07/2025",
-                  motivo: "Consulta",
-                  profesional: "Jean Pietro Mortarini",
-                },
-                {
-                  id: "1",
-                  fecha: "08/07/2025",
-                  motivo: "Consulta",
-                  profesional: "Jean Pietro Mortarini",
-                },
-                {
-                  id: "1",
-                  fecha: "08/07/2025",
-                  motivo: "Consulta",
-                  profesional: "Jean Pietro Mortarini",
-                },
-                {
-                  id: "1",
-                  fecha: "08/07/2025",
-                  motivo: "Consulta",
-                  profesional: "Jean Pietro Mortarini",
-                },
-                {
-                  id: "1",
-                  fecha: "08/07/2025",
-                  motivo: "Consulta",
-                  profesional: "Jean Pietro Mortarini",
-                },
-                {
-                  id: "1",
-                  fecha: "08/07/2025",
-                  motivo: "Consulta",
-                  profesional: "Jean Pietro Mortarini",
-                },
-              ],
+              datosParaTabla: arrayTableHistorialState,
               objectColumns: [
                 {
                   key: "id",
@@ -136,7 +103,10 @@ export const MedicalHistory: React.FC = () => {
             }}
           />
         </div>
-        <FormUploadHistory hc={history} />
+        <FormUploadHistory
+          hc={history}
+          setState={setArrayTableHistorialState}
+        />
       </div>
       <div></div>
     </div>
