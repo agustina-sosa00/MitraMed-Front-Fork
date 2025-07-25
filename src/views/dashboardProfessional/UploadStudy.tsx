@@ -28,7 +28,7 @@ export const UploadStudy: React.FC<IProp> = ({ setState }) => {
       setPreview(url);
     }
   };
-
+  console.log("preview", preview);
   useEffect(() => {
     file && setState(file);
   }, [file]);
@@ -53,14 +53,14 @@ export const UploadStudy: React.FC<IProp> = ({ setState }) => {
                     <img src={preview!} alt="Preview" className="border w-36" />
                   )}
 
-                  {file.type === "application/pdf" && preview && (
+                  {/* {file.type === "application/pdf" && (
                     <iframe
-                      src={preview ?? ""}
+                      src={preview! ?? ""}
                       width="40%"
                       height="400px"
                       title="PDF preview"
                     />
-                  )}
+                  )} */}
                 </div>
               ) : (
                 <div

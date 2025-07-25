@@ -14,7 +14,6 @@ export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
   const data = Cookies.get("dataProfessional");
   const dataUser = data ? JSON.parse(data) : null;
 
-  console.log(dataUser);
   const handleLogout = () => {
     Cookies.remove("accessProfessional");
     navigate("/");

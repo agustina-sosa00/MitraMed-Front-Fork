@@ -19,7 +19,7 @@ export const FormUploadHistory: React.FC<IProp> = () => {
     archivo: "",
     medicamentos: "",
   });
-
+  const [image, setImage] = useState<string>("");
   const [file, setFile] = useState<File | null>(null);
   const [fileSaved, setFileSaved] = useState<File | null>(null);
   console.log("fileSaved", fileSaved);
@@ -59,6 +59,10 @@ export const FormUploadHistory: React.FC<IProp> = () => {
     },
     onSuccess: (data) => {
       console.log("DATA QUE DEVUELVE EL BACK EN DOWNLOAD FILE", data);
+      // aca el back nos devuelve un blob
+      // lo convertimos a una url valida para mostrar el archivo
+      const url = URL.createObjectURL(data);
+      setImage(url);
     },
   });
 
@@ -130,7 +134,12 @@ export const FormUploadHistory: React.FC<IProp> = () => {
           Agregar datos
         </button>
       </div>
-      {/* <div className="whitespace-pre-line">{dataForm.descripcion}</div> */}
+      <div className="whitespace-pre-line">
+        imagen descargada:{}
+        {image && (
+          <img src={image} alt="Imagen descargada" style={{ width: "200px" }} />
+        )}
+      </div>
     </div>
   );
 };
