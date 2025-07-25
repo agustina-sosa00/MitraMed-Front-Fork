@@ -73,3 +73,16 @@ export interface Turno {
   hora_ini: string;
   hora_fin: string;
 }
+
+// PROFESIONAL LAYOUT
+export interface IArrayTableHistorial {
+  id: number;
+  fecha: string;
+  motivo: string;
+  data: {
+    description: string;
+    archivo: string;
+    medicamentos?: string;
+  };
+  profesional: string;
+}

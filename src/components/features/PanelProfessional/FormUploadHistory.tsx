@@ -8,21 +8,24 @@ import {
   updateArchive,
 } from "@/services/UploadArchiveServices";
 import Swal from "sweetalert2";
+import { IArrayTableHistorial } from "@/types/index";
 
 interface IProp {
   hc: string;
+  setState: React.Dispatch<React.SetStateAction<IArrayTableHistorial[]>>;
 }
-export const FormUploadHistory: React.FC<IProp> = () => {
+export const FormUploadHistory: React.FC<IProp> = ({ setState }) => {
   const [dataForm, setDataForm] = useState({
     motivo: "",
     descripcion: "",
     archivo: "",
     medicamentos: "",
   });
+  console.log("dataForm", dataForm);
   const [image, setImage] = useState<string>("");
   const [file, setFile] = useState<File | null>(null);
   const [fileSaved, setFileSaved] = useState<File | null>(null);
-  console.log("fileSaved", fileSaved);
+
   const handleOnChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setDataForm({ ...dataForm, [name]: value });
@@ -35,7 +38,7 @@ export const FormUploadHistory: React.FC<IProp> = () => {
   };
 
   //  MUTATE PARA GUARDAR ARCHIVOS EN EL VPS
-  const { mutate } = useMutation({
+  const { mutateAsync } = useMutation({
     mutationFn: updateArchive,
     onError: (error) => {
       Swal.fire({
@@ -66,15 +69,50 @@ export const FormUploadHistory: React.FC<IProp> = () => {
     },
   });
 
-  const handleOnClickSave = () => {
-    // handle que se ejecuta al "agregar datos btn"
-    if (file) {
-      const newFile = renameFile(file);
-      console.log("newFile", newFile);
-      setFileSaved(newFile);
-      newFile && mutate(newFile);
-    } else {
-      console.log("fileSaved", fileSaved);
+  const handleOnClickSave = async () => {
+    if (!file) {
+      console.log("No hay archivo seleccionado");
+      return;
+    }
+
+    const newFile = renameFile(file);
+    setFileSaved(newFile);
+    try {
+      await mutateAsync(newFile!);
+
+      const updatedForm = {
+        ...dataForm,
+        archivo: newFile!.name,
+      };
+      setState((prev: IArrayTableHistorial[]) => [
+        ...prev,
+        {
+          id: Date.now(),
+          fecha: new Date().toISOString(),
+          motivo: dataForm.motivo,
+          data: {
+            description: dataForm.descripcion,
+            archivo: newFile!.name,
+            medicamentos: dataForm.medicamentos,
+          },
+          profesional: "Profesional",
+        },
+      ]);
+      setDataForm({
+        motivo: "",
+        descripcion: "",
+        archivo: "",
+        medicamentos: "",
+      });
+      setFile(null);
+      console.log("Datos guardados:", updatedForm);
+    } catch (error) {
+      console.error("Error al subir archivo:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error al subir el archivo",
+        text: error instanceof Error ? error.message : "Error desconocido",
+      });
     }
   };
 
@@ -118,7 +156,7 @@ export const FormUploadHistory: React.FC<IProp> = () => {
             Subir archivo:
           </label>
         </div>
-        <UploadStudy setState={setFile} />
+        <UploadStudy setState={setFile} state={file!} />
       </div>
       <div className="flex justify-end w-full gap-5">
         <button
