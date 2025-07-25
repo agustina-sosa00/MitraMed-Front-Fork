@@ -40,6 +40,10 @@ export const MedicalHistory: React.FC = () => {
     IArrayTableHistorial[]
   >([]);
 
+  // sortedData es un array que acomoda el objeto mas reciente al principio del array
+  const sortedData = [...arrayTableHistorialState].sort(
+    (a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime()
+  );
   const handleFindPatient = (hc: string) => {
     setHistory(hc);
     setShowData(!showData);
@@ -66,7 +70,7 @@ export const MedicalHistory: React.FC = () => {
         <div className="w-1/2 overflow-x-auto">
           <TablaDefault
             props={{
-              datosParaTabla: arrayTableHistorialState,
+              datosParaTabla: sortedData,
               objectColumns: [
                 {
                   key: "id",
