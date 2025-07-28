@@ -13,6 +13,7 @@ interface SearchPatientProps {
   showData: boolean;
   labelSearch: string;
   data: IObjetcPatient[];
+  noHc?: boolean;
 }
 export const SearchPatient: React.FC<SearchPatientProps> = ({
   handleFindPatient,
@@ -20,9 +21,10 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
   showData,
   labelSearch,
   data,
+  noHc,
 }) => {
   const [hc, setHc] = useState<string>("");
-
+  console.log("hc", hc);
   const handleOnChangeDni = (e: React.ChangeEvent<HTMLInputElement>) => {
     setHc(e.target.value);
   };
@@ -77,14 +79,19 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
           <label className="text-sm font-medium text-blue">
             {labelSearch}:{" "}
           </label>
-          <input
-            type="text"
-            name="dni"
-            value={hc}
-            placeholder="11222333"
-            onChange={handleOnChangeDni}
-            className="h-8 px-2 py-1 font-bold border border-gray-300 rounded w-28 bg-lightGray focus:outline-none text-blue"
-          />
+          <div className="relative ">
+            <input
+              type="text"
+              name="dni"
+              value={hc}
+              placeholder="11222333"
+              onChange={handleOnChangeDni}
+              className={`h-8 px-2 py-1 font-bold border  rounded w-28 bg-lightGray focus:outline-none text-blue ${
+                noHc ? "border-red-500" : "border-gray-300 "
+              } `}
+            />
+          </div>
+
           <button
             type="button"
             onClick={() => handleFindPatient(hc)}
@@ -92,6 +99,11 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
           >
             <FaMagnifyingGlass />
           </button>
+          {noHc && (
+            <p className="text-xs font-bold text-red-500 w-72">
+              Debe ingresar un número de historia clínica
+            </p>
+          )}
         </div>
       )}
     </>
