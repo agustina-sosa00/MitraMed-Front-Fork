@@ -11,7 +11,6 @@ import Cookies from "js-cookie";
 export const MedicalHistory: React.FC = () => {
   // data profesional
   const infoProfessional = Cookies.get("dataProfessional");
-  console.log("infoProfessional", typeof infoProfessional);
   const [showData, setShowData] = useState<boolean>(false);
   const dataPatient: IObjetcPatient[] = [
     {
@@ -44,14 +43,22 @@ export const MedicalHistory: React.FC = () => {
     IArrayTableHistorial[]
   >([]);
 
+  const [hc, setHc] = useState<boolean>(false);
+
   // sortedData es un array que acomoda el objeto mas reciente al principio del array
   const sortedData = [...arrayTableHistorialState].sort(
     (a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime()
   );
 
   const handleFindPatient = (hc: string) => {
-    setHistory(hc);
-    setShowData(!showData);
+    console.log("handle hc", hc);
+    if (hc.length === 0) {
+      setHc(true);
+    } else {
+      setHc(false);
+      setHistory(hc);
+      setShowData(!showData);
+    }
   };
 
   return (
@@ -64,6 +71,7 @@ export const MedicalHistory: React.FC = () => {
 
       <div className="flex items-center justify-start w-full h-16 gap-1 py-1 ">
         <SearchPatient
+          noHc={hc}
           data={dataPatient}
           labelSearch={"HC"}
           showData={showData}
