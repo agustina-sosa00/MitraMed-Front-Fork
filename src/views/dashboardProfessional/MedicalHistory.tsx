@@ -6,8 +6,12 @@ import {
 import { FormUploadHistory } from "@/components/features/PanelProfessional/FormUploadHistory";
 import { TablaDefault } from "@/frontend-resourses/components";
 import { IArrayTableHistorial } from "@/types/index";
+import Cookies from "js-cookie";
 
 export const MedicalHistory: React.FC = () => {
+  // data profesional
+  const infoProfessional = Cookies.get("dataProfessional");
+  console.log("infoProfessional", typeof infoProfessional);
   const [showData, setShowData] = useState<boolean>(false);
   const dataPatient: IObjetcPatient[] = [
     {
@@ -44,10 +48,12 @@ export const MedicalHistory: React.FC = () => {
   const sortedData = [...arrayTableHistorialState].sort(
     (a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime()
   );
+
   const handleFindPatient = (hc: string) => {
     setHistory(hc);
     setShowData(!showData);
   };
+
   return (
     <div className="flex flex-col w-full min-h-screen px-6 pt-10 ">
       <div className="flex flex-col w-full ">
@@ -108,6 +114,7 @@ export const MedicalHistory: React.FC = () => {
           />
         </div>
         <FormUploadHistory
+          infoProfessional={JSON.parse(infoProfessional!)}
           hc={history}
           setState={setArrayTableHistorialState}
         />
