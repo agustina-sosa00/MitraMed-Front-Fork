@@ -19,7 +19,6 @@ export default function HomeView() {
   const [isLoading, setIsLoading] = useState(true);
   const [shouldRefetch, setShouldRefetch] = useState(true);
   const [usuario, setUsuario] = useState<Usuario | null>(null);
-  console.log("usuario", usuario);
   const [isEditingTelefono, setIsEditingTelefono] = useState(false);
   const [codareaInput, setCodareaInput] = useState<string>("");
   const [telefonoInput, setTelefonoInput] = useState<string>("");
