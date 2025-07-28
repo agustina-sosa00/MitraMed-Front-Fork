@@ -6,7 +6,7 @@ import { FaMagnifyingGlass } from "react-icons/fa6";
 
 interface IProp {
   close?: () => void;
-  setData: (data: IFormState) => void;
+
   handleChange: (form: IFormState) => void;
 }
 export const ModalAltaTurno: React.FC<IProp> = ({
@@ -44,7 +44,6 @@ export const ModalAltaTurno: React.FC<IProp> = ({
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    console.log(formState);
   };
 
   return (

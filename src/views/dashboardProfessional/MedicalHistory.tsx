@@ -53,7 +53,6 @@ export const MedicalHistory: React.FC = () => {
   );
 
   const handleFindPatient = (hc: string) => {
-    console.log("handle hc", hc);
     if (hc.length === 0) {
       setHc(true);
     } else {
