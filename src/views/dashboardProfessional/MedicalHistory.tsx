@@ -7,6 +7,7 @@ import { FormUploadHistory } from "@/components/features/PanelProfessional/FormU
 import { TablaDefault } from "@/frontend-resourses/components";
 import { IArrayTableHistorial } from "@/types/index";
 import Cookies from "js-cookie";
+import Swal from "sweetalert2";
 
 export const MedicalHistory: React.FC = () => {
   // data profesional
@@ -44,6 +45,7 @@ export const MedicalHistory: React.FC = () => {
   >([]);
 
   const [hc, setHc] = useState<boolean>(false);
+  const [focusState, setFocusState] = useState(false);
 
   // sortedData es un array que acomoda el objeto mas reciente al principio del array
   const sortedData = [...arrayTableHistorialState].sort(
@@ -58,6 +60,20 @@ export const MedicalHistory: React.FC = () => {
       setHc(false);
       setHistory(hc);
       setShowData(!showData);
+    }
+  };
+
+  const handleOnFocusInput = () => {
+    if (history.length === 0) {
+      setFocusState(true);
+      Swal.fire({
+        icon: "warning",
+        title: `Antes de completar , debe ingresar un número de historia clínica`,
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#518915",
+      });
+    } else {
+      setFocusState(false);
     }
   };
 
@@ -122,9 +138,11 @@ export const MedicalHistory: React.FC = () => {
           />
         </div>
         <FormUploadHistory
+          handle={handleOnFocusInput}
           infoProfessional={JSON.parse(infoProfessional!)}
           hc={history}
           setState={setArrayTableHistorialState}
+          focusState={focusState}
         />
       </div>
       <div></div>
