@@ -13,8 +13,15 @@ import { IArrayTableHistorial } from "@/types/index";
 interface IProp {
   hc: string;
   setState: React.Dispatch<React.SetStateAction<IArrayTableHistorial[]>>;
+  infoProfessional: {
+    adoctor: string;
+    ndoctor: string;
+  };
 }
-export const FormUploadHistory: React.FC<IProp> = ({ setState }) => {
+export const FormUploadHistory: React.FC<IProp> = ({
+  setState,
+  infoProfessional,
+}) => {
   const [dataForm, setDataForm] = useState({
     motivo: "",
     descripcion: "",
@@ -47,7 +54,13 @@ export const FormUploadHistory: React.FC<IProp> = ({ setState }) => {
       });
     },
     onSuccess: (data) => {
-      console.log("DATA QUE DEVUELVE EL BACK EN FILE", data);
+      if (data) {
+        Swal.fire({
+          icon: "success",
+          title: "Información guardada con éxito",
+          confirmButtonColor: "#518915",
+        });
+      }
     },
   });
 
@@ -61,7 +74,6 @@ export const FormUploadHistory: React.FC<IProp> = ({ setState }) => {
       });
     },
     onSuccess: (data) => {
-      console.log("DATA QUE DEVUELVE EL BACK EN DOWNLOAD FILE", data);
       // aca el back nos devuelve un blob
       // lo convertimos a una url valida para mostrar el archivo
       const url = URL.createObjectURL(data);
@@ -80,10 +92,6 @@ export const FormUploadHistory: React.FC<IProp> = ({ setState }) => {
     try {
       await mutateAsync(newFile!);
 
-      const updatedForm = {
-        ...dataForm,
-        archivo: newFile!.name,
-      };
       setState((prev: IArrayTableHistorial[]) => [
         ...prev,
         {
@@ -95,7 +103,8 @@ export const FormUploadHistory: React.FC<IProp> = ({ setState }) => {
             archivo: newFile!.name,
             medicamentos: dataForm.medicamentos,
           },
-          profesional: "Profesional",
+          profesional:
+            infoProfessional.adoctor + " " + infoProfessional.ndoctor,
         },
       ]);
       setDataForm({
@@ -105,7 +114,6 @@ export const FormUploadHistory: React.FC<IProp> = ({ setState }) => {
         medicamentos: "",
       });
       setFile(null);
-      console.log("Datos guardados:", updatedForm);
     } catch (error) {
       console.error("Error al subir archivo:", error);
       Swal.fire({
