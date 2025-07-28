@@ -10,6 +10,8 @@ interface IProp {
   labelInput?: string;
   requiredInput?: boolean;
   field?: boolean;
+  focusState?: boolean;
+  focusName?: string;
 }
 export const InputProfessional: React.FC<IProp> = ({
   valueInput,
@@ -21,6 +23,7 @@ export const InputProfessional: React.FC<IProp> = ({
   labelInput,
   requiredInput,
   field,
+  focusState,
 }) => {
   return (
     <div className="flex w-full">
@@ -41,6 +44,7 @@ export const InputProfessional: React.FC<IProp> = ({
           placeholder={placeholderInput}
           onChange={handleInput}
           className="flex-[1] h-8 px-2 py-1 font-bold border border-gray-300 rounded bg-lightGray focus:outline-none text-blue"
+          readOnly={focusState}
         />
       ) : (
         <textarea
@@ -48,7 +52,8 @@ export const InputProfessional: React.FC<IProp> = ({
           value={valueInput}
           placeholder={placeholderInput}
           onChange={handleTextarea}
-          className=" flex-[1] px-2 py-1 overflow-hidden font-bold border border-gray-300 rounded  bg-lightGray focus:outline-none text-blue h-44"
+          className=" flex-[1] h-44 px-2 py-1 overflow-hidden font-bold border border-gray-300 rounded bg-lightGray focus:outline-none text-blue"
+          readOnly={focusState}
         ></textarea>
       )}
     </div>

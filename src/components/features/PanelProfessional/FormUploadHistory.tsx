@@ -17,10 +17,14 @@ interface IProp {
     adoctor: string;
     ndoctor: string;
   };
+  handle?: () => void;
+  focusState?: boolean;
 }
 export const FormUploadHistory: React.FC<IProp> = ({
   setState,
   infoProfessional,
+  handle,
+  focusState,
 }) => {
   const [dataForm, setDataForm] = useState({
     motivo: "",
@@ -139,47 +143,60 @@ export const FormUploadHistory: React.FC<IProp> = ({
           Agregar datos de la consulta
         </h1>
       </div>
-
-      <InputProfessional
-        valueInput={dataForm.motivo}
-        nameInput="motivo"
-        handleInput={handleOnChangeInput}
-        placeholderInput={"control"}
-        labelInput={"motivo de consulta"}
-        field={true}
-      />
-      <InputProfessional
-        valueInput={dataForm.descripcion}
-        nameInput="descripcion"
-        handleTextarea={handleOnChangeTextarea}
-        placeholderInput={"Peso: 57kg talla: 1.70m"}
-        labelInput={"descripción"}
-      />
-      <div className="flex w-full">
-        <div className=" w-36">
-          <label
-            htmlFor=""
-            className="mr-2 text-sm font-medium capitalize text-blue"
-          >
-            Subir archivo:
-          </label>
+      <form
+        className="flex flex-col w-full gap-2"
+        action=""
+        onClick={() => {
+          handle!();
+        }}
+      >
+        <InputProfessional
+          valueInput={dataForm.motivo}
+          nameInput="motivo"
+          handleInput={handleOnChangeInput}
+          placeholderInput={"control"}
+          labelInput={"motivo de consulta"}
+          field={true}
+          focusState={focusState}
+          focusName={"motivo"}
+        />
+        <InputProfessional
+          valueInput={dataForm.descripcion}
+          nameInput="descripcion"
+          handleTextarea={handleOnChangeTextarea}
+          placeholderInput={"Peso: 57kg talla: 1.70m"}
+          labelInput={"descripción"}
+          focusState={focusState}
+          focusName={"descripcion"}
+        />
+        <div className="flex w-full">
+          <div className=" w-36">
+            <label
+              htmlFor=""
+              className="mr-2 text-sm font-medium capitalize text-blue"
+            >
+              Subir archivo:
+            </label>
+          </div>
+          <UploadStudy setState={setFile} state={file!} />
         </div>
-        <UploadStudy setState={setFile} state={file!} />
-      </div>
-      <div className="flex justify-end w-full gap-5">
-        <button
-          onClick={handleOnDownload}
-          className={`text-center gap-2 px-5  py-1   font-medium  capitalize rounded bg-blue  text-white  cursor-pointer transition-all duration-300  `}
-        >
-          Descargar img
-        </button>
-        <button
-          onClick={handleOnClickSave}
-          className={`text-center gap-2 px-5  py-1   font-medium  capitalize rounded bg-green hover:bg-greenHover text-white  cursor-pointer transition-all duration-300  `}
-        >
-          Agregar datos
-        </button>
-      </div>
+        <div className="flex justify-end w-full gap-5">
+          <button
+            type="button"
+            onClick={handleOnDownload}
+            className={`text-center gap-2 px-5  py-1   font-medium  capitalize rounded bg-blue  text-white  cursor-pointer transition-all duration-300  `}
+          >
+            Descargar img
+          </button>
+          <button
+            type="button"
+            onClick={handleOnClickSave}
+            className={`text-center gap-2 px-5  py-1   font-medium  capitalize rounded bg-green hover:bg-greenHover text-white  cursor-pointer transition-all duration-300  `}
+          >
+            Agregar datos
+          </button>
+        </div>
+      </form>
       <div className="whitespace-pre-line">
         imagen descargada:{}
         {image && (
