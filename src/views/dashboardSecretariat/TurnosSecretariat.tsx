@@ -22,10 +22,8 @@ export const TurnosSecretariat: React.FC = () => {
     especiality: string;
   }>();
   const [selectTurn, setSelectTurn] = useState<IDataTable>();
-  const [dataModal, setDataModal] = useState<IFormState>();
   const [arrayFilter, setArrayFilter] = useState<TableNode[]>([]);
 
-  console.log(dataModal);
   const handleBoxButton = (item: string) => {
     if (item === "alta turno") {
       handleOpenModal(item);
@@ -133,7 +131,6 @@ export const TurnosSecretariat: React.FC = () => {
   }, [daySchedule, selectProfessional]);
 
   const handleSelectProfessional = (idProfessional) => {
-    console.log("idProfessional", idProfessional);
     setSelectProfessional(idProfessional);
   };
 
@@ -232,7 +229,6 @@ export const TurnosSecretariat: React.FC = () => {
         <Modal close={() => setOpenModal(!openModal)} title="Alta Turno">
           <ModalAltaTurno
             handleChange={handleChangeDataTurn}
-            setData={setDataModal}
             close={() => setOpenModal(!openModal)}
           />
         </Modal>

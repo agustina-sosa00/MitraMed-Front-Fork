@@ -6,7 +6,6 @@ import Cookies from "js-cookie";
 import { SearchPatient } from "@/components/features/PanelProfessional/SearchPatient";
 export const Odontogram = () => {
   const idProfesional = Cookies.get("idProfesional");
-  console.log("idProfesional:", idProfesional);
 
   const [contextMenu, setContextMenu] = useState<number | null>(null);
   const [openMenu, setOpenMenu] = useState<boolean>(false);
