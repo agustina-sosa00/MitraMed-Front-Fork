@@ -32,7 +32,6 @@ export const FormUploadHistory: React.FC<IProp> = ({
     archivo: "",
     medicamentos: "",
   });
-  console.log("dataForm", dataForm);
   const [image, setImage] = useState<string>("");
   const [file, setFile] = useState<File | null>(null);
   const [fileSaved, setFileSaved] = useState<File | null>(null);
@@ -87,7 +86,6 @@ export const FormUploadHistory: React.FC<IProp> = ({
 
   const handleOnClickSave = async () => {
     if (!file) {
-      console.log("No hay archivo seleccionado");
       return;
     }
 
@@ -130,7 +128,6 @@ export const FormUploadHistory: React.FC<IProp> = ({
 
   const handleOnDownload = () => {
     if (!fileSaved) {
-      console.log("No hay archivo para descargar");
       return;
     }
     mutateDownload(fileSaved.name);

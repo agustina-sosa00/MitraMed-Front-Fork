@@ -16,7 +16,6 @@ export const UploadStudy: React.FC<IProp> = ({ state, setState }) => {
 
   //   handleDrop: función que recibe por parámetros un array con los archivos seleccionados
   const handleDrop = (acceptedFiles: File[]) => {
-    console.log("acceptedFiles", acceptedFiles);
     // tomamos solo el primer archivo subido o seleccionado
     const uploaded = acceptedFiles[0];
     // seteamos el archivo al estado file
@@ -29,7 +28,6 @@ export const UploadStudy: React.FC<IProp> = ({ state, setState }) => {
       setPreview(url);
     }
   };
-  console.log("preview", preview);
   // useEffect(() => {
   //   file &&
   // }, [file]);
