@@ -167,6 +167,7 @@ export const MedicalHistory: React.FC = () => {
           hc={history}
           setState={setArrayTableHistorialState}
           focusState={focusState}
+          folder={dataDropbox.nfolder}
         />
       </div>
       <div></div>
