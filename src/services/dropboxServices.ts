@@ -11,11 +11,15 @@ export const getDataDropbox = async () => {
   }
 };
 
-export const getTokenDropbox = async (
-  refreshToken: string,
-  clientId: string,
-  clientSecret: string
-) => {
+export const getTokenDropbox = async ({
+  refreshToken,
+  clientId,
+  clientSecret,
+}: {
+  refreshToken: string;
+  clientId: string;
+  clientSecret: string;
+}) => {
   const dropboxURL = "https://api.dropbox.com";
   try {
     const data = new URLSearchParams();
