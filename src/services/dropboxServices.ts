@@ -1,4 +1,5 @@
 import { apiPhp } from "@/lib/axiosPhp";
+import axios from "axios";
 
 export const getDataDropbox = async () => {
   try {
@@ -27,7 +28,7 @@ export const getTokenDropbox = async ({
     data.append("refresh_token", refreshToken);
     data.append("client_id", clientId);
     data.append("client_secret", clientSecret);
-    const response = await apiPhp.post(
+    const response = await axios.post(
       `${dropboxURL}/oauth2/token`,
       data.toString(),
       {
@@ -42,6 +43,8 @@ export const getTokenDropbox = async ({
   }
 };
 
+const dropboxURL = "https://content.dropboxapi.com";
+
 export const uploadFileDropbox = async ({
   fileNameError,
   file,
@@ -53,9 +56,8 @@ export const uploadFileDropbox = async ({
   token: string;
   folder: string;
 }) => {
-  const dropboxURL = "https://content.dropboxapi.com";
   try {
-    const response = await apiPhp.post(`${dropboxURL}/2/files/upload`, file, {
+    const response = await axios.post(`${dropboxURL}/2/files/upload`, file, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/octet-stream",
@@ -70,5 +72,36 @@ export const uploadFileDropbox = async ({
     throw new Error(
       `Error subiendo el archivo: ${fileNameError}. Error: ${error}`
     );
+  }
+};
+
+export const downloadFileDropbox = async ({
+  token,
+  folder,
+  archivo,
+}: {
+  token: string;
+  folder: string;
+  archivo: string;
+}) => {
+  try {
+    const response = await axios.post(
+      `https://content.dropboxapi.com/2/files/download`,
+      null,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Dropbox-API-Arg": JSON.stringify({
+            path: `/${folder}/${archivo}`,
+          }),
+          "Content-Type": "",
+        },
+        responseType: "blob",
+      }
+    );
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    throw new Error(`Error al descargar un archivo de Dropbox: ${error}`);
   }
 };
