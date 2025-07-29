@@ -1,44 +1,19 @@
-import React, { useState } from "react";
-import {
-  IObjetcPatient,
-  SearchPatient,
-} from "@/components/features/PanelProfessional/SearchPatient";
+import React, { useEffect, useState } from "react";
+import { SearchPatient } from "@/components/features/PanelProfessional/SearchPatient";
 import { FormUploadHistory } from "@/components/features/PanelProfessional/FormUploadHistory";
 import { TablaDefault } from "@/frontend-resourses/components";
 import { IArrayTableHistorial } from "@/types/index";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
+import { dataPatientHc } from "../../mock/arrayTableProfessional";
+import { useMutation } from "@tanstack/react-query";
+import { getDataDropbox } from "@/services/dropboxServices";
 
 export const MedicalHistory: React.FC = () => {
   // data profesional
   const infoProfessional = Cookies.get("dataProfessional");
   const [showData, setShowData] = useState<boolean>(false);
-  const dataPatient: IObjetcPatient[] = [
-    {
-      label: "apellido",
-      value: "Sosa",
-    },
-    {
-      label: "nombre",
-      value: "Agustina",
-    },
-    {
-      label: "DNI",
-      value: "00234454",
-    },
-    {
-      label: "f. nacimiento",
-      value: "05/02/2000",
-    },
-    {
-      label: "edad",
-      value: "25",
-    },
-    {
-      label: "obra social",
-      value: "OSDE",
-    },
-  ];
+
   const [history, setHistory] = useState<string>("");
   const [arrayTableHistorialState, setArrayTableHistorialState] = useState<
     IArrayTableHistorial[]
@@ -47,6 +22,9 @@ export const MedicalHistory: React.FC = () => {
   const [hc, setHc] = useState<boolean>(false);
   const [focusState, setFocusState] = useState(false);
 
+  // state para guardar data de getDataDropbox
+  const [dataDropbox, setDataDropbox] = useState();
+  console.log("dataDropbox", dataDropbox);
   // sortedData es un array que acomoda el objeto mas reciente al principio del array
   const sortedData = [...arrayTableHistorialState].sort(
     (a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime()
@@ -76,6 +54,22 @@ export const MedicalHistory: React.FC = () => {
     }
   };
 
+  // ------------------------------------------ ----------
+  const { mutate: mutateGetDataDropbox } = useMutation({
+    mutationFn: getDataDropbox,
+    onError: (error) => {
+      console.error(error);
+    },
+    onSuccess: (data) => {
+      console.log(data);
+      setDataDropbox(data);
+    },
+  });
+
+  useEffect(() => {
+    mutateGetDataDropbox();
+  }, []);
+
   return (
     <div className="flex flex-col w-full min-h-screen px-6 pt-10 ">
       <div className="flex flex-col w-full ">
@@ -87,7 +81,7 @@ export const MedicalHistory: React.FC = () => {
       <div className="flex items-center justify-start w-full h-16 gap-1 py-1 ">
         <SearchPatient
           noHc={hc}
-          data={dataPatient}
+          data={dataPatientHc}
           labelSearch={"HC"}
           showData={showData}
           handleFindPatient={handleFindPatient}
