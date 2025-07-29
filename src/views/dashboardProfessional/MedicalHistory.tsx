@@ -7,7 +7,7 @@ import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 import { dataPatientHc } from "../../mock/arrayTableProfessional";
 import { useMutation } from "@tanstack/react-query";
-import { getDataDropbox } from "@/services/dropboxServices";
+import { getDataDropbox, getTokenDropbox } from "@/services/dropboxServices";
 
 export const MedicalHistory: React.FC = () => {
   // data profesional
@@ -23,7 +23,12 @@ export const MedicalHistory: React.FC = () => {
   const [focusState, setFocusState] = useState(false);
 
   // state para guardar data de getDataDropbox
-  const [dataDropbox, setDataDropbox] = useState();
+  const [dataDropbox, setDataDropbox] = useState({
+    app_id: "",
+    app_secret: "",
+    refresh_token: "",
+    nfolder: "",
+  });
   console.log("dataDropbox", dataDropbox);
   // sortedData es un array que acomoda el objeto mas reciente al principio del array
   const sortedData = [...arrayTableHistorialState].sort(
@@ -62,13 +67,33 @@ export const MedicalHistory: React.FC = () => {
     },
     onSuccess: (data) => {
       console.log(data);
-      setDataDropbox(data);
+      setDataDropbox(data.data[0]);
+    },
+  });
+
+  const { mutate: mutateGetTokenDropbox } = useMutation({
+    mutationFn: getTokenDropbox,
+    onError: (error) => {
+      console.error(error);
+    },
+    onSuccess: (data) => {
+      console.log(data);
     },
   });
 
   useEffect(() => {
     mutateGetDataDropbox();
   }, []);
+
+  useEffect(() => {
+    if (dataDropbox) {
+      mutateGetTokenDropbox({
+        refreshToken: dataDropbox.refresh_token,
+        clientId: dataDropbox.app_id,
+        clientSecret: dataDropbox.app_secret,
+      });
+    }
+  }, [dataDropbox]);
 
   return (
     <div className="flex flex-col w-full min-h-screen px-6 pt-10 ">
