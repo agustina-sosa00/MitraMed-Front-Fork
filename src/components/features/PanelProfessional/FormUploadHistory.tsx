@@ -3,11 +3,13 @@ import { InputProfessional } from "./InputProfessional";
 import { UploadStudy } from "@/views/dashboardProfessional/UploadStudy";
 import { renameFile } from "@/utils/renameFile";
 import { useMutation } from "@tanstack/react-query";
-import { downloadArchive } from "@/services/UploadArchiveServices";
 import Swal from "sweetalert2";
 import { IArrayTableHistorial } from "@/types/index";
 import { useContextDropbox } from "../../../context/DropboxContext";
-import { uploadFileDropbox } from "@/services/dropboxServices";
+import {
+  downloadFileDropbox,
+  uploadFileDropbox,
+} from "@/services/dropboxServices";
 
 interface IProp {
   hc: string;
@@ -82,7 +84,7 @@ export const FormUploadHistory: React.FC<IProp> = ({
 
   //  MUTATE PARA DESCARGAR ARCHIVOS EN EL VPS
   const { mutate: mutateDownload } = useMutation({
-    mutationFn: downloadArchive,
+    mutationFn: downloadFileDropbox,
     onError: (error) => {
       Swal.fire({
         icon: "error",
@@ -154,7 +156,11 @@ export const FormUploadHistory: React.FC<IProp> = ({
     if (!fileSaved) {
       return;
     }
-    mutateDownload(fileSaved.name);
+    mutateDownload({
+      token: token,
+      folder: folder,
+      archivo: fileSaved!.name,
+    });
   };
 
   return (
