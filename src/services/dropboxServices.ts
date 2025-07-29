@@ -42,12 +42,17 @@ export const getTokenDropbox = async ({
   }
 };
 
-export const uploadFileDropbox = async (
-  fileNameError: string,
-  file: File,
-  token: string,
-  folder: string
-) => {
+export const uploadFileDropbox = async ({
+  fileNameError,
+  file,
+  token,
+  folder,
+}: {
+  fileNameError: string;
+  file: File;
+  token: string;
+  folder: string;
+}) => {
   const dropboxURL = "https://content.dropboxapi.com";
   try {
     const response = await apiPhp.post(`${dropboxURL}/2/files/upload`, file, {
