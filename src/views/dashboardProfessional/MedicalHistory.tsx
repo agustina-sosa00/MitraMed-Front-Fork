@@ -15,8 +15,8 @@ export const MedicalHistory: React.FC = () => {
   // ---------------------------------------------------------
   // -------------------- T O K E N---------------------------
   // ---------------------------------------------------------
-  const { tonen, setToken } = useContextDropbox();
-
+  const { token, setToken } = useContextDropbox();
+  console.log("token", token);
   // data profesional
   const infoProfessional = Cookies.get("dataProfessional");
   const [showData, setShowData] = useState<boolean>(false);
@@ -36,7 +36,7 @@ export const MedicalHistory: React.FC = () => {
     refresh_token: "",
     nfolder: "",
   });
-  console.log("dataDropbox", dataDropbox);
+
   // sortedData es un array que acomoda el objeto mas reciente al principio del array
   const sortedData = [...arrayTableHistorialState].sort(
     (a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime()
