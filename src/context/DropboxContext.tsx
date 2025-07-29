@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
 const DropboxContext = createContext({});
 
@@ -11,3 +11,5 @@ export const DropboxProvider = ({ children }) => {
     </DropboxContext.Provider>
   );
 };
+
+export const useContextDropbox = () => useContext(DropboxContext);
