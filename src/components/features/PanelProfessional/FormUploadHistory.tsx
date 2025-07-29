@@ -3,12 +3,11 @@ import { InputProfessional } from "./InputProfessional";
 import { UploadStudy } from "@/views/dashboardProfessional/UploadStudy";
 import { renameFile } from "@/utils/renameFile";
 import { useMutation } from "@tanstack/react-query";
-import {
-  downloadArchive,
-  updateArchive,
-} from "@/services/UploadArchiveServices";
+import { downloadArchive } from "@/services/UploadArchiveServices";
 import Swal from "sweetalert2";
 import { IArrayTableHistorial } from "@/types/index";
+import { useContextDropbox } from "../../../context/DropboxContext";
+import { uploadFileDropbox } from "@/services/dropboxServices";
 
 interface IProp {
   hc: string;
@@ -19,13 +18,20 @@ interface IProp {
   };
   handle?: () => void;
   focusState?: boolean;
+  folder: string;
 }
 export const FormUploadHistory: React.FC<IProp> = ({
   setState,
   infoProfessional,
   handle,
   focusState,
+  folder,
 }) => {
+  // ----------------------------------------------
+  // ------T O K E N  D E  D R O P B O X-----------
+  // ----------------------------------------------
+  const { token } = useContextDropbox();
+
   const [dataForm, setDataForm] = useState({
     motivo: "",
     descripcion: "",
@@ -35,6 +41,13 @@ export const FormUploadHistory: React.FC<IProp> = ({
   const [image, setImage] = useState<string>("");
   const [file, setFile] = useState<File | null>(null);
   const [fileSaved, setFileSaved] = useState<File | null>(null);
+
+  // -----------------------------------------------
+  // -----------------------------------------------
+  // ----state que se manda a uploadFileDropbox----
+  // -----------------------------------------------
+  // -----------------------------------------------
+  // const [dataToSendDropbox, setDataToSendDropbox] = useState();
 
   const handleOnChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -47,9 +60,9 @@ export const FormUploadHistory: React.FC<IProp> = ({
     setDataForm({ ...dataForm, [name]: value });
   };
 
-  //  MUTATE PARA GUARDAR ARCHIVOS EN EL VPS
+  //  MUTATE PARA GUARDAR ARCHIVOS EN EL DROPBOX
   const { mutateAsync } = useMutation({
-    mutationFn: updateArchive,
+    mutationFn: uploadFileDropbox,
     onError: (error) => {
       Swal.fire({
         icon: "error",
@@ -84,16 +97,24 @@ export const FormUploadHistory: React.FC<IProp> = ({
     },
   });
 
+  // ------------------------------
+  // handle para guardar el archivo
+  // ------------------------------
   const handleOnClickSave = async () => {
     if (!file) {
       return;
     }
-
     const newFile = renameFile(file);
     setFileSaved(newFile);
     try {
-      await mutateAsync(newFile!);
+      await mutateAsync({
+        fileNameError: file.name,
+        file: newFile!,
+        token: token,
+        folder: folder,
+      });
 
+      // estado para guardar la info en la tabla
       setState((prev: IArrayTableHistorial[]) => [
         ...prev,
         {
@@ -109,6 +130,8 @@ export const FormUploadHistory: React.FC<IProp> = ({
             infoProfessional.adoctor + " " + infoProfessional.ndoctor,
         },
       ]);
+
+      // vaciar el estado del formulario
       setDataForm({
         motivo: "",
         descripcion: "",
@@ -117,6 +140,7 @@ export const FormUploadHistory: React.FC<IProp> = ({
       });
       setFile(null);
     } catch (error) {
+      // manejar el error
       console.error("Error al subir archivo:", error);
       Swal.fire({
         icon: "error",
