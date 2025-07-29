@@ -8,8 +8,15 @@ import Swal from "sweetalert2";
 import { dataPatientHc } from "../../mock/arrayTableProfessional";
 import { useMutation } from "@tanstack/react-query";
 import { getDataDropbox, getTokenDropbox } from "@/services/dropboxServices";
+import { useContextDropbox } from "../../context/DropboxContext";
 
 export const MedicalHistory: React.FC = () => {
+  // ---------------------------------------------------------
+  // ---------------------------------------------------------
+  // -------------------- T O K E N---------------------------
+  // ---------------------------------------------------------
+  const { tonen, setToken } = useContextDropbox();
+
   // data profesional
   const infoProfessional = Cookies.get("dataProfessional");
   const [showData, setShowData] = useState<boolean>(false);
@@ -78,6 +85,7 @@ export const MedicalHistory: React.FC = () => {
     },
     onSuccess: (data) => {
       console.log(data);
+      setToken(data.access_token);
     },
   });
 
