@@ -47,7 +47,7 @@ export const TableSchedules: React.FC = () => {
   };
 
   return (
-    <div className="flex justify-center w-full min-h-screen pt-24 lg:h-screen ">
+    <div className="flex justify-center w-full min-h-screen pt-20 lg:h-screen ">
       <div className=" w-full lg:w-[85%] xl:w-[70%] h-[60%] flex flex-col justify-center lg:justify-start items-center gap-8  ">
         <div className="flex flex-col w-full ">
           <h1 className="text-2xl font-medium uppercase lg:text-4xl text-green">

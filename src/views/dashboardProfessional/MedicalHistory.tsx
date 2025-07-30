@@ -10,6 +10,7 @@ import { useMutation } from "@tanstack/react-query";
 import { getDataDropbox, getTokenDropbox } from "@/services/dropboxServices";
 import { useContextDropbox } from "../../context/DropboxContext";
 import { Link } from "react-router-dom";
+import { Modal } from "@/components/ui/Modal";
 
 export const MedicalHistory: React.FC = () => {
   // ---------------------------------------------------------
@@ -37,6 +38,8 @@ export const MedicalHistory: React.FC = () => {
     refresh_token: "",
     nfolder: "",
   });
+
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   // sortedData es un array que acomoda el objeto mas reciente al principio del array
   const sortedData = [...arrayTableHistorialState].sort(
@@ -103,14 +106,14 @@ export const MedicalHistory: React.FC = () => {
   }, [dataDropbox]);
 
   return (
-    <div className="flex flex-col w-full min-h-screen px-6 pt-10 ">
-      <div className="flex flex-col w-full ">
+    <div className="flex flex-col w-full min-h-screen px-5 pt-20 ">
+      <div className="flex flex-col w-full px-16">
         <h1 className="text-2xl font-medium uppercase lg:text-4xl text-green">
           Historial médico
         </h1>
       </div>
 
-      <div className="flex items-center justify-start w-full h-16 gap-1 py-1 ">
+      <div className="flex items-center justify-start w-full h-16 gap-1 px-16 py-1">
         <SearchPatient
           noHc={hc}
           data={dataPatientHc}
@@ -118,78 +121,79 @@ export const MedicalHistory: React.FC = () => {
           showData={showData}
           handleFindPatient={handleFindPatient}
           viewImg={false}
+          setStateModal={setShowModal}
         />
       </div>
 
-      <div className="flex w-full gap-2 ">
-        <div className="w-1/2 overflow-x-auto ">
-          <TablaDefault
-            props={{
-              datosParaTabla: sortedData,
-              objectColumns: [
-                {
-                  key: "id",
-                  label: "id",
-                  minWidth: "40",
-                  maxWidth: "40",
-                },
-                {
-                  key: "fecha",
-                  label: "Fecha",
-                  minWidth: "100",
-                  maxWidth: "100",
-                },
-                {
-                  key: "motivo",
-                  label: "Motivo de consulta",
-                  minWidth: "200",
-                  maxWidth: "200",
-                },
-                {
-                  key: "profesional",
-                  label: "Profesional",
-                  minWidth: "160",
-                  maxWidth: "160",
-                },
-                {
-                  key: "acciones",
-                  label: "Acciones",
-                  renderCell: (item) => (
-                    <Link
-                      to={`/profesionales/historial/${item.id}`}
-                      state={item}
-                    >
-                      <button
-                        onClick={() => console.log("Acción sobre:", item)}
-                        className="px-3 py-1 bg-blue-500 rounded text-blue "
-                      >
-                        Ver
-                      </button>
-                    </Link>
-                  ),
-                  minWidth: "80",
-                  maxWidth: "120",
-                },
-              ],
-              objectStyles: {
-                addHeaderColor: "#022539",
-                columnasNumber: [1],
-                containerClass: "border border-gray-300 rounded-t-lg ",
-                withBorder: false,
+      <div className="flex justify-center w-full pt-5 overflow-x-auto min-h-96">
+        <TablaDefault
+          props={{
+            datosParaTabla: sortedData,
+            objectColumns: [
+              {
+                key: "id",
+                label: "id",
+                minWidth: "40",
+                maxWidth: "40",
               },
-            }}
-          />
-        </div>
-        <FormUploadHistory
-          handle={handleOnFocusInput}
-          infoProfessional={JSON.parse(infoProfessional!)}
-          hc={history}
-          setState={setArrayTableHistorialState}
-          focusState={focusState}
-          folder={dataDropbox.nfolder}
+              {
+                key: "fecha",
+                label: "Fecha",
+                minWidth: "100",
+                maxWidth: "100",
+              },
+              {
+                key: "motivo",
+                label: "Motivo de consulta",
+                minWidth: "200",
+                maxWidth: "200",
+              },
+              {
+                key: "profesional",
+                label: "Profesional",
+                minWidth: "160",
+                maxWidth: "160",
+              },
+              {
+                key: "acciones",
+                label: "Acciones",
+                renderCell: (item) => (
+                  <Link to={`/profesionales/historial/${item.id}`} state={item}>
+                    <button
+                      onClick={() => console.log("Acción sobre:", item)}
+                      className="px-3 py-1 bg-blue-500 rounded text-blue "
+                    >
+                      Ver
+                    </button>
+                  </Link>
+                ),
+                minWidth: "80",
+                maxWidth: "120",
+              },
+            ],
+            objectStyles: {
+              addHeaderColor: "#022539",
+              columnasNumber: [1],
+              containerClass: "border border-gray-300 rounded-t-lg ",
+              withBorder: false,
+            },
+          }}
         />
       </div>
-      <div></div>
+
+      {showModal && (
+        <Modal onClose={() => setShowModal(false)} open={showModal}>
+          <FormUploadHistory
+            handle={handleOnFocusInput}
+            infoProfessional={JSON.parse(infoProfessional!)}
+            hc={history}
+            setState={setArrayTableHistorialState}
+            focusState={focusState}
+            folder={dataDropbox.nfolder}
+            setStateModal={setShowModal}
+          />
+        </Modal>
+      )}
     </div>
   );
 };

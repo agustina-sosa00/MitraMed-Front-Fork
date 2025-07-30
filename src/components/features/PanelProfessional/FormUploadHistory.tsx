@@ -19,6 +19,7 @@ interface IProp {
   handle?: () => void;
   focusState?: boolean;
   folder: string;
+  setStateModal: (arg: boolean) => void;
 }
 export const FormUploadHistory: React.FC<IProp> = ({
   setState,
@@ -26,6 +27,7 @@ export const FormUploadHistory: React.FC<IProp> = ({
   handle,
   focusState,
   folder,
+  setStateModal,
 }) => {
   // ----------------------------------------------
   // ------T O K E N  D E  D R O P B O X-----------
@@ -80,23 +82,6 @@ export const FormUploadHistory: React.FC<IProp> = ({
     },
   });
 
-  //  MUTATE PARA DESCARGAR ARCHIVOS EN EL VPS
-  // const { mutate: mutateDownload } = useMutation({
-  //   mutationFn: downloadFileDropbox,
-  //   onError: (error) => {
-  //     Swal.fire({
-  //       icon: "error",
-  //       title: error.message,
-  //     });
-  //   },
-  //   onSuccess: (data) => {
-  //     // aca el back nos devuelve un blob
-  //     // lo convertimos a una url valida para mostrar el archivo
-  //     const url = URL.createObjectURL(data);
-  //     setImage(url);
-  //   },
-  // });
-
   // ------------------------------
   // handle para guardar el archivo
   // ------------------------------
@@ -117,7 +102,7 @@ export const FormUploadHistory: React.FC<IProp> = ({
             infoProfessional.adoctor + " " + infoProfessional.ndoctor,
         },
       ]);
-
+      setStateModal(false);
       Swal.fire({
         icon: "success",
         title: "Información guardada con éxito",
@@ -178,19 +163,8 @@ export const FormUploadHistory: React.FC<IProp> = ({
     }
   };
 
-  // const handleOnDownload = () => {
-  //   if (!fileSaved) {
-  //     return;
-  //   }
-  //   mutateDownload({
-  //     token: token,
-  //     folder: folder,
-  //     archivo: fileSaved!.name,
-  //   });
-  // };
-
   return (
-    <div className="flex flex-col items-start justify-center w-1/2 gap-2 p-3 bg-white border border-gray-300 rounded">
+    <div className="flex flex-col items-start justify-center w-full gap-2 p-3 bg-white rounded">
       <div className="flex justify-center w-full">
         <h1 className="text-xl font-bold text-center text-blue">
           Agregar datos de la consulta
@@ -233,16 +207,16 @@ export const FormUploadHistory: React.FC<IProp> = ({
           </div>
           <UploadStudy setState={setFile} state={file!} />
         </div>
-        <div className="flex justify-end w-full gap-5">
-          {/* <Button
-            type="button"
-            label="descargar img"
-            handle={handleOnDownload}
-            classButton="bg-blue font-medium gap-2 px-5 py-1 text-white capitalize rounded"
-          /> */}
+        <div className="flex justify-end w-full gap-2">
           <Button
             type="button"
-            label="agregar datos"
+            label="cancelar"
+            handle={() => setStateModal(false)}
+            classButton="bg-blue rounded text-white font-medium  px-5 py-1 hover:bg-blueHover"
+          />
+          <Button
+            type="button"
+            label="guardar datos"
             handle={handleOnClickSave}
           />
         </div>
