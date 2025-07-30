@@ -18,13 +18,14 @@ export const Button: React.FC<IProp> = ({
     <button
       type={type}
       onClick={handle}
-      className={`text-center cursor-pointer transition-all duration-300 ${
+      className={`text-center cursor-pointer capitalize font-medium  gap-2 transition-all duration-300 px-5 py-1 ${
         classButton
           ? classButton
-          : "px-5 py-1 gap-2 font-medium capitalize rounded bg-green hover:bg-greenHover text-white"
+          : " h-10 flex items-center  rounded bg-green hover:bg-greenHover text-white"
       } `}
     >
-      {label} {icon}
+      {icon}
+      {label}
     </button>
   );
 };
