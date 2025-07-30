@@ -4,7 +4,7 @@ interface IProp {
   label: string;
   classButton?: string;
   icon?: React.ReactNode;
-  type: "button" | "submit";
+  type?: "button" | "submit";
 }
 
 export const Button: React.FC<IProp> = ({
