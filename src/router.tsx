@@ -53,13 +53,14 @@ export default function Router({ loader, setLoader }: RouterProps) {
               path="/profesionales/historial"
               element={<MedicalHistory />}
             />
+            <Route path="/profesionales/odontograma" element={<Odontogram />} />
           </Route>
           <Route
             path="/profesionales/historial/:id"
             element={<DetailHistoryMedical />}
           />
         </Route>
-        <Route path="/profesionales/odontograma" element={<Odontogram />} />
+
         <Route element={<SecretariatProtectedRoute />}>
           <Route element={<SecretariatLayout setLoader={setLoader} />}>
             <Route path="/secretaria/inicio" element={<Secretariat />} />
