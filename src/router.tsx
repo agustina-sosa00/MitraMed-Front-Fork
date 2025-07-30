@@ -53,7 +53,7 @@ export default function Router({ loader, setLoader }: RouterProps) {
               path="/profesionales/historial"
               element={<MedicalHistory />}
             />
-          </Route>{" "}
+          </Route>
           <Route
             path="/profesionales/historial/:id"
             element={<DetailHistoryMedical />}
