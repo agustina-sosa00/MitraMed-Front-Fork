@@ -4,6 +4,7 @@ interface IProp {
   label: string;
   classButton?: string;
   icon?: React.ReactNode;
+  type?: "button" | "submit";
 }
 
 export const Button: React.FC<IProp> = ({
@@ -11,10 +12,11 @@ export const Button: React.FC<IProp> = ({
   label,
   classButton,
   icon,
+  type,
 }) => {
   return (
     <button
-      type="button"
+      type={type}
       onClick={handle}
       className={`text-center cursor-pointer transition-all duration-300 ${
         classButton
