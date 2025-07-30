@@ -121,7 +121,7 @@ export const MedicalHistory: React.FC = () => {
       </div>
 
       <div className="flex w-full gap-2 ">
-        <div className="w-1/2 overflow-x-auto">
+        <div className="w-1/2 overflow-x-auto ">
           <TablaDefault
             props={{
               datosParaTabla: sortedData,
@@ -150,6 +150,20 @@ export const MedicalHistory: React.FC = () => {
                   label: "Profesional",
                   minWidth: "160",
                   maxWidth: "160",
+                },
+                {
+                  key: "acciones",
+                  label: "Acciones",
+                  renderCell: (item) => (
+                    <button
+                      onClick={() => console.log("Acción sobre:", item)}
+                      className="px-3 py-1 bg-blue-500 rounded text-blue "
+                    >
+                      Ver
+                    </button>
+                  ),
+                  minWidth: "80",
+                  maxWidth: "120",
                 },
               ],
               objectStyles: {
