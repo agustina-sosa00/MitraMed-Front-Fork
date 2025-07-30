@@ -19,6 +19,7 @@ import { SecretariatLayout } from "./layouts/SecretariatLayout";
 import { Secretariat } from "./views/dashboardSecretariat/Secretariat";
 import Turnos from "./views/dashboard/Turnos";
 import { MedicalHistory } from "./views/dashboardProfessional/MedicalHistory";
+import { DetailHistoryMedical } from "./views/dashboardProfessional/DetailHistoryMedical";
 interface RouterProps {
   loader: boolean;
   setLoader: React.Dispatch<React.SetStateAction<boolean>>;
@@ -51,6 +52,10 @@ export default function Router({ loader, setLoader }: RouterProps) {
             <Route
               path="/profesionales/historial"
               element={<MedicalHistory />}
+            />
+            <Route
+              path="/profesionales/historial/:id"
+              element={<DetailHistoryMedical />}
             />
             <Route path="/profesionales/odontograma" element={<Odontogram />} />
           </Route>
