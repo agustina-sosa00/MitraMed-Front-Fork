@@ -104,6 +104,34 @@ export const FormUploadHistory: React.FC<IProp> = ({
   // ------------------------------
   const handleOnClickSave = async () => {
     if (!file) {
+      setState((prev: IArrayTableHistorial[]) => [
+        ...prev,
+        {
+          id: Date.now(),
+          fecha: new Date().toISOString(),
+          motivo: dataForm.motivo,
+          data: {
+            description: dataForm.descripcion,
+            archivo: "",
+            medicamentos: dataForm.medicamentos,
+          },
+          profesional:
+            infoProfessional.adoctor + " " + infoProfessional.ndoctor,
+        },
+      ]);
+
+      Swal.fire({
+        icon: "success",
+        title: "Información guardada con éxito",
+        confirmButtonColor: "#518915",
+      });
+      // vaciar el estado del formulario
+      setDataForm({
+        motivo: "",
+        descripcion: "",
+        archivo: "",
+        medicamentos: "",
+      });
       return;
     }
     const newFile = renameFile(file);
