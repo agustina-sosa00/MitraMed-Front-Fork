@@ -155,7 +155,10 @@ export const MedicalHistory: React.FC = () => {
                   key: "acciones",
                   label: "Acciones",
                   renderCell: (item) => (
-                    <Link to={`/profesionales/historial/${item.id}`}>
+                    <Link
+                      to={`/profesionales/historial/${item.id}`}
+                      state={item}
+                    >
                       <button
                         onClick={() => console.log("Acción sobre:", item)}
                         className="px-3 py-1 bg-blue-500 rounded text-blue "
