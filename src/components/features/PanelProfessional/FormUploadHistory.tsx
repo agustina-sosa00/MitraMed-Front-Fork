@@ -6,10 +6,8 @@ import { useMutation } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import { IArrayTableHistorial } from "@/types/index";
 import { useContextDropbox } from "../../../context/DropboxContext";
-import {
-  downloadFileDropbox,
-  uploadFileDropbox,
-} from "@/services/dropboxServices";
+import { uploadFileDropbox } from "@/services/dropboxServices";
+import { Button } from "@/components/ui/Button";
 
 interface IProp {
   hc: string;
@@ -40,9 +38,9 @@ export const FormUploadHistory: React.FC<IProp> = ({
     archivo: "",
     medicamentos: "",
   });
-  const [image, setImage] = useState<string>("");
+  // const [image, setImage] = useState<string>("");
   const [file, setFile] = useState<File | null>(null);
-  const [fileSaved, setFileSaved] = useState<File | null>(null);
+  // const [fileSaved, setFileSaved] = useState<File | null>(null);
 
   // -----------------------------------------------
   // -----------------------------------------------
@@ -83,21 +81,21 @@ export const FormUploadHistory: React.FC<IProp> = ({
   });
 
   //  MUTATE PARA DESCARGAR ARCHIVOS EN EL VPS
-  const { mutate: mutateDownload } = useMutation({
-    mutationFn: downloadFileDropbox,
-    onError: (error) => {
-      Swal.fire({
-        icon: "error",
-        title: error.message,
-      });
-    },
-    onSuccess: (data) => {
-      // aca el back nos devuelve un blob
-      // lo convertimos a una url valida para mostrar el archivo
-      const url = URL.createObjectURL(data);
-      setImage(url);
-    },
-  });
+  // const { mutate: mutateDownload } = useMutation({
+  //   mutationFn: downloadFileDropbox,
+  //   onError: (error) => {
+  //     Swal.fire({
+  //       icon: "error",
+  //       title: error.message,
+  //     });
+  //   },
+  //   onSuccess: (data) => {
+  //     // aca el back nos devuelve un blob
+  //     // lo convertimos a una url valida para mostrar el archivo
+  //     const url = URL.createObjectURL(data);
+  //     setImage(url);
+  //   },
+  // });
 
   // ------------------------------
   // handle para guardar el archivo
@@ -135,7 +133,7 @@ export const FormUploadHistory: React.FC<IProp> = ({
       return;
     }
     const newFile = renameFile(file);
-    setFileSaved(newFile);
+    // setFileSaved(newFile);
     try {
       await mutateAsync({
         fileNameError: file.name,
@@ -180,16 +178,16 @@ export const FormUploadHistory: React.FC<IProp> = ({
     }
   };
 
-  const handleOnDownload = () => {
-    if (!fileSaved) {
-      return;
-    }
-    mutateDownload({
-      token: token,
-      folder: folder,
-      archivo: fileSaved!.name,
-    });
-  };
+  // const handleOnDownload = () => {
+  //   if (!fileSaved) {
+  //     return;
+  //   }
+  //   mutateDownload({
+  //     token: token,
+  //     folder: folder,
+  //     archivo: fileSaved!.name,
+  //   });
+  // };
 
   return (
     <div className="flex flex-col items-start justify-center w-1/2 gap-2 p-3 bg-white border border-gray-300 rounded">
@@ -236,28 +234,25 @@ export const FormUploadHistory: React.FC<IProp> = ({
           <UploadStudy setState={setFile} state={file!} />
         </div>
         <div className="flex justify-end w-full gap-5">
-          <button
+          {/* <Button
             type="button"
-            onClick={handleOnDownload}
-            className={`text-center gap-2 px-5  py-1   font-medium  capitalize rounded bg-blue  text-white  cursor-pointer transition-all duration-300  `}
-          >
-            Descargar img
-          </button>
-          <button
+            label="descargar img"
+            handle={handleOnDownload}
+            classButton="bg-blue font-medium gap-2 px-5 py-1 text-white capitalize rounded"
+          /> */}
+          <Button
             type="button"
-            onClick={handleOnClickSave}
-            className={`text-center gap-2 px-5  py-1   font-medium  capitalize rounded bg-green hover:bg-greenHover text-white  cursor-pointer transition-all duration-300  `}
-          >
-            Agregar datos
-          </button>
+            label="agregar datos"
+            handle={handleOnClickSave}
+          />
         </div>
       </form>
-      <div className="whitespace-pre-line">
+      {/* <div className="whitespace-pre-line">
         imagen descargada:{}
         {image && (
           <img src={image} alt="Imagen descargada" style={{ width: "200px" }} />
         )}
-      </div>
+      </div> */}
     </div>
   );
 };
