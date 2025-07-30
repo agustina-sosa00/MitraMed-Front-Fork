@@ -9,6 +9,7 @@ import { dataPatientHc } from "../../mock/arrayTableProfessional";
 import { useMutation } from "@tanstack/react-query";
 import { getDataDropbox, getTokenDropbox } from "@/services/dropboxServices";
 import { useContextDropbox } from "../../context/DropboxContext";
+import { Link } from "react-router-dom";
 
 export const MedicalHistory: React.FC = () => {
   // ---------------------------------------------------------
@@ -144,7 +145,6 @@ export const MedicalHistory: React.FC = () => {
                   minWidth: "200",
                   maxWidth: "200",
                 },
-
                 {
                   key: "profesional",
                   label: "Profesional",
@@ -155,12 +155,14 @@ export const MedicalHistory: React.FC = () => {
                   key: "acciones",
                   label: "Acciones",
                   renderCell: (item) => (
-                    <button
-                      onClick={() => console.log("Acción sobre:", item)}
-                      className="px-3 py-1 bg-blue-500 rounded text-blue "
-                    >
-                      Ver
-                    </button>
+                    <Link to={`/profesionales/historial/${item.id}`}>
+                      <button
+                        onClick={() => console.log("Acción sobre:", item)}
+                        className="px-3 py-1 bg-blue-500 rounded text-blue "
+                      >
+                        Ver
+                      </button>
+                    </Link>
                   ),
                   minWidth: "80",
                   maxWidth: "120",
