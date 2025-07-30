@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/Button";
 import React, { useState } from "react";
 import { FaPencil } from "react-icons/fa6";
 import { FaMagnifyingGlass } from "react-icons/fa6";
@@ -14,6 +15,7 @@ interface SearchPatientProps {
   labelSearch: string;
   data: IObjetcPatient[];
   noHc?: boolean;
+  setStateModal?: (arg: boolean) => void;
 }
 export const SearchPatient: React.FC<SearchPatientProps> = ({
   handleFindPatient,
@@ -22,9 +24,11 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
   labelSearch,
   data,
   noHc,
+  setStateModal,
 }) => {
   const [hc, setHc] = useState<string>("");
   console.log("hc", hc);
+
   const handleOnChangeDni = (e: React.ChangeEvent<HTMLInputElement>) => {
     setHc(e.target.value);
   };
@@ -69,6 +73,11 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
               />
             )}
           </div>
+
+          <Button
+            label="agregar consulta"
+            handle={() => setStateModal && setStateModal(true)}
+          />
         </div>
       ) : (
         <div
