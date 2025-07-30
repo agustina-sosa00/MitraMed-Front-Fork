@@ -18,6 +18,7 @@ export default {
         greenHover: "#437311",
         greenFocus: "#a1d36c",
         blue: "#022539",
+        blueHover: "#01324E",
         lightGray: "#f1f1f1",
       },
       backgroundImage: {
