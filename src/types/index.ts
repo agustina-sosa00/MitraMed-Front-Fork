@@ -97,4 +97,6 @@ export interface IArrayTableHistorial {
 export interface DropboxContextType {
   token: string;
   setToken: React.Dispatch<React.SetStateAction<string>>;
+  folder: string;
+  setFolder: React.Dispatch<React.SetStateAction<string>>;
 }
