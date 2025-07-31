@@ -15,6 +15,7 @@ interface IProp {
   infoProfessional: {
     adoctor: string;
     ndoctor: string;
+    iddoctor: string;
   };
   handle?: () => void;
   focusState?: boolean;
@@ -117,8 +118,13 @@ export const FormUploadHistory: React.FC<IProp> = ({
       });
       return;
     }
-    const newFile = renameFile(file);
+    const newFile = renameFile({
+      archivoOriginal: file,
+      idDoctor: infoProfessional.iddoctor,
+    });
+
     // setFileSaved(newFile);
+
     try {
       await mutateAsync({
         fileNameError: file.name,
@@ -152,6 +158,7 @@ export const FormUploadHistory: React.FC<IProp> = ({
         medicamentos: "",
       });
       setFile(null);
+      setStateModal(false);
     } catch (error) {
       // manejar el error
       console.error("Error al subir archivo:", error);
