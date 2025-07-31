@@ -1,12 +1,15 @@
 import { Button } from "@/components/ui/Button";
-import React from "react";
+import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { Modal } from "@/components/ui/Modal";
 
 export const DetailHistoryMedical: React.FC = () => {
   // const { id } = useParams();
   const location = useLocation();
   const state = location.state;
+
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   return (
     <div className="flex flex-col w-full h-screen px-20 py-10 bg-right bg-no-repeat bg-cover bg-profesional">
@@ -38,7 +41,7 @@ export const DetailHistoryMedical: React.FC = () => {
 
         <Button
           label="ver archivos"
-          handle={() => console.log("ver archivos")}
+          handle={() => setShowModal(true)}
           classButton="bg-blue hover:bg-blueHover py-1 px-2 text-white rounded"
         />
       </div>
@@ -52,6 +55,11 @@ export const DetailHistoryMedical: React.FC = () => {
           <span className="font-medium">{state?.data.description}</span>
         </p>
       </div>
+      {
+        <Modal open={showModal} onClose={() => setShowModal(false)}>
+          hola
+        </Modal>
+      }
     </div>
   );
 };
