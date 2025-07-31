@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/Button";
+import { useMedicalHistoryContext } from "../../../context/MedicalHistoryContext";
 import React, { useState } from "react";
 import { FaPencil } from "react-icons/fa6";
 import { FaMagnifyingGlass } from "react-icons/fa6";
@@ -20,21 +21,21 @@ interface SearchPatientProps {
 export const SearchPatient: React.FC<SearchPatientProps> = ({
   handleFindPatient,
   viewImg,
-  showData,
+
   labelSearch,
   data,
   noHc,
   setStateModal,
 }) => {
-  const [hc, setHc] = useState<string>("");
-
+  const { numHistory, setNumHistory } = useMedicalHistoryContext();
+  const [isEditing, setIsEditing] = useState(false);
   const handleOnChangeDni = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setHc(e.target.value);
+    setNumHistory(e.target.value);
   };
 
   return (
     <>
-      {showData ? (
+      {!isEditing && numHistory.length > 0 ? (
         <div
           className={`flex  py-1 h-16 justify-start gap-1 w-full ${
             viewImg ? "items-end" : "items-center"
@@ -44,15 +45,16 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
             {labelSearch}:{" "}
           </label>
           <div className="h-8 px-2 py-1 font-bold border border-gray-300 rounded w-28 bg-lightGray focus:outline-none text-blue">
-            {hc}
+            {numHistory}
           </div>
           <button
             type="button"
-            onClick={() => handleFindPatient(hc)}
+            onClick={() => setIsEditing(true)}
             className="flex items-center justify-center h-8 px-2 py-1 transition-all duration-300 border border-gray-300 rounded bg-lightGray text-greenHover hover:bg-gray-200"
           >
             <FaPencil />
           </button>
+
           <div className="flex items-end justify-end gap-3 px-3">
             {data.map((item) => (
               <h3 className="text-sm capitalize text-blue ">
@@ -91,7 +93,7 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
             <input
               type="text"
               name="dni"
-              value={hc}
+              value={numHistory}
               placeholder="11222333"
               onChange={handleOnChangeDni}
               className={`h-8 px-2 py-1 font-bold border  rounded w-28 bg-lightGray focus:outline-none text-blue ${
@@ -102,7 +104,10 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
 
           <button
             type="button"
-            onClick={() => handleFindPatient(hc)}
+            onClick={() => {
+              setIsEditing(false);
+              handleFindPatient(numHistory);
+            }}
             className="flex items-center justify-center h-8 px-2 py-1 transition-all duration-300 border border-gray-300 rounded bg-lightGray text-greenHover hover:bg-gray-200"
           >
             <FaMagnifyingGlass />
