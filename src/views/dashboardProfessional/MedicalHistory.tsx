@@ -96,7 +96,11 @@ export const MedicalHistory: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (dataDropbox) {
+    if (
+      dataDropbox.app_id &&
+      dataDropbox.app_secret &&
+      dataDropbox.refresh_token
+    ) {
       mutateGetTokenDropbox({
         refreshToken: dataDropbox.refresh_token,
         clientId: dataDropbox.app_id,

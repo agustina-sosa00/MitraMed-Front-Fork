@@ -27,7 +27,6 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
   setStateModal,
 }) => {
   const [hc, setHc] = useState<string>("");
-  console.log("hc", hc);
 
   const handleOnChangeDni = (e: React.ChangeEvent<HTMLInputElement>) => {
     setHc(e.target.value);
