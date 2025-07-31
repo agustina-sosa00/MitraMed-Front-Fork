@@ -7,9 +7,10 @@ export const DropboxProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [token, setToken] = useState("");
+  const [folder, setFolder] = useState("");
 
   return (
-    <DropboxContext.Provider value={{ token, setToken }}>
+    <DropboxContext.Provider value={{ token, setToken, folder, setFolder }}>
       {children}
     </DropboxContext.Provider>
   );

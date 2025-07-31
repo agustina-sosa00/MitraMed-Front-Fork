@@ -228,12 +228,6 @@ export const FormUploadHistory: React.FC<IProp> = ({
           />
         </div>
       </form>
-      {/* <div className="whitespace-pre-line">
-        imagen descargada:{}
-        {image && (
-          <img src={image} alt="Imagen descargada" style={{ width: "200px" }} />
-        )}
-      </div> */}
     </div>
   );
 };
