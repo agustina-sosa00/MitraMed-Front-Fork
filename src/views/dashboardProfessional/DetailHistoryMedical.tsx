@@ -29,7 +29,7 @@ export const DetailHistoryMedical: React.FC = () => {
 
   const [numPages, setNumPages] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
-
+  const [loader, setLoader] = useState<boolean>(false);
   console.log(fileBlob);
   const { mutate: mutateDownloadDropbox } = useMutation({
     mutationFn: downloadFileDropbox,
@@ -60,12 +60,16 @@ export const DetailHistoryMedical: React.FC = () => {
       cancelButtonColor: "#d33",
     }).then((result) => {
       if (result.isConfirmed) {
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(fileBlob!);
-        link.download = state.data.archivo;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        setLoader(true);
+        setTimeout(() => {
+          const link = document.createElement("a");
+          link.href = URL.createObjectURL(fileBlob!);
+          link.download = state.data.archivo;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          setLoader(false);
+        }, 2000);
       }
     });
   };
@@ -117,7 +121,7 @@ export const DetailHistoryMedical: React.FC = () => {
       {
         <Modal open={showModal} onClose={() => setShowModal(false)}>
           <div className="flex  justify-center h-[500px] whitespace-pre-line ">
-            {fileBlob && (
+            {fileBlob ? (
               <div className="flex flex-col items-center w-full gap-2 ">
                 <div className="flex items-center justify-end w-full px-5 ">
                   <Button
@@ -183,11 +187,11 @@ export const DetailHistoryMedical: React.FC = () => {
                     </div>{" "}
                   </div>
                 ) : (
-                  <div className="flex flex-col items-end justify-center h-full gap-10 px-5">
+                  <div className="flex flex-col items-end justify-center gap-10 px-5">
                     <img
                       src={URL.createObjectURL(fileBlob)}
                       alt="Archivo descargado"
-                      style={{ width: "100%" }}
+                      style={{ width: "100%", maxHeight: "400px" }}
                     />
 
                     <a
@@ -195,10 +199,37 @@ export const DetailHistoryMedical: React.FC = () => {
                       onClick={handleDownload}
                       className="flex items-center justify-center h-8 gap-2 px-5 py-1 font-medium text-white capitalize transition-all duration-300 rounded bg-green hover:bg-greenHover "
                     >
-                      descargar <FiDownload />
+                      {loader ? (
+                        <svg
+                          className="w-5 h-5 circle-loader animate-spin"
+                          viewBox="25 25 50 50"
+                        >
+                          <circle
+                            r="20"
+                            cy="50"
+                            cx="50"
+                            className="circleWhite"
+                          ></circle>
+                        </svg>
+                      ) : (
+                        <>
+                          Descargar <FiDownload />
+                        </>
+                      )}
                     </a>
                   </div>
                 )}
+              </div>
+            ) : (
+              <div className="flex items-center justify-center w-full h-[500px]">
+                <svg className="circle-loader" viewBox="25 25 50 50">
+                  <circle
+                    className="circleNormal"
+                    r="20"
+                    cy="50"
+                    cx="50"
+                  ></circle>
+                </svg>
               </div>
             )}
           </div>
