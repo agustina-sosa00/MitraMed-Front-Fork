@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { SearchPatient } from "@/components/features/PanelProfessional/SearchPatient";
 import { FormUploadHistory } from "@/components/features/PanelProfessional/FormUploadHistory";
 import { TablaDefault } from "@/frontend-resourses/components";
-import { IArrayTableHistorial } from "@/types/index";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 import { dataPatientHc } from "../../mock/arrayTableProfessional";
@@ -11,6 +10,7 @@ import { getDataDropbox, getTokenDropbox } from "@/services/dropboxServices";
 import { useContextDropbox } from "../../context/DropboxContext";
 import { Link } from "react-router-dom";
 import { Modal } from "@/components/ui/Modal";
+import { useMedicalHistoryContext } from "../../context/MedicalHistoryContext";
 
 export const MedicalHistory: React.FC = () => {
   // ---------------------------------------------------------
@@ -19,16 +19,18 @@ export const MedicalHistory: React.FC = () => {
   // ---------------------------------------------------------
   const { setToken, setFolder } = useContextDropbox();
 
+  const {
+    historyContext,
+    setHistoryContext,
+    hc,
+    setHc,
+    numHistory,
+    setNumHistory,
+  } = useMedicalHistoryContext();
   // data profesional
   const infoProfessional = Cookies.get("dataProfessional");
   const [showData, setShowData] = useState<boolean>(false);
 
-  const [history, setHistory] = useState<string>("");
-  const [arrayTableHistorialState, setArrayTableHistorialState] = useState<
-    IArrayTableHistorial[]
-  >([]);
-
-  const [hc, setHc] = useState<boolean>(false);
   const [focusState, setFocusState] = useState(false);
 
   // state para guardar data de getDataDropbox
@@ -42,22 +44,22 @@ export const MedicalHistory: React.FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
 
   // sortedData es un array que acomoda el objeto mas reciente al principio del array
-  const sortedData = [...arrayTableHistorialState].sort(
+  const sortedData = [...historyContext].sort(
     (a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime()
   );
 
   const handleFindPatient = (hc: string) => {
-    if (hc.length === 0) {
+    if (numHistory.length === 0) {
       setHc(true);
     } else {
       setHc(false);
-      setHistory(hc);
+      setNumHistory(hc);
       setShowData(!showData);
     }
   };
 
   const handleOnFocusInput = () => {
-    if (history.length === 0) {
+    if (numHistory.length === 0) {
       setFocusState(true);
       Swal.fire({
         icon: "warning",
@@ -192,8 +194,8 @@ export const MedicalHistory: React.FC = () => {
           <FormUploadHistory
             handle={handleOnFocusInput}
             infoProfessional={JSON.parse(infoProfessional!)}
-            hc={history}
-            setState={setArrayTableHistorialState}
+            hc={numHistory}
+            setState={setHistoryContext}
             focusState={focusState}
             folder={dataDropbox.nfolder}
             setStateModal={setShowModal}
