@@ -13,6 +13,7 @@ import { Document, Page, pdfjs } from "react-pdf";
 import workerSrc from "pdfjs-dist/build/pdf.worker?url";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
+import Swal from "sweetalert2";
 // Configuración del worker de PDF.js
 
 pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
@@ -43,6 +44,29 @@ export const DetailHistoryMedical: React.FC = () => {
       token: token,
       folder: folder,
       archivo: state.data.archivo,
+    });
+  };
+
+  const handleDownload = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    Swal.fire({
+      title: "¿Descargar archivo?",
+      text: "Se descargará el archivo en tu dispositivo.",
+
+      showCancelButton: true,
+      confirmButtonText: "Sí, descargar",
+      cancelButtonText: "Cancelar",
+      confirmButtonColor: "#518915",
+      cancelButtonColor: "#d33",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(fileBlob!);
+        link.download = state.data.archivo;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
     });
   };
 
@@ -149,20 +173,31 @@ export const DetailHistoryMedical: React.FC = () => {
                         </button>
                       </div>
 
-                      <Button
-                        label="descargar"
-                        handle={() => {}}
-                        classButton="h-8 text-white px-5 py-1 flex justify-center items-center bg-green rounded transition-all duration-300 hover:bg-greenHover "
-                        icon={<FiDownload />}
-                      />
+                      <a
+                        href="#"
+                        onClick={handleDownload}
+                        className="flex items-center justify-center h-8 gap-2 px-5 py-1 font-medium text-white capitalize transition-all duration-300 rounded bg-green hover:bg-greenHover "
+                      >
+                        descargar <FiDownload />
+                      </a>
                     </div>{" "}
                   </div>
                 ) : (
-                  <img
-                    src={URL.createObjectURL(fileBlob)}
-                    alt="Archivo descargado"
-                    style={{ width: "100%" }}
-                  />
+                  <div className="flex flex-col items-end justify-center h-full gap-10 px-5">
+                    <img
+                      src={URL.createObjectURL(fileBlob)}
+                      alt="Archivo descargado"
+                      style={{ width: "100%" }}
+                    />
+
+                    <a
+                      href="#"
+                      onClick={handleDownload}
+                      className="flex items-center justify-center h-8 gap-2 px-5 py-1 font-medium text-white capitalize transition-all duration-300 rounded bg-green hover:bg-greenHover "
+                    >
+                      descargar <FiDownload />
+                    </a>
+                  </div>
                 )}
               </div>
             )}
