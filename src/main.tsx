@@ -5,15 +5,18 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import "./index.css";
 import App from "./App";
 import { DropboxProvider } from "./context/DropboxContext";
+import { MedicalHistoryProvider } from "./context/MedicalHistoryContext";
 
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   // <React.StrictMode>
   <QueryClientProvider client={queryClient}>
-    <DropboxProvider>
-      <App />
-    </DropboxProvider>
+    <MedicalHistoryProvider>
+      <DropboxProvider>
+        <App />
+      </DropboxProvider>
+    </MedicalHistoryProvider>
 
     <ReactQueryDevtools />
   </QueryClientProvider>
