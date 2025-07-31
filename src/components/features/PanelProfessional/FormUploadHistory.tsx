@@ -34,7 +34,7 @@ export const FormUploadHistory: React.FC<IProp> = ({
   // ------T O K E N  D E  D R O P B O X-----------
   // ----------------------------------------------
   const { token } = useContextDropbox();
-
+  const [loader, setLoader] = useState<boolean>(false);
   const [dataForm, setDataForm] = useState({
     motivo: "",
     descripcion: "",
@@ -88,36 +88,42 @@ export const FormUploadHistory: React.FC<IProp> = ({
   // ------------------------------
   const handleOnClickSave = async () => {
     if (!file) {
-      setState((prev: IArrayTableHistorial[]) => [
-        ...prev,
-        {
-          id: Date.now(),
-          fecha: new Date().toISOString(),
-          motivo: dataForm.motivo,
-          data: {
-            description: dataForm.descripcion,
-            archivo: "",
-            medicamentos: dataForm.medicamentos,
+      setLoader(true);
+      setTimeout(() => {
+        setState((prev: IArrayTableHistorial[]) => [
+          ...prev,
+          {
+            id: Date.now(),
+            fecha: new Date().toISOString(),
+            motivo: dataForm.motivo,
+            data: {
+              description: dataForm.descripcion,
+              archivo: "",
+              medicamentos: dataForm.medicamentos,
+            },
+            profesional:
+              infoProfessional.adoctor + " " + infoProfessional.ndoctor,
           },
-          profesional:
-            infoProfessional.adoctor + " " + infoProfessional.ndoctor,
-        },
-      ]);
-      setStateModal(false);
-      Swal.fire({
-        icon: "success",
-        title: "Información guardada con éxito",
-        confirmButtonColor: "#518915",
-      });
-      // vaciar el estado del formulario
-      setDataForm({
-        motivo: "",
-        descripcion: "",
-        archivo: "",
-        medicamentos: "",
-      });
+        ]);
+        setStateModal(false);
+        Swal.fire({
+          icon: "success",
+          title: "Información guardada con éxito",
+          confirmButtonColor: "#518915",
+        });
+        // vaciar el estado del formulario
+        setDataForm({
+          motivo: "",
+          descripcion: "",
+          archivo: "",
+          medicamentos: "",
+        });
+
+        setLoader(false);
+      }, 2000);
       return;
     }
+    setLoader(true);
     const newFile = renameFile({
       archivoOriginal: file,
       idDoctor: infoProfessional.iddoctor,
@@ -132,7 +138,7 @@ export const FormUploadHistory: React.FC<IProp> = ({
         token: token,
         folder: folder,
       });
-
+      setLoader(false);
       // estado para guardar la info en la tabla
       setState((prev: IArrayTableHistorial[]) => [
         ...prev,
@@ -225,6 +231,7 @@ export const FormUploadHistory: React.FC<IProp> = ({
             type="button"
             label="guardar datos"
             handle={handleOnClickSave}
+            loader={loader}
           />
         </div>
       </form>

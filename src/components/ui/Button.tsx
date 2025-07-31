@@ -5,6 +5,7 @@ interface IProp {
   classButton?: string;
   icon?: React.ReactNode;
   type?: "button" | "submit";
+  loader?: boolean;
 }
 
 export const Button: React.FC<IProp> = ({
@@ -13,6 +14,7 @@ export const Button: React.FC<IProp> = ({
   classButton,
   icon,
   type,
+  loader,
 }) => {
   return (
     <button
@@ -24,8 +26,19 @@ export const Button: React.FC<IProp> = ({
           : " h-10 flex items-center  px-5 py-1  rounded bg-green hover:bg-greenHover text-white"
       } `}
     >
-      {icon}
-      {label}
+      {loader ? (
+        <svg
+          className="w-5 h-5 circle-loader animate-spin"
+          viewBox="25 25 50 50"
+        >
+          <circle r="20" cy="50" cx="50" className="circleWhite"></circle>
+        </svg>
+      ) : (
+        <>
+          {icon}
+          {label}
+        </>
+      )}
     </button>
   );
 };
