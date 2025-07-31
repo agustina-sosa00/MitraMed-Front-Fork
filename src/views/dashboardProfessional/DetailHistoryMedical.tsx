@@ -30,6 +30,7 @@ export const DetailHistoryMedical: React.FC = () => {
   const [numPages, setNumPages] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [loader, setLoader] = useState<boolean>(false);
+
   console.log(fileBlob);
   const { mutate: mutateDownloadDropbox } = useMutation({
     mutationFn: downloadFileDropbox,
@@ -182,7 +183,23 @@ export const DetailHistoryMedical: React.FC = () => {
                         onClick={handleDownload}
                         className="flex items-center justify-center h-8 gap-2 px-5 py-1 font-medium text-white capitalize transition-all duration-300 rounded bg-green hover:bg-greenHover "
                       >
-                        descargar <FiDownload />
+                        {loader ? (
+                          <svg
+                            className="w-5 h-5 circle-loader animate-spin"
+                            viewBox="25 25 50 50"
+                          >
+                            <circle
+                              r="20"
+                              cy="50"
+                              cx="50"
+                              className="circleWhite"
+                            ></circle>
+                          </svg>
+                        ) : (
+                          <>
+                            Descargar <FiDownload />
+                          </>
+                        )}
                       </a>
                     </div>{" "}
                   </div>
