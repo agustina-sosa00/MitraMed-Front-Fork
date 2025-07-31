@@ -1,7 +1,7 @@
 import React from "react";
 interface IProp {
-  handle: () => void;
-  label: string;
+  handle?: () => void;
+  label?: string;
   classButton?: string;
   icon?: React.ReactNode;
   type?: "button" | "submit";
@@ -18,10 +18,10 @@ export const Button: React.FC<IProp> = ({
     <button
       type={type}
       onClick={handle}
-      className={`text-center cursor-pointer capitalize font-medium  gap-2 transition-all duration-300 px-5 py-1 ${
+      className={`text-center cursor-pointer capitalize font-medium  gap-2 transition-all duration-300 ${
         classButton
           ? classButton
-          : " h-10 flex items-center  rounded bg-green hover:bg-greenHover text-white"
+          : " h-10 flex items-center  px-5 py-1  rounded bg-green hover:bg-greenHover text-white"
       } `}
     >
       {icon}

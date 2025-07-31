@@ -17,7 +17,7 @@ export const MedicalHistory: React.FC = () => {
   // ---------------------------------------------------------
   // -------------------- T O K E N---------------------------
   // ---------------------------------------------------------
-  const { setToken } = useContextDropbox();
+  const { setToken, setFolder } = useContextDropbox();
 
   // data profesional
   const infoProfessional = Cookies.get("dataProfessional");
@@ -77,7 +77,9 @@ export const MedicalHistory: React.FC = () => {
       console.error(error);
     },
     onSuccess: (data) => {
+      console.log("data", data);
       setDataDropbox(data.data[0]);
+      setFolder(data.data[0].nfolder);
     },
   });
 
