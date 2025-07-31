@@ -68,6 +68,8 @@ export const TableSchedules: React.FC = () => {
               objectStyles: {
                 withScrollbar: true,
                 addHeaderColor: "#022539",
+                containerClass: "border border-gray-300 rounded-t-lg ",
+                withBorder: false,
               },
             }}
           />
