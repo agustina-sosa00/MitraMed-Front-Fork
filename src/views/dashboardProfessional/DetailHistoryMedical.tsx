@@ -8,14 +8,15 @@ import { useMutation } from "@tanstack/react-query";
 import { useContextDropbox } from "../../context/DropboxContext";
 import { IoClose } from "react-icons/io5";
 import { FiDownload } from "react-icons/fi";
+import Swal from "sweetalert2";
+import { LuFileX2 } from "react-icons/lu";
 
 import { Document, Page, pdfjs } from "react-pdf";
 import workerSrc from "pdfjs-dist/build/pdf.worker?url";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
-import Swal from "sweetalert2";
-// Configuración del worker de PDF.js
 
+// Configuración del worker de PDF.js
 pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
 
 export const DetailHistoryMedical: React.FC = () => {
@@ -30,12 +31,20 @@ export const DetailHistoryMedical: React.FC = () => {
   const [numPages, setNumPages] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [loader, setLoader] = useState<boolean>(false);
+  const [loadingFile, setLoadingFile] = useState<boolean>(false);
 
   console.log(fileBlob);
   const { mutate: mutateDownloadDropbox } = useMutation({
     mutationFn: downloadFileDropbox,
+    onMutate: () => {
+      setLoadingFile(true); // Activa loader al empezar
+    },
     onSuccess: (data) => {
       setFileBlob(data);
+      setLoadingFile(false);
+    },
+    onError: () => {
+      setLoadingFile(false); // También apágalo si falla
     },
   });
   const handleDownloadDropbox = () => {
@@ -109,20 +118,36 @@ export const DetailHistoryMedical: React.FC = () => {
           classButton="bg-blue hover:bg-blueHover px-5 py-1 text-white rounded"
         />
       </div>
-      <div className="w-full p-2 my-3 bg-gray-100 rounded">
+      <div className="flex flex-col w-full gap-2 p-2 my-3 bg-gray-100 rounded">
         <h1 className=" text-blue">
           Motivo de la consulta:{" "}
           <span className="font-medium">{state?.motivo}</span>
         </h1>
-        <p className="text-blue">
-          Descripcion:{" "}
+        <div className="border-b border-gray-300 "></div>
+        <p className="break-words whitespace-normal text-blue">
+          Descripcion: {""}
           <span className="font-medium">{state?.data.description}</span>
         </p>
       </div>
       {
         <Modal open={showModal} onClose={() => setShowModal(false)}>
           <div className="flex  justify-center h-[500px] whitespace-pre-line ">
-            {fileBlob ? (
+            {loadingFile ? (
+              // Loader grande mientras descarga desde Dropbox
+              <div className="flex items-center justify-center w-full h-full">
+                <svg
+                  className="circle-loader animate-spin"
+                  viewBox="25 25 50 50"
+                >
+                  <circle
+                    className="circleNormal"
+                    r="20"
+                    cy="50"
+                    cx="50"
+                  ></circle>
+                </svg>
+              </div>
+            ) : fileBlob ? (
               <div className="flex flex-col items-center w-full gap-2 ">
                 <div className="flex items-center justify-end w-full px-5 ">
                   <Button
@@ -204,12 +229,14 @@ export const DetailHistoryMedical: React.FC = () => {
                     </div>{" "}
                   </div>
                 ) : (
-                  <div className="flex flex-col items-end justify-center gap-10 px-5">
-                    <img
-                      src={URL.createObjectURL(fileBlob)}
-                      alt="Archivo descargado"
-                      style={{ width: "100%", maxHeight: "400px" }}
-                    />
+                  <div className="flex flex-col items-end justify-end h-full px-5 ">
+                    <div className="flex items-center justify-center h-full">
+                      <img
+                        src={URL.createObjectURL(fileBlob)}
+                        alt="Archivo descargado"
+                        style={{ width: "100%", maxHeight: "400px" }}
+                      />
+                    </div>
 
                     <a
                       href="#"
@@ -238,15 +265,19 @@ export const DetailHistoryMedical: React.FC = () => {
                 )}
               </div>
             ) : (
-              <div className="flex items-center justify-center w-full h-[500px]">
-                <svg className="circle-loader" viewBox="25 25 50 50">
-                  <circle
-                    className="circleNormal"
-                    r="20"
-                    cy="50"
-                    cx="50"
-                  ></circle>
-                </svg>
+              <div className="flex flex-col items-center justify-center w-full h-full text-gray-500 ">
+                <div className="flex items-start justify-end w-full h-10 ">
+                  <Button
+                    icon={<IoClose />}
+                    handle={() => setShowModal(false)}
+                    classButton="text-xl text-blue rounded hover:bg-blue hover:text-white p-1"
+                  />
+                </div>
+                <div className="flex flex-col items-center justify-center w-full h-full">
+                  {" "}
+                  <LuFileX2 className="text-7xl " />
+                  <h2 className="font-bold ">No hay archivos disponibles</h2>
+                </div>
               </div>
             )}
           </div>
