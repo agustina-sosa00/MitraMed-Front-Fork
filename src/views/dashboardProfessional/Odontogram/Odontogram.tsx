@@ -139,9 +139,10 @@ export const Odontogram = () => {
               showData={infoUser}
               handleFindPatient={handleFindPatient}
               viewImg={true}
+              odontogram={false}
             />
             {infoUser && (
-              <div className="flex justify-end h-8 gap-2 px-2 w-72">
+              <div className="flex items-center justify-end h-16 gap-2 px-2 py-1 w-72">
                 {editOdontogram ? (
                   <>
                     <button
