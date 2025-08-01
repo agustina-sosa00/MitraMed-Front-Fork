@@ -1,5 +1,3 @@
-import { IObjetcPatient } from "@/components/features/PanelProfessional/SearchPatient";
-
 export interface IDataTable {
   id: number;
   day?: string;
@@ -390,29 +388,34 @@ export const tableColumnData = [
 
 // ------------------------- H I S T O R I A L  M E D I C O
 
-export const dataPatientHc: IObjetcPatient[] = [
-  {
-    label: "apellido",
-    value: "Sosa",
-  },
-  {
-    label: "nombre",
-    value: "Agustina",
-  },
-  {
-    label: "DNI",
-    value: "00234454",
-  },
-  {
-    label: "f. nacimiento",
-    value: "05/02/2000",
-  },
-  {
-    label: "edad",
-    value: "25",
-  },
-  {
-    label: "obra social",
-    value: "OSDE",
-  },
-];
+export interface SearchPatientProps {
+  handleFindPatient: (arg: string) => void;
+  viewImg: boolean;
+  showData: boolean;
+  labelSearch: string;
+  data: IObjetcPatient;
+  noHc?: boolean;
+  setStateModal?: (arg: boolean) => void;
+}
+
+export interface IObjetcPatient {
+  id?: number;
+  hc?: string;
+  lastName?: string;
+  name?: string;
+  dni?: string;
+  fnac?: string;
+  age?: string;
+  obs?: string;
+}
+
+export const dataPatientHc: IObjetcPatient = {
+  id: 0,
+  hc: "00000000",
+  lastName: "Mortarini",
+  name: "Jean Pietro",
+  dni: "00000000",
+  fnac: "00/00/0000",
+  age: "00",
+  obs: "Swiss Medical",
+};
