@@ -8,13 +8,15 @@ interface IProp {
   state: boolean;
   setState: React.Dispatch<React.SetStateAction<boolean>>;
   currentRol?: "paciente" | "profesional";
-  handleOpenDrawer: (rol: "paciente" | "profesional") => void;
+  handleOpenDrawer: (rol: "paciente") => void;
+  handleOpenDrawerProfessional: (rol: "profesional") => void;
   handleCloseDrawer: () => void;
 }
 export default function Header({
   state,
   currentRol,
   handleCloseDrawer,
+  handleOpenDrawerProfessional,
   handleOpenDrawer,
 }: IProp) {
   const isLoggedIn = Cookies.get("accessToken") && Cookies.get("refreshToken");
@@ -72,7 +74,7 @@ export default function Header({
         {!isLoggedIn ? (
           <div className="flex gap-2">
             <button
-              onClick={() => handleOpenDrawer("profesional")}
+              onClick={() => handleOpenDrawerProfessional("profesional")}
               className="px-2 py-1 text-xs transition-all duration-200 border rounded lg:text-base lg:px-4 border-green text-green hover:bg-green hover:text-white"
             >
               Profesionales
