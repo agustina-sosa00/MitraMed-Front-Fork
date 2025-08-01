@@ -32,6 +32,8 @@ export const Odontogram = () => {
       showCancelButton: true,
       confirmButtonText: "Si",
       cancelButtonText: "No",
+      confirmButtonColor: "#518915",
+      cancelButtonColor: "#d33",
     }).then((result) => {
       if (result.isConfirmed) {
         setTeethState((prev) => ({
