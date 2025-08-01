@@ -3,21 +3,8 @@ import { useMedicalHistoryContext } from "../../../context/MedicalHistoryContext
 import React, { useState } from "react";
 import { FaPencil } from "react-icons/fa6";
 import { FaMagnifyingGlass } from "react-icons/fa6";
+import { SearchPatientProps } from "../../../mock/arrayTableProfessional";
 
-export interface IObjetcPatient {
-  label: string;
-  value: string;
-}
-
-interface SearchPatientProps {
-  handleFindPatient: (arg: string) => void;
-  viewImg: boolean;
-  showData: boolean;
-  labelSearch: string;
-  data: IObjetcPatient[];
-  noHc?: boolean;
-  setStateModal?: (arg: boolean) => void;
-}
 export const SearchPatient: React.FC<SearchPatientProps> = ({
   handleFindPatient,
   viewImg,
@@ -37,33 +24,52 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
     <>
       {!isEditing && numHistory.length > 0 ? (
         <div
-          className={`flex  py-1 h-16 justify-start gap-1 w-full ${
+          className={`flex  py-1 h-16 justify-between gap-1 w-full ${
             viewImg ? "items-end" : "items-center"
           } `}
         >
-          <label className="text-sm font-medium text-blue">
-            {labelSearch}:{" "}
-          </label>
-          <div className="h-8 px-2 py-1 font-bold border border-gray-300 rounded w-28 bg-lightGray focus:outline-none text-blue">
-            {numHistory}
+          <div className="flex items-center gap-1">
+            <label className="text-sm font-medium text-blue">
+              {labelSearch}:{" "}
+            </label>
+            <div className="h-8 px-2 py-1 font-bold border border-gray-300 rounded w-28 bg-lightGray focus:outline-none text-blue">
+              {numHistory}
+            </div>
+            <button
+              type="button"
+              onClick={() => setIsEditing(true)}
+              className="flex items-center justify-center h-8 px-2 py-1 transition-all duration-300 border border-gray-300 rounded bg-lightGray text-greenHover hover:bg-gray-200"
+            >
+              <FaPencil />
+            </button>
           </div>
-          <button
-            type="button"
-            onClick={() => setIsEditing(true)}
-            className="flex items-center justify-center h-8 px-2 py-1 transition-all duration-300 border border-gray-300 rounded bg-lightGray text-greenHover hover:bg-gray-200"
-          >
-            <FaPencil />
-          </button>
 
-          <div className="flex items-end justify-end gap-3 px-3">
-            {data.map((item) => (
-              <h3 className="text-sm capitalize text-blue ">
-                {item.label}:{" "}
-                <span className="text-base font-medium capitalize ">
-                  {item.value}
-                </span>
+          <div className="flex flex-col justify-center w-1/2 gap-1 px-3 text-sm border border-gray-300 rounded xl:w-2/3 xl:text-base bg-lightGray text-blue">
+            <div className="flex w-full gap-4">
+              <h3 className="w-1/3 ">
+                Apellido: <span className="font-medium">{data.lastName}</span>{" "}
               </h3>
-            ))}
+              <h3 className="w-1/3 ">
+                Nombre: <span className="font-medium">{data.name}</span>{" "}
+              </h3>{" "}
+              <h3 className="w-1/3 ">
+                Edad: <span className="font-medium">{data.age}</span>{" "}
+              </h3>
+            </div>
+            <div className="flex justify-start w-full gap-1">
+              {" "}
+              <h3 className="w-1/3 ">
+                DNI: <span className="font-medium">{data.dni}</span>{" "}
+              </h3>
+              <h3 className=" text-start">
+                F. Nacimiento: <span className="font-medium">{data.fnac}</span>{" "}
+              </h3>
+              <div className=""></div>
+            </div>
+
+            <h3 className="w-1/3 ">
+              O. Social: <span className="font-medium">{data.obs}</span>{" "}
+            </h3>
 
             {/* datos para mostrar de historial medico opcionales */}
             {viewImg && (

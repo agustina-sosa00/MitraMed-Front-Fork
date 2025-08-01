@@ -121,7 +121,7 @@ export const MedicalHistory: React.FC = () => {
         </h1>
       </div>
 
-      <div className="flex items-center justify-start w-full h-16 gap-1 px-16 py-1">
+      <div className="flex items-center justify-start w-full h-24 gap-1 px-16 py-1">
         <SearchPatient
           noHc={hc}
           data={dataPatientHc}
@@ -133,7 +133,7 @@ export const MedicalHistory: React.FC = () => {
         />
       </div>
 
-      <div className="flex justify-center w-full pt-5 overflow-x-auto min-h-96">
+      <div className="flex justify-center w-full pt-5 overflow-x-auto min-h-80">
         <TablaDefault
           props={{
             datosParaTabla: sortedData,
