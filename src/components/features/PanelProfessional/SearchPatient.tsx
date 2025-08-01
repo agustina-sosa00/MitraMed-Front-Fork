@@ -8,97 +8,111 @@ import { SearchPatientProps } from "../../../mock/arrayTableProfessional";
 export const SearchPatient: React.FC<SearchPatientProps> = ({
   handleFindPatient,
   viewImg,
-
+  odontogram,
   labelSearch,
   data,
   noHc,
   setStateModal,
 }) => {
   const { numHistory, setNumHistory } = useMedicalHistoryContext();
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(true);
   const handleOnChangeDni = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNumHistory(e.target.value);
   };
-
+  const [loader, setLoader] = useState(false);
+  const handleSearchPatient = () => {
+    setLoader(true);
+    setTimeout(() => {
+      setIsEditing(false);
+      handleFindPatient(numHistory);
+      setLoader(false);
+    }, 2000);
+  };
   return (
     <>
-      {!isEditing && numHistory.length > 0 ? (
-        <div
-          className={`flex  py-1 h-16 justify-between gap-1 w-full items-center `}
-        >
-          <div className="flex items-center gap-1">
-            <label className="text-sm font-medium text-blue">
-              {labelSearch}:{" "}
-            </label>
-            <div className="h-8 px-2 py-1 font-bold border border-gray-300 rounded w-28 bg-lightGray focus:outline-none text-blue">
-              {numHistory}
-            </div>
-            <button
-              type="button"
-              onClick={() => setIsEditing(true)}
-              className="flex items-center justify-center h-8 px-2 py-1 transition-all duration-300 border border-gray-300 rounded bg-lightGray text-greenHover hover:bg-gray-200"
+      {!isEditing ? (
+        <>
+          {numHistory.length > 0 && (
+            <div
+              className={`flex  py-1 h-16 justify-between gap-1 w-full items-center `}
             >
-              <FaPencil />
-            </button>
-          </div>
+              <div className="flex items-center gap-1">
+                <label className="text-sm font-medium text-blue">
+                  {labelSearch}:{" "}
+                </label>
+                <div className="h-8 px-2 py-1 font-bold border border-gray-300 rounded w-28 bg-lightGray focus:outline-none text-blue">
+                  {numHistory}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsEditing(true)}
+                  className="flex items-center justify-center h-8 px-2 py-1 transition-all duration-300 border border-gray-300 rounded bg-lightGray text-greenHover hover:bg-gray-200"
+                >
+                  <FaPencil />
+                </button>
+              </div>
 
-          <div className="flex flex-col justify-center w-1/2 gap-1 px-3 text-sm capitalize border border-gray-300 rounded xl:w-2/3 xl:text-base bg-lightGray text-blue">
-            <div className="flex items-center w-full gap-4">
-              {data?.lastName && (
-                <h3 className="w-1/3 ">
-                  Apellido: <span className="font-medium">{data.lastName}</span>{" "}
-                </h3>
-              )}
-              {data?.name && (
-                <h3 className="w-1/3 ">
-                  Nombre: <span className="font-medium">{data.name}</span>{" "}
-                </h3>
-              )}
-              {viewImg && (
-                <img
-                  src="/user.jpg"
-                  alt="user"
-                  className="w-16 h-16 border border-gray-300 rounded-full"
+              <div className="flex flex-col justify-center w-1/2 gap-1 px-3 text-sm capitalize border border-gray-300 rounded xl:w-2/3 xl:text-base bg-lightGray text-blue">
+                <div className="flex items-center w-full gap-4">
+                  {data?.lastName && (
+                    <h3 className="w-1/3 ">
+                      Apellido:{" "}
+                      <span className="font-medium">{data.lastName}</span>{" "}
+                    </h3>
+                  )}
+                  {data?.name && (
+                    <h3 className="w-1/3 ">
+                      Nombre: <span className="font-medium">{data.name}</span>{" "}
+                    </h3>
+                  )}
+                  {viewImg && (
+                    <img
+                      src="/user.jpg"
+                      alt="user"
+                      className="w-16 h-16 border border-gray-300 rounded-full"
+                    />
+                  )}
+                  {data?.age && (
+                    <h3 className="w-1/3 ">
+                      Edad: <span className="font-medium">{data.age}</span>{" "}
+                    </h3>
+                  )}
+                </div>
+                <div className="flex justify-start w-full gap-1">
+                  {data?.dni && (
+                    <h3 className="w-1/3 ">
+                      DNI: <span className="font-medium">{data.dni}</span>{" "}
+                    </h3>
+                  )}
+                  {data?.fnac && (
+                    <h3 className=" text-start">
+                      F. Nacimiento:{" "}
+                      <span className="font-medium">{data.fnac}</span>{" "}
+                    </h3>
+                  )}{" "}
+                  <div className=""></div>{" "}
+                </div>
+                {data?.obs && (
+                  <h3 className="w-1/3 ">
+                    O. Social: <span className="font-medium">{data.obs}</span>{" "}
+                  </h3>
+                )}
+
+                {/* datos para mostrar de historial medico opcionales */}
+              </div>
+              {odontogram && (
+                <Button
+                  label="agregar consulta"
+                  handle={() => setStateModal && setStateModal(true)}
                 />
               )}
-              {data?.age && (
-                <h3 className="w-1/3 ">
-                  Edad: <span className="font-medium">{data.age}</span>{" "}
-                </h3>
-              )}
             </div>
-            <div className="flex justify-start w-full gap-1">
-              {data?.dni && (
-                <h3 className="w-1/3 ">
-                  DNI: <span className="font-medium">{data.dni}</span>{" "}
-                </h3>
-              )}
-              {data?.fnac && (
-                <h3 className=" text-start">
-                  F. Nacimiento:{" "}
-                  <span className="font-medium">{data.fnac}</span>{" "}
-                </h3>
-              )}{" "}
-              <div className=""></div>{" "}
-            </div>
-            {data?.obs && (
-              <h3 className="w-1/3 ">
-                O. Social: <span className="font-medium">{data.obs}</span>{" "}
-              </h3>
-            )}
-
-            {/* datos para mostrar de historial medico opcionales */}
-          </div>
-
-          <Button
-            label="agregar consulta"
-            handle={() => setStateModal && setStateModal(true)}
-          />
-        </div>
+          )}
+        </>
       ) : (
         <div
           className={`flex  py-1 h-16 justify-start gap-1 w-full ${
-            viewImg ? "items-end" : "items-center"
+            viewImg ? "items-center" : "items-center"
           } `}
         >
           <label className="text-sm font-medium text-blue">
@@ -119,13 +133,24 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
 
           <button
             type="button"
-            onClick={() => {
-              setIsEditing(false);
-              handleFindPatient(numHistory);
-            }}
-            className="flex items-center justify-center h-8 px-2 py-1 transition-all duration-300 border border-gray-300 rounded bg-lightGray text-greenHover hover:bg-gray-200"
+            onClick={handleSearchPatient}
+            className="flex items-center justify-center w-8 h-8 px-2 py-1 transition-all duration-300 border border-gray-300 rounded bg-lightGray text-greenHover hover:bg-gray-200"
           >
-            <FaMagnifyingGlass />
+            {loader ? (
+              <svg
+                className="w-8 h-8 circle-loader animate-spin"
+                viewBox="25 25 50 50"
+              >
+                <circle
+                  r="20"
+                  cy="50"
+                  cx="50"
+                  className="circleNormal"
+                ></circle>
+              </svg>
+            ) : (
+              <FaMagnifyingGlass />
+            )}
           </button>
           {noHc && (
             <p className="text-xs font-bold text-red-500 w-72">

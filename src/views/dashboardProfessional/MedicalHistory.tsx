@@ -130,6 +130,7 @@ export const MedicalHistory: React.FC = () => {
           handleFindPatient={handleFindPatient}
           viewImg={false}
           setStateModal={setShowModal}
+          odontogram={true}
         />
       </div>
 
