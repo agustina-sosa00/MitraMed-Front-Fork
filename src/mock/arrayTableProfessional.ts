@@ -396,6 +396,7 @@ export interface SearchPatientProps {
   data: IObjetcPatient;
   noHc?: boolean;
   setStateModal?: (arg: boolean) => void;
+  odontogram?: boolean;
 }
 
 export interface IObjetcPatient {
