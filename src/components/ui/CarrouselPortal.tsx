@@ -8,7 +8,7 @@ interface IProp {
   state: boolean;
   setState: React.Dispatch<React.SetStateAction<boolean>>;
   currentRol?: "paciente" | "profesional";
-  handleOpenDrawer: (rol: "paciente" | "profesional") => void;
+  handleOpenDrawer: (rol: "paciente") => void;
   handleCloseDrawer: () => void;
   setLoader: React.Dispatch<React.SetStateAction<boolean>>;
 }
