@@ -87,7 +87,7 @@ export const Tooth: React.FC<ToothProps> = ({
               <div key={index}>
                 {trat.tratamiento === "Corona" && (
                   <FaRegCircle
-                    className={`absolute z-40 w-14 h-14 ${
+                    className={`absolute z-40 w-14 h-14 xl:w-16 xl:h-16 ${
                       trat.action === "realizado"
                         ? "text-red-500"
                         : "text-sky-700"
@@ -96,7 +96,7 @@ export const Tooth: React.FC<ToothProps> = ({
                 )}
                 {trat.tratamiento === "Extracción" && (
                   <GrClose
-                    className={`absolute z-40 w-14 h-14 ${
+                    className={`absolute z-40 w-14 h-14 xl:w-16 xl:h-16 ${
                       trat.action === "realizado"
                         ? "text-red-500"
                         : "text-sky-700"

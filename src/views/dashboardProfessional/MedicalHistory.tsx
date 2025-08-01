@@ -115,23 +115,24 @@ export const MedicalHistory: React.FC = () => {
 
   return (
     <div className="flex flex-col w-full min-h-screen px-5 pt-20 ">
-      <div className="flex flex-col w-full px-16">
-        <h1 className="text-2xl font-medium uppercase lg:text-4xl text-green">
-          Historial médico
-        </h1>
-      </div>
-
-      <div className="flex items-center justify-start w-full h-24 gap-1 px-16 py-1">
-        <SearchPatient
-          noHc={hc}
-          data={dataPatientHc}
-          labelSearch={"HC"}
-          showData={showData}
-          handleFindPatient={handleFindPatient}
-          viewImg={false}
-          setStateModal={setShowModal}
-          odontogram={true}
-        />
+      <div className="flex flex-col items-center justify-center w-full ">
+        <div className="lg:w-[85%] xl:w-[70%] flex flex-col  gap-5">
+          <h1 className="text-2xl font-medium uppercase lg:text-4xl text-green">
+            Historial médico
+          </h1>
+          <div className="flex items-center justify-start w-full h-24 gap-1 px-16 py-1 ">
+            <SearchPatient
+              noHc={hc}
+              data={dataPatientHc}
+              labelSearch={"HC"}
+              showData={showData}
+              handleFindPatient={handleFindPatient}
+              viewImg={false}
+              setStateModal={setShowModal}
+              odontogram={true}
+            />
+          </div>
+        </div>
       </div>
 
       <div className="flex justify-center w-full pt-5 overflow-x-auto min-h-80">
@@ -142,26 +143,26 @@ export const MedicalHistory: React.FC = () => {
               {
                 key: "id",
                 label: "id",
-                minWidth: "40",
-                maxWidth: "40",
+                minWidth: "150",
+                maxWidth: "150",
               },
               {
                 key: "fecha",
                 label: "Fecha",
-                minWidth: "100",
-                maxWidth: "100",
+                minWidth: "150",
+                maxWidth: "150",
               },
               {
                 key: "motivo",
                 label: "Motivo de consulta",
-                minWidth: "200",
-                maxWidth: "200",
+                minWidth: "260",
+                maxWidth: "260",
               },
               {
                 key: "profesional",
                 label: "Profesional",
-                minWidth: "160",
-                maxWidth: "160",
+                minWidth: "200",
+                maxWidth: "200",
               },
               {
                 key: "acciones",
@@ -176,7 +177,7 @@ export const MedicalHistory: React.FC = () => {
                     </button>
                   </Link>
                 ),
-                minWidth: "80",
+                minWidth: "120",
                 maxWidth: "120",
               },
             ],
