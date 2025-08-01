@@ -17,7 +17,11 @@ export const Layout: React.FC<IProp> = ({ setLoader }) => {
     "paciente" | "profesional" | undefined
   >();
 
-  const handleOpenDrawer = (rol: "paciente" | "profesional") => {
+  const handleOpenDrawer = (rol: "paciente") => {
+    setCurrentRol(rol);
+    setIsOpenDrawer(true);
+  };
+  const handleOpenDrawerProfessional = (rol: "profesional") => {
     setCurrentRol(rol);
     setIsOpenDrawer(true);
   };
@@ -51,6 +55,7 @@ export const Layout: React.FC<IProp> = ({ setLoader }) => {
         setState={setIsOpenDrawer}
         currentRol={currentRol}
         handleOpenDrawer={handleOpenDrawer}
+        handleOpenDrawerProfessional={handleOpenDrawerProfessional}
         handleCloseDrawer={handleCloseDrawer}
       />
       <div className="flex-grow ">
