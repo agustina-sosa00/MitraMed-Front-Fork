@@ -399,14 +399,14 @@ export interface SearchPatientProps {
 }
 
 export interface IObjetcPatient {
-  id: number;
-  hc: string;
-  lastName: string;
-  name: string;
-  dni: string;
-  fnac: string;
-  age: string;
-  obs: string;
+  id?: number;
+  hc?: string;
+  lastName?: string;
+  name?: string;
+  dni?: string;
+  fnac?: string;
+  age?: string;
+  obs?: string;
 }
 
 export const dataPatientHc: IObjetcPatient = {
