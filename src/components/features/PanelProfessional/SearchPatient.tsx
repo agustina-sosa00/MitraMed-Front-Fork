@@ -31,6 +31,14 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
     }, 2000);
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearchPatient();
+    } else if (e.key === "Escape") {
+      setNumHistory("");
+    }
+  };
+
   useEffect(() => {
     if (!location.pathname.startsWith("/profesionales/historial")) {
       setNumHistory("");
@@ -136,6 +144,7 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
               className={`h-8 px-2 py-1 font-bold border  rounded w-28 bg-lightGray focus:outline-none text-blue ${
                 noHc ? "border-red-500" : "border-gray-300 "
               } `}
+              onKeyDown={(e) => handleKeyDown(e)}
             />
           </div>
 
