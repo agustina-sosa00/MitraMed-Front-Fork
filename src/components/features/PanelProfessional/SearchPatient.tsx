@@ -1,9 +1,10 @@
 import { Button } from "@/components/ui/Button";
 import { useMedicalHistoryContext } from "../../../context/MedicalHistoryContext";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaPencil } from "react-icons/fa6";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { SearchPatientProps } from "../../../mock/arrayTableProfessional";
+import { useLocation } from "react-router-dom";
 
 export const SearchPatient: React.FC<SearchPatientProps> = ({
   handleFindPatient,
@@ -14,6 +15,7 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
   noHc,
   setStateModal,
 }) => {
+  const location = useLocation();
   const { numHistory, setNumHistory } = useMedicalHistoryContext();
   const [isEditing, setIsEditing] = useState(true);
   const handleOnChangeDni = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,6 +30,12 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
       setLoader(false);
     }, 2000);
   };
+
+  useEffect(() => {
+    if (!location.pathname.startsWith("/profesionales/historial")) {
+      setNumHistory("");
+    }
+  }, []);
   return (
     <>
       {!isEditing ? (

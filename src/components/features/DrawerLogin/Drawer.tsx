@@ -34,22 +34,8 @@ export const Drawer = ({ handle, open, rol }: IProp) => {
               <IoClose />
             </button>
           </div>
-          {rol === "paciente" ? (
-            <SignInForm rol="paciente" />
-          ) : (
-            // <div className="flex flex-col items-center justify-start w-full h-full pt-20">
-            //   {" "}
-            //   <h2 className="text-lg font-bold uppercase text-blue ">
-            //     Área en desarrollo
-            //   </h2>{" "}
-            //   <img
-            //     src="/icons/programmer.png"
-            //     alt=""
-            //     className="opacity-50 w-28"
-            //   />{" "}
-            // </div>
-            <SignInForm rol="profesional" />
-          )}
+          {rol === "paciente" && <SignInForm rol="paciente" />}
+          {rol === "profesional" && <SignInForm rol="profesional" />}
         </div>
       </div>
     </>
