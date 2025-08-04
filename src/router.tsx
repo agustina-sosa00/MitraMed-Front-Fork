@@ -20,6 +20,7 @@ import { Secretariat } from "./views/dashboardSecretariat/Secretariat";
 import Turnos from "./views/dashboard/Turnos";
 import { MedicalHistory } from "./views/dashboardProfessional/MedicalHistory";
 import { DetailHistoryMedical } from "./views/dashboardProfessional/DetailHistoryMedical";
+import { TableGral } from "./views/dashboardSecretariat/TableGral";
 interface RouterProps {
   loader: boolean;
   setLoader: React.Dispatch<React.SetStateAction<boolean>>;
@@ -65,6 +66,7 @@ export default function Router({ loader, setLoader }: RouterProps) {
           <Route element={<SecretariatLayout setLoader={setLoader} />}>
             <Route path="/secretaria/inicio" element={<Secretariat />} />
             <Route path="/secretaria/turnos" element={<TurnosSecretariat />} />
+            <Route path="/secretaria/tabla-general" element={<TableGral />} />
           </Route>
         </Route>
         <Route path="*" element={<NotFound />} />

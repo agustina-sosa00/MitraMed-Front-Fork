@@ -1,9 +1,12 @@
-import { SideBar } from "@/components/ui/SideBar";
-import { Outlet } from "react-router-dom";
-import { FaHouse } from "react-icons/fa6";
-import { Navbar } from "@/components/features/PanelProfessional/Navbar";
-import { FaNotesMedical } from "react-icons/fa";
 import { useEffect } from "react";
+import { Outlet } from "react-router-dom";
+
+import { FaHouse } from "react-icons/fa6";
+import { FaNotesMedical } from "react-icons/fa";
+import { MdTableChart } from "react-icons/md";
+
+import { SideBar } from "@/components/ui/SideBar";
+import { Navbar } from "@/components/features/PanelProfessional/Navbar";
 
 const buttons = [
   {
@@ -16,6 +19,12 @@ const buttons = [
     name: "turnos",
     icon: FaNotesMedical,
     link: "/secretaria/turnos",
+    disabled: false,
+  },
+  {
+    name: "tabla gral.",
+    icon: MdTableChart,
+    link: "/secretaria/tabla-general",
     disabled: false,
   },
 ];
