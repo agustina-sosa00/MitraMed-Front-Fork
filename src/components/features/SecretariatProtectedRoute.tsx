@@ -4,6 +4,7 @@ import { Navigate, Outlet } from "react-router-dom";
 export const SecretariatProtectedRoute = () => {
   const accessToken = true;
   // const accessToken = Cookies.get("accessSecretariat");
+
   const userRol = "secretariat";
   if (!accessToken || userRol !== "secretariat") {
     return <Navigate to="/" />;
