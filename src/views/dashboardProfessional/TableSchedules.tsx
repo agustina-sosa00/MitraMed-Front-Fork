@@ -6,6 +6,7 @@ import {
 } from "../../mock/arrayTableProfessional";
 import React, { useEffect, useState } from "react";
 import { TablaDefault } from "../../frontend-resourses/components";
+import { ContainView } from "@/components/features/PanelProfessional/ContainView";
 
 export const TableSchedules: React.FC = () => {
   // const []
@@ -47,34 +48,27 @@ export const TableSchedules: React.FC = () => {
   };
 
   return (
-    <div className="flex justify-center w-full min-h-screen pt-20 lg:h-screen ">
-      <div className=" w-full lg:w-[85%] xl:w-[70%] h-[60%] flex flex-col justify-center lg:justify-start items-center gap-8  ">
-        <div className="flex flex-col w-full ">
-          <h1 className="text-2xl font-medium uppercase lg:text-4xl text-green">
-            Mis turnos
-          </h1>
-        </div>
-        <FilterTableSchedules
-          handle={changeDay}
-          state={daySchedule}
-          setState={setDaySchedule}
-        />
+    <ContainView title="mis turnos">
+      <FilterTableSchedules
+        handle={changeDay}
+        state={daySchedule}
+        setState={setDaySchedule}
+      />
 
-        <div className="flex justify-center max-h-[200px]   overflow-y-auto lg:overflow-visible w-full px-5 ">
-          <TablaDefault
-            props={{
-              datosParaTabla: arrayFilter,
-              objectColumns: tableColumnData,
-              objectStyles: {
-                withScrollbar: true,
-                addHeaderColor: "#022539",
-                containerClass: "border border-gray-300 rounded-t-lg ",
-                withBorder: false,
-              },
-            }}
-          />
-        </div>
+      <div className="flex justify-center max-h-[200px]   overflow-y-auto lg:overflow-visible w-full px-5 ">
+        <TablaDefault
+          props={{
+            datosParaTabla: arrayFilter,
+            objectColumns: tableColumnData,
+            objectStyles: {
+              withScrollbar: true,
+              addHeaderColor: "#022539",
+              containerClass: "border border-gray-300 rounded-t-lg ",
+              withBorder: false,
+            },
+          }}
+        />
       </div>
-    </div>
+    </ContainView>
   );
 };

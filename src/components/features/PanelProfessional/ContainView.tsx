@@ -3,6 +3,7 @@ import React from "react";
 interface IProp {
   children: React.ReactNode;
   title: string;
+  onClick?: () => void;
 }
 
 export const ContainView: React.FC<IProp> = ({ children, title }) => {

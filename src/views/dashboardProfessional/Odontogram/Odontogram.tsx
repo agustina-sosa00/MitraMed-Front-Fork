@@ -4,6 +4,7 @@ import { ModalSelectFaceTooth } from "./ModalSelectFaceTooth";
 import Swal from "sweetalert2";
 import Cookies from "js-cookie";
 import { SearchPatient } from "@/components/features/PanelProfessional/SearchPatient";
+import { ContainView } from "@/components/features/PanelProfessional/ContainView";
 export const Odontogram = () => {
   const idProfesional = Cookies.get("idProfesional");
 
@@ -124,58 +125,49 @@ export const Odontogram = () => {
     });
   };
 
+  // #region return
+
   return (
-    <div
-      className="flex flex-col w-full h-screen gap-5 px-5 py-20"
-      onClick={handleShowMenu}
-    >
-      <div className="flex flex-col items-center justify-center w-full ">
-        <div className="w-full lg:w-[85%] xl:w-[70%]  ">
-          <h1 className="text-2xl font-medium uppercase lg:text-4xl text-green">
-            odontograma
-          </h1>{" "}
-          {idProfesional !== "3" && (
-            <div className="flex items-end justify-between w-full h-20 gap-1 py-1 ">
-              <SearchPatient
-                data={{ name: "agustina", lastName: " sosa" }}
-                labelSearch="DNI"
-                showData={infoUser}
-                handleFindPatient={handleFindPatient}
-                viewImg={true}
-                odontogram={false}
-              />
-              {infoUser && (
-                <div className="flex items-center justify-end h-16 gap-2 px-2 py-1 w-72">
-                  {editOdontogram ? (
-                    <>
-                      <button
-                        onClick={handleSave}
-                        className="flex items-center justify-center h-8 gap-2 px-2 py-1 text-white capitalize transition-all duration-300 rounded bg-green hover:bg-greenHover"
-                      >
-                        guardar
-                      </button>
-                      <button
-                        onClick={handleCancelEdit}
-                        className="flex items-center justify-center h-8 gap-2 px-2 py-1 text-white capitalize transition-all duration-300 bg-red-500 rounded hover:bg-red-600"
-                      >
-                        cancelar
-                      </button>
-                    </>
-                  ) : (
-                    <button
-                      onClick={handleEditOdontogram}
-                      className="flex items-center justify-center h-8 gap-2 px-2 py-1 text-white capitalize transition-all duration-300 rounded bg-green hover:bg-greenHover"
-                    >
-                      editar odontograma
-                    </button>
-                  )}
-                </div>
+    <ContainView title="Odontograma" onClick={handleShowMenu}>
+      {idProfesional !== "3" && (
+        <div className="flex items-end justify-between w-full h-20 gap-1 py-1 ">
+          <SearchPatient
+            data={{ name: "agustina", lastName: " sosa" }}
+            labelSearch="DNI"
+            showData={infoUser}
+            handleFindPatient={handleFindPatient}
+            viewImg={true}
+            odontogram={false}
+          />
+          {infoUser && (
+            <div className="flex items-center justify-end h-16 gap-2 px-2 py-1 w-72">
+              {editOdontogram ? (
+                <>
+                  <button
+                    onClick={handleSave}
+                    className="flex items-center justify-center h-8 gap-2 px-2 py-1 text-white capitalize transition-all duration-300 rounded bg-green hover:bg-greenHover"
+                  >
+                    guardar
+                  </button>
+                  <button
+                    onClick={handleCancelEdit}
+                    className="flex items-center justify-center h-8 gap-2 px-2 py-1 text-white capitalize transition-all duration-300 bg-red-500 rounded hover:bg-red-600"
+                  >
+                    cancelar
+                  </button>
+                </>
+              ) : (
+                <button
+                  onClick={handleEditOdontogram}
+                  className="flex items-center justify-center h-8 gap-2 px-2 py-1 text-white capitalize transition-all duration-300 rounded bg-green hover:bg-greenHover"
+                >
+                  editar odontograma
+                </button>
               )}
             </div>
           )}
         </div>
-      </div>
-
+      )}
       {/* Dientes adultos */}
       <div className="flex flex-wrap w-full h-1/2">
         <div className="flex flex-row-reverse items-end justify-start w-1/2 gap-1 p-2 border-b border-r border-black h-1/2 ">
@@ -242,6 +234,6 @@ export const Odontogram = () => {
           }
         />
       )}
-    </div>
+    </ContainView>
   );
 };
