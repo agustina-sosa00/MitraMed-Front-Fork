@@ -5,30 +5,30 @@ import {
   Cell,
   ResponsiveContainer,
   PieLabelRenderProps,
+  Tooltip,
 } from "recharts";
 
 interface IProp {
   data: {
     name: string;
     value: number;
+    colors: string;
   }[];
 }
-
-const colors = ["#3b82f6", "#06b6d4", "#ec4899", "#db2777"]; // Azul, Cyan, Rosa
 
 const renderCustomLabel = ({
   cx,
   cy,
   midAngle,
-  //   innerRadius,
   outerRadius,
-  name,
+  percent,
 }: PieLabelRenderProps) => {
   const RADIAN = Math.PI / 180;
-  //   const r = ((Number(innerRadius) || 0) + (Number(outerRadius) || 0)) / 2;
-  //   const x = (Number(cx) || 0) + r * Math.cos(-midAngle * RADIAN);
-  //   const y = (Number(cy) || 0) + r * Math.sin(-midAngle * RADIAN);
-  const radius = Number(outerRadius) + 40; // 20px fuera del borde
+
+  // ✅ Ajustamos el radio para posicionar labels fuera del gráfico
+  const offset = 20; // distancia fuera del borde
+  const radius = (outerRadius ? Number(outerRadius) : 0) + offset;
+
   const x = (Number(cx) || 0) + radius * Math.cos(-midAngle * RADIAN);
   const y = (Number(cy) || 0) + radius * Math.sin(-midAngle * RADIAN);
 
@@ -36,40 +36,35 @@ const renderCustomLabel = ({
     <text
       x={x}
       y={y}
-      fill="#000"
-      textAnchor="middle"
+      fill="#022539"
+      textAnchor={x > (cx || 0) ? "start" : "end"} // Ajuste dinámico
       dominantBaseline="central"
       fontSize="14"
       fontWeight="bold"
-      className="break-words whitespace-normal"
     >
-      {name}
+      {`${Math.round((percent || 0) * 100)}%`}
     </text>
   );
 };
 
-const handleOnClick = (data) => {
-  console.log(data);
-};
-
 const DonutChartWithLabels: React.FC<IProp> = ({ data }) => {
   return (
-    <div className="" style={{ width: "400px", height: "400px" }}>
-      <ResponsiveContainer>
+    <div className="w-full h-full overflow-visible ">
+      <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <Pie
             data={data}
             cx="50%"
             cy="50%"
-            innerRadius="0%"
-            outerRadius="50%" //achicar para que los labels tengan mas espacio
+            innerRadius="0%" // ✅ donut
+            outerRadius="70%" // ✅ espacio suficiente para labels
             dataKey="value"
             label={renderCustomLabel}
             labelLine={true}
-            onClick={(data) => handleOnClick(data)}
+            isAnimationActive={false}
           >
-            {data.map((_, index) => (
-              <Cell key={index} fill={colors[index % colors.length]} />
+            {data.map((item, index) => (
+              <Cell key={index} fill={item.colors} />
             ))}
           </Pie>
         </PieChart>
