@@ -11,6 +11,7 @@ import { useContextDropbox } from "../../context/DropboxContext";
 import { Link } from "react-router-dom";
 import { Modal } from "@/components/ui/Modal";
 import { useMedicalHistoryContext } from "../../context/MedicalHistoryContext";
+import { ContainView } from "@/components/features/PanelProfessional/ContainView";
 
 export const MedicalHistory: React.FC = () => {
   // ---------------------------------------------------------
@@ -114,27 +115,19 @@ export const MedicalHistory: React.FC = () => {
   }, [dataDropbox]);
 
   return (
-    <div className="flex flex-col w-full min-h-screen px-5 pt-20 ">
-      <div className="flex flex-col items-center justify-center w-full ">
-        <div className="lg:w-[85%] xl:w-[70%] flex flex-col  gap-5">
-          <h1 className="text-2xl font-medium uppercase lg:text-4xl text-green">
-            Historial médico
-          </h1>
-          <div className="flex items-center justify-start w-full h-24 gap-1 px-16 py-1 ">
-            <SearchPatient
-              noHc={hc}
-              data={dataPatientHc}
-              labelSearch={"HC"}
-              showData={showData}
-              handleFindPatient={handleFindPatient}
-              viewImg={false}
-              setStateModal={setShowModal}
-              odontogram={true}
-            />
-          </div>
-        </div>
+    <ContainView title="Historial médico">
+      <div className="flex items-center justify-start w-full h-24 gap-1 px-16 py-1 ">
+        <SearchPatient
+          noHc={hc}
+          data={dataPatientHc}
+          labelSearch={"HC"}
+          showData={showData}
+          handleFindPatient={handleFindPatient}
+          viewImg={false}
+          setStateModal={setShowModal}
+          odontogram={true}
+        />
       </div>
-
       <div className="flex justify-center w-full pt-5 overflow-x-auto min-h-80">
         <TablaDefault
           props={{
@@ -204,6 +197,6 @@ export const MedicalHistory: React.FC = () => {
           />
         </Modal>
       )}
-    </div>
+    </ContainView>
   );
 };
