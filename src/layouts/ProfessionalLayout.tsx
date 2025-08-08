@@ -2,6 +2,8 @@ import { SideBar } from "@/components/ui/SideBar";
 import { Outlet } from "react-router-dom";
 import { FaHouse } from "react-icons/fa6";
 import { FaNotesMedical, FaTooth } from "react-icons/fa";
+import { PiChartLineUpFill } from "react-icons/pi";
+
 import { Navbar } from "@/components/features/PanelProfessional/Navbar";
 import { FaArchive } from "react-icons/fa";
 import { useEffect } from "react";
@@ -29,6 +31,12 @@ const buttons = [
     name: "odontograma",
     icon: FaTooth,
     link: "/profesionales/odontograma",
+    disabled: false,
+  },
+  {
+    name: "métricas",
+    icon: PiChartLineUpFill,
+    link: "/profesionales/metricas",
     disabled: false,
   },
 ];

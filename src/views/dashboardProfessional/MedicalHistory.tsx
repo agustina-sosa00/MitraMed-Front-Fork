@@ -11,6 +11,7 @@ import { useContextDropbox } from "../../context/DropboxContext";
 import { Link } from "react-router-dom";
 import { Modal } from "@/components/ui/Modal";
 import { useMedicalHistoryContext } from "../../context/MedicalHistoryContext";
+import { ContainView } from "@/components/features/PanelProfessional/ContainView";
 
 export const MedicalHistory: React.FC = () => {
   // ---------------------------------------------------------
@@ -114,14 +115,8 @@ export const MedicalHistory: React.FC = () => {
   }, [dataDropbox]);
 
   return (
-    <div className="flex flex-col w-full min-h-screen px-5 pt-20 ">
-      <div className="flex flex-col w-full px-16">
-        <h1 className="text-2xl font-medium uppercase lg:text-4xl text-green">
-          Historial médico
-        </h1>
-      </div>
-
-      <div className="flex items-center justify-start w-full h-24 gap-1 px-16 py-1">
+    <ContainView title="Historial médico">
+      <div className="flex items-center justify-start w-full h-24 gap-1 px-16 py-1 ">
         <SearchPatient
           noHc={hc}
           data={dataPatientHc}
@@ -133,7 +128,6 @@ export const MedicalHistory: React.FC = () => {
           odontogram={true}
         />
       </div>
-
       <div className="flex justify-center w-full pt-5 overflow-x-auto min-h-80">
         <TablaDefault
           props={{
@@ -142,26 +136,26 @@ export const MedicalHistory: React.FC = () => {
               {
                 key: "id",
                 label: "id",
-                minWidth: "40",
-                maxWidth: "40",
+                minWidth: "150",
+                maxWidth: "150",
               },
               {
                 key: "fecha",
                 label: "Fecha",
-                minWidth: "100",
-                maxWidth: "100",
+                minWidth: "150",
+                maxWidth: "150",
               },
               {
                 key: "motivo",
                 label: "Motivo de consulta",
-                minWidth: "200",
-                maxWidth: "200",
+                minWidth: "260",
+                maxWidth: "260",
               },
               {
                 key: "profesional",
                 label: "Profesional",
-                minWidth: "160",
-                maxWidth: "160",
+                minWidth: "200",
+                maxWidth: "200",
               },
               {
                 key: "acciones",
@@ -176,7 +170,7 @@ export const MedicalHistory: React.FC = () => {
                     </button>
                   </Link>
                 ),
-                minWidth: "80",
+                minWidth: "120",
                 maxWidth: "120",
               },
             ],
@@ -203,6 +197,6 @@ export const MedicalHistory: React.FC = () => {
           />
         </Modal>
       )}
-    </div>
+    </ContainView>
   );
 };
