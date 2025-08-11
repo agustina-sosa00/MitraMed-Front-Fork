@@ -38,11 +38,14 @@ export const SecretariatLayout: React.FC<IProp> = ({ setLoader }) => {
     }, 300);
   }, [setLoader]);
   return (
-    <div className="flex flex-col w-full min-h-screen bg-right bg-no-repeat bg-cover lg:flex-row bg-profesional ">
-      <Navbar logo={"https://i.imgur.com/HBsiL82.png"} buttons={buttons} />
+    <div className="flex w-full h-screen bg-right bg-no-repeat bg-cover bg-profesional">
       <SideBar logo={"https://i.imgur.com/HBsiL82.png"} buttons={buttons} />
-      <div className="w-full ">
-        <Outlet />
+
+      <div className="flex flex-col flex-1 h-screen overflow-hidden">
+        <Navbar logo={"https://i.imgur.com/HBsiL82.png"} buttons={buttons} />
+        <div className="flex-1 overflow-y-auto">
+          <Outlet />
+        </div>
       </div>
     </div>
   );

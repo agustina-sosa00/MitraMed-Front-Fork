@@ -13,19 +13,16 @@ export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
   const navigate = useNavigate();
   const data = Cookies.get("dataProfessional");
   const dataUser = data ? JSON.parse(data) : null;
-
+  const usuario = Cookies.get("usuario");
   const handleLogout = () => {
     Cookies.remove("accessProfessional");
     navigate("/");
   };
   return (
-    <nav className="flex-col justify-between hidden h-screen w-52 lg:flex">
+    <nav className="flex-col justify-between hidden w-56 h-screen lg:flex">
       <section className="flex flex-col justify-between h-full bg-gray-200 ">
         {/* BOX 1 */}
         <div className="flex  pl-8 items-center h-[10%] ">
-          {/* <h2 className="px-2 py-5 text-lg font-bold tracking-wider uppercase text-blue">
-            Panel <br /> <span className=""> Profesional </span>
-          </h2> */}
           <img src={logo} alt="logo" className="" />
         </div>
         <div className="flex justify-center w-full">
@@ -58,9 +55,13 @@ export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
         <div className="flex flex-col  w-full gap-3  items-center py-5    h-[20%]  ">
           <div className="flex items-center justify-start gap-2 text-blue ">
             <FaUserCircle className="text-xl xl:text-3xl" />{" "}
-            <p>
-              Dr. {dataUser?.ndoctor} {dataUser?.adoctor}
-            </p>
+            {usuario ? (
+              <p>Sta. {dataUser?.nombre}</p>
+            ) : (
+              <p>
+                Dr. {dataUser?.ndoctor} {dataUser?.adoctor}
+              </p>
+            )}
           </div>
           <p className="text-sm ">
             ¿Quieres{" "}

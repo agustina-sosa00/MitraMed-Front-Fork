@@ -59,28 +59,43 @@ export default function SignInForm({ rol }: IProp) {
         title: error.message,
       });
     },
-    onSuccess: (data) => {
-      if (data?.data?.data?.[0]?.idprofesional >= 1) {
-        Cookies.set(
-          "idProfesional",
-          String(data?.data?.data?.[0].idprofesional)
-        );
+    onSuccess: (resp) => {
+      const user = resp?.data?.data?.[0];
+
+      if (!user) {
+        Swal.fire({ icon: "error", title: "Respuesta inválida" });
+        return;
+      }
+
+      // SECRETARÍA (tusuario === 3)
+      if (user.tusuario === 3) {
+        Cookies.set("usuario", "3");
+        Cookies.set("accessSecretariat", "true");
+        Cookies.set("dataProfessional", JSON.stringify(user));
+        navigate("/secretaria/inicio", { replace: true });
+        return;
+      }
+
+      // PROFESIONAL
+      if (user.idprofesional >= 1) {
+        Cookies.set("idProfesional", String(user.idprofesional));
         Cookies.set("accessProfessional", "true");
-        Cookies.set("dataProfessional", JSON.stringify(data?.data?.data?.[0]));
-        navigate("/profesionales/inicio");
-      } else if (data?.data?.code === 204) {
+        Cookies.set("dataProfessional", JSON.stringify(user));
+        navigate("/profesionales/inicio", { replace: true });
+        return;
+      }
+
+      // SIN VÍNCULO
+      if (resp?.data?.code === 204) {
         Swal.fire({
           icon: "error",
           title: "El usuario no pertenece a ningún profesional registrado.",
           confirmButtonColor: "#022539",
         });
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: data?.data?.message,
-          confirmButtonColor: "#022539",
-        });
+        return;
       }
+
+      Swal.fire({ icon: "error", title: resp?.data?.message ?? "Error" });
     },
   });
 

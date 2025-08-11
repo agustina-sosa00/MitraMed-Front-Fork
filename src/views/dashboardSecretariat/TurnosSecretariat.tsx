@@ -12,6 +12,7 @@ import { ModalAltaTurno } from "./ModalAltaTurno";
 import Swal from "sweetalert2";
 import { TablaDefault } from "@/frontend-resourses/components";
 import { TableNode } from "@/frontend-resourses/components/types";
+import { ContainView } from "@/components/features/PanelProfessional/ContainView";
 
 export const TurnosSecretariat: React.FC = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -147,84 +148,83 @@ export const TurnosSecretariat: React.FC = () => {
   };
 
   return (
-    <div className="flex justify-center max-w-[900px] lg:max-w-full min-h-screen pt-24 lg:pt-0 lg:h-screen lg:overflow-x-auto ">
-      <div className="flex flex-col items-center justify-center w-full gap-8 pt-5 lg:justify-start">
-        <div className="flex flex-col w-[80%] ">
-          <h1 className="text-2xl font-medium uppercase lg:text-4xl text-green">
-            Turnos
-          </h1>
-        </div>
-        <div className="flex items-end justify-center w-full gap-4">
-          <FilterTableSchedules
-            handle={changeDay}
-            state={daySchedule}
-            setState={setDaySchedule}
-            styles="w-1/2"
-            subStyles="flex justify-center items-end"
-          />
-          <BoxButton
-            disabled={!selectTurn || !selectProfessional ? "disabled" : ""}
-            handleButton={handleBoxButton}
-            button={["alta turno", "presentación", "facturación"]}
-          />
-        </div>
+    <ContainView title="turnos">
+      <div className="flex items-end justify-center w-full gap-4 ">
+        <FilterTableSchedules
+          handle={changeDay}
+          state={daySchedule}
+          setState={setDaySchedule}
+          styles="w-1/2"
+          subStyles="flex justify-center items-end"
+        />
+        <BoxButton
+          disabled={!selectTurn || !selectProfessional ? "disabled" : ""}
+          handleButton={handleBoxButton}
+          button={["alta turno", "presentación", "facturación"]}
+        />
+      </div>
 
-        <div className="flex gap-2 justify-between xl:justify-center max-h-[700px] px-1 overflow-y-auto lg:overflow-visible w-full  ">
-          <TableProfessionals
-            tableID="profesionales"
-            onSelect={handleSelectProfessional}
-          />
-          <TablaDefault
-            props={{
-              datosParaTabla: arrayFilter,
-              objectColumns: [
-                { key: "id", label: "ID", minWidth: "40", maxWidth: "40" },
-                {
-                  key: "hourInit",
-                  label: "Hora Inicio",
-                  minWidth: "80",
-                  maxWidth: "80",
+      <div className="flex justify-between w-full gap-2 xl:justify-center">
+        <TableProfessionals
+          tableID="profesionales"
+          onSelect={handleSelectProfessional}
+        />
+
+        {/* wrapper con scroll solo para la tabla grande */}
+        <div className="w-full max-h-[300px] overflow-y-auto overflow-x-auto">
+          {/* min-width para que aparezca el scroll cuando no entra */}
+          <div className="min-w-[760px]">
+            <TablaDefault
+              props={{
+                datosParaTabla: arrayFilter,
+                objectColumns: [
+                  { key: "id", label: "ID", minWidth: "40", maxWidth: "40" },
+                  {
+                    key: "hourInit",
+                    label: "Hora Inicio",
+                    minWidth: "80",
+                    maxWidth: "80",
+                  },
+                  {
+                    key: "hourFinish",
+                    label: "Hora Fin",
+                    minWidth: "80",
+                    maxWidth: "80",
+                  },
+                  {
+                    key: "state",
+                    label: "Estado",
+                    minWidth: "150",
+                    maxWidth: "150",
+                  },
+                  {
+                    key: "name",
+                    label: "Nombre y Apellido",
+                    minWidth: "180",
+                    maxWidth: "180",
+                  },
+                  {
+                    key: "obs",
+                    label: "Observaciones",
+                    minWidth: "180",
+                    maxWidth: "180",
+                  },
+                  { key: "saco", label: "", minWidth: "50", maxWidth: "50" },
+                ],
+                selectFn: true,
+                objectSelection: { setSeleccionado: setSelectTurn },
+                objectStyles: {
+                  withScrollbar: true,
+                  addHeaderColor: "#022539",
+                  columnasNumber: [1, 2, 3],
+                  cursorPointer: true,
                 },
-                {
-                  key: "hourFinish",
-                  label: "Hora Fin",
-                  minWidth: "80",
-                  maxWidth: "80",
-                },
-                {
-                  key: "state",
-                  label: "Estado",
-                  minWidth: "150",
-                  maxWidth: "150",
-                },
-                {
-                  key: "name",
-                  label: "Nombre y Apellido",
-                  minWidth: "180",
-                  maxWidth: "180",
-                },
-                {
-                  key: "obs",
-                  label: "Observaciones",
-                  minWidth: "180",
-                  maxWidth: "180",
-                },
-                { key: "saco", label: "", minWidth: "50", maxWidth: "50" },
-              ],
-              selectFn: true,
-              objectSelection: {
-                setSeleccionado: setSelectTurn,
-              },
-              objectStyles: {
-                withScrollbar: true,
-                addHeaderColor: "#022539",
-                columnasNumber: [1, 2, 3],
-                cursorPointer: true,
-              },
-            }}
-          />
+              }}
+            />
+          </div>
         </div>
       </div>
+
       {openModal && modalName === "alta turno" && (
         <Modal close={() => setOpenModal(!openModal)} title="Alta Turno">
           <ModalAltaTurno
@@ -233,6 +233,6 @@ export const TurnosSecretariat: React.FC = () => {
           />
         </Modal>
       )}
-    </div>
+    </ContainView>
   );
 };
