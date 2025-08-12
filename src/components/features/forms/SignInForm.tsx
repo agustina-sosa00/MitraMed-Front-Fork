@@ -59,6 +59,7 @@ export default function SignInForm({ rol }: IProp) {
         title: error.message,
       });
     },
+
     onSuccess: (resp) => {
       const user = resp?.data?.data?.[0];
 
@@ -87,15 +88,18 @@ export default function SignInForm({ rol }: IProp) {
 
       // SIN VÍNCULO
       if (resp?.data?.code === 204) {
+
         Swal.fire({
           icon: "error",
           title: "El usuario no pertenece a ningún profesional registrado.",
           confirmButtonColor: "#022539",
         });
+
         return;
       }
 
       Swal.fire({ icon: "error", title: resp?.data?.message ?? "Error" });
+
     },
   });
 

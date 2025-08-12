@@ -12,7 +12,9 @@ import { ModalAltaTurno } from "./ModalAltaTurno";
 import Swal from "sweetalert2";
 import { TablaDefault } from "@/frontend-resourses/components";
 import { TableNode } from "@/frontend-resourses/components/types";
+
 import { ContainView } from "@/components/features/PanelProfessional/ContainView";
+
 
 export const TurnosSecretariat: React.FC = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -148,6 +150,7 @@ export const TurnosSecretariat: React.FC = () => {
   };
 
   return (
+
     <ContainView title="turnos">
       <div className="flex items-end justify-center w-full gap-4 ">
         <FilterTableSchedules
@@ -225,6 +228,7 @@ export const TurnosSecretariat: React.FC = () => {
         </div>
       </div>
 
+
       {openModal && modalName === "alta turno" && (
         <Modal close={() => setOpenModal(!openModal)} title="Alta Turno">
           <ModalAltaTurno
@@ -233,6 +237,8 @@ export const TurnosSecretariat: React.FC = () => {
           />
         </Modal>
       )}
+
     </ContainView>
+
   );
 };

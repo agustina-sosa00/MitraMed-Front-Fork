@@ -21,7 +21,9 @@ import Turnos from "./views/dashboard/Turnos";
 import { MedicalHistory } from "./views/dashboardProfessional/MedicalHistory";
 import { DetailHistoryMedical } from "./views/dashboardProfessional/DetailHistoryMedical";
 import { TableGral } from "./views/dashboardSecretariat/TableGral";
+
 import { Metrics } from "./views/dashboardSecretariat/Metrics";
+
 interface RouterProps {
   loader: boolean;
   setLoader: React.Dispatch<React.SetStateAction<boolean>>;

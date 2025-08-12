@@ -1,5 +1,6 @@
 import { StartCard } from "@/components/features/PanelProfessional/StartCard";
 import React from "react";
+
 import Cookies from "js-cookie";
 import { ContainView } from "@/components/features/PanelProfessional/ContainView";
 export const Secretariat: React.FC = () => {
@@ -27,5 +28,6 @@ export const Secretariat: React.FC = () => {
         </div>
       </div>
     </ContainView>
+
   );
 };
