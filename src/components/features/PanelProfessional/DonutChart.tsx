@@ -5,7 +5,6 @@ import {
   Cell,
   ResponsiveContainer,
   PieLabelRenderProps,
-  Tooltip,
 } from "recharts";
 
 interface IProp {
@@ -37,7 +36,7 @@ const renderCustomLabel = ({
       x={x}
       y={y}
       fill="#022539"
-      textAnchor={x > (cx || 0) ? "start" : "end"} // Ajuste dinámico
+      textAnchor={Number(x) > Number(cx || 0) ? "start" : "end"}
       dominantBaseline="central"
       fontSize="14"
       fontWeight="bold"
@@ -56,8 +55,8 @@ const DonutChartWithLabels: React.FC<IProp> = ({ data }) => {
             data={data}
             cx="50%"
             cy="50%"
-            innerRadius="0%" // ✅ donut
-            outerRadius="70%" // ✅ espacio suficiente para labels
+            innerRadius="0%"
+            outerRadius="70%"
             dataKey="value"
             label={renderCustomLabel}
             labelLine={true}
