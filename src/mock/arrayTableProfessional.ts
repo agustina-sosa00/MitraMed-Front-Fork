@@ -414,13 +414,13 @@ export interface IObjetcPatient {
   nplan?: null | number;
 }
 
-// export const dataPatientHc: IObjetcPatient = {
-//   id: 0,
-//   hc: "00000000",
-//   lastName: "Mortarini",
-//   name: "Jean Pietro",
-//   dni: "00000000",
-//   fnac: "00/00/0000",
-//   age: "00",
-//   obs: "Swiss Medical",
-// };
+export const dataPatientHc = {
+  id: 0,
+  hc: "00000000",
+  lastName: "Mortarini",
+  name: "Jean Pietro",
+  dni: "00000000",
+  fnac: "00/00/0000",
+  age: "00",
+  obs: "Swiss Medical",
+};
