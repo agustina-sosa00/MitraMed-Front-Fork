@@ -70,15 +70,15 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
 
               <div className="flex flex-col justify-center w-1/2 gap-1 px-3 text-sm capitalize border border-gray-300 rounded xl:w-2/3 xl:text-base bg-lightGray text-blue">
                 <div className="flex items-center w-full gap-4">
-                  {data?.lastName && (
+                  {data?.apellido && (
                     <h3 className="w-1/3 ">
                       Apellido:{" "}
-                      <span className="font-medium">{data.lastName}</span>{" "}
+                      <span className="font-medium">{data.apellido}</span>{" "}
                     </h3>
                   )}
-                  {data?.name && (
+                  {data?.nombre && (
                     <h3 className="w-1/3 ">
-                      Nombre: <span className="font-medium">{data.name}</span>{" "}
+                      Nombre: <span className="font-medium">{data.nombre}</span>{" "}
                     </h3>
                   )}
                   {viewImg && (
@@ -88,9 +88,9 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
                       className="w-16 h-16 border border-gray-300 rounded-full"
                     />
                   )}
-                  {data?.age && (
+                  {data?.edad && (
                     <h3 className="w-1/3 ">
-                      Edad: <span className="font-medium">{data.age}</span>{" "}
+                      Edad: <span className="font-medium">{data.edad}</span>{" "}
                     </h3>
                   )}
                 </div>
@@ -100,17 +100,18 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
                       DNI: <span className="font-medium">{data.dni}</span>{" "}
                     </h3>
                   )}
-                  {data?.fnac && (
+                  {data?.fnacim && (
                     <h3 className=" text-start">
                       F. Nacimiento:{" "}
-                      <span className="font-medium">{data.fnac}</span>{" "}
+                      <span className="font-medium">{data.fnacim}</span>{" "}
                     </h3>
                   )}{" "}
                   <div className=""></div>{" "}
                 </div>
-                {data?.obs && (
+                {data?.nosocial && (
                   <h3 className="w-1/3 ">
-                    O. Social: <span className="font-medium">{data.obs}</span>{" "}
+                    O. Social:{" "}
+                    <span className="font-medium">{data.nosocial}</span>{" "}
                   </h3>
                 )}
 

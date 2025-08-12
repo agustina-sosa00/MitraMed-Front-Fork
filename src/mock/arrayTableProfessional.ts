@@ -402,21 +402,25 @@ export interface SearchPatientProps {
 export interface IObjetcPatient {
   id?: number;
   hc?: string;
-  lastName?: string;
-  name?: string;
+  apellido?: string;
+  nombre?: string;
   dni?: string;
-  fnac?: string;
-  age?: string;
+  fnacim?: string;
+  edad?: string;
   obs?: string;
+  idosocial?: number;
+  idplan?: number;
+  nosocial?: null | number;
+  nplan?: null | number;
 }
 
-export const dataPatientHc: IObjetcPatient = {
-  id: 0,
-  hc: "00000000",
-  lastName: "Mortarini",
-  name: "Jean Pietro",
-  dni: "00000000",
-  fnac: "00/00/0000",
-  age: "00",
-  obs: "Swiss Medical",
-};
+// export const dataPatientHc: IObjetcPatient = {
+//   id: 0,
+//   hc: "00000000",
+//   lastName: "Mortarini",
+//   name: "Jean Pietro",
+//   dni: "00000000",
+//   fnac: "00/00/0000",
+//   age: "00",
+//   obs: "Swiss Medical",
+// };
