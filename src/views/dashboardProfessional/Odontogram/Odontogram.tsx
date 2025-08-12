@@ -5,8 +5,6 @@ import Swal from "sweetalert2";
 import Cookies from "js-cookie";
 import { SearchPatient } from "@/components/features/PanelProfessional/SearchPatient";
 import { ContainView } from "@/components/features/PanelProfessional/ContainView";
-import { useMutation } from "@tanstack/react-query";
-import getOdontogram from "@/services/odontogramServices";
 export const Odontogram = () => {
   const idProfesional = Cookies.get("idProfesional");
 
@@ -22,31 +20,11 @@ export const Odontogram = () => {
       }[];
     };
   }>({});
-  const [infoUser, setInfoUser] = useState({
-    code: 0,
-    data: {
-      odontograma: [],
-      paciente: {},
-    },
-    message: "",
-    status: false,
-  });
-  const [showButtons, setShowButtons] = useState<boolean>(false);
+  const [infoUser, setInfoUser] = useState<boolean>(false);
   const [editOdontogram, setEditOdontogram] = useState<boolean>(false);
   const handleShowMenu = () => setContextMenu(null);
   const handleMenu = () => setOpenMenu(true);
   const handleCloseMenu = () => setOpenMenu(false);
-
-  const { mutate: mutateFindPatient } = useMutation({
-    mutationFn: getOdontogram,
-    onError: (error) => {
-      console.log(error);
-    },
-    onSuccess: (data) => {
-      setInfoUser(data);
-      console.log(data);
-    },
-  });
 
   const clearTooth = (toothNumber: number) => {
     Swal.fire({
@@ -108,10 +86,9 @@ export const Odontogram = () => {
       );
     });
 
-  function handleFindPatient(arg: string) {
-    setShowButtons(!showButtons);
-    mutateFindPatient({ dni: arg });
-  }
+  const handleFindPatient = () => {
+    setInfoUser(!infoUser);
+  };
 
   const handleEditOdontogram = () => {
     setEditOdontogram(!editOdontogram);
@@ -153,17 +130,17 @@ export const Odontogram = () => {
   return (
     <ContainView title="Odontograma" onClick={handleShowMenu}>
       {idProfesional !== "3" && (
-        <div className="flex items-end justify-between w-full gap-1 py-1 min-h-20 ">
+        <div className="flex items-end justify-between w-full h-20 gap-1 py-1 ">
           <SearchPatient
-            data={infoUser.data.paciente}
+            data={{ name: "agustina", lastName: " sosa" }}
             labelSearch="DNI"
-            showData={showButtons}
+            showData={infoUser}
             handleFindPatient={handleFindPatient}
             viewImg={true}
             odontogram={false}
           />
-          {showButtons && (
-            <div className="flex items-center justify-end w-auto h-16 gap-2 px-2 py-1">
+          {infoUser && (
+            <div className="flex items-center justify-end h-16 gap-2 px-2 py-1 w-72">
               {editOdontogram ? (
                 <>
                   <button
@@ -182,7 +159,7 @@ export const Odontogram = () => {
               ) : (
                 <button
                   onClick={handleEditOdontogram}
-                  className="flex items-center justify-center h-8 gap-2 px-2 py-1 text-white capitalize transition-all duration-300 rounded w-44 bg-green hover:bg-greenHover"
+                  className="flex items-center justify-center h-8 gap-2 px-2 py-1 text-white capitalize transition-all duration-300 rounded bg-green hover:bg-greenHover"
                 >
                   editar odontograma
                 </button>
