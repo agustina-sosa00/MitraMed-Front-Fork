@@ -23,6 +23,7 @@ const renderCustomLabel = ({
   percent,
 }: PieLabelRenderProps) => {
   const RADIAN = Math.PI / 180;
+
   const offset = 20; // distancia fuera del borde
   const radius = (outerRadius ? Number(outerRadius) : 0) + offset;
 
@@ -34,7 +35,7 @@ const renderCustomLabel = ({
       x={x}
       y={y}
       fill="#022539"
-      textAnchor={x > (Number(cx) || 0) ? "start" : "end"}
+      textAnchor={Number(x) > Number(cx || 0) ? "start" : "end"}
       dominantBaseline="central"
       fontSize="14"
       fontWeight="bold"
