@@ -13,7 +13,7 @@ export const TableGral: React.FC = () => {
               {
                 id: 1,
                 profesional: "Dr. Lopez Juan",
-                especialidad: "Odontologo",
+                especialidad: "Odontólogo",
                 practica: "Consulta",
                 formaDePago: "Efectivo",
                 importe: 100,
@@ -22,7 +22,7 @@ export const TableGral: React.FC = () => {
               {
                 id: 1,
                 profesional: "Dr. Lopez Juan",
-                especialidad: "Odontologo",
+                especialidad: "Odontólogo",
                 practica: "Consulta",
                 formaDePago: "Efectivo",
                 importe: 100,
@@ -31,7 +31,7 @@ export const TableGral: React.FC = () => {
               {
                 id: 1,
                 profesional: "Dr. Lopez Juan",
-                especialidad: "Odontologo",
+                especialidad: "Odontólogo",
                 practica: "Consulta",
                 formaDePago: "Efectivo",
                 importe: 100,
