@@ -1,3 +1,4 @@
+
 import { ContainView } from "@/components/features/PanelProfessional/ContainView";
 import { TablaDefault } from "@/frontend-resourses/components";
 import React from "react";
@@ -88,5 +89,6 @@ export const TableGral: React.FC = () => {
       </div>
       <Metrics />
     </ContainView>
+
   );
 };

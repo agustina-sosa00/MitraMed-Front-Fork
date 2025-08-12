@@ -24,7 +24,6 @@ const renderCustomLabel = ({
 }: PieLabelRenderProps) => {
   const RADIAN = Math.PI / 180;
 
-  // ✅ Ajustamos el radio para posicionar labels fuera del gráfico
   const offset = 20; // distancia fuera del borde
   const radius = (outerRadius ? Number(outerRadius) : 0) + offset;
 
