@@ -9,11 +9,17 @@ interface IProp {
   buttons: { name: string; icon: IconType; link: string; disabled: boolean }[];
 }
 
+interface DataProfessional {
+  nombre?: string;
+  adoctor?: string;
+  ndoctor?: string;
+}
+
 export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
   const navigate = useNavigate();
-  const data = Cookies.get("dataProfessional");
-  const dataUser = data ? JSON.parse(data) : null;
 
+  const raw = Cookies.get("dataProfessional");
+  const dataUser: DataProfessional | null = raw ? JSON.parse(raw) : null;
   const usuario = Cookies.get("usuario");
 
   const handleLogout = () => {
@@ -21,44 +27,45 @@ export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
     navigate("/");
   };
 
+  return (
     <nav className="flex-col justify-between hidden w-56 h-screen lg:flex">
-      <section className="flex flex-col justify-between h-full bg-gray-200 ">
+      <section className="flex flex-col justify-between h-full bg-gray-200">
         {/* BOX 1 */}
-        <div className="flex  pl-8 items-center h-[10%] ">
-
-          <img src={logo} alt="logo" className="" />
+        <div className="flex items-center pl-8 h-[10%]">
+          <img src={logo} alt="logo" />
         </div>
+
         <div className="flex justify-center w-full">
-          <div className="w-[80%] bg-blue h-[1px] "></div>
+          <div className="w-[80%] bg-blue h-[1px]" />
         </div>
-        {/* BOX 2 */}
 
-        <div className="flex flex-col  w-full gap-3 pl-5 py-5 h-[65%] ">
+        {/* BOX 2 */}
+        <div className="flex flex-col w-full gap-3 pl-5 py-5 h-[65%]">
           {buttons.map((item) => (
             <Link key={item.name} to={item.link}>
               <button
                 disabled={item.disabled}
-                className={`flex items-center gap-2 pl-5  py-1 w-[90%] text-lg font-medium  capitalize rounded ${
+                className={`flex items-center gap-2 pl-5 py-1 w-[90%] text-lg font-medium capitalize rounded ${
                   item.disabled
                     ? "text-gray-400 cursor-not-allowed"
-                    : "hover:bg-green hover:text-white text-blue cursor-pointer transition-all duration-300 "
-                } `}
+                    : "hover:bg-green hover:text-white text-blue cursor-pointer transition-all duration-300"
+                }`}
               >
-                <item.icon className="" />
+                <item.icon />
                 {item.name}
               </button>
             </Link>
           ))}
         </div>
+
         <div className="flex justify-center w-full">
-          <div className="w-[80%] bg-blue h-[1px] "></div>
+          <div className="w-[80%] bg-blue h-[1px]" />
         </div>
+
         {/* BOX 3 */}
-
-        <div className="flex flex-col  w-full gap-3  items-center py-5    h-[20%]  ">
-          <div className="flex items-center justify-start gap-2 text-blue ">
-            <FaUserCircle className="text-xl xl:text-3xl" />{" "}
-
+        <div className="flex flex-col items-center w-full gap-3 py-5 h-[20%]">
+          <div className="flex items-center justify-start gap-2 text-blue">
+            <FaUserCircle className="text-xl xl:text-3xl" />
             {usuario ? (
               <p>Sta. {dataUser?.nombre}</p>
             ) : (
@@ -66,17 +73,16 @@ export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
                 Dr. {dataUser?.ndoctor} {dataUser?.adoctor}
               </p>
             )}
-
           </div>
-          <p className="text-sm ">
+          <p className="text-sm">
             ¿Quieres{" "}
             <span
               onClick={handleLogout}
-              className="font-bold transition-all duration-300 cursor-pointer hover:text-green "
+              className="font-bold transition-all duration-300 cursor-pointer hover:text-green"
             >
               cerrar sesión
             </span>
-            ?{" "}
+            ?
           </p>
         </div>
       </section>
