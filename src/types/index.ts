@@ -74,7 +74,7 @@ export interface Turno {
   hora_fin: string;
 }
 
-// PROFESIONAL LAYOUT
+// region professional layout
 export interface IArrayTableHistorial {
   id: number;
   fecha: string;
@@ -87,16 +87,21 @@ export interface IArrayTableHistorial {
   profesional: string;
 }
 
-// --------------------------------------------
-// --------------------------------------------
-// --------------------------------------------
-// -------------C O N T E X T------------------
-// --------------------------------------------
-// --------------------------------------------
-// --------------------------------------------
+// region context
 export interface DropboxContextType {
   token: string;
   setToken: React.Dispatch<React.SetStateAction<string>>;
   folder: string;
   setFolder: React.Dispatch<React.SetStateAction<string>>;
 }
+
+// region odontogram
+export type ApiFila = {
+  habilitado: 0 | 1;
+  idcara: number;
+  iddiente: number;
+  idtratamiento: number;
+};
+
+export type TratUI = { action: string; tratamiento: string; cara: string };
+export type TeethState = { [toothNumber: number]: { tratamientos: TratUI[] } };

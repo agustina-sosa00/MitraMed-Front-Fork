@@ -13,7 +13,7 @@ import { ProfessionalProtectedRoute } from "./components/features/ProfessionalPr
 import { ProfessionalLayout } from "./layouts/ProfessionalLayout";
 import { TableSchedules } from "./views/dashboardProfessional/TableSchedules";
 import { NotFound } from "./views/NotFound";
-import { Odontogram } from "./views/dashboardProfessional/Odontogram/Odontogram";
+import Odontogram from "./views/dashboardProfessional/Odontogram/Odontogram";
 import { SecretariatProtectedRoute } from "./components/features/SecretariatProtectedRoute";
 import { SecretariatLayout } from "./layouts/SecretariatLayout";
 import { Secretariat } from "./views/dashboardSecretariat/Secretariat";
