@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Tooth } from "./Tooth";
 import { ModalSelectFaceTooth } from "./ModalSelectFaceTooth";
 import Swal from "sweetalert2";
@@ -9,6 +9,7 @@ import { useMutation } from "@tanstack/react-query";
 import getOdontogram from "@/services/odontogramServices";
 export const Odontogram = () => {
   const idProfesional = Cookies.get("idProfesional");
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const [contextMenu, setContextMenu] = useState<number | null>(null);
   const [openMenu, setOpenMenu] = useState<boolean>(false);
@@ -33,6 +34,12 @@ export const Odontogram = () => {
   });
   const [showButtons, setShowButtons] = useState<boolean>(false);
   const [editOdontogram, setEditOdontogram] = useState<boolean>(false);
+  const [errorMutate, setErrorMutate] = useState<string>("");
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
   const handleShowMenu = () => setContextMenu(null);
   const handleMenu = () => setOpenMenu(true);
   const handleCloseMenu = () => setOpenMenu(false);
@@ -40,7 +47,7 @@ export const Odontogram = () => {
   const { mutate: mutateFindPatient } = useMutation({
     mutationFn: getOdontogram,
     onError: (error) => {
-      console.log(error);
+      setErrorMutate(error.message);
     },
     onSuccess: (data) => {
       setInfoUser(data);
@@ -161,6 +168,8 @@ export const Odontogram = () => {
             handleFindPatient={handleFindPatient}
             viewImg={true}
             odontogram={false}
+            inputRef={inputRef}
+            errorMessage={errorMutate}
           />
           {showButtons && (
             <div className="flex items-center justify-end w-auto h-16 gap-2 px-2 py-1">

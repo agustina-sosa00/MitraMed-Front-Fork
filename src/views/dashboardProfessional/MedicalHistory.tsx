@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { TablaDefault } from "@/frontend-resourses/components";
@@ -18,6 +18,7 @@ import getDataMedicalHistory from "@/services/ProfessionalService";
 
 export default function MedicalHistory(): JSX.Element {
   const infoProfessional = Cookies.get("dataProfessional");
+  const inputRef = useRef<HTMLInputElement>(null);
   //region uso de context
   const { setToken, setFolder } = useContextDropbox();
   const {
@@ -56,6 +57,7 @@ export default function MedicalHistory(): JSX.Element {
     message: "",
     status: false,
   });
+  const [errorMutate, setErrorMutate] = useState<string>("");
   // sortedData es un array que acomoda el objeto mas reciente al principio del array
   const sortedData = [...historyContext].sort(
     (a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime()
@@ -68,12 +70,13 @@ export default function MedicalHistory(): JSX.Element {
       console.log(error);
     },
     onSuccess: (data) => {
-      console.log("respues en medical history", data);
-      if (!numHistory.length || !data?.data?.length) {
+      if (data.code === 400 || !data?.data?.length) {
+        setErrorMutate(data.message || "Paciente inexistente");
         setHc(true);
         setShowData(false);
         return;
       }
+      setErrorMutate("");
       setHc(false);
       setShowData(true);
       setInfoUser(data);
@@ -102,6 +105,7 @@ export default function MedicalHistory(): JSX.Element {
   //region useEffect
   useEffect(() => {
     mutateGetDataDropbox();
+    inputRef.current?.focus();
   }, []);
 
   useEffect(() => {
@@ -118,9 +122,15 @@ export default function MedicalHistory(): JSX.Element {
     }
   }, [dataDropbox]);
 
+  useEffect(() => {
+    if (errorMutate) setErrorMutate("");
+  }, [numHistory]);
+
   // region functions
   function handleFindPatient(arg: string) {
+    setErrorMutate("");
     setNumHistory(arg);
+    setHc(false);
     mutateFindPatient({ dni: arg });
   }
 
@@ -144,12 +154,15 @@ export default function MedicalHistory(): JSX.Element {
         <SearchPatient
           noHc={hc}
           data={infoUser?.data?.[0] ?? null}
-          labelSearch={"HC"}
+          labelSearch={"DNI"}
           showData={showData}
           handleFindPatient={handleFindPatient}
           viewImg={false}
           setStateModal={setShowModal}
           odontogram={true}
+          inputRef={inputRef}
+          setHc={setHc}
+          errorMessage={errorMutate}
         />
       </div>
       <div className="flex justify-center w-full pt-5 overflow-x-auto min-h-80">
@@ -180,10 +193,7 @@ export default function MedicalHistory(): JSX.Element {
                 label: "Acciones",
                 renderCell: (item) => (
                   <Link to={`/profesionales/historial/${item.id}`} state={item}>
-                    <button
-                      onClick={() => console.log("Acción sobre:", item)}
-                      className="px-3 py-1 bg-blue-500 rounded text-blue "
-                    >
+                    <button className="px-3 py-1 bg-blue-500 rounded text-blue ">
                       Ver
                     </button>
                   </Link>
