@@ -135,7 +135,7 @@ export const Tooth: React.FC<ToothProps> = ({
                     {trat.cara === "distal" &&
                       position?.includes("izquierda") && (
                         <IoMdArrowDropup
-                          className={`absolute top-[1.1rem] left-0 xl:top-5 xl:left-[0.1rem] z-40 text-xl${
+                          className={`absolute top-[1.1rem] left-0 xl:top-5 xl:left-[0.1rem] z-40 text-xl ${
                             trat.action === "realizado"
                               ? "text-red-500"
                               : "text-sky-700"
@@ -209,8 +209,8 @@ export const Tooth: React.FC<ToothProps> = ({
             stroke="#a3a3a3" //border
             fill={
               position?.includes("izquierda")
-                ? getFillColor("mesial")
-                : getFillColor("distal")
+                ? getFillColor("distal")
+                : getFillColor("mesial")
             } //background
             points="0.7631232291460037,1.3051201105117798 0.7631232291460037,33.232784271240234 7.516610696911812,25.189937591552734 7.516610696911812,25.189937591552734 7.516610696911812,9.104242324829102"
             className="cursor-pointer"
