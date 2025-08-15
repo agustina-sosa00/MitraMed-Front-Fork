@@ -53,8 +53,9 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
       {!isEditing ? (
         <>
           {numHistory.length > 0 && (
-            <div className="flex items-center justify-between w-full h-16 gap-1 py-1">
-              {/* DNI + editar */}
+            <div
+              className={`flex  py-1 min-h-16 justify-between gap-1 w-full items-end `}
+            >
               <div className="flex items-center gap-1">
                 <label className="text-sm font-medium text-blue">
                   {labelSearch}:{" "}
@@ -118,8 +119,7 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
                   </div>
                 </div>
               </div>
-
-              {/* Acciones opcionales (ej. odontograma) */}
+              
               {odontogram && (
                 <Button
                   label="agregar consulta"
