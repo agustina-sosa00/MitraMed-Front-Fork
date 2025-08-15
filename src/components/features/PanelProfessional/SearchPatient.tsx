@@ -50,7 +50,7 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
         <>
           {numHistory.length > 0 && (
             <div
-              className={`flex  py-1 h-16 justify-between gap-1 w-full items-center `}
+              className={`flex  py-1 min-h-16 justify-between gap-1 w-full items-end `}
             >
               <div className="flex items-center gap-1">
                 <label className="text-sm font-medium text-blue">
@@ -115,9 +115,6 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
 
               {/* datos para mostrar de historial medico opcionales */}
 
-
-                {/* datos para mostrar de historial medico opcionales */}
-              </div>
               {odontogram && (
                 <Button
                   label="agregar consulta"
