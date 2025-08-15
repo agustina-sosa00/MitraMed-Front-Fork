@@ -134,3 +134,14 @@ export type InfoUser = {
 };
 
 export type ToothChangeTuple = [number, number, number, 0 | 1, number];
+
+export interface SearchPatientProps {
+  handleFindPatient: (arg: string) => void;
+  viewImg: boolean;
+  showData: boolean;
+  labelSearch: string;
+  data: Partial<Paciente>;
+  noHc?: boolean;
+  setStateModal?: (arg: boolean) => void;
+  odontogram?: boolean;
+}
