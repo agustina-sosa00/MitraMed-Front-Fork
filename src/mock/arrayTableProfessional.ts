@@ -402,11 +402,11 @@ export interface SearchPatientProps {
 export interface IObjetcPatient {
   id?: number;
   hc?: string;
-  apellido?: string;
-  nombre?: string;
+  lastName?: string;
+  name?: string;
   dni?: string;
-  fnacim?: string;
-  edad?: string;
+  fnac?: string;
+  age?: string;
   obs?: string;
   idosocial?: number;
   idplan?: number;
@@ -414,7 +414,7 @@ export interface IObjetcPatient {
   nplan?: null | string;
 }
 
-export const dataPatientHc = {
+export const dataPatientHc: IObjetcPatient = {
   id: 0,
   hc: "00000000",
   lastName: "Mortarini",
