@@ -205,6 +205,7 @@ export const Tooth: React.FC<ToothV2Props> = ({
           onClose={() => setState(null)}
           stateTeethChanged={stateTeethChanged}
           toothNumber={toothNumber}
+          dataIds={dataIds}
         />
       )}
     </div>

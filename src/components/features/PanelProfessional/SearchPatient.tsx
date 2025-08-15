@@ -73,13 +73,13 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
                   <div className="flex flex-col w-1/2 text-blue ">
                     <p className="text-sm font-bold">Nombre: </p>
                     <p className="w-full h-8 px-2 py-1 text-sm border border-gray-300 rounded bg-lightGray">
-                      {data.nombre}
+                      {data?.nombre || "no encontrado"}
                     </p>
                   </div>
                   <div className="flex flex-col w-1/2 text-blue ">
                     <p className="text-sm font-bold">Apellido: </p>
                     <p className="w-full h-8 px-2 py-1 text-sm border border-gray-300 rounded bg-lightGray">
-                      {data.apellido}
+                      {data?.apellido || "no encontrado"}
                     </p>
                   </div>
                 </div>
@@ -87,13 +87,13 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
                   <div className="flex flex-col w-1/2 text-blue ">
                     <p className="text-sm font-bold">DNI: </p>
                     <p className="w-full h-8 px-2 py-1 text-sm border border-gray-300 rounded bg-lightGray">
-                      {data.dni}
+                      {data?.dni || "no encontrado"}
                     </p>
                   </div>
                   <div className="flex flex-col w-1/2 text-blue ">
                     <p className="text-sm font-bold">Fecha de Nacimiento: </p>
                     <p className="w-full h-8 px-2 py-1 text-sm border border-gray-300 rounded bg-lightGray">
-                      {data.fnacim}
+                      {data?.fnacim || "no encontrado"}
                     </p>
                   </div>
                 </div>
@@ -101,13 +101,13 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
                   <div className="flex flex-col w-1/2 text-blue ">
                     <p className="text-sm font-bold">Edad: </p>
                     <p className="w-full h-8 px-2 py-1 text-sm border border-gray-300 rounded bg-lightGray">
-                      {data.edad}
+                      {data?.edad || "no encontrado"}
                     </p>
                   </div>
                   <div className="flex flex-col w-1/2 text-blue ">
                     <p className="text-sm font-bold">Obra Social</p>
                     <p className="w-full h-8 px-2 py-1 text-sm border border-gray-300 rounded bg-lightGray">
-                      {data.idosocial !== 0 ? data.nosocial : "No posee"}
+                      {data?.idosocial !== 0 ? data.nosocial : "No posee"}
                     </p>
                   </div>
                 </div>

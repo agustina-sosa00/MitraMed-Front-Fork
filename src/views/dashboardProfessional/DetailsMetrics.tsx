@@ -21,7 +21,7 @@ export const DetailsMetrics: React.FC<IProp> = ({ data, title }) => {
         <div className="items-center justify-center w-2/3 ">
           <div className="flex flex-col items-start justify-center w-full h-full gap-2">
             {data?.map((item) => (
-              <div className="flex items-center w-full gap-2">
+              <div key={item.name} className="flex items-center w-full gap-2">
                 <div
                   className={`w-4 h-4 `}
                   style={{ backgroundColor: item.colors }}

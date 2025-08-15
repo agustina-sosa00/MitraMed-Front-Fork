@@ -4,6 +4,7 @@ import { LuEraser } from "react-icons/lu";
 import Cookies from "js-cookie";
 
 import { ToothChangeTuple, ToothItemIds } from "@/types/index";
+import Swal from "sweetalert2";
 
 interface MenuToothProps {
   positionMenu: { x: number; y: number };
@@ -15,6 +16,7 @@ interface MenuToothProps {
   onClose: () => void;
   stateTeethChanged?: Dispatch<SetStateAction<ToothChangeTuple[]>>;
   toothNumber: number;
+  dataIds: ToothItemIds[];
 }
 
 const ITEMS = [
@@ -41,6 +43,7 @@ export const MenuTooth: React.FC<MenuToothProps> = ({
   onClose,
   stateTeethChanged,
   toothNumber,
+  dataIds,
 }) => {
   //region cookies
   const info = Cookies.get("dataProfessional");
@@ -66,6 +69,31 @@ export const MenuTooth: React.FC<MenuToothProps> = ({
     }
   }
 
+  function handleClear() {
+    Swal.fire({
+      title: "¿Desea limpiar el diente?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Aceptar",
+      cancelButtonText: "Cancelar",
+      confirmButtonColor: "#518915",
+      cancelButtonColor: "#d33",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (stateTeethChanged && dataIds.length > 0) {
+          const idprof = Number(profesional.idprofesional);
+          dataIds.forEach(([idcara, idtrat]) => {
+            stateTeethChanged((prev) => [
+              ...prev,
+              [toothNumber, idcara, idtrat, 0, idprof],
+            ]);
+          });
+        }
+        clearTooth();
+        onClose();
+      }
+    });
+  }
   //region return
   return (
     <div
@@ -147,7 +175,7 @@ export const MenuTooth: React.FC<MenuToothProps> = ({
       }
       <button
         className="flex items-center justify-between w-full px-3 py-2 text-sm rounded-b text-red-600 hover:bg-[#dddddd]"
-        onClick={clearTooth}
+        onClick={handleClear}
       >
         Limpiar diente <LuEraser />
       </button>

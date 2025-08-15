@@ -68,7 +68,6 @@ export default function Odontogram() {
   const { mutate: mutateSaveOdontogram } = useMutation({
     mutationFn: postSaveOdontogram,
     onSuccess: (data: { status: string }) => {
-      console.log("response save", data);
       if (data.status === "success") {
         setTeethChanged([]);
         Swal.fire({
@@ -116,7 +115,7 @@ export default function Odontogram() {
       {idProfesional !== "3" && (
         <div className="flex items-end justify-between w-full gap-1 py-1 min-h-20 ">
           <SearchPatient
-            data={infoUser?.data?.paciente}
+            data={infoUser?.data?.paciente || {}}
             labelSearch="DNI"
             showData={showButtons}
             handleFindPatient={handleFindPatient}
