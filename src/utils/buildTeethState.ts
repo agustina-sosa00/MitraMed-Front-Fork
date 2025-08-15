@@ -1,29 +1,19 @@
-import { ApiFila, TeethState } from "../types";
-import {
-  CARA_BY_ID,
-  parseTratamiento,
-} from "../views/dashboardProfessional/Odontogram/odontogram.lookups";
+import { RawRow, TeethIdsState, ToothItemIds } from "../types/index";
+import { allTeeth } from "./odontogram.lookups";
 
-// CHANGED: normalizador backend -> estado interno
-export default function buildTeethState(filas: ApiFila[]): TeethState {
-  const state: TeethState = {};
+export function buildIdsState(rows: RawRow[]): TeethIdsState {
+  const state: TeethIdsState = Object.fromEntries(
+    allTeeth().map((n) => [n, []])
+  );
 
-  for (const f of filas) {
-    if (f.habilitado !== 1) continue;
-
-    const cara = CARA_BY_ID[f.idcara];
-    const { tratamiento, action } = parseTratamiento(f.idtratamiento);
-
-    if (!state[f.iddiente]) state[f.iddiente] = { tratamientos: [] };
-
-    // dedup simple para evitar duplicados exactos
-    const exists = state[f.iddiente].tratamientos.some(
-      (t) =>
-        t.tratamiento === tratamiento && t.cara === cara && t.action === action
-    );
-    if (!exists)
-      state[f.iddiente].tratamientos.push({ tratamiento, cara, action });
+  for (const [iddiente, idcara, idtratamiento, habilitado] of rows) {
+    if (state[iddiente] === undefined) {
+      state[iddiente] = [];
+    }
+    if (habilitado === 1) {
+      const item: ToothItemIds = [idcara, idtratamiento, habilitado];
+      state[iddiente].push(item);
+    }
   }
-
   return state;
 }
