@@ -96,12 +96,37 @@ export interface DropboxContextType {
 }
 
 // region odontogram
-export type ApiFila = {
-  habilitado: 0 | 1;
-  idcara: number;
-  iddiente: number;
-  idtratamiento: number;
+export type RawRow = [
+  iddiente: number,
+  idcara: number,
+  idtratamiento: number,
+  habilitado: 0 | 1
+];
+export type ToothItemIds = [
+  idcara: number,
+  idtratamiento: number,
+  habilitado: 0 | 1
+];
+export type TeethIdsState = Record<number, ToothItemIds[]>;
+export type Paciente = {
+  nombre: string;
+  apellido: string;
+  dni: string;
+  fnacim: string;
+  edad: string;
+  idosocial: number;
+  nosocial: string | null;
+  idplan: number;
+  nplan: string | null;
+};
+export type InfoUser = {
+  code: number;
+  data: {
+    odontograma: RawRow[];
+    paciente: Paciente;
+  };
+  message: string;
+  status: boolean;
 };
 
-export type TratUI = { action: string; tratamiento: string; cara: string };
-export type TeethState = { [toothNumber: number]: { tratamientos: TratUI[] } };
+export type ToothChangeTuple = [number, number, number, 0 | 1, number];

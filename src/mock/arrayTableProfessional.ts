@@ -410,8 +410,8 @@ export interface IObjetcPatient {
   obs?: string;
   idosocial?: number;
   idplan?: number;
-  nosocial?: null | number;
-  nplan?: null | number;
+  nosocial?: null | string;
+  nplan?: null | string;
 }
 
 export const dataPatientHc = {
