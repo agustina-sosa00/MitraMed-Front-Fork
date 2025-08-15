@@ -4,7 +4,7 @@ import { FormUploadHistory } from "@/components/features/PanelProfessional/FormU
 import { TablaDefault } from "@/frontend-resourses/components";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
-import { dataPatientHc } from "../../mock/arrayTableProfessional";
+// import { dataPatientHc } from "../../mock/arrayTableProfessional";
 import { useMutation } from "@tanstack/react-query";
 import { getDataDropbox, getTokenDropbox } from "@/services/dropboxServices";
 import { useContextDropbox } from "../../context/DropboxContext";
@@ -119,7 +119,7 @@ export const MedicalHistory: React.FC = () => {
       <div className="flex items-center justify-start w-full gap-1 px-16 py-1 min-h-24 ">
         <SearchPatient
           noHc={hc}
-          data={dataPatientHc}
+          data={{}}
           labelSearch={"HC"}
           showData={showData}
           handleFindPatient={handleFindPatient}
