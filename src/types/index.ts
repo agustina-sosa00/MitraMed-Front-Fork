@@ -102,12 +102,15 @@ export type RawRow = [
   idtratamiento: number,
   habilitado: 0 | 1
 ];
+
 export type ToothItemIds = [
   idcara: number,
   idtratamiento: number,
   habilitado: 0 | 1
 ];
+
 export type TeethIdsState = Record<number, ToothItemIds[]>;
+
 export type Paciente = {
   nombre: string;
   apellido: string;
@@ -119,6 +122,7 @@ export type Paciente = {
   idplan: number;
   nplan: string | null;
 };
+
 export type InfoUser = {
   code: number;
   data: {

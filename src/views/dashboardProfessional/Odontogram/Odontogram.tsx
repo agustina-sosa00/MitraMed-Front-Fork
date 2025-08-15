@@ -16,8 +16,10 @@ import {
   ToothChangeTuple,
 } from "@/types/index";
 import { buildIdsState } from "@/utils/buildTeethState";
-
-import getOdontogram from "@/services/odontogramServices";
+import {
+  getOdontogram,
+  postSaveOdontogram,
+} from "@/services/odontogramServices";
 
 export default function Odontogram() {
   //region cookies
@@ -29,7 +31,6 @@ export default function Odontogram() {
   const [toothSelect, setToothSelect] = useState(0);
   const [teethIdsState, setTeethIdsState] = useState<TeethIdsState>({});
   const [teethChanged, setTeethChanged] = useState<ToothChangeTuple[]>([]);
-  console.log("teethChanged", teethChanged);
   const [infoUser, setInfoUser] = useState<InfoUser>({
     code: 0,
     data: {
@@ -49,6 +50,7 @@ export default function Odontogram() {
     message: "",
     status: false,
   });
+  const [dniPatient, setDniPatient] = useState("");
   const [showButtons, setShowButtons] = useState(false);
   const [editOdontogram, setEditOdontogram] = useState(false);
 
@@ -63,10 +65,28 @@ export default function Odontogram() {
     onError: (err) => console.log(err),
   });
 
+  const { mutate: mutateSaveOdontogram } = useMutation({
+    mutationFn: postSaveOdontogram,
+    onSuccess: (data: { status: string }) => {
+      console.log("response save", data);
+      if (data.status === "success") {
+        setTeethChanged([]);
+        Swal.fire({
+          icon: "success",
+          title: "Cambios guardados con éxito",
+          confirmButtonColor: "#518915",
+        });
+        setEditOdontogram(false);
+      }
+    },
+    onError: (err) => console.log(err),
+  });
+
   //region function
 
   function handleFindPatient(dni: string) {
     setShowButtons(true);
+    setDniPatient(dni);
     mutateFindPatient({ dni });
   }
 
@@ -79,7 +99,11 @@ export default function Odontogram() {
       cancelButtonText: "Cancelar",
       confirmButtonColor: "#518915",
       cancelButtonColor: "#d33",
-    }).then((r) => r.isConfirmed && setEditOdontogram(false));
+    }).then((result) => {
+      if (result.isConfirmed) {
+        mutateSaveOdontogram({ dni: dniPatient, data: teethChanged });
+      }
+    });
   }
 
   function handleCloseMenu() {
