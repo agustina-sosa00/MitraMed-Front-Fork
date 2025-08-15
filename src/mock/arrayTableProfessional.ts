@@ -404,6 +404,10 @@ export interface IObjetcPatient {
   hc?: string;
   lastName?: string;
   name?: string;
+  nombre?: string;
+  apellido?: string;
+  fnacim?: string;
+  edad?: number;
   dni?: string;
   fnac?: string;
   age?: string;
