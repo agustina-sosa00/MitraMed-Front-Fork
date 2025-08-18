@@ -121,7 +121,7 @@ export default function Odontogram() {
           <SearchPatient
             data={infoUser?.data?.paciente || {}}
             labelSearch="DNI"
-            showData={showButtons}
+            setShowData={setShowButtons}
             handleFindPatient={handleFindPatient}
             viewImg
             odontogram={false}
@@ -134,13 +134,13 @@ export default function Odontogram() {
                 <>
                   <button
                     onClick={handleSave}
-                    className="h-8 px-2 py-1 text-white rounded bg-green hover:bg-greenHover"
+                    className="h-8 px-2 py-1 text-white capitalize rounded bg-green hover:bg-greenHover"
                   >
                     guardar
                   </button>
                   <button
                     onClick={() => setEditOdontogram(false)}
-                    className="h-8 px-2 py-1 text-white bg-red-500 rounded hover:bg-red-600"
+                    className="h-8 px-2 py-1 text-white capitalize bg-red-500 rounded hover:bg-red-600"
                   >
                     cancelar
                   </button>
@@ -148,7 +148,7 @@ export default function Odontogram() {
               ) : (
                 <button
                   onClick={() => setEditOdontogram(true)}
-                  className="h-8 px-2 py-1 text-white rounded w-44 bg-green hover:bg-greenHover"
+                  className="h-8 px-2 py-1 text-white capitalize rounded w-44 bg-green hover:bg-greenHover"
                 >
                   editar odontograma
                 </button>

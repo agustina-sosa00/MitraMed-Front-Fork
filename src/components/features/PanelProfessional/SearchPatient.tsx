@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { FaPencil, FaMagnifyingGlass } from "react-icons/fa6";
+import React, { useEffect, useRef, useState } from "react";
+import { FaMagnifyingGlass } from "react-icons/fa6";
 import { Button } from "@/components/ui/Button";
 import { SearchPatientProps } from "@/types/index";
 
@@ -9,41 +9,61 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
   odontogram,
   labelSearch,
   data,
-  noHc,
   setStateModal,
   state,
   setState,
+  setShowData,
 }) => {
+  // region states
   const [autoFocusInput, setAutoFocusInput] = useState(false);
   const [isEditing, setIsEditing] = useState(true);
   const [loader, setLoader] = useState(false);
+  const [errorState, setErrorState] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [styleDisabled, setStyleDisabled] = useState(false);
+  //region useEffects
+  useEffect(() => {
+    setAutoFocusInput(true);
+  }, []);
 
-  const handleOnChangeDni = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // region functions
+  function handleOnChangeDni(e: React.ChangeEvent<HTMLInputElement>) {
     setState(e.target.value);
-  };
+    setErrorState("");
+  }
 
-  const handleSearchPatient = () => {
-    setLoader(true);
-    setTimeout(() => {
-      setIsEditing(false);
-      handleFindPatient(state);
-      setLoader(false);
-    }, 2000);
-  };
+  function handleSearchPatient() {
+    if (state.length === 0) {
+      setErrorState("Debe ingresar un DNI");
+      inputRef.current?.focus();
+    } else if (!/^\d+$/.test(state)) {
+      setErrorState("El DNI debe ser numérico y sin punto. Ej: 12345678");
+      inputRef.current?.focus();
+    } else {
+      setLoader(true);
+      setTimeout(() => {
+        setIsEditing(false);
+        handleFindPatient(state);
+        setLoader(false);
+      }, 2000);
+      setStyleDisabled(true);
+    }
+  }
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
+  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (state.length === 0) {
+      setErrorState("Debe ingresar un DNI");
+    } else if (e.key === "Enter") {
       handleSearchPatient();
     } else if (e.key === "Escape") {
       setState("");
     }
-  };
+  }
 
-  useEffect(() => {
-    setAutoFocusInput(true);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  function handleEditInput() {
+    setIsEditing(true);
+    setShowData && setShowData(false);
+  }
 
   return (
     <>
@@ -54,18 +74,22 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
               className={`flex  py-1 min-h-16 justify-between gap-1 w-full items-end `}
             >
               <div className="flex items-center gap-1">
-                <label className="text-sm font-medium text-blue">
+                <label className="text-sm font-medium uppercase text-blue">
                   {labelSearch}:{" "}
                 </label>
-                <div className="h-8 px-2 py-1 font-bold border border-gray-300 rounded w-28 bg-lightGray focus:outline-none text-blue">
+                <div
+                  className={`h-8 px-2 py-1 font-bold border  border-gray-300 rounded w-28 bg-lightGray focus:outline-none  ${
+                    styleDisabled ? "bg-gray-200 text-gray-400 " : "text-blue"
+                  }`}
+                >
                   {state}
                 </div>
                 <button
                   type="button"
-                  onClick={() => setIsEditing(true)}
+                  onClick={handleEditInput}
                   className="flex items-center justify-center h-8 px-2 py-1 transition-all duration-300 border border-gray-300 rounded bg-lightGray text-greenHover hover:bg-gray-200"
                 >
-                  <FaPencil />
+                  Buscar otro DNI
                 </button>
               </div>
 
@@ -137,12 +161,13 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
           </label>
           <div className="relative">
             <input
+              ref={inputRef}
               type="text"
               name="dni"
               value={state}
               onChange={handleOnChangeDni}
               className={`h-8 px-2 py-1 font-bold border rounded w-28  bg-lightGray  focus:outline-none text-blue ${
-                noHc ? "border-red-500" : "border-gray-300"
+                errorState ? "border-red-500" : "border-gray-300"
               } ${autoFocusInput ? "focus:border-green border-2" : ""} `}
               onKeyDown={handleKeyDown}
               autoFocus
@@ -171,10 +196,8 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
             )}
           </button>
 
-          {noHc && (
-            <p className="text-xs font-bold text-red-500 w-72">
-              Debe ingresar un número de historia clínica
-            </p>
+          {errorState && (
+            <p className="text-xs font-bold text-red-500 w-72">{errorState}</p>
           )}
         </div>
       )}

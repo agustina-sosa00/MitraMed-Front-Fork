@@ -138,7 +138,8 @@ export type ToothChangeTuple = [number, number, number, 0 | 1, number];
 export interface SearchPatientProps {
   handleFindPatient: (arg: string) => void;
   viewImg: boolean;
-  showData: boolean;
+  showData?: boolean;
+  setShowData?: (arg: boolean) => void;
   labelSearch: string;
   data: Partial<Paciente>;
   noHc?: boolean;
