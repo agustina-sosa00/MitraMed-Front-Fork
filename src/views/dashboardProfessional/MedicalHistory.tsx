@@ -14,10 +14,7 @@ import { useMedicalHistoryContext } from "../../context/MedicalHistoryContext";
 import { ContainView } from "@/components/features/PanelProfessional/ContainView";
 
 export const MedicalHistory: React.FC = () => {
-  // ---------------------------------------------------------
-  // ---------------------------------------------------------
-  // -------------------- T O K E N---------------------------
-  // ---------------------------------------------------------
+  // region C O N T E X T
   const { setToken, setFolder } = useContextDropbox();
 
   const {
@@ -25,9 +22,10 @@ export const MedicalHistory: React.FC = () => {
     setHistoryContext,
     hc,
     setHc,
-    numHistory,
-    setNumHistory,
+    dniHistory,
+    setDniHistory,
   } = useMedicalHistoryContext();
+  console.log("dniHistory", dniHistory);
   // data profesional
   const infoProfessional = Cookies.get("dataProfessional");
   const [showData, setShowData] = useState<boolean>(false);
@@ -50,17 +48,17 @@ export const MedicalHistory: React.FC = () => {
   );
 
   const handleFindPatient = (hc: string) => {
-    if (numHistory.length === 0) {
+    if (dniHistory.length === 0) {
       setHc(true);
     } else {
       setHc(false);
-      setNumHistory(hc);
+      setDniHistory(hc);
       setShowData(!showData);
     }
   };
 
   const handleOnFocusInput = () => {
-    if (numHistory.length === 0) {
+    if (dniHistory.length === 0) {
       setFocusState(true);
       Swal.fire({
         icon: "warning",
@@ -120,12 +118,14 @@ export const MedicalHistory: React.FC = () => {
         <SearchPatient
           noHc={hc}
           data={{}}
-          labelSearch={"HC"}
+          labelSearch={"dni"}
           showData={showData}
           handleFindPatient={handleFindPatient}
           viewImg={false}
           setStateModal={setShowModal}
           odontogram={true}
+          state={dniHistory}
+          setState={setDniHistory}
         />
       </div>
       <div className="flex justify-center w-full pt-5 overflow-x-auto min-h-80">
@@ -189,7 +189,7 @@ export const MedicalHistory: React.FC = () => {
           <FormUploadHistory
             handle={handleOnFocusInput}
             infoProfessional={JSON.parse(infoProfessional!)}
-            hc={numHistory}
+            hc={dniHistory}
             setState={setHistoryContext}
             focusState={focusState}
             folder={dataDropbox.nfolder}

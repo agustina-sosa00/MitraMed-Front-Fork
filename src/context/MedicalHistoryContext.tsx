@@ -7,8 +7,10 @@ interface MedicalHistoryContextType {
   >;
   hc: boolean;
   setHc: React.Dispatch<React.SetStateAction<boolean>>;
-  numHistory: string;
-  setNumHistory: React.Dispatch<React.SetStateAction<string>>;
+  dniHistory: string;
+  setDniHistory: React.Dispatch<React.SetStateAction<string>>;
+  dniOdontogram: string;
+  setDniOdontogram: React.Dispatch<React.SetStateAction<string>>;
 }
 const MedicalHistoryContext = createContext<
   MedicalHistoryContextType | undefined
@@ -19,7 +21,8 @@ export const MedicalHistoryProvider = ({ children }) => {
     []
   );
   const [hc, setHc] = useState<boolean>(false);
-  const [numHistory, setNumHistory] = useState<string>("");
+  const [dniHistory, setDniHistory] = useState<string>("");
+  const [dniOdontogram, setDniOdontogram] = useState<string>("");
 
   return (
     <MedicalHistoryContext.Provider
@@ -28,8 +31,10 @@ export const MedicalHistoryProvider = ({ children }) => {
         setHistoryContext,
         hc,
         setHc,
-        numHistory,
-        setNumHistory,
+        dniHistory,
+        setDniHistory,
+        dniOdontogram,
+        setDniOdontogram,
       }}
     >
       {children}

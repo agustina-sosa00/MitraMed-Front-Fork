@@ -144,4 +144,6 @@ export interface SearchPatientProps {
   noHc?: boolean;
   setStateModal?: (arg: boolean) => void;
   odontogram?: boolean;
+  state: string;
+  setState: (arg: string) => void;
 }

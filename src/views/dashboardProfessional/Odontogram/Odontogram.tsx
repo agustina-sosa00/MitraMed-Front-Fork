@@ -20,11 +20,15 @@ import {
   getOdontogram,
   postSaveOdontogram,
 } from "@/services/odontogramServices";
+import { useMedicalHistoryContext } from "../../../context/MedicalHistoryContext";
 
 export default function Odontogram() {
   //region cookies
   const idProfesional = Cookies.get("idProfesional");
 
+  //region context
+  const { dniOdontogram, setDniOdontogram } = useMedicalHistoryContext();
+  console.log(dniOdontogram);
   //region states
   const [contextMenu, setContextMenu] = useState<number | null>(null);
   const [openMenu, setOpenMenu] = useState(false);
@@ -121,6 +125,8 @@ export default function Odontogram() {
             handleFindPatient={handleFindPatient}
             viewImg
             odontogram={false}
+            state={dniOdontogram}
+            setState={setDniOdontogram}
           />
           {showButtons && (
             <div className="flex items-center justify-end w-auto h-16 gap-2 px-2 py-1">

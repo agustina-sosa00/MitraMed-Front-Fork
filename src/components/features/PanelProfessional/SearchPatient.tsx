@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
 import { FaPencil, FaMagnifyingGlass } from "react-icons/fa6";
 import { Button } from "@/components/ui/Button";
-import { useMedicalHistoryContext } from "../../../context/MedicalHistoryContext";
 import { SearchPatientProps } from "@/types/index";
 
 export const SearchPatient: React.FC<SearchPatientProps> = ({
@@ -13,22 +11,22 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
   data,
   noHc,
   setStateModal,
+  state,
+  setState,
 }) => {
-  const location = useLocation();
-  const { numHistory, setNumHistory } = useMedicalHistoryContext();
-
+  const [autoFocusInput, setAutoFocusInput] = useState(false);
   const [isEditing, setIsEditing] = useState(true);
   const [loader, setLoader] = useState(false);
 
   const handleOnChangeDni = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNumHistory(e.target.value);
+    setState(e.target.value);
   };
 
   const handleSearchPatient = () => {
     setLoader(true);
     setTimeout(() => {
       setIsEditing(false);
-      handleFindPatient(numHistory);
+      handleFindPatient(state);
       setLoader(false);
     }, 2000);
   };
@@ -37,14 +35,13 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
     if (e.key === "Enter") {
       handleSearchPatient();
     } else if (e.key === "Escape") {
-      setNumHistory("");
+      setState("");
     }
   };
 
   useEffect(() => {
-    if (!location.pathname.startsWith("/profesionales/historial")) {
-      setNumHistory("");
-    }
+    setAutoFocusInput(true);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -52,7 +49,7 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
     <>
       {!isEditing ? (
         <>
-          {numHistory.length > 0 && (
+          {state.length > 0 && (
             <div
               className={`flex  py-1 min-h-16 justify-between gap-1 w-full items-end `}
             >
@@ -61,7 +58,7 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
                   {labelSearch}:{" "}
                 </label>
                 <div className="h-8 px-2 py-1 font-bold border border-gray-300 rounded w-28 bg-lightGray focus:outline-none text-blue">
-                  {numHistory}
+                  {state}
                 </div>
                 <button
                   type="button"
@@ -135,20 +132,20 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
             viewImg ? "items-center" : "items-center"
           }`}
         >
-          <label className="text-sm font-medium text-blue">
+          <label className="text-sm font-medium uppercase text-blue">
             {labelSearch}:{" "}
           </label>
           <div className="relative">
             <input
               type="text"
               name="dni"
-              value={numHistory}
-              placeholder="11222333"
+              value={state}
               onChange={handleOnChangeDni}
-              className={`h-8 px-2 py-1 font-bold border rounded w-28 bg-lightGray focus:outline-none text-blue ${
+              className={`h-8 px-2 py-1 font-bold border rounded w-28  bg-lightGray  focus:outline-none text-blue ${
                 noHc ? "border-red-500" : "border-gray-300"
-              }`}
+              } ${autoFocusInput ? "focus:border-green border-2" : ""} `}
               onKeyDown={handleKeyDown}
+              autoFocus
             />
           </div>
 
