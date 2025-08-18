@@ -161,17 +161,25 @@ export default function Odontogram() {
         {box.slice(0, 4).map((box) => (
           <div
             key={box.name}
-            className={`w-1/2 h-1/2 p-2 gap-1 border-black ${
+            className={`w-1/2 h-1/2 p-2 gap-1  ${
               box.name.includes("arriba") ? "border-b" : "border-t"
             } ${
               box.ladoVisual === "izquierda"
                 ? "border-r flex flex-row-reverse items-end"
                 : "border-l flex items-end"
-            } justify-start`}
+            } justify-start ${
+              editOdontogram ? "border-gray-400" : "border-gray-300"
+            }`}
           >
             {box.numbers.map((toothNumber) => (
               <div key={toothNumber} className="flex flex-col items-center">
-                <p className="text-xs text-[#6e6d6d]">{toothNumber}</p>
+                <p
+                  className={`text-xs  ${
+                    editOdontogram ? "text-[#6e6d6d]" : "text-[#b6b5b5]"
+                  } `}
+                >
+                  {toothNumber}
+                </p>
                 <Tooth
                   toothNumber={toothNumber}
                   isActive={editOdontogram && contextMenu === toothNumber}
@@ -190,6 +198,7 @@ export default function Odontogram() {
                     }))
                   }
                   stateTeethChanged={setTeethChanged}
+                  styleDisabled={editOdontogram}
                 />
               </div>
             ))}
@@ -204,17 +213,25 @@ export default function Odontogram() {
         {box.slice(4).map((box) => (
           <div
             key={box.name}
-            className={`w-1/2 h-1/2 p-2 gap-1 border-black ${
+            className={`w-1/2 h-1/2 p-2 gap-1  ${
               box.name.includes("arriba") ? "border-b" : "border-t"
             } ${
               box.ladoVisual === "izquierda"
                 ? "border-r flex flex-row-reverse items-start"
                 : "border-l flex items-start"
-            } justify-start`}
+            } justify-start ${
+              editOdontogram ? "border-gray-400" : "border-gray-300"
+            } `}
           >
             {box.numbers.map((toothNumber) => (
               <div key={toothNumber} className="flex flex-col items-center">
-                <p className="text-xs text-[#6e6d6d]">{toothNumber}</p>
+                <p
+                  className={`text-xs  ${
+                    editOdontogram ? "text-[#6e6d6d]" : "text-[#b6b5b5]"
+                  } `}
+                >
+                  {toothNumber}
+                </p>
                 <Tooth
                   toothNumber={toothNumber}
                   isActive={editOdontogram && contextMenu === toothNumber}
@@ -233,6 +250,7 @@ export default function Odontogram() {
                     }))
                   }
                   stateTeethChanged={setTeethChanged}
+                  styleDisabled={editOdontogram}
                 />
               </div>
             ))}

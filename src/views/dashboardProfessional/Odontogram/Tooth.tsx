@@ -25,6 +25,7 @@ interface ToothV2Props {
   updateToothIds: (item: ToothItemIds) => void;
   clearTooth: () => void;
   stateTeethChanged?: Dispatch<SetStateAction<ToothChangeTuple[]>>;
+  styleDisabled?: boolean;
 }
 
 export const Tooth: React.FC<ToothV2Props> = ({
@@ -37,10 +38,12 @@ export const Tooth: React.FC<ToothV2Props> = ({
   updateToothIds,
   clearTooth,
   stateTeethChanged,
+  styleDisabled,
 }) => {
-  //region states
+  //region states y variables
   const [width, setWidth] = useState(false);
   const [positionMenu, setPositionMenu] = useState({ x: 0, y: 0 });
+  const isLeft = isLeftQuadrantByTooth(toothNumber);
 
   //region useEffects
   useEffect(() => {
@@ -63,16 +66,17 @@ export const Tooth: React.FC<ToothV2Props> = ({
     setPositionMenu({ x: e.clientX, y: e.clientY });
   }
 
-  const fillForFace = (caraId: number) => {
+  function fillForFace(caraId: number) {
     const item = dataIds.find(
       ([idcara, idtrat, hab]) =>
         hab === 1 && idcara === caraId && tipoDe(idtrat) === TRAT.RESTAURACIONES
     );
-    if (!item) return "#fff";
-    return fillHex(item[1]);
-  };
+    if (item) {
+      return fillHex(item[1]);
+    }
+    return styleDisabled ? "#fff" : "#ececec";
+  }
 
-  const isLeft = isLeftQuadrantByTooth(toothNumber);
   const lateralFill = (side: "left" | "right") =>
     isLeft
       ? fillForFace(side === "left" ? CARA.DISTAL : CARA.MESIAL)
@@ -155,37 +159,37 @@ export const Tooth: React.FC<ToothV2Props> = ({
         >
           {/* VESIBULAR */}
           <polygon
-            stroke="#a3a3a3"
+            stroke={`${!styleDisabled ? "#d8d5d5" : "#a3a3a3"}`}
             fill={fillForFace(CARA.VESIBULAR)}
-            className="cursor-pointer"
+            className={`${styleDisabled && "cursor-pointer"} `}
             points="1.0136711597442627,1.35626420378685 7.767158031463623,9.155386298894882 21.696229934692383,9.155386298894882 28.449718475341797,1.35626420378685 "
           />
           {/* LATERAL DERECHO */}
           <polygon
-            stroke="#a3a3a3"
+            stroke={`${!styleDisabled ? "#d8d5d5" : "#a3a3a3"}`}
             fill={lateralFill("right")}
-            className="cursor-pointer"
+            className={`${styleDisabled && "cursor-pointer"} `}
             points="21.445681169629097,9.104242324829102 21.445681169629097,25.189937591552734 28.19916971027851,32.98905944824219 28.41021592915058,0.8176754713058472"
           />
           {/* PALATINO */}
           <polygon
-            stroke="#a3a3a3"
+            stroke={`${!styleDisabled ? "#d8d5d5" : "#a3a3a3"}`}
             fill={fillForFace(CARA.PALATINO)}
-            className="cursor-pointer"
+            className={`${styleDisabled && "cursor-pointer"} `}
             points="21.445680618286133,25.29296439886093 28.199169158935547,33.092128217220306 0.7631232142448425,33.092128217220306 7.516610622406006,25.29296439886093"
           />
           {/* LATERAL IZQUIERDO */}
           <polygon
-            stroke="#a3a3a3"
+            stroke={`${!styleDisabled ? "#d8d5d5" : "#a3a3a3"}`}
             fill={lateralFill("left")}
-            className="cursor-pointer"
+            className={`${styleDisabled && "cursor-pointer"} `}
             points="0.7631232291460037,1.3051201105117798 0.7631232291460037,33.232784271240234 7.516610696911812,25.189937591552734 7.516610696911812,9.104242324829102"
           />
           {/* OCLUSAL */}
           <polygon
-            stroke="#a3a3a3"
+            stroke={`${!styleDisabled ? "#d8d5d5" : "#a3a3a3"}`}
             fill={fillForFace(CARA.OCLUSAL)}
-            className="cursor-pointer"
+            className={`${styleDisabled && "cursor-pointer"} `}
             points="7.516610696911812,9.104242324829102 21.445681169629097,9.104242324829102 21.445681169629097,25.189937591552734 7.516610696911812,25.189937591552734"
           />
         </svg>
