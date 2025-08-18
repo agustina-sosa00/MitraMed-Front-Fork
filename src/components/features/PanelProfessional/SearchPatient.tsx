@@ -1,10 +1,9 @@
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { FaPencil, FaMagnifyingGlass } from "react-icons/fa6";
 import { Button } from "@/components/ui/Button";
 import { useMedicalHistoryContext } from "../../../context/MedicalHistoryContext";
-import React, { useEffect, useState } from "react";
-import { FaPencil } from "react-icons/fa6";
-import { FaMagnifyingGlass } from "react-icons/fa6";
-import { SearchPatientProps } from "../../../mock/arrayTableProfessional";
-import { useLocation } from "react-router-dom";
+import { SearchPatientProps } from "@/types/index";
 
 export const SearchPatient: React.FC<SearchPatientProps> = ({
   handleFindPatient,
@@ -17,11 +16,14 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
 }) => {
   const location = useLocation();
   const { numHistory, setNumHistory } = useMedicalHistoryContext();
+
   const [isEditing, setIsEditing] = useState(true);
+  const [loader, setLoader] = useState(false);
+
   const handleOnChangeDni = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNumHistory(e.target.value);
   };
-  const [loader, setLoader] = useState(false);
+
   const handleSearchPatient = () => {
     setLoader(true);
     setTimeout(() => {
@@ -31,7 +33,7 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
     }, 2000);
   };
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       handleSearchPatient();
     } else if (e.key === "Escape") {
@@ -43,14 +45,16 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
     if (!location.pathname.startsWith("/profesionales/historial")) {
       setNumHistory("");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <>
       {!isEditing ? (
         <>
           {numHistory.length > 0 && (
             <div
-              className={`flex  py-1 h-16 justify-between gap-1 w-full items-center `}
+              className={`flex  py-1 min-h-16 justify-between gap-1 w-full items-end `}
             >
               <div className="flex items-center gap-1">
                 <label className="text-sm font-medium text-blue">
@@ -68,54 +72,54 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
                 </button>
               </div>
 
-              <div className="flex flex-col justify-center w-1/2 gap-1 px-3 text-sm capitalize border border-gray-300 rounded xl:w-2/3 xl:text-base bg-lightGray text-blue">
-                <div className="flex items-center w-full gap-4">
-                  {data?.lastName && (
-                    <h3 className="w-1/3 ">
-                      Apellido:{" "}
-                      <span className="font-medium">{data.lastName}</span>{" "}
-                    </h3>
-                  )}
-                  {data?.name && (
-                    <h3 className="w-1/3 ">
-                      Nombre: <span className="font-medium">{data.name}</span>{" "}
-                    </h3>
-                  )}
-                  {viewImg && (
-                    <img
-                      src="/user.jpg"
-                      alt="user"
-                      className="w-16 h-16 border border-gray-300 rounded-full"
-                    />
-                  )}
-                  {data?.age && (
-                    <h3 className="w-1/3 ">
-                      Edad: <span className="font-medium">{data.age}</span>{" "}
-                    </h3>
-                  )}
+              {/* Datos del paciente */}
+              <div className="flex flex-col flex-[1] gap-1 p-1">
+                <div className="flex justify-center w-full gap-1">
+                  <div className="flex flex-col w-1/2 text-blue">
+                    <p className="text-sm font-bold">Nombre: </p>
+                    <p className="w-full h-8 px-2 py-1 text-sm border border-gray-300 rounded bg-lightGray">
+                      {data?.nombre || "no encontrado"}
+                    </p>
+                  </div>
+                  <div className="flex flex-col w-1/2 text-blue">
+                    <p className="text-sm font-bold">Apellido: </p>
+                    <p className="w-full h-8 px-2 py-1 text-sm border border-gray-300 rounded bg-lightGray">
+                      {data?.apellido || "no encontrado"}
+                    </p>
+                  </div>
                 </div>
-                <div className="flex justify-start w-full gap-1">
-                  {data?.dni && (
-                    <h3 className="w-1/3 ">
-                      DNI: <span className="font-medium">{data.dni}</span>{" "}
-                    </h3>
-                  )}
-                  {data?.fnac && (
-                    <h3 className=" text-start">
-                      F. Nacimiento:{" "}
-                      <span className="font-medium">{data.fnac}</span>{" "}
-                    </h3>
-                  )}{" "}
-                  <div className=""></div>{" "}
-                </div>
-                {data?.obs && (
-                  <h3 className="w-1/3 ">
-                    O. Social: <span className="font-medium">{data.obs}</span>{" "}
-                  </h3>
-                )}
 
-                {/* datos para mostrar de historial medico opcionales */}
+                <div className="flex justify-center w-full gap-1">
+                  <div className="flex flex-col w-1/2 text-blue">
+                    <p className="text-sm font-bold">DNI: </p>
+                    <p className="w-full h-8 px-2 py-1 text-sm border border-gray-300 rounded bg-lightGray">
+                      {data?.dni || "no encontrado"}
+                    </p>
+                  </div>
+                  <div className="flex flex-col w-1/2 text-blue">
+                    <p className="text-sm font-bold">Fecha de Nacimiento: </p>
+                    <p className="w-full h-8 px-2 py-1 text-sm border border-gray-300 rounded bg-lightGray">
+                      {data?.fnacim || "no encontrado"}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex justify-center w-full gap-1">
+                  <div className="flex flex-col w-1/2 text-blue">
+                    <p className="text-sm font-bold">Edad: </p>
+                    <p className="w-full h-8 px-2 py-1 text-sm border border-gray-300 rounded bg-lightGray">
+                      {data?.edad || "no encontrado"}
+                    </p>
+                  </div>
+                  <div className="flex flex-col w-1/2 text-blue">
+                    <p className="text-sm font-bold">Obra Social</p>
+                    <p className="w-full h-8 px-2 py-1 text-sm border border-gray-300 rounded bg-lightGray">
+                      {data?.idosocial !== 0 ? data?.nosocial : "No posee"}
+                    </p>
+                  </div>
+                </div>
               </div>
+              
               {odontogram && (
                 <Button
                   label="agregar consulta"
@@ -127,24 +131,24 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
         </>
       ) : (
         <div
-          className={`flex  py-1 h-16 justify-start gap-1 w-full ${
+          className={`flex py-1 h-16 justify-start gap-1 w-full ${
             viewImg ? "items-center" : "items-center"
-          } `}
+          }`}
         >
           <label className="text-sm font-medium text-blue">
             {labelSearch}:{" "}
           </label>
-          <div className="relative ">
+          <div className="relative">
             <input
               type="text"
               name="dni"
               value={numHistory}
               placeholder="11222333"
               onChange={handleOnChangeDni}
-              className={`h-8 px-2 py-1 font-bold border  rounded w-28 bg-lightGray focus:outline-none text-blue ${
-                noHc ? "border-red-500" : "border-gray-300 "
-              } `}
-              onKeyDown={(e) => handleKeyDown(e)}
+              className={`h-8 px-2 py-1 font-bold border rounded w-28 bg-lightGray focus:outline-none text-blue ${
+                noHc ? "border-red-500" : "border-gray-300"
+              }`}
+              onKeyDown={handleKeyDown}
             />
           </div>
 
@@ -169,6 +173,7 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
               <FaMagnifyingGlass />
             )}
           </button>
+
           {noHc && (
             <p className="text-xs font-bold text-red-500 w-72">
               Debe ingresar un número de historia clínica

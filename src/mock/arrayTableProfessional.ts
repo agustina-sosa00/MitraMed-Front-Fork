@@ -404,10 +404,18 @@ export interface IObjetcPatient {
   hc?: string;
   lastName?: string;
   name?: string;
+  nombre?: string;
+  apellido?: string;
+  fnacim?: string;
+  edad?: number;
   dni?: string;
   fnac?: string;
   age?: string;
   obs?: string;
+  idosocial?: number;
+  idplan?: number;
+  nosocial?: null | string;
+  nplan?: null | string;
 }
 
 export const dataPatientHc: IObjetcPatient = {

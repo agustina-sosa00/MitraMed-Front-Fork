@@ -13,7 +13,7 @@ import { ProfessionalProtectedRoute } from "./components/features/ProfessionalPr
 import { ProfessionalLayout } from "./layouts/ProfessionalLayout";
 import { TableSchedules } from "./views/dashboardProfessional/TableSchedules";
 import { NotFound } from "./views/NotFound";
-import { Odontogram } from "./views/dashboardProfessional/Odontogram/Odontogram";
+import Odontogram from "./views/dashboardProfessional/Odontogram/Odontogram";
 import { SecretariatProtectedRoute } from "./components/features/SecretariatProtectedRoute";
 import { SecretariatLayout } from "./layouts/SecretariatLayout";
 import { Secretariat } from "./views/dashboardSecretariat/Secretariat";
@@ -21,7 +21,9 @@ import Turnos from "./views/dashboard/Turnos";
 import { MedicalHistory } from "./views/dashboardProfessional/MedicalHistory";
 import { DetailHistoryMedical } from "./views/dashboardProfessional/DetailHistoryMedical";
 import { TableGral } from "./views/dashboardSecretariat/TableGral";
-import { Metrics } from "./views/dashboardProfessional/Metrics";
+
+import { Metrics } from "./views/dashboardSecretariat/Metrics";
+
 interface RouterProps {
   loader: boolean;
   setLoader: React.Dispatch<React.SetStateAction<boolean>>;
