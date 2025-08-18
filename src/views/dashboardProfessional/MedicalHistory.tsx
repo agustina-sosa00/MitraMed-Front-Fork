@@ -114,7 +114,7 @@ export const MedicalHistory: React.FC = () => {
 
   return (
     <ContainView title="Historial médico">
-      <div className="flex items-center justify-start w-full gap-1 px-16 py-1 min-h-24 ">
+      <div className="flex items-center justify-start w-full gap-1 py-1 min-h-24 ">
         <SearchPatient
           noHc={hc}
           data={{}}

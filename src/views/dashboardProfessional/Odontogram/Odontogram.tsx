@@ -55,7 +55,7 @@ export default function Odontogram() {
     status: false,
   });
   const [dniPatient, setDniPatient] = useState("");
-  const [showButtons, setShowButtons] = useState(false);
+  // const [showButtons, setShowButtons] = useState(false);
   const [editOdontogram, setEditOdontogram] = useState(false);
 
   //region mutate
@@ -88,7 +88,7 @@ export default function Odontogram() {
   //region function
 
   function handleFindPatient(dni: string) {
-    setShowButtons(true);
+    // setShowButtons(true);
     setDniPatient(dni);
     mutateFindPatient({ dni });
   }
@@ -121,40 +121,17 @@ export default function Odontogram() {
           <SearchPatient
             data={infoUser?.data?.paciente || {}}
             labelSearch="DNI"
-            setShowData={setShowButtons}
+            // setShowData={setShowButtons}
             handleFindPatient={handleFindPatient}
             viewImg
             odontogram={false}
             state={dniOdontogram}
             setState={setDniOdontogram}
+            // setStateModal={setShowButtons}
+            editOdontogram={editOdontogram}
+            setEditOdontogram={setEditOdontogram}
+            handleSave={handleSave}
           />
-          {showButtons && (
-            <div className="flex items-center justify-end w-auto h-16 gap-2 px-2 py-1">
-              {editOdontogram ? (
-                <>
-                  <button
-                    onClick={handleSave}
-                    className="h-8 px-2 py-1 text-white capitalize rounded bg-green hover:bg-greenHover"
-                  >
-                    guardar
-                  </button>
-                  <button
-                    onClick={() => setEditOdontogram(false)}
-                    className="h-8 px-2 py-1 text-white capitalize bg-red-500 rounded hover:bg-red-600"
-                  >
-                    cancelar
-                  </button>
-                </>
-              ) : (
-                <button
-                  onClick={() => setEditOdontogram(true)}
-                  className="h-8 px-2 py-1 text-white capitalize rounded w-44 bg-green hover:bg-greenHover"
-                >
-                  editar odontograma
-                </button>
-              )}
-            </div>
-          )}
         </div>
       )}
       <div className="flex flex-wrap w-full h-1/2">

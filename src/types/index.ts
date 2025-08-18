@@ -147,4 +147,7 @@ export interface SearchPatientProps {
   odontogram?: boolean;
   state: string;
   setState: (arg: string) => void;
+  editOdontogram?: boolean;
+  setEditOdontogram?: (arg: boolean) => void;
+  handleSave?: () => void;
 }
