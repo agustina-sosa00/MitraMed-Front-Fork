@@ -405,19 +405,23 @@ export interface SearchPatientProps {
 export interface IObjetcPatient {
   id?: number;
   hc?: string;
-  apellido?: string;
+  lastName?: string;
+  name?: string;
   nombre?: string;
-  dni?: string;
+  apellido?: string;
   fnacim?: string;
-  edad?: string;
+  edad?: number;
+  dni?: string;
+  fnac?: string;
+  age?: string;
   obs?: string;
   idosocial?: number;
   idplan?: number;
-  nosocial?: null | number;
-  nplan?: null | number;
+  nosocial?: null | string;
+  nplan?: null | string;
 }
 
-export const dataPatientHc = {
+export const dataPatientHc: IObjetcPatient = {
   id: 0,
   hc: "00000000",
   lastName: "Mortarini",

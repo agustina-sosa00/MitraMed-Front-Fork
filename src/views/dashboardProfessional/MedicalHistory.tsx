@@ -1,26 +1,25 @@
-import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
-import { TablaDefault } from "@/frontend-resourses/components";
-
-import Cookies from "js-cookie";
-import Swal from "sweetalert2";
-
+import React, { useEffect, useState } from "react";
 import { SearchPatient } from "@/components/features/PanelProfessional/SearchPatient";
 import { FormUploadHistory } from "@/components/features/PanelProfessional/FormUploadHistory";
+import { TablaDefault } from "@/frontend-resourses/components";
+import Cookies from "js-cookie";
+import Swal from "sweetalert2";
+// import { dataPatientHc } from "../../mock/arrayTableProfessional";
+import { useMutation } from "@tanstack/react-query";
 import { getDataDropbox, getTokenDropbox } from "@/services/dropboxServices";
 import { useContextDropbox } from "../../context/DropboxContext";
+import { Link } from "react-router-dom";
 import { Modal } from "@/components/ui/Modal";
 import { useMedicalHistoryContext } from "../../context/MedicalHistoryContext";
 import { ContainView } from "@/components/features/PanelProfessional/ContainView";
 
-import getDataMedicalHistory from "@/services/ProfessionalService";
-
-export default function MedicalHistory(): JSX.Element {
-  const infoProfessional = Cookies.get("dataProfessional");
-  const inputRef = useRef<HTMLInputElement>(null);
-  //region uso de context
+export const MedicalHistory: React.FC = () => {
+  // ---------------------------------------------------------
+  // ---------------------------------------------------------
+  // -------------------- T O K E N---------------------------
+  // ---------------------------------------------------------
   const { setToken, setFolder } = useContextDropbox();
+
   const {
     historyContext,
     setHistoryContext,
@@ -29,69 +28,64 @@ export default function MedicalHistory(): JSX.Element {
     numHistory,
     setNumHistory,
   } = useMedicalHistoryContext();
-  // region estados locales
+  // data profesional
+  const infoProfessional = Cookies.get("dataProfessional");
   const [showData, setShowData] = useState<boolean>(false);
+
   const [focusState, setFocusState] = useState(false);
+
+  // state para guardar data de getDataDropbox
   const [dataDropbox, setDataDropbox] = useState({
     app_id: "",
     app_secret: "",
     refresh_token: "",
     nfolder: "",
   });
+
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [infoUser, setInfoUser] = useState({
-    code: 0,
-    data: [
-      {
-        apellido: "",
-        dni: "",
-        edad: "",
-        fnacim: "",
-        idosocial: 0,
-        idplan: 0,
-        nombre: "",
-        nosocial: 0,
-        nplan: 0,
-      },
-    ],
-    message: "",
-    status: false,
-  });
-  const [errorMutate, setErrorMutate] = useState<string>("");
+
   // sortedData es un array que acomoda el objeto mas reciente al principio del array
   const sortedData = [...historyContext].sort(
     (a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime()
   );
 
-  // region mutate
-  const { mutate: mutateFindPatient } = useMutation({
-    mutationFn: getDataMedicalHistory,
-    onError: (error) => {
-      console.log(error);
-    },
-    onSuccess: (data) => {
-      if (data.code === 400 || !data?.data?.length) {
-        setErrorMutate(data.message || "Paciente inexistente");
-        setHc(true);
-        setShowData(false);
-        return;
-      }
-      setErrorMutate("");
+  const handleFindPatient = (hc: string) => {
+    if (numHistory.length === 0) {
+      setHc(true);
+    } else {
       setHc(false);
-      setShowData(true);
-      setInfoUser(data);
-    },
-  });
+      setNumHistory(hc);
+      setShowData(!showData);
+    }
+  };
+
+  const handleOnFocusInput = () => {
+    if (numHistory.length === 0) {
+      setFocusState(true);
+      Swal.fire({
+        icon: "warning",
+        title: `Antes de completar , debe ingresar un número de historia clínica`,
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#518915",
+      });
+    } else {
+      setFocusState(false);
+    }
+  };
+
+  // ------------------------------------------ ----------
   const { mutate: mutateGetDataDropbox } = useMutation({
     mutationFn: getDataDropbox,
     onError: (error) => {
       console.error(error);
     },
     onSuccess: (data) => {
+      console.log("data", data);
       setDataDropbox(data.data[0]);
       setFolder(data.data[0].nfolder);
     },
   });
+
   const { mutate: mutateGetTokenDropbox } = useMutation({
     mutationFn: getTokenDropbox,
     onError: (error) => {
@@ -102,10 +96,8 @@ export default function MedicalHistory(): JSX.Element {
     },
   });
 
-  //region useEffect
   useEffect(() => {
     mutateGetDataDropbox();
-    inputRef.current?.focus();
   }, []);
 
   useEffect(() => {
@@ -122,47 +114,18 @@ export default function MedicalHistory(): JSX.Element {
     }
   }, [dataDropbox]);
 
-  useEffect(() => {
-    if (errorMutate) setErrorMutate("");
-  }, [numHistory]);
-
-  // region functions
-  function handleFindPatient(arg: string) {
-    setErrorMutate("");
-    setNumHistory(arg);
-    setHc(false);
-    mutateFindPatient({ dni: arg });
-  }
-
-  function handleOnFocusInput() {
-    if (numHistory.length === 0) {
-      setFocusState(true);
-      Swal.fire({
-        icon: "warning",
-        title: `Antes de completar , debe ingresar un número de historia clínica`,
-        confirmButtonText: "Aceptar",
-        confirmButtonColor: "#518915",
-      });
-    } else {
-      setFocusState(false);
-    }
-  }
-  //region return
   return (
     <ContainView title="Historial médico">
-      <div className="flex items-end justify-between w-full gap-1 py-1 min-h-20 ">
+      <div className="flex items-center justify-start w-full gap-1 px-16 py-1 min-h-24 ">
         <SearchPatient
           noHc={hc}
-          data={infoUser?.data?.[0] ?? null}
-          labelSearch={"DNI"}
+          data={{}}
+          labelSearch={"HC"}
           showData={showData}
           handleFindPatient={handleFindPatient}
           viewImg={false}
           setStateModal={setShowModal}
           odontogram={true}
-          inputRef={inputRef}
-          setHc={setHc}
-          errorMessage={errorMutate}
         />
       </div>
       <div className="flex justify-center w-full pt-5 overflow-x-auto min-h-80">
@@ -170,6 +133,12 @@ export default function MedicalHistory(): JSX.Element {
           props={{
             datosParaTabla: sortedData,
             objectColumns: [
+              {
+                key: "id",
+                label: "id",
+                minWidth: "150",
+                maxWidth: "150",
+              },
               {
                 key: "fecha",
                 label: "Fecha",
@@ -193,7 +162,10 @@ export default function MedicalHistory(): JSX.Element {
                 label: "Acciones",
                 renderCell: (item) => (
                   <Link to={`/profesionales/historial/${item.id}`} state={item}>
-                    <button className="px-3 py-1 bg-blue-500 rounded text-blue ">
+                    <button
+                      onClick={() => console.log("Acción sobre:", item)}
+                      className="px-3 py-1 bg-blue-500 rounded text-blue "
+                    >
                       Ver
                     </button>
                   </Link>
@@ -227,4 +199,4 @@ export default function MedicalHistory(): JSX.Element {
       )}
     </ContainView>
   );
-}
+};
