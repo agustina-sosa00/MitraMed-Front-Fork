@@ -15,10 +15,10 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
   setEditOdontogram,
   odontogram,
   data,
+  handleDeletePatient,
   setStateModal,
   state,
   setState,
-  setShowData,
   handleCancel,
 }) => {
   // region states y variables
@@ -31,6 +31,7 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
 
   const hasValidPatient = Boolean(data?.dni);
   const canEdit = hasValidPatient && !isEditing && !loader && !errorState;
+
   //region useEffects
   useEffect(() => {
     setAutoFocusInput(true);
@@ -71,14 +72,13 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
   }
 
   function handleEditInput() {
+    handleDeletePatient && handleDeletePatient();
     setIsEditing(true);
-    setShowData && setShowData(false);
   }
 
   function handleCancelButton() {
     handleCancel && handleCancel();
     setIsEditing(false);
-    setShowData && setShowData(true);
   }
 
   return (

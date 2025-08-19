@@ -57,6 +57,25 @@ export default function Odontogram() {
   const [dniPatient, setDniPatient] = useState("");
   // const [showButtons, setShowButtons] = useState(false);
   const [editOdontogram, setEditOdontogram] = useState(false);
+  const infoUserEmpty: InfoUser = {
+    code: 0,
+    data: {
+      odontograma: [],
+      paciente: {
+        nombre: "",
+        apellido: "",
+        dni: "",
+        fnacim: "",
+        edad: "",
+        idosocial: 0,
+        nosocial: null,
+        idplan: 0,
+        nplan: null,
+      },
+    },
+    message: "",
+    status: false,
+  };
 
   //region mutate
   const { mutate: mutateFindPatient } = useMutation({
@@ -120,6 +139,12 @@ export default function Odontogram() {
     setEditOdontogram(false);
   }
 
+  function handleDeletePatient() {
+    setDniOdontogram("");
+    setTeethIdsState({});
+    setInfoUser(infoUserEmpty);
+  }
+
   //region return
   return (
     <ContainView
@@ -132,6 +157,7 @@ export default function Odontogram() {
         <div className="flex items-end justify-between w-full gap-1 min-h-20 ">
           <SearchPatient
             data={infoUser?.data?.paciente || {}}
+            handleDeletePatient={handleDeletePatient}
             labelSearch="DNI"
             handleFindPatient={handleFindPatient}
             viewImg
