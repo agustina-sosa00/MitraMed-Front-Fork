@@ -3,7 +3,7 @@ import React from "react";
 interface IProp {
   children: React.ReactNode;
   title: string;
-  onClick?: () => void;
+  onClick?: React.MouseEventHandler<HTMLDivElement>;
   padding?: string;
   gapChildren?: string;
 }
@@ -15,15 +15,12 @@ export const ContainView: React.FC<IProp> = ({
   padding,
   gapChildren,
 }) => {
-  function handleClick() {
-    onClick && onClick();
-  }
   return (
     <div
       className={`flex flex-col items-center w-full min-h-screen gap-5  overflow-y-auto ${
         padding ? padding : "px-5 py-20"
       } `}
-      onClick={handleClick}
+      onClick={onClick}
     >
       <div
         className={`lg:w-[85%] flex flex-col items-center ${

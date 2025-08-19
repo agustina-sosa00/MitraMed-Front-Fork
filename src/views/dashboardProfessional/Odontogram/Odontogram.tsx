@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 
 import Cookies from "js-cookie";
@@ -105,6 +105,12 @@ export default function Odontogram() {
     onError: (err) => console.log(err),
   });
 
+  //region useEffect
+  useEffect(() => {
+    window.addEventListener("keydown", handleEsc);
+    return () => window.removeEventListener("keydown", handleEsc);
+  }, []);
+
   //region function
 
   function handleFindPatient(dni: string) {
@@ -143,6 +149,12 @@ export default function Odontogram() {
     setDniOdontogram("");
     setTeethIdsState({});
     setInfoUser(infoUserEmpty);
+  }
+
+  function handleEsc(e: KeyboardEvent) {
+    if (e.key !== "Escape") return;
+    setContextMenu(null);
+    setOpenMenu(false);
   }
 
   //region return
