@@ -18,7 +18,7 @@ import { SecretariatProtectedRoute } from "./components/features/SecretariatProt
 import { SecretariatLayout } from "./layouts/SecretariatLayout";
 import { Secretariat } from "./views/dashboardSecretariat/Secretariat";
 import Turnos from "./views/dashboard/Turnos";
-import { MedicalHistory } from "./views/dashboardProfessional/MedicalHistory";
+import MedicalHistory from "./views/dashboardProfessional/MedicalHistory";
 import { DetailHistoryMedical } from "./views/dashboardProfessional/DetailHistoryMedical";
 import { TableGral } from "./views/dashboardSecretariat/TableGral";
 
