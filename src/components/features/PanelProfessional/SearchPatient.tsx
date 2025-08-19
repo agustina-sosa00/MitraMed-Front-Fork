@@ -1,5 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
+import { FaTrashAlt } from "react-icons/fa";
+import { FaPencil } from "react-icons/fa6";
+import { MdCancel } from "react-icons/md";
+import { IoMdAdd } from "react-icons/io";
+import { RiSave3Line } from "react-icons/ri";
 import { Button } from "@/components/ui/Button";
 import { SearchPatientProps } from "@/types/index";
 
@@ -9,7 +14,7 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
   handleSave,
   setEditOdontogram,
   odontogram,
-  labelSearch,
+
   data,
   setStateModal,
   state,
@@ -71,17 +76,17 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
   }
 
   return (
-    <div className="flex flex-col w-full pb-5">
-      <div className="flex justify-between w-full ">
+    <div className="flex flex-col w-full pb-3">
+      <div className="flex justify-between w-full h-12 ">
         {!isEditing ? (
           <>
             {state.length > 0 && (
               <div
-                className={`flex  py-1 h-16 justify-between gap-1   w-2/3     items-center `}
+                className={`flex  py-1 h-14 justify-between gap-1   w-2/3     items-center `}
               >
                 <div className="flex items-center gap-1">
-                  <label className="text-sm font-medium uppercase text-blue">
-                    {labelSearch}:{" "}
+                  <label className="text-sm font-bold capitalize text-blue">
+                    Ingresar DNI:
                   </label>
                   <div
                     className={`h-8 px-2 py-1 font-bold border  border-gray-300 rounded w-32 bg-lightGray focus:outline-none  ${
@@ -93,9 +98,9 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
                   <button
                     type="button"
                     onClick={handleEditInput}
-                    className="flex items-center justify-center h-8 px-2 py-1 transition-all duration-300 border border-gray-300 rounded bg-lightGray text-greenHover hover:bg-gray-200"
+                    className="flex items-center justify-center h-8 px-2 py-1 text-red-500 transition-all duration-300 border border-gray-300 rounded bg-lightGray hover:bg-gray-200"
                   >
-                    Buscar otro DNI
+                    <FaTrashAlt />
                   </button>
                 </div>
               </div>
@@ -103,7 +108,7 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
           </>
         ) : (
           <div
-            className={`flex py-1 h-16 justify-start gap-1 w-2/3  items-center `}
+            className={`flex py-1 h-14 justify-start gap-1 w-2/3  items-center `}
           >
             <div className="flex items-center gap-1">
               {" "}
@@ -159,6 +164,7 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
           {odontogram ? (
             <Button
               label="agregar consulta"
+              icon={<IoMdAdd />}
               disabledButton={!canEdit}
               handle={() => setStateModal && setStateModal(true)}
             />
@@ -168,30 +174,31 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
                 <>
                   <button
                     onClick={handleSave}
-                    className="h-8 px-2 py-1 text-white capitalize rounded bg-green hover:bg-greenHover"
+                    className="flex items-center justify-center h-8 gap-1 px-2 py-1 text-white capitalize rounded bg-green hover:bg-greenHover"
                   >
+                    <RiSave3Line />
                     guardar
                   </button>
                   <button
                     onClick={() =>
                       setEditOdontogram && setEditOdontogram(false)
                     }
-                    className="h-8 px-2 py-1 text-white capitalize bg-red-500 rounded hover:bg-red-600"
+                    className="flex items-center justify-center h-8 gap-1 px-2 py-1 text-white capitalize bg-red-500 rounded hover:bg-red-600"
                   >
-                    cancelar
+                    <MdCancel /> cancelar
                   </button>
                 </>
               ) : (
                 <button
                   onClick={() => setEditOdontogram && setEditOdontogram(true)}
                   disabled={!canEdit}
-                  className={`h-8 px-2 py-1 text-white capitalize rounded w-44   ${
+                  className={`h-8 px-2 py-1 flex items-center gap-1 justify-center text-white capitalize rounded w-48   ${
                     !canEdit
                       ? "bg-gray-400 cursor-not-allowed"
                       : "bg-green hover:bg-greenHover"
                   }`}
                 >
-                  editar odontograma
+                  <FaPencil /> editar odontograma
                 </button>
               )}
             </div>
@@ -203,7 +210,7 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
       {/* ------------------------------------------------------------------------------------- */}
       {/* ------------------------------------------------------------------------------------- */}
       {/* ------------------------------------------------------------------------------------- */}
-      <div className="flex flex-col w-full gap-2 ">
+      <div className="flex flex-col w-full gap-1 ">
         <div className="flex justify-center w-full gap-2">
           <div className="flex flex-col w-1/2 text-blue">
             <p className="text-sm font-bold">Nombre: </p>

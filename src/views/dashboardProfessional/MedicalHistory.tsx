@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { SearchPatient } from "@/components/features/PanelProfessional/SearchPatient";
-import { FormUploadHistory } from "@/components/features/PanelProfessional/FormUploadHistory";
-import { TablaDefault } from "@/frontend-resourses/components";
+import { Link } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
-// import { dataPatientHc } from "../../mock/arrayTableProfessional";
-import { useMutation } from "@tanstack/react-query";
+import { TablaDefault } from "@/frontend-resourses/components";
+import { SearchPatient } from "@/components/features/PanelProfessional/SearchPatient";
+import { FormUploadHistory } from "@/components/features/PanelProfessional/FormUploadHistory";
 import { getDataDropbox, getTokenDropbox } from "@/services/dropboxServices";
 import { useContextDropbox } from "../../context/DropboxContext";
-import { Link } from "react-router-dom";
 import { Modal } from "@/components/ui/Modal";
 import { useMedicalHistoryContext } from "../../context/MedicalHistoryContext";
 import { ContainView } from "@/components/features/PanelProfessional/ContainView";
@@ -25,7 +24,6 @@ export const MedicalHistory: React.FC = () => {
     dniHistory,
     setDniHistory,
   } = useMedicalHistoryContext();
-  console.log("dniHistory", dniHistory);
   // data profesional
   const infoProfessional = Cookies.get("dataProfessional");
   const [showData, setShowData] = useState<boolean>(false);
@@ -78,7 +76,6 @@ export const MedicalHistory: React.FC = () => {
       console.error(error);
     },
     onSuccess: (data) => {
-      console.log("data", data);
       setDataDropbox(data.data[0]);
       setFolder(data.data[0].nfolder);
     },
@@ -113,7 +110,7 @@ export const MedicalHistory: React.FC = () => {
   }, [dataDropbox]);
 
   return (
-    <ContainView title="Historial médico">
+    <ContainView title="Historial médico" padding="py-5">
       <div className="flex items-center justify-start w-full gap-1 py-1 min-h-24 ">
         <SearchPatient
           noHc={hc}

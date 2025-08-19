@@ -28,7 +28,6 @@ export default function Odontogram() {
 
   //region context
   const { dniOdontogram, setDniOdontogram } = useMedicalHistoryContext();
-  console.log(dniOdontogram);
   //region states
   const [contextMenu, setContextMenu] = useState<number | null>(null);
   const [openMenu, setOpenMenu] = useState(false);
@@ -115,19 +114,22 @@ export default function Odontogram() {
 
   //region return
   return (
-    <ContainView title="Odontograma" onClick={() => setContextMenu(null)}>
+    <ContainView
+      title="Odontograma"
+      padding="py-5"
+      gapChildren="gap-0"
+      onClick={() => setContextMenu(null)}
+    >
       {idProfesional !== "3" && (
-        <div className="flex items-end justify-between w-full gap-1 py-1 min-h-20 ">
+        <div className="flex items-end justify-between w-full gap-1 min-h-20 ">
           <SearchPatient
             data={infoUser?.data?.paciente || {}}
             labelSearch="DNI"
-            // setShowData={setShowButtons}
             handleFindPatient={handleFindPatient}
             viewImg
             odontogram={false}
             state={dniOdontogram}
             setState={setDniOdontogram}
-            // setStateModal={setShowButtons}
             editOdontogram={editOdontogram}
             setEditOdontogram={setEditOdontogram}
             handleSave={handleSave}

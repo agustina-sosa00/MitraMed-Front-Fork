@@ -18,7 +18,7 @@ export const Button: React.FC<IProp> = ({
   disabledButton = false,
 }) => {
   const base =
-    "h-10 flex items-center px-5 py-1 rounded text-white capitalize font-medium gap-2 transition-all duration-300";
+    "h-10 flex items-center px-5 py-1 rounded text-white capitalize font-medium gap-1 transition-all duration-300";
   const enabled = "bg-green hover:bg-greenHover cursor-pointer";
   const disabledCls = "bg-gray-400 cursor-not-allowed pointer-events-none";
   return (
