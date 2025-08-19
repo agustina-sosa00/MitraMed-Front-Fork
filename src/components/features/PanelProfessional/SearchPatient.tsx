@@ -14,12 +14,12 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
   handleSave,
   setEditOdontogram,
   odontogram,
-
   data,
   setStateModal,
   state,
   setState,
   setShowData,
+  handleCancel,
 }) => {
   // region states y variables
   const [autoFocusInput, setAutoFocusInput] = useState(false);
@@ -73,6 +73,12 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
   function handleEditInput() {
     setIsEditing(true);
     setShowData && setShowData(false);
+  }
+
+  function handleCancelButton() {
+    handleCancel && handleCancel();
+    setIsEditing(false);
+    setShowData && setShowData(true);
   }
 
   return (
@@ -180,9 +186,7 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
                     guardar
                   </button>
                   <button
-                    onClick={() =>
-                      setEditOdontogram && setEditOdontogram(false)
-                    }
+                    onClick={handleCancelButton}
                     className="flex items-center justify-center h-8 gap-1 px-2 py-1 text-white capitalize bg-red-500 rounded hover:bg-red-600"
                   >
                     <MdCancel /> cancelar

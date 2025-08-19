@@ -20,14 +20,15 @@ import {
   getOdontogram,
   postSaveOdontogram,
 } from "@/services/odontogramServices";
-import { useMedicalHistoryContext } from "../../../context/MedicalHistoryContext";
+import { useOdontogramContext } from "../../../context/OdontogramContext";
 
 export default function Odontogram() {
   //region cookies
   const idProfesional = Cookies.get("idProfesional");
 
   //region context
-  const { dniOdontogram, setDniOdontogram } = useMedicalHistoryContext();
+  const { dniOdontogram, setDniOdontogram, originalData, setOriginalData } =
+    useOdontogramContext();
   //region states
   const [contextMenu, setContextMenu] = useState<number | null>(null);
   const [openMenu, setOpenMenu] = useState(false);
@@ -64,6 +65,7 @@ export default function Odontogram() {
       setInfoUser(data);
       const raw = (data?.data?.odontograma || []) as RawRow[];
       setTeethIdsState(buildIdsState(raw));
+      setOriginalData(buildIdsState(raw));
     },
     onError: (err) => console.log(err),
   });
@@ -112,6 +114,12 @@ export default function Odontogram() {
     setOpenMenu(false);
   }
 
+  function handleCancelEdit() {
+    setTeethChanged([]);
+    setTeethIdsState(originalData);
+    setEditOdontogram(false);
+  }
+
   //region return
   return (
     <ContainView
@@ -133,6 +141,7 @@ export default function Odontogram() {
             editOdontogram={editOdontogram}
             setEditOdontogram={setEditOdontogram}
             handleSave={handleSave}
+            handleCancel={handleCancelEdit}
           />
         </div>
       )}

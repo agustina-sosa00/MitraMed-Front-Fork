@@ -150,4 +150,5 @@ export interface SearchPatientProps {
   editOdontogram?: boolean;
   setEditOdontogram?: (arg: boolean) => void;
   handleSave?: () => void;
+  handleCancel?: () => void;
 }
