@@ -85,7 +85,7 @@ export const Tooth: React.FC<ToothV2Props> = ({
   //region return
   return (
     <div onContextMenu={handleContextMenu}>
-      <div className="relative">
+      <div className="!relative">
         {dataIds.length > 0 && (
           <div className="absolute w-8 h-8 lg:h-14 lg:w-14 xl:w-16 xl:h-16">
             {dataIds.map(([idcara, idtrat, hab], idx) => {
@@ -193,25 +193,25 @@ export const Tooth: React.FC<ToothV2Props> = ({
             points="7.516610696911812,9.104242324829102 21.445681169629097,9.104242324829102 21.445681169629097,25.189937591552734 7.516610696911812,25.189937591552734"
           />
         </svg>
-      </div>
 
-      {
-        //region menu
-      }
-      {isActive && (
-        <MenuTooth
-          tooth={toothNumber}
-          width={width}
-          positionMenu={positionMenu}
-          updateToothIds={updateToothIds}
-          handle={handle}
-          clearTooth={clearTooth}
-          onClose={() => setState(null)}
-          stateTeethChanged={stateTeethChanged}
-          toothNumber={toothNumber}
-          dataIds={dataIds}
-        />
-      )}
+        {
+          //region menu
+        }
+        {isActive && (
+          <MenuTooth
+            tooth={toothNumber}
+            width={width}
+            positionMenu={positionMenu}
+            updateToothIds={updateToothIds}
+            handle={handle}
+            clearTooth={clearTooth}
+            onClose={() => setState(null)}
+            stateTeethChanged={stateTeethChanged}
+            toothNumber={toothNumber}
+            dataIds={dataIds}
+          />
+        )}
+      </div>
     </div>
   );
 };

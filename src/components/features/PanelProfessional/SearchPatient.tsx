@@ -1,4 +1,8 @@
-import React, { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
+import React from "react";
+import Swal from "sweetalert2";
+
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { FaTrashAlt } from "react-icons/fa";
 import { FaRegEdit } from "react-icons/fa";
@@ -8,9 +12,8 @@ import { FaUserCircle } from "react-icons/fa";
 import { RiSave3Line } from "react-icons/ri";
 import { Button } from "@/components/ui/Button";
 import { SearchPatientProps } from "@/types/index";
-import Swal from "sweetalert2";
 
-export const SearchPatient: React.FC<SearchPatientProps> = ({
+export default function SearchPatient({
   handleFindPatient,
   editOdontogram,
   handleSave,
@@ -22,12 +25,13 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
   state,
   setState,
   handleCancel,
+  errorState,
+  setErrorState,
   changes,
-}) => {
+}: SearchPatientProps) {
   // region states y variables
   const [isEditing, setIsEditing] = useState(true);
   const [loader, setLoader] = useState(false);
-  const [errorState, setErrorState] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const [styleDisabled, setStyleDisabled] = useState(false);
 
@@ -35,19 +39,28 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
   const canEdit = hasValidPatient && !isEditing && !loader && !errorState;
 
   //region useEffects
+  useEffect(() => {
+    if (!data?.dni) {
+      setIsEditing(true);
+      setStyleDisabled(false);
+      setLoader(false);
+      inputRef.current?.focus();
+    }
+  }, [data]);
 
   // region functions
   function handleOnChangeDni(e: React.ChangeEvent<HTMLInputElement>) {
     setState(e.target.value);
-    setErrorState("");
+    setErrorState && setErrorState("");
   }
 
   function handleSearchPatient() {
     if (state.length === 0) {
-      setErrorState("Debe ingresar un DNI");
+      setErrorState && setErrorState("Debe ingresar un DNI");
       inputRef.current?.focus();
     } else if (!/^\d+$/.test(state)) {
-      setErrorState("El DNI debe ser numérico y sin punto. Ej: 12345678");
+      setErrorState &&
+        setErrorState("El DNI debe ser numérico y sin punto. Ej: 12345678");
       inputRef.current?.focus();
     } else {
       setLoader(true);
@@ -62,7 +75,7 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     if (state.length === 0) {
-      setErrorState("Debe ingresar un DNI");
+      setErrorState && setErrorState("Debe ingresar un DNI");
     } else if (e.key === "Enter") {
       handleSearchPatient();
     } else if (e.key === "Escape") {
@@ -71,7 +84,7 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
   }
 
   function handleEditInput() {
-    handleDeletePatient && handleDeletePatient();
+    if (!editOdontogram) handleDeletePatient?.();
     setIsEditing(true);
   }
 
@@ -104,7 +117,7 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
 
   //region return
   return (
-    <div className="flex flex-col w-full gap-1 ">
+    <div className="flex flex-col w-full gap-3 ">
       <div className="flex items-center justify-between w-full h-10 ">
         {!isEditing ? (
           <>
@@ -131,7 +144,13 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
                   <button
                     type="button"
                     onClick={handleEditInput}
-                    className="flex items-center justify-center h-8 px-2 py-1 text-red-500 transition-all duration-300 border border-gray-300 rounded bg-lightGray hover:bg-gray-200"
+                    disabled={editOdontogram}
+                    className={`h-8 px-2 py-1 border rounded bg-lightGray
+                    ${
+                      editOdontogram
+                        ? "text-gray-400 cursor-not-allowed"
+                        : "text-red-500 hover:bg-gray-200"
+                    }`}
                   >
                     <FaTrashAlt />
                   </button>
@@ -181,11 +200,12 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
                   className={`h-8 px-2 py-1 w-full bg-gray-200 font-bold rounded 
                 focus:outline-none text-blue
                 ${errorState && "border-red-500"}`}
+                  autoComplete="off"
                 />
               </div>
             </div>
 
-            {errorState && (
+            {errorState && errorState?.length > 0 && (
               <p className="text-xs font-bold text-red-500 w-72">
                 {errorState}
               </p>
@@ -198,9 +218,9 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
         //region data user
       }
       {!data?.nombre ? (
-        <div className="w-full h-20 bg-gray-200 rounded"></div>
+        <div className="w-full h-24 bg-gray-200 rounded"></div>
       ) : (
-        <div className="flex items-center justify-center w-full h-20 gap-1 bg-white border rounded border-green">
+        <div className="flex items-center justify-center w-full h-24 gap-1 bg-white border rounded border-green">
           <div className="flex items-center justify-end w-40 h-full">
             <FaUserCircle className="w-full h-16 text-greenHover" />
           </div>
@@ -252,48 +272,51 @@ export const SearchPatient: React.FC<SearchPatientProps> = ({
       {
         //region botones
       }
-      <div className="flex items-center justify-end w-full h-10 ">
-        {odontogram ? (
+      {odontogram ? (
+        <div className="flex items-center justify-end w-full h-10 ">
           <Button
             label="agregar consulta"
             icon={<IoMdAdd />}
             disabledButton={!canEdit}
             handle={() => setStateModal && setStateModal(true)}
-          />
-        ) : (
-          <div className="flex items-center justify-end w-auto h-16 gap-2 px-2 py-1">
+          />{" "}
+        </div>
+      ) : null}
+      {!odontogram ? (
+        <div className="w-full">
+          <div className="absolute bottom-0 right-0 flex items-center gap-2 p-2 ">
             {editOdontogram ? (
-              <>
+              <div className="flex flex-col gap-2">
                 <button
                   onClick={handleSave}
-                  className="flex items-center justify-center h-8 gap-1 px-2 py-1 text-white capitalize rounded bg-green hover:bg-greenHover"
+                  className="flex items-center justify-center w-32 h-8 gap-1 px-2 py-1 text-white capitalize rounded bg-green hover:bg-greenHover"
                 >
                   <RiSave3Line />
                   guardar
                 </button>
                 <button
                   onClick={handleCancelButton}
-                  className="flex items-center justify-center h-8 gap-1 px-2 py-1 text-white capitalize bg-red-500 rounded hover:bg-red-600"
+                  className="flex items-center justify-center w-32 h-8 gap-1 px-2 py-1 text-white capitalize bg-red-500 rounded hover:bg-red-600"
                 >
                   <MdCancel /> cancelar
                 </button>
-              </>
+              </div>
             ) : (
               <button
                 onClick={() => setEditOdontogram && setEditOdontogram(true)}
                 disabled={!canEdit}
-                className={`h-8 px-2 py-1 flex items-center gap-1 justify-center text-white capitalize rounded w-48   ${
+                className={`h-8 px-2 py-1 flex items-center gap-1 justify-center text-white capitalize rounded w-32   ${
                   !canEdit
                     ? "bg-gray-400 cursor-not-allowed"
                     : "bg-green hover:bg-greenHover"
                 }`}
               >
-                <FaRegEdit /> editar odontograma
+                <FaRegEdit /> editar
               </button>
             )}
           </div>
-        )}
-      </div>
+        </div>
+      ) : null}
     </div>
   );
-};
+}

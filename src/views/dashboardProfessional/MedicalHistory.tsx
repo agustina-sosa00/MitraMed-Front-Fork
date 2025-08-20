@@ -8,13 +8,13 @@ import Swal from "sweetalert2";
 
 import { TablaDefault } from "@/frontend-resourses/components";
 import { Modal } from "@/components/ui/Modal";
-import { SearchPatient } from "@/components/features/PanelProfessional/SearchPatient";
 import { FormUploadHistory } from "@/components/features/PanelProfessional/FormUploadHistory";
 import { ContainView } from "@/components/features/PanelProfessional/ContainView";
 import { getDataDropbox, getTokenDropbox } from "@/services/dropboxServices";
 import { useMedicalHistoryContext } from "../../context/MedicalHistoryContext";
 import { useContextDropbox } from "../../context/DropboxContext";
 
+import SearchPatient from "@/components/features/PanelProfessional/SearchPatient";
 import getDataMedicalHistory from "@/services/ProfessionalService";
 
 export default function MedicalHistory() {

@@ -97,7 +97,7 @@ export const MenuTooth: React.FC<MenuToothProps> = ({
   //region return
   return (
     <div
-      className="absolute z-50 flex flex-col bg-white border border-gray-300 rounded w-52"
+      className="fixed z-50 flex flex-col bg-white border border-gray-300 rounded w-52"
       style={{ top: positionMenu.y, left: positionMenu.x }}
     >
       {

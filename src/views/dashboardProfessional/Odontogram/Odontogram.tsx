@@ -5,7 +5,6 @@ import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 
 import { ContainView } from "@/components/features/PanelProfessional/ContainView";
-import { SearchPatient } from "@/components/features/PanelProfessional/SearchPatient";
 import { Tooth } from "./Tooth";
 import { ModalSelectFaceTooth } from "./ModalSelectFaceTooth";
 import { box, ID_CARA_BY_NAME } from "../../../utils/odontogram.lookups";
@@ -21,6 +20,7 @@ import {
   postSaveOdontogram,
 } from "@/services/odontogramServices";
 import { useOdontogramContext } from "../../../context/OdontogramContext";
+import SearchPatient from "@/components/features/PanelProfessional/SearchPatient";
 
 export default function Odontogram() {
   //region cookies
@@ -34,7 +34,10 @@ export default function Odontogram() {
   const [openMenu, setOpenMenu] = useState(false);
   const [toothSelect, setToothSelect] = useState(0);
   const [teethIdsState, setTeethIdsState] = useState<TeethIdsState>({});
+  console.log("guardados", teethIdsState);
+
   const [teethChanged, setTeethChanged] = useState<ToothChangeTuple[]>([]);
+  console.log("cambiados", teethChanged);
   const [infoUser, setInfoUser] = useState<InfoUser>({
     code: 0,
     data: {
@@ -57,6 +60,8 @@ export default function Odontogram() {
   const [dniPatient, setDniPatient] = useState("");
   // const [showButtons, setShowButtons] = useState(false);
   const [editOdontogram, setEditOdontogram] = useState(false);
+  const [errorState, setErrorState] = useState("");
+  console.log(errorState);
   const infoUserEmpty: InfoUser = {
     code: 0,
     data: {
@@ -81,6 +86,14 @@ export default function Odontogram() {
   const { mutate: mutateFindPatient } = useMutation({
     mutationFn: getOdontogram,
     onSuccess: (data: typeof infoUser) => {
+      console.log(data);
+      if (data?.data === null) {
+        setErrorState(data?.message || "Paciente inexistente");
+        setInfoUser(infoUserEmpty);
+        setTeethIdsState({});
+        setOriginalData({});
+        return;
+      }
       setInfoUser(data);
       const raw = (data?.data?.odontograma || []) as RawRow[];
       setTeethIdsState(buildIdsState(raw));
@@ -100,6 +113,7 @@ export default function Odontogram() {
           confirmButtonColor: "#518915",
         });
         setEditOdontogram(false);
+        getOdontogram({ dni: dniPatient });
       }
     },
     onError: (err) => console.log(err),
@@ -107,9 +121,51 @@ export default function Odontogram() {
 
   //region useEffect
   useEffect(() => {
-    window.addEventListener("keydown", handleEsc);
-    return () => window.removeEventListener("keydown", handleEsc);
-  }, []);
+    async function onKey(e: KeyboardEvent) {
+      if (e.key !== "Escape") return;
+
+      if (contextMenu !== null) {
+        setContextMenu(null);
+        return;
+      }
+
+      if (openMenu) {
+        setOpenMenu(false);
+        return;
+      }
+
+      if (editOdontogram) {
+        if (teethChanged.length > 0) {
+          const res = await Swal.fire({
+            title: "Hay cambios sin guardar",
+            icon: "warning",
+            showCancelButton: true,
+            showDenyButton: true,
+            confirmButtonText: "Guardar",
+            denyButtonText: "Descartar",
+            cancelButtonText: "Seguir editando",
+            confirmButtonColor: "#518915",
+            denyButtonColor: "#d33",
+            cancelButtonColor: "#022539",
+          });
+
+          if (res.isConfirmed) {
+            handleSave();
+          } else if (res.isDenied) {
+            handleCancelEdit();
+          }
+        } else {
+          setEditOdontogram(false);
+        }
+        return;
+      }
+
+      handleDeletePatient();
+    }
+
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [openMenu, editOdontogram, teethChanged.length, contextMenu]);
 
   //region function
 
@@ -151,23 +207,18 @@ export default function Odontogram() {
     setInfoUser(infoUserEmpty);
   }
 
-  function handleEsc(e: KeyboardEvent) {
-    if (e.key !== "Escape") return;
-    setContextMenu(null);
-    setOpenMenu(false);
-  }
-
   //region return
   return (
     <ContainView
       title="Odontograma"
       padding="py-3"
-      gapChildren="gap-2"
+      gapChildren="gap-3"
       sizeTitle="text-3xl"
+      classContainer="relative"
       onClick={() => setContextMenu(null)}
     >
       {idProfesional !== "3" && (
-        <div className="flex items-end justify-between w-full gap-1 min-h-20 ">
+        <div className="flex items-end justify-between w-full gap-1 min-h-20">
           <SearchPatient
             data={infoUser?.data?.paciente || {}}
             handleDeletePatient={handleDeletePatient}
@@ -182,9 +233,12 @@ export default function Odontogram() {
             handleSave={handleSave}
             handleCancel={handleCancelEdit}
             changes={Boolean(teethChanged.length)}
+            errorState={errorState}
+            setErrorState={setErrorState}
           />
         </div>
       )}
+
       <div className="w-full my-2 border border-gray-300"></div>
       <div className="flex flex-wrap w-full ">
         {box.slice(0, 4).map((box) => (

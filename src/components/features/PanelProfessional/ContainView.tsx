@@ -7,6 +7,7 @@ interface IProp {
   padding?: string;
   gapChildren?: string;
   sizeTitle?: string;
+  classContainer?: string;
 }
 
 export const ContainView: React.FC<IProp> = ({
@@ -16,12 +17,13 @@ export const ContainView: React.FC<IProp> = ({
   padding,
   gapChildren,
   sizeTitle,
+  classContainer,
 }) => {
   return (
     <div
       className={`flex flex-col items-center w-full min-h-screen gap-5  overflow-y-auto ${
         padding ? padding : "px-5 py-20"
-      } `}
+      }`}
       onClick={onClick}
     >
       <div
@@ -37,7 +39,9 @@ export const ContainView: React.FC<IProp> = ({
           {title}
         </h1>
         <div className="w-full border border-gray-300"></div>
-        <div className="flex flex-col items-center justify-center w-full ">
+        <div
+          className={`flex flex-col items-center justify-center w-full  ${classContainer} `}
+        >
           {children}
         </div>
       </div>
