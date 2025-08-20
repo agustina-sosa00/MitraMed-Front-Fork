@@ -152,4 +152,5 @@ export interface SearchPatientProps {
   handleSave?: () => void;
   handleCancel?: () => void;
   handleDeletePatient?: () => void;
+  changes?: boolean;
 }

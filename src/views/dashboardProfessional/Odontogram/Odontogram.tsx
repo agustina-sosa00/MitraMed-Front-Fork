@@ -161,8 +161,9 @@ export default function Odontogram() {
   return (
     <ContainView
       title="Odontograma"
-      padding="py-5"
-      gapChildren="gap-0"
+      padding="py-3"
+      gapChildren="gap-2"
+      sizeTitle="text-3xl"
       onClick={() => setContextMenu(null)}
     >
       {idProfesional !== "3" && (
@@ -180,25 +181,32 @@ export default function Odontogram() {
             setEditOdontogram={setEditOdontogram}
             handleSave={handleSave}
             handleCancel={handleCancelEdit}
+            changes={Boolean(teethChanged.length)}
           />
         </div>
       )}
-      <div className="flex flex-wrap w-full h-1/2">
+      <div className="w-full my-2 border border-gray-300"></div>
+      <div className="flex flex-wrap w-full ">
         {box.slice(0, 4).map((box) => (
           <div
             key={box.name}
-            className={`w-1/2 h-1/2 p-2 gap-1  ${
+            className={`w-1/2 h-1/2 p-1 gap-1  ${
               box.name.includes("arriba") ? "border-b" : "border-t"
             } ${
               box.ladoVisual === "izquierda"
-                ? "border-r flex flex-row-reverse items-end"
+                ? "border-r flex  justify-end"
                 : "border-l flex items-end"
             } justify-start ${
               editOdontogram ? "border-gray-400" : "border-gray-300"
             }`}
           >
             {box.numbers.map((toothNumber) => (
-              <div key={toothNumber} className="flex flex-col items-center">
+              <div
+                key={toothNumber}
+                className={`flex  items-center ${
+                  box.name.includes("abajo") ? "flex-col-reverse" : "flex-col"
+                }`}
+              >
                 <p
                   className={`text-xs  ${
                     editOdontogram ? "text-[#6e6d6d]" : "text-[#b6b5b5]"
@@ -243,14 +251,19 @@ export default function Odontogram() {
               box.name.includes("arriba") ? "border-b" : "border-t"
             } ${
               box.ladoVisual === "izquierda"
-                ? "border-r flex flex-row-reverse items-start"
+                ? "border-r flex  justify-end"
                 : "border-l flex items-start"
             } justify-start ${
               editOdontogram ? "border-gray-400" : "border-gray-300"
             } `}
           >
             {box.numbers.map((toothNumber) => (
-              <div key={toothNumber} className="flex flex-col items-center">
+              <div
+                key={toothNumber}
+                className={`flex  items-center ${
+                  box.name.includes("abajo") ? "flex-col-reverse" : "flex-col"
+                }`}
+              >
                 <p
                   className={`text-xs  ${
                     editOdontogram ? "text-[#6e6d6d]" : "text-[#b6b5b5]"

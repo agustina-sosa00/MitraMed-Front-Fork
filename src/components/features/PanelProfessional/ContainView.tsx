@@ -6,6 +6,7 @@ interface IProp {
   onClick?: React.MouseEventHandler<HTMLDivElement>;
   padding?: string;
   gapChildren?: string;
+  sizeTitle?: string;
 }
 
 export const ContainView: React.FC<IProp> = ({
@@ -14,6 +15,7 @@ export const ContainView: React.FC<IProp> = ({
   onClick,
   padding,
   gapChildren,
+  sizeTitle,
 }) => {
   return (
     <div
@@ -27,10 +29,14 @@ export const ContainView: React.FC<IProp> = ({
           gapChildren ? gapChildren : "gap-5"
         }`}
       >
-        <h1 className="text-2xl font-medium uppercase lg:text-4xl text-green">
+        <h1
+          className={` font-medium uppercase  text-green ${
+            sizeTitle ? sizeTitle : "text-2xl lg:text-4xl"
+          } `}
+        >
           {title}
         </h1>
-
+        <div className="w-full border border-gray-300"></div>
         <div className="flex flex-col items-center justify-center w-full ">
           {children}
         </div>
