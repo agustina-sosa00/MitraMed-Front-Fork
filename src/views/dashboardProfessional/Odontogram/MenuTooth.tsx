@@ -100,85 +100,85 @@ export const MenuTooth: React.FC<MenuToothProps> = ({
       className="fixed z-50 flex flex-col bg-white border border-gray-300 rounded w-52"
       style={{ top: positionMenu.y, left: positionMenu.x }}
     >
-      {
-        //region realizado
-      }
-      <div
-        className="relative"
-        onMouseEnter={() => setOpenSubMenu("realizado")}
-        onMouseLeave={() => setOpenSubMenu(null)}
-      >
+      <div className="relative">
+        {
+          //region realizado
+        }
         <div
-          className={`flex items-center justify-between w-full px-3 py-2 text-sm rounded-t cursor-pointer text-blue hover:text-white hover:bg-green ${
-            openSubMenu === "realizado" ? "bg-green text-white" : ""
-          }`}
+          onMouseEnter={() => setOpenSubMenu("realizado")}
+          onMouseLeave={() => setOpenSubMenu(null)}
         >
-          Realizado <IoIosArrowDown className="-rotate-90" />
+          <div
+            className={`flex items-center justify-between w-full px-3 py-2 text-sm rounded-t cursor-pointer text-blue hover:text-white transition-all duration-300 hover:bg-green ${
+              openSubMenu === "realizado" ? "bg-green text-white" : ""
+            }`}
+          >
+            Realizado <IoIosArrowDown className="-rotate-90" />
+          </div>
+
+          {openSubMenu === "realizado" && (
+            <div
+              className={`absolute bottom-0 ${
+                width ? "left-full" : "right-full"
+              } bg-white shadow`}
+            >
+              {ITEMS.map((it) => (
+                <button
+                  key={it.base}
+                  className="block px-3 py-2 text-sm text-left transition-all duration-300 w-44 hover:bg-green hover:text-white"
+                  onClick={() => pick(it.base, "realizado")}
+                >
+                  {it.label}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
-        {openSubMenu === "realizado" && (
-          <div
-            className={`absolute top-0 ${
-              width ? "left-full" : "right-full"
-            } bg-white shadow`}
-          >
-            {ITEMS.map((it) => (
-              <button
-                key={it.base}
-                className="block w-44 px-3 py-2 text-left text-sm hover:bg-[#eeeeee]"
-                onClick={() => pick(it.base, "realizado")}
-              >
-                {it.label}
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {
-        //region a realizar
-      }
-      <div
-        className="relative"
-        onMouseEnter={() => setOpenSubMenu("a realizar")}
-        onMouseLeave={() => setOpenSubMenu(null)}
-      >
+        {
+          //region a realizar
+        }
         <div
-          className={`flex items-center justify-between w-full px-3 py-2 text-sm cursor-pointer text-blue hover:text-white hover:bg-green ${
-            openSubMenu === "a realizar" ? "bg-green text-white" : ""
-          }`}
+          onMouseEnter={() => setOpenSubMenu("a realizar")}
+          onMouseLeave={() => setOpenSubMenu(null)}
         >
-          A realizar <IoIosArrowDown className="-rotate-90" />
+          <div
+            className={`flex items-center justify-between w-full px-3 py-2 text-sm cursor-pointer text-blue transition-all duration-300 hover:text-white hover:bg-green ${
+              openSubMenu === "a realizar" ? "bg-green text-white" : ""
+            }`}
+          >
+            A realizar <IoIosArrowDown className="-rotate-90" />
+          </div>
+
+          {openSubMenu === "a realizar" && (
+            <div
+              className={`absolute bottom-0 ${
+                width ? "left-full" : "right-full"
+              } bg-white shadow`}
+            >
+              {ITEMS.map((it) => (
+                <button
+                  key={it.base}
+                  className="block px-3 py-2 text-sm text-left transition-all duration-300 w-44 hover:bg-green hover:text-white"
+                  onClick={() => pick(it.base, "a realizar")}
+                >
+                  {it.label}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
-        {openSubMenu === "a realizar" && (
-          <div
-            className={`absolute top-0 ${
-              width ? "left-full" : "right-full"
-            } bg-white shadow`}
-          >
-            {ITEMS.map((it) => (
-              <button
-                key={it.base}
-                className="block w-44 px-3 py-2 text-left text-sm hover:bg-[#eeeeee]"
-                onClick={() => pick(it.base, "a realizar")}
-              >
-                {it.label}
-              </button>
-            ))}
-          </div>
-        )}
+        {
+          //region limpiar
+        }
+        <button
+          className="flex items-center justify-between w-full px-3 py-2 text-sm text-red-600 transition-all duration-300 rounded-b hover:bg-red-600 hover:text-white"
+          onClick={handleClear}
+        >
+          Limpiar diente <LuEraser />
+        </button>
       </div>
-
-      {
-        //region limpiar
-      }
-      <button
-        className="flex items-center justify-between w-full px-3 py-2 text-sm rounded-b text-red-600 hover:bg-[#dddddd]"
-        onClick={handleClear}
-      >
-        Limpiar diente <LuEraser />
-      </button>
     </div>
   );
 };

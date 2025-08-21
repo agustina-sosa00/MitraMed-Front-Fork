@@ -28,6 +28,7 @@ export default function SearchPatient({
   errorState,
   setErrorState,
   changes,
+  isActive,
 }: SearchPatientProps) {
   // region states y variables
   const [isEditing, setIsEditing] = useState(true);
@@ -289,6 +290,7 @@ export default function SearchPatient({
             {editOdontogram ? (
               <div className="flex flex-col gap-2">
                 <button
+                  disabled={isActive}
                   onClick={handleSave}
                   className="flex items-center justify-center w-32 h-8 gap-1 px-2 py-1 text-white capitalize rounded bg-green hover:bg-greenHover"
                 >
@@ -296,6 +298,7 @@ export default function SearchPatient({
                   guardar
                 </button>
                 <button
+                  disabled={isActive}
                   onClick={handleCancelButton}
                   className="flex items-center justify-center w-32 h-8 gap-1 px-2 py-1 text-white capitalize bg-red-500 rounded hover:bg-red-600"
                 >
@@ -304,8 +307,8 @@ export default function SearchPatient({
               </div>
             ) : (
               <button
-                onClick={() => setEditOdontogram && setEditOdontogram(true)}
                 disabled={!canEdit}
+                onClick={() => setEditOdontogram && setEditOdontogram(true)}
                 className={`h-8 px-2 py-1 flex items-center gap-1 justify-center text-white capitalize rounded w-32   ${
                   !canEdit
                     ? "bg-gray-400 cursor-not-allowed"

@@ -155,4 +155,5 @@ export interface SearchPatientProps {
   changes?: boolean;
   errorState?: string;
   setErrorState?: (arg: string) => void;
+  isActive?: boolean;
 }

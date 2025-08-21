@@ -117,9 +117,8 @@ export default function Odontogram() {
     onSuccess: (data: { status: string }) => {
       if (data.status === "success") {
         setTeethChanged([]);
-
         setEditOdontogram(false);
-        getOdontogram({ dni: dniPatient });
+        handleFindPatient(dniOdontogram);
       }
     },
     onError: (err) => console.log(err),
@@ -241,6 +240,7 @@ export default function Odontogram() {
             changes={Boolean(teethChanged.length)}
             errorState={errorState}
             setErrorState={setErrorState}
+            isActive={editOdontogram && contextMenu === toothSelect}
           />
         </div>
       )}
