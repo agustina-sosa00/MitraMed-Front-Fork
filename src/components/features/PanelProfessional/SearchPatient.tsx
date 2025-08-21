@@ -129,7 +129,7 @@ export default function SearchPatient({
                   <label className="text-sm font-bold capitalize text-green">
                     Ingresar DNI:
                   </label>
-                  <div className="flex w-56 ">
+                  <div className="flex gap-1 w-36">
                     <div
                       className={`h-8 px-2 py-1 flex items-center gap-2 font-bold border  border-gray-300 rounded w-full bg-lightGray focus:outline-none  ${
                         styleDisabled
@@ -137,23 +137,23 @@ export default function SearchPatient({
                           : "text-blue"
                       }`}
                     >
-                      <FaMagnifyingGlass className="w-3 h-3" />
                       {state}
                     </div>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={handleEditInput}
-                    disabled={editOdontogram}
-                    className={`h-8 px-2 py-1 border rounded bg-lightGray
+                    {/* <FaMagnifyingGlass className="w-3 h-3" /> */}
+                    <button
+                      type="button"
+                      onClick={handleEditInput}
+                      disabled={editOdontogram}
+                      className={`h-8 px-2 py-1 border rounded bg-lightGray
                     ${
                       editOdontogram
                         ? "text-gray-400 cursor-not-allowed"
                         : "text-red-500 hover:bg-gray-200"
                     }`}
-                  >
-                    <FaTrashAlt />
-                  </button>
+                    >
+                      <FaTrashAlt />
+                    </button>
+                  </div>
                 </div>
               </div>
             )}
@@ -167,11 +167,24 @@ export default function SearchPatient({
               <label className="text-sm font-bold capitalize text-green">
                 Ingresar DNI:
               </label>
-              <div className="flex w-56 bg-gray-200 border border-gray-300 rounded focus-within:border-green focus-within:ring-1 focus-within:ring-green">
+              <div className="flex gap-1 w-36 ">
+                <input
+                  ref={inputRef}
+                  type="text"
+                  name="dni"
+                  value={state}
+                  onChange={handleOnChangeDni}
+                  onKeyDown={handleKeyDown}
+                  autoFocus
+                  className={`h-8 px-2 py-1 w-full bg-gray-200 font-bold rounded 
+                focus:outline-none text-blue focus-within:border-green focus-within:ring-1 focus-within:ring-green
+                ${errorState && "border-red-500"}`}
+                  autoComplete="off"
+                />
                 <button
                   type="button"
                   onClick={handleSearchPatient}
-                  className="flex items-center justify-center px-2 py-1 transition-all duration-300 rounded-l w-7 text-greenHover "
+                  className="flex items-center justify-center w-8 h-8 px-2 py-1 transition-all duration-300 bg-gray-200 border border-gray-300 rounded text-greenHover hover:text-white hover:bg-greenHover hover:border-green "
                 >
                   {loader ? (
                     <svg
@@ -189,26 +202,11 @@ export default function SearchPatient({
                     <FaMagnifyingGlass />
                   )}
                 </button>
-                <input
-                  ref={inputRef}
-                  type="text"
-                  name="dni"
-                  value={state}
-                  onChange={handleOnChangeDni}
-                  onKeyDown={handleKeyDown}
-                  autoFocus
-                  className={`h-8 px-2 py-1 w-full bg-gray-200 font-bold rounded 
-                focus:outline-none text-blue
-                ${errorState && "border-red-500"}`}
-                  autoComplete="off"
-                />
               </div>
             </div>
 
             {errorState && errorState?.length > 0 && (
-              <p className="text-xs font-bold text-red-500 w-72">
-                {errorState}
-              </p>
+              <p className="text-xs font-bold text-red-500 ">{errorState}</p>
             )}
           </div>
         )}

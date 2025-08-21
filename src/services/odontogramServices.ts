@@ -1,5 +1,10 @@
 import { apiPhp } from "@/lib/axiosPhp";
 import { ToothChangeTuple } from "../types";
+import axios, { AxiosError } from "axios";
+interface BackendError {
+  message?: string;
+  error?: string;
+}
 
 export async function getOdontogram({ dni }: { dni: string }) {
   try {
@@ -8,7 +13,26 @@ export async function getOdontogram({ dni }: { dni: string }) {
     );
     return response.data;
   } catch (error) {
-    throw new Error(`Error obteniendo datos del odontograma: ${error}`);
+    let msg = "Error obteniendo datos del odontograma, pruebe con otro DNI";
+
+    if (axios.isAxiosError<BackendError>(error)) {
+      const err = error as AxiosError<BackendError>;
+      const st = err.response?.status;
+      const stText = err.response?.statusText;
+
+      // 👉 Si el status es 405, forzar mensaje fijo
+      if (st === 405) {
+        msg = "Error obteniendo datos del odontograma, pruebe con otro DNI";
+      } else {
+        const backendMsg =
+          err.response?.data?.message || err.response?.data?.error;
+        if (backendMsg) msg = backendMsg;
+        else if (st) msg = `${st} ${stText ?? ""}`.trim();
+        else if (err.message) msg = err.message;
+      }
+    }
+
+    throw new Error(msg);
   }
 }
 

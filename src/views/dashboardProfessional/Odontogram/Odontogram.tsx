@@ -87,6 +87,7 @@ export default function Odontogram() {
     mutationFn: getOdontogram,
     onSuccess: (data: typeof infoUser) => {
       console.log(data);
+      setErrorState("");
       if (data?.data === null) {
         setErrorState(data?.message || "Paciente inexistente");
         setInfoUser(infoUserEmpty);
@@ -99,7 +100,16 @@ export default function Odontogram() {
       setTeethIdsState(buildIdsState(raw));
       setOriginalData(buildIdsState(raw));
     },
-    onError: (err) => console.log(err),
+    onError: (err: unknown) => {
+      const msg =
+        err instanceof Error
+          ? err.message
+          : "Error obteniendo datos del odontograma, pruebe con otro DNI";
+      setErrorState(msg);
+      setInfoUser(infoUserEmpty);
+      setTeethIdsState({});
+      setOriginalData({});
+    },
   });
 
   const { mutate: mutateSaveOdontogram } = useMutation({
@@ -107,11 +117,7 @@ export default function Odontogram() {
     onSuccess: (data: { status: string }) => {
       if (data.status === "success") {
         setTeethChanged([]);
-        Swal.fire({
-          icon: "success",
-          title: "Cambios guardados con éxito",
-          confirmButtonColor: "#518915",
-        });
+
         setEditOdontogram(false);
         getOdontogram({ dni: dniPatient });
       }
