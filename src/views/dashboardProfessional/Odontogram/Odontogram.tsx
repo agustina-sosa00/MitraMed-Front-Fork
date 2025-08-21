@@ -34,10 +34,8 @@ export default function Odontogram() {
   const [openMenu, setOpenMenu] = useState(false);
   const [toothSelect, setToothSelect] = useState(0);
   const [teethIdsState, setTeethIdsState] = useState<TeethIdsState>({});
-  console.log("guardados", teethIdsState);
 
   const [teethChanged, setTeethChanged] = useState<ToothChangeTuple[]>([]);
-  console.log("cambiados", teethChanged);
   const [infoUser, setInfoUser] = useState<InfoUser>({
     code: 0,
     data: {
@@ -61,7 +59,6 @@ export default function Odontogram() {
   // const [showButtons, setShowButtons] = useState(false);
   const [editOdontogram, setEditOdontogram] = useState(false);
   const [errorState, setErrorState] = useState("");
-  console.log(errorState);
   const infoUserEmpty: InfoUser = {
     code: 0,
     data: {
@@ -86,7 +83,6 @@ export default function Odontogram() {
   const { mutate: mutateFindPatient } = useMutation({
     mutationFn: getOdontogram,
     onSuccess: (data: typeof infoUser) => {
-      console.log(data);
       setErrorState("");
       if (data?.data === null) {
         setErrorState(data?.message || "Paciente inexistente");
@@ -141,24 +137,24 @@ export default function Odontogram() {
 
       if (editOdontogram) {
         if (teethChanged.length > 0) {
-          const res = await Swal.fire({
+          Swal.fire({
             title: "Hay cambios sin guardar",
             icon: "warning",
+            text: "¿Desea salir sin guardar los cambios?",
             showCancelButton: true,
-            showDenyButton: true,
-            confirmButtonText: "Guardar",
-            denyButtonText: "Descartar",
-            cancelButtonText: "Seguir editando",
             confirmButtonColor: "#518915",
-            denyButtonColor: "#d33",
             cancelButtonColor: "#022539",
-          });
-
-          if (res.isConfirmed) {
-            handleSave();
-          } else if (res.isDenied) {
-            handleCancelEdit();
-          }
+            confirmButtonText: "Aceptar",
+            cancelButtonText: "Seguir editando",
+          })
+            .then((result) => {
+              if (result.isConfirmed) {
+                handleCancelEdit && handleCancelEdit();
+              }
+            })
+            .catch((error) => {
+              console.error("Error al mostrar la alerta:", error);
+            });
         } else {
           setEditOdontogram(false);
         }
