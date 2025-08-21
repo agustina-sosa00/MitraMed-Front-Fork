@@ -85,7 +85,7 @@ export const Tooth: React.FC<ToothV2Props> = ({
   //region return
   return (
     <div onContextMenu={handleContextMenu}>
-      <div className="!relative">
+      <div className="!relative ">
         {dataIds.length > 0 && (
           <div className="absolute w-8 h-8 lg:h-14 lg:w-14 xl:w-16 xl:h-16">
             {dataIds.map(([idcara, idtrat, hab], idx) => {
@@ -155,7 +155,7 @@ export const Tooth: React.FC<ToothV2Props> = ({
         }
         <svg
           viewBox="0 0 28 33"
-          className="w-8 h-8 lg:h-14 lg:w-14 xl:w-16 xl:h-16"
+          className="w-10 h-10 lg2:w-12 lg2:h-12 lg3:w-14 lg3:h-14 xl:w-16 xl:h-16"
         >
           {/* VESIBULAR */}
           <polygon

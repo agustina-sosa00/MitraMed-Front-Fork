@@ -216,9 +216,9 @@ export default function Odontogram() {
   return (
     <ContainView
       title="Odontograma"
-      padding="py-3"
+      padding="py-3 2xl:py-20"
       gapChildren="gap-3"
-      sizeTitle="text-3xl"
+      sizeTitle="text-3xl 2xl:text-4xl"
       classContainer="relative"
       onClick={() => setContextMenu(null)}
     >
