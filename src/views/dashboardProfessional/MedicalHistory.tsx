@@ -1,86 +1,56 @@
-import React, { useEffect, useState } from "react";
-import { SearchPatient } from "@/components/features/PanelProfessional/SearchPatient";
-import { FormUploadHistory } from "@/components/features/PanelProfessional/FormUploadHistory";
-import { TablaDefault } from "@/frontend-resourses/components";
-import Cookies from "js-cookie";
-import Swal from "sweetalert2";
-// import { dataPatientHc } from "../../mock/arrayTableProfessional";
-import { useMutation } from "@tanstack/react-query";
-import { getDataDropbox, getTokenDropbox } from "@/services/dropboxServices";
-import { useContextDropbox } from "../../context/DropboxContext";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+
+import Cookies from "js-cookie";
+
+import Swal from "sweetalert2";
+
+import { TablaDefault } from "@/frontend-resourses/components";
 import { Modal } from "@/components/ui/Modal";
-import { useMedicalHistoryContext } from "../../context/MedicalHistoryContext";
+import { FormUploadHistory } from "@/components/features/PanelProfessional/FormUploadHistory";
 import { ContainView } from "@/components/features/PanelProfessional/ContainView";
+import { getDataDropbox, getTokenDropbox } from "@/services/dropboxServices";
+import { useMedicalHistoryContext } from "../../context/MedicalHistoryContext";
+import { useContextDropbox } from "../../context/DropboxContext";
 
-export const MedicalHistory: React.FC = () => {
-  // ---------------------------------------------------------
-  // ---------------------------------------------------------
-  // -------------------- T O K E N---------------------------
-  // ---------------------------------------------------------
+import SearchPatient from "@/components/features/PanelProfessional/SearchPatient";
+import getDataMedicalHistory from "@/services/ProfessionalService";
+
+export default function MedicalHistory() {
+  // region context
   const { setToken, setFolder } = useContextDropbox();
-
   const {
     historyContext,
     setHistoryContext,
     hc,
     setHc,
-    numHistory,
-    setNumHistory,
+    dniHistory,
+    setDniHistory,
   } = useMedicalHistoryContext();
-  // data profesional
+  // region states, variables y cookies
   const infoProfessional = Cookies.get("dataProfessional");
   const [showData, setShowData] = useState<boolean>(false);
-
   const [focusState, setFocusState] = useState(false);
-
-  // state para guardar data de getDataDropbox
   const [dataDropbox, setDataDropbox] = useState({
     app_id: "",
     app_secret: "",
     refresh_token: "",
     nfolder: "",
-  });
-
+  }); //states para la data de dropbox
   const [showModal, setShowModal] = useState<boolean>(false);
-
-  // sortedData es un array que acomoda el objeto mas reciente al principio del array
+  const [dataUser, setDataUser] = useState({});
   const sortedData = [...historyContext].sort(
     (a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime()
-  );
+  ); // sortedData es un array que acomoda el objeto mas reciente al principio del array
 
-  const handleFindPatient = (hc: string) => {
-    if (numHistory.length === 0) {
-      setHc(true);
-    } else {
-      setHc(false);
-      setNumHistory(hc);
-      setShowData(!showData);
-    }
-  };
-
-  const handleOnFocusInput = () => {
-    if (numHistory.length === 0) {
-      setFocusState(true);
-      Swal.fire({
-        icon: "warning",
-        title: `Antes de completar , debe ingresar un número de historia clínica`,
-        confirmButtonText: "Aceptar",
-        confirmButtonColor: "#518915",
-      });
-    } else {
-      setFocusState(false);
-    }
-  };
-
-  // ------------------------------------------ ----------
+  //region mutates
   const { mutate: mutateGetDataDropbox } = useMutation({
     mutationFn: getDataDropbox,
     onError: (error) => {
       console.error(error);
     },
     onSuccess: (data) => {
-      console.log("data", data);
       setDataDropbox(data.data[0]);
       setFolder(data.data[0].nfolder);
     },
@@ -96,6 +66,17 @@ export const MedicalHistory: React.FC = () => {
     },
   });
 
+  const { mutate: mutateGetDataMedicalHistory } = useMutation({
+    mutationFn: getDataMedicalHistory,
+    onError: (error) => {
+      console.error(error);
+    },
+    onSuccess: (data) => {
+      setDataUser(data.data.paciente);
+    },
+  });
+
+  //region useEffect
   useEffect(() => {
     mutateGetDataDropbox();
   }, []);
@@ -114,18 +95,47 @@ export const MedicalHistory: React.FC = () => {
     }
   }, [dataDropbox]);
 
+  //region functions
+  function handleFindPatient(hc: string) {
+    if (dniHistory.length === 0) {
+      setHc(true);
+    } else {
+      mutateGetDataMedicalHistory({ dni: hc });
+      setHc(false);
+      setDniHistory(hc);
+      setShowData(!showData);
+    }
+  }
+
+  function handleOnFocusInput() {
+    if (dniHistory.length === 0) {
+      setFocusState(true);
+      Swal.fire({
+        icon: "warning",
+        title: `Antes de completar , debe ingresar un número de historia clínica`,
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#518915",
+      });
+    } else {
+      setFocusState(false);
+    }
+  }
+
+  //region return
   return (
-    <ContainView title="Historial médico">
-      <div className="flex items-center justify-start w-full gap-1 px-16 py-1 min-h-24 ">
+    <ContainView title="Historial médico" padding="py-5">
+      <div className="flex items-center justify-start w-full gap-1 py-1 min-h-24 ">
         <SearchPatient
           noHc={hc}
-          data={{}}
-          labelSearch={"HC"}
+          data={dataUser || {}}
+          labelSearch={"dni"}
           showData={showData}
           handleFindPatient={handleFindPatient}
           viewImg={false}
           setStateModal={setShowModal}
           odontogram={true}
+          state={dniHistory}
+          setState={setDniHistory}
         />
       </div>
       <div className="flex justify-center w-full pt-5 overflow-x-auto min-h-80">
@@ -189,7 +199,7 @@ export const MedicalHistory: React.FC = () => {
           <FormUploadHistory
             handle={handleOnFocusInput}
             infoProfessional={JSON.parse(infoProfessional!)}
-            hc={numHistory}
+            hc={dniHistory}
             setState={setHistoryContext}
             focusState={focusState}
             folder={dataDropbox.nfolder}
@@ -199,4 +209,4 @@ export const MedicalHistory: React.FC = () => {
       )}
     </ContainView>
   );
-};
+}

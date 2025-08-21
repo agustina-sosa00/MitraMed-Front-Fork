@@ -99,7 +99,6 @@ export const downloadFileDropbox = async ({
         responseType: "blob",
       }
     );
-    console.log(response);
     return response.data;
   } catch (error) {
     throw new Error(`Error al descargar un archivo de Dropbox: ${error}`);

@@ -386,7 +386,7 @@ export const tableColumnData = [
   },
 ];
 
-// ------------------------- H I S T O R I A L  M E D I C O
+// region H I S T O R I A L  M E D I C O
 
 export interface SearchPatientProps {
   handleFindPatient: (arg: string) => void;
@@ -397,6 +397,9 @@ export interface SearchPatientProps {
   noHc?: boolean;
   setStateModal?: (arg: boolean) => void;
   odontogram?: boolean;
+  inputRef?: React.RefObject<HTMLInputElement>;
+  setHc?: (arg: boolean) => void;
+  errorMessage?: string;
 }
 
 export interface IObjetcPatient {

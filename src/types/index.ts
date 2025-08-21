@@ -138,10 +138,22 @@ export type ToothChangeTuple = [number, number, number, 0 | 1, number];
 export interface SearchPatientProps {
   handleFindPatient: (arg: string) => void;
   viewImg: boolean;
-  showData: boolean;
+  showData?: boolean;
+  setShowData?: (arg: boolean) => void;
   labelSearch: string;
   data: Partial<Paciente>;
   noHc?: boolean;
   setStateModal?: (arg: boolean) => void;
   odontogram?: boolean;
+  state: string;
+  setState: (arg: string) => void;
+  editOdontogram?: boolean;
+  setEditOdontogram?: (arg: boolean) => void;
+  handleSave?: () => void;
+  handleCancel?: () => void;
+  handleDeletePatient?: () => void;
+  changes?: boolean;
+  errorState?: string;
+  setErrorState?: (arg: string) => void;
+  isActive?: boolean;
 }

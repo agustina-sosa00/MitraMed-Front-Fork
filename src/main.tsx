@@ -6,17 +6,20 @@ import "./index.css";
 import App from "./App";
 import { DropboxProvider } from "./context/DropboxContext";
 import { MedicalHistoryProvider } from "./context/MedicalHistoryContext";
+import { OdontogramProvider } from "./context/OdontogramContext";
 
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   // <React.StrictMode>
   <QueryClientProvider client={queryClient}>
-    <MedicalHistoryProvider>
-      <DropboxProvider>
-        <App />
-      </DropboxProvider>
-    </MedicalHistoryProvider>
+    <OdontogramProvider>
+      <MedicalHistoryProvider>
+        <DropboxProvider>
+          <App />
+        </DropboxProvider>
+      </MedicalHistoryProvider>
+    </OdontogramProvider>
 
     <ReactQueryDevtools />
   </QueryClientProvider>

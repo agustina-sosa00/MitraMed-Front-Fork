@@ -18,3 +18,15 @@ export const tableSchedules = async (data) => {
     throw new Error(`${error}`);
   }
 };
+
+// medical history
+export default async function getDataMedicalHistory({ dni }: { dni: string }) {
+  try {
+    const response = await apiPhp(
+      `/apinovades/mitramed/obtenerPacienteHc.php?_i={"_e":"20","_m":"homo","_d":${dni}}`
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(`Error obteniendo datos del odontograma: ${error}`);
+  }
+}

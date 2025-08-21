@@ -33,18 +33,17 @@ export const DetailHistoryMedical: React.FC = () => {
   const [loader, setLoader] = useState<boolean>(false);
   const [loadingFile, setLoadingFile] = useState<boolean>(false);
 
-  console.log(fileBlob);
   const { mutate: mutateDownloadDropbox } = useMutation({
     mutationFn: downloadFileDropbox,
     onMutate: () => {
-      setLoadingFile(true); // Activa loader al empezar
+      setLoadingFile(true);
     },
     onSuccess: (data) => {
       setFileBlob(data);
       setLoadingFile(false);
     },
     onError: () => {
-      setLoadingFile(false); // También apágalo si falla
+      setLoadingFile(false);
     },
   });
   const handleDownloadDropbox = () => {
