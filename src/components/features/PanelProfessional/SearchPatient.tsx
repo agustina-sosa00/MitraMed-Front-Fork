@@ -45,6 +45,8 @@ export default function SearchPatient({
       setStyleDisabled(false);
       setLoader(false);
       inputRef.current?.focus();
+    } else {
+      setStyleDisabled(true);
     }
   }, [data]);
 
@@ -69,15 +71,16 @@ export default function SearchPatient({
         handleFindPatient(state);
         setLoader(false);
       }, 2000);
-      setStyleDisabled(true);
     }
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (state.length === 0) {
-      setErrorState && setErrorState("Debe ingresar un DNI");
-    } else if (e.key === "Enter") {
-      handleSearchPatient();
+    if (e.key === "Enter") {
+      if (state.length === 0) {
+        setErrorState && setErrorState("Debe ingresar un DNI");
+      } else {
+        handleSearchPatient();
+      }
     } else if (e.key === "Escape") {
       setState("");
     }
@@ -119,7 +122,7 @@ export default function SearchPatient({
   return (
     <div className="flex flex-col w-full gap-3 ">
       <div className="flex items-center justify-between w-full h-10 ">
-        {!isEditing ? (
+        {!isEditing && data?.nombre ? (
           <>
             {state.length > 0 && (
               <div

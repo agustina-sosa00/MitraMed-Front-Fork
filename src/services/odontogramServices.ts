@@ -13,7 +13,7 @@ export async function getOdontogram({ dni }: { dni: string }) {
     );
     return response.data;
   } catch (error) {
-    let msg = "Error obteniendo datos del odontograma, pruebe con otro DNI";
+    let msg = "Error obteniendo datos, pruebe con otro DNI";
 
     if (axios.isAxiosError<BackendError>(error)) {
       const err = error as AxiosError<BackendError>;
@@ -22,7 +22,7 @@ export async function getOdontogram({ dni }: { dni: string }) {
 
       // 👉 Si el status es 405, forzar mensaje fijo
       if (st === 405) {
-        msg = "Error obteniendo datos del odontograma, pruebe con otro DNI";
+        msg = "Error obteniendo datos, pruebe con otro DNI";
       } else {
         const backendMsg =
           err.response?.data?.message || err.response?.data?.error;
