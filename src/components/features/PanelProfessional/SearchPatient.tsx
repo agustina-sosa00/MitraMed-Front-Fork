@@ -98,14 +98,14 @@ export default function SearchPatient({
       setIsEditing(false);
     } else {
       Swal.fire({
-        title: "Hay cambios sin guardar",
+        title: "Existen Cambios sin Guardar",
         icon: "warning",
-        text: "¿Desea salir sin guardar los cambios?",
+        text: "¿Desea Salir?",
         showCancelButton: true,
         confirmButtonColor: "#518915",
         cancelButtonColor: "#022539",
-        confirmButtonText: "Aceptar",
-        cancelButtonText: "Seguir editando",
+        confirmButtonText: "Si, Salir",
+        cancelButtonText: "Seguir Editando",
       })
         .then((result) => {
           if (result.isConfirmed) {

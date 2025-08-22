@@ -143,14 +143,14 @@ export default function Odontogram() {
       if (editOdontogram) {
         if (teethChanged.length > 0) {
           Swal.fire({
-            title: "Hay cambios sin guardar",
+            title: "Existen Cambios sin Guardar",
             icon: "warning",
-            text: "¿Desea salir sin guardar los cambios?",
+            text: "¿Desea Salir?",
             showCancelButton: true,
             confirmButtonColor: "#518915",
             cancelButtonColor: "#022539",
-            confirmButtonText: "Aceptar",
-            cancelButtonText: "Seguir editando",
+            confirmButtonText: "Si, Salir",
+            cancelButtonText: "Seguir Editando",
           })
             .then((result) => {
               if (result.isConfirmed) {
@@ -191,9 +191,8 @@ export default function Odontogram() {
     }
     Swal.fire({
       title: "¿Desea guardar los cambios?",
-      icon: "question",
       showCancelButton: true,
-      confirmButtonText: "Aceptar",
+      confirmButtonText: "Si, Guardar",
       cancelButtonText: "Cancelar",
       confirmButtonColor: "#518915",
       cancelButtonColor: "#d33",
