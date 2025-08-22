@@ -170,3 +170,14 @@ export function isEqualTeeth(a: TeethIdsState, b: TeethIdsState) {
   }
   return true;
 }
+
+export const sinProvisorios = (m: TeethIdsState): TeethIdsState => {
+  const out: TeethIdsState = {};
+  for (const key of Object.keys(m)) {
+    const k = Number(key);
+    const arr = m[k] || [];
+    const filtrado = arr.filter(([cara]) => cara !== 0);
+    if (filtrado.length) out[k] = filtrado;
+  }
+  return out;
+};

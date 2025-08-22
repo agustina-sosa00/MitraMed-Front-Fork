@@ -150,7 +150,7 @@ export const MenuTooth: React.FC<MenuToothProps> = ({
               openSubMenu === "a realizar" ? "bg-green text-white" : ""
             }`}
           >
-            A realizar <IoIosArrowDown className="-rotate-90" />
+            A Realizar <IoIosArrowDown className="-rotate-90" />
           </div>
 
           {openSubMenu === "a realizar" && (
@@ -179,7 +179,7 @@ export const MenuTooth: React.FC<MenuToothProps> = ({
           className="flex items-center justify-between w-full px-3 py-2 text-sm text-red-600 transition-all duration-300 rounded-b hover:bg-red-600 hover:text-white"
           onClick={handleClear}
         >
-          Limpiar diente <LuEraser />
+          Limpiar Marcas <LuEraser />
         </button>
       </div>
     </div>

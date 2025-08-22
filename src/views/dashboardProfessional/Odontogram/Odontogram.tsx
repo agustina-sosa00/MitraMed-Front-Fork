@@ -11,6 +11,7 @@ import {
   box,
   ID_CARA_BY_NAME,
   isEqualTeeth,
+  sinProvisorios,
 } from "../../../utils/odontogram.lookups";
 import {
   InfoUser,
@@ -181,7 +182,10 @@ export default function Odontogram() {
   }
 
   const hasUnsaved = useMemo(() => {
-    return !isEqualTeeth(originalData, teethIdsState);
+    return !isEqualTeeth(
+      sinProvisorios(originalData),
+      sinProvisorios(teethIdsState)
+    );
   }, [originalData, teethIdsState]);
 
   function handleSave() {
@@ -220,21 +224,22 @@ export default function Odontogram() {
   }
 
   const dientesCambiados = useMemo(() => {
-    const cambiados = new Set<number>();
+    const A = sinProvisorios(originalData);
+    const B = sinProvisorios(teethIdsState);
 
+    const cambiados = new Set<number>();
     const todos = new Set<number>([
-      ...Object.keys(originalData).map(Number),
-      ...Object.keys(teethIdsState).map(Number),
+      ...Object.keys(A).map(Number),
+      ...Object.keys(B).map(Number),
     ]);
 
     for (const num of todos) {
-      const antes = originalData[num] || [];
-      const ahora = teethIdsState[num] || [];
+      const antes = A[num] || [];
+      const ahora = B[num] || [];
       if (JSON.stringify(antes) !== JSON.stringify(ahora)) {
         cambiados.add(num);
       }
     }
-
     return cambiados;
   }, [originalData, teethIdsState]);
 
