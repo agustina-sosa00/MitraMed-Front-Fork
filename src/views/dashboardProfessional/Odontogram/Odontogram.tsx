@@ -11,7 +11,7 @@ import {
   box,
   ID_CARA_BY_NAME,
   isEqualTeeth,
-  sinProvisorios,
+  sinProvisoriosDeTratamientosConCara,
 } from "../../../utils/odontogram.lookups";
 import {
   InfoUser,
@@ -119,6 +119,7 @@ export default function Odontogram() {
     onSuccess: (data: { status: string }) => {
       if (data.status === "success") {
         setTeethChanged([]);
+        setOriginalData([]);
         setEditOdontogram(false);
         handleFindPatient(dniOdontogram);
       }
@@ -127,6 +128,13 @@ export default function Odontogram() {
   });
 
   //region useEffect
+
+  useEffect(() => {
+    if (dniOdontogram) {
+      handleFindPatient(dniOdontogram);
+    }
+  }, []);
+
   useEffect(() => {
     async function onKey(e: KeyboardEvent) {
       if (e.key !== "Escape") return;
@@ -183,8 +191,8 @@ export default function Odontogram() {
 
   const hasUnsaved = useMemo(() => {
     return !isEqualTeeth(
-      sinProvisorios(originalData),
-      sinProvisorios(teethIdsState)
+      sinProvisoriosDeTratamientosConCara(originalData),
+      sinProvisoriosDeTratamientosConCara(teethIdsState)
     );
   }, [originalData, teethIdsState]);
 
@@ -194,7 +202,7 @@ export default function Odontogram() {
       return;
     }
     Swal.fire({
-      title: "¿Desea guardar los cambios?",
+      title: "¿Desea Guardar los Cambios?",
       showCancelButton: true,
       confirmButtonText: "Si, Guardar",
       cancelButtonText: "Cancelar",
@@ -224,8 +232,8 @@ export default function Odontogram() {
   }
 
   const dientesCambiados = useMemo(() => {
-    const A = sinProvisorios(originalData);
-    const B = sinProvisorios(teethIdsState);
+    const A = sinProvisoriosDeTratamientosConCara(originalData);
+    const B = sinProvisoriosDeTratamientosConCara(teethIdsState);
 
     const cambiados = new Set<number>();
     const todos = new Set<number>([
@@ -359,9 +367,12 @@ export default function Odontogram() {
                 }`}
               >
                 <p
-                  className={`text-xs  ${
+                  className={`text-sm  ${
                     editOdontogram ? "text-[#6e6d6d]" : "text-[#b6b5b5]"
-                  } ${dientesCambiados.has(toothNumber) && "text-red-500"} `}
+                  } ${
+                    dientesCambiados.has(toothNumber) &&
+                    "text-[#ff9e00] font-bold"
+                  } `}
                 >
                   {toothNumber}
                 </p>

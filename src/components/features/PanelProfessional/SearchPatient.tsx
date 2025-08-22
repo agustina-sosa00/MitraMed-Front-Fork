@@ -121,7 +121,7 @@ export default function SearchPatient({
 
   //region return
   return (
-    <div className="flex flex-col w-full gap-3 ">
+    <div className="flex flex-col w-full gap-2 ">
       <div className="flex items-center justify-between w-full h-10 ">
         {!isEditing && data?.nombre ? (
           <>
@@ -154,7 +154,7 @@ export default function SearchPatient({
                         : "text-red-500 hover:bg-gray-200"
                     }`}
                     >
-                      <RiCloseLargeFill />
+                      <RiCloseLargeFill className="text-xl " />
                     </button>
                   </div>
                 </div>
@@ -202,7 +202,7 @@ export default function SearchPatient({
                       ></circle>
                     </svg>
                   ) : (
-                    <FaMagnifyingGlass />
+                    <FaMagnifyingGlass className="text-xl " />
                   )}
                 </button>
               </div>
@@ -235,15 +235,15 @@ export default function SearchPatient({
             <div className="flex justify-start w-full gap-10">
               <div className="flex items-center justify-center text-blue">
                 <p className="text-sm ">DNI: </p>
-                <p className="px-2 text-base font-bold ">{data?.dni}</p>
+                <p className="px-2 text-lg font-bold ">{data?.dni}</p>
               </div>
               <div className="flex items-center justify-center text-blue">
                 <p className="text-sm ">Edad: </p>
-                <p className="px-2 text-base font-bold ">{data?.edad}</p>
+                <p className="px-2 text-lg font-bold ">{data?.edad}</p>
               </div>
               <div className="flex items-center justify-center text-blue">
                 <p className="text-sm text-nowrap">Fecha de Nacimiento: </p>
-                <p className="w-full px-2 text-base font-bold">
+                <p className="w-full px-2 text-lg font-bold">
                   {data?.fnacim
                     ? new Date(data.fnacim).toLocaleDateString("es-AR", {
                         day: "2-digit",
@@ -255,7 +255,7 @@ export default function SearchPatient({
               </div>
               <div className="flex items-center justify-center text-blue">
                 <p className="text-sm text-nowrap">Obra Social:</p>
-                <p className="w-full px-2 text-base font-bold">
+                <p className="w-full px-2 text-lg font-bold">
                   {data?.idosocial !== 0 && data?.nosocial}
                 </p>
               </div>

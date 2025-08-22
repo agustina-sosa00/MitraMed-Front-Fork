@@ -74,10 +74,10 @@ export const MenuTooth: React.FC<MenuToothProps> = ({
 
   function handleClear() {
     Swal.fire({
-      title: "¿Desea limpiar el diente?",
+      title: "¿Desea Limpiar el Diente?",
       icon: "question",
       showCancelButton: true,
-      confirmButtonText: "Aceptar",
+      confirmButtonText: "Si, Limpiar",
       cancelButtonText: "Cancelar",
       confirmButtonColor: "#518915",
       cancelButtonColor: "#d33",

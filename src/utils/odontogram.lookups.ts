@@ -171,12 +171,20 @@ export function isEqualTeeth(a: TeethIdsState, b: TeethIdsState) {
   return true;
 }
 
-export const sinProvisorios = (m: TeethIdsState): TeethIdsState => {
+export const sinProvisoriosDeTratamientosConCara = (
+  m: TeethIdsState
+): TeethIdsState => {
   const out: TeethIdsState = {};
   for (const key of Object.keys(m)) {
     const k = Number(key);
     const arr = m[k] || [];
-    const filtrado = arr.filter(([cara]) => cara !== 0);
+    // Filtra solo las tuplas provisorias (cara 0) de SELLADO/RESTAURACIONES.
+    const filtrado = arr.filter(([cara, trat]) => {
+      const base = tipoDe(trat);
+      const requiereCara =
+        base === TRAT.SELLADO || base === TRAT.RESTAURACIONES;
+      return !(cara === 0 && requiereCara);
+    });
     if (filtrado.length) out[k] = filtrado;
   }
   return out;
