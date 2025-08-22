@@ -283,9 +283,13 @@ export default function SearchPatient({
             {editOdontogram ? (
               <div className="flex flex-col gap-2">
                 <button
-                  disabled={isActive}
+                  disabled={isActive || !changes}
                   onClick={handleSave}
-                  className="flex items-center justify-center w-32 h-8 gap-1 px-2 py-1 text-white capitalize rounded bg-green hover:bg-greenHover"
+                  className={`flex items-center justify-center w-32 h-8 gap-1 px-2 py-1 text-white capitalize rounded  ${
+                    isActive || !changes
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-green hover:bg-greenHover"
+                  } `}
                 >
                   <RiSave3Line />
                   guardar
