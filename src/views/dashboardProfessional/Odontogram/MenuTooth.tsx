@@ -48,6 +48,9 @@ export const MenuTooth: React.FC<MenuToothProps> = ({
   //region cookies
   const info = Cookies.get("dataProfessional");
   const profesional = info && JSON.parse(info);
+
+  //region context
+
   //region states
   const [openSubMenu, setOpenSubMenu] = useState<
     "realizado" | "a realizar" | null
@@ -79,19 +82,19 @@ export const MenuTooth: React.FC<MenuToothProps> = ({
       confirmButtonColor: "#518915",
       cancelButtonColor: "#d33",
     }).then((result) => {
-      if (result.isConfirmed) {
-        if (stateTeethChanged && dataIds.length > 0) {
-          const idprof = Number(profesional.idprofesional);
-          dataIds.forEach(([idcara, idtrat]) => {
-            stateTeethChanged((prev) => [
-              ...prev,
-              [toothNumber, idcara, idtrat, 0, idprof],
-            ]);
-          });
-        }
-        clearTooth();
-        onClose();
+      if (!result.isConfirmed) return;
+      const idprof = Number(profesional?.idprofesional ?? 0);
+
+      if (stateTeethChanged && dataIds.length > 0) {
+        const toDisable: ToothChangeTuple[] = dataIds.map(
+          ([idcara, idtrat]) =>
+            [toothNumber, idcara, idtrat, 0, idprof] as ToothChangeTuple
+        );
+        stateTeethChanged((prev) => [...prev, ...toDisable]);
       }
+      clearTooth();
+
+      onClose();
     });
   }
   //region return

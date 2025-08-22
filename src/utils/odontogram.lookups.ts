@@ -1,3 +1,5 @@
+import { TeethIdsState } from "../types";
+
 export type BoxName =
   | "arriba-izquierda"
   | "arriba-derecha"
@@ -139,3 +141,32 @@ export const fillHex = (idtrat: number) =>
   isARealizar(idtrat) ? "#0369a1" : "#ef4444";
 export const toneClass = (idtrat: number) =>
   isARealizar(idtrat) ? "text-sky-700" : "text-red-500";
+
+type Tuple = [number, number, 0 | 1];
+
+const sortTuples = (arr: Tuple[]) =>
+  [...arr].sort(([c1, t1, h1], [c2, t2, h2]) => c1 - c2 || t1 - t2 || h1 - h2);
+
+export function isEqualTeeth(a: TeethIdsState, b: TeethIdsState) {
+  const keysA = Object.keys(a)
+    .map(Number)
+    .sort((x, y) => x - y);
+  const keysB = Object.keys(b)
+    .map(Number)
+    .sort((x, y) => x - y);
+  if (keysA.length !== keysB.length) return false;
+  for (let i = 0; i < keysA.length; i++)
+    if (keysA[i] !== keysB[i]) return false;
+
+  for (const k of keysA) {
+    const arrA = sortTuples(a[k] || []);
+    const arrB = sortTuples(b[k] || []);
+    if (arrA.length !== arrB.length) return false;
+    for (let i = 0; i < arrA.length; i++) {
+      const [c1, t1, h1] = arrA[i],
+        [c2, t2, h2] = arrB[i];
+      if (c1 !== c2 || t1 !== t2 || h1 !== h2) return false;
+    }
+  }
+  return true;
+}

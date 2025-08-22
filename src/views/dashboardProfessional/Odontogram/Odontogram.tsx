@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 
 import Cookies from "js-cookie";
@@ -7,7 +7,11 @@ import Swal from "sweetalert2";
 import { ContainView } from "@/components/features/PanelProfessional/ContainView";
 import { Tooth } from "./Tooth";
 import { ModalSelectFaceTooth } from "./ModalSelectFaceTooth";
-import { box, ID_CARA_BY_NAME } from "../../../utils/odontogram.lookups";
+import {
+  box,
+  ID_CARA_BY_NAME,
+  isEqualTeeth,
+} from "../../../utils/odontogram.lookups";
 import {
   InfoUser,
   RawRow,
@@ -29,11 +33,13 @@ export default function Odontogram() {
   //region context
   const { dniOdontogram, setDniOdontogram, originalData, setOriginalData } =
     useOdontogramContext();
+  console.log("originalData", originalData);
   //region states
   const [contextMenu, setContextMenu] = useState<number | null>(null);
   const [openMenu, setOpenMenu] = useState(false);
   const [toothSelect, setToothSelect] = useState(0);
   const [teethIdsState, setTeethIdsState] = useState<TeethIdsState>({});
+  console.log("teethIdsState", teethIdsState);
 
   const [teethChanged, setTeethChanged] = useState<ToothChangeTuple[]>([]);
   const [infoUser, setInfoUser] = useState<InfoUser>({
@@ -56,7 +62,6 @@ export default function Odontogram() {
     status: false,
   });
   const [dniPatient, setDniPatient] = useState("");
-  // const [showButtons, setShowButtons] = useState(false);
   const [editOdontogram, setEditOdontogram] = useState(false);
   const [errorState, setErrorState] = useState("");
   const infoUserEmpty: InfoUser = {
@@ -171,12 +176,19 @@ export default function Odontogram() {
   //region function
 
   function handleFindPatient(dni: string) {
-    // setShowButtons(true);
     setDniPatient(dni);
     mutateFindPatient({ dni });
   }
 
+  const hasUnsaved = useMemo(() => {
+    return !isEqualTeeth(originalData, teethIdsState);
+  }, [originalData, teethIdsState]);
+
   function handleSave() {
+    if (!hasUnsaved) {
+      setEditOdontogram(false);
+      return;
+    }
     Swal.fire({
       title: "¿Desea guardar los cambios?",
       icon: "question",
@@ -233,10 +245,10 @@ export default function Odontogram() {
             setEditOdontogram={setEditOdontogram}
             handleSave={handleSave}
             handleCancel={handleCancelEdit}
-            changes={Boolean(teethChanged.length)}
             errorState={errorState}
             setErrorState={setErrorState}
             isActive={editOdontogram && contextMenu === toothSelect}
+            changes={hasUnsaved}
           />
         </div>
       )}
@@ -382,6 +394,7 @@ export default function Odontogram() {
                   Number(idProfesional),
                 ],
               ]);
+
               return {
                 ...prev,
                 [toothSelect]: [...list.slice(0, lastIndex), nuevaTupla],
