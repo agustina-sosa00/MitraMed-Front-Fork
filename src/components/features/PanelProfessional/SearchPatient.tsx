@@ -130,7 +130,7 @@ export default function SearchPatient({
                 className={`flex  py-1 h-14 justify-between gap-1   w-2/3     items-center `}
               >
                 <div className="flex items-center gap-1">
-                  <label className="text-sm font-bold capitalize text-green">
+                  <label className="text-base font-bold capitalize text-green">
                     Ingresar DNI:
                   </label>
                   <div className="flex gap-1 w-36">
@@ -143,7 +143,6 @@ export default function SearchPatient({
                     >
                       {state}
                     </div>
-                    {/* <FaMagnifyingGlass className="w-3 h-3" /> */}
                     <button
                       type="button"
                       onClick={handleEditInput}
@@ -231,38 +230,32 @@ export default function SearchPatient({
               <h1 className="text-2xl font-semibold text-blue">
                 {data?.nombre} {data?.apellido}
               </h1>
-              {/* <div className="flex justify-center w-1/2 text-blue">
-              <p className="text-sm ">Nombre: </p>
-              <p className="w-full h-8 px-2 text-sm font-bold">
-                {data?.nombre}
-              </p>
-            </div>
-            <div className="flex justify-center w-1/2 text-blue">
-              <p className="text-sm ">Apellido: </p>
-              <p className="w-full h-8 px-2 text-sm font-bold">
-                {data?.apellido}
-              </p>
-            </div> */}
             </div>
 
             <div className="flex justify-start w-full gap-10">
-              <div className="flex justify-center text-blue">
+              <div className="flex items-center justify-center text-blue">
                 <p className="text-sm ">DNI: </p>
-                <p className="h-8 px-2 text-sm font-bold w-">{data?.dni}</p>
+                <p className="px-2 text-base font-bold ">{data?.dni}</p>
               </div>
-              <div className="flex justify-center text-blue">
+              <div className="flex items-center justify-center text-blue">
                 <p className="text-sm ">Edad: </p>
-                <p className="h-8 px-2 text-sm font-bold w-">{data?.edad}</p>
+                <p className="px-2 text-base font-bold ">{data?.edad}</p>
               </div>
-              <div className="flex justify-center text-blue">
+              <div className="flex items-center justify-center text-blue">
                 <p className="text-sm text-nowrap">Fecha de Nacimiento: </p>
-                <p className="w-full h-8 px-2 text-sm font-bold">
-                  {data?.fnacim}
+                <p className="w-full px-2 text-base font-bold">
+                  {data?.fnacim
+                    ? new Date(data.fnacim).toLocaleDateString("es-AR", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })
+                    : ""}
                 </p>
               </div>
-              <div className="flex justify-center text-blue">
+              <div className="flex items-center justify-center text-blue">
                 <p className="text-sm text-nowrap">Obra Social:</p>
-                <p className="w-full h-8 px-2 text-sm font-bold">
+                <p className="w-full px-2 text-base font-bold">
                   {data?.idosocial !== 0 && data?.nosocial}
                 </p>
               </div>
