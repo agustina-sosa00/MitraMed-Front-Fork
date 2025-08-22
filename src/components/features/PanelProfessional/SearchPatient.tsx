@@ -4,7 +4,7 @@ import React from "react";
 import Swal from "sweetalert2";
 
 import { FaMagnifyingGlass } from "react-icons/fa6";
-import { FaTrashAlt } from "react-icons/fa";
+import { RiCloseLargeFill } from "react-icons/ri";
 import { FaRegEdit } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
 import { IoMdAdd } from "react-icons/io";
@@ -154,7 +154,7 @@ export default function SearchPatient({
                         : "text-red-500 hover:bg-gray-200"
                     }`}
                     >
-                      <FaTrashAlt />
+                      <RiCloseLargeFill />
                     </button>
                   </div>
                 </div>
@@ -167,7 +167,7 @@ export default function SearchPatient({
           >
             <div className="flex items-center gap-1">
               {" "}
-              <label className="text-sm font-bold capitalize text-green">
+              <label className="text-base font-bold capitalize text-green">
                 Ingresar DNI:
               </label>
               <div className="flex gap-1 w-36 ">
