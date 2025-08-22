@@ -370,6 +370,7 @@ export default function Odontogram() {
         <ModalSelectFaceTooth
           show={openMenu}
           onClose={handleCloseMenu}
+          toothNumber={toothSelect}
           setFace={(caraNombre) =>
             setTeethIdsState((prev) => {
               const list = prev[toothSelect] || [];
