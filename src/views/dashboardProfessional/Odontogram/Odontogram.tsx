@@ -219,12 +219,31 @@ export default function Odontogram() {
     setInfoUser(infoUserEmpty);
   }
 
+  const dientesCambiados = useMemo(() => {
+    const cambiados = new Set<number>();
+
+    const todos = new Set<number>([
+      ...Object.keys(originalData).map(Number),
+      ...Object.keys(teethIdsState).map(Number),
+    ]);
+
+    for (const num of todos) {
+      const antes = originalData[num] || [];
+      const ahora = teethIdsState[num] || [];
+      if (JSON.stringify(antes) !== JSON.stringify(ahora)) {
+        cambiados.add(num);
+      }
+    }
+
+    return cambiados;
+  }, [originalData, teethIdsState]);
+
   //region return
   return (
     <ContainView
       title="Odontograma"
       padding="py-3 2xl:py-20"
-      gapChildren="gap-3"
+      gapChildren="gap-2"
       sizeTitle="text-3xl 2xl:text-4xl"
       classContainer="relative"
       onClick={() => setContextMenu(null)}
@@ -275,8 +294,11 @@ export default function Odontogram() {
                 }`}
               >
                 <p
-                  className={`text-xs  ${
+                  className={`text-sm  ${
                     editOdontogram ? "text-[#6e6d6d]" : "text-[#b6b5b5]"
+                  } ${
+                    dientesCambiados.has(toothNumber) &&
+                    "text-[#ff9e00] font-bold"
                   } `}
                 >
                   {toothNumber}
@@ -334,7 +356,7 @@ export default function Odontogram() {
                 <p
                   className={`text-xs  ${
                     editOdontogram ? "text-[#6e6d6d]" : "text-[#b6b5b5]"
-                  } `}
+                  } ${dientesCambiados.has(toothNumber) && "text-red-500"} `}
                 >
                   {toothNumber}
                 </p>
