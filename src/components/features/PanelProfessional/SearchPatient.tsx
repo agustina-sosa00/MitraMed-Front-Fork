@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 import React from "react";
 import Swal from "sweetalert2";
 
 import { FaMagnifyingGlass } from "react-icons/fa6";
-import { FaTrashAlt } from "react-icons/fa";
+import { RiCloseLargeFill } from "react-icons/ri";
 import { FaRegEdit } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
 import { IoMdAdd } from "react-icons/io";
@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/Button";
 import { SearchPatientProps } from "@/types/index";
 
 export default function SearchPatient({
-  handleFindPatient,
+  onSearch,
   editOdontogram,
   handleSave,
   setEditOdontogram,
@@ -29,121 +29,106 @@ export default function SearchPatient({
   setErrorState,
   changes,
   isActive,
+  hasConfirmed,
+  loading,
 }: SearchPatientProps) {
+  console.log(data);
   // region states y variables
-  const [isEditing, setIsEditing] = useState(true);
-  const [loader, setLoader] = useState(false);
+  const isEditing = !hasConfirmed;
   const inputRef = useRef<HTMLInputElement>(null);
-  const [styleDisabled, setStyleDisabled] = useState(false);
-
   const hasValidPatient = Boolean(data?.dni);
-  const canEdit = hasValidPatient && !isEditing && !loader && !errorState;
+  const canEdit = hasValidPatient && !isEditing && !loading && !errorState;
 
   //region useEffects
   useEffect(() => {
-    if (!data?.dni) {
-      setIsEditing(true);
-      setStyleDisabled(false);
-      setLoader(false);
-      inputRef.current?.focus();
-    } else {
-      setStyleDisabled(true);
+    if (!hasConfirmed) {
+      requestAnimationFrame(() => {
+        inputRef.current?.focus();
+      });
     }
-  }, [data]);
+  }, [hasConfirmed]);
 
   // region functions
   function handleOnChangeDni(e: React.ChangeEvent<HTMLInputElement>) {
     setState(e.target.value);
-    setErrorState && setErrorState("");
+    setErrorState?.("");
   }
 
   function handleSearchPatient() {
     if (state.length === 0) {
-      setErrorState && setErrorState("Debe ingresar un DNI");
+      setErrorState?.("Debe ingresar un DNI");
       inputRef.current?.focus();
-    } else if (!/^\d+$/.test(state)) {
-      setErrorState &&
-        setErrorState("El DNI debe ser numérico y sin punto. Ej: 12345678");
-      inputRef.current?.focus();
-    } else {
-      setLoader(true);
-      setTimeout(() => {
-        setIsEditing(false);
-        handleFindPatient(state);
-        setLoader(false);
-      }, 2000);
+      return;
     }
+    if (!/^\d+$/.test(state)) {
+      setErrorState?.("El DNI debe ser numérico y sin punto. Ej: 12345678");
+      inputRef.current?.focus();
+      return;
+    }
+
+    onSearch?.(state);
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === "Enter") {
-      if (state.length === 0) {
-        setErrorState && setErrorState("Debe ingresar un DNI");
-      } else {
-        handleSearchPatient();
-      }
+      handleSearchPatient();
     } else if (e.key === "Escape") {
-      setState("");
+      handleCancel?.();
     }
   }
 
   function handleEditInput() {
-    if (!editOdontogram) handleDeletePatient?.();
-    setIsEditing(true);
+    if (!editOdontogram) {
+      handleDeletePatient?.();
+      inputRef.current?.focus();
+    }
   }
 
   function handleCancelButton() {
     if (!changes) {
-      handleCancel && handleCancel();
-      setIsEditing(false);
+      handleCancel?.();
     } else {
       Swal.fire({
-        title: "Hay cambios sin guardar",
+        title: "Existen Cambios sin Guardar",
         icon: "warning",
-        text: "¿Desea salir sin guardar los cambios?",
+        text: "¿Desea Salir?",
         showCancelButton: true,
         confirmButtonColor: "#518915",
         cancelButtonColor: "#022539",
-        confirmButtonText: "Aceptar",
-        cancelButtonText: "Seguir editando",
-      })
-        .then((result) => {
-          if (result.isConfirmed) {
-            handleCancel && handleCancel();
-            setIsEditing(false);
-          }
-        })
-        .catch((error) => {
-          console.error("Error al mostrar la alerta:", error);
-        });
+        confirmButtonText: "Si, Salir",
+        cancelButtonText: "Seguir Editando",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          handleCancel?.();
+        }
+      });
     }
   }
 
   //region return
   return (
-    <div className="flex flex-col w-full gap-3 ">
+    <div className="flex flex-col w-full gap-2 ">
       <div className="flex items-center justify-between w-full h-10 ">
-        {!isEditing && data?.nombre ? (
+        {hasConfirmed ? (
           <>
             {state.length > 0 && (
               <div
                 className={`flex  py-1 h-14 justify-between gap-1   w-2/3     items-center `}
               >
-                <div className="flex items-center gap-1">
-                  <label className="text-sm font-bold capitalize text-green">
+                <div className="flex items-end gap-1">
+                  <label className="text-base font-bold capitalize text-green">
                     Ingresar DNI:
                   </label>
                   <div className="flex gap-1 w-36">
                     <div
                       className={`h-8 px-2 py-1 flex items-center gap-2 font-bold border  border-gray-300 rounded w-full bg-lightGray focus:outline-none  ${
-                        styleDisabled
+                        !hasConfirmed
                           ? "bg-gray-200 text-gray-400 "
                           : "text-blue"
                       }`}
                     >
                       {state}
                     </div>
-                    {/* <FaMagnifyingGlass className="w-3 h-3" /> */}
                     <button
                       type="button"
                       onClick={handleEditInput}
@@ -155,7 +140,7 @@ export default function SearchPatient({
                         : "text-red-500 hover:bg-gray-200"
                     }`}
                     >
-                      <FaTrashAlt />
+                      <RiCloseLargeFill className="text-xl " />
                     </button>
                   </div>
                 </div>
@@ -166,9 +151,9 @@ export default function SearchPatient({
           <div
             className={`flex py-1 h-14 justify-start gap-1 w-2/3  items-center `}
           >
-            <div className="flex items-center gap-1">
+            <div className="flex items-end gap-1">
               {" "}
-              <label className="text-sm font-bold capitalize text-green">
+              <label className="text-base font-bold capitalize text-green">
                 Ingresar DNI:
               </label>
               <div className="flex gap-1 w-36 ">
@@ -179,7 +164,9 @@ export default function SearchPatient({
                   value={state}
                   onChange={handleOnChangeDni}
                   onKeyDown={handleKeyDown}
-                  autoFocus
+                  autoFocus={!hasConfirmed}
+                  readOnly={!isEditing}
+                  disabled={!isEditing}
                   className={`h-8 px-2 py-1 w-full bg-gray-200 font-bold rounded 
                 focus:outline-none text-blue focus-within:border-green focus-within:ring-1 focus-within:ring-green
                 ${errorState && "border-red-500"}`}
@@ -190,7 +177,7 @@ export default function SearchPatient({
                   onClick={handleSearchPatient}
                   className="flex items-center justify-center w-8 h-8 px-2 py-1 transition-all duration-300 bg-gray-200 border border-gray-300 rounded text-greenHover hover:text-white hover:bg-greenHover hover:border-green "
                 >
-                  {loader ? (
+                  {loading ? (
                     <svg
                       className="w-8 circle-loader animate-spin"
                       viewBox="25 25 50 50"
@@ -203,7 +190,7 @@ export default function SearchPatient({
                       ></circle>
                     </svg>
                   ) : (
-                    <FaMagnifyingGlass />
+                    <FaMagnifyingGlass className="text-xl " />
                   )}
                 </button>
               </div>
@@ -219,7 +206,7 @@ export default function SearchPatient({
       {
         //region data user
       }
-      {!data?.nombre ? (
+      {!hasConfirmed ? (
         <div className="w-full h-24 bg-gray-200 rounded"></div>
       ) : (
         <div className="flex items-center justify-center w-full h-24 gap-1 bg-white border rounded border-green">
@@ -231,38 +218,32 @@ export default function SearchPatient({
               <h1 className="text-2xl font-semibold text-blue">
                 {data?.nombre} {data?.apellido}
               </h1>
-              {/* <div className="flex justify-center w-1/2 text-blue">
-              <p className="text-sm ">Nombre: </p>
-              <p className="w-full h-8 px-2 text-sm font-bold">
-                {data?.nombre}
-              </p>
-            </div>
-            <div className="flex justify-center w-1/2 text-blue">
-              <p className="text-sm ">Apellido: </p>
-              <p className="w-full h-8 px-2 text-sm font-bold">
-                {data?.apellido}
-              </p>
-            </div> */}
             </div>
 
             <div className="flex justify-start w-full gap-10">
-              <div className="flex justify-center text-blue">
+              <div className="flex items-end justify-center text-blue">
                 <p className="text-sm ">DNI: </p>
-                <p className="h-8 px-2 text-sm font-bold w-">{data?.dni}</p>
+                <p className="px-2 text-lg font-bold ">{data?.dni}</p>
               </div>
-              <div className="flex justify-center text-blue">
+              <div className="flex items-end justify-center text-blue">
                 <p className="text-sm ">Edad: </p>
-                <p className="h-8 px-2 text-sm font-bold w-">{data?.edad}</p>
+                <p className="px-2 text-lg font-bold ">{data?.edad}</p>
               </div>
-              <div className="flex justify-center text-blue">
+              <div className="flex items-end justify-center text-blue">
                 <p className="text-sm text-nowrap">Fecha de Nacimiento: </p>
-                <p className="w-full h-8 px-2 text-sm font-bold">
-                  {data?.fnacim}
+                <p className="w-full px-2 text-lg font-bold">
+                  {data?.fnacim
+                    ? new Date(data.fnacim).toLocaleDateString("es-AR", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })
+                    : ""}
                 </p>
               </div>
-              <div className="flex justify-center text-blue">
+              <div className="flex items-end justify-center text-blue">
                 <p className="text-sm text-nowrap">Obra Social:</p>
-                <p className="w-full h-8 px-2 text-sm font-bold">
+                <p className="w-full px-2 text-lg font-bold">
                   {data?.idosocial !== 0 && data?.nosocial}
                 </p>
               </div>
@@ -290,9 +271,13 @@ export default function SearchPatient({
             {editOdontogram ? (
               <div className="flex flex-col gap-2">
                 <button
-                  disabled={isActive}
+                  disabled={isActive || !changes}
                   onClick={handleSave}
-                  className="flex items-center justify-center w-32 h-8 gap-1 px-2 py-1 text-white capitalize rounded bg-green hover:bg-greenHover"
+                  className={`flex items-center justify-center w-32 h-8 gap-1 px-2 py-1 text-white capitalize rounded  ${
+                    isActive || !changes
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-green hover:bg-greenHover"
+                  } `}
                 >
                   <RiSave3Line />
                   guardar

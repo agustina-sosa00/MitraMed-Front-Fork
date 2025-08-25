@@ -7,12 +7,14 @@ interface ModalSelectFaceToothProps {
   setFace: (
     cara: "vesibular" | "mesial" | "palatino" | "distal" | "oclusal"
   ) => void;
+  toothNumber: number;
 }
 
 export const ModalSelectFaceTooth: React.FC<ModalSelectFaceToothProps> = ({
   show,
   onClose,
   setFace,
+  toothNumber,
 }) => {
   if (!show) return null;
   const buttons = [
@@ -24,7 +26,7 @@ export const ModalSelectFaceTooth: React.FC<ModalSelectFaceToothProps> = ({
   ] as const;
 
   return (
-    <Modal title="Seleccionar cara" close={onClose}>
+    <Modal title={`Seleccionar Cara Diente: N° ${toothNumber}`} close={onClose}>
       <div className="flex flex-wrap items-center justify-center w-full gap-2">
         {buttons.map((item) => (
           <button

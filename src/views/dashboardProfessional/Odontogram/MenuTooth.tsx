@@ -48,6 +48,9 @@ export const MenuTooth: React.FC<MenuToothProps> = ({
   //region cookies
   const info = Cookies.get("dataProfessional");
   const profesional = info && JSON.parse(info);
+
+  //region context
+
   //region states
   const [openSubMenu, setOpenSubMenu] = useState<
     "realizado" | "a realizar" | null
@@ -71,27 +74,27 @@ export const MenuTooth: React.FC<MenuToothProps> = ({
 
   function handleClear() {
     Swal.fire({
-      title: "¿Desea limpiar el diente?",
+      title: "¿Desea Limpiar el Diente?",
       icon: "question",
       showCancelButton: true,
-      confirmButtonText: "Aceptar",
+      confirmButtonText: "Si, Limpiar",
       cancelButtonText: "Cancelar",
       confirmButtonColor: "#518915",
       cancelButtonColor: "#d33",
     }).then((result) => {
-      if (result.isConfirmed) {
-        if (stateTeethChanged && dataIds.length > 0) {
-          const idprof = Number(profesional.idprofesional);
-          dataIds.forEach(([idcara, idtrat]) => {
-            stateTeethChanged((prev) => [
-              ...prev,
-              [toothNumber, idcara, idtrat, 0, idprof],
-            ]);
-          });
-        }
-        clearTooth();
-        onClose();
+      if (!result.isConfirmed) return;
+      const idprof = Number(profesional?.idprofesional ?? 0);
+
+      if (stateTeethChanged && dataIds.length > 0) {
+        const toDisable: ToothChangeTuple[] = dataIds.map(
+          ([idcara, idtrat]) =>
+            [toothNumber, idcara, idtrat, 0, idprof] as ToothChangeTuple
+        );
+        stateTeethChanged((prev) => [...prev, ...toDisable]);
       }
+      clearTooth();
+
+      onClose();
     });
   }
   //region return
@@ -147,7 +150,7 @@ export const MenuTooth: React.FC<MenuToothProps> = ({
               openSubMenu === "a realizar" ? "bg-green text-white" : ""
             }`}
           >
-            A realizar <IoIosArrowDown className="-rotate-90" />
+            A Realizar <IoIosArrowDown className="-rotate-90" />
           </div>
 
           {openSubMenu === "a realizar" && (
@@ -176,7 +179,7 @@ export const MenuTooth: React.FC<MenuToothProps> = ({
           className="flex items-center justify-between w-full px-3 py-2 text-sm text-red-600 transition-all duration-300 rounded-b hover:bg-red-600 hover:text-white"
           onClick={handleClear}
         >
-          Limpiar diente <LuEraser />
+          Limpiar Marcas <LuEraser />
         </button>
       </div>
     </div>

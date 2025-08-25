@@ -136,8 +136,8 @@ export type InfoUser = {
 export type ToothChangeTuple = [number, number, number, 0 | 1, number];
 
 export interface SearchPatientProps {
-  handleFindPatient: (arg: string) => void;
-  viewImg: boolean;
+  onSearch: (arg: string) => void;
+
   showData?: boolean;
   setShowData?: (arg: boolean) => void;
   labelSearch: string;
@@ -156,4 +156,23 @@ export interface SearchPatientProps {
   errorState?: string;
   setErrorState?: (arg: string) => void;
   isActive?: boolean;
+  hasConfirmed?: boolean;
+  loading?: boolean;
 }
+
+export type ContextType = {
+  setDisabledButton: React.Dispatch<
+    React.SetStateAction<{
+      inicio: boolean;
+      turnos: boolean;
+      historial: boolean;
+      odontograma: boolean;
+    }>
+  >;
+  disabledButton: {
+    inicio: boolean;
+    turnos: boolean;
+    historial: boolean;
+    odontograma: boolean;
+  };
+};

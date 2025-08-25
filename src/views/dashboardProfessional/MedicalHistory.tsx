@@ -130,8 +130,7 @@ export default function MedicalHistory() {
           data={dataUser || {}}
           labelSearch={"dni"}
           showData={showData}
-          handleFindPatient={handleFindPatient}
-          viewImg={false}
+          onSearch={handleFindPatient}
           setStateModal={setShowModal}
           odontogram={true}
           state={dniHistory}

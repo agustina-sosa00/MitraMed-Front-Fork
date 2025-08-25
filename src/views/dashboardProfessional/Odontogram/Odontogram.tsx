@@ -1,128 +1,130 @@
-import { useEffect, useState } from "react";
-import { useMutation } from "@tanstack/react-query";
-
+import { useEffect, useMemo, useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 
 import { ContainView } from "@/components/features/PanelProfessional/ContainView";
 import { Tooth } from "./Tooth";
 import { ModalSelectFaceTooth } from "./ModalSelectFaceTooth";
-import { box, ID_CARA_BY_NAME } from "../../../utils/odontogram.lookups";
 import {
-  InfoUser,
-  RawRow,
-  TeethIdsState,
-  ToothChangeTuple,
-} from "@/types/index";
-import { buildIdsState } from "@/utils/buildTeethState";
+  box,
+  ID_CARA_BY_NAME,
+  isEqualTeeth,
+  sinProvisoriosDeTratamientosConCara,
+} from "../../../utils/odontogram.lookups";
+import { ContextType, RawRow, ToothChangeTuple } from "@/types/index";
 import {
   getOdontogram,
   postSaveOdontogram,
 } from "@/services/odontogramServices";
 import { useOdontogramContext } from "../../../context/OdontogramContext";
 import SearchPatient from "@/components/features/PanelProfessional/SearchPatient";
+import { buildIdsState } from "@/utils/buildTeethState";
+import { useOutletContext } from "react-router-dom";
 
 export default function Odontogram() {
+  const { setDisabledButton, disabledButton } = useOutletContext<ContextType>();
+  const queryClient = useQueryClient();
   //region cookies
   const idProfesional = Cookies.get("idProfesional");
 
   //region context
-  const { dniOdontogram, setDniOdontogram, originalData, setOriginalData } =
-    useOdontogramContext();
+  const {
+    dniOdontogram,
+    setDniOdontogram,
+    originalData,
+    setOriginalData,
+    teethIdsState,
+    setTeethIdsState,
+    hasConfirmed,
+    setHasConfirmed,
+    uiLoading,
+    setUiLoading,
+    dniInput,
+    setDniInput,
+  } = useOdontogramContext();
+  console.log("originalData", originalData);
+  console.log("teethIdsState", teethIdsState);
   //region states
   const [contextMenu, setContextMenu] = useState<number | null>(null);
   const [openMenu, setOpenMenu] = useState(false);
   const [toothSelect, setToothSelect] = useState(0);
-  const [teethIdsState, setTeethIdsState] = useState<TeethIdsState>({});
-
   const [teethChanged, setTeethChanged] = useState<ToothChangeTuple[]>([]);
-  const [infoUser, setInfoUser] = useState<InfoUser>({
-    code: 0,
-    data: {
-      odontograma: [] as RawRow[],
-      paciente: {
-        nombre: "",
-        apellido: "",
-        dni: "",
-        fnacim: "",
-        edad: "",
-        idosocial: 0,
-        nosocial: null,
-        idplan: 0,
-        nplan: null,
-      },
-    },
-    message: "",
-    status: false,
-  });
-  const [dniPatient, setDniPatient] = useState("");
-  // const [showButtons, setShowButtons] = useState(false);
   const [editOdontogram, setEditOdontogram] = useState(false);
   const [errorState, setErrorState] = useState("");
-  const infoUserEmpty: InfoUser = {
-    code: 0,
-    data: {
-      odontograma: [],
-      paciente: {
-        nombre: "",
-        apellido: "",
-        dni: "",
-        fnacim: "",
-        edad: "",
-        idosocial: 0,
-        nosocial: null,
-        idplan: 0,
-        nplan: null,
-      },
-    },
-    message: "",
-    status: false,
-  };
 
-  //region mutate
-  const { mutate: mutateFindPatient } = useMutation({
-    mutationFn: getOdontogram,
-    onSuccess: (data: typeof infoUser) => {
-      setErrorState("");
-      if (data?.data === null) {
-        setErrorState(data?.message || "Paciente inexistente");
-        setInfoUser(infoUserEmpty);
-        setTeethIdsState({});
-        setOriginalData({});
-        return;
-      }
-      setInfoUser(data);
-      const raw = (data?.data?.odontograma || []) as RawRow[];
-      setTeethIdsState(buildIdsState(raw));
-      setOriginalData(buildIdsState(raw));
-    },
-    onError: (err: unknown) => {
-      const msg =
-        err instanceof Error
-          ? err.message
-          : "Error obteniendo datos del odontograma, pruebe con otro DNI";
-      setErrorState(msg);
-      setInfoUser(infoUserEmpty);
-      setTeethIdsState({});
-      setOriginalData({});
-    },
+  //region mutate / query
+  const { data: infoUser } = useQuery({
+    queryKey: ["odontogram", dniOdontogram],
+    queryFn: () => getOdontogram({ dni: dniOdontogram }),
+    enabled: hasConfirmed && !!dniOdontogram,
+    staleTime: Infinity,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    gcTime: Infinity,
+    initialData: () => queryClient.getQueryData(["odontogram", dniOdontogram]),
   });
 
   const { mutate: mutateSaveOdontogram } = useMutation({
     mutationFn: postSaveOdontogram,
     onSuccess: (data: { status: string }) => {
       if (data.status === "success") {
+        setOriginalData(teethIdsState);
         setTeethChanged([]);
         setEditOdontogram(false);
-        handleFindPatient(dniOdontogram);
+        queryClient.invalidateQueries({
+          queryKey: ["odontogram", dniOdontogram],
+        });
       }
     },
     onError: (err) => console.log(err),
   });
 
   //region useEffect
+
   useEffect(() => {
-    async function onKey(e: KeyboardEvent) {
+    if (editOdontogram) {
+      setDisabledButton({
+        inicio: true,
+        turnos: true,
+        historial: true,
+        odontograma: false,
+      });
+    } else {
+      setDisabledButton({
+        inicio: false,
+        turnos: false,
+        historial: false,
+        odontograma: false,
+      });
+    }
+  }, [disabledButton, editOdontogram, setDisabledButton]);
+
+  useEffect(() => {
+    if (!hasConfirmed || uiLoading || !infoUser) return;
+
+    if (infoUser.data === null) {
+      setErrorState(infoUser.message || "Paciente inexistente");
+      return;
+    }
+
+    const raw = (infoUser.data.odontograma || []) as RawRow[];
+    const built = buildIdsState(raw);
+
+    if (Object.keys(originalData).length === 0) setOriginalData(built);
+    if (Object.keys(teethIdsState).length === 0) setTeethIdsState(built);
+  }, [
+    hasConfirmed,
+    uiLoading,
+    infoUser,
+    originalData,
+    teethIdsState,
+    setOriginalData,
+    setTeethIdsState,
+  ]);
+
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
       if (e.key !== "Escape") return;
 
       if (contextMenu !== null) {
@@ -138,23 +140,19 @@ export default function Odontogram() {
       if (editOdontogram) {
         if (teethChanged.length > 0) {
           Swal.fire({
-            title: "Hay cambios sin guardar",
+            title: "Existen Cambios sin Guardar",
             icon: "warning",
-            text: "¿Desea salir sin guardar los cambios?",
+            text: "¿Desea Salir?",
             showCancelButton: true,
             confirmButtonColor: "#518915",
             cancelButtonColor: "#022539",
-            confirmButtonText: "Aceptar",
-            cancelButtonText: "Seguir editando",
-          })
-            .then((result) => {
-              if (result.isConfirmed) {
-                handleCancelEdit && handleCancelEdit();
-              }
-            })
-            .catch((error) => {
-              console.error("Error al mostrar la alerta:", error);
-            });
+            confirmButtonText: "Si, Salir",
+            cancelButtonText: "Seguir Editando",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              handleCancelEdit();
+            }
+          });
         } else {
           setEditOdontogram(false);
         }
@@ -170,24 +168,38 @@ export default function Odontogram() {
 
   //region function
 
-  function handleFindPatient(dni: string) {
-    // setShowButtons(true);
-    setDniPatient(dni);
-    mutateFindPatient({ dni });
+  function handleSearch(dni: string) {
+    setUiLoading(true);
+
+    setTimeout(() => {
+      setHasConfirmed(true);
+      setUiLoading(false);
+      setDniOdontogram(dni.trim());
+    }, 2000);
   }
 
+  const hasUnsaved = useMemo(() => {
+    return !isEqualTeeth(
+      sinProvisoriosDeTratamientosConCara(originalData),
+      sinProvisoriosDeTratamientosConCara(teethIdsState)
+    );
+  }, [originalData, teethIdsState]);
+
   function handleSave() {
+    if (!hasUnsaved) {
+      setEditOdontogram(false);
+      return;
+    }
     Swal.fire({
-      title: "¿Desea guardar los cambios?",
-      icon: "question",
+      title: "¿Desea Guardar los Cambios?",
       showCancelButton: true,
-      confirmButtonText: "Aceptar",
+      confirmButtonText: "Si, Guardar",
       cancelButtonText: "Cancelar",
       confirmButtonColor: "#518915",
       cancelButtonColor: "#d33",
     }).then((result) => {
       if (result.isConfirmed) {
-        mutateSaveOdontogram({ dni: dniPatient, data: teethChanged });
+        mutateSaveOdontogram({ dni: dniOdontogram, data: teethChanged });
       }
     });
   }
@@ -203,17 +215,40 @@ export default function Odontogram() {
   }
 
   function handleDeletePatient() {
+    setHasConfirmed(false);
+    setUiLoading(false);
     setDniOdontogram("");
+    setDniInput("");
     setTeethIdsState({});
-    setInfoUser(infoUserEmpty);
+    setOriginalData({});
   }
+
+  const dientesCambiados = useMemo(() => {
+    const A = sinProvisoriosDeTratamientosConCara(originalData);
+    const B = sinProvisoriosDeTratamientosConCara(teethIdsState);
+
+    const cambiados = new Set<number>();
+    const todos = new Set<number>([
+      ...Object.keys(A).map(Number),
+      ...Object.keys(B).map(Number),
+    ]);
+
+    for (const num of todos) {
+      const antes = A[num] || [];
+      const ahora = B[num] || [];
+      if (JSON.stringify(antes) !== JSON.stringify(ahora)) {
+        cambiados.add(num);
+      }
+    }
+    return cambiados;
+  }, [originalData, teethIdsState]);
 
   //region return
   return (
     <ContainView
       title="Odontograma"
       padding="py-3 2xl:py-20"
-      gapChildren="gap-3"
+      gapChildren="gap-2"
       sizeTitle="text-3xl 2xl:text-4xl"
       classContainer="relative"
       onClick={() => setContextMenu(null)}
@@ -221,22 +256,23 @@ export default function Odontogram() {
       {idProfesional !== "3" && (
         <div className="flex items-end justify-between w-full gap-1 min-h-20">
           <SearchPatient
-            data={infoUser?.data?.paciente || {}}
+            data={!dniOdontogram ? undefined : infoUser?.data?.paciente}
             handleDeletePatient={handleDeletePatient}
             labelSearch="DNI"
-            handleFindPatient={handleFindPatient}
-            viewImg
+            onSearch={handleSearch}
             odontogram={false}
-            state={dniOdontogram}
-            setState={setDniOdontogram}
+            state={dniInput}
+            setState={setDniInput}
             editOdontogram={editOdontogram}
             setEditOdontogram={setEditOdontogram}
             handleSave={handleSave}
             handleCancel={handleCancelEdit}
-            changes={Boolean(teethChanged.length)}
             errorState={errorState}
             setErrorState={setErrorState}
             isActive={editOdontogram && contextMenu === toothSelect}
+            changes={hasUnsaved}
+            hasConfirmed={hasConfirmed}
+            loading={uiLoading}
           />
         </div>
       )}
@@ -264,8 +300,11 @@ export default function Odontogram() {
                 }`}
               >
                 <p
-                  className={`text-xs  ${
+                  className={`text-sm  ${
                     editOdontogram ? "text-[#6e6d6d]" : "text-[#b6b5b5]"
+                  } ${
+                    dientesCambiados.has(toothNumber) &&
+                    "text-[#ff9e00] font-bold"
                   } `}
                 >
                   {toothNumber}
@@ -321,8 +360,11 @@ export default function Odontogram() {
                 }`}
               >
                 <p
-                  className={`text-xs  ${
+                  className={`text-sm  ${
                     editOdontogram ? "text-[#6e6d6d]" : "text-[#b6b5b5]"
+                  } ${
+                    dientesCambiados.has(toothNumber) &&
+                    "text-[#ff9e00] font-bold"
                   } `}
                 >
                   {toothNumber}
@@ -359,6 +401,7 @@ export default function Odontogram() {
         <ModalSelectFaceTooth
           show={openMenu}
           onClose={handleCloseMenu}
+          toothNumber={toothSelect}
           setFace={(caraNombre) =>
             setTeethIdsState((prev) => {
               const list = prev[toothSelect] || [];
@@ -382,6 +425,7 @@ export default function Odontogram() {
                   Number(idProfesional),
                 ],
               ]);
+
               return {
                 ...prev,
                 [toothSelect]: [...list.slice(0, lastIndex), nuevaTupla],
