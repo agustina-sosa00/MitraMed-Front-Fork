@@ -159,3 +159,20 @@ export interface SearchPatientProps {
   hasConfirmed?: boolean;
   loading?: boolean;
 }
+
+export type ContextType = {
+  setDisabledButton: React.Dispatch<
+    React.SetStateAction<{
+      inicio: boolean;
+      turnos: boolean;
+      historial: boolean;
+      odontograma: boolean;
+    }>
+  >;
+  disabledButton: {
+    inicio: boolean;
+    turnos: boolean;
+    historial: boolean;
+    odontograma: boolean;
+  };
+};

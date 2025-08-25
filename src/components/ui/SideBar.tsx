@@ -1,8 +1,9 @@
 import React from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { IconType } from "react-icons/lib";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { useOdontogramContext } from "../../context/OdontogramContext";
 
 interface IProp {
   logo: string;
@@ -16,13 +17,27 @@ interface DataProfessional {
 }
 
 export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
+  const location = useLocation();
   const navigate = useNavigate();
-
+  const {
+    setDniOdontogram,
+    setOriginalData,
+    setTeethIdsState,
+    setHasConfirmed,
+    setUiLoading,
+    setDniInput,
+  } = useOdontogramContext();
   const raw = Cookies.get("dataProfessional");
   const dataUser: DataProfessional | null = raw ? JSON.parse(raw) : null;
   const usuario = Cookies.get("usuario");
 
   const handleLogout = () => {
+    setDniOdontogram("");
+    setOriginalData({});
+    setTeethIdsState({});
+    setHasConfirmed(false);
+    setUiLoading(false);
+    setDniInput("");
     Cookies.remove("accessProfessional");
     navigate("/");
   };
@@ -41,21 +56,24 @@ export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
 
         {/* BOX 2 */}
         <div className="flex flex-col w-full gap-3 pl-5 py-5 h-[65%]">
-          {buttons.map((item) => (
-            <Link key={item.name} to={item.link}>
-              <button
-                disabled={item.disabled}
-                className={`flex items-center gap-2 pl-5 py-1 w-[90%] text-lg font-medium capitalize rounded ${
-                  item.disabled
-                    ? "text-gray-400 cursor-not-allowed"
-                    : "hover:bg-green hover:text-white text-blue cursor-pointer transition-all duration-300"
-                }`}
-              >
-                <item.icon />
-                {item.name}
-              </button>
-            </Link>
-          ))}
+          {buttons.map((item) => {
+            const isActive = location.pathname === item.link;
+            return (
+              <Link key={item.name} to={item.link}>
+                <button
+                  disabled={item.disabled}
+                  className={`flex items-center gap-2 pl-5 py-1 w-[90%] text-lg font-medium capitalize rounded ${
+                    item.disabled
+                      ? "text-gray-400 cursor-not-allowed"
+                      : "hover:bg-green hover:text-white text-blue cursor-pointer transition-all duration-300"
+                  } ${isActive ? "bg-green text-white" : ""} `}
+                >
+                  <item.icon />
+                  {item.name}
+                </button>
+              </Link>
+            );
+          })}
         </div>
 
         <div className="flex justify-center w-full">
@@ -80,7 +98,7 @@ export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
               onClick={handleLogout}
               className="font-bold transition-all duration-300 cursor-pointer hover:text-green"
             >
-              cerrar sesión
+              Cerrar Sesión
             </span>
             ?
           </p>

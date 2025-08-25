@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 
@@ -13,8 +12,7 @@ import {
   isEqualTeeth,
   sinProvisoriosDeTratamientosConCara,
 } from "../../../utils/odontogram.lookups";
-import { RawRow, ToothChangeTuple } from "@/types/index";
-
+import { ContextType, RawRow, ToothChangeTuple } from "@/types/index";
 import {
   getOdontogram,
   postSaveOdontogram,
@@ -22,8 +20,10 @@ import {
 import { useOdontogramContext } from "../../../context/OdontogramContext";
 import SearchPatient from "@/components/features/PanelProfessional/SearchPatient";
 import { buildIdsState } from "@/utils/buildTeethState";
+import { useOutletContext } from "react-router-dom";
 
 export default function Odontogram() {
+  const { setDisabledButton, disabledButton } = useOutletContext<ContextType>();
   const queryClient = useQueryClient();
   //region cookies
   const idProfesional = Cookies.get("idProfesional");
@@ -81,6 +81,24 @@ export default function Odontogram() {
   });
 
   //region useEffect
+
+  useEffect(() => {
+    if (editOdontogram) {
+      setDisabledButton({
+        inicio: true,
+        turnos: true,
+        historial: true,
+        odontograma: false,
+      });
+    } else {
+      setDisabledButton({
+        inicio: false,
+        turnos: false,
+        historial: false,
+        odontograma: false,
+      });
+    }
+  }, [disabledButton, editOdontogram, setDisabledButton]);
 
   useEffect(() => {
     if (!hasConfirmed || uiLoading || !infoUser) return;

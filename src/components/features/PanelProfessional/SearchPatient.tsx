@@ -115,7 +115,7 @@ export default function SearchPatient({
               <div
                 className={`flex  py-1 h-14 justify-between gap-1   w-2/3     items-center `}
               >
-                <div className="flex items-center gap-1">
+                <div className="flex items-end gap-1">
                   <label className="text-base font-bold capitalize text-green">
                     Ingresar DNI:
                   </label>
@@ -151,7 +151,7 @@ export default function SearchPatient({
           <div
             className={`flex py-1 h-14 justify-start gap-1 w-2/3  items-center `}
           >
-            <div className="flex items-center gap-1">
+            <div className="flex items-end gap-1">
               {" "}
               <label className="text-base font-bold capitalize text-green">
                 Ingresar DNI:
