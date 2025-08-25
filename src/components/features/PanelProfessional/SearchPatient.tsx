@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 import React from "react";
 import Swal from "sweetalert2";
@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/Button";
 import { SearchPatientProps } from "@/types/index";
 
 export default function SearchPatient({
-  handleFindPatient,
+  onSearch,
   editOdontogram,
   handleSave,
   setEditOdontogram,
@@ -29,73 +29,64 @@ export default function SearchPatient({
   setErrorState,
   changes,
   isActive,
+  hasConfirmed,
+  loading,
 }: SearchPatientProps) {
+  console.log(data);
   // region states y variables
-  const [isEditing, setIsEditing] = useState(true);
-  const [loader, setLoader] = useState(false);
+  const isEditing = !hasConfirmed;
   const inputRef = useRef<HTMLInputElement>(null);
-  const [styleDisabled, setStyleDisabled] = useState(false);
-
   const hasValidPatient = Boolean(data?.dni);
-  const canEdit = hasValidPatient && !isEditing && !loader && !errorState;
+  const canEdit = hasValidPatient && !isEditing && !loading && !errorState;
 
   //region useEffects
   useEffect(() => {
-    if (!data?.dni) {
-      setIsEditing(true);
-      setStyleDisabled(false);
-      setLoader(false);
-      inputRef.current?.focus();
-    } else {
-      setStyleDisabled(true);
+    if (!hasConfirmed) {
+      requestAnimationFrame(() => {
+        inputRef.current?.focus();
+      });
     }
-  }, [data]);
+  }, [hasConfirmed]);
 
   // region functions
   function handleOnChangeDni(e: React.ChangeEvent<HTMLInputElement>) {
     setState(e.target.value);
-    setErrorState && setErrorState("");
+    setErrorState?.("");
   }
 
   function handleSearchPatient() {
     if (state.length === 0) {
-      setErrorState && setErrorState("Debe ingresar un DNI");
+      setErrorState?.("Debe ingresar un DNI");
       inputRef.current?.focus();
-    } else if (!/^\d+$/.test(state)) {
-      setErrorState &&
-        setErrorState("El DNI debe ser numérico y sin punto. Ej: 12345678");
-      inputRef.current?.focus();
-    } else {
-      setLoader(true);
-      setTimeout(() => {
-        setIsEditing(false);
-        handleFindPatient(state);
-        setLoader(false);
-      }, 2000);
+      return;
     }
+    if (!/^\d+$/.test(state)) {
+      setErrorState?.("El DNI debe ser numérico y sin punto. Ej: 12345678");
+      inputRef.current?.focus();
+      return;
+    }
+
+    onSearch?.(state);
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === "Enter") {
-      if (state.length === 0) {
-        setErrorState && setErrorState("Debe ingresar un DNI");
-      } else {
-        handleSearchPatient();
-      }
+      handleSearchPatient();
     } else if (e.key === "Escape") {
-      setState("");
+      handleCancel?.();
     }
   }
 
   function handleEditInput() {
-    if (!editOdontogram) handleDeletePatient?.();
-    setIsEditing(true);
+    if (!editOdontogram) {
+      handleDeletePatient?.();
+      inputRef.current?.focus();
+    }
   }
 
   function handleCancelButton() {
     if (!changes) {
-      handleCancel && handleCancel();
-      setIsEditing(false);
+      handleCancel?.();
     } else {
       Swal.fire({
         title: "Existen Cambios sin Guardar",
@@ -106,16 +97,11 @@ export default function SearchPatient({
         cancelButtonColor: "#022539",
         confirmButtonText: "Si, Salir",
         cancelButtonText: "Seguir Editando",
-      })
-        .then((result) => {
-          if (result.isConfirmed) {
-            handleCancel && handleCancel();
-            setIsEditing(false);
-          }
-        })
-        .catch((error) => {
-          console.error("Error al mostrar la alerta:", error);
-        });
+      }).then((result) => {
+        if (result.isConfirmed) {
+          handleCancel?.();
+        }
+      });
     }
   }
 
@@ -123,7 +109,7 @@ export default function SearchPatient({
   return (
     <div className="flex flex-col w-full gap-2 ">
       <div className="flex items-center justify-between w-full h-10 ">
-        {!isEditing && data?.nombre ? (
+        {hasConfirmed ? (
           <>
             {state.length > 0 && (
               <div
@@ -136,7 +122,7 @@ export default function SearchPatient({
                   <div className="flex gap-1 w-36">
                     <div
                       className={`h-8 px-2 py-1 flex items-center gap-2 font-bold border  border-gray-300 rounded w-full bg-lightGray focus:outline-none  ${
-                        styleDisabled
+                        !hasConfirmed
                           ? "bg-gray-200 text-gray-400 "
                           : "text-blue"
                       }`}
@@ -178,7 +164,9 @@ export default function SearchPatient({
                   value={state}
                   onChange={handleOnChangeDni}
                   onKeyDown={handleKeyDown}
-                  autoFocus
+                  autoFocus={!hasConfirmed}
+                  readOnly={!isEditing}
+                  disabled={!isEditing}
                   className={`h-8 px-2 py-1 w-full bg-gray-200 font-bold rounded 
                 focus:outline-none text-blue focus-within:border-green focus-within:ring-1 focus-within:ring-green
                 ${errorState && "border-red-500"}`}
@@ -189,7 +177,7 @@ export default function SearchPatient({
                   onClick={handleSearchPatient}
                   className="flex items-center justify-center w-8 h-8 px-2 py-1 transition-all duration-300 bg-gray-200 border border-gray-300 rounded text-greenHover hover:text-white hover:bg-greenHover hover:border-green "
                 >
-                  {loader ? (
+                  {loading ? (
                     <svg
                       className="w-8 circle-loader animate-spin"
                       viewBox="25 25 50 50"
@@ -218,7 +206,7 @@ export default function SearchPatient({
       {
         //region data user
       }
-      {!data?.nombre ? (
+      {!hasConfirmed ? (
         <div className="w-full h-24 bg-gray-200 rounded"></div>
       ) : (
         <div className="flex items-center justify-center w-full h-24 gap-1 bg-white border rounded border-green">
@@ -233,15 +221,15 @@ export default function SearchPatient({
             </div>
 
             <div className="flex justify-start w-full gap-10">
-              <div className="flex items-center justify-center text-blue">
+              <div className="flex items-end justify-center text-blue">
                 <p className="text-sm ">DNI: </p>
                 <p className="px-2 text-lg font-bold ">{data?.dni}</p>
               </div>
-              <div className="flex items-center justify-center text-blue">
+              <div className="flex items-end justify-center text-blue">
                 <p className="text-sm ">Edad: </p>
                 <p className="px-2 text-lg font-bold ">{data?.edad}</p>
               </div>
-              <div className="flex items-center justify-center text-blue">
+              <div className="flex items-end justify-center text-blue">
                 <p className="text-sm text-nowrap">Fecha de Nacimiento: </p>
                 <p className="w-full px-2 text-lg font-bold">
                   {data?.fnacim
@@ -253,7 +241,7 @@ export default function SearchPatient({
                     : ""}
                 </p>
               </div>
-              <div className="flex items-center justify-center text-blue">
+              <div className="flex items-end justify-center text-blue">
                 <p className="text-sm text-nowrap">Obra Social:</p>
                 <p className="w-full px-2 text-lg font-bold">
                   {data?.idosocial !== 0 && data?.nosocial}
