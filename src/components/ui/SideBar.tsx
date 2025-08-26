@@ -1,9 +1,11 @@
-import React from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { IconType } from "react-icons/lib";
+import { IoSettingsSharp } from "react-icons/io5";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import React from "react";
 import Cookies from "js-cookie";
 import { useOdontogramContext } from "../../context/OdontogramContext";
+import TextAlert from "./TextAlert";
 
 interface IProp {
   logo: string;
@@ -30,6 +32,7 @@ export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
   const raw = Cookies.get("dataProfessional");
   const dataUser: DataProfessional | null = raw ? JSON.parse(raw) : null;
   const usuario = Cookies.get("usuario");
+  const idProfesional = Cookies.get("idProfesional");
 
   const handleLogout = () => {
     setDniOdontogram("");
@@ -44,9 +47,9 @@ export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
 
   return (
     <nav className="flex-col justify-between hidden w-56 h-screen lg:flex">
-      <section className="flex flex-col justify-between h-full bg-gray-200">
+      <section className="flex flex-col items-center justify-between h-full bg-gray-200">
         {/* BOX 1 */}
-        <div className="flex items-center pl-8 h-[10%]">
+        <div className="flex items-center  h-[10%]">
           <img src={logo} alt="logo" />
         </div>
 
@@ -74,7 +77,21 @@ export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
               </Link>
             );
           })}
+          {idProfesional && (
+            <Link to={"/profesionales/configuracion"}>
+              <button
+                className={`flex items-center gap-2 pl-5 py-1 w-[90%] text-lg font-medium capitalize rounded 
+                
+                  hover:bg-green hover:text-white text-blue cursor-pointer transition-all duration-300 `}
+              >
+                {" "}
+                <IoSettingsSharp /> Configuración{" "}
+              </button>
+            </Link>
+          )}
         </div>
+
+        <TextAlert />
 
         <div className="flex justify-center w-full">
           <div className="w-[80%] bg-blue h-[1px]" />

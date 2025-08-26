@@ -15,6 +15,7 @@ import { Document, Page, pdfjs } from "react-pdf";
 import workerSrc from "pdfjs-dist/build/pdf.worker?url";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
+import TextAlert from "@/components/ui/TextAlert";
 
 // Configuración del worker de PDF.js
 pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
@@ -85,6 +86,9 @@ export const DetailHistoryMedical: React.FC = () => {
 
   return (
     <div className="flex flex-col w-full h-screen px-20 py-10 bg-right bg-no-repeat bg-cover bg-profesional">
+      <div className="absolute right-5 top-5">
+        <TextAlert />
+      </div>
       <div>
         <Button
           label="volver al historial médico"

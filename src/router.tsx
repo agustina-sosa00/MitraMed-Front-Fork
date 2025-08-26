@@ -21,14 +21,17 @@ import Turnos from "./views/dashboard/Turnos";
 import MedicalHistory from "./views/dashboardProfessional/MedicalHistory";
 import { DetailHistoryMedical } from "./views/dashboardProfessional/DetailHistoryMedical";
 import { TableGral } from "./views/dashboardSecretariat/TableGral";
-
 import { Metrics } from "./views/dashboardSecretariat/Metrics";
+import Cookies from "js-cookie";
+import Settings from "./views/dashboardProfessional/Settings";
 
 interface RouterProps {
   loader: boolean;
   setLoader: React.Dispatch<React.SetStateAction<boolean>>;
 }
 export default function Router({ loader, setLoader }: RouterProps) {
+  const idProfesional = Cookies.get("idProfesional");
+
   return (
     <BrowserRouter>
       <Routes>
@@ -64,6 +67,9 @@ export default function Router({ loader, setLoader }: RouterProps) {
             path="/profesionales/historial/:id"
             element={<DetailHistoryMedical />}
           />
+          {idProfesional && (
+            <Route path="/profesionales/configuracion" element={<Settings />} />
+          )}
         </Route>
 
         <Route element={<SecretariatProtectedRoute />}>
