@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 import Nav from "./Nav";
 import { useEffect, useState } from "react";
 import { Drawer } from "../features/DrawerLogin/Drawer";
+import TextAlert from "./TextAlert";
 
 interface IProp {
   state: boolean;
@@ -20,7 +21,6 @@ export default function Header({
   handleOpenDrawer,
 }: IProp) {
   const isLoggedIn = Cookies.get("accessToken") && Cookies.get("refreshToken");
-  const isDevelopment = import.meta.env.VITE_ENV === "development";
 
   const [scrolled, setScrolled] = useState(false);
 
@@ -65,11 +65,7 @@ export default function Header({
           </div>
         </div>
 
-        {isDevelopment && (
-          <span className="px-2 py-1 font-semibold text-blue-500 rounded-md bg-slate-300">
-            Estás en <span className="italic font-bold">desarrollo</span>
-          </span>
-        )}
+        <TextAlert />
 
         {!isLoggedIn ? (
           <div className="flex gap-2">

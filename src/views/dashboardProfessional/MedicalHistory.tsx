@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { FaEye } from "react-icons/fa";
 
 import Cookies from "js-cookie";
 
@@ -18,19 +19,25 @@ import SearchPatient from "@/components/features/PanelProfessional/SearchPatient
 import getDataMedicalHistory from "@/services/ProfessionalService";
 
 export default function MedicalHistory() {
+  const queryClient = useQueryClient();
   // region context
   const { setToken, setFolder } = useContextDropbox();
   const {
     historyContext,
     setHistoryContext,
     hc,
-    setHc,
+
     dniHistory,
     setDniHistory,
+    hasConfirmed,
+    setHasConfirmed,
+    uiLoading,
+    setUiLoading,
+    dniInput,
+    setDniInput,
   } = useMedicalHistoryContext();
   // region states, variables y cookies
   const infoProfessional = Cookies.get("dataProfessional");
-  const [showData, setShowData] = useState<boolean>(false);
   const [focusState, setFocusState] = useState(false);
   const [dataDropbox, setDataDropbox] = useState({
     app_id: "",
@@ -39,7 +46,6 @@ export default function MedicalHistory() {
     nfolder: "",
   }); //states para la data de dropbox
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [dataUser, setDataUser] = useState({});
   const sortedData = [...historyContext].sort(
     (a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime()
   ); // sortedData es un array que acomoda el objeto mas reciente al principio del array
@@ -66,19 +72,33 @@ export default function MedicalHistory() {
     },
   });
 
-  const { mutate: mutateGetDataMedicalHistory } = useMutation({
-    mutationFn: getDataMedicalHistory,
-    onError: (error) => {
-      console.error(error);
-    },
-    onSuccess: (data) => {
-      setDataUser(data.data.paciente);
-    },
+  const { data: dataMedicalHistory } = useQuery({
+    queryKey: ["medicalHistory", dniHistory],
+    queryFn: () => getDataMedicalHistory({ dni: dniHistory }),
+    enabled: hasConfirmed && !!dniHistory,
+    staleTime: Infinity,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    gcTime: Infinity,
+    initialData: () => queryClient.getQueryData(["medicalHistory", dniHistory]),
   });
 
   //region useEffect
   useEffect(() => {
     mutateGetDataDropbox();
+  }, []);
+
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key !== "Escape") return;
+      if (e.key === "Escape") {
+        handleDeletePatient();
+      }
+    }
+    window.addEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+    };
   }, []);
 
   useEffect(() => {
@@ -97,14 +117,13 @@ export default function MedicalHistory() {
 
   //region functions
   function handleFindPatient(hc: string) {
-    if (dniHistory.length === 0) {
-      setHc(true);
-    } else {
-      mutateGetDataMedicalHistory({ dni: hc });
-      setHc(false);
+    setUiLoading(true);
+
+    setTimeout(() => {
+      setHasConfirmed(true);
+      setUiLoading(false);
       setDniHistory(hc);
-      setShowData(!showData);
-    }
+    }, 2000);
   }
 
   function handleOnFocusInput() {
@@ -121,33 +140,42 @@ export default function MedicalHistory() {
     }
   }
 
+  function handleDeletePatient() {
+    setHasConfirmed(false);
+    setUiLoading(false);
+    setDniHistory("");
+    setDniInput("");
+  }
+
+  function handleCancelEdit() {
+    setHasConfirmed(false);
+  }
+  console.log(dataMedicalHistory);
+  console.log("sortedData", sortedData);
   //region return
   return (
     <ContainView title="Historial médico" padding="py-5">
       <div className="flex items-center justify-start w-full gap-1 py-1 min-h-24 ">
         <SearchPatient
           noHc={hc}
-          data={dataUser || {}}
+          data={!dniHistory ? undefined : dataMedicalHistory?.data?.paciente}
           labelSearch={"dni"}
-          showData={showData}
           onSearch={handleFindPatient}
           setStateModal={setShowModal}
           odontogram={true}
-          state={dniHistory}
-          setState={setDniHistory}
+          state={dniInput}
+          setState={setDniInput}
+          hasConfirmed={hasConfirmed}
+          loading={uiLoading}
+          handleDeletePatient={handleDeletePatient}
+          handleCancel={handleCancelEdit}
         />
       </div>
-      <div className="flex justify-center w-full pt-5 overflow-x-auto min-h-80">
+      <div className="flex justify-center w-full pt-5 overflow-x-auto min-h-64">
         <TablaDefault
           props={{
-            datosParaTabla: sortedData,
+            datosParaTabla: dataMedicalHistory?.data?.hc || [],
             objectColumns: [
-              {
-                key: "id",
-                label: "id",
-                minWidth: "150",
-                maxWidth: "150",
-              },
               {
                 key: "fecha",
                 label: "Fecha",
@@ -155,13 +183,13 @@ export default function MedicalHistory() {
                 maxWidth: "150",
               },
               {
-                key: "motivo",
-                label: "Motivo de consulta",
+                key: "detalle",
+                label: "Motivo de Consulta",
                 minWidth: "260",
                 maxWidth: "260",
               },
               {
-                key: "profesional",
+                key: "ndoctor",
                 label: "Profesional",
                 minWidth: "200",
                 maxWidth: "200",
@@ -170,12 +198,16 @@ export default function MedicalHistory() {
                 key: "acciones",
                 label: "Acciones",
                 renderCell: (item) => (
-                  <Link to={`/profesionales/historial/${item.id}`} state={item}>
+                  <Link
+                    to={`/profesionales/historial/${item.idhistoria}`}
+                    state={item}
+                    className="flex justify-center w-full"
+                  >
                     <button
                       onClick={() => console.log("Acción sobre:", item)}
-                      className="px-3 py-1 bg-blue-500 rounded text-blue "
+                      className="text-lg bg-blue-500 rounded text-blue"
                     >
-                      Ver
+                      <FaEye />
                     </button>
                   </Link>
                 ),
@@ -185,7 +217,7 @@ export default function MedicalHistory() {
             ],
             objectStyles: {
               addHeaderColor: "#022539",
-              columnasNumber: [1],
+
               containerClass: "border border-gray-300 rounded-t-lg ",
               withBorder: false,
             },

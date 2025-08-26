@@ -47,6 +47,8 @@ export default function SignInForm({ rol }: IProp) {
       Cookies.set("accessToken", data.token_acceso, { expires: 0.3333 }); // 8 horas
       Cookies.set("refreshToken", data.token_refresh, { expires: 0.5 }); // 12 horas
 
+      localStorage.setItem("_m", "homo");
+      localStorage.setItem("_env", "des");
       navigate("/inicio");
     },
   });
@@ -62,7 +64,8 @@ export default function SignInForm({ rol }: IProp) {
 
     onSuccess: (resp) => {
       const user = resp?.data?.data?.[0];
-
+      localStorage.setItem("_m", "homo");
+      localStorage.setItem("_env", "des");
       if (!user) {
         Swal.fire({ icon: "error", title: "Respuesta inválida" });
         return;
@@ -88,7 +91,6 @@ export default function SignInForm({ rol }: IProp) {
 
       // SIN VÍNCULO
       if (resp?.data?.code === 204) {
-
         Swal.fire({
           icon: "error",
           title: "El usuario no pertenece a ningún profesional registrado.",
@@ -99,7 +101,6 @@ export default function SignInForm({ rol }: IProp) {
       }
 
       Swal.fire({ icon: "error", title: resp?.data?.message ?? "Error" });
-
     },
   });
 
