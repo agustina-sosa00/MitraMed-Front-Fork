@@ -32,7 +32,6 @@ export default function SearchPatient({
   hasConfirmed,
   loading,
 }: SearchPatientProps) {
-  console.log(data);
   // region states y variables
   const isEditing = !hasConfirmed;
   const inputRef = useRef<HTMLInputElement>(null);

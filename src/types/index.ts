@@ -78,13 +78,11 @@ export interface Turno {
 export interface IArrayTableHistorial {
   id: number;
   fecha: string;
-  motivo: string;
-  data: {
-    description: string;
-    archivo: string;
-    medicamentos?: string;
-  };
-  profesional: string;
+  detalle: string;
+  obs: string;
+  archivo?: string;
+  medicamentos?: string;
+  ndoctor: string;
 }
 
 // region context

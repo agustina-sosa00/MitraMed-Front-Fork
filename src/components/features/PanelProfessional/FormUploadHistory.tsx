@@ -36,8 +36,8 @@ export const FormUploadHistory: React.FC<IProp> = ({
   const { token } = useContextDropbox();
   const [loader, setLoader] = useState<boolean>(false);
   const [dataForm, setDataForm] = useState({
-    motivo: "",
-    descripcion: "",
+    detalle: "",
+    obs: "",
     archivo: "",
     medicamentos: "",
   });
@@ -76,7 +76,7 @@ export const FormUploadHistory: React.FC<IProp> = ({
       if (data) {
         Swal.fire({
           icon: "success",
-          title: "Información guardada con éxito",
+          title: "Información Guardada con Éxito",
           confirmButtonColor: "#518915",
         });
       }
@@ -95,26 +95,25 @@ export const FormUploadHistory: React.FC<IProp> = ({
           {
             id: Date.now(),
             fecha: new Date().toISOString(),
-            motivo: dataForm.motivo,
-            data: {
-              description: dataForm.descripcion,
-              archivo: "",
-              medicamentos: dataForm.medicamentos,
-            },
-            profesional:
-              infoProfessional.adoctor + " " + infoProfessional.ndoctor,
+            detalle: dataForm.detalle,
+
+            obs: dataForm.obs,
+            archivo: "",
+            medicamentos: dataForm.medicamentos,
+
+            ndoctor: infoProfessional.adoctor + " " + infoProfessional.ndoctor,
           },
         ]);
         setStateModal(false);
         Swal.fire({
           icon: "success",
-          title: "Información guardada con éxito",
+          title: "Información Guardada con Éxito",
           confirmButtonColor: "#518915",
         });
         // vaciar el estado del formulario
         setDataForm({
-          motivo: "",
-          descripcion: "",
+          detalle: "",
+          obs: "",
           archivo: "",
           medicamentos: "",
         });
@@ -145,21 +144,18 @@ export const FormUploadHistory: React.FC<IProp> = ({
         {
           id: Date.now(),
           fecha: new Date().toISOString(),
-          motivo: dataForm.motivo,
-          data: {
-            description: dataForm.descripcion,
-            archivo: newFile!.name,
-            medicamentos: dataForm.medicamentos,
-          },
-          profesional:
-            infoProfessional.adoctor + " " + infoProfessional.ndoctor,
+          detalle: dataForm.detalle,
+          obs: dataForm.obs,
+          archivo: newFile!.name,
+          medicamentos: dataForm.medicamentos,
+          ndoctor: infoProfessional.adoctor + " " + infoProfessional.ndoctor,
         },
       ]);
 
       // vaciar el estado del formulario
       setDataForm({
-        motivo: "",
-        descripcion: "",
+        detalle: "",
+        obs: "",
         archivo: "",
         medicamentos: "",
       });
@@ -180,7 +176,7 @@ export const FormUploadHistory: React.FC<IProp> = ({
     <div className="flex flex-col items-start justify-center w-full gap-2 p-3 bg-white rounded">
       <div className="flex justify-center w-full">
         <h1 className="text-xl font-bold text-center text-blue">
-          Agregar datos de la consulta
+          Agregar Datos de la Consulta
         </h1>
       </div>
       <form
@@ -191,23 +187,23 @@ export const FormUploadHistory: React.FC<IProp> = ({
         }}
       >
         <InputProfessional
-          valueInput={dataForm.motivo}
-          nameInput="motivo"
+          valueInput={dataForm.detalle}
+          nameInput="detalle"
           handleInput={handleOnChangeInput}
           placeholderInput={"control"}
           labelInput={"motivo de consulta"}
           field={true}
           focusState={focusState}
-          focusName={"motivo"}
+          focusName={"detalle"}
         />
         <InputProfessional
-          valueInput={dataForm.descripcion}
-          nameInput="descripcion"
+          valueInput={dataForm.obs}
+          nameInput="obs"
           handleTextarea={handleOnChangeTextarea}
           placeholderInput={"Peso: 57kg talla: 1.70m"}
           labelInput={"descripción"}
           focusState={focusState}
-          focusName={"descripcion"}
+          focusName={"obs"}
         />
         <div className="flex w-full">
           <div className=" w-36">
@@ -225,7 +221,7 @@ export const FormUploadHistory: React.FC<IProp> = ({
             type="button"
             label="cancelar"
             handle={() => setStateModal(false)}
-            classButton="bg-blue rounded text-white font-medium  px-5 py-1 hover:bg-blueHover"
+            classButton="bg-red-500 rounded text-white font-medium  px-5 py-1 hover:bg-red-600"
           />
           <Button
             type="button"

@@ -59,11 +59,11 @@ export const DetailHistoryMedical: React.FC = () => {
   const handleDownload = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     Swal.fire({
-      title: "¿Descargar archivo?",
-      text: "Se descargará el archivo en tu dispositivo.",
+      title: "¿Descargar Archivo?",
+      text: "Se Descargará el Archivo en tu Dispositivo.",
 
       showCancelButton: true,
-      confirmButtonText: "Sí, descargar",
+      confirmButtonText: "Sí, Descargar",
       cancelButtonText: "Cancelar",
       confirmButtonColor: "#518915",
       cancelButtonColor: "#d33",
@@ -107,7 +107,7 @@ export const DetailHistoryMedical: React.FC = () => {
           </h3>
           <h3 className="text-lg font-normal text-blue">
             Profesional:{" "}
-            <span className="text-xl font-medium ">{state?.profesional}</span>
+            <span className="text-xl font-medium ">{state?.ndoctor}</span>
           </h3>
         </div>
 
@@ -119,13 +119,13 @@ export const DetailHistoryMedical: React.FC = () => {
       </div>
       <div className="flex flex-col w-full gap-2 p-2 my-3 bg-gray-100 rounded">
         <h1 className=" text-blue">
-          Motivo de la consulta:{" "}
-          <span className="font-medium">{state?.motivo}</span>
+          Motivo de la Consulta:{" "}
+          <span className="font-medium">{state?.detalle}</span>
         </h1>
         <div className="border-b border-gray-300 "></div>
         <p className="break-words whitespace-normal text-blue">
           Descripcion: {""}
-          <span className="font-medium">{state?.data.description}</span>
+          <span className="font-medium">{state?.obs}</span>
         </p>
       </div>
       {
@@ -275,7 +275,7 @@ export const DetailHistoryMedical: React.FC = () => {
                 <div className="flex flex-col items-center justify-center w-full h-full">
                   {" "}
                   <LuFileX2 className="text-7xl " />
-                  <h2 className="font-bold ">No hay archivos disponibles</h2>
+                  <h2 className="font-bold ">No Hay Archivos Disponibles</h2>
                 </div>
               </div>
             )}
