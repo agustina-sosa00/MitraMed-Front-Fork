@@ -11,7 +11,7 @@ export const Professional: React.FC = () => {
       <div className="flex flex-col justify-center w-full ">
         <div className="flex items-center justify-center w-full gap-3 py-5 lg:flex-row ">
           <StartCard
-            text={"Ver mis turnos"}
+            text={"Ver Mis Turnos"}
             description={
               "Consulta y gestiona tus turnos programados de manera rápida y sencilla."
             }

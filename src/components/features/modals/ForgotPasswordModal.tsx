@@ -42,13 +42,18 @@ export default function ForgotPasswordModal() {
       });
     },
     onSuccess: (data) => {
-      Swal.fire({
-        title: "Drag me!",
-        icon: data,
-        draggable: true,
-      });
-      reset();
-      navigate("/");
+      if (data) {
+        Swal.fire({
+          title: "Correo Enviado",
+          text: "Revisa tu email para recuperar tu cuenta",
+          icon: "success",
+          confirmButtonText: "Aceptar",
+          confirmButtonColor: "#518915",
+          draggable: true,
+        });
+        reset();
+        navigate("/");
+      }
     },
   });
 

@@ -23,7 +23,6 @@ export default function MedicalHistory() {
   // region context
   const { setToken, setFolder } = useContextDropbox();
   const {
-    historyContext,
     setHistoryContext,
     hc,
 
@@ -46,9 +45,6 @@ export default function MedicalHistory() {
     nfolder: "",
   }); //states para la data de dropbox
   const [showModal, setShowModal] = useState<boolean>(false);
-  const sortedData = [...historyContext].sort(
-    (a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime()
-  ); // sortedData es un array que acomoda el objeto mas reciente al principio del array
 
   //region mutates
   const { mutate: mutateGetDataDropbox } = useMutation({
@@ -150,8 +146,7 @@ export default function MedicalHistory() {
   function handleCancelEdit() {
     setHasConfirmed(false);
   }
-  console.log(dataMedicalHistory);
-  console.log("sortedData", sortedData);
+
   //region return
   return (
     <ContainView title="Historial médico" padding="py-5">
