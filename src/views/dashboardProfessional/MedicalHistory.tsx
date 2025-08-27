@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { FaEye } from "react-icons/fa";
@@ -11,7 +11,10 @@ import { TablaDefault } from "@/frontend-resourses/components";
 import { Modal } from "@/components/ui/Modal";
 import { FormUploadHistory } from "@/components/features/PanelProfessional/FormUploadHistory";
 import { ContainView } from "@/components/features/PanelProfessional/ContainView";
-import { getDataDropbox, getTokenDropbox } from "@/services/dropboxServices";
+import {
+  getDataDropbox,
+  getTokenDropbox,
+} from "@/services/MedicalHistoryService";
 import { useMedicalHistoryContext } from "../../context/MedicalHistoryContext";
 import { useContextDropbox } from "../../context/DropboxContext";
 
@@ -23,9 +26,7 @@ export default function MedicalHistory() {
   // region context
   const { setToken, setFolder } = useContextDropbox();
   const {
-    setHistoryContext,
     hc,
-
     dniHistory,
     setDniHistory,
     hasConfirmed,
@@ -45,7 +46,7 @@ export default function MedicalHistory() {
     nfolder: "",
   }); //states para la data de dropbox
   const [showModal, setShowModal] = useState<boolean>(false);
-
+  const refreshTimer = useRef<number | null>(null);
   //region mutates
   const { mutate: mutateGetDataDropbox } = useMutation({
     mutationFn: getDataDropbox,
@@ -53,8 +54,8 @@ export default function MedicalHistory() {
       console.error(error);
     },
     onSuccess: (data) => {
-      setDataDropbox(data.data[0]);
-      setFolder(data.data[0].nfolder);
+      setDataDropbox(data.data);
+      setFolder(data.data.folders[1]);
     },
   });
 
@@ -64,7 +65,12 @@ export default function MedicalHistory() {
       console.error(error);
     },
     onSuccess: (data) => {
-      setToken(data?.access_token);
+      const access = data?.access_token;
+      if (!access) return;
+      setToken(access);
+      if (refreshTimer.current) window.clearTimeout(refreshTimer.current);
+      refreshTimer.current = window.setTimeout(refresh, (60 * 60 - 60) * 1000);
+      // refreshTimer.current = window.setTimeout(refresh, 3 * 60 * 1000);
     },
   });
 
@@ -78,7 +84,6 @@ export default function MedicalHistory() {
     gcTime: Infinity,
     initialData: () => queryClient.getQueryData(["medicalHistory", dniHistory]),
   });
-
   //region useEffect
   useEffect(() => {
     mutateGetDataDropbox();
@@ -99,15 +104,11 @@ export default function MedicalHistory() {
 
   useEffect(() => {
     if (
-      dataDropbox.app_id &&
-      dataDropbox.app_secret &&
-      dataDropbox.refresh_token
+      dataDropbox?.app_id &&
+      dataDropbox?.app_secret &&
+      dataDropbox?.refresh_token
     ) {
-      mutateGetTokenDropbox({
-        refreshToken: dataDropbox.refresh_token,
-        clientId: dataDropbox.app_id,
-        clientSecret: dataDropbox.app_secret,
-      });
+      refresh();
     }
   }, [dataDropbox]);
 
@@ -120,6 +121,14 @@ export default function MedicalHistory() {
       setUiLoading(false);
       setDniHistory(hc);
     }, 2000);
+  }
+
+  function refresh() {
+    mutateGetTokenDropbox({
+      refreshToken: dataDropbox?.refresh_token,
+      clientId: dataDropbox?.app_id,
+      clientSecret: dataDropbox?.app_secret,
+    });
   }
 
   function handleOnFocusInput() {
@@ -198,10 +207,7 @@ export default function MedicalHistory() {
                     state={item}
                     className="flex justify-center w-full"
                   >
-                    <button
-                      onClick={() => console.log("Acción sobre:", item)}
-                      className="text-lg bg-blue-500 rounded text-blue"
-                    >
+                    <button className="text-lg bg-blue-500 rounded text-blue">
                       <FaEye />
                     </button>
                   </Link>
@@ -226,7 +232,6 @@ export default function MedicalHistory() {
             handle={handleOnFocusInput}
             infoProfessional={JSON.parse(infoProfessional!)}
             hc={dniHistory}
-            setState={setHistoryContext}
             focusState={focusState}
             folder={dataDropbox.nfolder}
             setStateModal={setShowModal}

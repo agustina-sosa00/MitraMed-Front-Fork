@@ -2,16 +2,19 @@ import React, { useState } from "react";
 import { InputProfessional } from "./InputProfessional";
 import { UploadStudy } from "@/views/dashboardProfessional/UploadStudy";
 import { renameFile } from "@/utils/renameFile";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
-import { IArrayTableHistorial } from "@/types/index";
 import { useContextDropbox } from "../../../context/DropboxContext";
-import { uploadFileDropbox } from "@/services/dropboxServices";
+import {
+  postSaveHistory,
+  uploadFileDropbox,
+} from "@/services/MedicalHistoryService";
 import { Button } from "@/components/ui/Button";
+import { useMedicalHistoryContext } from "../../../context/MedicalHistoryContext";
+import { getTodayDate } from "@/utils/index";
 
 interface IProp {
   hc: string;
-  setState: React.Dispatch<React.SetStateAction<IArrayTableHistorial[]>>;
   infoProfessional: {
     adoctor: string;
     ndoctor: string;
@@ -23,13 +26,15 @@ interface IProp {
   setStateModal: (arg: boolean) => void;
 }
 export const FormUploadHistory: React.FC<IProp> = ({
-  setState,
   infoProfessional,
   handle,
   focusState,
   folder,
   setStateModal,
 }) => {
+  const queryClient = useQueryClient();
+  const modo = localStorage.getItem("_m");
+  const { dniHistory } = useMedicalHistoryContext();
   // ----------------------------------------------
   // ------T O K E N  D E  D R O P B O X-----------
   // ----------------------------------------------
@@ -63,6 +68,29 @@ export const FormUploadHistory: React.FC<IProp> = ({
     setDataForm({ ...dataForm, [name]: value });
   };
 
+  //region mutates
+  const { mutate: saveMedicalHistory } = useMutation({
+    mutationFn: postSaveHistory,
+    onError: (error) => {
+      Swal.fire({
+        icon: "error",
+        title: error.message,
+      });
+    },
+    onSuccess: (data) => {
+      console.log(data);
+      queryClient.invalidateQueries({
+        queryKey: ["medicalHistory", dniHistory],
+      });
+      setStateModal(false);
+      Swal.fire({
+        icon: "success",
+        title: "Información Guardada con Éxito",
+        confirmButtonColor: "#518915",
+      });
+    },
+  });
+
   //  MUTATE PARA GUARDAR ARCHIVOS EN EL DROPBOX
   const { mutateAsync } = useMutation({
     mutationFn: uploadFileDropbox,
@@ -86,31 +114,27 @@ export const FormUploadHistory: React.FC<IProp> = ({
   // ------------------------------
   // handle para guardar el archivo
   // ------------------------------
-  const handleOnClickSave = async () => {
+  async function handleOnClickSave() {
     if (!file) {
       setLoader(true);
       setTimeout(() => {
-        setState((prev: IArrayTableHistorial[]) => [
-          ...prev,
-          {
-            id: Date.now(),
-            fecha: new Date().toISOString(),
-            detalle: dataForm.detalle,
-
-            obs: dataForm.obs,
-            archivo: "",
-            medicamentos: dataForm.medicamentos,
-
-            ndoctor: infoProfessional.adoctor + " " + infoProfessional.ndoctor,
-          },
-        ]);
         setStateModal(false);
+
+        saveMedicalHistory({
+          _e: 20,
+          _m: modo || "",
+          dni: Number(dniHistory),
+          fecha: getTodayDate(),
+          detalle: dataForm.detalle,
+          obs: dataForm.obs,
+          iddoctor: infoProfessional.iddoctor,
+        });
         Swal.fire({
           icon: "success",
           title: "Información Guardada con Éxito",
           confirmButtonColor: "#518915",
         });
-        // vaciar el estado del formulario
+
         setDataForm({
           detalle: "",
           obs: "",
@@ -123,9 +147,10 @@ export const FormUploadHistory: React.FC<IProp> = ({
       return;
     }
     setLoader(true);
+
     const newFile = renameFile({
       archivoOriginal: file,
-      idDoctor: infoProfessional.iddoctor,
+      dni: dniHistory,
     });
 
     // setFileSaved(newFile);
@@ -139,18 +164,6 @@ export const FormUploadHistory: React.FC<IProp> = ({
       });
       setLoader(false);
       // estado para guardar la info en la tabla
-      setState((prev: IArrayTableHistorial[]) => [
-        ...prev,
-        {
-          id: Date.now(),
-          fecha: new Date().toISOString(),
-          detalle: dataForm.detalle,
-          obs: dataForm.obs,
-          archivo: newFile!.name,
-          medicamentos: dataForm.medicamentos,
-          ndoctor: infoProfessional.adoctor + " " + infoProfessional.ndoctor,
-        },
-      ]);
 
       // vaciar el estado del formulario
       setDataForm({
@@ -170,7 +183,7 @@ export const FormUploadHistory: React.FC<IProp> = ({
         text: error instanceof Error ? error.message : "Error desconocido",
       });
     }
-  };
+  }
 
   return (
     <div className="flex flex-col items-start justify-center w-full gap-2 p-3 bg-white rounded">

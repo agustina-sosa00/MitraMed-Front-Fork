@@ -1,10 +1,50 @@
 import { apiPhp } from "@/lib/axiosPhp";
 import axios from "axios";
 
+export function postSaveHistory({
+  dni,
+  fecha,
+  detalle,
+  obs,
+  iddoctor,
+  _e,
+  _m,
+}: {
+  dni: number;
+  fecha: string;
+  detalle: string;
+  obs: string;
+  iddoctor: string;
+  _e: number;
+  _m: string;
+}) {
+  const data = {
+    _e: _e,
+    _m: _m,
+    dni: dni,
+    fecha: fecha,
+    detalle: detalle,
+    obs: obs,
+    iddoctor: iddoctor,
+  };
+  try {
+    const response = apiPhp.post(
+      `/apinovades/mitramed/grabarHistoria.php`,
+      data
+    );
+    return response;
+  } catch (error) {
+    throw new Error(`${error}`);
+  }
+}
+
+//region dropbox
 export const getDataDropbox = async () => {
+  const modo = localStorage.getItem("_m") ?? "";
+
   try {
     const response = await apiPhp(
-      `/apinovades/dropbox/obtenerDropboxDatos.php?_i={"_e":"000020","_ta":"1","_tf":"hc"}`
+      `/apinovades/dropbox/obtenerDropboxDatos.php?_i={"_e":"20","_m":"${modo}"}`
     );
     return response.data;
   } catch (error) {

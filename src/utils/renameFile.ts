@@ -1,9 +1,9 @@
 export const renameFile = ({
   archivoOriginal,
-  idDoctor,
+  dni,
 }: {
   archivoOriginal: File | null;
-  idDoctor: string;
+  dni: string;
 }) => {
   if (!archivoOriginal) return null;
 
@@ -17,7 +17,7 @@ export const renameFile = ({
   const seconds = String(date.getSeconds()).padStart(2, "0");
 
   const extension = archivoOriginal.name.split(".").pop();
-  const nuevoNombre = `42373284_${idDoctor}_${year}${month}${day}${hours}${minutes}${seconds}.${extension}`;
+  const nuevoNombre = `${dni}${year}${month}${day}${hours}${minutes}${seconds}.${extension}`;
 
   return new File([archivoOriginal], nuevoNombre, {
     type: archivoOriginal.type,

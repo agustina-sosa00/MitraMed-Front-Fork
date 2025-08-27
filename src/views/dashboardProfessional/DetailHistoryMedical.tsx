@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { Modal } from "@/components/ui/Modal";
-import { downloadFileDropbox } from "@/services/dropboxServices";
+import { downloadFileDropbox } from "@/services/MedicalHistoryService";
 import { useMutation } from "@tanstack/react-query";
 import { useContextDropbox } from "../../context/DropboxContext";
 import { IoClose } from "react-icons/io5";
