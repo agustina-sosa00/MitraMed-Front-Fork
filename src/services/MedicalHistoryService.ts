@@ -8,7 +8,6 @@ export function postSaveHistory({
   obs,
   iddoctor,
   _e,
-  _m,
 }: {
   dni: number;
   fecha: string;
@@ -16,11 +15,11 @@ export function postSaveHistory({
   obs: string;
   iddoctor: string;
   _e: number;
-  _m: string;
 }) {
+  const modo = localStorage.getItem("_m") ?? "";
   const data = {
     _e: _e,
-    _m: _m,
+    _m: modo,
     dni: dni,
     fecha: fecha,
     detalle: detalle,
@@ -52,7 +51,7 @@ export const getDataDropbox = async () => {
   }
 };
 
-export const getTokenDropbox = async ({
+export const getAccessTokenDropbox = async ({
   refreshToken,
   clientId,
   clientSecret,
@@ -88,18 +87,19 @@ const dropboxURL = "https://content.dropboxapi.com";
 export const uploadFileDropbox = async ({
   fileNameError,
   file,
-  token,
+
   folder,
 }: {
   fileNameError: string;
   file: File;
-  token: string;
+
   folder: string;
 }) => {
   try {
+    const accessToken = localStorage.getItem("accessToken");
     const response = await axios.post(`${dropboxURL}/2/files/upload`, file, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/octet-stream",
         "Dropbox-API-Arg": JSON.stringify({
           path: `/${folder}/${file.name}`,

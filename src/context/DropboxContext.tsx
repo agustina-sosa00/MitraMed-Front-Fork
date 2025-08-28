@@ -6,16 +6,20 @@ const DropboxContext = createContext<DropboxContextType | null>(null);
 export const DropboxProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [token, setToken] = useState(() => Cookies.get("token") || "");
+  const [accessToken, setAccessToken] = useState(
+    () => Cookies.get("token") || ""
+  );
   const [folder, setFolder] = useState("");
 
   useEffect(() => {
-    if (!token) return;
-    Cookies.set("token", token, { expires: 0.0416 });
-  }, [token]);
+    if (!accessToken) return;
+    Cookies.set("token", accessToken, { expires: 0.0416 });
+  }, [accessToken]);
 
   return (
-    <DropboxContext.Provider value={{ token, setToken, folder, setFolder }}>
+    <DropboxContext.Provider
+      value={{ accessToken, setAccessToken, folder, setFolder }}
+    >
       {children}
     </DropboxContext.Provider>
   );

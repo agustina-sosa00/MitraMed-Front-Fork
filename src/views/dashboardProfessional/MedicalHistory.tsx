@@ -1,10 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { FaEye } from "react-icons/fa";
 
 import Cookies from "js-cookie";
-
 import Swal from "sweetalert2";
 
 import { TablaDefault } from "@/frontend-resourses/components";
@@ -13,7 +12,7 @@ import { FormUploadHistory } from "@/components/features/PanelProfessional/FormU
 import { ContainView } from "@/components/features/PanelProfessional/ContainView";
 import {
   getDataDropbox,
-  getTokenDropbox,
+  getAccessTokenDropbox,
 } from "@/services/MedicalHistoryService";
 import { useMedicalHistoryContext } from "../../context/MedicalHistoryContext";
 import { useContextDropbox } from "../../context/DropboxContext";
@@ -24,7 +23,7 @@ import getDataMedicalHistory from "@/services/ProfessionalService";
 export default function MedicalHistory() {
   const queryClient = useQueryClient();
   // region context
-  const { setToken, setFolder } = useContextDropbox();
+  const { setAccessToken, setFolder } = useContextDropbox();
   const {
     hc,
     dniHistory,
@@ -36,41 +35,31 @@ export default function MedicalHistory() {
     dniInput,
     setDniInput,
   } = useMedicalHistoryContext();
+  Cookies.set("expiracion", "hola yo expiro ", { expires: 0.08333 });
+
   // region states, variables y cookies
   const infoProfessional = Cookies.get("dataProfessional");
   const [focusState, setFocusState] = useState(false);
-  const [dataDropbox, setDataDropbox] = useState({
-    app_id: "",
-    app_secret: "",
-    refresh_token: "",
-    nfolder: "",
-  }); //states para la data de dropbox
+
   const [showModal, setShowModal] = useState<boolean>(false);
-  const refreshTimer = useRef<number | null>(null);
-  //region mutates
-  const { mutate: mutateGetDataDropbox } = useMutation({
-    mutationFn: getDataDropbox,
-    onError: (error) => {
-      console.error(error);
-    },
-    onSuccess: (data) => {
-      setDataDropbox(data.data);
-      setFolder(data.data.folders[1]);
-    },
+
+  //region querys / mutates
+
+  const { data: dropboxData } = useQuery({
+    queryKey: ["dataDropboxQuery"],
+    queryFn: () => getDataDropbox(),
+    enabled: false,
   });
 
-  const { mutate: mutateGetTokenDropbox } = useMutation({
-    mutationFn: getTokenDropbox,
+  const { mutate: mutateGetAccessTokenDropbox } = useMutation({
+    mutationFn: getAccessTokenDropbox,
     onError: (error) => {
       console.error(error);
     },
     onSuccess: (data) => {
       const access = data?.access_token;
       if (!access) return;
-      setToken(access);
-      if (refreshTimer.current) window.clearTimeout(refreshTimer.current);
-      refreshTimer.current = window.setTimeout(refresh, (60 * 60 - 60) * 1000);
-      // refreshTimer.current = window.setTimeout(refresh, 3 * 60 * 1000);
+      setAccessToken(access);
     },
   });
 
@@ -84,10 +73,8 @@ export default function MedicalHistory() {
     gcTime: Infinity,
     initialData: () => queryClient.getQueryData(["medicalHistory", dniHistory]),
   });
+
   //region useEffect
-  useEffect(() => {
-    mutateGetDataDropbox();
-  }, []);
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -103,19 +90,21 @@ export default function MedicalHistory() {
   }, []);
 
   useEffect(() => {
+    if (dropboxData) {
+      setFolder(dropboxData?.data?.folders?.[1]);
+    }
     if (
-      dataDropbox?.app_id &&
-      dataDropbox?.app_secret &&
-      dataDropbox?.refresh_token
+      dropboxData?.data?.app_id &&
+      dropboxData?.data?.app_secret &&
+      dropboxData?.data?.refresh_token
     ) {
       refresh();
     }
-  }, [dataDropbox]);
+  }, [dropboxData]);
 
   //region functions
   function handleFindPatient(hc: string) {
     setUiLoading(true);
-
     setTimeout(() => {
       setHasConfirmed(true);
       setUiLoading(false);
@@ -123,11 +112,12 @@ export default function MedicalHistory() {
     }, 2000);
   }
 
+  //region refresh
   function refresh() {
-    mutateGetTokenDropbox({
-      refreshToken: dataDropbox?.refresh_token,
-      clientId: dataDropbox?.app_id,
-      clientSecret: dataDropbox?.app_secret,
+    mutateGetAccessTokenDropbox({
+      refreshToken: dropboxData?.data?.refresh_token,
+      clientId: dropboxData?.data?.app_id,
+      clientSecret: dropboxData?.data?.app_secret,
     });
   }
 
@@ -233,7 +223,7 @@ export default function MedicalHistory() {
             infoProfessional={JSON.parse(infoProfessional!)}
             hc={dniHistory}
             focusState={focusState}
-            folder={dataDropbox.nfolder}
+            folder={dropboxData.nfolder}
             setStateModal={setShowModal}
           />
         </Modal>

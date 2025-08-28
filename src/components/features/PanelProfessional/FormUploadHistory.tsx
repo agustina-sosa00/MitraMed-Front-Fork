@@ -4,7 +4,6 @@ import { UploadStudy } from "@/views/dashboardProfessional/UploadStudy";
 import { renameFile } from "@/utils/renameFile";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
-import { useContextDropbox } from "../../../context/DropboxContext";
 import {
   postSaveHistory,
   uploadFileDropbox,
@@ -33,12 +32,10 @@ export const FormUploadHistory: React.FC<IProp> = ({
   setStateModal,
 }) => {
   const queryClient = useQueryClient();
-  const modo = localStorage.getItem("_m");
   const { dniHistory } = useMedicalHistoryContext();
   // ----------------------------------------------
   // ------T O K E N  D E  D R O P B O X-----------
   // ----------------------------------------------
-  const { token } = useContextDropbox();
   const [loader, setLoader] = useState<boolean>(false);
   const [dataForm, setDataForm] = useState({
     detalle: "",
@@ -78,7 +75,7 @@ export const FormUploadHistory: React.FC<IProp> = ({
       });
     },
     onSuccess: (data) => {
-      console.log(data);
+      console.log("grabar historia", data);
       queryClient.invalidateQueries({
         queryKey: ["medicalHistory", dniHistory],
       });
@@ -119,10 +116,8 @@ export const FormUploadHistory: React.FC<IProp> = ({
       setLoader(true);
       setTimeout(() => {
         setStateModal(false);
-
         saveMedicalHistory({
           _e: 20,
-          _m: modo || "",
           dni: Number(dniHistory),
           fecha: getTodayDate(),
           detalle: dataForm.detalle,
@@ -159,13 +154,9 @@ export const FormUploadHistory: React.FC<IProp> = ({
       await mutateAsync({
         fileNameError: file.name,
         file: newFile!,
-        token: token,
         folder: folder,
       });
       setLoader(false);
-      // estado para guardar la info en la tabla
-
-      // vaciar el estado del formulario
       setDataForm({
         detalle: "",
         obs: "",
@@ -175,7 +166,6 @@ export const FormUploadHistory: React.FC<IProp> = ({
       setFile(null);
       setStateModal(false);
     } catch (error) {
-      // manejar el error
       console.error("Error al subir archivo:", error);
       Swal.fire({
         icon: "error",
