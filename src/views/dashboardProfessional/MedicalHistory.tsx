@@ -23,7 +23,7 @@ import getDataMedicalHistory from "@/services/ProfessionalService";
 export default function MedicalHistory() {
   const queryClient = useQueryClient();
   // region context
-  const { setAccessToken, setFolder } = useContextDropbox();
+  const { setAccessTokenDropbox, setFolder } = useContextDropbox();
   const {
     hc,
     dniHistory,
@@ -38,17 +38,21 @@ export default function MedicalHistory() {
   Cookies.set("expiracion", "hola yo expiro ", { expires: 0.08333 });
 
   // region states, variables y cookies
+  const accessTokenDropbox = Cookies.get("accessTokenDropbox");
   const infoProfessional = Cookies.get("dataProfessional");
   const [focusState, setFocusState] = useState(false);
-
   const [showModal, setShowModal] = useState<boolean>(false);
+  const hasToken = Boolean(Cookies.get("accessTokenDropbox"));
 
   //region querys / mutates
 
-  const { data: dropboxData } = useQuery({
+  const { data: dropboxData, refetch } = useQuery({
     queryKey: ["dataDropboxQuery"],
     queryFn: () => getDataDropbox(),
-    enabled: false,
+    enabled: !hasToken,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    staleTime: Infinity,
   });
 
   const { mutate: mutateGetAccessTokenDropbox } = useMutation({
@@ -59,7 +63,7 @@ export default function MedicalHistory() {
     onSuccess: (data) => {
       const access = data?.access_token;
       if (!access) return;
-      setAccessToken(access);
+      setAccessTokenDropbox(access);
     },
   });
 
@@ -75,6 +79,12 @@ export default function MedicalHistory() {
   });
 
   //region useEffect
+
+  useEffect(() => {
+    if (!accessTokenDropbox) {
+      refetch();
+    }
+  }, []);
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -223,7 +233,6 @@ export default function MedicalHistory() {
             infoProfessional={JSON.parse(infoProfessional!)}
             hc={dniHistory}
             focusState={focusState}
-            folder={dropboxData.nfolder}
             setStateModal={setShowModal}
           />
         </Modal>

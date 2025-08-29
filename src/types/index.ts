@@ -76,8 +76,8 @@ export interface Turno {
 
 // region context
 export interface DropboxContextType {
-  accessToken: string;
-  setAccessToken: React.Dispatch<React.SetStateAction<string>>;
+  accessTokenDropbox: string;
+  setAccessTokenDropbox: React.Dispatch<React.SetStateAction<string>>;
   folder: string;
   setFolder: React.Dispatch<React.SetStateAction<string>>;
 }

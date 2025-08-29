@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/Button";
 import { useMedicalHistoryContext } from "../../../context/MedicalHistoryContext";
 import { getTodayDate } from "@/utils/index";
+import { useContextDropbox } from "../../../context/DropboxContext";
 
 interface IProp {
   hc: string;
@@ -21,18 +22,19 @@ interface IProp {
   };
   handle?: () => void;
   focusState?: boolean;
-  folder: string;
+
   setStateModal: (arg: boolean) => void;
 }
 export const FormUploadHistory: React.FC<IProp> = ({
   infoProfessional,
   handle,
   focusState,
-  folder,
+
   setStateModal,
 }) => {
   const queryClient = useQueryClient();
   const { dniHistory } = useMedicalHistoryContext();
+  const { folder } = useContextDropbox();
   // ----------------------------------------------
   // ------T O K E N  D E  D R O P B O X-----------
   // ----------------------------------------------
@@ -43,6 +45,7 @@ export const FormUploadHistory: React.FC<IProp> = ({
     archivo: "",
     medicamentos: "",
   });
+  // const [dataFileSaved, setDataFileSaved] = useState();
   // const [image, setImage] = useState<string>("");
   const [file, setFile] = useState<File | null>(null);
   // const [fileSaved, setFileSaved] = useState<File | null>(null);
@@ -92,6 +95,7 @@ export const FormUploadHistory: React.FC<IProp> = ({
   const { mutateAsync } = useMutation({
     mutationFn: uploadFileDropbox,
     onError: (error) => {
+      console.log(error);
       Swal.fire({
         icon: "error",
         title: error.message,
@@ -99,11 +103,7 @@ export const FormUploadHistory: React.FC<IProp> = ({
     },
     onSuccess: (data) => {
       if (data) {
-        Swal.fire({
-          icon: "success",
-          title: "Información Guardada con Éxito",
-          confirmButtonColor: "#518915",
-        });
+        console.log(data);
       }
     },
   });
@@ -141,8 +141,8 @@ export const FormUploadHistory: React.FC<IProp> = ({
       }, 2000);
       return;
     }
-    setLoader(true);
 
+    setLoader(true);
     const newFile = renameFile({
       archivoOriginal: file,
       dni: dniHistory,
@@ -156,6 +156,7 @@ export const FormUploadHistory: React.FC<IProp> = ({
         file: newFile!,
         folder: folder,
       });
+
       setLoader(false);
       setDataForm({
         detalle: "",

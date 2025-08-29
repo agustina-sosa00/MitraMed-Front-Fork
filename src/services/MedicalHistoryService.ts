@@ -1,5 +1,6 @@
 import { apiPhp } from "@/lib/axiosPhp";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 export function postSaveHistory({
   dni,
@@ -45,6 +46,7 @@ export const getDataDropbox = async () => {
     const response = await apiPhp(
       `/apinovades/dropbox/obtenerDropboxDatos.php?_i={"_e":"20","_m":"${modo}"}`
     );
+    console.log("se ejecuto el getDataDropbox");
     return response.data;
   } catch (error) {
     throw new Error(`${error}`);
@@ -87,7 +89,6 @@ const dropboxURL = "https://content.dropboxapi.com";
 export const uploadFileDropbox = async ({
   fileNameError,
   file,
-
   folder,
 }: {
   fileNameError: string;
@@ -96,7 +97,8 @@ export const uploadFileDropbox = async ({
   folder: string;
 }) => {
   try {
-    const accessToken = localStorage.getItem("accessToken");
+    const accessToken = Cookies.get("accessTokenDropbox");
+    console.log(accessToken);
     const response = await axios.post(`${dropboxURL}/2/files/upload`, file, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
