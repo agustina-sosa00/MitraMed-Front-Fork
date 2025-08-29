@@ -5,6 +5,7 @@ import { renameFile } from "@/utils/renameFile";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import {
+  grabarPacienteDocum,
   postSaveHistory,
   uploadFileDropbox,
 } from "@/services/MedicalHistoryService";
@@ -29,7 +30,6 @@ export const FormUploadHistory: React.FC<IProp> = ({
   infoProfessional,
   handle,
   focusState,
-
   setStateModal,
 }) => {
   const queryClient = useQueryClient();
@@ -45,6 +45,7 @@ export const FormUploadHistory: React.FC<IProp> = ({
     archivo: "",
     medicamentos: "",
   });
+  const [idHistoria, setIdHistoria] = useState<number | null>(null);
   // const [dataFileSaved, setDataFileSaved] = useState();
   // const [image, setImage] = useState<string>("");
   const [file, setFile] = useState<File | null>(null);
@@ -79,15 +80,18 @@ export const FormUploadHistory: React.FC<IProp> = ({
     },
     onSuccess: (data) => {
       console.log("grabar historia", data);
+      setIdHistoria(data?.data?.data?.grabar_historia);
       queryClient.invalidateQueries({
         queryKey: ["medicalHistory", dniHistory],
       });
       setStateModal(false);
-      Swal.fire({
-        icon: "success",
-        title: "Información Guardada con Éxito",
-        confirmButtonColor: "#518915",
-      });
+      if (!file) {
+        Swal.fire({
+          icon: "success",
+          title: "Información Guardada con Éxito",
+          confirmButtonColor: "#518915",
+        });
+      }
     },
   });
 
@@ -108,10 +112,25 @@ export const FormUploadHistory: React.FC<IProp> = ({
     },
   });
 
+  const { mutateAsync: mutateAsyncSavedPatientDocum } = useMutation({
+    mutationFn: grabarPacienteDocum,
+    onError: (error) => {
+      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: error.message,
+      });
+    },
+    onSuccess: (data) => {
+      console.log("grabarPacienteDocum", data);
+    },
+  });
+
   // ------------------------------
   // handle para guardar el archivo
   // ------------------------------
   async function handleOnClickSave() {
+    // SI NO HAY ARCHIVO
     if (!file) {
       setLoader(true);
       setTimeout(() => {
@@ -141,31 +160,50 @@ export const FormUploadHistory: React.FC<IProp> = ({
       }, 2000);
       return;
     }
-
+    //SI HAY ARCHIVO
     setLoader(true);
     const newFile = renameFile({
       archivoOriginal: file,
       dni: dniHistory,
     });
-
     // setFileSaved(newFile);
-
     try {
-      await mutateAsync({
+      await saveMedicalHistory({
+        _e: 20,
+        dni: Number(dniHistory),
+        fecha: getTodayDate(),
+        detalle: dataForm.detalle,
+        obs: dataForm.obs,
+        iddoctor: infoProfessional.iddoctor,
+      });
+
+      const savedFileDropbox = await mutateAsync({
         fileNameError: file.name,
         file: newFile!,
         folder: folder,
       });
-
-      setLoader(false);
-      setDataForm({
-        detalle: "",
-        obs: "",
-        archivo: "",
-        medicamentos: "",
-      });
-      setFile(null);
-      setStateModal(false);
+      console.log("savedFileDropbox", savedFileDropbox);
+      if (savedFileDropbox) {
+        const filesSaved = await mutateAsyncSavedPatientDocum({
+          empresa: 20,
+          idhistoria: idHistoria!,
+          iddoctor: Number(infoProfessional.iddoctor),
+          idopera: file.name,
+          extencion: (newFile?.name.split(".").pop() ?? "").toLowerCase(),
+        });
+        console.log("filesSaved", filesSaved);
+        if (filesSaved) {
+          setLoader(false);
+          setDataForm({
+            detalle: "",
+            obs: "",
+            archivo: "",
+            medicamentos: "",
+          });
+          setFile(null);
+          setStateModal(false);
+        }
+      }
     } catch (error) {
       console.error("Error al subir archivo:", error);
       Swal.fire({

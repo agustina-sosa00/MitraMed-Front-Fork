@@ -21,7 +21,7 @@ import TextAlert from "@/components/ui/TextAlert";
 pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
 
 export const DetailHistoryMedical: React.FC = () => {
-  const { accessTokenDropbox, folder } = useContextDropbox();
+  const { folder } = useContextDropbox();
   // const { id } = useParams();
   const location = useLocation();
   const state = location.state;
@@ -51,7 +51,6 @@ export const DetailHistoryMedical: React.FC = () => {
     setFileBlob(null);
     setShowModal(true);
     mutateDownloadDropbox({
-      token: accessTokenDropbox,
       folder: folder,
       archivo: state.data.archivo,
     });

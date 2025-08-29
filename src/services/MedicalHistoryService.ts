@@ -38,6 +38,40 @@ export function postSaveHistory({
   }
 }
 
+export async function grabarPacienteDocum({
+  empresa,
+  idhistoria,
+  idopera,
+  extencion,
+  iddoctor,
+}: {
+  empresa: number;
+  idhistoria: number;
+  idopera: string;
+  extencion: string;
+  iddoctor: number;
+}) {
+  try {
+    const modo = localStorage.getItem("_m") ?? "";
+
+    const data = {
+      _e: empresa,
+      _m: modo,
+      idhistoria: idhistoria,
+      idopera: idopera,
+      extencion: extencion,
+      iddoctor: iddoctor,
+    };
+    const response = await apiPhp.post(
+      `/apinovades/mitramed/grabarPacienteDocum.php`,
+      data
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 //region dropbox
 export const getDataDropbox = async () => {
   const modo = localStorage.getItem("_m") ?? "";
@@ -84,8 +118,6 @@ export const getAccessTokenDropbox = async ({
   }
 };
 
-const dropboxURL = "https://content.dropboxapi.com";
-
 export const uploadFileDropbox = async ({
   fileNameError,
   file,
@@ -96,19 +128,24 @@ export const uploadFileDropbox = async ({
 
   folder: string;
 }) => {
+  const contentDropboxURL = "https://content.dropboxapi.com";
   try {
     const accessToken = Cookies.get("accessTokenDropbox");
     console.log(accessToken);
-    const response = await axios.post(`${dropboxURL}/2/files/upload`, file, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/octet-stream",
-        "Dropbox-API-Arg": JSON.stringify({
-          path: `/${folder}/${file.name}`,
-          mode: "overwrite",
-        }),
-      },
-    });
+    const response = await axios.post(
+      `${contentDropboxURL}/2/files/upload`,
+      file,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/octet-stream",
+          "Dropbox-API-Arg": JSON.stringify({
+            path: `/${folder}/${file.name}`,
+            mode: "overwrite",
+          }),
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     throw new Error(
@@ -118,21 +155,21 @@ export const uploadFileDropbox = async ({
 };
 
 export const downloadFileDropbox = async ({
-  token,
   folder,
   archivo,
 }: {
-  token: string;
   folder: string;
   archivo: string;
 }) => {
+  const accessToken = Cookies.get("accessTokenDropbox");
+
   try {
     const response = await axios.post(
       `https://content.dropboxapi.com/2/files/download`,
       null,
       {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${accessToken}`,
           "Dropbox-API-Arg": JSON.stringify({
             path: `/${folder}/${archivo}`,
           }),
