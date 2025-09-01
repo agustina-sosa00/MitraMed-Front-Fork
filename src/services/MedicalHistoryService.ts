@@ -42,13 +42,13 @@ export async function grabarPacienteDocum({
   empresa,
   idhistoria,
   idopera,
-  extencion,
+  extension,
   iddoctor,
 }: {
   empresa: number;
   idhistoria: number;
   idopera: string;
-  extencion: string;
+  extension: string;
   iddoctor: number;
 }) {
   try {
@@ -59,7 +59,7 @@ export async function grabarPacienteDocum({
       _m: modo,
       idhistoria: idhistoria,
       idopera: idopera,
-      extencion: extencion,
+      extension: extension,
       iddoctor: iddoctor,
     };
     const response = await apiPhp.post(
@@ -125,13 +125,14 @@ export const uploadFileDropbox = async ({
 }: {
   fileNameError: string;
   file: File;
-
   folder: string;
 }) => {
+  const fileName = file!.name.split(".")[0];
   const contentDropboxURL = "https://content.dropboxapi.com";
   try {
+    const modo = localStorage.getItem("_m") ?? "";
+
     const accessToken = Cookies.get("accessTokenDropbox");
-    console.log(accessToken);
     const response = await axios.post(
       `${contentDropboxURL}/2/files/upload`,
       file,
@@ -140,7 +141,7 @@ export const uploadFileDropbox = async ({
           Authorization: `Bearer ${accessToken}`,
           "Content-Type": "application/octet-stream",
           "Dropbox-API-Arg": JSON.stringify({
-            path: `/${folder}/${file.name}`,
+            path: `/${modo}/${folder}/${fileName}`,
             mode: "overwrite",
           }),
         },

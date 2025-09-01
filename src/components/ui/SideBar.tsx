@@ -6,6 +6,7 @@ import React from "react";
 import Cookies from "js-cookie";
 import { useOdontogramContext } from "../../context/OdontogramContext";
 import TextAlert from "./TextAlert";
+import { useMedicalHistoryContext } from "../../context/MedicalHistoryContext";
 
 interface IProp {
   logo: string;
@@ -29,6 +30,8 @@ export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
     setUiLoading,
     setDniInput,
   } = useOdontogramContext();
+  const { setDniHistory, setDniInput: setDniHistoryInput } =
+    useMedicalHistoryContext();
   const raw = Cookies.get("dataProfessional");
   const dataUser: DataProfessional | null = raw ? JSON.parse(raw) : null;
   const usuario = Cookies.get("usuario");
@@ -41,7 +44,13 @@ export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
     setHasConfirmed(false);
     setUiLoading(false);
     setDniInput("");
+    setDniHistory("");
+    setDniHistoryInput("");
     Cookies.remove("accessProfessional");
+    Cookies.remove("accessTokenDropbox");
+    Cookies.remove("app_id_dropbox");
+    Cookies.remove("app_secret_dropbox");
+    Cookies.remove("refresh_token_dropbox");
     navigate("/");
   };
 

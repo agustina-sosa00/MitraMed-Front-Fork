@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { InputProfessional } from "./InputProfessional";
 import { UploadStudy } from "@/views/dashboardProfessional/UploadStudy";
 import { renameFile } from "@/utils/renameFile";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
+import React from "react";
 import {
   grabarPacienteDocum,
   postSaveHistory,
@@ -13,6 +14,7 @@ import { Button } from "@/components/ui/Button";
 import { useMedicalHistoryContext } from "../../../context/MedicalHistoryContext";
 import { getTodayDate } from "@/utils/index";
 import { useContextDropbox } from "../../../context/DropboxContext";
+import { isAxiosError } from "axios";
 
 interface IProp {
   hc: string;
@@ -23,9 +25,9 @@ interface IProp {
   };
   handle?: () => void;
   focusState?: boolean;
-
   setStateModal: (arg: boolean) => void;
 }
+
 export const FormUploadHistory: React.FC<IProp> = ({
   infoProfessional,
   handle,
@@ -35,9 +37,6 @@ export const FormUploadHistory: React.FC<IProp> = ({
   const queryClient = useQueryClient();
   const { dniHistory } = useMedicalHistoryContext();
   const { folder } = useContextDropbox();
-  // ----------------------------------------------
-  // ------T O K E N  D E  D R O P B O X-----------
-  // ----------------------------------------------
   const [loader, setLoader] = useState<boolean>(false);
   const [dataForm, setDataForm] = useState({
     detalle: "",
@@ -45,130 +44,32 @@ export const FormUploadHistory: React.FC<IProp> = ({
     archivo: "",
     medicamentos: "",
   });
-  const [idHistoria, setIdHistoria] = useState<number | null>(null);
+  const [file, setFile] = useState<File | null>(null);
   // const [dataFileSaved, setDataFileSaved] = useState();
   // const [image, setImage] = useState<string>("");
-  const [file, setFile] = useState<File | null>(null);
   // const [fileSaved, setFileSaved] = useState<File | null>(null);
-
-  // -----------------------------------------------
-  // -----------------------------------------------
-  // ----state que se manda a uploadFileDropbox----
-  // -----------------------------------------------
-  // -----------------------------------------------
   // const [dataToSendDropbox, setDataToSendDropbox] = useState();
 
-  const handleOnChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setDataForm({ ...dataForm, [name]: value });
-  };
-  const handleOnChangeTextarea = (
-    e: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setDataForm({ ...dataForm, [name]: value });
-  };
-
   //region mutates
-  const { mutate: saveMedicalHistory } = useMutation({
-    mutationFn: postSaveHistory,
-    onError: (error) => {
-      Swal.fire({
-        icon: "error",
-        title: error.message,
-      });
-    },
-    onSuccess: (data) => {
-      console.log("grabar historia", data);
-      setIdHistoria(data?.data?.data?.grabar_historia);
-      queryClient.invalidateQueries({
-        queryKey: ["medicalHistory", dniHistory],
-      });
-      setStateModal(false);
-      if (!file) {
-        Swal.fire({
-          icon: "success",
-          title: "Información Guardada con Éxito",
-          confirmButtonColor: "#518915",
-        });
-      }
-    },
-  });
+  const saveHistory = useMutation({ mutationFn: postSaveHistory });
+  const uploadToDropbox = useMutation({ mutationFn: uploadFileDropbox });
+  const linkPatientDoc = useMutation({ mutationFn: grabarPacienteDocum });
 
-  //  MUTATE PARA GUARDAR ARCHIVOS EN EL DROPBOX
-  const { mutateAsync } = useMutation({
-    mutationFn: uploadFileDropbox,
-    onError: (error) => {
-      console.log(error);
-      Swal.fire({
-        icon: "error",
-        title: error.message,
-      });
-    },
-    onSuccess: (data) => {
-      if (data) {
-        console.log(data);
-      }
-    },
-  });
+  //region function
+  function handleOnChangeInput(e: React.ChangeEvent<HTMLInputElement>) {
+    const { name, value } = e.target;
+    setDataForm({ ...dataForm, [name]: value });
+  }
 
-  const { mutateAsync: mutateAsyncSavedPatientDocum } = useMutation({
-    mutationFn: grabarPacienteDocum,
-    onError: (error) => {
-      console.log(error);
-      Swal.fire({
-        icon: "error",
-        title: error.message,
-      });
-    },
-    onSuccess: (data) => {
-      console.log("grabarPacienteDocum", data);
-    },
-  });
+  function handleOnChangeTextarea(e: React.ChangeEvent<HTMLTextAreaElement>) {
+    const { name, value } = e.target;
+    setDataForm({ ...dataForm, [name]: value });
+  }
 
-  // ------------------------------
-  // handle para guardar el archivo
-  // ------------------------------
   async function handleOnClickSave() {
-    // SI NO HAY ARCHIVO
-    if (!file) {
-      setLoader(true);
-      setTimeout(() => {
-        setStateModal(false);
-        saveMedicalHistory({
-          _e: 20,
-          dni: Number(dniHistory),
-          fecha: getTodayDate(),
-          detalle: dataForm.detalle,
-          obs: dataForm.obs,
-          iddoctor: infoProfessional.iddoctor,
-        });
-        Swal.fire({
-          icon: "success",
-          title: "Información Guardada con Éxito",
-          confirmButtonColor: "#518915",
-        });
-
-        setDataForm({
-          detalle: "",
-          obs: "",
-          archivo: "",
-          medicamentos: "",
-        });
-
-        setLoader(false);
-      }, 2000);
-      return;
-    }
-    //SI HAY ARCHIVO
     setLoader(true);
-    const newFile = renameFile({
-      archivoOriginal: file,
-      dni: dniHistory,
-    });
-    // setFileSaved(newFile);
     try {
-      await saveMedicalHistory({
+      const res = await saveHistory.mutateAsync({
         _e: 20,
         dni: Number(dniHistory),
         fecha: getTodayDate(),
@@ -177,40 +78,50 @@ export const FormUploadHistory: React.FC<IProp> = ({
         iddoctor: infoProfessional.iddoctor,
       });
 
-      const savedFileDropbox = await mutateAsync({
-        fileNameError: file.name,
-        file: newFile!,
-        folder: folder,
-      });
-      console.log("savedFileDropbox", savedFileDropbox);
-      if (savedFileDropbox) {
-        const filesSaved = await mutateAsyncSavedPatientDocum({
-          empresa: 20,
-          idhistoria: idHistoria!,
-          iddoctor: Number(infoProfessional.iddoctor),
-          idopera: file.name,
-          extencion: (newFile?.name.split(".").pop() ?? "").toLowerCase(),
+      const idhistoria: number | undefined = res?.data?.data?.grabar_historia;
+      if (!idhistoria) throw new Error("No se obtuvo el id de la historia.");
+
+      if (file) {
+        const newFile = renameFile({ archivoOriginal: file, dni: dniHistory });
+
+        await uploadToDropbox.mutateAsync({
+          fileNameError: file.name,
+          file: newFile!,
+          folder,
         });
-        console.log("filesSaved", filesSaved);
-        if (filesSaved) {
-          setLoader(false);
-          setDataForm({
-            detalle: "",
-            obs: "",
-            archivo: "",
-            medicamentos: "",
-          });
-          setFile(null);
-          setStateModal(false);
-        }
+
+        const extension = (newFile!.name.split(".").pop() ?? "").toLowerCase();
+        const fileName = newFile!.name.split(".")[0];
+        await linkPatientDoc.mutateAsync({
+          empresa: 20,
+          idhistoria,
+          iddoctor: Number(infoProfessional.iddoctor),
+          idopera: fileName, //cambiar al nombre formateado
+          extension: extension,
+        });
       }
-    } catch (error) {
-      console.error("Error al subir archivo:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Error al subir el archivo",
-        text: error instanceof Error ? error.message : "Error desconocido",
+
+      await queryClient.invalidateQueries({
+        queryKey: ["medicalHistory", dniHistory],
       });
+
+      Swal.fire({
+        icon: "success",
+        title: "Información guardada con éxito",
+        confirmButtonColor: "#518915",
+      });
+
+      setDataForm({ detalle: "", obs: "", archivo: "", medicamentos: "" });
+      setFile(null);
+      setStateModal(false);
+    } catch (error) {
+      if (isAxiosError(error) && error.response) {
+        throw new Error(error.response.data.error);
+      } else {
+        throw new Error("Hubo un error...");
+      }
+    } finally {
+      setLoader(false);
     }
   }
 

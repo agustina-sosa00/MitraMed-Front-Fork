@@ -23,7 +23,7 @@ import getDataMedicalHistory from "@/services/ProfessionalService";
 export default function MedicalHistory() {
   const queryClient = useQueryClient();
   // region context
-  const { setAccessTokenDropbox, setFolder } = useContextDropbox();
+  const { setFolder } = useContextDropbox();
   const {
     hc,
     dniHistory,
@@ -35,7 +35,6 @@ export default function MedicalHistory() {
     dniInput,
     setDniInput,
   } = useMedicalHistoryContext();
-  Cookies.set("expiracion", "hola yo expiro ", { expires: 0.08333 });
 
   // region states, variables y cookies
   const accessTokenDropbox = Cookies.get("accessTokenDropbox");
@@ -49,7 +48,7 @@ export default function MedicalHistory() {
   const { data: dropboxData, refetch } = useQuery({
     queryKey: ["dataDropboxQuery"],
     queryFn: () => getDataDropbox(),
-    enabled: !hasToken,
+    enabled: !hasToken, //se ejecuta solo cuando no hay token
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     staleTime: Infinity,
@@ -63,7 +62,7 @@ export default function MedicalHistory() {
     onSuccess: (data) => {
       const access = data?.access_token;
       if (!access) return;
-      setAccessTokenDropbox(access);
+      Cookies.set("accessTokenDropbox", access, { expires: 5 / 24 });
     },
   });
 
@@ -108,6 +107,13 @@ export default function MedicalHistory() {
       dropboxData?.data?.app_secret &&
       dropboxData?.data?.refresh_token
     ) {
+      Cookies.set("app_id_dropbox", dropboxData?.data?.app_id, { expires: 7 });
+      Cookies.set("app_secret_dropbox", dropboxData?.data?.app_secret, {
+        expires: 7,
+      });
+      Cookies.set("refresh_token_dropbox", dropboxData?.data?.refresh_token, {
+        expires: 7,
+      });
       refresh();
     }
   }, [dropboxData]);
@@ -175,7 +181,7 @@ export default function MedicalHistory() {
           handleCancel={handleCancelEdit}
         />
       </div>
-      <div className="flex justify-center w-full pt-5 overflow-x-auto min-h-64">
+      <div className="flex justify-center w-full pt-5 overflow-x-auto max-h-64">
         <TablaDefault
           props={{
             datosParaTabla: dataMedicalHistory?.data?.hc || [],
@@ -218,7 +224,7 @@ export default function MedicalHistory() {
             ],
             objectStyles: {
               addHeaderColor: "#022539",
-
+              withScrollbar: true,
               containerClass: "border border-gray-300 rounded-t-lg ",
               withBorder: false,
             },
