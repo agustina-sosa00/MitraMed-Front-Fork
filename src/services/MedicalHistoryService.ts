@@ -1,3 +1,4 @@
+import { apiDropbox } from "@/lib/axiosDropbox";
 import { apiPhp } from "@/lib/axiosPhp";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -8,18 +9,18 @@ export function postSaveHistory({
   detalle,
   obs,
   iddoctor,
-  _e,
 }: {
   dni: number;
   fecha: string;
   detalle: string;
   obs: string;
   iddoctor: string;
-  _e: number;
 }) {
   const modo = localStorage.getItem("_m") ?? "";
+  const empresa = localStorage.getItem("_e") ?? "";
+
   const data = {
-    _e: _e,
+    _e: empresa,
     _m: modo,
     dni: dni,
     fecha: fecha,
@@ -39,13 +40,11 @@ export function postSaveHistory({
 }
 
 export async function grabarPacienteDocum({
-  empresa,
   idhistoria,
   idopera,
   extension,
   iddoctor,
 }: {
-  empresa: number;
   idhistoria: number;
   idopera: string;
   extension: string;
@@ -53,7 +52,7 @@ export async function grabarPacienteDocum({
 }) {
   try {
     const modo = localStorage.getItem("_m") ?? "";
-
+    const empresa = localStorage.getItem("_e") ?? "";
     const data = {
       _e: empresa,
       _m: modo,
@@ -75,12 +74,12 @@ export async function grabarPacienteDocum({
 //region dropbox
 export const getDataDropbox = async () => {
   const modo = localStorage.getItem("_m") ?? "";
+  const empresa = localStorage.getItem("_e") ?? "";
 
   try {
     const response = await apiPhp(
-      `/apinovades/dropbox/obtenerDropboxDatos.php?_i={"_e":"20","_m":"${modo}"}`
+      `/apinovades/dropbox/obtenerDropboxDatos.php?_i={"_e":"${empresa}","_m":"${modo}"}`
     );
-    console.log("se ejecuto el getDataDropbox");
     return response.data;
   } catch (error) {
     throw new Error(`${error}`);
@@ -119,38 +118,32 @@ export const getAccessTokenDropbox = async ({
 };
 
 export const uploadFileDropbox = async ({
-  fileNameError,
+  fileOriginalName,
   file,
-  folder,
 }: {
-  fileNameError: string;
+  fileOriginalName: string;
   file: File;
-  folder: string;
 }) => {
-  const fileName = file!.name.split(".")[0];
-  const contentDropboxURL = "https://content.dropboxapi.com";
+  const folder = localStorage.getItem("folder") || "";
+
   try {
     const modo = localStorage.getItem("_m") ?? "";
-
     const accessToken = Cookies.get("accessTokenDropbox");
-    const response = await axios.post(
-      `${contentDropboxURL}/2/files/upload`,
-      file,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/octet-stream",
-          "Dropbox-API-Arg": JSON.stringify({
-            path: `/${modo}/${folder}/${fileName}`,
-            mode: "overwrite",
-          }),
-        },
-      }
-    );
+    const response = await apiDropbox.post(`/2/files/upload`, file, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/octet-stream",
+        "Dropbox-API-Arg": JSON.stringify({
+          path: `/${modo}/${folder}/${file.name}`,
+          mode: "add",
+          autorename: true,
+        }),
+      },
+    });
     return response.data;
   } catch (error) {
     throw new Error(
-      `Error subiendo el archivo: ${fileNameError}. Error: ${error}`
+      `Error subiendo el archivo: ${fileOriginalName}. Error: ${error}`
     );
   }
 };

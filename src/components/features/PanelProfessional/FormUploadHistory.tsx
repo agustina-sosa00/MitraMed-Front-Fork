@@ -13,8 +13,6 @@ import {
 import { Button } from "@/components/ui/Button";
 import { useMedicalHistoryContext } from "../../../context/MedicalHistoryContext";
 import { getTodayDate } from "@/utils/index";
-import { useContextDropbox } from "../../../context/DropboxContext";
-import { isAxiosError } from "axios";
 
 interface IProp {
   hc: string;
@@ -36,7 +34,6 @@ export const FormUploadHistory: React.FC<IProp> = ({
 }) => {
   const queryClient = useQueryClient();
   const { dniHistory } = useMedicalHistoryContext();
-  const { folder } = useContextDropbox();
   const [loader, setLoader] = useState<boolean>(false);
   const [dataForm, setDataForm] = useState({
     detalle: "",
@@ -44,7 +41,7 @@ export const FormUploadHistory: React.FC<IProp> = ({
     archivo: "",
     medicamentos: "",
   });
-  const [file, setFile] = useState<File | null>(null);
+  const [fileForm, setFileForm] = useState<File | null>(null);
   // const [dataFileSaved, setDataFileSaved] = useState();
   // const [image, setImage] = useState<string>("");
   // const [fileSaved, setFileSaved] = useState<File | null>(null);
@@ -53,7 +50,7 @@ export const FormUploadHistory: React.FC<IProp> = ({
   //region mutates
   const saveHistory = useMutation({ mutationFn: postSaveHistory });
   const uploadToDropbox = useMutation({ mutationFn: uploadFileDropbox });
-  const linkPatientDoc = useMutation({ mutationFn: grabarPacienteDocum });
+  const savePatientDocum = useMutation({ mutationFn: grabarPacienteDocum });
 
   //region function
   function handleOnChangeInput(e: React.ChangeEvent<HTMLInputElement>) {
@@ -69,8 +66,18 @@ export const FormUploadHistory: React.FC<IProp> = ({
   async function handleOnClickSave() {
     setLoader(true);
     try {
+      let newFile: { file: File; name: string; extension: string } | null =
+        null;
+
+      if (fileForm) {
+        newFile = renameFile({ archivoOriginal: fileForm, dni: dniHistory });
+        await uploadToDropbox.mutateAsync({
+          fileOriginalName: fileForm.name,
+          file: newFile!.file!,
+        });
+      }
+
       const res = await saveHistory.mutateAsync({
-        _e: 20,
         dni: Number(dniHistory),
         fecha: getTodayDate(),
         detalle: dataForm.detalle,
@@ -78,27 +85,17 @@ export const FormUploadHistory: React.FC<IProp> = ({
         iddoctor: infoProfessional.iddoctor,
       });
 
-      const idhistoria: number | undefined = res?.data?.data?.grabar_historia;
-      if (!idhistoria) throw new Error("No se obtuvo el id de la historia.");
+      if (newFile) {
+        const idhistoria: number | undefined = res?.data?.data?.grabar_historia;
+        if (!idhistoria) throw new Error("No se obtuvo el id de la historia.");
 
-      if (file) {
-        const newFile = renameFile({ archivoOriginal: file, dni: dniHistory });
-
-        await uploadToDropbox.mutateAsync({
-          fileNameError: file.name,
-          file: newFile!,
-          folder,
-        });
-
-        const extension = (newFile!.name.split(".").pop() ?? "").toLowerCase();
-        const fileName = newFile!.name.split(".")[0];
-        await linkPatientDoc.mutateAsync({
-          empresa: 20,
+        await savePatientDocum.mutateAsync({
           idhistoria,
           iddoctor: Number(infoProfessional.iddoctor),
-          idopera: fileName, //cambiar al nombre formateado
-          extension: extension,
+          idopera: newFile!.name,
+          extension: newFile!.extension,
         });
+        setFileForm(null);
       }
 
       await queryClient.invalidateQueries({
@@ -112,14 +109,9 @@ export const FormUploadHistory: React.FC<IProp> = ({
       });
 
       setDataForm({ detalle: "", obs: "", archivo: "", medicamentos: "" });
-      setFile(null);
       setStateModal(false);
     } catch (error) {
-      if (isAxiosError(error) && error.response) {
-        throw new Error(error.response.data.error);
-      } else {
-        throw new Error("Hubo un error...");
-      }
+      throw new Error(`${error}`);
     } finally {
       setLoader(false);
     }
@@ -167,7 +159,7 @@ export const FormUploadHistory: React.FC<IProp> = ({
               Subir archivo:
             </label>
           </div>
-          <UploadStudy setState={setFile} state={file!} />
+          <UploadStudy setState={setFileForm} state={fileForm!} />
         </div>
         <div className="flex justify-end w-full gap-2">
           <Button

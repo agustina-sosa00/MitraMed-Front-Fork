@@ -15,7 +15,6 @@ import {
   getAccessTokenDropbox,
 } from "@/services/MedicalHistoryService";
 import { useMedicalHistoryContext } from "../../context/MedicalHistoryContext";
-import { useContextDropbox } from "../../context/DropboxContext";
 
 import SearchPatient from "@/components/features/PanelProfessional/SearchPatient";
 import getDataMedicalHistory from "@/services/ProfessionalService";
@@ -23,7 +22,7 @@ import getDataMedicalHistory from "@/services/ProfessionalService";
 export default function MedicalHistory() {
   const queryClient = useQueryClient();
   // region context
-  const { setFolder } = useContextDropbox();
+
   const {
     hc,
     dniHistory,
@@ -37,18 +36,17 @@ export default function MedicalHistory() {
   } = useMedicalHistoryContext();
 
   // region states, variables y cookies
-  const accessTokenDropbox = Cookies.get("accessTokenDropbox");
   const infoProfessional = Cookies.get("dataProfessional");
   const [focusState, setFocusState] = useState(false);
   const [showModal, setShowModal] = useState<boolean>(false);
-  const hasToken = Boolean(Cookies.get("accessTokenDropbox"));
+  const hasTokenDropbox = Boolean(Cookies.get("accessTokenDropbox"));
 
   //region querys / mutates
 
-  const { data: dropboxData, refetch } = useQuery({
+  const { data: dropboxData } = useQuery({
     queryKey: ["dataDropboxQuery"],
     queryFn: () => getDataDropbox(),
-    enabled: !hasToken, //se ejecuta solo cuando no hay token
+    enabled: !hasTokenDropbox, //se ejecuta solo cuando no hay token
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     staleTime: Infinity,
@@ -60,9 +58,11 @@ export default function MedicalHistory() {
       console.error(error);
     },
     onSuccess: (data) => {
-      const access = data?.access_token;
-      if (!access) return;
-      Cookies.set("accessTokenDropbox", access, { expires: 5 / 24 });
+      const accessTokenDropbox = data?.access_token;
+      if (!accessTokenDropbox) return;
+      Cookies.set("accessTokenDropbox", accessTokenDropbox, {
+        expires: 5 / 24,
+      });
     },
   });
 
@@ -80,12 +80,6 @@ export default function MedicalHistory() {
   //region useEffect
 
   useEffect(() => {
-    if (!accessTokenDropbox) {
-      refetch();
-    }
-  }, []);
-
-  useEffect(() => {
     function onKey(e: KeyboardEvent) {
       if (e.key !== "Escape") return;
       if (e.key === "Escape") {
@@ -99,22 +93,18 @@ export default function MedicalHistory() {
   }, []);
 
   useEffect(() => {
-    if (dropboxData) {
-      setFolder(dropboxData?.data?.folders?.[1]);
-    }
-    if (
-      dropboxData?.data?.app_id &&
-      dropboxData?.data?.app_secret &&
-      dropboxData?.data?.refresh_token
-    ) {
-      Cookies.set("app_id_dropbox", dropboxData?.data?.app_id, { expires: 7 });
-      Cookies.set("app_secret_dropbox", dropboxData?.data?.app_secret, {
+    if (dropboxData?.data) {
+      localStorage.setItem("mtm-folder", dropboxData?.data?.folders?.[1]);
+      Cookies.set("mtm-appIdDropbox", dropboxData?.data?.app_id, {
         expires: 7,
       });
-      Cookies.set("refresh_token_dropbox", dropboxData?.data?.refresh_token, {
+      Cookies.set("mtm-appSecretDropbox", dropboxData?.data?.app_secret, {
         expires: 7,
       });
-      refresh();
+      Cookies.set("mtm-refreshTokenDropbox", dropboxData?.data?.refresh_token, {
+        expires: 7,
+      });
+      getTokenDropboxRefresh();
     }
   }, [dropboxData]);
 
@@ -129,7 +119,7 @@ export default function MedicalHistory() {
   }
 
   //region refresh
-  function refresh() {
+  function getTokenDropboxRefresh() {
     mutateGetAccessTokenDropbox({
       refreshToken: dropboxData?.data?.refresh_token,
       clientId: dropboxData?.data?.app_id,
