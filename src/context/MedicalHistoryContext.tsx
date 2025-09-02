@@ -1,10 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { IArrayTableHistorial } from "../types";
 interface MedicalHistoryContextType {
-  historyContext: IArrayTableHistorial[];
-  setHistoryContext: React.Dispatch<
-    React.SetStateAction<IArrayTableHistorial[]>
-  >;
   hc: boolean;
   setHc: React.Dispatch<React.SetStateAction<boolean>>;
   dniHistory: string;
@@ -21,9 +16,6 @@ const MedicalHistoryContext = createContext<
 >(undefined);
 
 export const MedicalHistoryProvider = ({ children }) => {
-  const [historyContext, setHistoryContext] = useState<IArrayTableHistorial[]>(
-    []
-  );
   const [hc, setHc] = useState<boolean>(false);
   const [dniHistory, setDniHistory] = useState<string>("");
   const [hasConfirmed, setHasConfirmed] = useState<boolean>(false);
@@ -32,8 +24,6 @@ export const MedicalHistoryProvider = ({ children }) => {
   return (
     <MedicalHistoryContext.Provider
       value={{
-        historyContext,
-        setHistoryContext,
         hc,
         setHc,
         dniHistory,

@@ -3,9 +3,8 @@ import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { Modal } from "@/components/ui/Modal";
-import { downloadFileDropbox } from "@/services/dropboxServices";
+import { downloadFileDropbox } from "@/services/MedicalHistoryService";
 import { useMutation } from "@tanstack/react-query";
-import { useContextDropbox } from "../../context/DropboxContext";
 import { IoClose } from "react-icons/io5";
 import { FiDownload } from "react-icons/fi";
 import Swal from "sweetalert2";
@@ -21,7 +20,7 @@ import TextAlert from "@/components/ui/TextAlert";
 pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
 
 export const DetailHistoryMedical: React.FC = () => {
-  const { token, folder } = useContextDropbox();
+  const folder = localStorage.getItem("folder") || "";
   // const { id } = useParams();
   const location = useLocation();
   const state = location.state;
@@ -51,7 +50,6 @@ export const DetailHistoryMedical: React.FC = () => {
     setFileBlob(null);
     setShowModal(true);
     mutateDownloadDropbox({
-      token: token,
       folder: folder,
       archivo: state.data.archivo,
     });

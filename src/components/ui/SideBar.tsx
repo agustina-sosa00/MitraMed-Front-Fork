@@ -6,6 +6,7 @@ import React from "react";
 import Cookies from "js-cookie";
 import { useOdontogramContext } from "../../context/OdontogramContext";
 import TextAlert from "./TextAlert";
+import { useMedicalHistoryContext } from "../../context/MedicalHistoryContext";
 
 interface IProp {
   logo: string;
@@ -29,6 +30,8 @@ export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
     setUiLoading,
     setDniInput,
   } = useOdontogramContext();
+  const { setDniHistory, setDniInput: setDniHistoryInput } =
+    useMedicalHistoryContext();
   const raw = Cookies.get("dataProfessional");
   const dataUser: DataProfessional | null = raw ? JSON.parse(raw) : null;
   const usuario = Cookies.get("usuario");
@@ -41,7 +44,13 @@ export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
     setHasConfirmed(false);
     setUiLoading(false);
     setDniInput("");
+    setDniHistory("");
+    setDniHistoryInput("");
     Cookies.remove("accessProfessional");
+    Cookies.remove("accessTokenDropbox");
+    Cookies.remove("app_id_dropbox");
+    Cookies.remove("app_secret_dropbox");
+    Cookies.remove("refresh_token_dropbox");
     navigate("/");
   };
 
@@ -77,22 +86,21 @@ export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
               </Link>
             );
           })}
-          {idProfesional && (
-            <Link to={"/profesionales/configuracion"}>
-              <button
-                className={`flex items-center gap-2 pl-5 py-1 w-[90%] text-lg font-medium capitalize rounded 
-                
-                  hover:bg-green hover:text-white text-blue cursor-pointer transition-all duration-300 `}
-              >
-                {" "}
-                <IoSettingsSharp /> Configuración{" "}
-              </button>
-            </Link>
-          )}
         </div>
 
         <TextAlert />
-
+        {idProfesional && (
+          <Link to={"/profesionales/configuracion"}>
+            <button
+              className={`flex items-center gap-2 pl-5 py-1 w-[90%]  text-lg font-medium capitalize rounded 
+                
+                  hover:bg-green hover:text-white text-blue cursor-pointer transition-all duration-300 `}
+            >
+              {" "}
+              <IoSettingsSharp className="w-10 h-10" /> Configuración{" "}
+            </button>
+          </Link>
+        )}
         <div className="flex justify-center w-full">
           <div className="w-[80%] bg-blue h-[1px]" />
         </div>
@@ -109,6 +117,7 @@ export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
               </p>
             )}
           </div>
+
           <p className="text-sm">
             ¿Quieres{" "}
             <span

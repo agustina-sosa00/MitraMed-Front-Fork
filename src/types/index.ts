@@ -74,21 +74,8 @@ export interface Turno {
   hora_fin: string;
 }
 
-// region professional layout
-export interface IArrayTableHistorial {
-  id: number;
-  fecha: string;
-  detalle: string;
-  obs: string;
-  archivo?: string;
-  medicamentos?: string;
-  ndoctor: string;
-}
-
 // region context
 export interface DropboxContextType {
-  token: string;
-  setToken: React.Dispatch<React.SetStateAction<string>>;
   folder: string;
   setFolder: React.Dispatch<React.SetStateAction<string>>;
 }

@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/Button";
-import TextAlert from "@/components/ui/TextAlert";
-import { IoMdArrowRoundBack } from "react-icons/io";
+import { ContainView } from "@/components/features/PanelProfessional/ContainView";
 
 export default function Settings() {
-  const [isProd, setIsProd] = useState(false); // false = Desarrollo, true = Producción
-  const [isProdMode, setIsProdMode] = useState(false); // false = Homologación, true = Producción
+  const [isProd, setIsProd] = useState(false); // ENTORNO false = Desarrollo, true = Producción
+  const [isProdMode, setIsProdMode] = useState(false); // MODO false = Homologación, true = Producción
 
   useEffect(() => {
     if (isProd === true) {
@@ -22,27 +20,8 @@ export default function Settings() {
   }, [isProd, isProdMode]);
 
   return (
-    <div className="relative flex flex-col w-full h-screen gap-5 px-20 py-10">
-      <div className="absolute right-5 top-5">
-        <TextAlert />
-      </div>
-      <div>
-        <Button
-          label="volver"
-          handle={() => window.history.back()}
-          icon={<IoMdArrowRoundBack className="text-2xl" />}
-        />
-      </div>
-
-      {/* título */}
-      <div className="flex justify-center w-full h-20 ">
-        <h1 className="text-2xl font-medium uppercase lg:text-4xl text-green ">
-          configuración
-        </h1>
-      </div>
-
-      {/* switches */}
-      <div className="flex flex-col items-center justify-between w-full gap-4 ">
+    <ContainView title="configuración">
+      <div className="flex flex-col items-center w-full h-screen gap-5 px-20 ">
         {/* Switch 1 */}
         <div className="flex items-center gap-2">
           <p className="text-lg ">Entorno:</p>
@@ -110,22 +89,22 @@ export default function Settings() {
             </p>
           </div>
         </div>
-      </div>
 
-      <div className="flex flex-col gap-2 text-center">
-        <p className="text-lg text-blue">
-          Entorno actual:{" "}
-          <span className="text-xl font-medium">
-            {isProd ? "Producción" : "Desarrollo"}
-          </span>
-        </p>
-        <p className="text-lg text-blue">
-          Modo actual:{" "}
-          <span className="text-xl font-medium">
-            {isProdMode ? "Producción" : "Homologación"}
-          </span>
-        </p>
+        <div className="flex flex-col gap-2 text-center">
+          <p className="text-lg text-blue">
+            Entorno actual:{" "}
+            <span className="text-xl font-medium">
+              {isProd ? "Producción" : "Desarrollo"}
+            </span>
+          </p>
+          <p className="text-lg text-blue">
+            Modo actual:{" "}
+            <span className="text-xl font-medium">
+              {isProdMode ? "Producción" : "Homologación"}
+            </span>
+          </p>
+        </div>
       </div>
-    </div>
+    </ContainView>
   );
 }

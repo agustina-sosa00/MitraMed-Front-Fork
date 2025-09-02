@@ -61,15 +61,18 @@ export default function Router({ loader, setLoader }: RouterProps) {
               element={<MedicalHistory />}
             />
             <Route path="/profesionales/odontograma" element={<Odontogram />} />
-            <Route path="/profesionales/metricas" element={<Metrics />} />
+            <Route path="/profesionales/metricas" element={<Metrics />} />{" "}
+            {idProfesional && (
+              <Route
+                path="/profesionales/configuracion"
+                element={<Settings />}
+              />
+            )}
           </Route>
           <Route
             path="/profesionales/historial/:id"
             element={<DetailHistoryMedical />}
           />
-          {idProfesional && (
-            <Route path="/profesionales/configuracion" element={<Settings />} />
-          )}
         </Route>
 
         <Route element={<SecretariatProtectedRoute />}>

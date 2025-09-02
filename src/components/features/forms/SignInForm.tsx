@@ -49,6 +49,7 @@ export default function SignInForm({ rol }: IProp) {
 
       localStorage.setItem("_m", "homo");
       localStorage.setItem("_env", "des");
+      localStorage.setItem("empresa", "20");
       navigate("/inicio");
     },
   });

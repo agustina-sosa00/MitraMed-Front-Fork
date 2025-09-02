@@ -4,16 +4,17 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { FaEye } from "react-icons/fa";
 
 import Cookies from "js-cookie";
-
 import Swal from "sweetalert2";
 
 import { TablaDefault } from "@/frontend-resourses/components";
 import { Modal } from "@/components/ui/Modal";
 import { FormUploadHistory } from "@/components/features/PanelProfessional/FormUploadHistory";
 import { ContainView } from "@/components/features/PanelProfessional/ContainView";
-import { getDataDropbox, getTokenDropbox } from "@/services/dropboxServices";
+import {
+  getDataDropbox,
+  getAccessTokenDropbox,
+} from "@/services/MedicalHistoryService";
 import { useMedicalHistoryContext } from "../../context/MedicalHistoryContext";
-import { useContextDropbox } from "../../context/DropboxContext";
 
 import SearchPatient from "@/components/features/PanelProfessional/SearchPatient";
 import getDataMedicalHistory from "@/services/ProfessionalService";
@@ -21,12 +22,9 @@ import getDataMedicalHistory from "@/services/ProfessionalService";
 export default function MedicalHistory() {
   const queryClient = useQueryClient();
   // region context
-  const { setToken, setFolder } = useContextDropbox();
-  const {
-    historyContext,
-    setHistoryContext,
-    hc,
 
+  const {
+    hc,
     dniHistory,
     setDniHistory,
     hasConfirmed,
@@ -36,39 +34,35 @@ export default function MedicalHistory() {
     dniInput,
     setDniInput,
   } = useMedicalHistoryContext();
+
   // region states, variables y cookies
   const infoProfessional = Cookies.get("dataProfessional");
   const [focusState, setFocusState] = useState(false);
-  const [dataDropbox, setDataDropbox] = useState({
-    app_id: "",
-    app_secret: "",
-    refresh_token: "",
-    nfolder: "",
-  }); //states para la data de dropbox
   const [showModal, setShowModal] = useState<boolean>(false);
-  const sortedData = [...historyContext].sort(
-    (a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime()
-  ); // sortedData es un array que acomoda el objeto mas reciente al principio del array
+  const hasAccessTokenDropbox = Boolean(Cookies.get("accessTokenDropbox"));
 
-  //region mutates
-  const { mutate: mutateGetDataDropbox } = useMutation({
-    mutationFn: getDataDropbox,
-    onError: (error) => {
-      console.error(error);
-    },
-    onSuccess: (data) => {
-      setDataDropbox(data.data[0]);
-      setFolder(data.data[0].nfolder);
-    },
+  //region querys / mutates
+
+  const { data: dropboxData } = useQuery({
+    queryKey: ["dataDropboxQuery"],
+    queryFn: () => getDataDropbox(),
+    enabled: !hasAccessTokenDropbox, //se ejecuta solo cuando no hay token
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    staleTime: Infinity,
   });
 
-  const { mutate: mutateGetTokenDropbox } = useMutation({
-    mutationFn: getTokenDropbox,
+  const { mutate: mutateGetAccessTokenDropbox } = useMutation({
+    mutationFn: getAccessTokenDropbox,
     onError: (error) => {
       console.error(error);
     },
     onSuccess: (data) => {
-      setToken(data?.access_token);
+      const accessTokenDropbox = data?.access_token;
+      if (!accessTokenDropbox) return;
+      Cookies.set("accessTokenDropbox", accessTokenDropbox, {
+        expires: 5 / 24,
+      });
     },
   });
 
@@ -84,9 +78,6 @@ export default function MedicalHistory() {
   });
 
   //region useEffect
-  useEffect(() => {
-    mutateGetDataDropbox();
-  }, []);
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -102,28 +93,38 @@ export default function MedicalHistory() {
   }, []);
 
   useEffect(() => {
-    if (
-      dataDropbox.app_id &&
-      dataDropbox.app_secret &&
-      dataDropbox.refresh_token
-    ) {
-      mutateGetTokenDropbox({
-        refreshToken: dataDropbox.refresh_token,
-        clientId: dataDropbox.app_id,
-        clientSecret: dataDropbox.app_secret,
+    if (dropboxData?.data) {
+      localStorage.setItem("mtm-folder", dropboxData?.data?.folders?.[1]);
+      Cookies.set("mtm-appIdDropbox", dropboxData?.data?.app_id, {
+        expires: 7,
       });
+      Cookies.set("mtm-appSecretDropbox", dropboxData?.data?.app_secret, {
+        expires: 7,
+      });
+      Cookies.set("mtm-refreshTokenDropbox", dropboxData?.data?.refresh_token, {
+        expires: 7,
+      });
+      getTokenDropboxRefresh();
     }
-  }, [dataDropbox]);
+  }, [dropboxData]);
 
   //region functions
   function handleFindPatient(hc: string) {
     setUiLoading(true);
-
     setTimeout(() => {
       setHasConfirmed(true);
       setUiLoading(false);
       setDniHistory(hc);
     }, 2000);
+  }
+
+  //region refresh
+  function getTokenDropboxRefresh() {
+    mutateGetAccessTokenDropbox({
+      refreshToken: dropboxData?.data?.refresh_token,
+      clientId: dropboxData?.data?.app_id,
+      clientSecret: dropboxData?.data?.app_secret,
+    });
   }
 
   function handleOnFocusInput() {
@@ -150,8 +151,7 @@ export default function MedicalHistory() {
   function handleCancelEdit() {
     setHasConfirmed(false);
   }
-  console.log(dataMedicalHistory);
-  console.log("sortedData", sortedData);
+
   //region return
   return (
     <ContainView title="Historial médico" padding="py-5">
@@ -171,7 +171,7 @@ export default function MedicalHistory() {
           handleCancel={handleCancelEdit}
         />
       </div>
-      <div className="flex justify-center w-full pt-5 overflow-x-auto min-h-64">
+      <div className="flex justify-center w-full pt-5 overflow-x-auto max-h-64">
         <TablaDefault
           props={{
             datosParaTabla: dataMedicalHistory?.data?.hc || [],
@@ -203,10 +203,7 @@ export default function MedicalHistory() {
                     state={item}
                     className="flex justify-center w-full"
                   >
-                    <button
-                      onClick={() => console.log("Acción sobre:", item)}
-                      className="text-lg bg-blue-500 rounded text-blue"
-                    >
+                    <button className="text-lg bg-blue-500 rounded text-blue">
                       <FaEye />
                     </button>
                   </Link>
@@ -217,7 +214,7 @@ export default function MedicalHistory() {
             ],
             objectStyles: {
               addHeaderColor: "#022539",
-
+              withScrollbar: true,
               containerClass: "border border-gray-300 rounded-t-lg ",
               withBorder: false,
             },
@@ -231,9 +228,7 @@ export default function MedicalHistory() {
             handle={handleOnFocusInput}
             infoProfessional={JSON.parse(infoProfessional!)}
             hc={dniHistory}
-            setState={setHistoryContext}
             focusState={focusState}
-            folder={dataDropbox.nfolder}
             setStateModal={setShowModal}
           />
         </Modal>

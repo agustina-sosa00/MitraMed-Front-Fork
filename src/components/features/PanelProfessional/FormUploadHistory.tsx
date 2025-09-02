@@ -1,17 +1,21 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { InputProfessional } from "./InputProfessional";
 import { UploadStudy } from "@/views/dashboardProfessional/UploadStudy";
 import { renameFile } from "@/utils/renameFile";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
-import { IArrayTableHistorial } from "@/types/index";
-import { useContextDropbox } from "../../../context/DropboxContext";
-import { uploadFileDropbox } from "@/services/dropboxServices";
+import React from "react";
+import {
+  grabarPacienteDocum,
+  postSaveHistory,
+  uploadFileDropbox,
+} from "@/services/MedicalHistoryService";
 import { Button } from "@/components/ui/Button";
+import { useMedicalHistoryContext } from "../../../context/MedicalHistoryContext";
+import { getTodayDate } from "@/utils/index";
 
 interface IProp {
   hc: string;
-  setState: React.Dispatch<React.SetStateAction<IArrayTableHistorial[]>>;
   infoProfessional: {
     adoctor: string;
     ndoctor: string;
@@ -19,21 +23,17 @@ interface IProp {
   };
   handle?: () => void;
   focusState?: boolean;
-  folder: string;
   setStateModal: (arg: boolean) => void;
 }
+
 export const FormUploadHistory: React.FC<IProp> = ({
-  setState,
   infoProfessional,
   handle,
   focusState,
-  folder,
   setStateModal,
 }) => {
-  // ----------------------------------------------
-  // ------T O K E N  D E  D R O P B O X-----------
-  // ----------------------------------------------
-  const { token } = useContextDropbox();
+  const queryClient = useQueryClient();
+  const { dniHistory } = useMedicalHistoryContext();
   const [loader, setLoader] = useState<boolean>(false);
   const [dataForm, setDataForm] = useState({
     detalle: "",
@@ -41,136 +41,81 @@ export const FormUploadHistory: React.FC<IProp> = ({
     archivo: "",
     medicamentos: "",
   });
+  const [fileForm, setFileForm] = useState<File | null>(null);
+  // const [dataFileSaved, setDataFileSaved] = useState();
   // const [image, setImage] = useState<string>("");
-  const [file, setFile] = useState<File | null>(null);
   // const [fileSaved, setFileSaved] = useState<File | null>(null);
-
-  // -----------------------------------------------
-  // -----------------------------------------------
-  // ----state que se manda a uploadFileDropbox----
-  // -----------------------------------------------
-  // -----------------------------------------------
   // const [dataToSendDropbox, setDataToSendDropbox] = useState();
 
-  const handleOnChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setDataForm({ ...dataForm, [name]: value });
-  };
-  const handleOnChangeTextarea = (
-    e: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setDataForm({ ...dataForm, [name]: value });
-  };
+  //region mutates
+  const saveHistory = useMutation({ mutationFn: postSaveHistory });
+  const uploadToDropbox = useMutation({ mutationFn: uploadFileDropbox });
+  const savePatientDocum = useMutation({ mutationFn: grabarPacienteDocum });
 
-  //  MUTATE PARA GUARDAR ARCHIVOS EN EL DROPBOX
-  const { mutateAsync } = useMutation({
-    mutationFn: uploadFileDropbox,
-    onError: (error) => {
-      Swal.fire({
-        icon: "error",
-        title: error.message,
-      });
-    },
-    onSuccess: (data) => {
-      if (data) {
-        Swal.fire({
-          icon: "success",
-          title: "Información Guardada con Éxito",
-          confirmButtonColor: "#518915",
+  //region function
+  function handleOnChangeInput(e: React.ChangeEvent<HTMLInputElement>) {
+    const { name, value } = e.target;
+    setDataForm({ ...dataForm, [name]: value });
+  }
+
+  function handleOnChangeTextarea(e: React.ChangeEvent<HTMLTextAreaElement>) {
+    const { name, value } = e.target;
+    setDataForm({ ...dataForm, [name]: value });
+  }
+
+  async function handleOnClickSave() {
+    setLoader(true);
+    try {
+      let newFile: { file: File; name: string; extension: string } | null =
+        null;
+
+      if (fileForm) {
+        newFile = renameFile({ archivoOriginal: fileForm, dni: dniHistory });
+        await uploadToDropbox.mutateAsync({
+          fileOriginalName: fileForm.name,
+          file: newFile!.file!,
         });
       }
-    },
-  });
 
-  // ------------------------------
-  // handle para guardar el archivo
-  // ------------------------------
-  const handleOnClickSave = async () => {
-    if (!file) {
-      setLoader(true);
-      setTimeout(() => {
-        setState((prev: IArrayTableHistorial[]) => [
-          ...prev,
-          {
-            id: Date.now(),
-            fecha: new Date().toISOString(),
-            detalle: dataForm.detalle,
-
-            obs: dataForm.obs,
-            archivo: "",
-            medicamentos: dataForm.medicamentos,
-
-            ndoctor: infoProfessional.adoctor + " " + infoProfessional.ndoctor,
-          },
-        ]);
-        setStateModal(false);
-        Swal.fire({
-          icon: "success",
-          title: "Información Guardada con Éxito",
-          confirmButtonColor: "#518915",
-        });
-        // vaciar el estado del formulario
-        setDataForm({
-          detalle: "",
-          obs: "",
-          archivo: "",
-          medicamentos: "",
-        });
-
-        setLoader(false);
-      }, 2000);
-      return;
-    }
-    setLoader(true);
-    const newFile = renameFile({
-      archivoOriginal: file,
-      idDoctor: infoProfessional.iddoctor,
-    });
-
-    // setFileSaved(newFile);
-
-    try {
-      await mutateAsync({
-        fileNameError: file.name,
-        file: newFile!,
-        token: token,
-        folder: folder,
+      const res = await saveHistory.mutateAsync({
+        dni: Number(dniHistory),
+        fecha: getTodayDate(),
+        detalle: dataForm.detalle,
+        obs: dataForm.obs,
+        iddoctor: infoProfessional.iddoctor,
       });
-      setLoader(false);
-      // estado para guardar la info en la tabla
-      setState((prev: IArrayTableHistorial[]) => [
-        ...prev,
-        {
-          id: Date.now(),
-          fecha: new Date().toISOString(),
-          detalle: dataForm.detalle,
-          obs: dataForm.obs,
-          archivo: newFile!.name,
-          medicamentos: dataForm.medicamentos,
-          ndoctor: infoProfessional.adoctor + " " + infoProfessional.ndoctor,
-        },
-      ]);
 
-      // vaciar el estado del formulario
-      setDataForm({
-        detalle: "",
-        obs: "",
-        archivo: "",
-        medicamentos: "",
+      if (newFile) {
+        const idhistoria: number | undefined = res?.data?.data?.grabar_historia;
+        if (!idhistoria) throw new Error("No se obtuvo el id de la historia.");
+
+        await savePatientDocum.mutateAsync({
+          idhistoria,
+          iddoctor: Number(infoProfessional.iddoctor),
+          idopera: newFile!.name,
+          extension: newFile!.extension,
+        });
+        setFileForm(null);
+      }
+
+      await queryClient.invalidateQueries({
+        queryKey: ["medicalHistory", dniHistory],
       });
-      setFile(null);
+
+      Swal.fire({
+        icon: "success",
+        title: "Información guardada con éxito",
+        confirmButtonColor: "#518915",
+      });
+
+      setDataForm({ detalle: "", obs: "", archivo: "", medicamentos: "" });
       setStateModal(false);
     } catch (error) {
-      // manejar el error
-      console.error("Error al subir archivo:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Error al subir el archivo",
-        text: error instanceof Error ? error.message : "Error desconocido",
-      });
+      throw new Error(`${error}`);
+    } finally {
+      setLoader(false);
     }
-  };
+  }
 
   return (
     <div className="flex flex-col items-start justify-center w-full gap-2 p-3 bg-white rounded">
@@ -214,7 +159,7 @@ export const FormUploadHistory: React.FC<IProp> = ({
               Subir archivo:
             </label>
           </div>
-          <UploadStudy setState={setFile} state={file!} />
+          <UploadStudy setState={setFileForm} state={fileForm!} />
         </div>
         <div className="flex justify-end w-full gap-2">
           <Button

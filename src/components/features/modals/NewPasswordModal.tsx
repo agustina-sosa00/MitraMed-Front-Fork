@@ -187,7 +187,7 @@ export default function NewPasswordModal() {
                       onSubmit={handleSubmit(handleForm)}
                     >
                       {token && (
-                        <p className="my-2 text-xs italic font-thin text-amber-500">
+                        <p className="my-2 text-xs italic font-thin text-green">
                           *Esta ventana es de un solo uso. Te recomendamos
                           cambiar tu contraseña antes de salir. De lo contrario,
                           deberás solicitar un nuevo link de recuperación.

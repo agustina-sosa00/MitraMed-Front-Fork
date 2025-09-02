@@ -43,8 +43,7 @@ export default function Odontogram() {
     dniInput,
     setDniInput,
   } = useOdontogramContext();
-  console.log("originalData", originalData);
-  console.log("teethIdsState", teethIdsState);
+
   //region states
   const [contextMenu, setContextMenu] = useState<number | null>(null);
   const [openMenu, setOpenMenu] = useState(false);
