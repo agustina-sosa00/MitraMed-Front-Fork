@@ -181,6 +181,12 @@ export default function MedicalHistory() {
                 label: "Fecha",
                 minWidth: "150",
                 maxWidth: "150",
+                renderCell: (item) => {
+                  const raw = item.fecha;
+
+                  const fecha = raw.split("-").reverse().join("/");
+                  return fecha;
+                },
               },
               {
                 key: "detalle",
