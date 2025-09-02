@@ -129,6 +129,7 @@ export const uploadFileDropbox = async ({
   try {
     const modo = localStorage.getItem("_m") ?? "";
     const accessToken = Cookies.get("accessTokenDropbox");
+
     const response = await apiDropbox.post(`/2/files/upload`, file, {
       headers: {
         Authorization: `Bearer ${accessToken}`,

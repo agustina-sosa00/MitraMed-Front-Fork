@@ -19,12 +19,12 @@ apiDropbox.interceptors.response.use(
         const refreshToken = Cookies.get("refreshTokenDropbox") || "";
         const app_id = Cookies.get("appIdDropbox") || "";
         const app_secret = Cookies.get("appSecretDropbox") || "";
-        const newTokenData = await getAccessTokenDropbox({
+        const newTokenAccessData = await getAccessTokenDropbox({
           refreshToken: refreshToken,
           clientId: app_id,
           clientSecret: app_secret,
         });
-        const newTokenAccessDropbox = newTokenData.access_token;
+        const newTokenAccessDropbox = newTokenAccessData.access_token;
         Cookies.set("accessTokenDropbox", newTokenAccessDropbox, {
           expires: 5 / 24,
         });

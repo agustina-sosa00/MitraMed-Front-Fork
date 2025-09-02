@@ -86,22 +86,21 @@ export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
               </Link>
             );
           })}
-          {idProfesional && (
-            <Link to={"/profesionales/configuracion"}>
-              <button
-                className={`flex items-center gap-2 pl-5 py-1 w-[90%] text-lg font-medium capitalize rounded 
-                
-                  hover:bg-green hover:text-white text-blue cursor-pointer transition-all duration-300 `}
-              >
-                {" "}
-                <IoSettingsSharp /> Configuración{" "}
-              </button>
-            </Link>
-          )}
         </div>
 
         <TextAlert />
-
+        {idProfesional && (
+          <Link to={"/profesionales/configuracion"}>
+            <button
+              className={`flex items-center gap-2 pl-5 py-1 w-[90%]  text-lg font-medium capitalize rounded 
+                
+                  hover:bg-green hover:text-white text-blue cursor-pointer transition-all duration-300 `}
+            >
+              {" "}
+              <IoSettingsSharp className="w-10 h-10" /> Configuración{" "}
+            </button>
+          </Link>
+        )}
         <div className="flex justify-center w-full">
           <div className="w-[80%] bg-blue h-[1px]" />
         </div>
@@ -118,6 +117,7 @@ export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
               </p>
             )}
           </div>
+
           <p className="text-sm">
             ¿Quieres{" "}
             <span

@@ -39,14 +39,14 @@ export default function MedicalHistory() {
   const infoProfessional = Cookies.get("dataProfessional");
   const [focusState, setFocusState] = useState(false);
   const [showModal, setShowModal] = useState<boolean>(false);
-  const hasTokenDropbox = Boolean(Cookies.get("accessTokenDropbox"));
+  const hasAccessTokenDropbox = Boolean(Cookies.get("accessTokenDropbox"));
 
   //region querys / mutates
 
   const { data: dropboxData } = useQuery({
     queryKey: ["dataDropboxQuery"],
     queryFn: () => getDataDropbox(),
-    enabled: !hasTokenDropbox, //se ejecuta solo cuando no hay token
+    enabled: !hasAccessTokenDropbox, //se ejecuta solo cuando no hay token
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     staleTime: Infinity,
