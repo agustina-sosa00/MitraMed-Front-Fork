@@ -34,7 +34,7 @@ export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
     useMedicalHistoryContext();
   const raw = Cookies.get("dataProfessional");
   const dataUser: DataProfessional | null = raw ? JSON.parse(raw) : null;
-  const usuario = Cookies.get("usuario");
+  const usuario = Cookies.get("idUsuario");
   const idProfesional = Cookies.get("idProfesional");
 
   const handleLogout = () => {
@@ -77,7 +77,7 @@ export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
                   className={`flex items-center gap-2 pl-5 py-1 w-[90%] text-lg font-medium capitalize rounded ${
                     item.disabled
                       ? "text-gray-400 cursor-not-allowed"
-                      : "hover:bg-green hover:text-white text-blue cursor-pointer transition-all duration-300"
+                      : "hover:bg-greenHover hover:text-white text-blue cursor-pointer transition-all duration-300"
                   } ${isActive ? "bg-green text-white" : ""} `}
                 >
                   <item.icon />
@@ -89,12 +89,12 @@ export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
         </div>
 
         <TextAlert />
-        {idProfesional && (
-          <Link to={"/profesionales/configuracion"}>
+        {idProfesional && usuario !== "3" && (
+          <Link to={"/dashboard/configuracion"} className="w-full py-3 pl-5">
             <button
-              className={`flex items-center gap-2 pl-5 py-1 w-[90%]  text-lg font-medium capitalize rounded 
+              className={`flex items-center gap-2 px-5 py-1 w-[90%]  text-lg font-medium capitalize rounded 
                 
-                  hover:bg-green hover:text-white text-blue cursor-pointer transition-all duration-300 `}
+                  hover:bg-greenHover hover:text-white text-blue cursor-pointer transition-all duration-300 `}
             >
               {" "}
               <IoSettingsSharp className="w-10 h-10" /> Configuración{" "}
@@ -109,7 +109,7 @@ export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
         <div className="flex flex-col items-center w-full gap-3 py-5 h-[20%]">
           <div className="flex items-center justify-start gap-2 text-blue">
             <FaUserCircle className="text-xl xl:text-3xl" />
-            {usuario ? (
+            {usuario === "3" ? (
               <p>Sta. {dataUser?.nombre}</p>
             ) : (
               <p>

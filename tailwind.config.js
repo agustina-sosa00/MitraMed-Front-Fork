@@ -17,8 +17,8 @@ export default {
       },
       colors: {
         green: "#518915",
-        greenHover: "#437311",
-        greenFocus: "#a1d36c",
+        greenHover: "#66AB1D",
+        greenFocus: "#91C955",
         blue: "#022539",
         blueHover: "#01324E",
         lightGray: "#f1f1f1",

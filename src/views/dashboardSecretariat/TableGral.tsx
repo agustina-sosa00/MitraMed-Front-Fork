@@ -1,4 +1,3 @@
-
 import { ContainView } from "@/components/features/PanelProfessional/ContainView";
 import { TablaDefault } from "@/frontend-resourses/components";
 import React from "react";
@@ -6,7 +5,7 @@ import { Metrics } from "./Metrics";
 
 export const TableGral: React.FC = () => {
   return (
-    <ContainView title="Tabla General">
+    <ContainView title="Tabla General" padding="py-5">
       <div className="w-auto ">
         <TablaDefault
           props={{
@@ -89,6 +88,5 @@ export const TableGral: React.FC = () => {
       </div>
       <Metrics />
     </ContainView>
-
   );
 };
