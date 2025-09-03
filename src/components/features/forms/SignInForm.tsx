@@ -75,19 +75,18 @@ export default function SignInForm({ rol }: IProp) {
 
       // SECRETARÍA (tusuario === 3)
       if (user.tusuario === 3) {
-        Cookies.set("usuario", "3");
-        Cookies.set("accessSecretariat", "true");
+        Cookies.set("idUsuario", String(user?.tusuario));
         Cookies.set("dataProfessional", JSON.stringify(user));
-        navigate("/secretaria/inicio", { replace: true });
+        navigate("/dashboard/inicio", { replace: true });
         return;
       }
 
       // PROFESIONAL
       if (user.idprofesional >= 1) {
         Cookies.set("idProfesional", String(user.idprofesional));
-        Cookies.set("accessProfessional", "true");
+        Cookies.set("idUsuario", String(user?.tusuario));
         Cookies.set("dataProfessional", JSON.stringify(user));
-        navigate("/profesionales/inicio", { replace: true });
+        navigate("/dashboard/inicio", { replace: true });
         return;
       }
 

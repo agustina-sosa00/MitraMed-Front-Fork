@@ -23,7 +23,8 @@ import { buildIdsState } from "@/utils/buildTeethState";
 import { useOutletContext } from "react-router-dom";
 
 export default function Odontogram() {
-  const { setDisabledButton, disabledButton } = useOutletContext<ContextType>();
+  const { setDisabledButtonSidebar, disabledButtonSidebar } =
+    useOutletContext<ContextType>();
   const queryClient = useQueryClient();
   //region cookies
   const idProfesional = Cookies.get("idProfesional");
@@ -83,21 +84,25 @@ export default function Odontogram() {
 
   useEffect(() => {
     if (editOdontogram) {
-      setDisabledButton({
+      setDisabledButtonSidebar({
         inicio: true,
         turnos: true,
         historial: true,
         odontograma: false,
+        tablaGral: true,
+        turnosGrales: true,
       });
     } else {
-      setDisabledButton({
+      setDisabledButtonSidebar({
         inicio: false,
         turnos: false,
         historial: false,
         odontograma: false,
+        tablaGral: false,
+        turnosGrales: true,
       });
     }
-  }, [disabledButton, editOdontogram, setDisabledButton]);
+  }, [disabledButtonSidebar, editOdontogram, setDisabledButtonSidebar]);
 
   useEffect(() => {
     if (!hasConfirmed || uiLoading || !infoUser) return;

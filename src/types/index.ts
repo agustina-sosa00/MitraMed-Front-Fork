@@ -1,3 +1,4 @@
+import { IconType } from "react-icons/lib";
 import { z } from "zod";
 
 export const accountSchema = z.object({
@@ -146,18 +147,31 @@ export interface SearchPatientProps {
 }
 
 export type ContextType = {
-  setDisabledButton: React.Dispatch<
+  setDisabledButtonSidebar: React.Dispatch<
     React.SetStateAction<{
       inicio: boolean;
       turnos: boolean;
       historial: boolean;
       odontograma: boolean;
+      tablaGral: boolean;
+      turnosGrales: boolean;
     }>
   >;
-  disabledButton: {
+  disabledButtonSidebar: {
     inicio: boolean;
     turnos: boolean;
     historial: boolean;
     odontograma: boolean;
+    tablaGral: boolean;
+    turnosGrales: boolean;
   };
+  buttonsSidebar: [
+    {
+      name: string;
+      icon: IconType;
+      link: string;
+      disabled: boolean;
+      description: string;
+    }
+  ];
 };
