@@ -67,6 +67,7 @@ export default function SignInForm({ rol }: IProp) {
       const user = resp?.data?.data?.[0];
       localStorage.setItem("_m", "homo");
       localStorage.setItem("_env", "des");
+      localStorage.setItem("_e", "20");
       if (!user) {
         Swal.fire({ icon: "error", title: "Respuesta inválida" });
         return;
