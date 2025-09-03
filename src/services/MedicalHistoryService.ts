@@ -16,8 +16,8 @@ export function postSaveHistory({
   obs: string;
   iddoctor: string;
 }) {
-  const modo = localStorage.getItem("_m") ?? "";
-  const empresa = localStorage.getItem("_e") ?? "";
+  const modo = localStorage.getItem("_m");
+  const empresa = localStorage.getItem("_e");
 
   const data = {
     _e: empresa,
@@ -51,8 +51,8 @@ export async function grabarPacienteDocum({
   iddoctor: number;
 }) {
   try {
-    const modo = localStorage.getItem("_m") ?? "";
-    const empresa = localStorage.getItem("_e") ?? "";
+    const modo = localStorage.getItem("_m");
+    const empresa = localStorage.getItem("_e");
     const data = {
       _e: empresa,
       _m: modo,
@@ -73,8 +73,8 @@ export async function grabarPacienteDocum({
 
 //region dropbox
 export const getDataDropbox = async () => {
-  const modo = localStorage.getItem("_m") ?? "";
-  const empresa = localStorage.getItem("_e") ?? "";
+  const modo = localStorage.getItem("_m");
+  const empresa = localStorage.getItem("_e");
 
   try {
     const response = await apiPhp(
@@ -124,10 +124,9 @@ export const uploadFileDropbox = async ({
   fileOriginalName: string;
   file: File;
 }) => {
-  const folder = localStorage.getItem("folder") || "";
-
+  const folder = localStorage.getItem("folder");
   try {
-    const modo = localStorage.getItem("_m") ?? "";
+    const modo = localStorage.getItem("_m");
     const accessToken = Cookies.get("accessTokenDropbox");
 
     const response = await apiDropbox.post(`/2/files/upload`, file, {
