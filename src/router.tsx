@@ -17,9 +17,9 @@ import Odontogram from "./views/dashboardProfessional/Odontogram/Odontogram";
 import Turnos from "./views/dashboard/Turnos";
 import MedicalHistory from "./views/dashboardProfessional/MedicalHistory";
 import { DetailHistoryMedical } from "./views/dashboardProfessional/DetailHistoryMedical";
-import { TableGral } from "./views/dashboardSecretariat/TableGral";
 import Cookies from "js-cookie";
 import Settings from "./views/dashboardProfessional/Settings";
+import { SalesByDate } from "./views/dashboardProfessional/SalesByDate";
 
 interface RouterProps {
   loader: boolean;
@@ -62,7 +62,7 @@ export default function Router({ loader, setLoader }: RouterProps) {
               path="/dashboard/turnos-generales"
               element={<TurnosSecretariat />}
             />
-            <Route path="/dashboard/tabla-general" element={<TableGral />} />
+            <Route path="/dashboard/tabla-general" element={<SalesByDate />} />
             {idProfesional && (
               <Route path="/dashboard/configuracion" element={<Settings />} />
             )}

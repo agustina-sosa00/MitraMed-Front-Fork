@@ -5,7 +5,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import React from "react";
 import Cookies from "js-cookie";
 import { useOdontogramContext } from "../../context/OdontogramContext";
-import TextAlert from "./TextAlert";
+// import TextAlert from "./TextAlert";
 import { useMedicalHistoryContext } from "../../context/MedicalHistoryContext";
 
 interface IProp {
@@ -74,7 +74,7 @@ export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
               <Link key={item.name} to={item.link}>
                 <button
                   disabled={item.disabled}
-                  className={`flex items-center gap-2 pl-5 py-1 w-[90%] text-lg font-medium capitalize rounded ${
+                  className={`flex items-center gap-2 pl-3 py-1 w-[90%] text-lg font-medium capitalize rounded ${
                     item.disabled
                       ? "text-gray-400 cursor-not-allowed"
                       : "hover:bg-greenHover hover:text-white text-blue cursor-pointer transition-all duration-300"
@@ -88,7 +88,7 @@ export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
           })}
         </div>
 
-        <TextAlert />
+        {/* <TextAlert /> */}
         {idProfesional && usuario !== "3" && (
           <Link to={"/dashboard/configuracion"} className="w-full py-3 pl-5">
             <button

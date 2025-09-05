@@ -64,12 +64,12 @@ export const ProfessionalLayout: React.FC<IProp> = ({ setLoader }) => {
           "Marcá diagnósticos y procedimientos por pieza, cara y estado.",
       },
       {
-        name: "tabla gral.",
+        name: "ventas por fecha",
         icon: MdTableChart,
         link: "/dashboard/tabla-general",
         disabled: disabledButtonSidebar.tablaGral,
         description:
-          "Panel centralizado para coordinar turnos de toda la clínica.",
+          "Panel centralizado para realizar un seguimiento las ventas.",
       },
     ],
     [disabledButtonSidebar]

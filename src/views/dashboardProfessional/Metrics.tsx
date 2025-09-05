@@ -1,4 +1,3 @@
-import { ContainView } from "@/components/features/PanelProfessional/ContainView";
 import React from "react";
 import { DetailsMetrics } from "./DetailsMetrics";
 
@@ -24,12 +23,10 @@ const turns = [
 
 export const Metrics: React.FC = () => {
   return (
-    <ContainView title="métricas generales">
-      <div className="grid w-full grid-cols-2 gap-5 justify-items-center">
-        <DetailsMetrics data={metodoDePago} title="método de pago" />
-        <DetailsMetrics data={obs} title="obras sociales" />
-        <DetailsMetrics data={turns} title="turnos por especialidad" />
-      </div>
-    </ContainView>
+    <div className="grid w-full grid-cols-2 gap-5 pt-10 justify-items-center">
+      <DetailsMetrics data={metodoDePago} title="método de pago" />
+      <DetailsMetrics data={obs} title="obras sociales" />
+      <DetailsMetrics data={turns} title="turnos por especialidad" />
+    </div>
   );
 };

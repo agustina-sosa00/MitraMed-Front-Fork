@@ -2,16 +2,37 @@ import { ContainView } from "@/components/features/PanelProfessional/ContainView
 import { TablaDefault } from "@/frontend-resourses/components";
 import React from "react";
 import { Metrics } from "./Metrics";
+import { DateRangePickerPresetsExample } from "@/components/ui/DateRange";
 
-export const TableGral: React.FC = () => {
+export const SalesByDate: React.FC = () => {
   return (
-    <ContainView title="Tabla General" padding="py-5">
-      <div className="w-auto ">
+    <ContainView
+      title="
+    ventas por fecha"
+      padding="py-5"
+    >
+      <div className="flex w-full gap-3 py-5">
+        {" "}
+        <DateRangePickerPresetsExample />
+      </div>
+
+      <div className="w-full ">
         <TablaDefault
           props={{
             datosParaTabla: [
               {
                 id: 1,
+                fecha: "01/01/2023",
+                profesional: "Dr. Lopez Juan",
+                especialidad: "Otorrinolaringología",
+                practica: "Consulta",
+                formaDePago: "Efectivo",
+                importe: 100,
+                medioDePago: "Efectivo",
+              },
+              {
+                id: 1,
+                fecha: "01/01/2023",
                 profesional: "Dr. Lopez Juan",
                 especialidad: "Odontólogo",
                 practica: "Consulta",
@@ -21,15 +42,7 @@ export const TableGral: React.FC = () => {
               },
               {
                 id: 1,
-                profesional: "Dr. Lopez Juan",
-                especialidad: "Odontólogo",
-                practica: "Consulta",
-                formaDePago: "Efectivo",
-                importe: 100,
-                medioDePago: "Efectivo",
-              },
-              {
-                id: 1,
+                fecha: "01/01/2023",
                 profesional: "Dr. Lopez Juan",
                 especialidad: "Odontólogo",
                 practica: "Consulta",
@@ -40,6 +53,12 @@ export const TableGral: React.FC = () => {
             ],
             objectColumns: [
               {
+                key: "fecha",
+                label: "Fecha",
+                minWidth: "100",
+                maxWidth: "100",
+              },
+              {
                 key: "profesional",
                 label: "Profesional",
                 minWidth: "190",
@@ -48,20 +67,20 @@ export const TableGral: React.FC = () => {
               {
                 key: "especialidad",
                 label: "Especialidad",
-                minWidth: "190",
-                maxWidth: "190",
+                minWidth: "150",
+                maxWidth: "150",
               },
               {
                 key: "practica",
                 label: "Practica",
-                minWidth: "200",
-                maxWidth: "200",
+                minWidth: "190",
+                maxWidth: "190",
               },
               {
                 key: "formaDePago",
                 label: "Forma de Pago",
-                minWidth: "120",
-                maxWidth: "120",
+                minWidth: "110",
+                maxWidth: "110",
               },
               {
                 key: "importe",
@@ -78,10 +97,10 @@ export const TableGral: React.FC = () => {
             ],
             objectStyles: {
               addHeaderColor: "#022539",
-              containerClass:
-                "border-b border-l border-r border-gray-400 !rounded-lg  ",
+              withScrollbar: true,
+              containerClass: "border border-gray-300 rounded-t-lg ",
               withBorder: false,
-              columnasNumber: [5],
+              columnasNumber: [6],
             },
           }}
         />

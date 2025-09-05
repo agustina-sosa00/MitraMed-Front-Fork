@@ -1,6 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/@tremor/**/*.{js,ts,jsx,tsx}",
+  ],
   theme: {
     extend: {
       screens: {
@@ -17,8 +21,8 @@ export default {
       },
       colors: {
         green: "#518915",
-        greenHover: "#66AB1D",
-        greenFocus: "#91C955",
+        greenHover: "#3B690B",
+        greenFocus: "#66AB1D",
         blue: "#022539",
         blueHover: "#01324E",
         lightGray: "#f1f1f1",
