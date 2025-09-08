@@ -52,6 +52,17 @@ export default function MedicalHistory() {
     staleTime: Infinity,
   });
 
+  const { data: dataMedicalHistory } = useQuery({
+    queryKey: ["medicalHistory", dniHistory],
+    queryFn: () => getDataMedicalHistory({ dni: dniHistory }),
+    enabled: hasConfirmed && !!dniHistory,
+    staleTime: Infinity,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    gcTime: Infinity,
+    initialData: () => queryClient.getQueryData(["medicalHistory", dniHistory]),
+  });
+
   const { mutate: mutateGetAccessTokenDropbox } = useMutation({
     mutationFn: getAccessTokenDropbox,
     onError: (error) => {
@@ -64,17 +75,6 @@ export default function MedicalHistory() {
         expires: 5 / 24,
       });
     },
-  });
-
-  const { data: dataMedicalHistory } = useQuery({
-    queryKey: ["medicalHistory", dniHistory],
-    queryFn: () => getDataMedicalHistory({ dni: dniHistory }),
-    enabled: hasConfirmed && !!dniHistory,
-    staleTime: Infinity,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-    gcTime: Infinity,
-    initialData: () => queryClient.getQueryData(["medicalHistory", dniHistory]),
   });
 
   //region useEffect
@@ -205,8 +205,8 @@ export default function MedicalHistory() {
                 label: "Acciones",
                 renderCell: (item) => (
                   <Link
-                    to={`/profesionales/historial/${item.idhistoria}`}
-                    state={item}
+                    to={`/dashboard/historial/${item.idhistoria}`}
+                    state={{ history: item, dniPatient: dniHistory }}
                     className="flex justify-center w-full"
                   >
                     <button className="text-lg bg-blue-500 rounded text-blue">

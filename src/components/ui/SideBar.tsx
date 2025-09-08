@@ -5,7 +5,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import React from "react";
 import Cookies from "js-cookie";
 import { useOdontogramContext } from "../../context/OdontogramContext";
-// import TextAlert from "./TextAlert";
+import TextAlert from "./TextAlert";
 import { useMedicalHistoryContext } from "../../context/MedicalHistoryContext";
 
 interface IProp {
@@ -88,7 +88,7 @@ export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
           })}
         </div>
 
-        {/* <TextAlert /> */}
+        <TextAlert />
         {idProfesional && usuario !== "3" && (
           <Link to={"/dashboard/configuracion"} className="w-full py-3 pl-5">
             <button

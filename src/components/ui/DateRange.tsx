@@ -15,7 +15,6 @@ export function DateRangePickerPresetsExample() {
     to: "",
   });
   const [loader, setLoader] = useState(false);
-  console.log("state", state);
   dayjs.locale("es");
   const { RangePicker } = DatePicker;
 

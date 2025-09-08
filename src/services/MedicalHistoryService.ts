@@ -71,6 +71,25 @@ export async function grabarPacienteDocum({
   }
 }
 
+export async function getIdOpera({
+  dni,
+  idhistoria,
+}: {
+  dni: number;
+  idhistoria: number;
+}) {
+  try {
+    const modo = localStorage.getItem("_m");
+    const empresa = localStorage.getItem("_e");
+    const response = await apiPhp(
+      `apinovades/mitramed/obtenerIdOpera.php?_i={"_e":"${empresa}","_m":"${modo}","_d":"${dni}","_ih":"${idhistoria}"}`
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(`${error}`);
+  }
+}
+
 //region dropbox
 export const getDataDropbox = async () => {
   const modo = localStorage.getItem("_m");
@@ -124,7 +143,7 @@ export const uploadFileDropbox = async ({
   fileOriginalName: string;
   file: File;
 }) => {
-  const folder = localStorage.getItem("folder");
+  const folder = localStorage.getItem("mtm-folder");
   try {
     const modo = localStorage.getItem("_m");
     const accessToken = Cookies.get("accessTokenDropbox");
@@ -148,30 +167,22 @@ export const uploadFileDropbox = async ({
   }
 };
 
-export const downloadFileDropbox = async ({
-  folder,
-  archivo,
-}: {
-  folder: string;
-  archivo: string;
-}) => {
-  const accessToken = Cookies.get("accessTokenDropbox");
+export const downloadFileDropbox = async ({ archivo }: { archivo: string }) => {
+  const folder = localStorage.getItem("mtm-folder");
 
+  const accessToken = Cookies.get("accessTokenDropbox");
   try {
-    const response = await axios.post(
-      `https://content.dropboxapi.com/2/files/download`,
-      null,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Dropbox-API-Arg": JSON.stringify({
-            path: `/${folder}/${archivo}`,
-          }),
-          "Content-Type": "",
-        },
-        responseType: "blob",
-      }
-    );
+    const modo = localStorage.getItem("_m");
+    const response = await apiDropbox.post(`/2/files/download`, null, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Dropbox-API-Arg": JSON.stringify({
+          path: `/${modo}/${folder}/${archivo}`,
+        }),
+        "Content-Type": "application/octet-stream",
+      },
+      responseType: "blob",
+    });
     return response.data;
   } catch (error) {
     throw new Error(`Error al descargar un archivo de Dropbox: ${error}`);
