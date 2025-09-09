@@ -118,7 +118,7 @@ export const FormUploadHistory: React.FC<IProp> = ({
   }
 
   return (
-    <div className="flex flex-col items-start justify-center w-full gap-2 p-3 bg-white rounded">
+    <div className="flex flex-col items-start justify-center w-full gap-2 p-3 bg-white border border-gray-300 rounded">
       <div className="flex justify-center w-full">
         <h1 className="text-xl font-bold text-center text-blue">
           Agregar Datos de la Consulta
@@ -135,7 +135,6 @@ export const FormUploadHistory: React.FC<IProp> = ({
           valueInput={dataForm.detalle}
           nameInput="detalle"
           handleInput={handleOnChangeInput}
-          placeholderInput={"control"}
           labelInput={"motivo de consulta"}
           field={true}
           focusState={focusState}
@@ -145,8 +144,7 @@ export const FormUploadHistory: React.FC<IProp> = ({
           valueInput={dataForm.obs}
           nameInput="obs"
           handleTextarea={handleOnChangeTextarea}
-          placeholderInput={"Peso: 57kg talla: 1.70m"}
-          labelInput={"descripción"}
+          labelInput={"observaciones"}
           focusState={focusState}
           focusName={"obs"}
         />

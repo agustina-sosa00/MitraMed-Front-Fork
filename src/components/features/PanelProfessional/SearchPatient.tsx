@@ -257,7 +257,7 @@ export default function SearchPatient({
       {odontogram ? (
         <div className="flex items-center justify-end w-full h-10 ">
           <Button
-            label="agregar consulta"
+            label="agregar registro"
             icon={<IoMdAdd />}
             disabledButton={!canEdit}
             handle={() => setStateModal && setStateModal(true)}
