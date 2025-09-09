@@ -8,26 +8,15 @@ interface IProp {
   styles?: string;
   subStyles?: string;
 }
-export const FilterTableSchedules = ({
-  state,
-  setState,
-  handle,
-  styles,
-  subStyles,
-}: IProp) => {
+
+export const FilterTableSchedules = ({ state, setState, handle, styles, subStyles }: IProp) => {
   const [dayColor, setDayColor] = useState<string>("");
   const [nameDay, setNameDay] = useState("");
   const newDay = new Date();
   const day = `${newDay.toISOString().split("T")[0]}`;
 
   useEffect(() => {
-    setDayColor(
-      day < state
-        ? "text-red-500"
-        : day == state
-        ? "text-green"
-        : "text-yellow-500"
-    );
+    setDayColor(day < state ? "text-red-500" : day == state ? "text-green" : "text-yellow-500");
     const selectedDay = new Date(state + "T12:00:00");
     const options = { weekday: "long" } as const;
 
@@ -39,6 +28,7 @@ export const FilterTableSchedules = ({
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setState && setState(e.target.value);
   };
+
   const handleToday = () => {
     setState && setState(newDay.toISOString().split("T")[0]);
   };
@@ -47,32 +37,25 @@ export const FilterTableSchedules = ({
     <div className={`${styles ? styles : "w-full  "}`}>
       <div
         className={` w-full gap-1 py-2   ${
-          subStyles
-            ? subStyles
-            : "flex items-end justify-center lg:justify-start"
+          subStyles ? subStyles : "flex items-end justify-center lg:justify-start"
         }`}
       >
-        <label className="text-sm font-medium text-blue">
-          Filtrar por dia:
-        </label>
+        <label className="font-medium text-blue mr-4">Filtrar por dia:</label>
         <button
           onClick={() => handle(-1)}
           className="p-1 transition-all duration-200 border border-gray-300 rounded text-blue bg-lightGray hover:bg-gray-300"
         >
           <HiArrowSmLeft className="text-2xl lg:text-3xl" />
         </button>
-        <div className="flex flex-col items-start">
-          <p className={`capitalize lg:text-lg font-bold ${dayColor}`}>
-            <span className="text-sm font-medium w-11 text-blue">Día: </span>{" "}
-            {nameDay}
-          </p>
+        <div className="flex flex-col">
+          <p className={`capitalize lg:text-lg font-bold ml-4 ${dayColor}`}>{nameDay}</p>
           <input
+            value={state}
             required
             placeholder=""
             type="date"
             className={`px-2 py-1 lg:text-lg font-bold border border-gray-300 rounded focus:outline-none bg-lightGray ${dayColor}`}
             name="day"
-            value={state}
             onChange={handleOnChange}
           />
         </div>
@@ -86,7 +69,7 @@ export const FilterTableSchedules = ({
         </button>
         <button
           onClick={handleToday}
-          className="px-2 py-1 text-lg font-medium capitalize transition-all duration-200 border border-gray-300 rounded text-blue bg-lightGray hover:bg-gray-300"
+          className="ml-5 px-2 py-1 text-lg font-medium capitalize transition-all duration-200 border border-gray-300 rounded text-blue bg-lightGray hover:bg-gray-300"
         >
           hoy
         </button>
