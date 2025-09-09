@@ -47,7 +47,8 @@
     "rollup": "^4.29.1",
     "slick-carousel": "^1.8.1",
     "sweetalert2": "^11.22.0",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "zustand": "^5.0.8"
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.6",
