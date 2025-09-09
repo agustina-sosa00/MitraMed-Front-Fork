@@ -10,10 +10,7 @@ import { TablaDefault } from "@/frontend-resourses/components";
 import { Modal } from "@/components/ui/Modal";
 import { FormUploadHistory } from "@/components/features/PanelProfessional/FormUploadHistory";
 import { ContainView } from "@/components/features/PanelProfessional/ContainView";
-import {
-  getDataDropbox,
-  getAccessTokenDropbox,
-} from "@/services/MedicalHistoryService";
+import { getDataDropbox, getAccessTokenDropbox } from "@/services/MedicalHistoryService";
 import { useMedicalHistoryContext } from "../../context/MedicalHistoryContext";
 
 import SearchPatient from "@/components/features/PanelProfessional/SearchPatient";
@@ -219,6 +216,7 @@ export default function MedicalHistory() {
               },
             ],
             objectStyles: {
+              // heightContainer: "400px",
               addHeaderColor: "#022539",
               withScrollbar: true,
               containerClass: "border border-gray-300 rounded-t-lg ",

@@ -52,24 +52,21 @@ export const ProfessionalLayout: React.FC<IProp> = ({ setLoader }) => {
         icon: FaArchive,
         link: "/dashboard/historial",
         disabled: disabledButtonSidebar.historial,
-        description:
-          "Accedé al historial clínico, subí documentos y dejá observaciones.",
+        description: "Accedé al historial clínico, subí documentos y dejá observaciones.",
       },
       {
         name: "odontograma",
         icon: FaTooth,
         link: "/dashboard/odontograma",
         disabled: disabledButtonSidebar.odontograma,
-        description:
-          "Marcá diagnósticos y procedimientos por pieza, cara y estado.",
+        description: "Marcá diagnósticos y procedimientos por pieza, cara y estado.",
       },
       {
         name: "informe de turnos",
         icon: MdTableChart,
-        link: "/dashboard/tabla-general",
+        link: "/dashboard/informe-turnos",
         disabled: disabledButtonSidebar.tablaGral,
-        description:
-          "Panel centralizado para realizar un seguimiento las ventas.",
+        description: "Panel centralizado para realizar un seguimiento las ventas.",
       },
     ],
     [disabledButtonSidebar]
@@ -99,15 +96,9 @@ export const ProfessionalLayout: React.FC<IProp> = ({ setLoader }) => {
 
   return (
     <div className="flex w-full h-screen bg-white">
-      <SideBar
-        logo="https://i.imgur.com/HBsiL82.png"
-        buttons={buttonsSidebar}
-      />
+      <SideBar logo="https://i.imgur.com/HBsiL82.png" buttons={buttonsSidebar} />
       <div className="flex flex-col flex-1 h-screen overflow-hidden">
-        <Navbar
-          logo="https://i.imgur.com/HBsiL82.png"
-          buttons={buttonsSidebar}
-        />
+        <Navbar logo="https://i.imgur.com/HBsiL82.png" buttons={buttonsSidebar} />
         <div className="flex-1 overflow-y-auto">
           <Outlet
             context={{

@@ -3,22 +3,43 @@ import esES from "antd/locale/es_ES";
 import dayjs, { Dayjs } from "dayjs";
 import "dayjs/locale/es";
 import type { RangePickerProps } from "antd/es/date-picker";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button";
 // import { FaTrashAlt } from "react-icons/fa";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { close } from "@/frontend-resourses/assets/icons";
 
-export function DateRangePickerPresetsExample({
+type DateRangePickerProps = {
+  state: { from: string; to: string };
+  setState: React.Dispatch<React.SetStateAction<{ from: string; to: string }>>;
+  handleSearch: () => void;
+  loader: boolean;
+  setLoader: React.Dispatch<React.SetStateAction<boolean>>;
+  disabledButtonTrash: boolean;
+  isProcessed: boolean;
+  handleClean: () => void;
+  selectedDates: {
+    from: string;
+    to: string;
+  };
+  setSelectedDates: (dates: { from: string; to: string }) => void;
+  hasSearched: boolean;
+};
+
+export default function DateRangePicker({
   state,
   setState,
   handleSearch,
   loader,
   setLoader,
   disabledButtonTrash,
-}) {
+  isProcessed,
+  handleClean,
+  selectedDates,
+  setSelectedDates,
+  hasSearched,
+}: DateRangePickerProps) {
   const [range, setRange] = useState<[Dayjs | null, Dayjs | null] | null>(null);
-  const [isProcessed, setIsProcessed] = useState(false); // Nuevo estado
 
   dayjs.locale("es");
   const { RangePicker } = DatePicker;
@@ -49,19 +70,28 @@ export function DateRangePickerPresetsExample({
   const onRangeChange: RangePickerProps["onChange"] = (dates, dateStrings) => {
     setRange(dates);
     const [from, to] = dateStrings;
-    setState(dates ? { from, to } : { from: "", to: "" });
+    const selected = dates ? { from, to } : { from: "", to: "" };
+    setState(selected);
+    setSelectedDates(selected);
   };
 
+  useEffect(() => {
+    if (selectedDates.from && selectedDates.to) {
+      setRange([dayjs(selectedDates.from, "DD/MM/YYYY"), dayjs(selectedDates.to, "DD/MM/YYYY")]);
+      setState({ from: selectedDates.from, to: selectedDates.to });
+    }
+  }, [selectedDates, setState]);
+
   function handleLimpiar() {
+    handleClean();
     setRange(null);
-    setState({ from: "", to: "" });
-    setIsProcessed(false);
+    // setState({ from: "", to: "" });
+    // setIsProcessed(false);
   }
 
-  async function handleBuscar() {
+  function handleBuscar() {
     setLoader(true);
-    await handleSearch();
-    setIsProcessed(true);
+    handleSearch();
   }
 
   return (
@@ -84,6 +114,7 @@ export function DateRangePickerPresetsExample({
           placeholder={["Desde", "Hasta"]}
           className="border-2 rounded border-gray-300 hover:border-greenFocus  text-blue  placeholder:text-blue [&.ant-picker-focused]:!border-green
           [&.ant-picker-focused]:!shadow-[0_0_0_2px_rgba(22,163,74,0.25)]  [&_.ant-picker-input>input]:text-blue [&_.ant-picker-input>input::placeholder]:text-gray-600"
+          disabled={isProcessed}
         />
       </ConfigProvider>
       {/* <ActionButton icon={<FaMagnifyingGlass className="!text-white" />} text="Procesar" /> */}
@@ -94,7 +125,7 @@ export function DateRangePickerPresetsExample({
           handle={() => handleBuscar()}
           classButton="w-38 flex justify-center text-xs h-6"
           icon={<FaMagnifyingGlass className="" />}
-          disabledButton={!state.from || !state.to || isProcessed}
+          disabledButton={!state.from || !state.to || isProcessed || hasSearched}
         />
 
         <Button
