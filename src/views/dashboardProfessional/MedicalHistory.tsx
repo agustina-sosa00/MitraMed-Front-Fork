@@ -154,7 +154,7 @@ export default function MedicalHistory() {
 
   //region return
   return (
-    <ContainView title="Historial médico" padding="py-5">
+    <ContainView title="Historial médico" padding="py-5 px-10">
       <div className="flex items-center justify-start w-full gap-1 py-1 min-h-24 ">
         <SearchPatient
           noHc={hc}

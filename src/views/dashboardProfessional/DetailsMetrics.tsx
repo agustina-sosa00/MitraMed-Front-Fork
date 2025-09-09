@@ -1,4 +1,5 @@
 import DonutChartWithLabels from "@/components/features/PanelProfessional/DonutChart";
+import { titleCaseEs } from "@/utils/TitleCaseEs";
 import React from "react";
 
 interface IProp {
@@ -13,8 +14,8 @@ interface IProp {
 export const DetailsMetrics: React.FC<IProp> = ({ data, title }) => {
   return (
     <div className="flex flex-col items-center justify-center w-full gap-3 px-2 py-5 bg-white border shadow-xl shadow-black/30 border-lightGray rounded-2xl">
-      <h1 className="h-6 text-lg font-semibold capitalize text-blue">
-        {title}
+      <h1 className="h-6 text-lg font-semibold text-blue">
+        {titleCaseEs(title!)}
       </h1>
       <div className="flex justify-center  w-full min-h-[200px] ">
         <DonutChartWithLabels data={data} />
@@ -26,8 +27,8 @@ export const DetailsMetrics: React.FC<IProp> = ({ data, title }) => {
                   className={`w-4 h-4 `}
                   style={{ backgroundColor: item.colors }}
                 ></div>
-                <p className="text-xs font-medium capitalize text-blue ">
-                  {item.name}
+                <p className="text-xs font-medium text-blue ">
+                  {titleCaseEs(item.name)}
                 </p>
               </div>
             ))}

@@ -11,7 +11,7 @@ export const Dashboard: React.FC = () => {
   const dataProfesional = data ? JSON.parse(data) : null;
   return (
     <ContainView
-      padding="py-5"
+      padding="py-5 px-10"
       title={`${
         dataProfesional!.tusuario === 1
           ? `¡Bienvenido ${dataProfesional.ndoctor} ${dataProfesional.adoctor}!`

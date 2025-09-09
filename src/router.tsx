@@ -19,7 +19,7 @@ import MedicalHistory from "./views/dashboardProfessional/MedicalHistory";
 import { DetailHistoryMedical } from "./views/dashboardProfessional/DetailHistoryMedical";
 import Cookies from "js-cookie";
 import Settings from "./views/dashboardProfessional/Settings";
-import { SalesByDate } from "./views/dashboardProfessional/SalesByDate";
+import { ShiftReport } from "./views/dashboardProfessional/ShiftReport";
 
 interface RouterProps {
   loader: boolean;
@@ -62,7 +62,7 @@ export default function Router({ loader, setLoader }: RouterProps) {
               path="/dashboard/turnos-generales"
               element={<TurnosSecretariat />}
             />
-            <Route path="/dashboard/tabla-general" element={<SalesByDate />} />
+            <Route path="/dashboard/tabla-general" element={<ShiftReport />} />
             {idProfesional && (
               <Route path="/dashboard/configuracion" element={<Settings />} />
             )}

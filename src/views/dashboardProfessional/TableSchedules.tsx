@@ -48,7 +48,7 @@ export const TableSchedules: React.FC = () => {
   };
 
   return (
-    <ContainView title="mis turnos" padding="py-5">
+    <ContainView title="mis turnos" padding="py-5 px-10">
       <FilterTableSchedules
         handle={changeDay}
         state={daySchedule}

@@ -8,13 +8,15 @@ import { Button } from "@/components/ui/Button";
 import { FaTrashAlt } from "react-icons/fa";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 
-export function DateRangePickerPresetsExample() {
+export function DateRangePickerPresetsExample({
+  state,
+  setState,
+  handleSearch,
+  loader,
+  setLoader,
+  disabledButtonTrash,
+}) {
   const [range, setRange] = useState<[Dayjs | null, Dayjs | null] | null>(null);
-  const [state, setState] = useState({
-    from: "",
-    to: "",
-  });
-  const [loader, setLoader] = useState(false);
   dayjs.locale("es");
   const { RangePicker } = DatePicker;
 
@@ -54,10 +56,7 @@ export function DateRangePickerPresetsExample() {
 
   const handleBuscar = () => {
     setLoader(true);
-    setTimeout(() => {
-      setLoader(false);
-      console.log("desde", state.from, "hasta", state.to);
-    }, 2000);
+    handleSearch();
   };
 
   return (
@@ -92,13 +91,14 @@ export function DateRangePickerPresetsExample() {
       />
       <Button
         label="borrar"
-        classButton={` text-white ${
-          !state.from || !state.to
-            ? "!bg-gray-400 !cursor-not-allowed !pointer-events-none"
+        classButton={` text-white  ${
+          disabledButtonTrash
+            ? "bg-gray-400 cursor-not-allowed pointer-events-none"
             : "bg-red-500 hover:bg-red-600"
         } `}
         handle={handleBorrar}
         icon={<FaTrashAlt />}
+        disabledButton={disabledButtonTrash}
       />
     </div>
   );

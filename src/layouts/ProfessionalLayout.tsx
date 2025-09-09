@@ -64,7 +64,7 @@ export const ProfessionalLayout: React.FC<IProp> = ({ setLoader }) => {
           "Marcá diagnósticos y procedimientos por pieza, cara y estado.",
       },
       {
-        name: "ventas por fecha",
+        name: "informe de turnos",
         icon: MdTableChart,
         link: "/dashboard/tabla-general",
         disabled: disabledButtonSidebar.tablaGral,
