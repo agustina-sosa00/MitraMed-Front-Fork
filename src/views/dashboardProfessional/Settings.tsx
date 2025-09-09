@@ -20,89 +20,76 @@ export default function Settings() {
   }, [isProd, isProdMode]);
 
   return (
-    <ContainView title="configuración">
-      <div className="flex flex-col items-center w-full h-screen gap-5 px-20 ">
-        {/* Switch 1 */}
-        <div className="flex items-center gap-2">
-          <p className="text-lg ">Entorno:</p>
-          <div className="flex items-center gap-3">
-            <p
-              className={`text-xl ${
-                isProd
-                  ? "text-blue"
-                  : "bg-green text-white py-1 px-2 rounded transition-all duration-300"
+    <ContainView title="configuración" padding="py-10">
+      <div className="flex items-center w-full  justify-center px-4 py-10 gap-8">
+        {/* Card Entorno */}
+        <div className="bg-white shadow-md rounded-xl p-6 w-full max-w-sm flex flex-col gap-4">
+          <span className="text-lg font-semibold mb-2 underline">Entorno</span>
+          <div className="flex flex-col gap-3">
+            <label
+              className={`flex items-center gap-2 cursor-pointer ${
+                !isProd ? "text-green-700" : "text-gray-500"
               }`}
             >
-              Desarrollo
-            </p>
-            <label className="relative inline-flex items-center cursor-pointer">
               <input
-                type="checkbox"
-                className="sr-only peer"
+                type="radio"
+                name="entorno"
+                checked={!isProd}
+                onChange={() => setIsProd(false)}
+                className="accent-green-600 w-5 h-5"
+              />
+              <span className={`text-base px-2 py-1 rounded `}>Desarrollo</span>
+            </label>
+            <label
+              className={`flex items-center gap-2 cursor-pointer ${
+                isProd ? "text-green-700" : "text-blue"
+              }`}
+            >
+              <input
+                type="radio"
+                name="entorno"
                 checked={isProd}
-                onChange={(e) => setIsProd(e.target.checked)}
+                onChange={() => setIsProd(true)}
+                className="accent-green-600 w-5 h-5"
               />
-              <div className="w-16 h-8 duration-300 bg-white rounded-full peer ring-2 ring-green after:duration-300 after:bg-green peer-checked:after:bg-blue peer-checked:ring-blue after:rounded-full after:absolute after:h-6 after:w-6 after:top-1 after:left-1 after:flex after:justify-center after:items-center peer-checked:after:translate-x-8 peer-hover:after:scale-95"></div>
+              <span className={`text-base px-2 py-1 rounded`}>Producción</span>
             </label>
-            <p
-              className={`text-xl ${
-                isProd
-                  ? "bg-blue text-white py-1 px-2 rounded transition-all duration-300"
-                  : "text-blue"
-              }`}
-            >
-              Producción
-            </p>
           </div>
         </div>
 
-        {/* Switch 2 */}
-        <div className="flex items-center gap-2">
-          <p className="text-lg ">Modo:</p>
-          <div className="flex items-center gap-3">
-            <p
-              className={`text-xl ${
-                isProdMode
-                  ? "text-blue"
-                  : "bg-green text-white py-1 px-2 rounded transition-all duration-300"
+        {/* Card Modo */}
+        <div className="bg-white shadow-md rounded-xl p-6 w-full max-w-sm flex flex-col gap-4">
+          <span className="text-lg font-semibold mb-2 underline">Modo</span>
+          <div className="flex flex-col gap-3">
+            <label
+              className={`flex items-center gap-2 cursor-pointer ${
+                !isProdMode ? "text-green-700" : "text-gray-500"
               }`}
             >
-              Homologación
-            </p>
-            <label className="relative inline-flex items-center cursor-pointer">
               <input
-                type="checkbox"
-                className="sr-only peer"
-                checked={isProdMode}
-                onChange={(e) => setIsProdMode(e.target.checked)}
+                type="radio"
+                name="modo"
+                checked={!isProdMode}
+                onChange={() => setIsProdMode(false)}
+                className="accent-green-600 w-5 h-5"
               />
-              <div className="w-16 h-8 duration-300 bg-white rounded-full peer ring-2 ring-green after:duration-300 after:bg-green peer-checked:after:bg-blue peer-checked:ring-blue after:rounded-full after:absolute after:h-6 after:w-6 after:top-1 after:left-1 after:flex after:justify-center after:items-center peer-checked:after:translate-x-8 peer-hover:after:scale-95"></div>
+              <span className={`text-base px-2 py-1 rounded `}>Homologación</span>
             </label>
-            <p
-              className={`text-xl ${
-                isProdMode
-                  ? "bg-blue text-white py-1 px-2 rounded transition-all duration-300"
-                  : "text-blue"
-              }`}
-            >
-              Producción
-            </p>
+            <label className={`flex items-center gap-2 cursor-pointer `}>
+              <input
+                type="radio"
+                name="modo"
+                checked={isProdMode}
+                onChange={() => setIsProdMode(true)}
+                className="accent-green-600 w-5 h-5"
+              />
+              <span
+                className={`text-base px-2 py-1 rounded ${isProdMode ? "bg-blue text-white" : ""}`}
+              >
+                Producción
+              </span>
+            </label>
           </div>
-        </div>
-
-        <div className="flex flex-col gap-2 text-center">
-          <p className="text-lg text-blue">
-            Entorno actual:{" "}
-            <span className="text-xl font-medium">
-              {isProd ? "Producción" : "Desarrollo"}
-            </span>
-          </p>
-          <p className="text-lg text-blue">
-            Modo actual:{" "}
-            <span className="text-xl font-medium">
-              {isProdMode ? "Producción" : "Homologación"}
-            </span>
-          </p>
         </div>
       </div>
     </ContainView>
