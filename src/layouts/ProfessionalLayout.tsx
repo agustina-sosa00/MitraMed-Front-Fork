@@ -48,7 +48,7 @@ export const ProfessionalLayout: React.FC<IProp> = ({ setLoader }) => {
           "Accedé a tus turnos de una manera sencilla, con filtros por fecha y una tabla organizada.",
       },
       {
-        name: "historial",
+        name: "H.C",
         icon: FaArchive,
         link: "/dashboard/historial",
         disabled: disabledButtonSidebar.historial,
