@@ -1,3 +1,5 @@
+import { ClipLoader } from "react-spinners";
+
 interface IProp {
   handle?: () => void;
   label?: string;
@@ -6,6 +8,9 @@ interface IProp {
   type?: "button" | "submit";
   loader?: boolean;
   disabledButton?: boolean; // <- corregido
+  height?: string;
+  padding?: string;
+  custom?: boolean;
 }
 
 export const Button: React.FC<IProp> = ({
@@ -16,27 +21,35 @@ export const Button: React.FC<IProp> = ({
   type = "button",
   loader,
   disabledButton = false,
+  height,
+  padding,
+  custom,
 }) => {
-  const base =
-    "h-10 flex items-center px-5 py-1 rounded !text-white capitalize font-medium gap-1 transition-all duration-300";
-  const enabled = "bg-green hover:bg-greenHover cursor-pointer";
-  const disabledCls = "bg-gray-400 cursor-not-allowed pointer-events-none";
+  const base = `${height ? `h-${height}` : "h-10"} flex items-center ${
+    padding ? `px-${padding}` : "px-5"
+  } rounded capitalize font-medium gap-1 transition-all duration-300`;
+
+  const enabled = `${
+    custom
+      ? "bg-gray-300 hover:bg-gray-400/60 border border-slate-400 "
+      : "bg-green hover:bg-greenHover cursor-pointer text-white border"
+  }`;
+
+  const disabledCls =
+    "bg-gray-200 border border-slate-400 text-slate-500/50 cursor-not-allowed pointer-events-none";
+
   return (
     <button
       type={type}
       onClick={handle}
       disabled={disabledButton}
-      className={`${base} ${classButton ?? ""} ${
-        disabledButton ? disabledCls : enabled
-      }`}
+      className={`${base} ${classButton ?? ""} ${disabledButton ? disabledCls : enabled}`}
     >
       {loader ? (
-        <svg
-          className="w-5 h-5 circle-loader animate-spin"
-          viewBox="25 25 50 50"
-        >
-          <circle r="20" cy="50" cx="50" className="circleWhite"></circle>
-        </svg>
+        <>
+          <ClipLoader size={15} color="#6B728080" />
+          <div className="">Procesando</div>
+        </>
       ) : (
         <>
           {icon}

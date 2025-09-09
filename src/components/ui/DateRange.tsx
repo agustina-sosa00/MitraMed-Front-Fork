@@ -5,8 +5,9 @@ import "dayjs/locale/es";
 import type { RangePickerProps } from "antd/es/date-picker";
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
-import { FaTrashAlt } from "react-icons/fa";
+// import { FaTrashAlt } from "react-icons/fa";
 import { FaMagnifyingGlass } from "react-icons/fa6";
+import { close } from "@/frontend-resourses/assets/icons";
 
 export function DateRangePickerPresetsExample({
   state,
@@ -17,6 +18,8 @@ export function DateRangePickerPresetsExample({
   disabledButtonTrash,
 }) {
   const [range, setRange] = useState<[Dayjs | null, Dayjs | null] | null>(null);
+  const [isProcessed, setIsProcessed] = useState(false); // Nuevo estado
+
   dayjs.locale("es");
   const { RangePicker } = DatePicker;
 
@@ -49,15 +52,17 @@ export function DateRangePickerPresetsExample({
     setState(dates ? { from, to } : { from: "", to: "" });
   };
 
-  const handleBorrar = () => {
+  function handleLimpiar() {
     setRange(null);
     setState({ from: "", to: "" });
-  };
+    setIsProcessed(false);
+  }
 
-  const handleBuscar = () => {
+  async function handleBuscar() {
     setLoader(true);
-    handleSearch();
-  };
+    await handleSearch();
+    setIsProcessed(true);
+  }
 
   return (
     <div className="flex w-full gap-3">
@@ -81,25 +86,36 @@ export function DateRangePickerPresetsExample({
           [&.ant-picker-focused]:!shadow-[0_0_0_2px_rgba(22,163,74,0.25)]  [&_.ant-picker-input>input]:text-blue [&_.ant-picker-input>input::placeholder]:text-gray-600"
         />
       </ConfigProvider>
-      <Button
-        label="buscar"
-        loader={loader}
-        handle={() => handleBuscar()}
-        classButton="w-28 flex justify-center"
-        icon={<FaMagnifyingGlass className="!text-white" />}
-        disabledButton={!state.from || !state.to}
-      />
-      <Button
-        label="borrar"
-        classButton={` text-white  ${
-          disabledButtonTrash
-            ? "bg-gray-400 cursor-not-allowed pointer-events-none"
-            : "bg-red-500 hover:bg-red-600"
-        } `}
-        handle={handleBorrar}
-        icon={<FaTrashAlt />}
-        disabledButton={disabledButtonTrash}
-      />
+      {/* <ActionButton icon={<FaMagnifyingGlass className="!text-white" />} text="Procesar" /> */}
+      <div className="flex gap-2 items-end">
+        <Button
+          label="Procesar"
+          loader={loader}
+          handle={() => handleBuscar()}
+          classButton="w-38 flex justify-center text-xs h-6"
+          icon={<FaMagnifyingGlass className="" />}
+          disabledButton={!state.from || !state.to || isProcessed}
+        />
+
+        <Button
+          classButton={` text-white text-xs h-6  ${
+            disabledButtonTrash
+              ? "cursor-not-allowed pointer-events-none"
+              : "bg-gray-200 hover:bg-gray-300 cursor-pointer"
+          } `}
+          padding="2"
+          handle={handleLimpiar}
+          icon={
+            <img
+              src={close}
+              alt="Cerrar"
+              className={`w-3 h-3 ${disabledButtonTrash ? "grayscale opacity-40" : ""}`}
+            />
+          }
+          custom={true}
+          disabledButton={disabledButtonTrash}
+        />
+      </div>
     </div>
   );
 }
