@@ -13,18 +13,14 @@ import {
   sinProvisoriosDeTratamientosConCara,
 } from "../../../utils/odontogram.lookups";
 import { ContextType, RawRow, ToothChangeTuple } from "@/types/index";
-import {
-  getOdontogram,
-  postSaveOdontogram,
-} from "@/services/odontogramServices";
+import { getOdontogram, postSaveOdontogram } from "@/services/odontogramServices";
 import { useOdontogramContext } from "../../../context/OdontogramContext";
 import SearchPatient from "@/components/features/PanelProfessional/SearchPatient";
 import { buildIdsState } from "@/utils/buildTeethState";
 import { useOutletContext } from "react-router-dom";
 
-export default function Odontogram() {
-  const { setDisabledButtonSidebar, disabledButtonSidebar } =
-    useOutletContext<ContextType>();
+export default function OdontogramView() {
+  const { setDisabledButtonSidebar, disabledButtonSidebar } = useOutletContext<ContextType>();
   const queryClient = useQueryClient();
   //region cookies
   const idProfesional = Cookies.get("idProfesional");
@@ -232,10 +228,7 @@ export default function Odontogram() {
     const B = sinProvisoriosDeTratamientosConCara(teethIdsState);
 
     const cambiados = new Set<number>();
-    const todos = new Set<number>([
-      ...Object.keys(A).map(Number),
-      ...Object.keys(B).map(Number),
-    ]);
+    const todos = new Set<number>([...Object.keys(A).map(Number), ...Object.keys(B).map(Number)]);
 
     for (const num of todos) {
       const antes = A[num] || [];
@@ -292,9 +285,7 @@ export default function Odontogram() {
               box.ladoVisual === "izquierda"
                 ? "border-r flex  justify-end"
                 : "border-l flex items-end"
-            } justify-start ${
-              editOdontogram ? "border-gray-400" : "border-gray-300"
-            }`}
+            } justify-start ${editOdontogram ? "border-gray-400" : "border-gray-300"}`}
           >
             {box.numbers.map((toothNumber) => (
               <div
@@ -304,11 +295,8 @@ export default function Odontogram() {
                 }`}
               >
                 <p
-                  className={`text-sm  ${
-                    editOdontogram ? "text-[#6e6d6d]" : "text-[#b6b5b5]"
-                  } ${
-                    dientesCambiados.has(toothNumber) &&
-                    "text-[#ff9e00] font-bold"
+                  className={`text-sm  ${editOdontogram ? "text-[#6e6d6d]" : "text-[#b6b5b5]"} ${
+                    dientesCambiados.has(toothNumber) && "text-[#ff9e00] font-bold"
                   } `}
                 >
                   {toothNumber}
@@ -321,9 +309,7 @@ export default function Odontogram() {
                   toothSelectState={toothSelect}
                   setToothSelectState={setToothSelect}
                   dataIds={teethIdsState[toothNumber] || []}
-                  clearTooth={() =>
-                    setTeethIdsState((prev) => ({ ...prev, [toothNumber]: [] }))
-                  }
+                  clearTooth={() => setTeethIdsState((prev) => ({ ...prev, [toothNumber]: [] }))}
                   updateToothIds={(tuple) =>
                     setTeethIdsState((prev) => ({
                       ...prev,
@@ -352,9 +338,7 @@ export default function Odontogram() {
               box.ladoVisual === "izquierda"
                 ? "border-r flex  justify-end"
                 : "border-l flex items-start"
-            } justify-start ${
-              editOdontogram ? "border-gray-400" : "border-gray-300"
-            } `}
+            } justify-start ${editOdontogram ? "border-gray-400" : "border-gray-300"} `}
           >
             {box.numbers.map((toothNumber) => (
               <div
@@ -364,11 +348,8 @@ export default function Odontogram() {
                 }`}
               >
                 <p
-                  className={`text-sm  ${
-                    editOdontogram ? "text-[#6e6d6d]" : "text-[#b6b5b5]"
-                  } ${
-                    dientesCambiados.has(toothNumber) &&
-                    "text-[#ff9e00] font-bold"
+                  className={`text-sm  ${editOdontogram ? "text-[#6e6d6d]" : "text-[#b6b5b5]"} ${
+                    dientesCambiados.has(toothNumber) && "text-[#ff9e00] font-bold"
                   } `}
                 >
                   {toothNumber}
@@ -381,9 +362,7 @@ export default function Odontogram() {
                   toothSelectState={toothSelect}
                   setToothSelectState={setToothSelect}
                   dataIds={teethIdsState[toothNumber] || []}
-                  clearTooth={() =>
-                    setTeethIdsState((prev) => ({ ...prev, [toothNumber]: [] }))
-                  }
+                  clearTooth={() => setTeethIdsState((prev) => ({ ...prev, [toothNumber]: [] }))}
                   updateToothIds={(tuple) =>
                     setTeethIdsState((prev) => ({
                       ...prev,
@@ -421,13 +400,7 @@ export default function Odontogram() {
               ];
               setTeethChanged((prev) => [
                 ...prev,
-                [
-                  toothSelect,
-                  ID_CARA_BY_NAME[caraNombre],
-                  idtrat,
-                  hab,
-                  Number(idProfesional),
-                ],
+                [toothSelect, ID_CARA_BY_NAME[caraNombre], idtrat, hab, Number(idProfesional)],
               ]);
 
               return {

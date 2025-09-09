@@ -1,8 +1,4 @@
 import { useEffect, useRef } from "react";
-
-import React from "react";
-import Swal from "sweetalert2";
-
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { RiCloseLargeFill } from "react-icons/ri";
 import { FaRegEdit } from "react-icons/fa";
@@ -12,6 +8,8 @@ import { FaUserCircle } from "react-icons/fa";
 import { RiSave3Line } from "react-icons/ri";
 import { Button } from "@/components/ui/Button";
 import { SearchPatientProps } from "@/types/index";
+import React from "react";
+import Swal from "sweetalert2";
 
 export default function SearchPatient({
   onSearch,
@@ -111,19 +109,13 @@ export default function SearchPatient({
         {hasConfirmed ? (
           <>
             {state.length > 0 && (
-              <div
-                className={`flex  py-1 h-14 justify-between gap-1   w-2/3     items-center `}
-              >
+              <div className={`flex  py-1 h-14 justify-between gap-1   w-2/3     items-center `}>
                 <div className="flex items-end gap-1">
-                  <label className="text-base font-bold capitalize text-green">
-                    Ingresar DNI:
-                  </label>
+                  <label className="text-base font-bold capitalize text-green">Ingresar DNI:</label>
                   <div className="flex gap-1 w-36">
                     <div
                       className={`h-8 px-2 py-1 flex items-center gap-2 font-bold border  border-gray-300 rounded w-full bg-lightGray focus:outline-none  ${
-                        !hasConfirmed
-                          ? "bg-gray-200 text-gray-400 "
-                          : "text-blue"
+                        !hasConfirmed ? "bg-gray-200 text-gray-400 " : "text-blue"
                       }`}
                     >
                       {state}
@@ -147,14 +139,10 @@ export default function SearchPatient({
             )}
           </>
         ) : (
-          <div
-            className={`flex py-1 h-14 justify-start gap-1 w-2/3  items-center `}
-          >
+          <div className={`flex py-1 h-14 justify-start gap-1 w-2/3  items-center `}>
             <div className="flex items-end gap-1">
               {" "}
-              <label className="text-base font-bold capitalize text-green">
-                Ingresar DNI:
-              </label>
+              <label className="text-base font-bold capitalize text-green">Ingresar DNI:</label>
               <div className="flex gap-1 w-36 ">
                 <input
                   ref={inputRef}
@@ -177,16 +165,8 @@ export default function SearchPatient({
                   className="flex items-center justify-center w-8 h-8 px-2 py-1 transition-all duration-300 bg-gray-200 border border-gray-300 rounded text-greenHover hover:text-white hover:bg-greenHover hover:border-green "
                 >
                   {loading ? (
-                    <svg
-                      className="w-8 circle-loader animate-spin"
-                      viewBox="25 25 50 50"
-                    >
-                      <circle
-                        r="20"
-                        cy="50"
-                        cx="50"
-                        className="circleNormal"
-                      ></circle>
+                    <svg className="w-8 circle-loader animate-spin" viewBox="25 25 50 50">
+                      <circle r="20" cy="50" cx="50" className="circleNormal"></circle>
                     </svg>
                   ) : (
                     <FaMagnifyingGlass className="text-xl " />
@@ -294,9 +274,7 @@ export default function SearchPatient({
                 disabled={!canEdit}
                 onClick={() => setEditOdontogram && setEditOdontogram(true)}
                 className={`h-8 px-2 py-1 flex items-center gap-1 justify-center text-white capitalize rounded w-32   ${
-                  !canEdit
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-green hover:bg-greenHover"
+                  !canEdit ? "bg-gray-400 cursor-not-allowed" : "bg-green hover:bg-greenHover"
                 }`}
               >
                 <FaRegEdit /> editar

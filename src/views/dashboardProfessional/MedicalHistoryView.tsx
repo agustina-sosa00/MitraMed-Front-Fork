@@ -36,7 +36,7 @@ type HcRow = {
 };
 type ApiHcRow = Omit<HcRow, "id">;
 
-export default function MedicalHistory() {
+export default function MedicalHistoryView() {
   const queryClient = useQueryClient();
 
   const {
@@ -241,7 +241,7 @@ export default function MedicalHistory() {
 
   return (
     <ContainView
-      title="H.C"
+      title="HC"
       padding="py-1 2xl:py-20  px-10"
       gapChildren="gap-1"
       sizeTitle="text-3xl 2xl:text-4xl"

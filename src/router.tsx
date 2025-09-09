@@ -12,14 +12,14 @@ import { Dashboard } from "./views/dashboardProfessional/Professional";
 import { ProfessionalProtectedRoute } from "./components/features/ProfessionalProtectedRoute";
 import { ProfessionalLayout } from "./layouts/ProfessionalLayout";
 import { NotFound } from "./views/NotFound";
-import Odontogram from "./views/dashboardProfessional/Odontogram/Odontogram";
 import Turnos from "./views/dashboard/Turnos";
-import MedicalHistory from "./views/dashboardProfessional/MedicalHistory";
 import { DetailHistoryMedical } from "./views/dashboardProfessional/DetailHistoryMedical";
 import Cookies from "js-cookie";
 import Settings from "./views/dashboardProfessional/Settings";
 import InformeTurnosView from "./views/dashboardProfessional/InformeTurnosView";
 import TurnosProfView from "./views/dashboardProfessional/TurnosProfView";
+import MedicalHistoryView from "./views/dashboardProfessional/MedicalHistoryView";
+import OdontogramView from "./views/dashboardProfessional/Odontogram/OdontogramView";
 
 interface RouterProps {
   loader: boolean;
@@ -51,8 +51,8 @@ export default function Router({ loader, setLoader }: RouterProps) {
           <Route element={<ProfessionalLayout setLoader={setLoader} />}>
             <Route path="/dashboard/inicio" element={<Dashboard />} />
             <Route path="/dashboard/turnos" element={<TurnosProfView />} />
-            <Route path="/dashboard/historial" element={<MedicalHistory />} />
-            <Route path="/dashboard/odontograma" element={<Odontogram />} />
+            <Route path="/dashboard/historial" element={<MedicalHistoryView />} />
+            <Route path="/dashboard/odontograma" element={<OdontogramView />} />
 
             <Route path="/dashboard/turnos-generales" element={<TurnosSecretariat />} />
             <Route path="/dashboard/informe-turnos" element={<InformeTurnosView />} />
