@@ -35,10 +35,12 @@ export default function SignInForm({ rol }: IProp) {
 
   const { mutate } = useMutation({
     mutationFn: iniciarSesion,
-    onError: (error) => {
+    onError: (_error) => {
       Swal.fire({
         icon: "error",
-        title: error.message,
+        text: "Credenciales Incorrectas, verifique los datos",
+        timer: 1800,
+        timerProgressBar: true,
       });
     },
     onSuccess: (data) => {
@@ -56,10 +58,12 @@ export default function SignInForm({ rol }: IProp) {
 
   const { mutate: loginProfessional } = useMutation({
     mutationFn: authProfessional,
-    onError: (error) => {
+    onError: (_error) => {
       Swal.fire({
         icon: "error",
-        title: error.message,
+        text: "Credenciales incorrectas, verifique los datos",
+        timer: 1800,
+        timerProgressBar: true,
       });
     },
 
@@ -68,6 +72,9 @@ export default function SignInForm({ rol }: IProp) {
       localStorage.setItem("_m", "homo");
       localStorage.setItem("_env", "des");
       localStorage.setItem("_e", "20");
+      localStorage.setItem("_tu", user.tusuario);
+      localStorage.setItem("_id", user.iddoctor);
+
       if (!user) {
         Swal.fire({ icon: "error", title: "Respuesta inválida" });
         return;
@@ -123,11 +130,7 @@ export default function SignInForm({ rol }: IProp) {
 
   return (
     <>
-      <form
-        className="flex flex-col gap-4 px-0.5 "
-        noValidate
-        onSubmit={handleSubmit(handleForm)}
-      >
+      <form className="flex flex-col gap-4 px-0.5 " noValidate onSubmit={handleSubmit(handleForm)}>
         {rol === "paciente" ? (
           <div className="flex flex-col">
             <InputField
@@ -146,9 +149,7 @@ export default function SignInForm({ rol }: IProp) {
                 },
               })}
             />
-            {errors.email && (
-              <ErrorMessage>{errors.email.message}</ErrorMessage>
-            )}
+            {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
           </div>
         ) : (
           <div className="flex flex-col">
@@ -168,9 +169,7 @@ export default function SignInForm({ rol }: IProp) {
                 },
               })}
             />
-            {errors.usuario && (
-              <ErrorMessage>{errors.usuario.message}</ErrorMessage>
-            )}
+            {errors.usuario && <ErrorMessage>{errors.usuario.message}</ErrorMessage>}
           </div>
         )}
 
@@ -194,9 +193,7 @@ export default function SignInForm({ rol }: IProp) {
             })}
           />
 
-          {errors.password && (
-            <ErrorMessage>{errors.password.message}</ErrorMessage>
-          )}
+          {errors.password && <ErrorMessage>{errors.password.message}</ErrorMessage>}
         </div>
 
         <div className="flex justify-center w-full">
@@ -237,9 +234,7 @@ export default function SignInForm({ rol }: IProp) {
             }}
           >
             <img src="/google-icon.png" alt="Google Icon" className="w-8 h-8" />
-            <span className="text-sm font-medium text-gray-700">
-              Continuar con Google
-            </span>
+            <span className="text-sm font-medium text-gray-700">Continuar con Google</span>
           </button>
         </div>
       ) : null}
@@ -250,9 +245,7 @@ export default function SignInForm({ rol }: IProp) {
             No tienes cuenta?{" "}
             <button
               className="font-medium hover:underline text-green"
-              onClick={() =>
-                navigate(location.pathname + "?createAccount=true")
-              }
+              onClick={() => navigate(location.pathname + "?createAccount=true")}
             >
               Regístrate aquí
             </button>
