@@ -52,6 +52,17 @@ export default function MedicalHistory() {
     staleTime: Infinity,
   });
 
+  const { data: dataMedicalHistory } = useQuery({
+    queryKey: ["medicalHistory", dniHistory],
+    queryFn: () => getDataMedicalHistory({ dni: dniHistory }),
+    enabled: hasConfirmed && !!dniHistory,
+    staleTime: Infinity,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    gcTime: Infinity,
+    initialData: () => queryClient.getQueryData(["medicalHistory", dniHistory]),
+  });
+
   const { mutate: mutateGetAccessTokenDropbox } = useMutation({
     mutationFn: getAccessTokenDropbox,
     onError: (error) => {
@@ -64,17 +75,6 @@ export default function MedicalHistory() {
         expires: 5 / 24,
       });
     },
-  });
-
-  const { data: dataMedicalHistory } = useQuery({
-    queryKey: ["medicalHistory", dniHistory],
-    queryFn: () => getDataMedicalHistory({ dni: dniHistory }),
-    enabled: hasConfirmed && !!dniHistory,
-    staleTime: Infinity,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-    gcTime: Infinity,
-    initialData: () => queryClient.getQueryData(["medicalHistory", dniHistory]),
   });
 
   //region useEffect
@@ -154,7 +154,7 @@ export default function MedicalHistory() {
 
   //region return
   return (
-    <ContainView title="Historial médico" padding="py-5">
+    <ContainView title="Historial médico" padding="py-5 px-10">
       <div className="flex items-center justify-start w-full gap-1 py-1 min-h-24 ">
         <SearchPatient
           noHc={hc}
@@ -205,8 +205,8 @@ export default function MedicalHistory() {
                 label: "Acciones",
                 renderCell: (item) => (
                   <Link
-                    to={`/profesionales/historial/${item.idhistoria}`}
-                    state={item}
+                    to={`/dashboard/historial/${item.idhistoria}`}
+                    state={{ history: item, dniPatient: dniHistory }}
                     className="flex justify-center w-full"
                   >
                     <button className="text-lg bg-blue-500 rounded text-blue">

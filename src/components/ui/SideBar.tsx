@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 import { useOdontogramContext } from "../../context/OdontogramContext";
 import TextAlert from "./TextAlert";
 import { useMedicalHistoryContext } from "../../context/MedicalHistoryContext";
+import { titleCaseEs } from "@/utils/TitleCaseEs";
 
 interface IProp {
   logo: string;
@@ -67,21 +68,21 @@ export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
         </div>
 
         {/* BOX 2 */}
-        <div className="flex flex-col w-full gap-3 pl-5 py-5 h-[65%]">
+        <div className="flex flex-col w-full gap-3 pl-4 py-5 h-[65%]">
           {buttons.map((item) => {
             const isActive = location.pathname === item.link;
             return (
               <Link key={item.name} to={item.link}>
                 <button
                   disabled={item.disabled}
-                  className={`flex items-center gap-2 pl-5 py-1 w-[90%] text-lg font-medium capitalize rounded ${
+                  className={`flex items-center text-start gap-1 pl-2 py-1 w-[90%] text-lg font-medium  rounded ${
                     item.disabled
                       ? "text-gray-400 cursor-not-allowed"
                       : "hover:bg-greenHover hover:text-white text-blue cursor-pointer transition-all duration-300"
                   } ${isActive ? "bg-green text-white" : ""} `}
                 >
                   <item.icon />
-                  {item.name}
+                  {titleCaseEs(item.name)}
                 </button>
               </Link>
             );
@@ -92,12 +93,12 @@ export const SideBar: React.FC<IProp> = ({ logo, buttons }) => {
         {idProfesional && usuario !== "3" && (
           <Link to={"/dashboard/configuracion"} className="w-full py-3 pl-5">
             <button
-              className={`flex items-center gap-2 px-5 py-1 w-[90%]  text-lg font-medium capitalize rounded 
+              className={`flex items-center gap-2 px-2 py-1 w-[90%]  text-lg font-medium capitalize rounded 
                 
                   hover:bg-greenHover hover:text-white text-blue cursor-pointer transition-all duration-300 `}
             >
               {" "}
-              <IoSettingsSharp className="w-10 h-10" /> Configuración{" "}
+              <IoSettingsSharp className="w-5 h-5" /> Configuración{" "}
             </button>
           </Link>
         )}

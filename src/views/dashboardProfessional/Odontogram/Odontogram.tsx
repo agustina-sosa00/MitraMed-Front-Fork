@@ -251,7 +251,7 @@ export default function Odontogram() {
   return (
     <ContainView
       title="Odontograma"
-      padding="py-3 2xl:py-20"
+      padding="py-3 2xl:py-20 px-10"
       gapChildren="gap-2"
       sizeTitle="text-3xl 2xl:text-4xl"
       classContainer="relative"
