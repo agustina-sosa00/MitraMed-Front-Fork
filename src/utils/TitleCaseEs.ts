@@ -52,9 +52,6 @@ export function titleCaseEs(str: string) {
       const isFirstWord = i === 0;
       const isLastWord = i === arr.length - 1;
 
-      if (/[A-ZÁÉÍÓÚÜÑ]/.test(token) && token === token.toUpperCase())
-        return token;
-
       if (isFirstWord || isLastWord || !STOPWORDS_ES.has(token)) {
         return token.replace(/^\p{L}/u, (c) => c.toUpperCase());
       }
