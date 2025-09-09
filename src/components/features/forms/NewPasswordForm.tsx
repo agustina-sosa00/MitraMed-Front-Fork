@@ -1,6 +1,5 @@
 import { useState } from "react";
 import InputField from "../../ui/InputField";
-import { FiEye, FiEyeOff } from "react-icons/fi";
 import ErrorMessage from "../../ui/ErrorMessage";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 
@@ -14,6 +13,9 @@ export default function NewPasswordForm({
   errors,
 }: NewPasswordFormProps) {
   const [showPassword, setShowPassword] = useState(false);
+  const handleSetShow = () => {
+    setShowPassword((prev) => !prev);
+  };
 
   return (
     <>
@@ -22,6 +24,7 @@ export default function NewPasswordForm({
           id={"password"}
           type={showPassword ? "text" : "password"}
           label={"Nueva contraseña"}
+          setShow={handleSetShow}
           placeholder={"Ingresa nueva contraseña"}
           register={register("password", {
             required: {
@@ -34,13 +37,7 @@ export default function NewPasswordForm({
             },
           })}
         />
-        {/* <button
-          type="button"
-          className="absolute text-xl right-2 sm:right-3 top-10 sm:top-12"
-          onClick={() => setShowPassword(!showPassword)}
-        >
-          {showPassword ? <FiEye /> : <FiEyeOff />}
-        </button> */}
+
         {errors.password && typeof errors.password.message === "string" && (
           <ErrorMessage>{errors.password.message}</ErrorMessage>
         )}
@@ -50,6 +47,7 @@ export default function NewPasswordForm({
           id={"repite_password"}
           type={showPassword ? "text" : "password"}
           label={"Repite tu contraseña"}
+          setShow={handleSetShow}
           placeholder={"Ingresa nuevamente tu contraseña"}
           register={register("repite_password", {
             required: {
@@ -62,13 +60,7 @@ export default function NewPasswordForm({
             },
           })}
         />
-        <button
-          type="button"
-          className="absolute text-xl right-2 sm:right-3 top-10 sm:top-12"
-          onClick={() => setShowPassword(!showPassword)}
-        >
-          {showPassword ? <FiEye /> : <FiEyeOff />}
-        </button>
+
         {errors.repite_password &&
           typeof errors.repite_password.message === "string" && (
             <ErrorMessage>{errors.repite_password.message}</ErrorMessage>

@@ -1,14 +1,8 @@
-import { ContainView } from "@/components/features/PanelProfessional/ContainView";
 import React from "react";
 import { DetailsMetrics } from "./DetailsMetrics";
 
 //#region arrays
-const metodoDePago = [
-  { name: "efectivo", value: 400, colors: "#00911F" },
-  { name: "mercado pago", value: 300, colors: "#00B5F6" },
-  { name: "débito", value: 100, colors: "#0050BF" },
-  { name: "crédito", value: 200, colors: "#EB9C09" },
-];
+
 const obs = [
   { name: "Swiss Medical", value: 100, colors: "#D50032" },
   { name: "IOMA", value: 300, colors: "#04AAC0" },
@@ -24,12 +18,9 @@ const turns = [
 
 export const Metrics: React.FC = () => {
   return (
-    <ContainView title="métricas generales">
-      <div className="grid w-full grid-cols-2 gap-5 justify-items-center">
-        <DetailsMetrics data={metodoDePago} title="método de pago" />
-        <DetailsMetrics data={obs} title="obras sociales" />
-        <DetailsMetrics data={turns} title="turnos por especialidad" />
-      </div>
-    </ContainView>
+    <div className="grid w-full grid-cols-2 gap-5 pt-10 justify-items-center">
+      <DetailsMetrics data={obs} title="obras sociales" />
+      <DetailsMetrics data={turns} title="turnos por especialidad" />
+    </div>
   );
 };

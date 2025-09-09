@@ -8,27 +8,26 @@ import ProtectedRoute from "./components/features/ProtectedRoute";
 import ConfigView from "./views/dashboard/ConfigView";
 import PrivacyPolicy from "./views/PrivacyPolicy";
 import TermsOfService from "./views/TermsOfService";
-import { Professional } from "./views/dashboardProfessional/Professional";
+import { Dashboard } from "./views/dashboardProfessional/Professional";
 import { ProfessionalProtectedRoute } from "./components/features/ProfessionalProtectedRoute";
 import { ProfessionalLayout } from "./layouts/ProfessionalLayout";
 import { TableSchedules } from "./views/dashboardProfessional/TableSchedules";
 import { NotFound } from "./views/NotFound";
 import Odontogram from "./views/dashboardProfessional/Odontogram/Odontogram";
-import { SecretariatProtectedRoute } from "./components/features/SecretariatProtectedRoute";
-import { SecretariatLayout } from "./layouts/SecretariatLayout";
-import { Secretariat } from "./views/dashboardSecretariat/Secretariat";
 import Turnos from "./views/dashboard/Turnos";
-import { MedicalHistory } from "./views/dashboardProfessional/MedicalHistory";
+import MedicalHistory from "./views/dashboardProfessional/MedicalHistory";
 import { DetailHistoryMedical } from "./views/dashboardProfessional/DetailHistoryMedical";
-import { TableGral } from "./views/dashboardSecretariat/TableGral";
-
-import { Metrics } from "./views/dashboardSecretariat/Metrics";
+import Cookies from "js-cookie";
+import Settings from "./views/dashboardProfessional/Settings";
+import { ShiftReport } from "./views/dashboardProfessional/ShiftReport";
 
 interface RouterProps {
   loader: boolean;
   setLoader: React.Dispatch<React.SetStateAction<boolean>>;
 }
 export default function Router({ loader, setLoader }: RouterProps) {
+  const idProfesional = Cookies.get("idProfesional");
+
   return (
     <BrowserRouter>
       <Routes>
@@ -48,31 +47,32 @@ export default function Router({ loader, setLoader }: RouterProps) {
             <Route path="/configuracion" element={<ConfigView />} />
           </Route>
         </Route>
-        {/* Rutas protegidas PROFESIONAL */}
+
+        {
+          //region dashboard profesional
+        }
         <Route element={<ProfessionalProtectedRoute />}>
           <Route element={<ProfessionalLayout setLoader={setLoader} />}>
-            <Route path="/profesionales/inicio" element={<Professional />} />
-            <Route path="/profesionales/turnos" element={<TableSchedules />} />
+            <Route path="/dashboard/inicio" element={<Dashboard />} />
+            <Route path="/dashboard/turnos" element={<TableSchedules />} />
+            <Route path="/dashboard/historial" element={<MedicalHistory />} />
+            <Route path="/dashboard/odontograma" element={<Odontogram />} />
+
             <Route
-              path="/profesionales/historial"
-              element={<MedicalHistory />}
+              path="/dashboard/turnos-generales"
+              element={<TurnosSecretariat />}
             />
-            <Route path="/profesionales/odontograma" element={<Odontogram />} />
-            <Route path="/profesionales/metricas" element={<Metrics />} />
+            <Route path="/dashboard/tabla-general" element={<ShiftReport />} />
+            {idProfesional && (
+              <Route path="/dashboard/configuracion" element={<Settings />} />
+            )}
           </Route>
           <Route
-            path="/profesionales/historial/:id"
+            path="/dashboard/historial/:id"
             element={<DetailHistoryMedical />}
           />
         </Route>
 
-        <Route element={<SecretariatProtectedRoute />}>
-          <Route element={<SecretariatLayout setLoader={setLoader} />}>
-            <Route path="/secretaria/inicio" element={<Secretariat />} />
-            <Route path="/secretaria/turnos" element={<TurnosSecretariat />} />
-            <Route path="/secretaria/tabla-general" element={<TableGral />} />
-          </Route>
-        </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

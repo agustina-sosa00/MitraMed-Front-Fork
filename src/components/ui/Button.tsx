@@ -1,4 +1,3 @@
-import React from "react";
 interface IProp {
   handle?: () => void;
   label?: string;
@@ -6,6 +5,7 @@ interface IProp {
   icon?: React.ReactNode;
   type?: "button" | "submit";
   loader?: boolean;
+  disabledButton?: boolean; // <- corregido
 }
 
 export const Button: React.FC<IProp> = ({
@@ -13,18 +13,22 @@ export const Button: React.FC<IProp> = ({
   label,
   classButton,
   icon,
-  type,
+  type = "button",
   loader,
+  disabledButton = false,
 }) => {
+  const base =
+    "h-10 flex items-center px-5 py-1 rounded !text-white capitalize font-medium gap-1 transition-all duration-300";
+  const enabled = "bg-green hover:bg-greenHover cursor-pointer";
+  const disabledCls = "bg-gray-400 cursor-not-allowed pointer-events-none";
   return (
     <button
       type={type}
       onClick={handle}
-      className={`text-center cursor-pointer capitalize font-medium  gap-2 transition-all duration-300 ${
-        classButton
-          ? classButton
-          : " h-10 flex items-center  px-5 py-1  rounded bg-green hover:bg-greenHover text-white"
-      } `}
+      disabled={disabledButton}
+      className={`${base} ${classButton ?? ""} ${
+        disabledButton ? disabledCls : enabled
+      }`}
     >
       {loader ? (
         <svg

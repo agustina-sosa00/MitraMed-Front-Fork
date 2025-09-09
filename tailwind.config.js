@@ -1,6 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/@tremor/**/*.{js,ts,jsx,tsx}",
+  ],
   theme: {
     extend: {
       screens: {
@@ -11,12 +15,14 @@ export default {
         md: "768px", // @media (min-width: 768px)
         mx: "890px",
         lg: "1024px", // @media (min-width: 1024px)
+        lg2: "1180px",
+        lg3: "1280px",
         xl: "1580px", // @media (min-width: 1280px)
       },
       colors: {
         green: "#518915",
-        greenHover: "#437311",
-        greenFocus: "#a1d36c",
+        greenHover: "#3B690B",
+        greenFocus: "#66AB1D",
         blue: "#022539",
         blueHover: "#01324E",
         lightGray: "#f1f1f1",
@@ -24,7 +30,9 @@ export default {
       backgroundImage: {
         misturnos: "url('https://i.imgur.com/yb9cgvt.png')",
         perfil: "url('https://i.imgur.com/V4xSfb8.png')",
-        profesional: "url('https://i.imgur.com/ZuyE1U1.png')",
+        // profesional: "url('https://i.imgur.com/ZuyE1U1.png')",
+        profesional: "url('https://i.imgur.com/s1eeBP9.png')",
+        // profesional: "url('https://i.imgur.com/Egqa5IF.png')",
       },
     },
   },

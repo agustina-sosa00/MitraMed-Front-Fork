@@ -1,3 +1,4 @@
+import { IconType } from "react-icons/lib";
 import { z } from "zod";
 
 export const accountSchema = z.object({
@@ -74,23 +75,8 @@ export interface Turno {
   hora_fin: string;
 }
 
-// region professional layout
-export interface IArrayTableHistorial {
-  id: number;
-  fecha: string;
-  motivo: string;
-  data: {
-    description: string;
-    archivo: string;
-    medicamentos?: string;
-  };
-  profesional: string;
-}
-
 // region context
 export interface DropboxContextType {
-  token: string;
-  setToken: React.Dispatch<React.SetStateAction<string>>;
   folder: string;
   setFolder: React.Dispatch<React.SetStateAction<string>>;
 }
@@ -136,12 +122,56 @@ export type InfoUser = {
 export type ToothChangeTuple = [number, number, number, 0 | 1, number];
 
 export interface SearchPatientProps {
-  handleFindPatient: (arg: string) => void;
-  viewImg: boolean;
-  showData: boolean;
+  onSearch: (arg: string) => void;
+
+  showData?: boolean;
+  setShowData?: (arg: boolean) => void;
   labelSearch: string;
   data: Partial<Paciente>;
   noHc?: boolean;
   setStateModal?: (arg: boolean) => void;
   odontogram?: boolean;
+  state: string;
+  setState: (arg: string) => void;
+  editOdontogram?: boolean;
+  setEditOdontogram?: (arg: boolean) => void;
+  handleSave?: () => void;
+  handleCancel?: () => void;
+  handleDeletePatient?: () => void;
+  changes?: boolean;
+  errorState?: string;
+  setErrorState?: (arg: string) => void;
+  isActive?: boolean;
+  hasConfirmed?: boolean;
+  loading?: boolean;
 }
+
+export type ContextType = {
+  setDisabledButtonSidebar: React.Dispatch<
+    React.SetStateAction<{
+      inicio: boolean;
+      turnos: boolean;
+      historial: boolean;
+      odontograma: boolean;
+      tablaGral: boolean;
+      turnosGrales: boolean;
+    }>
+  >;
+  disabledButtonSidebar: {
+    inicio: boolean;
+    turnos: boolean;
+    historial: boolean;
+    odontograma: boolean;
+    tablaGral: boolean;
+    turnosGrales: boolean;
+  };
+  buttonsSidebar: [
+    {
+      name: string;
+      icon: IconType;
+      link: string;
+      disabled: boolean;
+      description: string;
+    }
+  ];
+};
