@@ -1,3 +1,5 @@
+# Ignorar archivos temporales de Vite
+vite.config.ts.timestamp-*.mjs
 # Logs
 logs
 *.log
