@@ -19,7 +19,7 @@ import MedicalHistory from "./views/dashboardProfessional/MedicalHistory";
 import { DetailHistoryMedical } from "./views/dashboardProfessional/DetailHistoryMedical";
 import Cookies from "js-cookie";
 import Settings from "./views/dashboardProfessional/Settings";
-import { ShiftReport } from "./views/dashboardProfessional/ShiftReport";
+import ShiftReport from "./views/dashboardProfessional/ShiftReport";
 
 interface RouterProps {
   loader: boolean;
@@ -31,11 +31,7 @@ export default function Router({ loader, setLoader }: RouterProps) {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/"
-          element={<PortalView loader={loader} setLoader={setLoader} />}
-          index
-        />
+        <Route path="/" element={<PortalView loader={loader} setLoader={setLoader} />} index />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
         {/* Rutas protegidas */}
@@ -58,19 +54,11 @@ export default function Router({ loader, setLoader }: RouterProps) {
             <Route path="/dashboard/historial" element={<MedicalHistory />} />
             <Route path="/dashboard/odontograma" element={<Odontogram />} />
 
-            <Route
-              path="/dashboard/turnos-generales"
-              element={<TurnosSecretariat />}
-            />
-            <Route path="/dashboard/tabla-general" element={<ShiftReport />} />
-            {idProfesional && (
-              <Route path="/dashboard/configuracion" element={<Settings />} />
-            )}
+            <Route path="/dashboard/turnos-generales" element={<TurnosSecretariat />} />
+            <Route path="/dashboard/informe-turnos" element={<ShiftReport />} />
+            {idProfesional && <Route path="/dashboard/configuracion" element={<Settings />} />}
           </Route>
-          <Route
-            path="/dashboard/historial/:id"
-            element={<DetailHistoryMedical />}
-          />
+          <Route path="/dashboard/historial/:id" element={<DetailHistoryMedical />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />
