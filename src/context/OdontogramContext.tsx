@@ -1,5 +1,5 @@
+import { TeethIdsState } from "@/views/app/profesional/odontograma/types/odontogramaTypes";
 import { createContext, useContext, useState } from "react";
-import { TeethIdsState } from "../types";
 interface OdontogramContextType {
   dniOdontogram: string;
   setDniOdontogram: React.Dispatch<React.SetStateAction<string>>;
@@ -15,9 +15,7 @@ interface OdontogramContextType {
   setDniInput: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const OdontogramContext = createContext<OdontogramContextType | undefined>(
-  undefined
-);
+const OdontogramContext = createContext<OdontogramContextType | undefined>(undefined);
 
 export const OdontogramProvider = ({ children }) => {
   const [dniOdontogram, setDniOdontogram] = useState<string>("");
@@ -52,9 +50,7 @@ export const OdontogramProvider = ({ children }) => {
 export const useOdontogramContext = () => {
   const context = useContext(OdontogramContext);
   if (!context) {
-    throw new Error(
-      "useOdontogramContext debe usarse dentro de un OdontogramProvider"
-    );
+    throw new Error("useOdontogramContext debe usarse dentro de un OdontogramProvider");
   }
   return context;
 };
