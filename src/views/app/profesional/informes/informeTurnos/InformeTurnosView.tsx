@@ -181,8 +181,33 @@ export default function InformeTurnosView() {
     importe: totalImportes,
   };
 
+  // Fila vacía adaptada a las columnas actuales
+  // const sinDatos = [
+  //   {
+  //     id: "",
+  //     fecha: "",
+  //     hora_ini: "",
+  //     dni: "",
+  //     edad: "",
+  //     apellido: "",
+  //     nombre: "",
+  //     paciente: "Seleccione una fecha para empezar",
+  //     nespecialidad: "",
+  //     ndoctor: "",
+  //     nosocial: "",
+  //     importe: "",
+  //     idusuario: "",
+  //   },
+  // ];
+
+  // Agrega un id incremental a cada registro de shiftReportData.data
+  const datosParaTabla =
+    hasSearched && Array.isArray(shiftReportData?.data) && shiftReportData.data.length > 0
+      ? shiftReportData.data.map((item, idx) => ({ id: idx + 1, ...item }))
+      : [];
+
   const propsTabla = {
-    datosParaTabla: hasSearched ? shiftReportData?.data || [] : [],
+    datosParaTabla,
     objectColumns: columns,
     objectFooter: {
       footer: true,
@@ -197,6 +222,7 @@ export default function InformeTurnosView() {
       // withBorder: false,
       columnasNumber: [3, 9],
     },
+    selectFn: true,
   };
 
   const { mutate: mutateDataShifts } = useMutation({
