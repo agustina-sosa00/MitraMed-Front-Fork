@@ -69,17 +69,30 @@ export default function TurnosProfView() {
     },
   ];
 
-  const datosParaTabla = Array.isArray(turnosProfesional?.data)
-    ? turnosProfesional.data.map((item, idx) => ({
-        id: idx + 1,
-        hora_ini: item.hora_ini,
-        hora_fin: item.hora_fin,
-        estado: item.estado,
-        paciente: `${item.apellido} ${item.nombre}`.trim(),
-        obs: item.obs || "",
-        mit: item.idusuario === null ? "Mit" : "Web",
-      }))
-    : [];
+  const sinDatos = [
+    {
+      id: "",
+      hora_ini: "",
+      hora_fin: "",
+      estado: "",
+      paciente: "No hay Datos en la Fecha Seleccionada",
+      obs: "",
+      mit: "",
+    },
+  ];
+
+  const datosParaTabla =
+    Array.isArray(turnosProfesional?.data) && turnosProfesional.data.length > 0
+      ? turnosProfesional.data.map((item, idx) => ({
+          id: idx + 1,
+          hora_ini: item.hora_ini,
+          hora_fin: item.hora_fin,
+          estado: item.nestado,
+          paciente: item.npaciente,
+          obs: item.obs || "",
+          mit: item.idusuario === null ? "Mit" : "Web",
+        }))
+      : sinDatos;
 
   const propsTabla = {
     datosParaTabla,
