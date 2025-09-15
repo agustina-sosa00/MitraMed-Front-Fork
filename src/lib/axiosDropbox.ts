@@ -1,4 +1,4 @@
-import { getAccessTokenDropbox } from "@/services/MedicalHistoryService";
+import { getAccessTokenDropbox } from "@/views/app/profesional/hc/service/HistorialClinicoService";
 import axios from "axios";
 import Cookies from "js-cookie";
 
@@ -29,9 +29,7 @@ apiDropbox.interceptors.response.use(
           expires: 5 / 24,
         });
 
-        error.config.headers[
-          "Authorization"
-        ] = `Bearer ${newTokenAccessDropbox}`;
+        error.config.headers["Authorization"] = `Bearer ${newTokenAccessDropbox}`;
         return apiDropbox.request(error.config);
       } catch (e) {
         return Promise.reject(e);
@@ -39,5 +37,5 @@ apiDropbox.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  }
+  },
 );

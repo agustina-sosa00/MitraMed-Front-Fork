@@ -1,3 +1,5 @@
+# Ignorar archivos temporales de Vite
+vite.config.ts.timestamp-*.mjs
 # Logs
 logs
 *.log
@@ -13,7 +15,7 @@ dist-ssr
 *.local
 
 # Editor directories and files
-.vscode/*
+# .vscode/*
 !.vscode/extensions.json
 .idea
 .DS_Store
