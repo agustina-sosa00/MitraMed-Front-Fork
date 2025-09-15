@@ -12,11 +12,7 @@ export const DashboardProfesionalView: React.FC = () => {
   return (
     <ContainView
       padding="py-5 px-10"
-      title={`${
-        dataProfesional!.tusuario === 1
-          ? `¡Bienvenido ${dataProfesional.ndoctor} ${dataProfesional.adoctor}!`
-          : `¡Bienvenida ${dataProfesional.nombre}!`
-      } `}
+      title={`${dataProfesional.ndoctor && dataProfesional.adoctor ? `¡Bienvenido/a ${dataProfesional.ndoctor} ${dataProfesional.adoctor}!` : `¡Bienvenido/a ${dataProfesional.nombre}!`}`}
     >
       <div className="flex flex-col justify-center w-full ">
         <div className="grid w-full gap-6 sm:grid-cols-2 lg:grid-cols-3">

@@ -31,6 +31,7 @@ export default function BuscadorDePacientes({
   loading,
 }: BuscadorDePacientesProps) {
   // region states y variables
+  const isOdontologo = localStorage.getItem("mtm-tusuario");
   const isEditing = !hasConfirmed;
   const inputRef = useRef<HTMLInputElement>(null);
   const hasValidPatient = Boolean(data?.dni);
@@ -269,7 +270,7 @@ export default function BuscadorDePacientes({
                   <MdCancel /> cancelar
                 </button>
               </div>
-            ) : (
+            ) : isOdontologo !== "3" ? null : (
               <button
                 disabled={!canEdit}
                 onClick={() => setEditOdontogram && setEditOdontogram(true)}
