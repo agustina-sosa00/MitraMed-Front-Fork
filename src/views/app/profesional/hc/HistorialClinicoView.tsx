@@ -1,28 +1,25 @@
 import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import Cookies from "js-cookie";
-import Swal from "sweetalert2";
-
 import { TablaDefault } from "@/frontend-resourses/components";
 import { Modal } from "@/views/auth/components/ui/Modal";
 import { ContainView } from "@/views/app/components/features/ContainView";
+import { Document, Page, pdfjs } from "react-pdf";
+import { FiDownload } from "react-icons/fi";
+import { IoClose } from "react-icons/io5";
+import { useMedicalHistoryContext } from "../../../../context/MedicalHistoryContext";
 import obtenerPacienteHc, {
   getDataDropbox,
   getAccessTokenDropbox,
   getIdOpera,
   downloadFileDropbox,
 } from "@/views/app/profesional/hc/service/HistorialClinicoService";
-import { useMedicalHistoryContext } from "../../../../context/MedicalHistoryContext";
 import SearchPatient from "@/views/app/components/features/BuscadorDePacientes";
-
-import { Document, Page, pdfjs } from "react-pdf";
 import workerSrc from "pdfjs-dist/build/pdf.worker?url";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
 pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
-
-import { FiDownload } from "react-icons/fi";
-import { IoClose } from "react-icons/io5";
+import Cookies from "js-cookie";
+import Swal from "sweetalert2";
 import FormNuevoRegistroHc from "./components/FormNuevoRegistroHc";
 
 type HcRow = {
@@ -33,6 +30,7 @@ type HcRow = {
   ndoctor: string;
   obs: string;
 };
+
 type ApiHcRow = Omit<HcRow, "id">;
 
 export default function HistorialClinicoView() {
@@ -65,7 +63,6 @@ export default function HistorialClinicoView() {
   const [loadingBlob, setLoadingBlob] = useState(false);
   const [downloading, setDownloading] = useState(false);
 
-  //region queries
   const { data: dropboxData } = useQuery({
     queryKey: ["dataDropboxQuery"],
     queryFn: () => getDataDropbox(),
@@ -111,6 +108,7 @@ export default function HistorialClinicoView() {
     refetchOnMount: false,
     refetchOnWindowFocus: false,
   });
+
   const hasFile = Boolean(fileMeta?.data?.idopera && fileMeta?.data?.extension);
 
   // descarga del blob para thumbnail/modal
@@ -128,7 +126,48 @@ export default function HistorialClinicoView() {
       setPreviewExt(null);
     },
   });
-  // region useEffect
+
+  const rows: HcRow[] = (dataMedicalHistory?.data?.hc || []).map((r: ApiHcRow) => ({
+    id: r.idhistoria ?? `${r.fecha}-${r.ndoctor}`,
+    ...r,
+  }));
+
+  const propsTabla = {
+    datosParaTabla: rows,
+    objectColumns: [
+      {
+        key: "fecha",
+        label: "Fecha",
+        minWidth: "90",
+        maxWidth: "120",
+        renderCell: (item) => {
+          const raw = item.fecha;
+          const fecha = raw.split("-").reverse().join("/");
+          return fecha;
+        },
+      },
+      {
+        key: "detalle",
+        label: "Motivo de Consulta",
+        minWidth: "260",
+        maxWidth: "320",
+      },
+      {
+        key: "ndoctor",
+        label: "Profesional",
+        minWidth: "190",
+        maxWidth: "320",
+      },
+    ],
+    objectStyles: {
+      addHeaderColor: "#022539",
+      withScrollbar: true,
+      withBorder: true,
+    },
+    selectFn: true,
+    objectSelection: { setSeleccionado: setHcSelected },
+  };
+
   useEffect(() => {
     setPreviewPage(1);
     setPreviewNumPages(0);
@@ -172,7 +211,6 @@ export default function HistorialClinicoView() {
     });
   }, [dropboxData, mutateGetAccessTokenDropbox]);
 
-  //region function
   function handleFindPatient(hc: string) {
     setUiLoading(true);
     setTimeout(() => {
@@ -199,6 +237,7 @@ export default function HistorialClinicoView() {
     setDniHistory("");
     setDniInput("");
   }
+
   function handleCancelEdit() {
     setHasConfirmed(false);
   }
@@ -233,12 +272,6 @@ export default function HistorialClinicoView() {
     });
   }
 
-  const rows: HcRow[] = (dataMedicalHistory?.data?.hc || []).map((r: ApiHcRow) => ({
-    id: r.idhistoria ?? `${r.fecha}-${r.ndoctor}`,
-    ...r,
-  }));
-
-  //region return
   return (
     <ContainView
       title="HC"
@@ -246,6 +279,7 @@ export default function HistorialClinicoView() {
       gapChildren="gap-1"
       sizeTitle="text-3xl 2xl:text-4xl"
     >
+      {/* Buscador */}
       <div className="flex items-center justify-start w-full gap-1 py-1 min-h-24 ">
         <SearchPatient
           noHc={hc}
@@ -263,47 +297,14 @@ export default function HistorialClinicoView() {
         />
       </div>
 
+      {/* Tabla y Observaciones */}
       <div className="flex items-start justify-between w-full gap-2 pt-2 xl:justify-center min-h-64">
+        {/* Tabla */}
         <div className="flex min-w-[550px] justify-center overflow-x-auto min-h-64">
-          <TablaDefault
-            props={{
-              datosParaTabla: rows,
-              objectColumns: [
-                {
-                  key: "fecha",
-                  label: "Fecha",
-                  minWidth: "90",
-                  maxWidth: "120",
-                  renderCell: (item) => {
-                    const raw = item.fecha;
-                    const fecha = raw.split("-").reverse().join("/");
-                    return fecha;
-                  },
-                },
-                {
-                  key: "detalle",
-                  label: "Motivo de Consulta",
-                  minWidth: "260",
-                  maxWidth: "320",
-                },
-                {
-                  key: "ndoctor",
-                  label: "Profesional",
-                  minWidth: "190",
-                  maxWidth: "320",
-                },
-              ],
-              objectStyles: {
-                addHeaderColor: "#022539",
-                withScrollbar: true,
-                withBorder: true,
-              },
-              selectFn: true,
-              objectSelection: { setSeleccionado: setHcSelected },
-            }}
-          />
+          <TablaDefault props={propsTabla} />
         </div>
 
+        {/* Observaciones */}
         <div className="flex flex-col gap-2 p-2 bg-white border border-gray-300 rounded w-[600px] xl:w-[700px] min-h-72">
           <div className="flex items-start w-full">
             <div className=" w-36">
