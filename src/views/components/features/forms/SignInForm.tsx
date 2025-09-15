@@ -68,30 +68,20 @@ export default function SignInForm({ rol }: IProp) {
     },
 
     onSuccess: (resp) => {
+      console.log(resp);
       const user = resp?.data?.data?.[0];
-      localStorage.setItem("_m", "homo");
-      localStorage.setItem("_env", "des");
-      localStorage.setItem("_e", "20");
-      localStorage.setItem("_tu", user.tusuario);
-      localStorage.setItem("_id", user.iddoctor);
-
+      console.log("user loguin profesionales", user);
       if (!user) {
         Swal.fire({ icon: "error", title: "Respuesta inválida" });
         return;
       }
+      if (user) {
+        localStorage.setItem("_m", "homo");
+        localStorage.setItem("_env", "des");
+        localStorage.setItem("_e", "20");
+        localStorage.setItem("mtm-tusuario", String(user?.tusuario));
+        localStorage.setItem("mtm-iddoctor", String(user?.iddoctor));
 
-      // SECRETARÍA (tusuario === 3)
-      if (user.tusuario === 3) {
-        Cookies.set("idUsuario", String(user?.tusuario));
-        Cookies.set("dataProfessional", JSON.stringify(user));
-        navigate("/dashboard/inicio", { replace: true });
-        return;
-      }
-
-      // PROFESIONAL
-      if (user.idprofesional >= 1) {
-        Cookies.set("idProfesional", String(user.idprofesional));
-        Cookies.set("idUsuario", String(user?.tusuario));
         Cookies.set("dataProfessional", JSON.stringify(user));
         navigate("/dashboard/inicio", { replace: true });
         return;

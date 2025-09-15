@@ -22,7 +22,7 @@ import {
 } from "./utils/odontogram.lookups";
 
 export default function OdontogramView() {
-  const { setDisabledButtonSidebar, disabledButtonSidebar } = useOutletContext<ContextType>();
+  const { setDisabledButtonSidebar } = useOutletContext<ContextType>();
   const queryClient = useQueryClient();
   //region cookies
   const idProfesional = Cookies.get("idProfesional");
@@ -81,27 +81,40 @@ export default function OdontogramView() {
   //region useEffect
 
   useEffect(() => {
-    if (editOdontogram) {
-      setDisabledButtonSidebar({
-        inicio: true,
-        turnos: true,
-        historial: true,
-        odontograma: false,
-        tablaGral: true,
-        turnosGrales: true,
-      });
-    } else {
-      setDisabledButtonSidebar({
-        inicio: false,
-        turnos: false,
-        historial: false,
-        odontograma: false,
-        tablaGral: false,
-        turnosGrales: true,
-      });
-    }
-  }, [disabledButtonSidebar, editOdontogram, setDisabledButtonSidebar]);
+    const next = editOdontogram
+      ? {
+          inicio: true,
+          turnos: true,
+          historial: true,
+          odontograma: false,
+          tablaGral: true,
+          turnosGrales: true,
+          informe: true,
+        }
+      : {
+          inicio: false,
+          turnos: false,
+          historial: false,
+          odontograma: false,
+          tablaGral: false,
+          turnosGrales: false,
+          informe: false,
+        };
 
+    setDisabledButtonSidebar((prev) => {
+      // evitar actualizar si no cambió
+      if (
+        prev.inicio === next.inicio &&
+        prev.turnos === next.turnos &&
+        prev.historial === next.historial &&
+        prev.odontograma === next.odontograma &&
+        prev.tablaGral === next.tablaGral &&
+        prev.turnosGrales === next.turnosGrales
+      )
+        return prev;
+      return next;
+    });
+  }, [editOdontogram, setDisabledButtonSidebar]);
   useEffect(() => {
     if (!hasConfirmed || uiLoading || !infoUser) return;
 

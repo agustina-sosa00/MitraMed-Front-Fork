@@ -32,8 +32,7 @@ export default function SideBar({ logo, buttons }: IProp) {
   const { setDniHistory, setDniInput: setDniHistoryInput } = useMedicalHistoryContext();
   const raw = Cookies.get("dataProfessional");
   const dataUser: DataProfessional | null = raw ? JSON.parse(raw) : null;
-  const usuario = Cookies.get("idUsuario");
-  const idProfesional = Cookies.get("idProfesional");
+  const tusuario = localStorage.getItem("mtm-tusuario");
 
   const handleLogout = () => {
     setDniOdontogram("");
@@ -87,7 +86,7 @@ export default function SideBar({ logo, buttons }: IProp) {
         </div>
 
         <TextAlert />
-        {idProfesional && usuario !== "3" && (
+        {tusuario === "1" && (
           <Link to={"/dashboard/configuracion"} className="w-full py-3 pl-5">
             <button
               className={`flex items-center gap-2 px-2 py-1 w-[90%]  text-lg font-medium capitalize rounded 
@@ -107,12 +106,22 @@ export default function SideBar({ logo, buttons }: IProp) {
         <div className="flex flex-col items-center w-full gap-3 py-5 h-[20%]">
           <div className="flex items-center justify-start gap-2 text-blue">
             <FaUserCircle className="text-xl xl:text-3xl" />
-            {usuario === "3" ? (
-              <p>Sta. {dataUser?.nombre}</p>
-            ) : (
+            {tusuario === "2" ? (
+              <p> {dataUser?.nombre}</p>
+            ) : tusuario === "1" ? (
               <p>
                 Dr. {dataUser?.ndoctor} {dataUser?.adoctor}
               </p>
+            ) : tusuario === "3" ? (
+              <p>
+                Dr. {dataUser?.ndoctor} {dataUser?.adoctor}
+              </p>
+            ) : (
+              tusuario === "4" && (
+                <p>
+                  {dataUser?.ndoctor} {dataUser?.adoctor}
+                </p>
+              )
             )}
           </div>
 
