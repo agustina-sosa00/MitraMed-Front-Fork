@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { ContainView } from "@/views/app/components/features/ContainView";
-import TableCard from "./components/TableCard";
 import { useInformeTurnosStore } from "./store/informeTurnosStore";
-import MetricasCard from "./components/MetricasCard";
+import TableCard from "./components/TableCard";
+import GraficosCard from "./components/GraficosCard";
 import HeaderCard from "./components/HeaderCard";
 
 export default function InformeTurnosView() {
@@ -25,7 +25,7 @@ export default function InformeTurnosView() {
       <TableCard />
 
       {/* Graficos */}
-      <MetricasCard />
+      <GraficosCard />
     </ContainView>
   );
 }
