@@ -162,6 +162,9 @@ export default function UsuariosProfCard() {
           text="Refrescar datos"
           icon={<SlRefresh size={16} />}
           size="sm"
+          custom
+          customColor="#00b894"
+          customColorHover="#008060"
           addClassName="w-full"
           onClick={() => {
             refetchUsuProf();
