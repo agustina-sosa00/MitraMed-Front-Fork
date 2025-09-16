@@ -1,4 +1,3 @@
-import React from "react";
 import Swal from "sweetalert2";
 interface IProp {
   handleButton?: (arg: string) => void;
@@ -8,14 +7,15 @@ interface IProp {
   classContainer?: string;
   disabled?: string;
 }
-export const BoxButton: React.FC<IProp> = ({
+
+export default function ActionsButtonsCard({
   handleButton,
   classButton,
   button,
   classContainer,
   disabled,
-}) => {
-  const handleClick = (item: string) => {
+}: IProp) {
+  function handleClick(item: string) {
     if (disabled === "disabled") {
       Swal.fire({
         icon: "warning",
@@ -27,16 +27,10 @@ export const BoxButton: React.FC<IProp> = ({
     } else {
       handleButton && handleButton(item);
     }
-  };
+  }
 
   return (
-    <div
-      className={
-        classContainer
-          ? classContainer
-          : "flex items-end justify-center w-1/2 h-full gap-2 py-2"
-      }
-    >
+    <div className={`flex flex-1 gap-2 pb-2 `}>
       {button.map((item) => (
         <button
           type="button"
@@ -53,4 +47,4 @@ export const BoxButton: React.FC<IProp> = ({
       ))}
     </div>
   );
-};
+}
