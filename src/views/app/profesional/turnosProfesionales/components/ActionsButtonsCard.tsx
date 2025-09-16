@@ -15,6 +15,7 @@ export default function ActionsButtonsCard({
   classContainer,
   disabled,
 }: IProp) {
+  console.log(classContainer);
   function handleClick(item: string) {
     if (disabled === "disabled") {
       Swal.fire({

@@ -1,5 +1,5 @@
-import { IDataTable, IFormState, tableProfessionals } from "../turnos/mock/arrayTableProfessional";
-import { useEffect, useState } from "react";
+import { IDataTable, IFormState } from "../turnos/mock/arrayTableProfessional";
+import { useState } from "react";
 import { Modal } from "@/views/app/components/ui/modals/Modal";
 import { TableNode } from "@/frontend-resourses/components/types";
 import { ContainView } from "@/views/app/components/features/ContainView";
@@ -13,7 +13,7 @@ export default function TurnosProfesionalesView() {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [modalName, setModalName] = useState<string>("");
 
-  const [selectProfessional, setSelectProfessional] = useState<{
+  const [selectProfessional, _setSelectProfessional] = useState<{
     id: number;
     name: string;
     especiality: string;
