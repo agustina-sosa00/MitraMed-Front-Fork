@@ -3,7 +3,7 @@ import { DialogTitle } from "@headlessui/react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { crearCuenta } from "@/views/auth/services/UserService";
-import RegisterForm from "../forms/RegisterForm";
+import RegisterForm from "../../../auth/views/portal/components/forms/RegisterForm";
 import { Modal } from "@/views/auth/components/ui/Modal";
 import Swal from "sweetalert2";
 import Captcha from "@/views/auth/components/ui/Captcha";

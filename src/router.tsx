@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { PortalView } from "./views/auth/PortalView";
+import { PortalView } from "./views/auth/views/portal/PortalView";
 import { Layout } from "./views/app/components/layouts/Layout";
 import { ProfessionalProtectedRoute } from "./views/app/components/features/ProfessionalProtectedRoute";
 import { DashboardProfesionalView } from "./views/app/profesional/inicio/DashboardProfesionalView";
@@ -10,8 +10,6 @@ import OdontogramView from "./views/app/profesional/odontograma/OdontogramaView"
 import InformeTurnosView from "./views/app/profesional/informes/informeTurnos/InformeTurnosView";
 import ConfiguracionView from "./views/app/profesional/configuracion/ConfiguracionView";
 import Vista404 from "./views/app/profesional/vista404/Vista404";
-import TerminosYCondicionesView from "./views/auth/TerminosYCondicionesView";
-import PoliticasDePrivacidadView from "./views/auth/PoliticasDePrivacidadView";
 import Turnos from "./views/app/paciente/turnos/Turnos";
 import MisTurnos from "./views/app/paciente/misTurnos/MisTurnos";
 import ConfigView from "./views/app/paciente/config/ConfigView";
@@ -19,6 +17,8 @@ import TurnosProfesionalesView from "./views/app/profesional/turnosProfesionales
 import ProtectedRoute from "./views/components/features/ProtectedRoute";
 import HistorialClinicoView from "./views/app/profesional/hc/HistorialClinicoView";
 import UsuariosProfView from "./views/app/profesional/abm-usuarios/UsuariosProfView";
+import PoliticasDePrivacidadView from "./views/auth/views/politicas/PoliticasDePrivacidadView";
+import TerminosYCondicionesView from "./views/auth/views/terminos/TerminosYCondicionesView";
 
 interface RouterProps {
   loader: boolean;

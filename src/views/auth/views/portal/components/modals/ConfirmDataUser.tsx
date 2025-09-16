@@ -1,7 +1,7 @@
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from "@headlessui/react";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
-import RegisterForm from "../forms/RegisterForm";
+import RegisterForm from "../../../auth/views/portal/components/forms/RegisterForm";
 import { useMutation } from "@tanstack/react-query";
 import { googleAuth } from "@/views/auth/services/UserService";
 import Cookies from "js-cookie";
