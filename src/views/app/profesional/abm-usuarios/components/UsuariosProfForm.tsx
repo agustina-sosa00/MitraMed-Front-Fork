@@ -5,7 +5,7 @@ import showAlert from "@/frontend-resourses/utils/showAlert";
 import { useUsuariosProfStore } from "../store/usuariosProfStore";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
-import { grabarUsuarioProf } from "../service/UsuariosProfService";
+import { grabarUsuarioProf } from "../service/usuariosProfService";
 
 type FormData = {
   usuario: string;

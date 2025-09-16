@@ -2,8 +2,8 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import FormTurno from "@/views/auth/views/portal/components/forms/FormTurno";
-import ConfirmTurnoModal from "@/views/components/features/modals/ConfirmTurnoModal";
 import { Turno } from "@/views/auth/types";
+import ConfirmTurnoModal from "@/views/auth/views/portal/components/modals/ConfirmTurnoModal";
 
 export default function Turnos() {
   const navigate = useNavigate();

@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { IDataTable, tableSchedules } from "./mock/arrayTableProfessional";
 import { TablaDefault } from "../../../../frontend-resourses/components";
 import { ContainView } from "../../components/features/ContainView";
-import FiltrosTablaMisTurnos from "../../components/ui/Filters/FiltrosTablaMisTurnos";
+import FiltrosTablaMisTurnos from "../turnosProfesionales/components/SearchCard";
 import { obtenerTurnosDiarios } from "./services/TurnosProfService";
 
 export default function TurnosProfView() {

@@ -1,7 +1,7 @@
 import { TablaDefault } from "@/frontend-resourses/components";
 import UsuariosProfForm from "./UsuariosProfForm";
 import { useQuery } from "@tanstack/react-query";
-import { obtenerDoctores, obtenerUsuariosProf } from "../service/UsuariosProfService";
+import { obtenerDoctores, obtenerUsuariosProf } from "../service/usuariosProfService";
 import { useState, useEffect } from "react";
 import showAlert from "@/frontend-resourses/utils/showAlert";
 import { SlRefresh } from "react-icons/sl";
