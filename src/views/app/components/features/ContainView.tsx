@@ -22,7 +22,7 @@ export const ContainView: React.FC<IProp> = ({
   return (
     <div
       className={`flex flex-col items-center 2xl:justify-center w-full min-h-screen gap-5  overflow-y-auto ${
-        padding ? padding : "px-5 py-20"
+        padding ? padding : "py-2"
       }`}
       onClick={onClick}
     >
