@@ -3,11 +3,12 @@ import { useQuery } from "@tanstack/react-query";
 import { IDataTable, tableSchedules } from "./mock/arrayTableProfessional";
 import { TablaDefault } from "../../../../frontend-resourses/components";
 import { ContainView } from "../../components/features/ContainView";
-import FiltrosTablaMisTurnos from "../turnosProfesionales/components/SearchCard";
+// import FiltrosTablaMisTurnos from "../turnosProfesionales/components/SearchCard";
 import { obtenerTurnosDiarios } from "./services/TurnosProfService";
+import SearchCard from "../turnosProfesionales/components/SearchCard";
 
 export default function TurnosProfView() {
-  const [daySchedule, setDaySchedule] = useState(getToday);
+  const [daySchedule, _setDaySchedule] = useState(getToday);
   const [_arrayFilter, setArrayFilter] = useState<IDataTable[]>([]);
   const newArray = [...tableSchedules];
 
@@ -136,15 +137,18 @@ export default function TurnosProfView() {
     return `${year}-${month}-${day}`;
   }
 
-  function changeDay(dias: number) {
-    const nuevaFecha = new Date(daySchedule);
-    nuevaFecha.setDate(nuevaFecha.getDate() + dias);
-    setDaySchedule(nuevaFecha.toISOString().split("T")[0]);
-  }
+  // function changeDay(dias: number) {
+  //   const nuevaFecha = new Date(daySchedule);
+  //   nuevaFecha.setDate(nuevaFecha.getDate() + dias);
+  //   setDaySchedule(nuevaFecha.toISOString().split("T")[0]);
+  // }
 
   return (
     <ContainView title="mis turnos" padding="py-5 px-10">
-      <FiltrosTablaMisTurnos handle={changeDay} state={daySchedule} setState={setDaySchedule} />
+      {/* <FiltrosTablaMisTurnos handle={changeDay} state={daySchedule} setState={setDaySchedule} /> */}
+      <div className="flex w-full ">
+        <SearchCard />
+      </div>
 
       <div className="flex justify-center w-full px-5 overflow-y-auto lg:overflow-visible ">
         <TablaDefault props={propsTabla} />
