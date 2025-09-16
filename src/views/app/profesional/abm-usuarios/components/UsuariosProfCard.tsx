@@ -41,6 +41,9 @@ export default function UsuariosProfCard() {
     setEnabledFetchUsu,
   } = useUsuariosProfStore();
 
+  const customColor = "#4F8EF7"; // azul claro
+  const customColorHover = "#2563eb"; // azul más oscuro
+
   // Estados para botones
   const haySeleccion = !!usuarioSeleccionado;
   const puedeAlta = !haySeleccion && !alta && !modoEdicion;
@@ -163,8 +166,8 @@ export default function UsuariosProfCard() {
           icon={<SlRefresh size={16} />}
           size="sm"
           custom
-          customColor="#00b894"
-          customColorHover="#008060"
+          customColor={customColor}
+          customColorHover={customColorHover}
           addClassName="w-full"
           onClick={() => {
             refetchUsuProf();
@@ -178,6 +181,9 @@ export default function UsuariosProfCard() {
           addClassName="w-full"
           onClick={handleAlta}
           disabled={!puedeAlta}
+          custom
+          customColor={customColor}
+          customColorHover={customColorHover}
         />
         <ActionButton
           type="button"
@@ -186,6 +192,9 @@ export default function UsuariosProfCard() {
           addClassName="w-full"
           onClick={handleBaja}
           disabled={!puedeBaja}
+          custom
+          customColor={customColor}
+          customColorHover={customColorHover}
         />
         <ActionButton
           type="button"
@@ -194,6 +203,9 @@ export default function UsuariosProfCard() {
           addClassName="w-full"
           onClick={handleEditar}
           disabled={!puedeEditar}
+          custom
+          customColor={customColor}
+          customColorHover={customColorHover}
         />
       </div>
 

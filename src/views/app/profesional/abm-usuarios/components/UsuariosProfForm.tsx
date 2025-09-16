@@ -3,7 +3,6 @@ import { LuEye, LuEyeClosed } from "react-icons/lu";
 import ActionButton from "@/frontend-resourses/components/Buttons/ActionButton";
 import showAlert from "@/frontend-resourses/utils/showAlert";
 import { useUsuariosProfStore } from "../store/usuariosProfStore";
-import { MdEdit } from "react-icons/md";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { grabarUsuarioProf } from "../service/UsuariosProfService";
@@ -269,73 +268,14 @@ export default function UsuariosProfForm({ usuario, doctores, onEndAlta }: Usuar
             );
           })}
         </div>
-
-        {/* {editMode ? (
-          <div className="flex flex-col gap-2 ">
-            <ActionButton
-              type="button"
-              text="Confirmar"
-              icon={<MdEdit />}
-              color="indigo"
-              size="md"
-              addClassName="max-w-24"
-              disabled={!formState.isDirty}
-              onClick={handleSubmit(onSubmit)}
-            />
-            <ActionButton
-              type="button"
-              text="Cancelar"
-              color="red"
-              size="md"
-              addClassName="max-w-24"
-              onClick={async () => {
-                if (formState.isDirty) {
-                  const result = await showAlert({
-                    icon: "warning",
-                    text: "Hay cambios sin guardar. ¿Seguro que quieres cancelar?",
-                    showConfirmButton: true,
-                    showCancelButton: true,
-                    confirmButtonText: "Sí, Cancelar",
-                    cancelButtonText: "No",
-                  });
-                  if (result.isConfirmed) {
-                    setEditMode(false);
-                    setSelectEnabled(true);
-                    reset();
-                    if (onEndAlta) onEndAlta();
-                  }
-                } else {
-                  setEditMode(false);
-                  setSelectEnabled(true);
-                  reset();
-                  if (onEndAlta) onEndAlta();
-                }
-              }}
-            />
-          </div>
-        ) : (
-          <ActionButton
-            type="button"
-            text="Editar"
-            icon={<MdEdit />}
-            color="indigo"
-            size="md"
-            addClassName="max-w-24"
-            disabled={!usuario}
-            onClick={() => {
-              if (!usuario) return;
-              setSelectEnabled(false);
-              setEditMode(true);
-            }}
-          />
-        )} */}
       </div>
       <div className="flex gap-4">
         <ActionButton
           type="button"
           text="Confirmar"
-          icon={<MdEdit />}
-          // color="indigo"
+          custom
+          customColor="#4F8EF7"
+          customColorHover="#2563eb"
           size="sm"
           addClassName="w-full"
           disabled={!formState.isDirty}

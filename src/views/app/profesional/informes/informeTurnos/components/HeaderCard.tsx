@@ -81,40 +81,57 @@ export default function HeaderCard({ loader, setLoader }: DateRangePickerProps) 
     { value: "nosocial", label: "Obra Social" },
   ];
 
-  // Calcular totales sobre la data original
-  const { totalObraSocial, totalParticulares, totalTotal } = useMemo(() => {
+  // Calcular totales y cantidades sobre la data original
+  const { totalImporte, countObraSocial, countParticulares, countTotal } = useMemo(() => {
     const data = Array.isArray(informeTurnosData?.data) ? informeTurnosData.data : [];
     let totalObraSocial = 0;
     let totalParticulares = 0;
+    let countObraSocial = 0;
+    let countParticulares = 0;
     data.forEach((item) => {
       if (item.nosocial && String(item.nosocial).trim() !== "") {
         totalObraSocial += Number(item.importe) || 0;
+        countObraSocial++;
       } else {
         totalParticulares += Number(item.importe) || 0;
+        countParticulares++;
       }
     });
     return {
       totalObraSocial,
       totalParticulares,
-      totalTotal: totalObraSocial + totalParticulares,
+      totalImporte: totalObraSocial + totalParticulares,
+      countObraSocial,
+      countParticulares,
+      countTotal: countObraSocial + countParticulares,
     };
   }, [informeTurnosData]);
 
+  // Datos para mostrar en la UI
   const totalesData = [
     {
       label: "Obra Social:",
-      value: totalObraSocial,
+      value: countObraSocial,
       border: false,
+      isImporte: false,
     },
     {
       label: "Particulares:",
-      value: totalParticulares,
+      value: countParticulares,
       border: false,
+      isImporte: false,
     },
     {
-      label: "Total:",
-      value: totalTotal,
+      label: "Total Consultas:",
+      value: countTotal,
       border: true,
+      isImporte: false,
+    },
+    {
+      label: "Total Importe:",
+      value: totalImporte,
+      border: true,
+      isImporte: true,
     },
   ];
 
@@ -225,7 +242,7 @@ export default function HeaderCard({ loader, setLoader }: DateRangePickerProps) 
   }
 
   return (
-    <div className="flex w-full mb-1 border rounded p-2 bg-slate-100">
+    <div className="flex w-full justify-between mb-1 border rounded p-2 bg-slate-100">
       {/* Date Picker y Filtro */}
       <div className="flex flex-col">
         {/* Date Picker */}
@@ -330,28 +347,61 @@ export default function HeaderCard({ loader, setLoader }: DateRangePickerProps) 
 
       {/* Totales */}
       <div className="flex flex-1 items-end justify-center ">
-        <div className="flex flex-col w-96 px-8 py-2 gap-3 rounded border border-gray-200 bg-white">
-          {totalesData.map((item, _idx) => (
-            <div
-              key={item.label}
-              className={`flex justify-between ${item.border ? " border-t border-gray-300 pt-3 mt-2" : ""}`}
-            >
-              <span
-                className={
-                  `min-w-28 font-semibold tracking-wider ` +
-                  (hasSearched ? "text-slate-600 " : "text-gray-500 opacity-60 cursor-not-allowed")
-                }
-              >
-                {item.label}
-              </span>
-              <PriceInput
-                value={item.value}
-                disabled
-                addInputClassName={`w-36 text-xl text-red-600 !font-bold !border-0 !p-0 !h-6 !bg-transparent`}
-                withPrefix={true}
-              />
-            </div>
-          ))}
+        <div className="flex px-4 py-2 gap-2 rounded border border-gray-200 bg-white">
+          {/* Columna de totales de consultas */}
+          <div className="flex flex-col gap-3  pr-6 ">
+            {totalesData
+              .filter((item) => !item.isImporte)
+              .map((item, _idx) => (
+                <div
+                  key={item.label}
+                  className={`flex justify-between items-center ${item.border ? " border-t border-gray-300 pt-3 mt-2" : ""}`}
+                >
+                  <span
+                    className={
+                      `min-w-36 font-semibold tracking-wider text-lg ` +
+                      (hasSearched
+                        ? "text-slate-700 "
+                        : "text-gray-500 opacity-60 cursor-not-allowed")
+                    }
+                  >
+                    {item.label}
+                  </span>
+                  <span className="w-16 text-xl text-sky-600 font-bold text-right select-text">
+                    {item.value}
+                  </span>
+                </div>
+              ))}
+          </div>
+
+          {/* Columna de importe */}
+          <div className="flex flex-col">
+            {totalesData
+              .filter((item) => item.isImporte)
+              .map((item, _idx) => (
+                <div
+                  key={item.label}
+                  className={`flex flex-col h-full justify-end gap-y-4 items-end border-l border-gray-200 `}
+                >
+                  <span
+                    className={
+                      ` font-bold tracking-wider text-lg  ` +
+                      (hasSearched
+                        ? "text-slate-700 "
+                        : "text-gray-500 opacity-60 cursor-not-allowed")
+                    }
+                  >
+                    {item.label}
+                  </span>
+                  <PriceInput
+                    value={item.value}
+                    disabled
+                    addInputClassName={`max-w-52 text-xl text-red-600 !font-bold !border-0 !p-0 !h-6 !bg-transparent text-right`}
+                    withPrefix={true}
+                  />
+                </div>
+              ))}
+          </div>
         </div>
       </div>
     </div>
