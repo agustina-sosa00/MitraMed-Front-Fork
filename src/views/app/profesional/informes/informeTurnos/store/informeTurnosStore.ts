@@ -2,25 +2,25 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 interface InformeTurnosStore {
-  shiftReportData: any;
+  informeTurnosData: any;
   selectedDates: { from: string; to: string };
   setSelectedDates: (dates: { from: string; to: string }) => void;
-  clearShiftReportData: () => void;
-  setShiftReportData: (data: any) => unknown;
+  clearInformeTurnosData: () => void;
+  setInformeTurnosData: (data: any) => unknown;
 }
 
 export const useInformeTurnosStore = create<InformeTurnosStore>()(
   persist(
     (set) => ({
-      shiftReportData: null,
+      informeTurnosData: null,
       selectedDates: { from: "", to: "" },
-      setShiftReportData: (data) => set({ shiftReportData: data }),
+      setInformeTurnosData: (data) => set({ informeTurnosData: data }),
       setSelectedDates: (dates) => set({ selectedDates: dates }),
-      clearShiftReportData: () =>
-        set({ shiftReportData: null, selectedDates: { from: "", to: "" } }),
+      clearInformeTurnosData: () =>
+        set({ informeTurnosData: null, selectedDates: { from: "", to: "" } }),
     }),
     {
-      name: "shift-report-storage", // nombre de la clave en localStorage
+      name: "informe-turnos-storage", // nombre de la clave en localStorage
     },
   ),
 );
