@@ -30,6 +30,7 @@ type Doctores = {
 export default function UsuariosProfCard() {
   const [alta, setAlta] = useState(false);
   const [modoEdicion, setModoEdicion] = useState(false);
+
   const {
     editMode,
     setEditMode,
@@ -39,6 +40,12 @@ export default function UsuariosProfCard() {
     enabledFetchUsu,
     setEnabledFetchUsu,
   } = useUsuariosProfStore();
+
+  // Estados para botones
+  const haySeleccion = !!usuarioSeleccionado;
+  const puedeAlta = !haySeleccion && !alta && !modoEdicion;
+  const puedeBaja = haySeleccion && !alta && !modoEdicion;
+  const puedeEditar = haySeleccion && !alta && !modoEdicion;
 
   const [firstLoadDoctores, setFirstLoadDoctores] = useState(true);
 
@@ -107,29 +114,22 @@ export default function UsuariosProfCard() {
     if (isSuccessDoctores && firstLoadDoctores) setFirstLoadDoctores(false);
   }, [isSuccessDoctores, firstLoadDoctores]);
 
-  // Estados para botones
-  const haySeleccion = !!usuarioSeleccionado;
-  const puedeAlta = !haySeleccion && !alta && !modoEdicion;
-  const puedeBaja = haySeleccion && !alta && !modoEdicion;
-  const puedeEditar = haySeleccion && !alta && !modoEdicion;
-
-  // Handlers de botones
-  const handleAlta = () => {
+  function handleAlta() {
     setUsuarioSeleccionado(undefined);
     setEditMode(true);
     setSelectEnabled(false);
     setAlta(true);
     setModoEdicion(false);
-  };
+  }
 
-  const handleEditar = () => {
+  function handleEditar() {
     setEditMode(true);
     setSelectEnabled(false);
     setModoEdicion(true);
     setAlta(false);
-  };
+  }
 
-  const handleBaja = async () => {
+  async function handleBaja() {
     const result = await showAlert({
       icon: "warning",
       text: "¿Seguro que quieres dar de baja este usuario?",
@@ -143,15 +143,15 @@ export default function UsuariosProfCard() {
       setUsuarioSeleccionado(undefined);
       showAlert({ icon: "success", text: "Usuario dado de baja (simulado)" });
     }
-  };
+  }
 
-  const handleEndAltaOEdicion = () => {
+  function handleEndAltaOEdicion() {
     setAlta(false);
     setModoEdicion(false);
     setUsuarioSeleccionado(undefined);
     setEditMode(false);
     setSelectEnabled(true);
-  };
+  }
 
   return (
     <div className="flex flex-col gap-5 border-2 border-slate-300 p-4 rounded bg-slate-200 shadow">
