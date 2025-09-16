@@ -1,4 +1,3 @@
-import { IoClose } from "react-icons/io5";
 import SignInForm from "../forms/SignInForm";
 
 interface IProp {
