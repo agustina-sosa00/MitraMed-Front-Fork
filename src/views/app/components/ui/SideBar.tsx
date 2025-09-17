@@ -120,7 +120,7 @@ export default function SideBar({ logo, buttons }: IProp) {
         </div>
 
         {/* Log Out */}
-        <div className="flex flex-col items-center w-full gap-3 py-5 h-[20%]">
+        <div className="flex flex-col items-center w-full gap-3 py-3  h-[20%]">
           <div className="flex items-center justify-start gap-2 text-blue">
             <FaUserCircle className="text-xl xl:text-3xl" />
             {tusuario === "2" ? (

@@ -291,7 +291,7 @@ export default function HistorialClinicoView() {
   return (
     <ContainView
       title="HC"
-      padding="py-1 2xl:py-20  px-10"
+      padding="py-3 2xl:py-20 px-10"
       gapChildren="gap-1"
       sizeTitle="text-3xl 2xl:text-4xl"
     >
@@ -314,7 +314,7 @@ export default function HistorialClinicoView() {
       </div>
 
       {/* Tabla y Observaciones */}
-      <div className="flex items-start justify-between w-full gap-2 pt-2 xl:justify-center ">
+      <div className="flex items-start justify-between w-full gap-2 pt-1 xl:justify-center ">
         {/* Tabla */}
         <div className="flex min-w-[550px] justify-center overflow-x-auto ">
           <TablaDefault props={propsTabla} />

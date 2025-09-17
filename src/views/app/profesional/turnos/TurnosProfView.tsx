@@ -154,9 +154,14 @@ export default function TurnosProfView() {
     nuevaFecha.setDate(nuevaFecha.getDate() + dias);
     setDaySchedule(nuevaFecha.toISOString().split("T")[0]);
   }
-
+  //region return
   return (
-    <ContainView title="mis turnos" padding="py-5 px-10">
+    <ContainView
+      title="mis turnos"
+      padding="py-3 2xl:py-20 px-10"
+      gapChildren="gap-1"
+      sizeTitle="text-3xl 2xl:text-4xl"
+    >
       <FiltrosTablaMisTurnos handle={changeDay} state={daySchedule} setState={setDaySchedule} />
 
       <div className="flex justify-center w-full px-5 overflow-y-auto lg:overflow-visible ">

@@ -154,9 +154,9 @@ export default function UsuariosProfCard() {
   }
 
   return (
-    <div className="flex flex-col gap-5 border-2 border-slate-300 p-4 rounded bg-slate-200 shadow">
+    <div className="flex flex-col gap-5 p-4 ">
       {/* Botones  */}
-      <div className="flex w-full gap-2 px-2 items-center">
+      <div className="flex items-center w-full gap-2 px-2">
         <ActionButton
           type="button"
           text="Refrescar datos"
