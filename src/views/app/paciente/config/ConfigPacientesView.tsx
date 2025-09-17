@@ -2,7 +2,7 @@ import {
   actualizarEmail,
   actualizarTelefono,
   obtenerDatosUsuario,
-} from "@/views/app/paciente/turnos/services/TurnosService";
+} from "@/views/app/paciente/turnosPaciente/services/TurnosService";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -17,7 +17,7 @@ interface EmailTelefono {
   telefono: string;
 }
 
-export default function ConfigView() {
+export default function ConfigPacientesView() {
   const navigate = useNavigate();
   const isGoogleAuth = localStorage.getItem("isGoogleAuth") || "";
   const [isEditingTelefono, setIsEditingTelefono] = useState(false);

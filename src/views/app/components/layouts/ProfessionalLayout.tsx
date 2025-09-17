@@ -10,7 +10,7 @@ interface IProp {
   setLoader: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const ProfessionalLayout: React.FC<IProp> = ({ setLoader }) => {
+export default function ProfessionalLayout({ setLoader }: IProp) {
   const [disabledButtonSidebar, setDisabledButtonSidebar] = useState({
     inicio: false,
     turnos: false,
@@ -44,19 +44,19 @@ export const ProfessionalLayout: React.FC<IProp> = ({ setLoader }) => {
         description: "",
       },
       {
-        key: "turnos",
-        name: "Turnos",
+        key: "turnosProfesional",
+        name: "Turnos Profesional",
         icon: FaNotesMedical,
-        link: "/dashboard/turnos",
+        link: "/dashboard/turnos-profesional",
         disabled: disabledButtonSidebar.turnos,
         description:
           "Accedé a tus turnos de una manera sencilla, con filtros por fecha y una tabla organizada.",
       },
       {
         key: "historial",
-        name: "HC",
+        name: "Historia Clinica",
         icon: FaArchive,
-        link: "/dashboard/historial",
+        link: "/dashboard/historia-clinica",
         disabled: disabledButtonSidebar.historial,
         description: "Accedé al historial clínico, subí documentos y dejá observaciones.",
       },
@@ -93,9 +93,9 @@ export const ProfessionalLayout: React.FC<IProp> = ({ setLoader }) => {
     if (isSecretaria || isAdmin) {
       const btnTurnosGrales = {
         key: "turnosGrales",
-        name: "Turnos Grales.",
+        name: "Turnos",
         icon: FaNotesMedical,
-        link: "/dashboard/turnos-generales",
+        link: "/dashboard/turnos",
         disabled: disabledButtonSidebar.turnosGrales,
         description: "Panel con una tabla de turnos filtrados por cada profesional de la clínica",
       };
@@ -127,4 +127,4 @@ export const ProfessionalLayout: React.FC<IProp> = ({ setLoader }) => {
       </div>
     </div>
   );
-};
+}

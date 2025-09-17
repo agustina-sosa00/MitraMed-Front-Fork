@@ -11,7 +11,7 @@ import NewPasswordModal from "@/views/auth/views/portal/components/modals/NewPas
 interface IProp {
   setLoader: React.Dispatch<React.SetStateAction<boolean>>;
 }
-export const Layout: React.FC<IProp> = ({ setLoader }) => {
+export default function PacienteLayout({ setLoader }: IProp) {
   const [isopenDrawer, setIsOpenDrawer] = useState(false);
   const [currentRol, setCurrentRol] = useState<"paciente" | "profesional" | undefined>();
 
@@ -69,4 +69,4 @@ export const Layout: React.FC<IProp> = ({ setLoader }) => {
       <ToastContainer pauseOnHover={false} pauseOnFocusLoss={false} hideProgressBar={true} />
     </div>
   );
-};
+}

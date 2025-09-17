@@ -1,8 +1,8 @@
-import { Navigate, Outlet } from 'react-router-dom';
-import Cookies from 'js-cookie';
+import { Navigate, Outlet } from "react-router-dom";
+import Cookies from "js-cookie";
 
-export default function ProtectedRoute() {
-  const accessToken = Cookies.get('accessToken');
+export default function PacienteProtectedRoute() {
+  const accessToken = Cookies.get("accessToken");
 
   // Si no hay token, redirige a la página de inicio de sesión
   if (!accessToken) {

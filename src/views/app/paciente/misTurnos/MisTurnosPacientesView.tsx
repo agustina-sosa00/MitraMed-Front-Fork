@@ -4,12 +4,12 @@ import { useQuery } from "@tanstack/react-query";
 import {
   obtenerTurnosHistoricos,
   obtenerTurnosPendientes,
-} from "@/views/app/paciente/turnos/services/TurnosService";
+} from "@/views/app/paciente/turnosPaciente/services/TurnosService";
 import TurnosPendientes from "@/views/app/paciente/misTurnos/components/TurnosPendientes";
 import HistorialTurnos from "@/views/app/paciente/misTurnos/components/HistorialTurnos";
 import { TurnosUsuario } from "@/views/auth/types";
 
-export default function MisTurnos() {
+export default function MisTurnosPacientesView() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

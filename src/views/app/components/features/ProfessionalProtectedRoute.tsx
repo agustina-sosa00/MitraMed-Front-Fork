@@ -10,7 +10,7 @@ const bloqueoPorRol: Record<string, RegExp[]> = {
 
 const redireccion = "/dashboard/inicio"; //ruta de redireccion en caso de no tener acceso
 
-export const ProfessionalProtectedRoute = () => {
+export default function ProfessionalProtectedRoute() {
   const tusuario = localStorage.getItem("mtm-tusuario") ?? "";
   const { pathname } = useLocation();
 
@@ -20,4 +20,4 @@ export const ProfessionalProtectedRoute = () => {
   if (blocked) return <Navigate to={redireccion} replace />; //si blocked es true redirige al inicio
 
   return <Outlet />;
-};
+}

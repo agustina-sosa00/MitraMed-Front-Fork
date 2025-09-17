@@ -1,7 +1,7 @@
 import {
   actualizarTelefono,
   obtenerDatosUsuario,
-} from "@/views/app/paciente/turnos/services/TurnosService";
+} from "@/views/app/paciente/turnosPaciente/services/TurnosService";
 import { Usuario } from "@/views/auth/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
@@ -15,7 +15,7 @@ interface EmailTelefono {
   telefono: string;
 }
 
-export default function HomeView() {
+export default function HomePacientesView() {
   const [isLoading, setIsLoading] = useState(true);
   const [shouldRefetch, setShouldRefetch] = useState(true);
   const [usuario, setUsuario] = useState<Usuario | null>(null);
