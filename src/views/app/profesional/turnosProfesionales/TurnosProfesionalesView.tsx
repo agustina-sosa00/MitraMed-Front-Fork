@@ -137,7 +137,13 @@ export default function TurnosProfesionalesView() {
   };
 
   return (
-    <ContainView title="turnos">
+    <ContainView
+      title="turnos"
+      padding="py-1 2xl:py-20  px-10"
+      gapChildren="gap-2"
+      sizeTitle="text-3xl 2xl:text-4xl"
+      classContainer="gap-3"
+    >
       <div className="flex items-end justify-center w-full gap-4 ">
         <FiltrosTablaMisTurnos
           handle={changeDay}
@@ -153,57 +159,81 @@ export default function TurnosProfesionalesView() {
         />
       </div>
 
-      <div className="flex justify-between w-full gap-2 xl:justify-center">
+      <div className="flex justify-between w-full gap-1 xl:justify-between">
         <TablaTurnosProfesionales tableID="profesionales" onSelect={handleSelectProfessional} />
 
         {/* wrapper con scroll solo para la tabla grande */}
-        <div className="w-full max-h-[300px] overflow-y-auto overflow-x-auto">
-          {/* min-width para que aparezca el scroll cuando no entra */}
-          <div className="min-w-[760px]">
+        <div className="w-full ">
+          <div className="flex min-w-[550px] justify-center overflow-x-auto min-h-64">
             <TablaDefault
               props={{
                 datosParaTabla: arrayFilter,
                 objectColumns: [
-                  { key: "id", label: "ID", minWidth: "40", maxWidth: "40" },
+                  // { key: "id", label: "ID", minWidth: "40", maxWidth: "40" },
                   {
                     key: "hourInit",
-                    label: "Hora Inicio",
-                    minWidth: "80",
-                    maxWidth: "80",
+                    label: "Hora Ini",
+                    minWidth: "60",
+                    maxWidth: "120",
                   },
                   {
                     key: "hourFinish",
                     label: "Hora Fin",
-                    minWidth: "80",
-                    maxWidth: "80",
+                    minWidth: "60",
+                    maxWidth: "120",
                   },
                   {
                     key: "state",
                     label: "Estado",
-                    minWidth: "150",
-                    maxWidth: "150",
+                    minWidth: "70",
+                    maxWidth: "190",
                   },
                   {
                     key: "name",
-                    label: "Nombre y Apellido",
-                    minWidth: "180",
-                    maxWidth: "180",
+                    label: "Paciente",
+                    minWidth: "150",
+                    maxWidth: "310",
                   },
                   {
                     key: "obs",
                     label: "Observaciones",
-                    minWidth: "180",
-                    maxWidth: "180",
+                    minWidth: "90",
+                    maxWidth: "310",
                   },
-                  { key: "saco", label: "", minWidth: "50", maxWidth: "50" },
+                  {
+                    key: "",
+                    label: "",
+                    minWidth: "30",
+                    maxWidth: "50",
+                    // renderCell: (item) => {
+                    //   if (item.idusuario) {
+                    //     return <span className="!text-[11px]">Web</span>;
+                    //   }
+                    //   return null;
+                    // },
+                  },
                 ],
                 selectFn: true,
                 objectSelection: { setSeleccionado: setSelectTurn },
                 objectStyles: {
-                  withScrollbar: true,
+                  withBorder: true,
                   addHeaderColor: "#022539",
                   columnasNumber: [1, 2, 3],
                   cursorPointer: true,
+                  widthContainer: "700px",
+                  heightContainer: "300px",
+                  viewport1440: {
+                    widthContainer1440px: "750px",
+                    heightContainer1440px: "400px",
+                  },
+                  viewport1536: {
+                    widthContainer1536px: "800px",
+                    heightContainer1536px: "400px",
+                  },
+                  viewport1920: {
+                    widthContainer1920px: "1100px",
+                    heightContainer1920px: "500px",
+                  },
                 },
               }}
             />

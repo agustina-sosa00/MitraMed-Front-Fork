@@ -139,7 +139,7 @@ export default function HistorialClinicoView() {
         key: "fecha",
         label: "Fecha",
         minWidth: "90",
-        maxWidth: "120",
+        maxWidth: "130",
         renderCell: (item) => {
           const raw = item.fecha;
           const fecha = raw.split("-").reverse().join("/");
@@ -150,20 +150,35 @@ export default function HistorialClinicoView() {
         key: "detalle",
         label: "Motivo de Consulta",
         minWidth: "260",
-        maxWidth: "320",
+        maxWidth: "420",
       },
       {
         key: "ndoctor",
         label: "Profesional",
         minWidth: "190",
-        maxWidth: "320",
+        maxWidth: "350",
       },
     ],
     objectStyles: {
       addHeaderColor: "#022539",
       withScrollbar: true,
       withBorder: true,
+      widthContainer: "550px",
+      heightContainer: "330px",
+      viewport1440: {
+        widthContainer1440px: "550px",
+        heightContainer1440px: "400px",
+      },
+      viewport1536: {
+        widthContainer1536px: "600px",
+        heightContainer1536px: "400px",
+      },
+      viewport1920: {
+        widthContainer1920px: "900px",
+        heightContainer1920px: "500px",
+      },
     },
+
     selectFn: true,
     objectSelection: { setSeleccionado: setHcSelected },
   };
@@ -272,6 +287,7 @@ export default function HistorialClinicoView() {
     });
   }
 
+  //region return
   return (
     <ContainView
       title="HC"
@@ -298,14 +314,14 @@ export default function HistorialClinicoView() {
       </div>
 
       {/* Tabla y Observaciones */}
-      <div className="flex items-start justify-between w-full gap-2 pt-2 xl:justify-center min-h-64">
+      <div className="flex items-start justify-between w-full gap-2 pt-2 xl:justify-center ">
         {/* Tabla */}
-        <div className="flex min-w-[550px] justify-center overflow-x-auto min-h-64">
+        <div className="flex min-w-[550px] justify-center overflow-x-auto ">
           <TablaDefault props={propsTabla} />
         </div>
 
         {/* Observaciones */}
-        <div className="flex flex-col gap-2 p-2 bg-white border border-gray-300 rounded w-[600px] xl:w-[700px] min-h-72">
+        <div className="flex flex-col gap-2 p-2 bg-white border border-gray-300 rounded w-[600px] xl:w-[700px] h-[330px] xg:h-[400px] xxl:h-[500px] ">
           <div className="flex items-start w-full">
             <div className=" w-36">
               <label className="mr-2 text-sm font-medium capitalize text-blue">
@@ -323,7 +339,7 @@ export default function HistorialClinicoView() {
                 observaciones:
               </label>
             </div>
-            <div className="flex-[1] h-32 px-2 py-1 font-bold border border-gray-300 rounded bg-lightGray text-blue">
+            <div className="flex-[1] h-32 xg:h-48 xxl:h-56 px-2 py-1 font-bold border border-gray-300 rounded bg-lightGray text-blue">
               {hcSelected && hcSelected.obs}
             </div>
           </div>
@@ -333,7 +349,7 @@ export default function HistorialClinicoView() {
               <label className="mr-2 text-sm font-medium capitalize text-blue">archivos:</label>
             </div>
 
-            <div className="flex-[1] h-36 px-2 py-1 border border-gray-300 rounded bg-lightGray">
+            <div className="flex-[1] h-36 xxl:h-48 px-2 py-1 border border-gray-300 rounded bg-lightGray">
               {loadingMeta || (hasFile && (loadingBlob || !previewBlob)) ? (
                 <div className="grid w-full h-full place-items-center text-blue/60">
                   Cargando archivo…

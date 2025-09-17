@@ -30,42 +30,42 @@ export default function TurnosProfView() {
       key: "hora_ini",
       label: "Hora Ini",
       minWidth: "75",
-      maxWidth: "75",
+      maxWidth: "120",
     },
     // HORA_FIN
     {
       key: "hora_fin",
       label: "Hora Fin",
       minWidth: "75",
-      maxWidth: "75",
+      maxWidth: "120",
     },
     // ESTADO
     {
       key: "estado",
       label: "Estado",
-      minWidth: "160",
-      maxWidth: "160",
+      minWidth: "120",
+      maxWidth: "200",
     },
     // PACIENTE
     {
       key: "paciente",
       label: "Paciente",
-      minWidth: "300",
-      maxWidth: "300",
+      minWidth: "250",
+      maxWidth: "420",
     },
     // OBS
     {
       key: "obs",
       label: "Obs",
-      minWidth: "370",
-      maxWidth: "370",
+      minWidth: "250",
+      maxWidth: "420",
     },
     // VACIO
     {
       key: "mit",
       label: "Mit",
       minWidth: "70",
-      maxWidth: "70",
+      maxWidth: "90",
     },
   ];
 
@@ -98,9 +98,22 @@ export default function TurnosProfView() {
     datosParaTabla,
     objectColumns: columns,
     objectStyles: {
-      heightContainer: "350px",
+      widthContainer: "900px",
+      heightContainer: "440px",
       withScrollbar: true,
       addHeaderColor: "#022539",
+      viewport1440: {
+        widthContainer1440px: "1100px",
+        heightContainer1440px: "500px",
+      },
+      viewport1536: {
+        widthContainer1536px: "1200px",
+        heightContainer1536px: "590px",
+      },
+      viewport1920: {
+        widthContainer1920px: "1400px",
+        heightContainer1920px: "600px",
+      },
     },
   };
 

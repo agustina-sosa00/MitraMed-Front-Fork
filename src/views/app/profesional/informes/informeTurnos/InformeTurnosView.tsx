@@ -44,9 +44,9 @@ import { useInformeTurnosStore } from "./store/informeTurnosStore";
 
 export default function InformeTurnosView() {
   const {
-    shiftReportData,
-    clearShiftReportData,
-    setShiftReportData,
+    informeTurnosData,
+    clearInformeTurnosData,
+    setInformeTurnosData,
     setSelectedDates,
     selectedDates = { from: "", to: "" },
   } = useInformeTurnosStore();
@@ -63,9 +63,9 @@ export default function InformeTurnosView() {
   const [isProcessed, setIsProcessed] = useState(false); // Nuevo estado
 
   const [hasSearched, setHasSearched] = useState(false);
-  const disabledButtonTrash = hasSearched && shiftReportData?.data?.length > 0 && !loader;
-  const totalRegistros = shiftReportData?.data?.length || 0;
-  const totalImportes = (shiftReportData?.data || [])
+  const disabledButtonTrash = hasSearched && informeTurnosData?.data?.length > 0 && !loader;
+  const totalRegistros = informeTurnosData?.data?.length || 0;
+  const totalImportes = (informeTurnosData?.data || [])
     .map((item) => Number(item.importe) || 0)
     .reduce((acc, curr) => acc + curr, 0);
 
@@ -75,7 +75,7 @@ export default function InformeTurnosView() {
       key: "fecha",
       label: "Fecha",
       minWidth: "70",
-      maxWidth: "70",
+      maxWidth: "100",
       resaltar: true,
       renderCell: (item) => (
         <span className="!text-[11px]">
@@ -96,7 +96,7 @@ export default function InformeTurnosView() {
       key: "dni",
       label: "DNI",
       minWidth: "70",
-      maxWidth: "70",
+      maxWidth: "100",
       renderCell: (item) => <span className="!text-[11px]">{item.dni}</span>,
     },
     // Edad
@@ -114,7 +114,7 @@ export default function InformeTurnosView() {
       key: "paciente",
       label: "Paciente",
       minWidth: "200",
-      maxWidth: "260",
+      maxWidth: "350",
       renderCell: (item) => (
         <span className="!text-[11px] !uppercase">
           {item.apellido}, {item.nombre}
@@ -126,7 +126,7 @@ export default function InformeTurnosView() {
       key: "nespecialidad",
       label: "Especialidad",
       minWidth: "150",
-      maxWidth: "150",
+      maxWidth: "210",
       renderCell: (item) => <span className="!text-[11px]">{item.nespecialidad}</span>,
     },
     // Profesional
@@ -134,7 +134,7 @@ export default function InformeTurnosView() {
       key: "ndoctor",
       label: "Profesional",
       minWidth: "180",
-      maxWidth: "180",
+      maxWidth: "320",
       renderCell: (item) => <span className="!text-[11px]">{item.ndoctor}</span>,
     },
     // Obra Social
@@ -142,7 +142,7 @@ export default function InformeTurnosView() {
       key: "nosocial",
       label: "Obra Social",
       minWidth: "120",
-      maxWidth: "120",
+      maxWidth: "170",
       renderCell: (item) => <span className="!text-[11px]">{item.nosocial}</span>,
     },
     // Importe
@@ -150,7 +150,7 @@ export default function InformeTurnosView() {
       key: "importe",
       label: "$ Importe",
       minWidth: "100",
-      maxWidth: "100",
+      maxWidth: "160",
       resaltar: true,
       renderCell: (item) => (
         <PriceInput
@@ -166,7 +166,7 @@ export default function InformeTurnosView() {
       key: "",
       label: "",
       minWidth: "50",
-      maxWidth: "50",
+      maxWidth: "60",
       renderCell: (item) => {
         if (item.idusuario) {
           return <span className="!text-[11px]">Web</span>;
@@ -202,8 +202,8 @@ export default function InformeTurnosView() {
 
   // Agrega un id incremental a cada registro de shiftReportData.data
   const datosParaTabla =
-    hasSearched && Array.isArray(shiftReportData?.data) && shiftReportData.data.length > 0
-      ? shiftReportData.data.map((item, idx) => ({ id: idx + 1, ...item }))
+    hasSearched && Array.isArray(informeTurnosData?.data) && informeTurnosData.data.length > 0
+      ? informeTurnosData.data.map((item, idx) => ({ id: idx + 1, ...item }))
       : [];
 
   const propsTabla = {
@@ -215,12 +215,25 @@ export default function InformeTurnosView() {
       datosFooter: datosFooter,
     },
     objectStyles: {
-      heightContainer: "400px",
       addHeaderColor: "#022539",
       withScrollbar: true,
       // containerClass: "border border-gray-300 rounded-t-lg ",
       // withBorder: false,
       columnasNumber: [3, 9],
+      widthContainer: "1100px",
+      heightContainer: "400px",
+      viewport1440: {
+        widthContainer1440px: "1200px",
+        heightContainer1440px: "500px",
+      },
+      viewport1536: {
+        widthContainer1536px: "1250px",
+        heightContainer1536px: "400px",
+      },
+      viewport1920: {
+        widthContainer1920px: "1600px",
+        heightContainer1920px: "600px",
+      },
     },
     selectFn: true,
   };
@@ -249,14 +262,14 @@ export default function InformeTurnosView() {
           });
         } else {
           setIsProcessed(true);
-          setShiftReportData(data);
+          setInformeTurnosData(data);
         }
       }, 800);
     },
   });
 
   useEffect(() => {
-    if (shiftReportData?.data?.length) {
+    if (informeTurnosData?.data?.length) {
       setHasSearched(true);
       setIsProcessed(true);
     }
@@ -276,7 +289,7 @@ export default function InformeTurnosView() {
   }
 
   function handleClean() {
-    clearShiftReportData();
+    clearInformeTurnosData();
     setHasSearched(false);
     // setDataShifts({ data: [] });
     setIsProcessed(false);
@@ -285,7 +298,13 @@ export default function InformeTurnosView() {
   }
 
   return (
-    <ContainView title="informe de turnos" padding="py-3 px-4" classContainer="">
+    <ContainView
+      title="informe de turnos"
+      padding="py-3 2xl:py-20 px-10"
+      gapChildren="gap-2"
+      sizeTitle="text-3xl 2xl:text-4xl"
+      classContainer=""
+    >
       {/* Buscador */}
       <div className="flex w-full gap-3 py-5">
         <CardDateRangePicker

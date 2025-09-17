@@ -16,31 +16,45 @@ export default function TablaTurnosProfesionales({ onSelect }: IProp) {
           },
           datosParaTabla: tableProfessionals,
           objectColumns: [
-            {
-              key: "id",
-              label: "ID",
-              minWidth: "40",
-              maxWidth: "40",
-            },
+            // {
+            //   key: "id",
+            //   label: "ID",
+            //   minWidth: "40",
+            //   maxWidth: "40",
+            // },
             {
               key: "name",
-              label: "Nombre y Apellido",
-              minWidth: "180",
-              maxWidth: "180",
+              label: "Profesional",
+              minWidth: "150",
+              maxWidth: "300",
             },
             {
               key: "especiality",
               label: "Especialidad",
-              minWidth: "170",
-              maxWidth: "170",
+              minWidth: "150",
+              maxWidth: "210",
             },
           ],
 
           objectStyles: {
             withScrollbar: true,
             addHeaderColor: "#022539",
-            columnasNumber: [1],
+            // columnasNumber: [1],
             cursorPointer: true,
+            widthContainer: "320px",
+            heightContainer: "300px",
+            viewport1440: {
+              widthContainer1440px: "400px",
+              heightContainer1440px: "400px",
+            },
+            viewport1536: {
+              widthContainer1536px: "450px",
+              heightContainer1536px: "400px",
+            },
+            viewport1920: {
+              widthContainer1920px: "500px",
+              heightContainer1920px: "500px",
+            },
           },
         }}
       />
