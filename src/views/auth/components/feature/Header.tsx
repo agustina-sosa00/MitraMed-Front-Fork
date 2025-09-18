@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 import Nav from "./Nav";
 import { useEffect, useState } from "react";
 import TextAlert from "../../../components/TextAlert";
-import { Drawer } from "@/views/components/features/DrawerLogin/Drawer";
+import { Drawer } from "@/views/auth/views/portal/components/drawer/Drawer";
 
 interface IProp {
   state: boolean;

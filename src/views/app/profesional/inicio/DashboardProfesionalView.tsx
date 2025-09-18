@@ -11,7 +11,9 @@ export const DashboardProfesionalView: React.FC = () => {
   const dataProfesional = data ? JSON.parse(data) : null;
   return (
     <ContainView
-      padding="py-5 px-10"
+      padding="py-3 2xl:py-20 px-10"
+      gapChildren="gap-2"
+      sizeTitle="text-3xl 2xl:text-4xl"
       title={`${dataProfesional.ndoctor && dataProfesional.adoctor ? `¡Bienvenido/a ${dataProfesional.ndoctor} ${dataProfesional.adoctor}!` : `¡Bienvenido/a ${dataProfesional.nombre}!`}`}
     >
       <div className="flex flex-col justify-center w-full ">

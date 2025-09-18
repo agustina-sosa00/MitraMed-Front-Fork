@@ -1,25 +1,25 @@
-import { IDataTable, IFormState, tableProfessionals } from "../turnos/mock/arrayTableProfessional";
-import { useEffect, useState } from "react";
-import { BoxButton } from "../../components/ui/buttons/BoxButton";
+import { IDataTable, IFormState } from "../turnos/mock/arrayTableProfessional";
+import { useState } from "react";
 import { Modal } from "@/views/app/components/ui/modals/Modal";
-import Swal from "sweetalert2";
-import { TablaDefault } from "@/frontend-resourses/components";
 import { TableNode } from "@/frontend-resourses/components/types";
-
 import { ContainView } from "@/views/app/components/features/ContainView";
-import FiltrosTablaMisTurnos from "../../components/ui/Filters/FiltrosTablaMisTurnos";
-import TablaTurnosProfesionales from "./components/TablaProfesionales";
-import ModalAltaTurno from "./components/ModalAltaTurno";
+import Swal from "sweetalert2";
+import SearchCard from "./components/SearchCard";
+import TablasCard from "./components/TablasCard";
+import AltaTurnoModal from "./components/AltaTurnoModal";
+import ActionsButtonsCard from "./components/ActionsButtonsCard";
 
 export default function TurnosProfesionalesView() {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [modalName, setModalName] = useState<string>("");
-  const [selectProfessional, setSelectProfessional] = useState<{
+
+  const [selectProfessional, _setSelectProfessional] = useState<{
     id: number;
     name: string;
     especiality: string;
   }>();
-  const [selectTurn, setSelectTurn] = useState<IDataTable>();
+
+  const [selectTurn, _setSelectTurn] = useState<IDataTable>();
   const [arrayFilter, setArrayFilter] = useState<TableNode[]>([]);
 
   const handleBoxButton = (item: string) => {
@@ -77,55 +77,6 @@ export default function TurnosProfesionalesView() {
     });
   };
 
-  const getToday = (): string => {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, "0");
-    const day = String(today.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  };
-
-  const [daySchedule, setDaySchedule] = useState(getToday);
-
-  const changeDay = (dias: number) => {
-    const nuevaFecha = new Date(daySchedule);
-    nuevaFecha.setDate(nuevaFecha.getDate() + dias);
-    setDaySchedule(nuevaFecha.toISOString().split("T")[0]);
-  };
-
-  useEffect(() => {
-    const diaFormateado = daySchedule.split("-").reverse().join("/");
-
-    let resultado: TableNode[] = [];
-
-    if (selectProfessional) {
-      const profesional = tableProfessionals.find((item) => item.id === selectProfessional.id);
-
-      if (profesional?.turns) {
-        resultado = profesional.turns.filter((turno) => turno.day === diaFormateado);
-      }
-    }
-
-    if (resultado.length > 0) {
-      setArrayFilter(resultado);
-    } else {
-      const emptyRows = Array.from({ length: 5 }, (_, i) => ({
-        id: i + 1,
-        day: "",
-        hourInit: "",
-        hourFinish: "",
-        name: "",
-        state: "",
-        obs: "",
-      }));
-      setArrayFilter(emptyRows);
-    }
-  }, [daySchedule, selectProfessional]);
-
-  const handleSelectProfessional = (idProfessional) => {
-    setSelectProfessional(idProfessional);
-  };
-
   const handleChangeDataTurn = (form: IFormState) => {
     if (!selectTurn || !form) return;
 
@@ -136,84 +87,27 @@ export default function TurnosProfesionalesView() {
     setArrayFilter(updatedArray);
   };
 
+  //region return
   return (
     <ContainView title="turnos">
-      <div className="flex items-end justify-center w-full gap-4 ">
-        <FiltrosTablaMisTurnos
-          handle={changeDay}
-          state={daySchedule}
-          setState={setDaySchedule}
-          styles="w-1/2"
-          subStyles="flex justify-center items-end"
-        />
-        <BoxButton
+      {/* Filtros y Botones */}
+      <div className="flex items-end justify-between w-full">
+        <SearchCard />
+
+        <ActionsButtonsCard
           disabled={!selectTurn || !selectProfessional ? "disabled" : ""}
           handleButton={handleBoxButton}
           button={["alta turno", "presentación", "facturación"]}
         />
+        {/* <div className="flex flex-1"></div> */}
       </div>
 
-      <div className="flex justify-between w-full gap-2 xl:justify-center">
-        <TablaTurnosProfesionales tableID="profesionales" onSelect={handleSelectProfessional} />
-
-        {/* wrapper con scroll solo para la tabla grande */}
-        <div className="w-full max-h-[300px] overflow-y-auto overflow-x-auto">
-          {/* min-width para que aparezca el scroll cuando no entra */}
-          <div className="min-w-[760px]">
-            <TablaDefault
-              props={{
-                datosParaTabla: arrayFilter,
-                objectColumns: [
-                  { key: "id", label: "ID", minWidth: "40", maxWidth: "40" },
-                  {
-                    key: "hourInit",
-                    label: "Hora Inicio",
-                    minWidth: "80",
-                    maxWidth: "80",
-                  },
-                  {
-                    key: "hourFinish",
-                    label: "Hora Fin",
-                    minWidth: "80",
-                    maxWidth: "80",
-                  },
-                  {
-                    key: "state",
-                    label: "Estado",
-                    minWidth: "150",
-                    maxWidth: "150",
-                  },
-                  {
-                    key: "name",
-                    label: "Nombre y Apellido",
-                    minWidth: "180",
-                    maxWidth: "180",
-                  },
-                  {
-                    key: "obs",
-                    label: "Observaciones",
-                    minWidth: "180",
-                    maxWidth: "180",
-                  },
-                  { key: "saco", label: "", minWidth: "50", maxWidth: "50" },
-                ],
-                selectFn: true,
-                objectSelection: { setSeleccionado: setSelectTurn },
-                objectStyles: {
-                  withScrollbar: true,
-                  addHeaderColor: "#022539",
-                  columnasNumber: [1, 2, 3],
-                  cursorPointer: true,
-                },
-              }}
-            />
-          </div>
-        </div>
-      </div>
+      {/* Tablas */}
+      <TablasCard />
 
       {openModal && modalName === "alta turno" && (
         <Modal close={() => setOpenModal(!openModal)} title="Alta Turno">
-          <ModalAltaTurno
+          <AltaTurnoModal
             handleChange={handleChangeDataTurn}
             close={() => setOpenModal(!openModal)}
           />

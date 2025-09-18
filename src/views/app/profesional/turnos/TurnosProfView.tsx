@@ -3,11 +3,12 @@ import { useQuery } from "@tanstack/react-query";
 import { IDataTable, tableSchedules } from "./mock/arrayTableProfessional";
 import { TablaDefault } from "../../../../frontend-resourses/components";
 import { ContainView } from "../../components/features/ContainView";
-import FiltrosTablaMisTurnos from "../../components/ui/Filters/FiltrosTablaMisTurnos";
+// import FiltrosTablaMisTurnos from "../turnosProfesionales/components/SearchCard";
 import { obtenerTurnosDiarios } from "./services/TurnosProfService";
+import SearchCard from "../turnosProfesionales/components/SearchCard";
 
 export default function TurnosProfView() {
-  const [daySchedule, setDaySchedule] = useState(getToday);
+  const [daySchedule, _setDaySchedule] = useState(getToday);
   const [_arrayFilter, setArrayFilter] = useState<IDataTable[]>([]);
   const newArray = [...tableSchedules];
 
@@ -30,64 +31,90 @@ export default function TurnosProfView() {
       key: "hora_ini",
       label: "Hora Ini",
       minWidth: "75",
-      maxWidth: "75",
+      maxWidth: "120",
     },
     // HORA_FIN
     {
       key: "hora_fin",
       label: "Hora Fin",
       minWidth: "75",
-      maxWidth: "75",
+      maxWidth: "120",
     },
     // ESTADO
     {
       key: "estado",
       label: "Estado",
-      minWidth: "160",
-      maxWidth: "160",
+      minWidth: "120",
+      maxWidth: "200",
     },
     // PACIENTE
     {
       key: "paciente",
       label: "Paciente",
-      minWidth: "300",
-      maxWidth: "300",
+      minWidth: "250",
+      maxWidth: "420",
     },
     // OBS
     {
       key: "obs",
       label: "Obs",
-      minWidth: "370",
-      maxWidth: "370",
+      minWidth: "250",
+      maxWidth: "420",
     },
     // VACIO
     {
       key: "mit",
       label: "Mit",
       minWidth: "70",
-      maxWidth: "70",
+      maxWidth: "90",
     },
   ];
 
-  const datosParaTabla = Array.isArray(turnosProfesional?.data)
-    ? turnosProfesional.data.map((item, idx) => ({
-        id: idx + 1,
-        hora_ini: item.hora_ini,
-        hora_fin: item.hora_fin,
-        estado: item.estado,
-        paciente: `${item.apellido} ${item.nombre}`.trim(),
-        obs: item.obs || "",
-        mit: item.idusuario === null ? "Mit" : "Web",
-      }))
-    : [];
+  const sinDatos = [
+    {
+      id: "",
+      hora_ini: "",
+      hora_fin: "",
+      estado: "",
+      paciente: "No hay Datos en la Fecha Seleccionada",
+      obs: "",
+      mit: "",
+    },
+  ];
+
+  const datosParaTabla =
+    Array.isArray(turnosProfesional?.data) && turnosProfesional.data.length > 0
+      ? turnosProfesional.data.map((item, idx) => ({
+          id: idx + 1,
+          hora_ini: item.hora_ini,
+          hora_fin: item.hora_fin,
+          estado: item.nestado,
+          paciente: item.npaciente,
+          obs: item.obs || "",
+          mit: item.idusuario === null ? "Mit" : "Web",
+        }))
+      : sinDatos;
 
   const propsTabla = {
     datosParaTabla,
     objectColumns: columns,
     objectStyles: {
-      heightContainer: "350px",
+      widthContainer: "900px",
+      heightContainer: "440px",
       withScrollbar: true,
       addHeaderColor: "#022539",
+      viewport1440: {
+        widthContainer1440px: "1100px",
+        heightContainer1440px: "500px",
+      },
+      viewport1536: {
+        widthContainer1536px: "1200px",
+        heightContainer1536px: "590px",
+      },
+      viewport1920: {
+        widthContainer1920px: "1400px",
+        heightContainer1920px: "600px",
+      },
     },
   };
 
@@ -128,9 +155,14 @@ export default function TurnosProfView() {
     nuevaFecha.setDate(nuevaFecha.getDate() + dias);
     setDaySchedule(nuevaFecha.toISOString().split("T")[0]);
   }
-
+  //region return
   return (
-    <ContainView title="mis turnos" padding="py-5 px-10">
+    <ContainView
+      title="mis turnos"
+      padding="py-3 2xl:py-20 px-10"
+      gapChildren="gap-1"
+      sizeTitle="text-3xl 2xl:text-4xl"
+    >
       <FiltrosTablaMisTurnos handle={changeDay} state={daySchedule} setState={setDaySchedule} />
 
       <div className="flex justify-center w-full px-5 overflow-y-auto lg:overflow-visible ">

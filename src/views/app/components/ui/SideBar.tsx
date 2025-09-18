@@ -1,4 +1,4 @@
-import { FaUserCircle } from "react-icons/fa";
+import { FaUserCircle, FaUserCog } from "react-icons/fa";
 import { IconType } from "react-icons/lib";
 import { IoSettingsSharp } from "react-icons/io5";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import { useOdontogramContext } from "../../../../context/OdontogramContext";
 import TextAlert from "@/views/components/TextAlert";
 import { useMedicalHistoryContext } from "../../../../context/MedicalHistoryContext";
+// import { useState } from "react";
 
 interface IProp {
   logo: string;
@@ -34,7 +35,10 @@ export default function SideBar({ logo, buttons }: IProp) {
   const dataUser: DataProfessional | null = raw ? JSON.parse(raw) : null;
   const tusuario = localStorage.getItem("mtm-tusuario");
 
-  const handleLogout = () => {
+  const adminButtonClass =
+    "flex items-center text-start gap-2 pl-2 py-1 w-[90%] text-lg font-medium rounded text-blue hover:bg-greenHover hover:text-white transition-all duration-300";
+
+  function handleLogout() {
     setDniOdontogram("");
     setOriginalData({});
     setTeethIdsState({});
@@ -49,21 +53,21 @@ export default function SideBar({ logo, buttons }: IProp) {
     Cookies.remove("app_secret_dropbox");
     Cookies.remove("refresh_token_dropbox");
     navigate("/");
-  };
-
+  }
   return (
     <nav className="flex-col justify-between hidden w-56 h-screen lg:flex">
       <section className="flex flex-col items-center justify-between h-full bg-gray-200">
-        {/* BOX 1 */}
+        {/* Logo */}
         <div className="flex items-center  h-[10%]">
           <img src={logo} alt="logo" />
         </div>
 
+        {/* Divider */}
         <div className="flex justify-center w-full">
           <div className="w-[80%] bg-blue h-[1px]" />
         </div>
 
-        {/* BOX 2 */}
+        {/* Navegacion */}
         <div className="flex flex-col w-full gap-3 pl-4 py-5 h-[65%]">
           {buttons.map((item) => {
             const isActive = location.pathname === item.link;
@@ -85,25 +89,38 @@ export default function SideBar({ logo, buttons }: IProp) {
           })}
         </div>
 
+        {/* Entorno */}
         <TextAlert />
-        {tusuario === "1" && (
-          <Link to={"/dashboard/configuracion"} className="w-full py-3 pl-5">
-            <button
-              className={`flex items-center gap-2 px-2 py-1 w-[90%]  text-lg font-medium capitalize rounded 
-                
-                  hover:bg-greenHover hover:text-white text-blue cursor-pointer transition-all duration-300 `}
-            >
-              {" "}
-              <IoSettingsSharp className="w-5 h-5" /> Configuración{" "}
-            </button>
-          </Link>
+
+        {/* Config */}
+        {tusuario === "4" && (
+          <div className="w-full">
+            <Link to="/dashboard/abm-usuarios" className="block w-full py-1 pl-5">
+              <button
+                type="button"
+                className={adminButtonClass}
+                // onClick={() => setShowUsuariosModal(true)}
+              >
+                <FaUserCog className="w-5 h-5" />
+                Usuarios
+              </button>
+            </Link>
+            <Link to="/dashboard/configuracion" className="block w-full py-1 pl-5">
+              <button type="button" className={adminButtonClass}>
+                <IoSettingsSharp className="w-5 h-5" />
+                Configuración
+              </button>
+            </Link>
+          </div>
         )}
+
+        {/* Divider */}
         <div className="flex justify-center w-full">
           <div className="w-[80%] bg-blue h-[1px]" />
         </div>
 
-        {/* BOX 3 */}
-        <div className="flex flex-col items-center w-full gap-3 py-5 h-[20%]">
+        {/* Log Out */}
+        <div className="flex flex-col items-center w-full gap-3 py-3  h-[20%]">
           <div className="flex items-center justify-start gap-2 text-blue">
             <FaUserCircle className="text-xl xl:text-3xl" />
             {tusuario === "2" ? (

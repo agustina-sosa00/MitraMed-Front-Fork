@@ -1,22 +1,22 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import { About } from "../../About/About";
+import { CardsAbout } from "@/views/auth/components/ui/CardsAbout";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
 import Footer from "@/views/auth/components/feature/Footer";
-// import SignInForm from "@/components/features/forms/SignInForm";
 import WhatsApp from "@/views/auth/components/feature/WhatsApp";
-import { About } from "./About/About";
-import { CardsAbout } from "@/views/auth/components/ui/CardsAbout";
 import Header from "@/views/auth/components/feature/Header";
-import CarrouselPortal from "./components/feature/CarrouselPortal";
-import { ConfirmDataUser } from "../components/features/modals/ConfirmDataUser";
-import CreateAccountModal from "../components/features/modals/CreateAccountModal";
-import ForgotPasswordModal from "../components/features/modals/ForgotPasswordModal";
-import ConfirmAccountModal from "../components/features/modals/ConfirmAccountModal";
-import GoogleAuthModal from "../components/features/modals/GoogleAuthModal";
-import NewPasswordModal from "../components/features/modals/NewPasswordModal";
-import NewTokenConfirm from "../components/features/modals/NewTokenConfirm";
+import CarrouselPortal from "../../components/feature/CarrouselPortal";
+import { ConfirmDataUser } from "./components/modals/ConfirmDataUser";
+import CreateAccountModal from "./components/modals/CreateAccountModal";
+import ForgotPasswordModal from "./components/modals/ForgotPasswordModal";
+import ConfirmAccountModal from "./components/modals/ConfirmAccountModal";
+import GoogleAuthModal from "./components/modals/GoogleAuthModal";
+import NewPasswordModal from "./components/modals/NewPasswordModal";
+import NewTokenConfirm from "./components/modals/NewTokenConfirm";
+
 interface IProp {
   loader: boolean;
   setLoader: React.Dispatch<React.SetStateAction<boolean>>;

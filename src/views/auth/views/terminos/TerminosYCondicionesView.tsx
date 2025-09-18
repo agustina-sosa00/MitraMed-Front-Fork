@@ -1,4 +1,4 @@
-export default function TerminosYCondiciones() {
+export default function TerminosYCondicionesView() {
   return (
     <div className="max-w-4xl p-8 mx-auto text-gray-800">
       <div className="flex flex-col items-center justify-center gap-3 p-2 mb-10 md:flex-row">
