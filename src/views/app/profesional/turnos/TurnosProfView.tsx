@@ -5,7 +5,7 @@ import { TablaDefault } from "../../../../frontend-resourses/components";
 import { ContainView } from "../../components/features/ContainView";
 // import FiltrosTablaMisTurnos from "../turnosProfesionales/components/SearchCard";
 import { obtenerTurnosDiarios } from "./services/TurnosProfService";
-import SearchCard from "../turnosProfesionales/components/SearchCard";
+// import SearchCard from "../turnosProfesionales/components/SearchCard";
 
 export default function TurnosProfView() {
   const [daySchedule, _setDaySchedule] = useState(getToday);
@@ -150,11 +150,11 @@ export default function TurnosProfView() {
     return `${year}-${month}-${day}`;
   }
 
-  function changeDay(dias: number) {
-    const nuevaFecha = new Date(daySchedule);
-    nuevaFecha.setDate(nuevaFecha.getDate() + dias);
-    setDaySchedule(nuevaFecha.toISOString().split("T")[0]);
-  }
+  // function changeDay(dias: number) {
+  //   const nuevaFecha = new Date(daySchedule);
+  //   nuevaFecha.setDate(nuevaFecha.getDate() + dias);
+  //   setDaySchedule(nuevaFecha.toISOString().split("T")[0]);
+  // }
   //region return
   return (
     <ContainView
@@ -163,7 +163,7 @@ export default function TurnosProfView() {
       gapChildren="gap-1"
       sizeTitle="text-3xl 2xl:text-4xl"
     >
-      <FiltrosTablaMisTurnos handle={changeDay} state={daySchedule} setState={setDaySchedule} />
+      {/* <FiltrosTablaMisTurnos handle={changeDay} state={daySchedule} setState={setDaySchedule} /> */}
 
       <div className="flex justify-center w-full px-5 overflow-y-auto lg:overflow-visible ">
         <TablaDefault props={propsTabla} />

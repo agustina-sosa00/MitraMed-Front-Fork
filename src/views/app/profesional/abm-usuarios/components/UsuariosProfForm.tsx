@@ -5,7 +5,7 @@ import showAlert from "@/frontend-resourses/utils/showAlert";
 import { useUsuariosProfStore } from "../store/usuariosProfStore";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
-import { grabarUsuarioProf } from "../service/usuariosProfService";
+import { grabarUsuarioProf } from "../service/UsuariosProfService";
 
 type FormData = {
   usuario: string;
@@ -199,7 +199,7 @@ export default function UsuariosProfForm({ usuario, doctores, onEndAlta }: Usuar
 
   return (
     <form className="flex flex-col w-[450px] gap-4" onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex w-full gap-y-10 bg-white p-4 border rounded shadow">
+      <div className="flex w-full p-4 bg-white border rounded shadow gap-y-10">
         <div className="flex flex-col gap-4 ">
           {camposForm.map((field) => {
             if (field.name === "doctor" && usuario?.tusuario === 2) return null;
@@ -213,7 +213,7 @@ export default function UsuariosProfForm({ usuario, doctores, onEndAlta }: Usuar
               <div key={field.name} className="flex items-end justify-start gap-2">
                 <label
                   htmlFor={field.inputProps.id}
-                  className="w-24 text-base text-right font-semibold text-gray-700 "
+                  className="w-24 text-base font-semibold text-right text-gray-700 "
                 >
                   {field.label}
                 </label>
@@ -243,7 +243,7 @@ export default function UsuariosProfForm({ usuario, doctores, onEndAlta }: Usuar
                       <button
                         type="button"
                         tabIndex={-1}
-                        className="absolute right-2 top-1/2 -translate-y-1/2 p-0 bg-transparent border-none cursor-pointer"
+                        className="absolute p-0 -translate-y-1/2 bg-transparent border-none cursor-pointer right-2 top-1/2"
                         onMouseDown={() =>
                           field.name === "password" ? setShowPassword(true) : setShowConfirm(true)
                         }
