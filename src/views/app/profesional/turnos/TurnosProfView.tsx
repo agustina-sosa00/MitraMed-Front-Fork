@@ -3,11 +3,12 @@ import { useQuery } from "@tanstack/react-query";
 import { IDataTable, tableSchedules } from "./mock/arrayTableProfessional";
 import { TablaDefault } from "../../../../frontend-resourses/components";
 import { ContainView } from "../../components/features/ContainView";
-import FiltrosTablaMisTurnos from "../../components/ui/Filters/FiltrosTablaMisTurnos";
+// import FiltrosTablaMisTurnos from "../turnosProfesionales/components/SearchCard";
 import { obtenerTurnosDiarios } from "./services/TurnosProfService";
+import SearchCard from "../turnosProfesionales/components/SearchCard";
 
 export default function TurnosProfView() {
-  const [daySchedule, setDaySchedule] = useState(getToday);
+  const [daySchedule, _setDaySchedule] = useState(getToday);
   const [_arrayFilter, setArrayFilter] = useState<IDataTable[]>([]);
   const newArray = [...tableSchedules];
 

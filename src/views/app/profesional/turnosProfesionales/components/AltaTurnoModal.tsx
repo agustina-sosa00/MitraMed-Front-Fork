@@ -1,22 +1,18 @@
 // import InputField from "@/components/ui/InputField";
-import { BoxButton } from "@/views/app/components/ui/buttons/BoxButton";
 import {
   dataPatient,
   IFormState,
 } from "@/views/app/profesional/turnos/mock/arrayTableProfessional";
 import { useState } from "react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
+import ActionsButtonsCard from "./ActionsButtonsCard";
 
 interface IProp {
   close?: () => void;
-
   handleChange: (form: IFormState) => void;
 }
-export default function ModalAltaTurno({
-  close,
 
-  handleChange,
-}: IProp) {
+export default function AltaTurnoModal({ close, handleChange }: IProp) {
   const [formState, setFormState] = useState<IFormState>({
     hc: "",
     name: "",
@@ -159,7 +155,7 @@ export default function ModalAltaTurno({
           />
         </div>
         <div className="flex justify-end w-full">
-          <BoxButton
+          <ActionsButtonsCard
             button={["guardar", "cancelar"]}
             handleButton={(val) => {
               if (val === "guardar") {

@@ -10,12 +10,14 @@ import Captcha from "@/views/auth/components/ui/Captcha";
 import Swal from "sweetalert2";
 import InputField from "@/views/auth/components/ui/InputField";
 import ErrorMessage from "@/views/auth/components/ui/ErrorMessage";
+import { IoClose } from "react-icons/io5";
 
 interface IProp {
   rol?: string;
+  handle?: () => void;
 }
 
-export default function SignInForm({ rol }: IProp) {
+export default function SignInForm({ rol, handle }: IProp) {
   const [validateCaptcha, setValidateCaptcha] = useState(false);
 
   const navigate = useNavigate();
@@ -137,28 +139,42 @@ export default function SignInForm({ rol }: IProp) {
 
   return (
     <>
+      <div className="flex flex-col items-center w-full mb-2 relative">
+        <button
+          onClick={handle}
+          className="absolute right-0 top-0 flex items-center justify-center text-2xl text-center"
+        >
+          <IoClose />
+        </button>
+        <h3 className="text-3xl font-bold text-gray-800 mb-4 underline ">
+          {rol === "paciente" ? "Pacientes" : "Profesionales"}
+        </h3>
+        <h4 className="text-2xl font-medium text-gray-600 tracking-wide">Inicia sesión</h4>
+      </div>
       <form className="flex flex-col gap-4 px-0.5 " noValidate onSubmit={handleSubmit(handleForm)}>
         {/* Input Email/Usuario */}
         {rol === "paciente" ? (
-          <div className="flex flex-col">
-            <InputField
-              id={"email"}
-              type={"text"}
-              label={"Email"}
-              placeholder={"Ingresa tu email"}
-              register={register("email", {
-                required: {
-                  value: true,
-                  message: "El email es obligatorio",
-                },
-                pattern: {
-                  value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
-                  message: "Email inválido",
-                },
-              })}
-            />
-            {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
-          </div>
+          <>
+            <div className="flex flex-col">
+              <InputField
+                id={"email"}
+                type={"text"}
+                label={"Email"}
+                placeholder={"Ingresa tu email"}
+                register={register("email", {
+                  required: {
+                    value: true,
+                    message: "El email es obligatorio",
+                  },
+                  pattern: {
+                    value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
+                    message: "Email inválido",
+                  },
+                })}
+              />
+              {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
+            </div>
+          </>
         ) : (
           <div className="flex flex-col">
             <InputField
@@ -206,7 +222,7 @@ export default function SignInForm({ rol }: IProp) {
         </div>
 
         {/* CAPTCHA */}
-        <div className="flex justify-center w-full">
+        <div className="flex justify-center ">
           <Captcha setState={setValidateCaptcha} />
         </div>
 
@@ -247,30 +263,31 @@ export default function SignInForm({ rol }: IProp) {
       {/* Botones Footer */}
       <div className="flex flex-col items-start gap-2 pl-1 mt-5 text-sm text-gray-700 lg:pl-3 xl:text-base">
         {rol === "paciente" ? (
-          <p>
-            No tienes cuenta?{" "}
+          <>
+            <p>
+              No tienes cuenta?{" "}
+              <button
+                className="font-medium hover:underline text-green"
+                onClick={() => navigate(location.pathname + "?createAccount=true")}
+              >
+                Regístrate aquí
+              </button>
+            </p>
             <button
               className="font-medium hover:underline text-green"
-              onClick={() => navigate(location.pathname + "?createAccount=true")}
+              onClick={() => navigate(location.pathname + "?forgotPassword=true")}
             >
-              Regístrate aquí
+              Olvidé mi contraseña
             </button>
-          </p>
+
+            <button
+              className="font-medium hover:underline text-green"
+              onClick={() => navigate(location.pathname + "?newTokenConfirm=true")}
+            >
+              Reenviar correo de confirmación
+            </button>
+          </>
         ) : null}
-
-        <button
-          className="font-medium hover:underline text-green"
-          onClick={() => navigate(location.pathname + "?forgotPassword=true")}
-        >
-          Olvidé mi contraseña
-        </button>
-
-        <button
-          className="font-medium hover:underline text-green"
-          onClick={() => navigate(location.pathname + "?newTokenConfirm=true")}
-        >
-          Reenviar correo de confirmación
-        </button>
       </div>
     </>
   );

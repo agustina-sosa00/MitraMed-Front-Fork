@@ -7,7 +7,7 @@ import Footer from "@/views/auth/components/feature/Footer";
 import Cookies from "js-cookie";
 import Header from "@/views/auth/components/feature/Header";
 import WhatsApp from "@/views/auth/components/feature/WhatsApp";
-import NewPasswordModal from "@/views/components/features/modals/NewPasswordModal";
+import NewPasswordModal from "@/views/auth/views/portal/components/modals/NewPasswordModal";
 interface IProp {
   setLoader: React.Dispatch<React.SetStateAction<boolean>>;
 }

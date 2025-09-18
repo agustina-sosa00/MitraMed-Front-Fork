@@ -1,4 +1,4 @@
-export default function PoliticasDePrivacidad() {
+export default function PoliticasDePrivacidadView() {
   return (
     <div className="max-w-4xl p-6 mx-auto">
       <div className="flex flex-col items-center justify-center gap-3 p-2 mb-10 md:flex-row">

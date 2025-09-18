@@ -1,7 +1,7 @@
 import { TablaDefault } from "@/frontend-resourses/components";
 import UsuariosProfForm from "./UsuariosProfForm";
 import { useQuery } from "@tanstack/react-query";
-import { obtenerDoctores, obtenerUsuariosProf } from "../service/UsuariosProfService";
+import { obtenerDoctores, obtenerUsuariosProf } from "../service/usuariosProfService";
 import { useState, useEffect } from "react";
 import showAlert from "@/frontend-resourses/utils/showAlert";
 import { SlRefresh } from "react-icons/sl";
@@ -40,6 +40,9 @@ export default function UsuariosProfCard() {
     enabledFetchUsu,
     setEnabledFetchUsu,
   } = useUsuariosProfStore();
+
+  const customColor = "#4F8EF7"; // azul claro
+  const customColorHover = "#2563eb"; // azul más oscuro
 
   // Estados para botones
   const haySeleccion = !!usuarioSeleccionado;
@@ -162,6 +165,9 @@ export default function UsuariosProfCard() {
           text="Refrescar datos"
           icon={<SlRefresh size={16} />}
           size="sm"
+          custom
+          customColor={customColor}
+          customColorHover={customColorHover}
           addClassName="w-full"
           onClick={() => {
             refetchUsuProf();
@@ -175,6 +181,9 @@ export default function UsuariosProfCard() {
           addClassName="w-full"
           onClick={handleAlta}
           disabled={!puedeAlta}
+          custom
+          customColor={customColor}
+          customColorHover={customColorHover}
         />
         <ActionButton
           type="button"
@@ -183,6 +192,9 @@ export default function UsuariosProfCard() {
           addClassName="w-full"
           onClick={handleBaja}
           disabled={!puedeBaja}
+          custom
+          customColor={customColor}
+          customColorHover={customColorHover}
         />
         <ActionButton
           type="button"
@@ -191,6 +203,9 @@ export default function UsuariosProfCard() {
           addClassName="w-full"
           onClick={handleEditar}
           disabled={!puedeEditar}
+          custom
+          customColor={customColor}
+          customColorHover={customColorHover}
         />
       </div>
 
