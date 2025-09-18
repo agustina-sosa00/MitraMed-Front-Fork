@@ -92,9 +92,9 @@ export default function BuscadorDePacientes({
         text: "¿Desea Salir?",
         showCancelButton: true,
         confirmButtonColor: "#518915",
-        cancelButtonColor: "#022539",
-        confirmButtonText: "Si, Salir",
-        cancelButtonText: "Seguir Editando",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si",
+        cancelButtonText: "No",
       }).then((result) => {
         if (result.isConfirmed) {
           handleCancel?.();
