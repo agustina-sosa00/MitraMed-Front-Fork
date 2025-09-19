@@ -17,7 +17,7 @@ export default function InformeTurnosView() {
   }, []);
 
   return (
-    <ContainView title="informe de turnos" padding="mt-2 px-4" classContainer="">
+    <ContainView title="informe de turnos" padding="mt-2 px-4">
       {/* Buscador */}
       <HeaderCard loader={loader} setLoader={setLoader} />
 
