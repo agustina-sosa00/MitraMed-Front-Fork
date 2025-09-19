@@ -12,6 +12,8 @@ type InputFieldProps = {
   show?: boolean;
   setShow?: Dispatch<SetStateAction<boolean>>;
   readOnly?: boolean;
+  onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
+  autoFocus?: boolean;
 };
 
 export default function InputField({
@@ -24,6 +26,8 @@ export default function InputField({
   show,
   readOnly,
   setShow,
+  onKeyDown,
+  autoFocus,
 }: InputFieldProps) {
   const handleButtonEye = () => {
     if (setShow) setShow(!show);
@@ -41,6 +45,8 @@ export default function InputField({
           placeholder={placeholder}
           className={`w-full px-2 py-1  max-w-2xl xl:mt-2 text-sm font-semibold bg-white  border border-opacity-40 border-gray-400 outline-none transition duration-200 focus:ring-1 focus:ring-greenFocus placeholder:text-sm xl:placeholder:text-sm placeholder:text-gray-300 placeholder:font-medium ${className}`}
           {...register}
+          onKeyDown={onKeyDown}
+          autoFocus={autoFocus}
         />
 
         <button

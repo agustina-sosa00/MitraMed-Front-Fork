@@ -15,7 +15,7 @@ export const Drawer = ({ handle, open, rol }: IProp) => {
         onClick={handle}
       >
         <div
-          className={`w-3/4 md:w-1/4 px-4 flex gap-5 py-5 flex-col   bg-white  transform transition-transform duration-500 ease-in-out ${
+          className={`w-3/4 md:w-1/4 px-4 flex gap-5 py-1 flex-col   bg-white  transform transition-transform duration-500 ease-in-out ${
             open ? "translate-x-0" : "translate-x-full"
           }`}
           onClick={(e) => e.stopPropagation()}

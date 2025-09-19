@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
@@ -33,7 +33,30 @@ export default function SignInForm({ rol, handle }: IProp) {
     register,
     handleSubmit,
     formState: { errors },
+    setFocus,
   } = useForm({ defaultValues: initialValues });
+
+  useEffect(() => {
+    if (rol === "paciente") {
+      setFocus("email");
+    } else if (rol === "profesional") {
+      setFocus("usuario");
+    }
+  }, [rol, setFocus]);
+
+  // Enter navega entre campos
+  const handleKeyDown =
+    (field: "email" | "usuario" | "password") => (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        if (field === "email" || field === "usuario") {
+          setFocus("password");
+        } else if (field === "password") {
+          if (rol === "paciente") setFocus("email");
+          else setFocus("usuario");
+        }
+      }
+    };
 
   const { mutate: loginPaciente } = useMutation({
     mutationFn: iniciarSesion,
@@ -139,18 +162,19 @@ export default function SignInForm({ rol, handle }: IProp) {
 
   return (
     <>
-      <div className="flex flex-col items-center w-full mb-2 relative">
+      <div className="flex flex-col items-center w-full relative ">
         <button
           onClick={handle}
           className="absolute right-0 top-0 flex items-center justify-center text-2xl text-center"
         >
           <IoClose />
         </button>
-        <h3 className="text-3xl font-bold text-gray-800 mb-4 underline ">
+        <h3 className="text-3xl font-bold text-gray-800 mb-2 underline">
           {rol === "paciente" ? "Pacientes" : "Profesionales"}
         </h3>
-        <h4 className="text-2xl font-medium text-gray-600 tracking-wide">Inicia sesión</h4>
+        <h4 className="text-xl font-medium text-gray-600 tracking-wide">Inicia sesión</h4>
       </div>
+
       <form className="flex flex-col gap-4 px-0.5 " noValidate onSubmit={handleSubmit(handleForm)}>
         {/* Input Email/Usuario */}
         {rol === "paciente" ? (
@@ -171,6 +195,8 @@ export default function SignInForm({ rol, handle }: IProp) {
                     message: "Email inválido",
                   },
                 })}
+                onKeyDown={handleKeyDown("email")}
+                autoFocus={rol === "paciente"}
               />
               {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
             </div>
@@ -192,6 +218,8 @@ export default function SignInForm({ rol, handle }: IProp) {
                   message: "Usuario inválido",
                 },
               })}
+              onKeyDown={handleKeyDown("usuario")}
+              autoFocus={rol === "profesional"}
             />
             {errors.usuario && <ErrorMessage>{errors.usuario.message}</ErrorMessage>}
           </div>
@@ -216,6 +244,7 @@ export default function SignInForm({ rol, handle }: IProp) {
                 message: "La contraseña debe tener mínimo 8 caracteres",
               },
             })}
+            onKeyDown={handleKeyDown("password")}
           />
 
           {errors.password && <ErrorMessage>{errors.password.message}</ErrorMessage>}
@@ -261,7 +290,7 @@ export default function SignInForm({ rol, handle }: IProp) {
       ) : null}
 
       {/* Botones Footer */}
-      <div className="flex flex-col items-start gap-2 pl-1 mt-5 text-sm text-gray-700 lg:pl-3 xl:text-base">
+      <div className="flex flex-col items-start gap-2 pl-1 text-sm text-gray-700 lg:pl-3 xl:text-base">
         {rol === "paciente" ? (
           <>
             <p>
