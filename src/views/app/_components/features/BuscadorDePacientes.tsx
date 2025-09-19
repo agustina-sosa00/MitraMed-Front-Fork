@@ -6,7 +6,7 @@ import { MdCancel } from "react-icons/md";
 import { IoMdAdd } from "react-icons/io";
 import { FaUserCircle } from "react-icons/fa";
 import { RiSave3Line } from "react-icons/ri";
-import { Button } from "@/views/components/Button";
+import { Button } from "@/views/_components/Button";
 import { BuscadorDePacientesProps } from "@/views/app/profesional/types/index";
 import React from "react";
 import Swal from "sweetalert2";

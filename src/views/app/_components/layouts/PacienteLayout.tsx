@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Footer from "@/views/auth/components/feature/Footer";
+import Footer from "@/views/auth/_components/feature/Footer";
 import Cookies from "js-cookie";
-import Header from "@/views/auth/components/feature/Header";
-import WhatsApp from "@/views/auth/components/feature/WhatsApp";
+import Header from "@/views/auth/_components/feature/Header";
+import WhatsApp from "@/views/auth/_components/feature/WhatsApp";
 import NewPasswordModal from "@/views/auth/views/portal/components/modals/NewPasswordModal";
 interface IProp {
   setLoader: React.Dispatch<React.SetStateAction<boolean>>;
