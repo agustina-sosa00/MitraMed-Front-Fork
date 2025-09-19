@@ -5,22 +5,22 @@ import PoliticasDePrivacidadView from "./views/auth/views/politicas/PoliticasDeP
 import TerminosYCondicionesView from "./views/auth/views/terminos/TerminosYCondicionesView";
 import Vista404 from "./views/app/profesional/vista404/Vista404";
 // PACIENTES
-import PacienteProtectedRoute from "./views/components/features/PacienteProtectedRoute";
-import PacienteLayout from "./views/app/components/layouts/PacienteLayout";
+import PacienteProtectedRoute from "./views/_components/features/PacienteProtectedRoute";
+import PacienteLayout from "./views/app/_components/layouts/PacienteLayout";
 import HomePacientesView from "./views/app/paciente/inicio/HomePacientesView";
 import TurnosPacientesView from "./views/app/paciente/turnosPaciente/TurnosPacientesView";
 import MisTurnosPacientesView from "./views/app/paciente/misTurnos/MisTurnosPacientesView";
 import ConfigPacientesView from "./views/app/paciente/config/ConfigPacientesView";
 // PROFESIONALES
-import ProfessionalProtectedRoute from "./views/app/components/features/ProfessionalProtectedRoute";
-import ProfessionalLayout from "./views/app/components/layouts/ProfessionalLayout";
+import ProfessionalProtectedRoute from "./views/app/_components/features/ProfessionalProtectedRoute";
+import ProfessionalLayout from "./views/app/profesional/_components/ProfessionalLayout";
 import HomeProfesionalView from "./views/app/profesional/inicio/HomeProfesionalView";
 import TurnosGeneralesView from "./views/app/profesional/turnos/turnosGenerales/TurnosGeneralesView";
 import TurnosProfesionalView from "./views/app/profesional/turnos/turnosProfesional/TurnosProfesionalView";
 import HistorialClinicoView from "./views/app/profesional/hc/HistorialClinicoView";
 import OdontogramView from "./views/app/profesional/odontograma/OdontogramaView";
 import InformeTurnosView from "./views/app/profesional/informes/informeTurnos/InformeTurnosView";
-import UsuariosProfView from "./views/app/profesional/abm-usuarios/UsuariosProfView";
+import UsuariosProfesionalesView from "./views/app/profesional/usuarios/UsuariosProfesionalesView";
 import ConfiguracionView from "./views/app/profesional/configuracion/ConfiguracionView";
 
 interface RouterProps {
@@ -60,7 +60,7 @@ export default function Router({ loader, setLoader }: RouterProps) {
             <Route path="/dashboard/historia-clinica" element={<HistorialClinicoView />} />
             <Route path="/dashboard/odontograma" element={<OdontogramView />} />
             <Route path="/dashboard/informe-turnos" element={<InformeTurnosView />} />
-            <Route path="/dashboard/abm-usuarios" element={<UsuariosProfView />} />
+            <Route path="/dashboard/usuarios" element={<UsuariosProfesionalesView />} />
             <Route path="/dashboard/configuracion" element={<ConfiguracionView />} />
             {/* {idProfesional && (
             )} */}
