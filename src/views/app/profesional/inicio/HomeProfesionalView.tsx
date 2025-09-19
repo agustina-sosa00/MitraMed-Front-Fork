@@ -1,4 +1,4 @@
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 import { ContainView } from "@/views/app/_components/features/ContainView";
 import { useOutletContext } from "react-router-dom";
 import { ContextType } from "@/views/app/profesional/types/index";
@@ -6,8 +6,8 @@ import CardInicioProfesionales from "./components/CardInicioProfesionales";
 
 export default function HomeProfesionalView() {
   const { buttonsSidebar } = useOutletContext<ContextType>();
-  const data = Cookies.get("dataProfessional");
-  const dataProfesional = data ? JSON.parse(data) : null;
+  // const data = Cookies.get("dataProfessional");
+  // const dataProfesional = data ? JSON.parse(data) : null;
 
   return (
     <ContainView
