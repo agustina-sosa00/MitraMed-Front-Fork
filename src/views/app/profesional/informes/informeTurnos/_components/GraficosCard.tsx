@@ -1,6 +1,6 @@
 import { useInformeTurnosStore } from "../store/informeTurnosStore";
 import { useMemo } from "react";
-import DonutChart from "@/views/app/components/ui/donut/DonutChart";
+import DonutChart from "@/views/app/_components/ui/donut/DonutChart";
 
 export default function GraficosCard() {
   const { informeTurnosData, hasSearched } = useInformeTurnosStore();

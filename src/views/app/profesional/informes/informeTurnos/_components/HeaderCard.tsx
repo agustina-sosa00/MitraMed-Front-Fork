@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { Button } from "@/views/components/Button";
+import { Button } from "@/views/_components/Button";
 import { ConfigProvider, DatePicker } from "antd";
 import type { RangePickerProps } from "antd/es/date-picker";
 import { FaMagnifyingGlass } from "react-icons/fa6";
@@ -309,7 +309,6 @@ export default function HeaderCard({ loader, setLoader }: DateRangePickerProps) 
         </div>
 
         {/* Filtro */}
-
         <div className="flex flex-col max-w-md gap-2 mt-2  px-4 py-2 border rounded bg-white">
           <label
             htmlFor="filtro"

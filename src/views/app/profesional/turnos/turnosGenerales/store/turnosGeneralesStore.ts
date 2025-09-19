@@ -7,7 +7,7 @@ interface Doctor {
   [key: string]: any;
 }
 
-interface TurnosProfesionalesStore {
+interface TurnosGeneralesStore {
   doctoresData: Doctor[];
   setDoctoresData: (doctores: Doctor[]) => void;
   doctorSeleccionado: Doctor | null;
@@ -18,7 +18,7 @@ interface TurnosProfesionalesStore {
   setTurnosData: (turnos: Record<string, any>[]) => void;
 }
 
-export const useTurnosProfesionalesStore = create<TurnosProfesionalesStore>((set) => ({
+export const useTurnosGeneralesStore = create<TurnosGeneralesStore>((set) => ({
   doctoresData: [],
   setDoctoresData: (doctores) => set({ doctoresData: doctores }),
   doctorSeleccionado: null,

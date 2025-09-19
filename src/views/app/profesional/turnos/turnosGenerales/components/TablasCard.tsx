@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { obtenerDoctores, obtenerTurnosDiarios } from "../service/turnosProfesionalesService";
+import { obtenerDoctores, obtenerTurnosDiarios } from "../service/turnosGeneralesService";
 import { TablaDefault } from "@/frontend-resourses/components";
-import { useTurnosProfesionalesStore } from "../store/turnosProfesionalesStore";
+import { useTurnosGeneralesStore } from "../store/turnosGeneralesStore";
 
 type Doctores = {
   id: number;
@@ -21,7 +21,7 @@ export default function TablasCard() {
     diaSeleccionado,
     turnosData,
     setTurnosData,
-  } = useTurnosProfesionalesStore();
+  } = useTurnosGeneralesStore();
 
   // console.log(doctorSeleccionado?.idd  octor);
 

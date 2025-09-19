@@ -2,7 +2,7 @@
 import {
   dataPatient,
   IFormState,
-} from "@/views/app/profesional/turnos/mock/arrayTableProfessional";
+} from "@/views/app/profesional/turnos/turnosProfesional/mock/arrayTableProfessional";
 import { useState } from "react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import ActionsButtonsCard from "./ActionsButtonsCard";

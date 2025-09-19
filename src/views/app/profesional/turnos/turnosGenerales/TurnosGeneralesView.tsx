@@ -1,17 +1,20 @@
-import { IDataTable, IFormState } from "../turnos/mock/arrayTableProfessional";
+import { IDataTable, IFormState } from "../turnosProfesional/mock/arrayTableProfessional";
 import { useState } from "react";
-import { Modal } from "@/views/app/components/ui/modals/Modal";
+import { Modal } from "@/views/app/_components/ui/modals/Modal";
 import { TableNode } from "@/frontend-resourses/components/types";
-import { ContainView } from "@/views/app/components/features/ContainView";
+import { ContainView } from "@/views/app/_components/features/ContainView";
 import Swal from "sweetalert2";
-import SearchCard from "./components/SearchCard";
 import TablasCard from "./components/TablasCard";
 import AltaTurnoModal from "./components/AltaTurnoModal";
 import ActionsButtonsCard from "./components/ActionsButtonsCard";
+import SearchCard from "../_components/SearchCard";
+import { useTurnosGeneralesStore } from "./store/turnosGeneralesStore";
 
-export default function TurnosProfesionalesView() {
+export default function TurnosGeneralesView() {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [modalName, setModalName] = useState<string>("");
+
+  const { diaSeleccionado, setDiaSeleccionado } = useTurnosGeneralesStore();
 
   const [selectProfessional, _setSelectProfessional] = useState<{
     id: number;
@@ -91,7 +94,7 @@ export default function TurnosProfesionalesView() {
     <ContainView title="turnos">
       {/* Filtros y Botones */}
       <div className="flex items-end justify-between w-full">
-        <SearchCard />
+        <SearchCard diaSeleccionado={diaSeleccionado} setDiaSeleccionado={setDiaSeleccionado} />
 
         <ActionsButtonsCard
           disabled={!selectTurn || !selectProfessional ? "disabled" : ""}

@@ -1,11 +1,16 @@
 import { HiArrowSmLeft } from "react-icons/hi";
-import { useTurnosProfesionalesStore } from "../store/turnosProfesionalesStore";
 import dayjs from "dayjs";
 
-export default function SearchCard() {
-  const { diaSeleccionado, setDiaSeleccionado } = useTurnosProfesionalesStore();
+type SearchCardProps = {
+  diaSeleccionado: string;
+  setDiaSeleccionado: (date: string) => void;
+};
+
+export default function SearchCard({ diaSeleccionado, setDiaSeleccionado }: SearchCardProps) {
   const today = dayjs().format("YYYY-MM-DD");
   const selected = diaSeleccionado || today;
+
+  // console.log(diaSeleccionado);
 
   const dayColor = getDayColor(selected, today);
   const nameDay = getDayName(selected);
