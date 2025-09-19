@@ -3,6 +3,7 @@ import { PriceInput, TablaDefault } from "@/frontend-resourses/components";
 import { calculadorDeEdad } from "../utils/calculadorDeEdad";
 import { useInformeTurnosStore } from "../store/informeTurnosStore";
 import dayjs from "dayjs";
+import { generarFilasVacias } from "@/utils/tableUtils";
 
 export default function TableCard() {
   const {
@@ -13,15 +14,25 @@ export default function TableCard() {
     setFilteredRows,
     hasSearched,
     setTotals,
-    // totals,
+    especialidadesSeleccionadas,
+    profesionalesSeleccionados,
+    obrasSocialesSeleccionadas,
   } = useInformeTurnosStore();
 
   const columns = [
     {
+      key: " ",
+      label: "",
+      minWidth: "0",
+      maxWidth: "0",
+      renderCell: () => null,
+    },
+    // FECHA
+    {
       key: "fecha",
       label: "Fecha",
-      minWidth: "70",
-      maxWidth: "70",
+      minWidth: "75",
+      maxWidth: "75",
       resaltar: true,
       renderCell: (item: any) => (
         <span className="!text-[11px]">
@@ -29,29 +40,33 @@ export default function TableCard() {
         </span>
       ),
     },
+    // HORA
     {
       key: "hora_ini",
       label: "Hora",
-      minWidth: "60",
-      maxWidth: "80",
+      minWidth: "55",
+      maxWidth: "55",
       renderCell: (item: any) => <span className="!text-[11px]">{item.hora_ini}</span>,
     },
+    // DNI
     {
       key: "dni",
       label: "DNI",
-      minWidth: "70",
+      minWidth: "55",
       maxWidth: "70",
       renderCell: (item: any) => <span className="!text-[11px]">{item.dni}</span>,
     },
+    // EDAD
     {
       key: "edad",
       label: "Edad",
-      minWidth: "50",
+      minWidth: "35",
       maxWidth: "60",
       renderCell: (item: any) => (
         <span className="!text-[11px]">{calculadorDeEdad({ age: item.fnacim })}</span>
       ),
     },
+    // PACIENTE
     {
       key: "paciente",
       label: "Paciente",
@@ -65,6 +80,7 @@ export default function TableCard() {
         </span>
       ),
     },
+    // ESPECIALIDAD
     {
       key: "nespecialidad",
       label: "Especialidad",
@@ -72,6 +88,7 @@ export default function TableCard() {
       maxWidth: "150",
       renderCell: (item: any) => <span className="!text-[11px]">{item.nespecialidad}</span>,
     },
+    // PROFESIONAL
     {
       key: "ndoctor",
       label: "Profesional",
@@ -79,6 +96,7 @@ export default function TableCard() {
       maxWidth: "180",
       renderCell: (item: any) => <span className="!text-[11px]">{item.ndoctor}</span>,
     },
+    // OBRA SOCIAL
     {
       key: "nosocial",
       label: "Obra Social",
@@ -86,6 +104,7 @@ export default function TableCard() {
       maxWidth: "120",
       renderCell: (item: any) => <span className="!text-[11px]">{item.nosocial}</span>,
     },
+    // $ IMPORTE
     {
       key: "importe",
       label: "$ Importe",
@@ -101,6 +120,7 @@ export default function TableCard() {
         />
       ),
     },
+    // TIPO TURNO
     {
       key: "",
       label: "",
@@ -120,10 +140,20 @@ export default function TableCard() {
   //   importe: totals.totalImportes,
   // };
 
-  const datosParaTabla =
+  const datosFiltrados =
     hasSearched && Array.isArray(informeTurnosData?.data) && informeTurnosData.data.length > 0
-      ? informeTurnosData.data.map((item, idx) => ({ id: idx + 1, ...item }))
+      ? filtrarDatosTabla(informeTurnosData.data)
       : [];
+
+  // Ordenar por fecha ascendente
+  const datosFiltradosOrdenados = [...datosFiltrados].sort(
+    (a, b) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime(),
+  );
+
+  let datosParaTabla = datosFiltradosOrdenados.map((item, idx) => ({ id: idx + 1, ...item }));
+  if (datosParaTabla.length === 0) {
+    datosParaTabla = generarFilasVacias(13, columns);
+  }
 
   const propsTabla = {
     datosParaTabla,
@@ -134,13 +164,13 @@ export default function TableCard() {
     //   datosFooter: datosFooter,
     // },
     objectStyles: {
-      heightContainer: "300px",
+      heightContainer: "310px",
       addHeaderColor: "#022539",
       withScrollbar: true,
       columnasNumber: [3, 9],
     },
     sinDatos: hasSearched,
-    selectFn: true,
+    selectFn: hasSearched,
     filtro: true,
     filtroKeys: [filtroTipo],
     filtroValue: filtroValue,
@@ -163,6 +193,32 @@ export default function TableCard() {
       .reduce((acc, curr) => acc + curr, 0);
     setTotals({ totalRegistros, totalImportes });
   }, [filteredRows, setTotals]);
+
+  function filtrarDatosTabla(datos: any[]) {
+    if (!datos || datos.length === 0) return [];
+
+    const excluidos: any[] = [];
+    const filtrados = datos.filter((item) => {
+      // ...existing code...
+      const especialidadValida =
+        especialidadesSeleccionadas.length === 0 ||
+        especialidadesSeleccionadas.some((esp) => esp.value === item.idespecialidad?.toString());
+      const profesionalValido =
+        profesionalesSeleccionados.length === 0 ||
+        profesionalesSeleccionados.some((prof) => prof.value === item.iddoctor?.toString());
+      const obraSocialValida =
+        obrasSocialesSeleccionadas.length === 0 ||
+        obrasSocialesSeleccionadas.some((os) => os.value === item.idosocial?.toString());
+
+      const pasa = especialidadValida && profesionalValido && obraSocialValida;
+      if (!pasa) excluidos.push(item);
+      return pasa;
+    });
+
+    // console.log("Registros excluidos:", excluidos);
+
+    return filtrados;
+  }
 
   return (
     <div className="border px-2 pt-2 pb-3 rounded bg-slate-100">
