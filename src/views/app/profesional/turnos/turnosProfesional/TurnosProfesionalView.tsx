@@ -99,10 +99,11 @@ export default function TurnosProfesionalView() {
     datosParaTabla,
     objectColumns: columns,
     objectStyles: {
-      heightContainer: "350px",
+      heightContainer: "310px",
       withScrollbar: true,
       addHeaderColor: "#022539",
     },
+    selectFn: true,
   };
 
   useEffect(() => {
