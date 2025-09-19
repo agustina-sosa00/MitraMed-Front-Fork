@@ -23,10 +23,10 @@ export default {
         xxl: "1920px",
       },
       colors: {
-        green: "#518915",
+        primaryGreen: "#518915",
         greenHover: "#3B690B",
         greenFocus: "#66AB1D",
-        blue: "#022539",
+        primaryBlue: "#022539",
         blueHover: "#01324E",
         lightGray: "#f1f1f1",
       },

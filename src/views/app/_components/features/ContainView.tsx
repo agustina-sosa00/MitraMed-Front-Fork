@@ -27,7 +27,7 @@ export const ContainView: React.FC<IProp> = ({
       onClick={onClick}
     >
       <div
-        className={`lg:w-full flex flex-col items-center ${gapChildren ? gapChildren : "gap-5"}`}
+        className={`lg:w-full flex flex-col items-center ${gapChildren ? gapChildren : "gap-2"}`}
       >
         <h1
           className={` font-medium uppercase  text-green ${

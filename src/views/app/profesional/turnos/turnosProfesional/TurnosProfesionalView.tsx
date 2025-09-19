@@ -5,7 +5,18 @@ import { TablaDefault } from "../../../../../frontend-resourses/components";
 import { ContainView } from "../../../_components/features/ContainView";
 import { obtenerTurnosDiarios } from "./services/turnosProfesionalService";
 // import FiltrosTablaMisTurnos from "../turnosProfesionales/components/SearchCard";
-// import SearchCard from "../turnosProfesionales/components/SearchCard";
+import SearchCard from "../_components/SearchCard";
+import { generarFilasVacias } from "@/utils/tableUtils";
+
+interface TurnoTablaRow {
+  id: string;
+  hora_ini: string;
+  hora_fin: string;
+  estado: string;
+  paciente: string;
+  obs: string;
+  mit: string;
+}
 
 export default function TurnosProfesionalView() {
   const [daySchedule, _setDaySchedule] = useState(getToday);
@@ -70,37 +81,32 @@ export default function TurnosProfesionalView() {
     },
   ];
 
-  const sinDatos = [
-    {
-      id: "",
-      hora_ini: "",
-      hora_fin: "",
-      estado: "",
-      paciente: "No hay Datos en la Fecha Seleccionada",
-      obs: "",
-      mit: "",
-    },
-  ];
-
-  const datosParaTabla =
-    Array.isArray(turnosProfesional?.data) && turnosProfesional.data.length > 0
-      ? turnosProfesional.data.map((item, idx) => ({
-          id: idx + 1,
-          hora_ini: item.hora_ini,
-          hora_fin: item.hora_fin,
-          estado: item.nestado,
-          paciente: item.npaciente,
-          obs: item.obs || "",
-          mit: item.idusuario === null ? "Mit" : "Web",
-        }))
-      : sinDatos;
+  let datosParaTabla: TurnoTablaRow[] = [];
+  if (Array.isArray(turnosProfesional?.data) && turnosProfesional.data.length > 0) {
+    datosParaTabla = turnosProfesional.data.map((item, idx) => ({
+      id: (idx + 1).toString(),
+      hora_ini: item.hora_ini,
+      hora_fin: item.hora_fin,
+      estado: item.nestado,
+      paciente: item.npaciente,
+      obs: item.obs || "",
+      mit: item.idusuario === null ? "Mit" : "Web",
+    }));
+    if (datosParaTabla.length < 12) {
+      datosParaTabla = [
+        ...datosParaTabla,
+        ...generarFilasVacias(12 - datosParaTabla.length, columns, datosParaTabla.length + 1),
+      ];
+    }
+  } else {
+    datosParaTabla = generarFilasVacias(12, columns);
+  }
 
   const propsTabla = {
     datosParaTabla,
     objectColumns: columns,
     objectStyles: {
-      widthContainer: "900px",
-      heightContainer: "440px",
+      heightContainer: "327px",
       withScrollbar: true,
       addHeaderColor: "#022539",
       viewport1440: {
@@ -116,6 +122,7 @@ export default function TurnosProfesionalView() {
         heightContainer1920px: "600px",
       },
     },
+    selectFn: true,
   };
 
   useEffect(() => {
@@ -150,20 +157,11 @@ export default function TurnosProfesionalView() {
     return `${year}-${month}-${day}`;
   }
 
-  // function changeDay(dias: number) {
-  //   const nuevaFecha = new Date(daySchedule);
-  //   nuevaFecha.setDate(nuevaFecha.getDate() + dias);
-  //   setDaySchedule(nuevaFecha.toISOString().split("T")[0]);
-  // }
-  //region return
   return (
-    <ContainView
-      title="mis turnos"
-      padding="py-3 2xl:py-20 px-10"
-      gapChildren="gap-1"
-      sizeTitle="text-3xl 2xl:text-4xl"
-    >
-      {/* <FiltrosTablaMisTurnos handle={changeDay} state={daySchedule} setState={setDaySchedule} /> */}
+    <ContainView title="mis turnos" padding="py-5 px-10">
+      <div className="flex w-full ">
+        <SearchCard diaSeleccionado={daySchedule} setDiaSeleccionado={_setDaySchedule} />
+      </div>
 
       <div className="flex justify-center w-full px-5 overflow-y-auto lg:overflow-visible ">
         <TablaDefault props={propsTabla} />

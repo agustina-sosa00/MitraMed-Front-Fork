@@ -37,9 +37,7 @@ export default function PortalView({ setLoader }: IProp) {
 
   const handleCloseDrawer = () => {
     setIsOpenDrawer(false);
-    setTimeout(() => {
-      setCurrentRol(undefined);
-    }, 500);
+    setCurrentRol(undefined);
   };
   useEffect(() => {
     const accessToken = Cookies.get("accessToken");

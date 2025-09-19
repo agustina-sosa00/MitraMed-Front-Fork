@@ -21,6 +21,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 import FormNuevoRegistroHc from "./_components/FormNuevoRegistroHc";
+import { generarFilasVacias } from "@/utils/tableUtils";
 
 type HcRow = {
   id: string | number;
@@ -127,39 +128,56 @@ export default function HistorialClinicoView() {
     },
   });
 
-  const rows: HcRow[] = (dataMedicalHistory?.data?.hc || []).map((r: ApiHcRow) => ({
-    id: r.idhistoria ?? `${r.fecha}-${r.ndoctor}`,
-    ...r,
-  }));
+  const columnasTabla = [
+    {
+      key: "id",
+      label: "ID",
+      minWidth: "37",
+      maxWidth: "37",
+      renderCell: (item) => item.id,
+    },
+    {
+      key: "fecha",
+      label: "Fecha",
+      minWidth: "90",
+      maxWidth: "120",
+      renderCell: (item) => {
+        const raw = item.fecha;
+        const fecha = raw.split("-").reverse().join("/");
+        return fecha;
+      },
+    },
+    {
+      key: "detalle",
+      label: "Motivo de Consulta",
+      minWidth: "260",
+      maxWidth: "320",
+    },
+    {
+      key: "ndoctor",
+      label: "Profesional",
+      minWidth: "190",
+      maxWidth: "320",
+    },
+  ];
+
+  const dataHistoria = Array.isArray(dataMedicalHistory?.data?.hc)
+    ? dataMedicalHistory.data.hc.map((r: ApiHcRow, idx) => ({
+        id: (idx + 1).toString(),
+        ...r,
+      }))
+    : [];
+
+  const datosTabla = [
+    ...dataHistoria,
+    ...generarFilasVacias(13 - dataHistoria.length, columnasTabla, dataHistoria.length + 1),
+  ];
 
   const propsTabla = {
-    datosParaTabla: rows,
-    objectColumns: [
-      {
-        key: "fecha",
-        label: "Fecha",
-        minWidth: "90",
-        maxWidth: "130",
-        renderCell: (item) => {
-          const raw = item.fecha;
-          const fecha = raw.split("-").reverse().join("/");
-          return fecha;
-        },
-      },
-      {
-        key: "detalle",
-        label: "Motivo de Consulta",
-        minWidth: "260",
-        maxWidth: "420",
-      },
-      {
-        key: "ndoctor",
-        label: "Profesional",
-        minWidth: "190",
-        maxWidth: "350",
-      },
-    ],
+    datosParaTabla: datosTabla,
+    objectColumns: columnasTabla,
     objectStyles: {
+      heightContainer: "353px",
       addHeaderColor: "#022539",
       withScrollbar: true,
       withBorder: true,
@@ -178,8 +196,7 @@ export default function HistorialClinicoView() {
         heightContainer1920px: "500px",
       },
     },
-
-    selectFn: true,
+    selectFn: hasConfirmed,
     objectSelection: { setSeleccionado: setHcSelected },
   };
 

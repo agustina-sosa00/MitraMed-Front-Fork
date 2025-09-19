@@ -55,25 +55,11 @@ export default function TableCard() {
       withScrollbar: true,
       withBorder: true,
     },
-    selectFn: consulta, // Solo selección en modo consulta
+    selectFn: consulta,
     selectFirst: true,
     estaProcesado: true,
     objectSelection: { setSeleccionado: handleSeleccionado },
     disableRowSelect: edicion || alta,
-    // filtro: consulta, // Solo filtro en modo consulta
-    // filtroKeys: consulta ? [filtroTipo] : [],
-    // filtroValue: consulta ? filtroValue : "",
-    // callbackFilter: (filas) => {
-    //   if (consulta) {
-    //     // Solo procesar filtros en modo consulta
-    //     const prev = filasFiltradas;
-    //     const sameLength = prev.length === filas.length;
-    //     const sameIds = sameLength && prev.every((row, idx) => row.id === filas[idx]?.id);
-    //     if (!sameLength || !sameIds) {
-    //       setFilasFiltradas(filas);
-    //     }
-    //   }
-    // },
   };
 
   function handleSeleccionado(usuario) {

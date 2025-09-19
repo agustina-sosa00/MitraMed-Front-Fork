@@ -9,5 +9,6 @@ export function calculadorDeEdad({ age }) {
     years--;
   }
 
-  return years;
+  if (isNaN(years)) return "";
+  return years.toString();
 }

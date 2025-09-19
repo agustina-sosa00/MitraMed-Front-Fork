@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { generarFilasVacias } from "@/utils/tableUtils";
 import { useQuery } from "@tanstack/react-query";
 import { obtenerDoctores, obtenerTurnosDiarios } from "../service/turnosGeneralesService";
 import { TablaDefault } from "@/frontend-resourses/components";
@@ -56,31 +57,6 @@ export default function TablasCard() {
     enabled: Boolean(doctorSeleccionado?.iddoctor && diaSeleccionado),
   });
 
-  const printLabel = (label: string) => [
-    {
-      id: 0,
-      horaini: "-",
-      horafin: "-",
-      nestado: "-",
-      paciente: label,
-      obs: "-",
-    },
-  ];
-
-  // Asegurarse de que cada turno tenga un id único para la tabla
-  const turnosDataTabla = Array.isArray(turnosData)
-    ? turnosData.map((item, idx) => ({ id: idx + 1, ...item }))
-    : [];
-
-  let datosParaTabla2;
-  if (!doctorSeleccionado) {
-    datosParaTabla2 = printLabel("Debe seleccionar un doctor");
-  } else if (turnosDataTabla.length === 0) {
-    datosParaTabla2 = printLabel("Sin turnos");
-  } else {
-    datosParaTabla2 = turnosDataTabla;
-  }
-
   const columnasTabla1 = [
     {
       key: "id",
@@ -136,6 +112,17 @@ export default function TablasCard() {
     },
   ];
 
+  // Asegurarse de que cada turno tenga un id único para la tabla y siempre mostrar 12 filas
+  const turnosDataTabla = Array.isArray(turnosData)
+    ? turnosData.map((item, idx) => ({ id: idx + 1, ...item }))
+    : [];
+
+  // Siempre mostrar filas de turnos y completar hasta 12 con filas vacías
+  const datosParaTabla2 = [
+    ...turnosDataTabla,
+    ...generarFilasVacias(12 - turnosDataTabla.length, columnasTabla2, turnosDataTabla.length + 1),
+  ];
+
   const propsTabla1 = {
     datosParaTabla: doctoresDataTabla || [],
     selectFn: true,
@@ -150,6 +137,8 @@ export default function TablasCard() {
       columnasNumber: [1],
       cursorPointer: true,
     },
+    selectFirst: true,
+    estaProcesado: true,
   };
 
   const propsTabla2 = {
