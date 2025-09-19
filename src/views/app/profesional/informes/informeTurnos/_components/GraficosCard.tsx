@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import DonutChart from "@/views/app/_components/ui/donut/DonutChart";
 
 export default function GraficosCard() {
-  const { informeTurnosData, hasSearched } = useInformeTurnosStore();
+  const { hasSearched, filteredRows } = useInformeTurnosStore();
 
   const colorPalette = [
     "#D50032",
@@ -19,7 +19,7 @@ export default function GraficosCard() {
   ];
 
   const obrasSociales = useMemo(() => {
-    const data = Array.isArray(informeTurnosData?.data) ? informeTurnosData.data : [];
+    const data = Array.isArray(filteredRows) ? filteredRows : [];
     const counts: Record<string, number> = {};
     data.forEach((item) => {
       const name =
@@ -34,10 +34,10 @@ export default function GraficosCard() {
       value,
       colors: colorPalette[idx % colorPalette.length],
     }));
-  }, [informeTurnosData]);
+  }, [filteredRows]);
 
   const especialidades = useMemo(() => {
-    const data = Array.isArray(informeTurnosData?.data) ? informeTurnosData.data : [];
+    const data = Array.isArray(filteredRows) ? filteredRows : [];
     const counts: Record<string, number> = {};
     data.forEach((item) => {
       const name =
@@ -53,7 +53,7 @@ export default function GraficosCard() {
       value,
       colors: colorPalette[idx % colorPalette.length],
     }));
-  }, [informeTurnosData]);
+  }, [filteredRows]);
 
   const cardsConfig = [
     {
