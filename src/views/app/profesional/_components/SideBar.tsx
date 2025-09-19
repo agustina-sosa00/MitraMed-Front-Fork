@@ -5,6 +5,7 @@ import { useState } from "react";
 import Cookies from "js-cookie";
 import { useOdontogramContext } from "../../../../context/OdontogramContext";
 import { useMedicalHistoryContext } from "../../../../context/MedicalHistoryContext";
+import { useInformeTurnosStore } from "../informes/informeTurnos/store/informeTurnosStore";
 
 interface ISubItem {
   key: string;
@@ -48,6 +49,7 @@ export default function SideBar({ logo, buttons, isDisabled = false }: IProp) {
     setDniInput,
   } = useOdontogramContext();
   const { setDniHistory, setDniInput: setDniHistoryInput } = useMedicalHistoryContext();
+  const { clearInformeTurnosData } = useInformeTurnosStore();
   const raw = Cookies.get("dataProfessional");
   const dataUser: DataProfessional | null = raw ? JSON.parse(raw) : null;
   const tusuario = localStorage.getItem("mtm-tusuario");
@@ -73,6 +75,7 @@ export default function SideBar({ logo, buttons, isDisabled = false }: IProp) {
     setDniInput("");
     setDniHistory("");
     setDniHistoryInput("");
+    clearInformeTurnosData(); // Limpiar store de informeTurnos
     Cookies.remove("accessProfessional");
     Cookies.remove("accessTokenDropbox");
     Cookies.remove("app_id_dropbox");
