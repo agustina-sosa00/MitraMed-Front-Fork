@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { TablaDefault } from "@/frontend-resourses/components";
-import { Modal } from "@/views/auth/components/ui/Modal";
-import { ContainView } from "@/views/app/components/features/ContainView";
+import { Modal } from "@/views/auth/_components/ui/Modal";
+import { ContainView } from "@/views/app/_components/features/ContainView";
 import { Document, Page, pdfjs } from "react-pdf";
 import { FiDownload } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
@@ -13,14 +13,14 @@ import obtenerPacienteHc, {
   getIdOpera,
   downloadFileDropbox,
 } from "@/views/app/profesional/hc/service/HistorialClinicoService";
-import SearchPatient from "@/views/app/components/features/BuscadorDePacientes";
+import SearchPatient from "@/views/app/_components/features/BuscadorDePacientes";
 import workerSrc from "pdfjs-dist/build/pdf.worker?url";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
 pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
-import FormNuevoRegistroHc from "./components/FormNuevoRegistroHc";
+import FormNuevoRegistroHc from "./_components/FormNuevoRegistroHc";
 
 type HcRow = {
   id: string | number;
@@ -274,7 +274,7 @@ export default function HistorialClinicoView() {
 
   return (
     <ContainView
-      title="HC"
+      title="Historia Clínica"
       padding="py-1 2xl:py-20  px-10"
       gapChildren="gap-1"
       sizeTitle="text-3xl 2xl:text-4xl"

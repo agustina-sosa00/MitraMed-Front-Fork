@@ -1,7 +1,7 @@
 // PreviewModal.tsx
 import { useState } from "react";
-import { Modal } from "@/views/auth/components/ui/Modal";
-import { Button } from "@/views/components/Button";
+import { Modal } from "@/views/auth/_components/ui/Modal";
+import { Button } from "@/views/_components/Button";
 import { IoMdClose, IoMdArrowRoundBack } from "react-icons/io";
 import { Document, Page, pdfjs } from "react-pdf";
 import workerSrc from "pdfjs-dist/build/pdf.worker?url";

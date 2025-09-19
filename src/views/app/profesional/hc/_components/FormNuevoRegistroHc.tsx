@@ -7,10 +7,10 @@ import {
   grabarPacienteDocum,
   uploadFileDropbox,
 } from "@/views/app/profesional/hc/service/HistorialClinicoService";
-import { Button } from "@/views/components/Button";
+import { Button } from "@/views/_components/Button";
 import { useMedicalHistoryContext } from "../../../../../context/MedicalHistoryContext";
-import InputProfesionales from "@/views/app/components/features/InputProfesionales";
-import SelectorDeArchivos from "@/views/app/components/features/SelectorDeArchivos";
+import InputProfesionales from "@/views/app/_components/features/InputProfesionales";
+import SelectorDeArchivos from "@/views/app/_components/features/SelectorDeArchivos";
 import { renombrarArchivo } from "../utils/renombrarArchivo";
 import { getTodayDate } from "@/views/auth/utils/authUtils";
 
