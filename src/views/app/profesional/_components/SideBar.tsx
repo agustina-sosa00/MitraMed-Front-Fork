@@ -94,7 +94,7 @@ export default function SideBar({ logo, buttons, isDisabled = false }: IProp) {
 
         {/* Divider */}
         <div className="flex justify-center w-full">
-          <div className="w-[80%] bg-blue h-[1px]" />
+          <div className="w-[80%] bg-primaryBlue h-[1px]" />
         </div>
 
         {/* Navegacion */}
@@ -116,8 +116,8 @@ export default function SideBar({ logo, buttons, isDisabled = false }: IProp) {
                     className={`group flex items-center justify-between w-[90%] text-start gap-1 pl-2 py-1 text-lg font-medium rounded ${
                       item.disabled
                         ? "text-gray-400 cursor-not-allowed"
-                        : "hover:bg-greenHover hover:text-white text-blue cursor-pointer transition-all duration-300"
-                    } ${hasActiveSubItem ? "bg-green text-white" : ""}`}
+                        : "hover:bg-greenHover hover:text-white text-primaryBlue cursor-pointer transition-all duration-300"
+                    } ${hasActiveSubItem ? "bg-primaryGreen text-white" : ""}`}
                   >
                     <div className="flex items-center gap-1">
                       <item.icon />
@@ -134,7 +134,7 @@ export default function SideBar({ logo, buttons, isDisabled = false }: IProp) {
 
                   {/* Subitems */}
                   {isOpen && (
-                    <div className="ml-4 mt-1">
+                    <div className="mt-1 ml-4">
                       {item.subItems.map((subItem) => {
                         const isActiveSubItem = location.pathname === subItem.link;
                         return (
@@ -144,8 +144,8 @@ export default function SideBar({ logo, buttons, isDisabled = false }: IProp) {
                               className={`flex items-center w-[85%] text-start gap-1 pl-4 py-1 text-base font-medium rounded ${
                                 subItem.disabled
                                   ? "text-gray-400 cursor-not-allowed"
-                                  : "hover:bg-greenHover hover:text-white text-blue cursor-pointer transition-all duration-300"
-                              } ${isActiveSubItem ? "bg-green text-white" : ""}`}
+                                  : "hover:bg-greenHover hover:text-white text-primaryBlue cursor-pointer transition-all duration-300"
+                              } ${isActiveSubItem ? "bg-primaryGreen text-white" : ""}`}
                             >
                               • {subItem.name}
                             </button>
@@ -166,8 +166,8 @@ export default function SideBar({ logo, buttons, isDisabled = false }: IProp) {
                     className={`flex items-center w-[90%] text-start gap-1 pl-2 py-1  text-lg font-medium  rounded ${
                       item.disabled
                         ? "text-gray-400 cursor-not-allowed"
-                        : "hover:bg-greenHover hover:text-white text-blue cursor-pointer transition-all duration-300"
-                    } ${isActive ? "bg-green text-white" : ""} `}
+                        : "hover:bg-greenHover hover:text-white text-primaryBlue cursor-pointer transition-all duration-300"
+                    } ${isActive ? "bg-primaryGreen text-white" : ""} `}
                   >
                     <item.icon />
                     {item.name}
@@ -190,8 +190,8 @@ export default function SideBar({ logo, buttons, isDisabled = false }: IProp) {
                     className={`flex items-center text-start gap-2 pl-2 py-1 w-[90%] text-lg font-medium rounded transition-all duration-300 ${
                       item.disabled
                         ? "text-gray-400 cursor-not-allowed"
-                        : "text-blue hover:bg-greenHover hover:text-white cursor-pointer"
-                    } ${isActive ? "bg-green text-white" : ""}`}
+                        : "text-primaryBlue hover:bg-greenHover hover:text-white cursor-pointer"
+                    } ${isActive ? "bg-primaryGreen text-white" : ""}`}
                     disabled={item.disabled}
                   >
                     <item.icon className="w-5 h-5" />
@@ -205,12 +205,12 @@ export default function SideBar({ logo, buttons, isDisabled = false }: IProp) {
 
         {/* Divider */}
         <div className="flex justify-center w-full">
-          <div className="w-[80%] bg-blue h-[1px]" />
+          <div className="w-[80%] bg-primaryBlue h-[1px]" />
         </div>
 
         {/* Log Out */}
         <div className="flex flex-col items-center w-full gap-3 py-5 h-[20%]">
-          <div className="flex items-center justify-start gap-2 text-blue">
+          <div className="flex items-center justify-start gap-2 text-primaryBlue">
             <FaUserCircle className="text-xl xl:text-3xl" />
             {tusuario === "2" ? (
               <p> {dataUser?.nombre}</p>
@@ -236,7 +236,9 @@ export default function SideBar({ logo, buttons, isDisabled = false }: IProp) {
             <span
               onClick={isDisabled ? undefined : handleLogout}
               className={`font-bold transition-all duration-300 ${
-                isDisabled ? "text-gray-400 cursor-not-allowed" : "cursor-pointer hover:text-green"
+                isDisabled
+                  ? "text-gray-400 cursor-not-allowed"
+                  : "cursor-pointer hover:text-primaryGreen"
               }`}
             >
               Cerrar Sesión

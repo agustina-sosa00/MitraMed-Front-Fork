@@ -30,7 +30,7 @@ export const ContainView: React.FC<IProp> = ({
         className={`lg:w-full flex flex-col items-center ${gapChildren ? gapChildren : "gap-2"}`}
       >
         <h1
-          className={` font-medium uppercase  text-green ${
+          className={` font-medium uppercase  text-primaryGreen ${
             sizeTitle ? sizeTitle : "text-2xl lg:text-4xl"
           } `}
         >

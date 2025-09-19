@@ -48,7 +48,7 @@ export default function ConfiguracionView() {
             </label>
             <label
               className={`flex items-center gap-2 cursor-pointer ${
-                isProd ? "text-green-700" : "text-blue"
+                isProd ? "text-green-700" : "text-primaryBlue"
               }`}
             >
               <input
@@ -90,7 +90,7 @@ export default function ConfiguracionView() {
                 className="w-5 h-5 accent-green-600"
               />
               <span
-                className={`text-base px-2 py-1 rounded ${isProdMode ? "bg-blue text-white" : ""}`}
+                className={`text-base px-2 py-1 rounded ${isProdMode ? "bg-primaryBlue text-white" : ""}`}
               >
                 Producción
               </span>

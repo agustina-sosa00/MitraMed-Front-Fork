@@ -28,7 +28,7 @@ export default function InputProfesionales({
   return (
     <div className="flex w-full">
       <div className=" w-36">
-        <label htmlFor="" className="mr-2 text-sm font-medium text-blue">
+        <label htmlFor="" className="mr-2 text-sm font-medium text-primaryBlue">
           {labelInput}:
         </label>
       </div>
@@ -40,7 +40,7 @@ export default function InputProfesionales({
           value={valueInput}
           placeholder={placeholderInput}
           onChange={handleInput}
-          className="flex-[1] h-8 px-2 py-1 font-bold border border-gray-300 rounded bg-lightGray focus:outline-none text-blue"
+          className="flex-[1] h-8 px-2 py-1 font-bold border border-gray-300 rounded bg-lightGray focus:outline-none text-primaryBlue"
           readOnly={focusState}
         />
       ) : (
@@ -49,7 +49,7 @@ export default function InputProfesionales({
           value={valueInput}
           placeholder={placeholderInput}
           onChange={handleTextarea}
-          className=" flex-[1] h-44 px-2 py-1 overflow-hidden font-bold border border-gray-300 rounded bg-lightGray focus:outline-none text-blue"
+          className=" flex-[1] h-44 px-2 py-1 overflow-hidden font-bold border border-gray-300 rounded bg-lightGray focus:outline-none text-primaryBlue"
           readOnly={focusState}
         ></textarea>
       )}

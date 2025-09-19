@@ -17,7 +17,7 @@ import dayjs, { Dayjs } from "dayjs";
 import "dayjs/locale/es";
 import esES from "antd/locale/es_ES";
 import Swal from "sweetalert2";
-import ModalFiltro from "@/frontend-resourses/components/Modales/ModalFiltro";
+import ModalFiltro1 from "@/frontend-resourses/components/Modales/ModalFiltro1";
 
 type DateRangePickerProps = {
   loader: boolean;
@@ -547,10 +547,10 @@ export default function HeaderCard({ loader, setLoader }: DateRangePickerProps) 
               presets={rangePresets}
               onChange={onRangeChange}
               placeholder={["Desde", "Hasta"]}
-              className={`h-7 border-2 rounded border-gray-300 hover:border-greenFocus text-blue placeholder:text-blue
-                [&.ant-picker-focused]:!border-green
+              className={`h-7 border-2 rounded border-gray-300 hover:border-greenFocus text-primaryBlue placeholder:text-primaryBlue
+                [&.ant-picker-focused]:!border-primaryGreen
                 [&.ant-picker-focused]:!shadow-[0_0_0_2px_rgba(22,163,74,0.25)]
-                [&_.ant-picker-input>input]:text-blue
+                [&_.ant-picker-input>input]:text-primaryBlue
                 [&_.ant-picker-input>input::placeholder]:text-gray-600
                 ${hasSearched ? "bg-[#f5f6fa] !text-gray-700 !font-bold [&_.ant-picker-input>input]:!text-emerald-500" : ""}
               `}
@@ -680,7 +680,7 @@ export default function HeaderCard({ loader, setLoader }: DateRangePickerProps) 
       </div>
 
       {/* Modal de Filtro */}
-      <ModalFiltro
+      <ModalFiltro1
         datos={dataModal}
         showModal={showModalFiltro}
         setShowModal={setShowModalFiltro}

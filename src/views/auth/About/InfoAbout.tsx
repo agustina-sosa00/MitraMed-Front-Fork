@@ -12,17 +12,17 @@ export const InfoAbout = ({ handleOpenDrawer }: IProp) => {
 
   return (
     <div className="flex flex-col items-center justify-center w-full h-full gap-3 py-5 lg:py-0 lg:items-start lg:w-1/2">
-      <h1 className="font-serif text-2xl text-green md:text-4xl">
+      <h1 className="font-serif text-2xl text-primaryGreen md:text-4xl">
         MitraMed - Centro Médico
       </h1>
 
       <div className="w-[80%] gap-2 flex flex-col">
-        <p className="leading-relaxed text-center lg:text-start text-blue xl:text-lg">
-          Bienvenido al portal de reserva de turnos para nuestro Centro Médico,
-          donde podrás agendar tus consultas de forma rápida y sencilla.
+        <p className="leading-relaxed text-center lg:text-start text-primaryBlue xl:text-lg">
+          Bienvenido al portal de reserva de turnos para nuestro Centro Médico, donde podrás agendar
+          tus consultas de forma rápida y sencilla.
         </p>
 
-        <p className="leading-relaxed text-center lg:text-start text-blue xl:text-lg">
+        <p className="leading-relaxed text-center lg:text-start text-primaryBlue xl:text-lg">
           Para disfrutar de todas las funciones,{" "}
           <button
             onClick={() => handleOpenDrawer("paciente")}
@@ -40,12 +40,12 @@ export const InfoAbout = ({ handleOpenDrawer }: IProp) => {
           para comenzar a usar nuestras herramientas.
         </p>
 
-        <p className="leading-relaxed text-center lg:text-start text-blue xl:text-lg">
-          Disfruta de un servicio personalizado que te permitirá organizar las
-          consultas según tus necesidades y las de tu familia.
+        <p className="leading-relaxed text-center lg:text-start text-primaryBlue xl:text-lg">
+          Disfruta de un servicio personalizado que te permitirá organizar las consultas según tus
+          necesidades y las de tu familia.
         </p>
         <div className="w-[95%] ">
-          <p className="mt-5 text-xl italic font-semibold tracking-wide text-center lg:text-start text-blue lg:text-2xl xl:text-3xl">
+          <p className="mt-5 text-xl italic font-semibold tracking-wide text-center lg:text-start text-primaryBlue lg:text-2xl xl:text-3xl">
             ¡Gracias por elegirnos!
           </p>
         </div>

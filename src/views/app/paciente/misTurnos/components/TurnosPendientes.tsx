@@ -68,7 +68,7 @@ export default function TurnosPendientes({ turnosPendientes }: TurnosPendientesP
   };
 
   if (!turnosPendientes || turnosPendientes.length === 0) {
-    return <div className="text-center text-blue">No hay turnos pendientes</div>;
+    return <div className="text-center text-primaryBlue">No hay turnos pendientes</div>;
   }
 
   return (
@@ -88,7 +88,7 @@ export default function TurnosPendientes({ turnosPendientes }: TurnosPendientesP
           />
           {/* <div
             key={turno.idturno}
-            className="flex flex-col items-center justify-between w-full p-4 mb-2 bg-white border border-gray-300 rounded-lg shadow-md sm:flex-row text-blue "
+            className="flex flex-col items-center justify-between w-full p-4 mb-2 bg-white border border-gray-300 rounded-lg shadow-md sm:flex-row text-primaryBlue "
           >
             <div className="text-left">
               <p className="text-sm">
@@ -135,7 +135,7 @@ export default function TurnosPendientes({ turnosPendientes }: TurnosPendientesP
               <div className="flex justify-around mt-6">
                 <button
                   onClick={handleConfirm}
-                  className="px-4 py-2 text-white transition duration-200 rounded-lg bg-green hover:bg-green-600"
+                  className="px-4 py-2 text-white transition duration-200 rounded-lg bg-primaryGreen hover:bg-green-600"
                   disabled={loadingAnula} // Deshabilitar el botón mientras se está cargando
                 >
                   Confirmar

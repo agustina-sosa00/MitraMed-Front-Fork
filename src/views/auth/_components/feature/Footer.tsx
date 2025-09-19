@@ -15,7 +15,7 @@ export default function Footer() {
       },
       (err) => {
         console.error("Error al copiar el correo: ", err);
-      }
+      },
     );
   };
   return (
@@ -24,20 +24,16 @@ export default function Footer() {
         <div className="flex flex-col items-start w-full gap-5 md:gap-0 md:flex-row justify-evenly">
           {/* Slogan */}
           <div className="flex flex-col items-start justify-center ">
-            <h2 className="text-3xl font-semibold text-green">MitraMed</h2>
+            <h2 className="text-3xl font-semibold text-primaryGreen">MitraMed</h2>
             <p className="text-lg text-gray-300 ">Sabemos como cuidarte.</p>
           </div>
 
           {/* Contact */}
           <div className="flex flex-col items-start justify-center gap-2 ">
-            <h3 className="text-lg font-semibold text-green">Contacto</h3>
+            <h3 className="text-lg font-semibold text-primaryGreen">Contacto</h3>
             <div className="flex items-center gap-1 text-base text-gray-300 hover:text-greenFocus">
               <FaWhatsapp className="" />
-              <a
-                href="https://wa.me/5493516330700"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a href="https://wa.me/5493516330700" target="_blank" rel="noopener noreferrer">
                 +549351633-0700
               </a>
             </div>
@@ -50,17 +46,13 @@ export default function Footer() {
             </div>
             <div className="flex items-center gap-1 text-base text-gray-300 hover:text-greenFocus">
               <FaEnvelope className="" />
-              <button onClick={handleCopyEmail}>
-                mitramed.docta@gmail.com
-              </button>
+              <button onClick={handleCopyEmail}>mitramed.docta@gmail.com</button>
             </div>
           </div>
 
           {/* Derechos Reservados */}
           <div className="flex flex-col items-start justify-center gap-2 ">
-            <h3 className="text-lg font-semibold text-green ">
-              Información legal
-            </h3>
+            <h3 className="text-lg font-semibold text-primaryGreen ">Información legal</h3>
             <div className="flex flex-col items-start gap-1 text-gray-300 hover:text-greenFocus">
               <Link
                 to="/privacy-policy"
@@ -86,7 +78,7 @@ export default function Footer() {
             <Link
               to="https://www.novagestion.com.ar/"
               target="_blank"
-              className="transition cursor-pointer text-greenFocus hover:text-green"
+              className="transition cursor-pointer text-greenFocus hover:text-primaryGreen"
             >
               Nova Software
             </Link>

@@ -26,7 +26,7 @@ export default function ModalSeleccionDeCara({
               setFace(item);
               onClose();
             }}
-            className="px-3 py-2 text-sm text-white capitalize transition-all duration-300 rounded bg-green hover:bg-greenHover"
+            className="px-3 py-2 text-sm text-white capitalize transition-all duration-300 rounded bg-primaryGreen hover:bg-greenHover"
           >
             {item}
           </button>

@@ -263,7 +263,7 @@ export default function SignInForm({ rol, handle }: IProp) {
           className={`w-full p-2 mt-4 text-base font-semibold uppercase transition-all rounded-lg shadow-md xl:p-3 xl:text-lg  ${
             !validateCaptcha
               ? "bg-gray-200 text-gray-400 cursor-text"
-              : "bg-green hover:bg-greenHover text-white cursor-pointer"
+              : "bg-primaryGreen  hover:bg-greenHover text-white cursor-pointer"
           }`}
         />
       </form>
@@ -296,21 +296,21 @@ export default function SignInForm({ rol, handle }: IProp) {
             <p>
               No tienes cuenta?{" "}
               <button
-                className="font-medium hover:underline text-green"
+                className="font-medium hover:underline text-primaryGreen"
                 onClick={() => navigate(location.pathname + "?createAccount=true")}
               >
                 Regístrate aquí
               </button>
             </p>
             <button
-              className="font-medium hover:underline text-green"
+              className="font-medium hover:underline text-primaryGreen"
               onClick={() => navigate(location.pathname + "?forgotPassword=true")}
             >
               Olvidé mi contraseña
             </button>
 
             <button
-              className="font-medium hover:underline text-green"
+              className="font-medium hover:underline text-primaryGreen"
               onClick={() => navigate(location.pathname + "?newTokenConfirm=true")}
             >
               Reenviar correo de confirmación

@@ -141,7 +141,9 @@ export default function FormTurno({ register, setValue, getValues, reset, watch 
     <>
       <div className="flex flex-col items-start justify-center gap-3 px-2 mt-5 lg:items-center sm:w-2/3 ">
         <div className="relative flex items-center justify-between w-full gap-2 lg:w-auto ">
-          <label className="font-semibold text-right sm:text-lg text-blue">Especialidad:</label>
+          <label className="font-semibold text-right sm:text-lg text-primaryBlue">
+            Especialidad:
+          </label>
 
           <Select
             {...register("idEspecialidad")}
@@ -166,7 +168,9 @@ export default function FormTurno({ register, setValue, getValues, reset, watch 
 
         <div className="flex items-center justify-between   gap-2 sm:w-[420px] relative">
           {" "}
-          <label className="font-semibold text-right sm:text-lg text-blue">Profesional:</label>
+          <label className="font-semibold text-right sm:text-lg text-primaryBlue">
+            Profesional:
+          </label>
           <Select
             {...register("idDoctor")}
             options={doctorOptions}
@@ -198,7 +202,9 @@ export default function FormTurno({ register, setValue, getValues, reset, watch 
 
         <div className="flex items-center justify-between   gap-2 sm:w-[420px] relative">
           {" "}
-          <label className="px-2 font-semibold text-right sm:text-lg text-blue">Fecha:</label>
+          <label className="px-2 font-semibold text-right sm:text-lg text-primaryBlue">
+            Fecha:
+          </label>
           <DatePicker
             selected={fecha ? new Date(fecha + "T00:00:00") : null} // Convierte a Date si es una cadena válida
             onChange={handleFecha} // Cambia la fecha
@@ -250,7 +256,7 @@ export default function FormTurno({ register, setValue, getValues, reset, watch 
                         turno.habilitado === 0 ? "cursor-pointer" : "cursor-not-allowed"
                       } ${
                         turnoSeleccionado === index + 1 && turno.habilitado === 0
-                          ? "bg-green/90 text-white "
+                          ? "bg-primaryGreen/90 text-white "
                           : "bg-gradient-to-r from-gray-100 via-gray-200 to-gray-300"
                       }`}
                       onClick={() => {
@@ -273,7 +279,7 @@ export default function FormTurno({ register, setValue, getValues, reset, watch 
                               Disponible
                             </span>
                           ) : (
-                            <span className="text-xs font-medium text-green sm:text-base">
+                            <span className="text-xs font-medium text-primaryGreen sm:text-base">
                               Disponible
                             </span>
                           )
@@ -291,7 +297,7 @@ export default function FormTurno({ register, setValue, getValues, reset, watch 
                       {/* Contenedor para el hover */}
                       <div
                         className={`absolute inset-0 bg-transparent ${
-                          turno.habilitado === 0 ? " hover:bg-green hover:bg-opacity-20" : ""
+                          turno.habilitado === 0 ? " hover:bg-primaryGreen hover:bg-opacity-20" : ""
                         } transition duration-300 ease-in-out z-10`}
                       ></div>
                     </div>

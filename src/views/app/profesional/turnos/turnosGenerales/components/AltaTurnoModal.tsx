@@ -58,7 +58,7 @@ export default function AltaTurnoModal({ close, handleChange }: IProp) {
             {/* --------- */}
             {/* --------- */}
             {/* --------- */}
-            <label className="text-sm font-medium text-end min-w-16 text-blue" htmlFor="hc">
+            <label className="text-sm font-medium text-end min-w-16 text-primaryBlue" htmlFor="hc">
               HC{" "}
             </label>
             <input
@@ -68,7 +68,7 @@ export default function AltaTurnoModal({ close, handleChange }: IProp) {
               onChange={handleOnChange}
               id="hc"
               placeholder="0011"
-              className={`px-2 py-1 text-sm font-bold border w-full border-gray-300 rounded  bg-lightGray focus:outline-none focus:ring-1 focus:ring-green focus:border-green `}
+              className={`px-2 py-1 text-sm font-bold border w-full border-gray-300 rounded  bg-lightGray focus:outline-none focus:ring-1 focus:ring-primaryGreen focus:border-primaryGreen `}
             />
           </div>
           <button
@@ -94,7 +94,7 @@ export default function AltaTurnoModal({ close, handleChange }: IProp) {
               onChange={handleOnChange}
               id="name"
               placeholder="Agustina Sosa"
-              className={`px-2 py-1 text-sm font-bold border w-full border-gray-300 rounded  bg-lightGray focus:outline-none focus:ring-1 focus:ring-green focus:border-green `}
+              className={`px-2 py-1 text-sm font-bold border w-full border-gray-300 rounded  bg-lightGray focus:outline-none focus:ring-1 focus:ring-primaryGreen focus:border-primaryGreen `}
               readOnly
             />
           </div>
@@ -108,7 +108,7 @@ export default function AltaTurnoModal({ close, handleChange }: IProp) {
           {/* --------- */}
           {/* --------- */}
           {/* --------- */}
-          <label className="text-sm font-medium text-end min-w-16 text-blue" htmlFor="hc">
+          <label className="text-sm font-medium text-end min-w-16 text-primaryBlue" htmlFor="hc">
             Obs
           </label>
           <textarea
@@ -117,7 +117,7 @@ export default function AltaTurnoModal({ close, handleChange }: IProp) {
             onChange={handleOnChange}
             id="obs"
             placeholder="..."
-            className={`px-2 py-1 text-sm font-bold border w-full border-gray-300 rounded  bg-lightGray focus:outline-none focus:ring-1 focus:ring-green focus:border-green `}
+            className={`px-2 py-1 text-sm font-bold border w-full border-gray-300 rounded  bg-lightGray focus:outline-none focus:ring-1 focus:ring-primaryGreen focus:border-primaryGreen `}
           />
         </div>
         <div className="flex items-center w-full gap-1 ">
@@ -129,7 +129,7 @@ export default function AltaTurnoModal({ close, handleChange }: IProp) {
           {/* --------- */}
           {/* --------- */}
           {/* --------- */}
-          <label className="text-sm font-medium text-end min-w-16 text-blue" htmlFor="hc">
+          <label className="text-sm font-medium text-end min-w-16 text-primaryBlue" htmlFor="hc">
             Celular
           </label>
           <input
@@ -139,9 +139,9 @@ export default function AltaTurnoModal({ close, handleChange }: IProp) {
             onChange={handleOnChange}
             id="codarea"
             placeholder="11"
-            className={`px-2 py-1 text-sm font-bold border w-20 border-gray-300 rounded  bg-lightGray focus:outline-none focus:ring-1 focus:ring-green focus:border-green `}
+            className={`px-2 py-1 text-sm font-bold border w-20 border-gray-300 rounded  bg-lightGray focus:outline-none focus:ring-1 focus:ring-primaryGreen focus:border-primaryGreen `}
           />
-          <label className="text-sm font-medium text-blue" htmlFor="hc">
+          <label className="text-sm font-medium text-primaryBlue" htmlFor="hc">
             15
           </label>
           <input
@@ -151,7 +151,7 @@ export default function AltaTurnoModal({ close, handleChange }: IProp) {
             onChange={handleOnChange}
             id="tel"
             placeholder="22334455"
-            className={`px-2 py-1 text-sm font-bold border w-36 border-gray-300 rounded  bg-lightGray focus:outline-none focus:ring-1 focus:ring-green focus:border-green `}
+            className={`px-2 py-1 text-sm font-bold border w-36 border-gray-300 rounded  bg-lightGray focus:outline-none focus:ring-1 focus:ring-primaryGreen focus:border-primaryGreen `}
           />
         </div>
         <div className="flex justify-end w-full">
@@ -167,7 +167,7 @@ export default function AltaTurnoModal({ close, handleChange }: IProp) {
             }}
             classButton={(btn) =>
               btn === "guardar"
-                ? "px-4 py-2 bg-green text-white capitalize rounded hover:bg-greenHover transition-all duration-300"
+                ? "px-4 py-2 bg-primaryGreen text-white capitalize rounded hover:bg-greenHover transition-all duration-300"
                 : "px-4 py-2 bg-red-500 text-white capitalize rounded hover:bg-red-600 transition-all duration-300"
             }
             classContainer=" gap-2 flex "

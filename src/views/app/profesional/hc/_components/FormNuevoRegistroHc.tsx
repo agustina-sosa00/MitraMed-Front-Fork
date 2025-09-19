@@ -119,7 +119,9 @@ export default function FormNuevoRegistroHc({
   return (
     <div className="flex flex-col items-start justify-center w-[700px] gap-2 p-3 bg-white border border-gray-300 rounded">
       <div className="flex justify-center w-full">
-        <h1 className="text-xl font-bold text-center text-blue">Agregar Datos de la Consulta</h1>
+        <h1 className="text-xl font-bold text-center text-primaryBlue">
+          Agregar Datos de la Consulta
+        </h1>
       </div>
       <form
         className="flex flex-col w-full gap-2"
@@ -147,7 +149,7 @@ export default function FormNuevoRegistroHc({
         />
         <div className="flex w-full">
           <div className=" w-36">
-            <label htmlFor="" className="mr-2 text-sm font-medium text-blue">
+            <label htmlFor="" className="mr-2 text-sm font-medium text-primaryBlue">
               Subir Archivo:
             </label>
           </div>

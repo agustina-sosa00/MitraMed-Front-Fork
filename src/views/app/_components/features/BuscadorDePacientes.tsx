@@ -112,12 +112,12 @@ export default function BuscadorDePacientes({
             {state.length > 0 && (
               <div className={`flex  py-1 h-14 justify-between gap-1   w-2/3     items-center `}>
                 <div className="flex items-center justify-start gap-2">
-                  <label className="text-base font-bold text-green">Ingresar DNI:</label>
+                  <label className="text-base font-bold text-primaryGreen">Ingresar DNI:</label>
 
                   <div className="flex gap-1 w-36">
                     <div
                       className={` px-1 text-base flex items-center font-bold border  border-gray-300  rounded w-full bg-lightGray focus:outline-none  ${
-                        !hasConfirmed ? "bg-gray-200 text-gray-400 " : "text-blue"
+                        !hasConfirmed ? "bg-gray-200 text-gray-400 " : "text-primaryBlue"
                       }`}
                     >
                       {state}
@@ -144,7 +144,7 @@ export default function BuscadorDePacientes({
           <div className={`flex py-1 h-14 justify-start gap-1 w-2/3  items-center `}>
             <div className="flex items-end gap-1">
               {" "}
-              <label className="text-base font-bold text-green">Ingresar DNI:</label>
+              <label className="text-base font-bold text-primaryGreen">Ingresar DNI:</label>
               <div className="flex gap-1 w-36 ">
                 <input
                   ref={inputRef}
@@ -157,14 +157,14 @@ export default function BuscadorDePacientes({
                   readOnly={!isEditing}
                   disabled={!isEditing}
                   className={`h-8 px-2 py-1 w-full bg-gray-200 font-bold rounded 
-                focus:outline-none text-blue focus-within:border-green focus-within:ring-1 focus-within:ring-green
+                focus:outline-none text-primaryBlue focus-within:border-primaryGreen focus-within:ring-1 focus-within:ring-primaryGreen
                 ${errorState && "border-red-500"}`}
                   autoComplete="off"
                 />
                 <button
                   type="button"
                   onClick={handleSearchPatient}
-                  className="flex items-center justify-center w-8 h-8 px-2 py-1 transition-all duration-300 bg-gray-200 border border-gray-300 rounded text-greenHover hover:text-white hover:bg-greenHover hover:border-green "
+                  className="flex items-center justify-center w-8 h-8 px-2 py-1 transition-all duration-300 bg-gray-200 border border-gray-300 rounded text-greenHover hover:text-white hover:bg-greenHover hover:border-primaryGreen "
                 >
                   {loading ? (
                     <svg className="w-8 circle-loader animate-spin" viewBox="25 25 50 50">
@@ -190,27 +190,27 @@ export default function BuscadorDePacientes({
       {!hasConfirmed ? (
         <div className="w-full h-24 bg-gray-200 rounded"></div>
       ) : (
-        <div className="flex items-center justify-center w-full h-24 gap-1 bg-white border rounded border-green">
+        <div className="flex items-center justify-center w-full h-24 gap-1 bg-white border rounded border-primaryGreen">
           <div className="flex items-center justify-end h-full w-36">
             <FaUserCircle className="w-full h-16 text-greenHover" />
           </div>
           <div className="flex flex-col items-center justify-center w-full h-20 gap-1 ">
             <div className="flex justify-start w-full gap-2">
-              <h1 className="text-2xl font-semibold text-blue">
+              <h1 className="text-2xl font-semibold text-primaryBlue">
                 {data?.nombre} {data?.apellido}
               </h1>
             </div>
 
             <div className="flex justify-start w-full gap-10">
-              <div className="flex items-center justify-center text-blue">
+              <div className="flex items-center justify-center text-primaryBlue">
                 <p className="text-sm ">DNI: </p>
                 <p className="px-2 text-lg font-bold ">{data?.dni}</p>
               </div>
-              <div className="flex items-center justify-center text-blue">
+              <div className="flex items-center justify-center text-primaryBlue">
                 <p className="text-sm ">Edad: </p>
                 <p className="px-2 text-lg font-bold ">{data?.edad}</p>
               </div>
-              <div className="flex items-center justify-center text-blue">
+              <div className="flex items-center justify-center text-primaryBlue">
                 <p className="text-sm text-nowrap">Fecha de Nacimiento: </p>
                 <p className="w-full px-2 text-lg font-bold">
                   {data?.fnacim
@@ -222,7 +222,7 @@ export default function BuscadorDePacientes({
                     : ""}
                 </p>
               </div>
-              <div className="flex items-center justify-center text-blue">
+              <div className="flex items-center justify-center text-primaryBlue">
                 <p className="text-sm text-nowrap">Obra Social:</p>
                 <p className="w-full px-2 text-lg font-bold">
                   {data?.idosocial !== 0 && data?.nosocial}
@@ -257,7 +257,7 @@ export default function BuscadorDePacientes({
                   className={`flex items-center justify-center w-32 h-8 gap-1 px-2 py-1 text-white capitalize rounded  ${
                     isActive || !changes
                       ? "bg-gray-400 cursor-not-allowed"
-                      : "bg-green hover:bg-greenHover"
+                      : "bg-primaryGreen hover:bg-greenHover"
                   } `}
                 >
                   <RiSave3Line />
@@ -276,7 +276,9 @@ export default function BuscadorDePacientes({
                 disabled={!canEdit}
                 onClick={() => setEditOdontogram && setEditOdontogram(true)}
                 className={`h-8 px-2 py-1 flex items-center gap-1 justify-center text-white capitalize rounded w-32   ${
-                  !canEdit ? "bg-gray-400 cursor-not-allowed" : "bg-green hover:bg-greenHover"
+                  !canEdit
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-primaryGreen hover:bg-greenHover"
                 }`}
               >
                 <FaRegEdit /> editar

@@ -28,12 +28,12 @@ export default function PreviewModal({ open, onClose, blob, ext }: Props) {
           <Button
             icon={<IoMdClose />}
             handle={onClose}
-            classButton="text-xl text-blue rounded hover:bg-blue hover:text-white p-1"
+            classButton="text-xl text-primaryBlue rounded hover:bg-primaryBlue hover:text-white p-1"
           />
         </div>
 
         {!blob ? (
-          <div className="grid flex-1 place-items-center text-blue/60">
+          <div className="grid flex-1 place-items-center text-primaryBlue/60">
             No hay archivo para mostrar
           </div>
         ) : ext === "pdf" ? (
@@ -51,19 +51,23 @@ export default function PreviewModal({ open, onClose, blob, ext }: Props) {
                 disabled={page <= 1}
                 onClick={() => setPage((p) => p - 1)}
                 className={`px-2 py-1 border rounded ${
-                  page <= 1 ? "text-gray-400" : "hover:bg-blue text-blue hover:text-white"
+                  page <= 1
+                    ? "text-gray-400"
+                    : "hover:bg-primaryBlue text-primaryBlue hover:text-white"
                 }`}
               >
                 <IoMdArrowRoundBack className="text-xl" />
               </button>
-              <span className="text-blue">
+              <span className="text-primaryBlue">
                 Página {page} de {numPages}
               </span>
               <button
                 disabled={page >= numPages}
                 onClick={() => setPage((p) => p + 1)}
                 className={`px-2 py-1 border rounded ${
-                  page >= numPages ? "text-gray-400" : "hover:bg-blue text-blue hover:text-white"
+                  page >= numPages
+                    ? "text-gray-400"
+                    : "hover:bg-primaryBlue text-primaryBlue hover:text-white"
                 }`}
               >
                 <IoMdArrowRoundBack className="text-xl rotate-180" />

@@ -40,7 +40,7 @@ export default function ActionsButtonsCard({
           className={
             classButton
               ? classButton(item)
-              : "px-2 py-1 font-medium capitalize transition-all duration-300 border border-gray-300 rounded hover:bg-gray-300 bg-lightGray text-blue"
+              : "px-2 py-1 font-medium capitalize transition-all duration-300 border border-gray-300 rounded hover:bg-gray-300 bg-lightGray text-primaryBlue"
           }
         >
           {item}

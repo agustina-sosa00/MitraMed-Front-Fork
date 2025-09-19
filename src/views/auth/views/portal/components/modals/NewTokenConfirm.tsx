@@ -94,7 +94,7 @@ export default function NewTokenConfirm() {
                     Ingresa tu email de registro, donde se te reenviará el correo para confirmar tu
                     cuenta:
                   </p>
-                  <span className="my-2 text-sm italic font-thin text-green sm:text-xs">
+                  <span className="my-2 text-sm italic font-thin text-primaryGreen sm:text-xs">
                     * Recuerda que los links de confirmación expiran. Te recomendamos confirmar tu
                     cuenta lo antes posible
                   </span>
@@ -121,7 +121,7 @@ export default function NewTokenConfirm() {
                     <input
                       type="submit"
                       value="Enviar"
-                      className="w-full max-w-2xl p-2 my-3 text-base text-white uppercase transition-colors rounded shadow-lg cursor-pointer bg-green hover:bg-blue-700"
+                      className="w-full max-w-2xl p-2 my-3 text-base text-white uppercase transition-colors rounded shadow-lg cursor-pointer bg-primaryGreen hover:bg-blue-700"
                     />
                   </form>
                 </DialogPanel>
