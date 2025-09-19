@@ -3,11 +3,11 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 
-import { ContainView } from "@/views/app/components/features/ContainView";
+import { ContainView } from "@/views/app/_components/features/ContainView";
 
 import { ContextType } from "@/views/app/profesional/types/index";
 import { useOdontogramContext } from "../../../../context/OdontogramContext";
-import SearchPatient from "@/views/app/components/features/BuscadorDePacientes";
+import SearchPatient from "@/views/app/_components/features/BuscadorDePacientes";
 import { useOutletContext } from "react-router-dom";
 import Diente from "./components/Diente";
 import ModalSeleccionDeCara from "./components/ModalSeleccionDeCara";

@@ -1,4 +1,4 @@
-import { ContainView } from "../../components/features/ContainView";
+import { ContainView } from "../../_components/features/ContainView";
 import UsuariosProfCard from "./components/UsuariosProfCard";
 
 export default function UsuariosProfView() {

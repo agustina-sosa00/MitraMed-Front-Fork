@@ -4,7 +4,7 @@ import { Dialog, Transition, TransitionChild, DialogPanel } from "@headlessui/re
 import { useMutation } from "@tanstack/react-query";
 import { googleAuth } from "@/views/auth/services/UserService";
 import Cookies from "js-cookie";
-import { Loader } from "@/views/auth/components/ui/Loader";
+import { Loader } from "@/views/auth/_components/ui/Loader";
 import Swal from "sweetalert2";
 import { Usuario } from "@/views/auth/types";
 

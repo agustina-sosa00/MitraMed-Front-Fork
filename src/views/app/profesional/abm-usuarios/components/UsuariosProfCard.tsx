@@ -1,13 +1,12 @@
 import { TablaDefault } from "@/frontend-resourses/components";
-import UsuariosProfForm from "./UsuariosProfForm";
 import { useQuery } from "@tanstack/react-query";
-import { obtenerDoctores, obtenerUsuariosProf } from "../service/usuariosProfService";
 import { useState, useEffect } from "react";
 import showAlert from "@/frontend-resourses/utils/showAlert";
 import { SlRefresh } from "react-icons/sl";
-import { useUsuariosProfStore } from "../store/usuariosProfStore";
 
 import ActionButton from "@/frontend-resourses/components/Buttons/ActionButton";
+import { useUsuariosProfesionalStore } from "../../usuarios/store/usuariosProfesionalesStore";
+import { obtenerDoctores, obtenerUsuariosProf } from "../../usuarios/service/usuariosProfService";
 
 type UsuarioProf = {
   id: string | number;
@@ -39,7 +38,7 @@ export default function UsuariosProfCard() {
     setUsuarioSeleccionado,
     enabledFetchUsu,
     setEnabledFetchUsu,
-  } = useUsuariosProfStore();
+  } = useUsuariosProfesionalStore();
 
   const customColor = "#4F8EF7"; // azul claro
   const customColorHover = "#2563eb"; // azul más oscuro
@@ -70,7 +69,7 @@ export default function UsuariosProfCard() {
   });
 
   const {
-    data: dataDoctores,
+    data: _dataDoctores,
     refetch: refetchDoctores,
     isSuccess: isSuccessDoctores,
   } = useQuery<{ data: Doctores[] }>({
@@ -148,13 +147,13 @@ export default function UsuariosProfCard() {
     }
   }
 
-  function handleEndAltaOEdicion() {
-    setAlta(false);
-    setModoEdicion(false);
-    setUsuarioSeleccionado(undefined);
-    setEditMode(false);
-    setSelectEnabled(true);
-  }
+  // function handleEndAltaOEdicion() {
+  //   setAlta(false);
+  //   setModoEdicion(false);
+  //   setUsuarioSeleccionado(undefined);
+  //   setEditMode(false);
+  //   setSelectEnabled(true);
+  // }
 
   return (
     <div className="flex flex-col gap-5 p-4 ">
@@ -212,13 +211,16 @@ export default function UsuariosProfCard() {
       {/* Tabla y Formulario */}
       <div className="flex gap-5">
         <TablaDefault props={propsTabla} />
-        <UsuariosProfForm
-          usuario={usuarioSeleccionado}
-          doctores={dataDoctores?.data}
-          onEndAlta={handleEndAltaOEdicion}
+        {/* <UsuariosProfCard 
           modoEdicion={modoEdicion}
-          alta={alta}
-        />
+          usuarioSeleccionado={usuarioSeleccionado}
+          setUsuarioSeleccionado={setUsuarioSeleccionado}
+          editMode={editMode}
+          setEditMode={setEditMode}
+          
+          setSelectEnabled={setSelectEnabled}
+          endAltaOEdicion={handleEndAltaOEdicion}
+        /> */}
       </div>
     </div>
   );

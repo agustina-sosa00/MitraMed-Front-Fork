@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { About } from "../../About/About";
-import { CardsAbout } from "@/views/auth/components/ui/CardsAbout";
+import { CardsAbout } from "@/views/auth/_components/ui/CardsAbout";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
-import Footer from "@/views/auth/components/feature/Footer";
-import WhatsApp from "@/views/auth/components/feature/WhatsApp";
-import Header from "@/views/auth/components/feature/Header";
-import CarrouselPortal from "../../components/feature/CarrouselPortal";
+import Footer from "@/views/auth/_components/feature/Footer";
+import WhatsApp from "@/views/auth/_components/feature/WhatsApp";
+import Header from "@/views/auth/_components/feature/Header";
+import CarrouselPortal from "../../_components/feature/CarrouselPortal";
 import { ConfirmDataUser } from "./components/modals/ConfirmDataUser";
 import CreateAccountModal from "./components/modals/CreateAccountModal";
 import ForgotPasswordModal from "./components/modals/ForgotPasswordModal";
@@ -21,7 +21,7 @@ interface IProp {
   loader: boolean;
   setLoader: React.Dispatch<React.SetStateAction<boolean>>;
 }
-export const PortalView: React.FC<IProp> = ({ setLoader }) => {
+export default function PortalView({ setLoader }: IProp) {
   const navigate = useNavigate();
   const [isopenDrawer, setIsOpenDrawer] = useState(false);
   const [currentRol, setCurrentRol] = useState<"paciente" | "profesional" | undefined>();
@@ -108,4 +108,4 @@ export const PortalView: React.FC<IProp> = ({ setLoader }) => {
       <ToastContainer pauseOnHover={false} pauseOnFocusLoss={false} hideProgressBar={true} />
     </>
   );
-};
+}

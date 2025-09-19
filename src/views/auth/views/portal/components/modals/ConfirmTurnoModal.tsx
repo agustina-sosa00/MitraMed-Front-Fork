@@ -2,7 +2,7 @@ import { Fragment, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Dialog, Transition, TransitionChild, DialogPanel } from "@headlessui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { confirmarTurno } from "@/views/app/paciente/turnos/services/TurnosService";
+import { confirmarTurno } from "@/views/app/paciente/turnosPaciente/services/TurnosService";
 import { UseFormSetValue } from "react-hook-form";
 import { ClipLoader } from "react-spinners";
 import Swal from "sweetalert2";

@@ -1,4 +1,4 @@
-import { CardMisTurnosPaciente } from "@/views/auth/components/ui/CardMisTurnosPaciente";
+import { CardMisTurnosPaciente } from "@/views/auth/_components/ui/CardMisTurnosPaciente";
 import { TurnosUsuario } from "@/views/auth/types";
 
 interface HistorialTurnosProps {

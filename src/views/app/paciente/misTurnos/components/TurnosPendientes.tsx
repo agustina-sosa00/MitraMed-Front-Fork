@@ -1,8 +1,8 @@
-import { anularTurnoUsuario } from "@/views/app/paciente/turnos/services/TurnosService";
+import { anularTurnoUsuario } from "@/views/app/paciente/turnosPaciente/services/TurnosService";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { CardMisTurnosPaciente } from "@/views/auth/components/ui/CardMisTurnosPaciente";
+import { CardMisTurnosPaciente } from "@/views/auth/_components/ui/CardMisTurnosPaciente";
 import { TurnosUsuario } from "@/views/auth/types";
 
 interface TurnosPendientesProps {

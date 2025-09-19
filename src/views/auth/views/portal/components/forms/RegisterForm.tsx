@@ -3,10 +3,10 @@ import { UseFormRegister, FieldErrors, UseFormWatch, Controller, Control } from 
 // import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 // import { FaCalendarAlt } from "react-icons/fa";
-import { SelectBirthdayDiv } from "@/views/auth/components/ui/select/SelectBirthday";
-import { Select } from "@/views/auth/components/ui/select/Select";
-import InputField from "@/views/auth/components/ui/InputField";
-import ErrorMessage from "@/views/auth/components/ui/ErrorMessage";
+import { SelectBirthdayDiv } from "@/views/auth/_components/ui/select/SelectBirthday";
+import { Select } from "@/views/auth/_components/ui/select/Select";
+import InputField from "@/views/auth/_components/ui/InputField";
+import ErrorMessage from "@/views/auth/_components/ui/ErrorMessage";
 import { NewAccount } from "@/views/auth/types";
 
 type RegisterFormProps = {

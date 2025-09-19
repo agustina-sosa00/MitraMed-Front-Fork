@@ -1,5 +1,5 @@
-import ErrorMessage from "@/views/auth/components/ui/ErrorMessage";
-import InputField from "@/views/auth/components/ui/InputField";
+import ErrorMessage from "@/views/auth/_components/ui/ErrorMessage";
+import InputField from "@/views/auth/_components/ui/InputField";
 import { useState } from "react";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 

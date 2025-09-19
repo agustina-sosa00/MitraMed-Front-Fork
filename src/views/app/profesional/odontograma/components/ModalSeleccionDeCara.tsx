@@ -1,4 +1,4 @@
-import { Modal } from "@/views/app/components/ui/modals/Modal";
+import { Modal } from "@/views/app/_components/ui/modals/Modal";
 
 interface ModalSeleccionDeCaraProps {
   show: boolean;

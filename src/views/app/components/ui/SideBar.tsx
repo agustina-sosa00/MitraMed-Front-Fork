@@ -4,8 +4,8 @@ import { IoSettingsSharp } from "react-icons/io5";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { useOdontogramContext } from "../../../../context/OdontogramContext";
-import TextAlert from "@/views/components/TextAlert";
 import { useMedicalHistoryContext } from "../../../../context/MedicalHistoryContext";
+import TextAlert from "@/views/_components/TextAlert";
 // import { useState } from "react";
 
 interface IProp {
