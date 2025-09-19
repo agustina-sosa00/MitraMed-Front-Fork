@@ -291,7 +291,7 @@ export default function HistorialClinicoView() {
   return (
     <ContainView
       title="HC"
-      padding="py-3 2xl:py-20 px-10"
+      padding="py-3 2xl:py-3 px-10"
       gapChildren="gap-1"
       sizeTitle="text-3xl 2xl:text-4xl"
     >
@@ -335,7 +335,7 @@ export default function HistorialClinicoView() {
             <div className="w-full ">
               <label className="text-sm font-medium text-blue">Evolución:</label>
             </div>
-            <div className="w-full h-32 px-2 py-1 font-bold border border-gray-300 rounded xg:h-48 xxl:h-56 bg-lightGray text-blue">
+            <div className="w-full h-32 px-2 py-1 font-bold border border-gray-300 rounded xg:h-48 xxl:h-48 bg-lightGray text-blue">
               {hcSelected && hcSelected.obs}
             </div>
           </div>
@@ -345,7 +345,7 @@ export default function HistorialClinicoView() {
               <label className="text-sm font-medium text-blue">Archivos:</label>
             </div>
 
-            <div className="w-full px-2 py-1 border border-gray-300 rounded h-36 xxl:h-48 bg-lightGray">
+            <div className="w-full px-2 py-1 border border-gray-300 rounded h-36 bg-lightGray">
               {loadingMeta || (hasFile && (loadingBlob || !previewBlob)) ? (
                 <div className="grid w-full h-full place-items-center text-blue/60">
                   Cargando archivo…

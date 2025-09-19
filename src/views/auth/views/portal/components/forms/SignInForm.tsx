@@ -146,7 +146,7 @@ export default function SignInForm({ rol, handle }: IProp) {
         >
           <IoClose />
         </button>
-        <h3 className="text-3xl font-bold  text-blue">
+        <h3 className="text-3xl font-bold underline text-blue">
           {rol === "paciente" ? "Pacientes" : "Profesionales"}
         </h3>
         <h4 className="text-2xl font-medium tracking-wide text-gray-600">Inicia sesión</h4>
