@@ -164,7 +164,7 @@ export default function HistorialClinicoView() {
       withScrollbar: true,
       withBorder: true,
       widthContainer: "550px",
-      heightContainer: "330px",
+      heightContainer: "420px",
       viewport1440: {
         widthContainer1440px: "550px",
         heightContainer1440px: "400px",
@@ -290,8 +290,8 @@ export default function HistorialClinicoView() {
   //region return
   return (
     <ContainView
-      title="Historia Clínica"
-      padding="py-3 2xl:py-20  px-10"
+      title="HC"
+      padding="py-3 2xl:py-3 px-10"
       gapChildren="gap-1"
       sizeTitle="text-3xl 2xl:text-4xl"
     >
@@ -321,35 +321,31 @@ export default function HistorialClinicoView() {
         </div>
 
         {/* Observaciones */}
-        <div className="flex flex-col gap-2 p-2 bg-white border border-gray-300 rounded w-[600px] xl:w-[700px] h-[330px] xg:h-[400px] xxl:h-[500px] ">
-          <div className="flex items-start w-full">
-            <div className=" w-36">
-              <label className="mr-2 text-sm font-medium capitalize text-blue">
-                motivo de consulta:
-              </label>
+        <div className="flex flex-col gap-2 p-2 bg-white border border-gray-300 rounded w-[600px] xl:w-[700px] h-[420px] xg:h-[400px] xxl:h-[500px] ">
+          <div className="flex flex-col items-start w-full">
+            <div className="w-full ">
+              <label className="text-sm font-medium text-blue">Motivo de Consulta:</label>
             </div>
-            <div className="flex-[1] h-8 px-2 py-1 font-bold border border-gray-300 rounded bg-lightGray text-blue">
+            <div className="w-full h-8 px-2 py-1 font-bold border border-gray-300 rounded bg-lightGray text-blue">
               {hcSelected && hcSelected.detalle}
             </div>
           </div>
 
-          <div className="flex items-start w-full">
-            <div className=" w-36">
-              <label className="mr-2 text-sm font-medium capitalize text-blue">
-                observaciones:
-              </label>
+          <div className="flex flex-col items-start w-full">
+            <div className="w-full ">
+              <label className="text-sm font-medium text-blue">Evolución:</label>
             </div>
-            <div className="flex-[1] h-32 xg:h-48 xxl:h-56 px-2 py-1 font-bold border border-gray-300 rounded bg-lightGray text-blue">
+            <div className="w-full h-32 px-2 py-1 font-bold border border-gray-300 rounded xg:h-48 xxl:h-48 bg-lightGray text-blue">
               {hcSelected && hcSelected.obs}
             </div>
           </div>
 
-          <div className="flex items-start w-full">
-            <div className=" w-36">
-              <label className="mr-2 text-sm font-medium capitalize text-blue">archivos:</label>
+          <div className="flex flex-col items-start w-full">
+            <div className="w-full ">
+              <label className="text-sm font-medium text-blue">Archivos:</label>
             </div>
 
-            <div className="flex-[1] h-36 xxl:h-48 px-2 py-1 border border-gray-300 rounded bg-lightGray">
+            <div className="w-full px-2 py-1 border border-gray-300 rounded h-36 bg-lightGray">
               {loadingMeta || (hasFile && (loadingBlob || !previewBlob)) ? (
                 <div className="grid w-full h-full place-items-center text-blue/60">
                   Cargando archivo…
@@ -417,11 +413,7 @@ export default function HistorialClinicoView() {
                     <button
                       disabled={previewPage <= 1}
                       onClick={() => setPreviewPage((p) => p - 1)}
-                      className={`px-2 py-1 border rounded ${
-                        previewPage <= 1
-                          ? "text-gray-400"
-                          : "hover:bg-blue text-blue hover:text-white"
-                      }`}
+                      className={`px-2 py-1  ${previewPage <= 1 ? "text-gray-400" : " text-blue "}`}
                     >
                       ◀
                     </button>
@@ -431,10 +423,8 @@ export default function HistorialClinicoView() {
                     <button
                       disabled={previewPage >= previewNumPages}
                       onClick={() => setPreviewPage((p) => p + 1)}
-                      className={`px-2 py-1 border rounded ${
-                        previewPage >= previewNumPages
-                          ? "text-gray-400"
-                          : "hover:bg-blue text-blue hover:text-white"
+                      className={`px-2 py-1  ${
+                        previewPage >= previewNumPages ? "text-gray-400" : " text-blue "
                       }`}
                     >
                       ▶
@@ -475,7 +465,7 @@ export default function HistorialClinicoView() {
                 <div className="grid flex-1 place-items-center">
                   <img
                     src={URL.createObjectURL(previewBlob)}
-                    className="max-h-[440px] w-auto object-contain border rounded"
+                    className="max-w-[500px]  w-auto object-contain border rounded"
                   />
                 </div>
 

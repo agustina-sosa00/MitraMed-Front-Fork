@@ -28,7 +28,7 @@ export default function InputProfesionales({
   return (
     <div className="flex w-full">
       <div className=" w-36">
-        <label htmlFor="" className="mr-2 text-sm font-medium capitalize text-blue">
+        <label htmlFor="" className="mr-2 text-sm font-medium text-blue">
           {labelInput}:
         </label>
       </div>

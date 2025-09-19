@@ -37,7 +37,7 @@ export const ContainView: React.FC<IProp> = ({
           {title}
         </h1>
         <div className="w-full border border-gray-300"></div>
-        <div className={`flex flex-col items-center justify-center w-full  ${classContainer} `}>
+        <div className={`flex flex-col items-center justify-start w-full  ${classContainer} `}>
           {children}
         </div>
       </div>

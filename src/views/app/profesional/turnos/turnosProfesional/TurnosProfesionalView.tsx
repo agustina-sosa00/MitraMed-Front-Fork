@@ -3,12 +3,12 @@ import { useQuery } from "@tanstack/react-query";
 import { IDataTable, tableSchedules } from "./mock/arrayTableProfessional";
 import { TablaDefault } from "../../../../../frontend-resourses/components";
 import { ContainView } from "../../../_components/features/ContainView";
-// import FiltrosTablaMisTurnos from "../turnosProfesionales/components/SearchCard";
 import { obtenerTurnosDiarios } from "./services/turnosProfesionalService";
-import SearchCard from "../_components/SearchCard";
+// import FiltrosTablaMisTurnos from "../turnosProfesionales/components/SearchCard";
+// import SearchCard from "../turnosProfesionales/components/SearchCard";
 
 export default function TurnosProfesionalView() {
-  const [daySchedule, setDaySchedule] = useState(getToday);
+  const [daySchedule, _setDaySchedule] = useState(getToday);
   const [_arrayFilter, setArrayFilter] = useState<IDataTable[]>([]);
   const newArray = [...tableSchedules];
 
@@ -164,9 +164,6 @@ export default function TurnosProfesionalView() {
       sizeTitle="text-3xl 2xl:text-4xl"
     >
       {/* <FiltrosTablaMisTurnos handle={changeDay} state={daySchedule} setState={setDaySchedule} /> */}
-      <div className="flex w-full ">
-        <SearchCard diaSeleccionado={daySchedule} setDiaSeleccionado={setDaySchedule} />
-      </div>
 
       <div className="flex justify-center w-full px-5 overflow-y-auto lg:overflow-visible ">
         <TablaDefault props={propsTabla} />

@@ -92,9 +92,9 @@ export default function BuscadorDePacientes({
         text: "¿Desea Salir?",
         showCancelButton: true,
         confirmButtonColor: "#518915",
-        cancelButtonColor: "#022539",
-        confirmButtonText: "Si, Salir",
-        cancelButtonText: "Seguir Editando",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si",
+        cancelButtonText: "No",
       }).then((result) => {
         if (result.isConfirmed) {
           handleCancel?.();
@@ -111,11 +111,12 @@ export default function BuscadorDePacientes({
           <>
             {state.length > 0 && (
               <div className={`flex  py-1 h-14 justify-between gap-1   w-2/3     items-center `}>
-                <div className="flex items-end gap-1">
-                  <label className="text-base font-bold capitalize text-green">Ingresar DNI:</label>
+                <div className="flex items-center justify-start gap-2">
+                  <label className="text-base font-bold text-green">Ingresar DNI:</label>
+
                   <div className="flex gap-1 w-36">
                     <div
-                      className={`h-8 px-2 py-1 flex items-center gap-2 font-bold border  border-gray-300 rounded w-full bg-lightGray focus:outline-none  ${
+                      className={` px-1 text-base flex items-center font-bold border  border-gray-300  rounded w-full bg-lightGray focus:outline-none  ${
                         !hasConfirmed ? "bg-gray-200 text-gray-400 " : "text-blue"
                       }`}
                     >
@@ -143,7 +144,7 @@ export default function BuscadorDePacientes({
           <div className={`flex py-1 h-14 justify-start gap-1 w-2/3  items-center `}>
             <div className="flex items-end gap-1">
               {" "}
-              <label className="text-base font-bold capitalize text-green">Ingresar DNI:</label>
+              <label className="text-base font-bold text-green">Ingresar DNI:</label>
               <div className="flex gap-1 w-36 ">
                 <input
                   ref={inputRef}
@@ -190,7 +191,7 @@ export default function BuscadorDePacientes({
         <div className="w-full h-24 bg-gray-200 rounded"></div>
       ) : (
         <div className="flex items-center justify-center w-full h-24 gap-1 bg-white border rounded border-green">
-          <div className="flex items-center justify-end w-40 h-full">
+          <div className="flex items-center justify-end h-full w-36">
             <FaUserCircle className="w-full h-16 text-greenHover" />
           </div>
           <div className="flex flex-col items-center justify-center w-full h-20 gap-1 ">
@@ -201,15 +202,15 @@ export default function BuscadorDePacientes({
             </div>
 
             <div className="flex justify-start w-full gap-10">
-              <div className="flex items-end justify-center text-blue">
+              <div className="flex items-center justify-center text-blue">
                 <p className="text-sm ">DNI: </p>
                 <p className="px-2 text-lg font-bold ">{data?.dni}</p>
               </div>
-              <div className="flex items-end justify-center text-blue">
+              <div className="flex items-center justify-center text-blue">
                 <p className="text-sm ">Edad: </p>
                 <p className="px-2 text-lg font-bold ">{data?.edad}</p>
               </div>
-              <div className="flex items-end justify-center text-blue">
+              <div className="flex items-center justify-center text-blue">
                 <p className="text-sm text-nowrap">Fecha de Nacimiento: </p>
                 <p className="w-full px-2 text-lg font-bold">
                   {data?.fnacim
@@ -221,7 +222,7 @@ export default function BuscadorDePacientes({
                     : ""}
                 </p>
               </div>
-              <div className="flex items-end justify-center text-blue">
+              <div className="flex items-center justify-center text-blue">
                 <p className="text-sm text-nowrap">Obra Social:</p>
                 <p className="w-full px-2 text-lg font-bold">
                   {data?.idosocial !== 0 && data?.nosocial}

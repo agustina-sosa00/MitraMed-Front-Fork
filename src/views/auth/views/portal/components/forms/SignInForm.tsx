@@ -139,17 +139,17 @@ export default function SignInForm({ rol, handle }: IProp) {
 
   return (
     <>
-      <div className="flex flex-col items-center w-full mb-2 relative">
+      <div className="relative flex flex-col items-center w-full mb-2">
         <button
           onClick={handle}
-          className="absolute right-0 top-0 flex items-center justify-center text-2xl text-center"
+          className="absolute top-0 right-0 flex items-center justify-center text-2xl text-center"
         >
           <IoClose />
         </button>
-        <h3 className="text-3xl font-bold text-gray-800 mb-4 underline ">
+        <h3 className="text-3xl font-bold underline text-blue">
           {rol === "paciente" ? "Pacientes" : "Profesionales"}
         </h3>
-        <h4 className="text-2xl font-medium text-gray-600 tracking-wide">Inicia sesión</h4>
+        <h4 className="text-2xl font-medium tracking-wide text-gray-600">Inicia sesión</h4>
       </div>
       <form className="flex flex-col gap-4 px-0.5 " noValidate onSubmit={handleSubmit(handleForm)}>
         {/* Input Email/Usuario */}
