@@ -6,10 +6,10 @@ import { obtenerUsuProfesional } from "@/views/auth/services/ProfessionalService
 import { iniciarSesion } from "@/views/auth/services/UserService";
 import { Account } from "@/views/auth/types";
 import Cookies from "js-cookie";
-import Captcha from "@/views/auth/components/ui/Captcha";
+import Captcha from "@/views/auth/_components/ui/Captcha";
 import Swal from "sweetalert2";
-import InputField from "@/views/auth/components/ui/InputField";
-import ErrorMessage from "@/views/auth/components/ui/ErrorMessage";
+import InputField from "@/views/auth/_components/ui/InputField";
+import ErrorMessage from "@/views/auth/_components/ui/ErrorMessage";
 import { IoClose } from "react-icons/io5";
 
 interface IProp {
