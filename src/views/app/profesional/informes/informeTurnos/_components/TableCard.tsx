@@ -13,7 +13,7 @@ export default function TableCard() {
     setFilteredRows,
     hasSearched,
     setTotals,
-    totals,
+    // totals,
   } = useInformeTurnosStore();
 
   const columns = [
@@ -115,10 +115,10 @@ export default function TableCard() {
     },
   ];
 
-  const datosFooter: { [key: string]: any } = {
-    fecha: totals.totalRegistros,
-    importe: totals.totalImportes,
-  };
+  // const datosFooter: { [key: string]: any } = {
+  //   fecha: totals.totalRegistros,
+  //   importe: totals.totalImportes,
+  // };
 
   const datosParaTabla =
     hasSearched && Array.isArray(informeTurnosData?.data) && informeTurnosData.data.length > 0
@@ -128,11 +128,11 @@ export default function TableCard() {
   const propsTabla = {
     datosParaTabla,
     objectColumns: columns,
-    objectFooter: {
-      footer: true,
-      footerHeight: "h-6",
-      datosFooter: datosFooter,
-    },
+    // objectFooter: {
+    //   footer: false,
+    //   footerHeight: "h-6",
+    //   datosFooter: datosFooter,
+    // },
     objectStyles: {
       heightContainer: "300px",
       addHeaderColor: "#022539",
