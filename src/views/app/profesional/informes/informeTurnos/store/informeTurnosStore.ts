@@ -2,6 +2,8 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 interface InformeTurnosStore {
+  tableColumns: any[];
+  setTableColumns: (cols: any[]) => void;
   informeTurnosData: any;
   selectedDates: { from: string; to: string };
   filtroTipo: string;
@@ -46,6 +48,8 @@ export const useInformeTurnosStore = create<InformeTurnosStore>()(
       profesionalesSeleccionados: [],
       obrasSocialesSeleccionadas: [],
 
+      tableColumns: [],
+      setTableColumns: (cols) => set({ tableColumns: cols }),
       setInformeTurnosData: (data) => set({ informeTurnosData: data }),
       setSelectedDates: (dates) => set({ selectedDates: dates }),
       clearInformeTurnosData: () =>
