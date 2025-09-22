@@ -21,7 +21,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 import FormNuevoRegistroHc from "./_components/FormNuevoRegistroHc";
-import { generarFilasVacias } from "@/utils/tableUtils";
+// import { generarFilasVacias } from "@/utils/tableUtils";
 
 type HcRow = {
   id: string | number;
@@ -168,10 +168,7 @@ export default function HistorialClinicoView() {
       }))
     : [];
 
-  const datosTabla = [
-    ...dataHistoria,
-    ...generarFilasVacias(13 - dataHistoria.length, columnasTabla, dataHistoria.length + 1),
-  ];
+  const datosTabla = [...dataHistoria];
 
   const propsTabla = {
     datosParaTabla: datosTabla,

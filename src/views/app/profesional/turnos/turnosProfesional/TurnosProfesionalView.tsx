@@ -6,7 +6,7 @@ import { ContainView } from "../../../_components/features/ContainView";
 // import FiltrosTablaMisTurnos from "../turnosProfesionales/components/SearchCard";
 import { obtenerTurnosDiarios } from "./services/turnosProfesionalService";
 import SearchCard from "../_components/SearchCard";
-import { generarFilasVacias } from "@/utils/tableUtils";
+// import { generarFilasVacias } from "@/utils/tableUtils";
 
 interface TurnoTablaRow {
   id: string;
@@ -92,14 +92,8 @@ export default function TurnosProfesionalView() {
       obs: item.obs || "",
       mit: item.idusuario === null ? "Mit" : "Web",
     }));
-    if (datosParaTabla.length < 12) {
-      datosParaTabla = [
-        ...datosParaTabla,
-        ...generarFilasVacias(12 - datosParaTabla.length, columns, datosParaTabla.length + 1),
-      ];
-    }
   } else {
-    datosParaTabla = generarFilasVacias(12, columns);
+    datosParaTabla = [];
   }
 
   const propsTabla = {

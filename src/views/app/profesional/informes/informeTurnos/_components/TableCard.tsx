@@ -3,7 +3,7 @@ import { PriceInput, TablaDefault } from "@/frontend-resourses/components";
 import { calculadorDeEdad } from "../utils/calculadorDeEdad";
 import { useInformeTurnosStore } from "../store/informeTurnosStore";
 import dayjs from "dayjs";
-import { generarFilasVacias } from "@/utils/tableUtils";
+// import { generarFilasVacias } from "@/utils/tableUtils";
 
 export default function TableCard() {
   const {
@@ -151,9 +151,7 @@ export default function TableCard() {
   );
 
   let datosParaTabla = datosFiltradosOrdenados.map((item, idx) => ({ id: idx + 1, ...item }));
-  if (datosParaTabla.length === 0) {
-    datosParaTabla = generarFilasVacias(13, columns);
-  }
+  // Si no hay datos, la tabla queda vacía
 
   const propsTabla = {
     datosParaTabla,

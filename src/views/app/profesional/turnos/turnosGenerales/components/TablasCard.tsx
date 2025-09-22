@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { generarFilasVacias } from "@/utils/tableUtils";
+// import { generarFilasVacias } from "@/utils/tableUtils";
 import { useQuery } from "@tanstack/react-query";
 import { obtenerDoctores, obtenerTurnosDiarios } from "../service/turnosGeneralesService";
 import { TablaDefault } from "@/frontend-resourses/components";
@@ -117,11 +117,8 @@ export default function TablasCard() {
     ? turnosData.map((item, idx) => ({ id: idx + 1, ...item }))
     : [];
 
-  // Siempre mostrar filas de turnos y completar hasta 12 con filas vacías
-  const datosParaTabla2 = [
-    ...turnosDataTabla,
-    ...generarFilasVacias(12 - turnosDataTabla.length, columnasTabla2, turnosDataTabla.length + 1),
-  ];
+  // Solo mostrar filas de turnos, sin completar con filas vacías
+  const datosParaTabla2 = [...turnosDataTabla];
 
   const propsTabla1 = {
     datosParaTabla: doctoresDataTabla || [],
