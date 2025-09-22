@@ -1,6 +1,8 @@
-// Sincronización cruzada de filtros: si cambia uno, los otros se ajustan a la data filtrada
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 
 import { useEffect, useState, useRef } from "react";
+import excelIcon from "@/frontend-resourses/assets/icons/excel.png";
 import { Button } from "@/views/_components/Button";
 import { ConfigProvider, DatePicker } from "antd";
 import type { RangePickerProps } from "antd/es/date-picker";
@@ -17,6 +19,7 @@ import dayjs, { Dayjs } from "dayjs";
 import "dayjs/locale/es";
 import esES from "antd/locale/es_ES";
 import Swal from "sweetalert2";
+
 import ModalFiltro1 from "@/frontend-resourses/components/Modales/ModalFiltro1";
 
 type DateRangePickerProps = {
@@ -27,6 +30,7 @@ type DateRangePickerProps = {
 export default function HeaderCard({ loader, setLoader }: DateRangePickerProps) {
   const {
     informeTurnosData,
+    tableColumns,
     filteredRows,
     setFilteredRows,
     selectedDates,
@@ -67,6 +71,11 @@ export default function HeaderCard({ loader, setLoader }: DateRangePickerProps) 
   // El botón de limpiar solo debe estar habilitado cuando hay datos y hasSearched es true, y no está cargando
   const disabledButtonTrash = !(hasSearched && informeTurnosData?.data?.length > 0) || loader;
 
+  const [showPreview, setShowPreview] = useState(false);
+  const previewData = [
+    { Columna1: "Valor 1", Columna2: "Valor 2" },
+    { Columna1: "Otro 1", Columna2: "Otro 2" },
+  ];
   const rangePresets: RangePickerProps["presets"] = [
     { label: "Ayer", value: [dayjs().add(-1, "d"), dayjs().add(-1, "d")] },
     { label: "Últimos 7 días", value: [dayjs().add(-7, "d"), dayjs()] },
@@ -524,7 +533,40 @@ export default function HeaderCard({ loader, setLoader }: DateRangePickerProps) 
     }
   }
 
-  console.log(totalesData);
+  function handleExportExcel() {
+    let exportColumns = [...tableColumns];
+    if (!exportColumns.some((col) => col.key === "idturno")) {
+      exportColumns = [{ key: "idturno", label: "ID Turno" }, ...exportColumns];
+    }
+
+    const data = filteredRows.map((row) => {
+      const obj: Record<string, any> = {};
+      exportColumns.forEach((col) => {
+        obj[col.label || col.key] = row[col.key];
+      });
+      return obj;
+    });
+
+    const worksheet = XLSX.utils.json_to_sheet(data);
+
+    // Ajustar anchos de columna automáticamente
+    const colWidths = exportColumns.map((col) => {
+      const header = col.label || col.key;
+      const maxLen = Math.max(
+        header.length,
+        ...data.map((row) => (row[header] ? String(row[header]).length : 0)),
+      );
+      return { wch: maxLen + 2 };
+    });
+    worksheet["!cols"] = colWidths;
+
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Hoja1");
+    const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+    const blob = new Blob([excelBuffer], { type: "application/octet-stream" });
+    saveAs(blob, "informeTurnos.xlsx");
+  }
+
   return (
     <div className="flex justify-between w-full p-2 mb-1 border rounded bg-slate-100">
       {/* Date Picker y Filtro */}
@@ -677,6 +719,27 @@ export default function HeaderCard({ loader, setLoader }: DateRangePickerProps) 
               ))}
           </div>
         </div>
+      </div>
+
+      {/* Botón Exportar */}
+      <div className="">
+        <button
+          className={`ml-4 px-3 py-1 rounded text-sm font-semibold shadow flex items-center gap-2 ${
+            hasSearched
+              ? "bg-gray-500 text-white hover:bg-gray-600 cursor-pointer transition"
+              : "bg-gray-200 text-gray-400 cursor-not-allowed pointer-events-none"
+          }`}
+          type="button"
+          onClick={handleExportExcel}
+          disabled={!hasSearched}
+        >
+          <img
+            src={excelIcon}
+            alt="Excel"
+            className={`w-5 h-5 ${hasSearched ? "" : "grayscale opacity-50"}`}
+          />
+          Exportar
+        </button>
       </div>
 
       {/* Modal de Filtro */}
