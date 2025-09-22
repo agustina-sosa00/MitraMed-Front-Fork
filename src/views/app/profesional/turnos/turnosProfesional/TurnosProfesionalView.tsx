@@ -67,6 +67,13 @@ export default function TurnosProfesionalView() {
     },
     // OBS
     {
+      key: "nosocial",
+      label: "Obra Social",
+      minWidth: "180",
+      maxWidth: "420",
+    },
+    // OBS
+    {
       key: "obs",
       label: "Obs",
       minWidth: "250",
@@ -89,6 +96,7 @@ export default function TurnosProfesionalView() {
       hora_fin: item.hora_fin,
       estado: item.nestado,
       paciente: item.npaciente,
+      nosocial: item.nosocial,
       obs: item.obs || "",
       mit: item.idusuario === null ? "Mit" : "Web",
     }));
