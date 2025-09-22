@@ -17,6 +17,7 @@ export default function TableCard() {
     especialidadesSeleccionadas,
     profesionalesSeleccionados,
     obrasSocialesSeleccionadas,
+    setTableColumns,
   } = useInformeTurnosStore();
 
   const columns = [
@@ -150,8 +151,16 @@ export default function TableCard() {
     (a, b) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime(),
   );
 
-  let datosParaTabla = datosFiltradosOrdenados.map((item, idx) => ({ id: idx + 1, ...item }));
-  // Si no hay datos, la tabla queda vacía
+  let datosParaTabla = datosFiltradosOrdenados.map((item, idx) => ({
+    id: idx + 1,
+    ...item,
+    edad: calculadorDeEdad({ age: item.fnacim }),
+    paciente: [
+      item.apellido ? item.apellido : "",
+      item.apellido && item.nombre ? ", " : "",
+      item.nombre ? item.nombre : "",
+    ].join(""),
+  }));
 
   const propsTabla = {
     datosParaTabla,
@@ -191,6 +200,12 @@ export default function TableCard() {
       .reduce((acc, curr) => acc + curr, 0);
     setTotals({ totalRegistros, totalImportes });
   }, [filteredRows, setTotals]);
+
+  useEffect(() => {
+    setFilteredRows(datosParaTabla);
+    setTableColumns(columns);
+    // eslint-disable-next-line
+  }, [JSON.stringify(datosParaTabla), JSON.stringify(columns)]);
 
   function filtrarDatosTabla(datos: any[]) {
     if (!datos || datos.length === 0) return [];
