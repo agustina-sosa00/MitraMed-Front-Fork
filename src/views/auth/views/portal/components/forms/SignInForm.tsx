@@ -162,17 +162,17 @@ export default function SignInForm({ rol, handle }: IProp) {
 
   return (
     <>
-      <div className="flex flex-col items-center w-full relative ">
+      <div className="relative flex flex-col items-center w-full ">
         <button
           onClick={handle}
-          className="absolute right-0 top-0 flex items-center justify-center text-2xl text-center"
+          className="absolute top-0 right-0 flex items-center justify-center text-2xl text-center"
         >
           <IoClose />
         </button>
-        <h3 className="text-3xl font-bold text-gray-800 mb-2 underline">
+        <h3 className="mb-2 text-3xl font-bold text-gray-800 underline">
           {rol === "paciente" ? "Pacientes" : "Profesionales"}
         </h3>
-        <h4 className="text-xl font-medium text-gray-600 tracking-wide">Inicia sesión</h4>
+        <h4 className="text-xl font-medium tracking-wide text-gray-600">Inicia sesión</h4>
       </div>
 
       <form className="flex flex-col gap-4 px-0.5 " noValidate onSubmit={handleSubmit(handleForm)}>
@@ -263,7 +263,7 @@ export default function SignInForm({ rol, handle }: IProp) {
           className={`w-full p-2 mt-4 text-base font-semibold uppercase transition-all rounded-lg shadow-md xl:p-3 xl:text-lg  ${
             !validateCaptcha
               ? "bg-gray-200 text-gray-400 cursor-text"
-              : "bg-green hover:bg-greenHover text-white cursor-pointer"
+              : "bg-primaryGreen  hover:bg-greenHover text-white cursor-pointer"
           }`}
         />
       </form>
@@ -296,21 +296,21 @@ export default function SignInForm({ rol, handle }: IProp) {
             <p>
               No tienes cuenta?{" "}
               <button
-                className="font-medium hover:underline text-green"
+                className="font-medium hover:underline text-primaryGreen"
                 onClick={() => navigate(location.pathname + "?createAccount=true")}
               >
                 Regístrate aquí
               </button>
             </p>
             <button
-              className="font-medium hover:underline text-green"
+              className="font-medium hover:underline text-primaryGreen"
               onClick={() => navigate(location.pathname + "?forgotPassword=true")}
             >
               Olvidé mi contraseña
             </button>
 
             <button
-              className="font-medium hover:underline text-green"
+              className="font-medium hover:underline text-primaryGreen"
               onClick={() => navigate(location.pathname + "?newTokenConfirm=true")}
             >
               Reenviar correo de confirmación

@@ -526,11 +526,11 @@ export default function HeaderCard({ loader, setLoader }: DateRangePickerProps) 
 
   console.log(totalesData);
   return (
-    <div className="flex w-full justify-between mb-1 border rounded p-2 bg-slate-100">
+    <div className="flex justify-between w-full p-2 mb-1 border rounded bg-slate-100">
       {/* Date Picker y Filtro */}
       <div className="flex flex-col justify-between">
         {/* Date Picker */}
-        <div className="flex gap-3 border rounded p-2 bg-white">
+        <div className="flex gap-3 p-2 bg-white border rounded">
           <ConfigProvider
             locale={esES}
             theme={{
@@ -547,10 +547,10 @@ export default function HeaderCard({ loader, setLoader }: DateRangePickerProps) 
               presets={rangePresets}
               onChange={onRangeChange}
               placeholder={["Desde", "Hasta"]}
-              className={`h-7 border-2 rounded border-gray-300 hover:border-greenFocus text-blue placeholder:text-blue
-                [&.ant-picker-focused]:!border-green
+              className={`h-7 border-2 rounded border-gray-300 hover:border-greenFocus text-primaryBlue placeholder:text-primaryBlue
+                [&.ant-picker-focused]:!border-primaryGreen
                 [&.ant-picker-focused]:!shadow-[0_0_0_2px_rgba(22,163,74,0.25)]
-                [&_.ant-picker-input>input]:text-blue
+                [&_.ant-picker-input>input]:text-primaryBlue
                 [&_.ant-picker-input>input::placeholder]:text-gray-600
                 ${hasSearched ? "bg-[#f5f6fa] !text-gray-700 !font-bold [&_.ant-picker-input>input]:!text-emerald-500" : ""}
               `}
@@ -596,7 +596,7 @@ export default function HeaderCard({ loader, setLoader }: DateRangePickerProps) 
         </div>
 
         {/* Filtro */}
-        <div className="flex max-w-md gap-2 mt-2  px-4 py-2 border rounded bg-white">
+        <div className="flex max-w-md gap-2 px-4 py-2 mt-2 bg-white border rounded">
           {/* Botones de Filtro */}
           {filtroButtons.map((filtro) => (
             <ActionButton
@@ -616,10 +616,10 @@ export default function HeaderCard({ loader, setLoader }: DateRangePickerProps) 
       </div>
 
       {/* Totales */}
-      <div className="flex flex-1 items-end justify-center ">
-        <div className="flex px-4 py-2 gap-2 rounded border border-gray-200 bg-white">
+      <div className="flex items-end justify-center flex-1 ">
+        <div className="flex gap-2 px-4 py-2 bg-white border border-gray-200 rounded">
           {/* Columna de totales de consultas */}
-          <div className="flex flex-col gap-3  pr-6 ">
+          <div className="flex flex-col gap-3 pr-6 ">
             {totalesData
               .filter((item) => !item.isImporte)
               .map((item, _idx) => (

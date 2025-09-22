@@ -65,15 +65,15 @@ export default function CarrouselPortal({
                   imageLoaded && currentSlide === index ? "opacity-100" : "opacity-0"
                 }`}
               >
-                <h1 className="mb-3  w-[90%] font-semibold text-blue text-xl md:text-3xl lg:text-5xl">
+                <h1 className="mb-3  w-[90%] font-semibold text-primaryBlue text-xl md:text-3xl lg:text-5xl">
                   {item.title}
                   <span className="text-greenHover">{item.span}</span>
                 </h1>
-                <p className="w-2/3 mb-2 text-sm text-blue md:text-base lg:text-lg xl:text-xl text-start md:mb-4">
+                <p className="w-2/3 mb-2 text-sm text-primaryBlue md:text-base lg:text-lg xl:text-xl text-start md:mb-4">
                   {item.text}
                 </p>
                 <button
-                  className="p-2 text-sm text-white rounded-lg cursor-pointer md:text-base bg-green hover:bg-greenHover mx:block lg:text-lg xl:text-xl xl:p-3 text-start"
+                  className="p-2 text-sm text-white rounded-lg cursor-pointer md:text-base bg-primaryGreen hover:bg-greenHover mx:block lg:text-lg xl:text-xl xl:p-3 text-start"
                   onClick={() => handleOpenDrawer("paciente")}
                 >
                   <p>{item.textoImportant}</p>

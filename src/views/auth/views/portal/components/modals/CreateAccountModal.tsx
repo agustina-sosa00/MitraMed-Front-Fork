@@ -75,11 +75,11 @@ export default function CreateAccountModal() {
         }}
         open={show}
       >
-        <DialogTitle as="h3" className="text-3xl font-semibold text-center text-green">
+        <DialogTitle as="h3" className="text-3xl font-semibold text-center text-primaryGreen">
           Crea tu cuenta
         </DialogTitle>
 
-        <p className="py-2 text-sm text-center text-blue">
+        <p className="py-2 text-sm text-center text-primaryBlue">
           Llena el formulario para registrarte y recibirás un correo para confirmar tu cuenta.
         </p>
 
@@ -96,7 +96,7 @@ export default function CreateAccountModal() {
               className={`w-full p-2 mt-4 text-base font-semibold uppercase transition-all rounded-lg shadow-md cursor-pointer xl:p-3 xl:text-lg  ${
                 !validateCaptcha
                   ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                  : "bg-green hover:bg-greenHover text-white"
+                  : "bg-primaryGreen hover:bg-greenHover text-white"
               }`}
             />
           </div>
@@ -106,7 +106,7 @@ export default function CreateAccountModal() {
           <p className="">
             Ya tienes una cuenta?{" "}
             <button
-              className="text-green hover:text-greenHover hover:underline"
+              className="text-primaryGreen hover:text-greenHover hover:underline"
               onClick={() => navigate("/")}
             >
               Inicia sesión aquí

@@ -160,9 +160,9 @@ export default function OdontogramView() {
             text: "¿Desea Salir?",
             showCancelButton: true,
             confirmButtonColor: "#518915",
-            cancelButtonColor: "#022539",
-            confirmButtonText: "Si, Salir",
-            cancelButtonText: "Seguir Editando",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Si",
+            cancelButtonText: "No",
           }).then((result) => {
             if (result.isConfirmed) {
               handleCancelEdit();
@@ -208,8 +208,8 @@ export default function OdontogramView() {
     Swal.fire({
       title: "¿Desea Guardar los Cambios?",
       showCancelButton: true,
-      confirmButtonText: "Si, Guardar",
-      cancelButtonText: "Cancelar",
+      confirmButtonText: "Si",
+      cancelButtonText: "No",
       confirmButtonColor: "#518915",
       cancelButtonColor: "#d33",
     }).then((result) => {
@@ -260,7 +260,7 @@ export default function OdontogramView() {
     <ContainView
       title="Odontograma"
       padding="py-3 2xl:py-20 px-10"
-      gapChildren="gap-2"
+      gapChildren="gap-1"
       sizeTitle="text-3xl 2xl:text-4xl"
       classContainer="relative"
       onClick={() => setContextMenu(null)}

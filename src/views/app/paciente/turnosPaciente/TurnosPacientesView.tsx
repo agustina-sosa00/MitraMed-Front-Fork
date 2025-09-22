@@ -49,10 +49,10 @@ export default function TurnosPacientesView() {
     <div className="relative flex flex-col items-center justify-center h-full px-5 py-10 bg-bottom bg-cover lg:mx-4 bg-opacity-10 sm:min-h-screen bg-misturnos ">
       <div className="w-full max-w-4xl  my-5 border border-black rounded-lg shadow-xl bg-[#f1f1f1] border-opacity-20 ">
         <div className="px-5 py-5 text-center ">
-          <h2 className="text-2xl font-bold underline uppercase text-green sm:text-3xl">
+          <h2 className="text-2xl font-bold underline uppercase text-primaryGreen sm:text-3xl">
             Turnos Online
           </h2>
-          <p className="mt-4 text-sm text-blue sm:mt-6 sm:text-base">
+          <p className="mt-4 text-sm text-primaryBlue sm:mt-6 sm:text-base">
             Selecciona especialidad y profesional para buscar disponibilidad de turnos
           </p>
         </div>
@@ -74,7 +74,7 @@ export default function TurnosPacientesView() {
               className={`px-8 py-2  uppercase font-semibold rounded  transition duration-200 ${
                 watch("turno") === 0
                   ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-green hover:bg-greenHover cursor-pointer text-white"
+                  : "bg-primaryGreen hover:bg-greenHover cursor-pointer text-white"
               }`}
               onClick={handleSolicitar}
               disabled={watch("turno") === 0}

@@ -74,13 +74,13 @@ export default function Header({
             <div className="flex gap-2">
               <button
                 onClick={() => handleOpenDrawerProfessional("profesional")}
-                className="px-2 py-1 text-xs transition-all duration-200 border rounded lg:text-base lg:px-4 border-green text-green hover:bg-green hover:text-white"
+                className="px-2 py-1 text-xs transition-all duration-200 border rounded lg:text-base lg:px-4 border-primaryGreen text-primaryGreen hover:bg-primaryGreen hover:text-white"
               >
                 Profesionales
               </button>
               <button
                 onClick={() => handleOpenDrawer("paciente")}
-                className="px-2 py-1 text-xs transition-all duration-200 border rounded lg:text-base lg:px-4 border-green text-green hover:bg-green hover:text-white"
+                className="px-2 py-1 text-xs transition-all duration-200 border rounded lg:text-base lg:px-4 border-primaryGreen text-primaryGreen hover:bg-primaryGreen hover:text-white"
               >
                 Iniciar sesión
               </button>

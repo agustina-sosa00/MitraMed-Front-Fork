@@ -117,9 +117,11 @@ export default function FormNuevoRegistroHc({
   }
 
   return (
-    <div className="flex flex-col items-start justify-center w-full gap-2 p-3 bg-white border border-gray-300 rounded">
+    <div className="flex flex-col items-start justify-center w-[700px] gap-2 p-3 bg-white border border-gray-300 rounded">
       <div className="flex justify-center w-full">
-        <h1 className="text-xl font-bold text-center text-blue">Agregar Datos de la Consulta</h1>
+        <h1 className="text-xl font-bold text-center text-primaryBlue">
+          Agregar Datos de la Consulta
+        </h1>
       </div>
       <form
         className="flex flex-col w-full gap-2"
@@ -132,7 +134,7 @@ export default function FormNuevoRegistroHc({
           valueInput={dataForm.detalle}
           nameInput="detalle"
           handleInput={handleOnChangeInput}
-          labelInput={"motivo de consulta"}
+          labelInput={"Motivo de Consulta"}
           field={true}
           focusState={focusState}
           focusName={"detalle"}
@@ -141,26 +143,26 @@ export default function FormNuevoRegistroHc({
           valueInput={dataForm.obs}
           nameInput="obs"
           handleTextarea={handleOnChangeTextarea}
-          labelInput={"observaciones"}
+          labelInput={"Evolución"}
           focusState={focusState}
           focusName={"obs"}
         />
         <div className="flex w-full">
           <div className=" w-36">
-            <label htmlFor="" className="mr-2 text-sm font-medium capitalize text-blue">
-              Subir archivo:
+            <label htmlFor="" className="mr-2 text-sm font-medium text-primaryBlue">
+              Subir Archivo:
             </label>
           </div>
           <SelectorDeArchivos setState={setFileForm} state={fileForm!} />
         </div>
         <div className="flex justify-end w-full gap-2">
+          <Button type="button" label="guardar datos" handle={handleOnClickSave} loader={loader} />
           <Button
             type="button"
             label="cancelar"
             handle={() => setStateModal(false)}
             classButton="bg-red-500 rounded text-white font-medium  px-5 py-1 hover:bg-red-600"
           />
-          <Button type="button" label="guardar datos" handle={handleOnClickSave} loader={loader} />
         </div>
       </form>
     </div>

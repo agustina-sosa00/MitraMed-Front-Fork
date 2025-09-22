@@ -21,8 +21,8 @@ export const ContainView: React.FC<IProp> = ({
 }) => {
   return (
     <div
-      className={`flex flex-col items-center 2xl:justify-center w-full min-h-screen gap-5  overflow-y-auto ${
-        padding ? padding : "py-2"
+      className={`flex flex-col items-center  w-full min-h-screen gap-5  overflow-y-auto ${
+        padding ? padding : "px-5 py-20"
       }`}
       onClick={onClick}
     >
@@ -30,14 +30,14 @@ export const ContainView: React.FC<IProp> = ({
         className={`lg:w-full flex flex-col items-center ${gapChildren ? gapChildren : "gap-2"}`}
       >
         <h1
-          className={` font-medium uppercase  text-green ${
+          className={` font-medium uppercase  text-primaryGreen ${
             sizeTitle ? sizeTitle : "text-2xl lg:text-4xl"
           } `}
         >
           {title}
         </h1>
         <div className="w-full border border-gray-300"></div>
-        <div className={`flex flex-col items-center justify-center w-full  ${classContainer} `}>
+        <div className={`flex flex-col items-center justify-start w-full  ${classContainer} `}>
           {children}
         </div>
       </div>

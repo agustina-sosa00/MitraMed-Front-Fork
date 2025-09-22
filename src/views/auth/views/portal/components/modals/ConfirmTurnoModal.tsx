@@ -91,28 +91,28 @@ export default function ConfirmTurnoModal({ turnoData, setValue }: ConfirmTurnoM
                 <DialogPanel className="flex flex-col items-center w-full max-w-2xl p-8 overflow-y-auto max-h-[70vh] text-left transition-all transform bg-white rounded-lg shadow-xl text-slate-800 gap-5">
                   <div className="w-auto px-10 py-4  bg-gray-100  border-[#f1f1f1] rounded-lg sm:px-16 flex flex-col justify-center items-start  ">
                     <div className="flex items-center justify-center w-full">
-                      <h3 className="mb-2 text-xl font-semibold text-center text-green">
+                      <h3 className="mb-2 text-xl font-semibold text-center text-primaryGreen">
                         Detalles del turno:
                       </h3>
                     </div>
 
                     <div className="flex items-start justify-start w-full gap-2 text-base">
-                      <p className="font-semibold text-blue">Especialidad:</p>
+                      <p className="font-semibold text-primaryBlue">Especialidad:</p>
                       <p className="italic text-gray-600">{turnoData?.nombreEspecialidad}</p>
                     </div>
 
                     <div className="flex items-start justify-start w-full gap-2 text-base">
-                      <p className="font-semibold text-blue">Doctor:</p>
+                      <p className="font-semibold text-primaryBlue">Doctor:</p>
                       <p className="italic text-gray-600">{turnoData?.nombreDoctor}</p>
                     </div>
 
                     <div className="flex items-center justify-start gap-2 text-base">
-                      <p className="font-semibold text-right text-blue">Fecha:</p>
+                      <p className="font-semibold text-right text-primaryBlue">Fecha:</p>
                       <p className="italic text-gray-600">{fechaFormateada}</p>
                     </div>
 
                     <div className="flex items-center justify-start gap-2 text-base">
-                      <p className="font-semibold text-right text-blue">Día:</p>
+                      <p className="font-semibold text-right text-primaryBlue">Día:</p>
                       <p className="italic text-gray-600">
                         {
                           ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"][
@@ -123,11 +123,11 @@ export default function ConfirmTurnoModal({ turnoData, setValue }: ConfirmTurnoM
                     </div>
 
                     <div className="flex items-center justify-start gap-2 text-base">
-                      <p className="font-semibold text-right text-blue">Hora:</p>
+                      <p className="font-semibold text-right text-primaryBlue">Hora:</p>
                       <p className="italic text-gray-600">{turnoData?.hora_ini}</p>
                     </div>
                   </div>
-                  <div className="p-4 mb-6 border-l-4 border-blue-600 text-blue bg-blue-50">
+                  <div className="p-4 mb-6 border-l-4 border-blue-600 text-primaryBlue bg-blue-50">
                     <p className="mb-2 font-semibold">Importante:</p>
                     <ul className="pl-5 list-disc">
                       <li>Se enviará un email con los detalles del turno.</li>
@@ -141,7 +141,7 @@ export default function ConfirmTurnoModal({ turnoData, setValue }: ConfirmTurnoM
                     <button
                       onClick={handleConfirmar}
                       disabled={loadingConfirm} // Desactiva el botón durante la carga
-                      className={`px-6 py-2 bg-green text-white text-sm sm:text-base font-semibold rounded-lg shadow-md 
+                      className={`px-6 py-2 bg-primaryGreen text-white text-sm sm:text-base font-semibold rounded-lg shadow-md 
                                 ${
                                   loadingConfirm
                                     ? "opacity-50 cursor-not-allowed"

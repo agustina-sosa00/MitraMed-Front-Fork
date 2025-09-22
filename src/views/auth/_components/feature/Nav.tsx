@@ -18,17 +18,15 @@ export default function Nav() {
   };
 
   const handleLogout = () => {
-    document.cookie =
-      "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    document.cookie =
-      "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     navigate("/");
   };
 
   return (
     <div className="flex items-center justify-end w-full gap-2 ">
       <Link to="/inicio" className="">
-        <button className="hidden px-2 py-1 text-xs transition-all duration-200 border rounded lg:px-4 lg:text-base md:flex border-green text-green hover:bg-green hover:text-white">
+        <button className="hidden px-2 py-1 text-xs transition-all duration-200 border rounded lg:px-4 lg:text-base md:flex border-primaryGreen text-primaryGreen hover:bg-primaryGreen hover:text-white">
           Inicio
         </button>
       </Link>
@@ -36,19 +34,19 @@ export default function Nav() {
         to="/configuracion"
         className="items-center hidden space-x-2 sm:flex hover:cursor-pointer"
       >
-        <p className="px-2 py-1 text-xs transition-all duration-200 border rounded lg:px-4 lg:text-base border-green text-green hover:bg-green hover:text-white">
+        <p className="px-2 py-1 text-xs transition-all duration-200 border rounded lg:px-4 lg:text-base border-primaryGreen text-primaryGreen hover:bg-primaryGreen hover:text-white">
           Perfil
         </p>
       </Link>
       <button
         onClick={handleLogout}
-        className="hidden px-2 py-1 text-xs transition-all duration-200 border rounded sm:flex lg:px-4 lg:text-base border-green text-green hover:bg-green hover:text-white"
+        className="hidden px-2 py-1 text-xs transition-all duration-200 border rounded sm:flex lg:px-4 lg:text-base border-primaryGreen text-primaryGreen hover:bg-primaryGreen hover:text-white"
       >
         Cerrar sesión
       </button>
       <div className="relative flex items-end justify-center sm:w-auto">
         <button
-          className="block text-xl font-semibold text-green sm:hidden"
+          className="block text-xl font-semibold text-primaryGreen sm:hidden"
           onClick={toggleMenu}
         >
           <FaBars />
@@ -69,7 +67,7 @@ export default function Nav() {
             <div className="mt-2">
               <Link
                 to="/"
-                className="block px-4 pt-3 transition text-blue hover:text-greenHover"
+                className="block px-4 pt-3 transition text-primaryBlue hover:text-greenHover"
               >
                 <div className="flex items-center text-sm xl:text-base">
                   <FaHouse className="mr-2" />
@@ -78,7 +76,7 @@ export default function Nav() {
               </Link>
               <Link
                 to="/configuracion"
-                className="block px-4 pt-3 transition text-blue hover:text-greenHover"
+                className="block px-4 pt-3 transition text-primaryBlue hover:text-greenHover"
               >
                 <div className="flex items-center text-sm xl:text-base">
                   <IoMdPerson className="mr-2" />
@@ -87,7 +85,7 @@ export default function Nav() {
               </Link>
               <button
                 onClick={handleLogout}
-                className="block w-full px-4 py-4 text-left transition text-blue hover:text-greenHover"
+                className="block w-full px-4 py-4 text-left transition text-primaryBlue hover:text-greenHover"
               >
                 <div className="flex items-center text-sm xl:text-base">
                   <PiSignOutBold className="mr-2" />

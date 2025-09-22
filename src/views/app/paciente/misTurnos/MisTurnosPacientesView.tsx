@@ -38,14 +38,14 @@ export default function MisTurnosPacientesView() {
     <div className="relative flex flex-col items-center justify-center h-full py-10 bg-bottom bg-cover sm:min-h-screen bg-misturnos ">
       <div className="w-full h-full max-w-6xl  my-5 bg-[white] border border-black rounded-lg shadow-xl border-opacity-20">
         <div className="flex flex-col gap-5 py-5 text-center ">
-          <h2 className="text-2xl font-bold uppercase text-green sm:text-3xl">Mis turnos</h2>
+          <h2 className="text-2xl font-bold uppercase text-primaryGreen sm:text-3xl">Mis turnos</h2>
 
           {/* Botones para cambiar entre vistas */}
           <div className="flex justify-center gap-2 ">
             <button
               onClick={() => setVista("pendientes")}
               className={`px-4 py-1  rounded text-sm  text-white transition ${
-                vista === "pendientes" ? "bg-blue" : "bg-gray-400"
+                vista === "pendientes" ? "bg-primaryBlue" : "bg-gray-400"
               }`}
             >
               Turnos Pendientes
@@ -53,7 +53,7 @@ export default function MisTurnosPacientesView() {
             <button
               onClick={() => setVista("historicos")}
               className={`px-4 py-1 rounded text-sm  text-white transition ${
-                vista === "historicos" ? "bg-blue" : "bg-gray-400"
+                vista === "historicos" ? "bg-primaryBlue" : "bg-gray-400"
               }`}
             >
               Historial de Turnos
