@@ -81,8 +81,8 @@ export default function TurnosProfesionalView() {
     },
     // VACIO
     {
-      key: "mit",
-      label: "Mit",
+      key: "origen",
+      label: "Origen",
       minWidth: "70",
       maxWidth: "90",
     },
@@ -97,8 +97,8 @@ export default function TurnosProfesionalView() {
       estado: item.nestado,
       paciente: item.npaciente,
       nosocial: item.nosocial,
-      obs: item.obs || "",
-      mit: item.idusuario === null ? "Mit" : "Web",
+      obs: item.obs,
+      origen: item.idnodo === 0 ? "Web" : "Mit",
     }));
   } else {
     datosParaTabla = [];
