@@ -20,7 +20,13 @@ export default function ConfiguracionView() {
   }, [isProd, isProdMode]);
 
   return (
-    <ContainView title="configuración" padding="py-10">
+    <ContainView
+      title="configuración"
+      padding="py-3 2xl:py-20  px-10"
+      gapChildren="gap-1"
+      sizeTitle="text-3xl 2xl:text-4xl"
+      classContainer="gap-3"
+    >
       <div className="flex items-center justify-center w-full gap-8 px-4 py-10">
         {/* Card Entorno */}
         <div className="flex flex-col w-full max-w-sm gap-4 p-6 bg-white shadow-md rounded-xl">
@@ -42,7 +48,7 @@ export default function ConfiguracionView() {
             </label>
             <label
               className={`flex items-center gap-2 cursor-pointer ${
-                isProd ? "text-green-700" : "text-blue"
+                isProd ? "text-green-700" : "text-primaryBlue"
               }`}
             >
               <input
@@ -84,7 +90,7 @@ export default function ConfiguracionView() {
                 className="w-5 h-5 accent-green-600"
               />
               <span
-                className={`text-base px-2 py-1 rounded ${isProdMode ? "bg-blue text-white" : ""}`}
+                className={`text-base px-2 py-1 rounded ${isProdMode ? "bg-primaryBlue text-white" : ""}`}
               >
                 Producción
               </span>

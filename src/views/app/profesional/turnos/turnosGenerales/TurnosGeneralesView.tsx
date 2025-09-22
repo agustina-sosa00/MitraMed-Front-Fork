@@ -90,6 +90,7 @@ export default function TurnosGeneralesView() {
     setArrayFilter(updatedArray);
   };
 
+  //region return
   return (
     <ContainView title="turnos">
       {/* Filtros y Botones */}

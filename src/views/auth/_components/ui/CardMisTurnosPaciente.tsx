@@ -24,7 +24,7 @@ export const CardMisTurnosPaciente: React.FC<IProp> = ({
       <div className="px-6 py-5 ">
         <div className="flex items-center justify-center w-full text-left">
           <div className="flex flex-col w-full gap-1 ">
-            <h2 className="text-sm font-medium tracking-tighter text-blue">
+            <h2 className="text-sm font-medium tracking-tighter text-primaryBlue">
               <span className="font-semibold">Especialidad: </span>
               {especialidad}
             </h2>

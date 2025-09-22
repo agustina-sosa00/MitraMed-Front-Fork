@@ -11,6 +11,8 @@ export default function HomeProfesionalView() {
 
   return (
     <ContainView
+      gapChildren="gap-2"
+      sizeTitle="text-3xl 2xl:text-4xl"
       padding="py-5 px-10"
       title="Inicio"
       // title={`${dataProfesional.ndoctor && dataProfesional.adoctor ? `¡Bienvenido/a ${dataProfesional.ndoctor} ${dataProfesional.adoctor}!` : `¡Bienvenido/a ${dataProfesional.nombre}!`}`}

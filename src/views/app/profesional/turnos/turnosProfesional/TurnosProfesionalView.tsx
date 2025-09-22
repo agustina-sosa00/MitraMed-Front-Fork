@@ -3,8 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { IDataTable, tableSchedules } from "./mock/arrayTableProfessional";
 import { TablaDefault } from "../../../../../frontend-resourses/components";
 import { ContainView } from "../../../_components/features/ContainView";
-// import FiltrosTablaMisTurnos from "../turnosProfesionales/components/SearchCard";
 import { obtenerTurnosDiarios } from "./services/turnosProfesionalService";
+// import FiltrosTablaMisTurnos from "../turnosProfesionales/components/SearchCard";
 import SearchCard from "../_components/SearchCard";
 // import { generarFilasVacias } from "@/utils/tableUtils";
 
@@ -19,7 +19,7 @@ interface TurnoTablaRow {
 }
 
 export default function TurnosProfesionalView() {
-  const [daySchedule, setDaySchedule] = useState(getToday);
+  const [daySchedule, _setDaySchedule] = useState(getToday);
   const [_arrayFilter, setArrayFilter] = useState<IDataTable[]>([]);
   const newArray = [...tableSchedules];
 
@@ -42,42 +42,42 @@ export default function TurnosProfesionalView() {
       key: "hora_ini",
       label: "Hora Ini",
       minWidth: "75",
-      maxWidth: "75",
+      maxWidth: "120",
     },
     // HORA_FIN
     {
       key: "hora_fin",
       label: "Hora Fin",
       minWidth: "75",
-      maxWidth: "75",
+      maxWidth: "120",
     },
     // ESTADO
     {
       key: "estado",
       label: "Estado",
-      minWidth: "160",
-      maxWidth: "160",
+      minWidth: "120",
+      maxWidth: "200",
     },
     // PACIENTE
     {
       key: "paciente",
       label: "Paciente",
-      minWidth: "300",
-      maxWidth: "300",
+      minWidth: "250",
+      maxWidth: "420",
     },
     // OBS
     {
       key: "obs",
       label: "Obs",
-      minWidth: "370",
-      maxWidth: "370",
+      minWidth: "250",
+      maxWidth: "420",
     },
     // VACIO
     {
       key: "mit",
       label: "Mit",
       minWidth: "70",
-      maxWidth: "70",
+      maxWidth: "90",
     },
   ];
 
@@ -103,6 +103,18 @@ export default function TurnosProfesionalView() {
       heightContainer: "327px",
       withScrollbar: true,
       addHeaderColor: "#022539",
+      viewport1440: {
+        widthContainer1440px: "1100px",
+        heightContainer1440px: "500px",
+      },
+      viewport1536: {
+        widthContainer1536px: "1200px",
+        heightContainer1536px: "590px",
+      },
+      viewport1920: {
+        widthContainer1920px: "1400px",
+        heightContainer1920px: "600px",
+      },
     },
     selectFn: true,
   };
@@ -142,7 +154,7 @@ export default function TurnosProfesionalView() {
   return (
     <ContainView title="mis turnos" padding="py-5 px-10">
       <div className="flex w-full ">
-        <SearchCard diaSeleccionado={daySchedule} setDiaSeleccionado={setDaySchedule} />
+        <SearchCard diaSeleccionado={daySchedule} setDiaSeleccionado={_setDaySchedule} />
       </div>
 
       <div className="flex justify-center w-full px-5 overflow-y-auto lg:overflow-visible ">

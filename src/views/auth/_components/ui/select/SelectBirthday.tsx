@@ -60,7 +60,7 @@ export const SelectBirthdayDiv = ({ field }: Props) => {
       {/* Día */}
       <div className="relative w-28">
         <div
-          className="flex items-center justify-between px-2 py-1 bg-white border border-gray-300 cursor-pointer text-blue"
+          className="flex items-center justify-between px-2 py-1 bg-white border border-gray-300 cursor-pointer text-primaryBlue"
           onClick={() => {
             setOpenDia(!openDia);
             setOpenMes(false);
@@ -72,8 +72,8 @@ export const SelectBirthdayDiv = ({ field }: Props) => {
             <IoIosArrowDown
               className={`${
                 openDia
-                  ? " rotate-180 transition-all duration-300 text-blue "
-                  : "rotate-0 transition-all duration-300 text-blue"
+                  ? " rotate-180 transition-all duration-300 text-primaryBlue "
+                  : "rotate-0 transition-all duration-300 text-primaryBlue"
               }`}
             />
           }
@@ -83,7 +83,7 @@ export const SelectBirthdayDiv = ({ field }: Props) => {
             {dias.map((d) => (
               <div
                 key={d}
-                className="p-2 cursor-pointer hover:bg-greenHover text-blue hover:text-white"
+                className="p-2 cursor-pointer hover:bg-greenHover text-primaryBlue hover:text-white"
                 onClick={() => {
                   setDia(d);
                   setOpenDia(false);
@@ -99,7 +99,7 @@ export const SelectBirthdayDiv = ({ field }: Props) => {
       {/* Mes */}
       <div className="relative w-32">
         <div
-          className="flex items-center justify-between px-2 py-1 bg-white border border-gray-300 cursor-pointer text-blue"
+          className="flex items-center justify-between px-2 py-1 bg-white border border-gray-300 cursor-pointer text-primaryBlue"
           onClick={() => {
             setOpenMes(!openMes);
             setOpenDia(false);
@@ -111,8 +111,8 @@ export const SelectBirthdayDiv = ({ field }: Props) => {
             <IoIosArrowDown
               className={`${
                 openMes
-                  ? " rotate-180 transition-all duration-300 text-blue "
-                  : "rotate-0 transition-all duration-300 text-blue"
+                  ? " rotate-180 transition-all duration-300 text-primaryBlue "
+                  : "rotate-0 transition-all duration-300 text-primaryBlue"
               }`}
             />
           }
@@ -122,7 +122,7 @@ export const SelectBirthdayDiv = ({ field }: Props) => {
             {meses.map((m, index) => (
               <div
                 key={index}
-                className="p-2 cursor-pointer hover:bg-greenHover text-blue hover:text-white"
+                className="p-2 cursor-pointer hover:bg-greenHover text-primaryBlue hover:text-white"
                 onClick={() => {
                   setMes(index + 1);
                   setOpenMes(false);
@@ -138,7 +138,7 @@ export const SelectBirthdayDiv = ({ field }: Props) => {
       {/* Año */}
       <div className="relative w-32">
         <div
-          className="flex items-center justify-between px-2 py-1 bg-white border border-gray-300 cursor-pointer text-blue"
+          className="flex items-center justify-between px-2 py-1 bg-white border border-gray-300 cursor-pointer text-primaryBlue"
           onClick={() => {
             setOpenAnio(!openAnio);
             setOpenDia(false);
@@ -150,8 +150,8 @@ export const SelectBirthdayDiv = ({ field }: Props) => {
             <IoIosArrowDown
               className={`${
                 openAnio
-                  ? " rotate-180 transition-all duration-300 text-blue "
-                  : "rotate-0 transition-all duration-300 text-blue"
+                  ? " rotate-180 transition-all duration-300 text-primaryBlue "
+                  : "rotate-0 transition-all duration-300 text-primaryBlue"
               }`}
             />
           }
@@ -161,7 +161,7 @@ export const SelectBirthdayDiv = ({ field }: Props) => {
             {anios.map((a) => (
               <div
                 key={a}
-                className="p-2 cursor-pointer hover:bg-greenHover text-blue hover:text-white"
+                className="p-2 cursor-pointer hover:bg-greenHover text-primaryBlue hover:text-white"
                 onClick={() => {
                   setAnio(a);
                   setOpenAnio(false);

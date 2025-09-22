@@ -19,9 +19,7 @@ export const Modal: React.FC<IPropsModal> = ({ close, title, children }) => {
         onClick={(e) => e.stopPropagation()}
         className="flex flex-col items-center w-full max-w-2xl p-8 bg-white rounded shadow-xl"
       >
-        <h3 className="mb-6 text-2xl font-semibold text-center text-blue">
-          {title}
-        </h3>
+        <h3 className="mb-6 text-2xl font-semibold text-center text-primaryBlue">{title}</h3>
 
         {children}
       </div>

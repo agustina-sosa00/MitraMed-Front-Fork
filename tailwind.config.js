@@ -17,13 +17,16 @@ export default {
         lg: "1024px", // @media (min-width: 1024px)
         lg2: "1180px",
         lg3: "1280px",
+        xg: "1440px",
+        xxg: "1536px",
         xl: "1580px", // @media (min-width: 1280px)
+        xxl: "1920px",
       },
       colors: {
-        green: "#518915",
+        primaryGreen: "#518915",
         greenHover: "#3B690B",
         greenFocus: "#66AB1D",
-        blue: "#022539",
+        primaryBlue: "#022539",
         blueHover: "#01324E",
         lightGray: "#f1f1f1",
       },

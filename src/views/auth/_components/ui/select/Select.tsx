@@ -26,22 +26,18 @@ export const Select = ({ label, placeholder, options, field }: Props) => {
   const selected = field.value;
   return (
     <div className="relative w-full ">
-      <label className="block mb-1 text-sm font-semibold text-blue">
-        {label}
-      </label>
+      <label className="block mb-1 text-sm font-semibold text-primaryBlue">{label}</label>
       <div
-        className="flex items-center justify-between w-full px-2 py-1 bg-white border border-gray-300 cursor-pointer text-blue"
+        className="flex items-center justify-between w-full px-2 py-1 bg-white border border-gray-300 cursor-pointer text-primaryBlue"
         onClick={() => setIsOpen(!isOpen)}
       >
         {selected ? (
-          <span className="text-blue">{selected}</span>
+          <span className="text-primaryBlue">{selected}</span>
         ) : (
           <p className="text-sm font-medium text-gray-300">{placeholder}</p>
         )}
         <IoIosArrowDown
-          className={`transition-all duration-300 ${
-            isOpen ? "rotate-180" : "rotate-0"
-          }`}
+          className={`transition-all duration-300 ${isOpen ? "rotate-180" : "rotate-0"}`}
         />
       </div>
 
@@ -50,7 +46,7 @@ export const Select = ({ label, placeholder, options, field }: Props) => {
           {options.map((opt, i) => (
             <div
               key={i}
-              className="p-2 cursor-pointer hover:bg-greenHover text-blue hover:text-white"
+              className="p-2 cursor-pointer hover:bg-greenHover text-primaryBlue hover:text-white"
               onClick={() => {
                 field.onChange(opt);
                 setIsOpen(false);

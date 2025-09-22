@@ -177,6 +177,21 @@ export default function HistorialClinicoView() {
       heightContainer: "353px",
       addHeaderColor: "#022539",
       withScrollbar: true,
+      withBorder: true,
+      widthContainer: "550px",
+
+      viewport1440: {
+        widthContainer1440px: "550px",
+        heightContainer1440px: "400px",
+      },
+      viewport1536: {
+        widthContainer1536px: "600px",
+        heightContainer1536px: "400px",
+      },
+      viewport1920: {
+        widthContainer1920px: "700px",
+        heightContainer1920px: "500px",
+      },
     },
     selectFn: hasConfirmed,
     objectSelection: { setSeleccionado: setHcSelected },
@@ -286,10 +301,11 @@ export default function HistorialClinicoView() {
     });
   }
 
+  //region return
   return (
     <ContainView
-      title="Historia Clínica"
-      padding="py-1 2xl:py-20  px-10"
+      title="HC"
+      padding="py-3 2xl:py-3 px-10"
       gapChildren="gap-1"
       sizeTitle="text-3xl 2xl:text-4xl"
     >
@@ -312,52 +328,48 @@ export default function HistorialClinicoView() {
       </div>
 
       {/* Tabla y Observaciones */}
-      <div className="flex items-start justify-between w-full gap-2 pt-2 xl:justify-center min-h-64">
+      <div className="flex items-start justify-between w-full gap-2 pt-1 xl:justify-center ">
         {/* Tabla */}
-        <div className="">
+        <div className="flex min-w-[550px] justify-center overflow-x-auto ">
           <TablaDefault props={propsTabla} />
         </div>
 
         {/* Observaciones */}
-        <div className="flex flex-col gap-2 p-2 bg-white border border-gray-300 rounded w-[600px] xl:w-[700px] min-h-72">
-          <div className="flex items-start w-full">
-            <div className=" w-36">
-              <label className="mr-2 text-sm font-medium capitalize text-blue">
-                motivo de consulta:
-              </label>
+        <div className="flex flex-col gap-2 p-2 bg-white border border-gray-300 rounded w-[600px] xl:w-[700px] h-[420px] xg:h-[400px] xxl:h-[500px] ">
+          <div className="flex flex-col items-start w-full">
+            <div className="w-full ">
+              <label className="text-sm font-medium text-primaryBlue">Motivo de Consulta:</label>
             </div>
-            <div className="flex-[1] h-8 px-2 py-1 font-bold border border-gray-300 rounded bg-lightGray text-blue">
+            <div className="w-full h-8 px-2 py-1 font-bold border border-gray-300 rounded bg-lightGray text-primaryBlue">
               {hcSelected && hcSelected.detalle}
             </div>
           </div>
 
-          <div className="flex items-start w-full">
-            <div className=" w-36">
-              <label className="mr-2 text-sm font-medium capitalize text-blue">
-                observaciones:
-              </label>
+          <div className="flex flex-col items-start w-full">
+            <div className="w-full ">
+              <label className="text-sm font-medium text-primaryBlue">Evolución:</label>
             </div>
-            <div className="flex-[1] h-32 px-2 py-1 font-bold border border-gray-300 rounded bg-lightGray text-blue">
+            <div className="w-full h-32 px-2 py-1 font-bold border border-gray-300 rounded xg:h-48 xxl:h-48 bg-lightGray text-primaryBlue">
               {hcSelected && hcSelected.obs}
             </div>
           </div>
 
-          <div className="flex items-start w-full">
-            <div className=" w-36">
-              <label className="mr-2 text-sm font-medium capitalize text-blue">archivos:</label>
+          <div className="flex flex-col items-start w-full">
+            <div className="w-full ">
+              <label className="text-sm font-medium text-primaryBlue">Archivos:</label>
             </div>
 
-            <div className="flex-[1] h-36 px-2 py-1 border border-gray-300 rounded bg-lightGray">
+            <div className="w-full px-2 py-1 border border-gray-300 rounded h-36 bg-lightGray">
               {loadingMeta || (hasFile && (loadingBlob || !previewBlob)) ? (
-                <div className="grid w-full h-full place-items-center text-blue/60">
+                <div className="grid w-full h-full place-items-center text-primaryBlue/60">
                   Cargando archivo…
                 </div>
               ) : !hasFile ? (
-                <div className="grid w-full h-full place-items-center text-blue/60" />
+                <div className="grid w-full h-full place-items-center text-primaryBlue/60" />
               ) : previewExt === "pdf" ? (
                 <button
                   onClick={() => setPreviewOpen(true)}
-                  className="block w-[120px] border rounded overflow-hidden hover:ring-2 ring-blue transition"
+                  className="block w-[120px] border rounded overflow-hidden hover:ring-2 ring-primaryBlue transition"
                   title="Ver archivo"
                 >
                   <Document file={previewBlob!} className="w-[120px] h-[120px]">
@@ -367,7 +379,7 @@ export default function HistorialClinicoView() {
               ) : (
                 <button
                   onClick={() => setPreviewOpen(true)}
-                  className="block w-[120px] h-[120px] border rounded overflow-hidden hover:ring-2 ring-blue transition"
+                  className="block w-[120px] h-[120px] border rounded overflow-hidden hover:ring-2 ring-primaryBlue transition"
                   title="Ver archivo"
                 >
                   <img
@@ -388,7 +400,7 @@ export default function HistorialClinicoView() {
             <div className="flex items-center justify-end w-full px-2">
               <button
                 onClick={() => setPreviewOpen(false)}
-                className="p-1 text-xl rounded text-blue hover:bg-blue hover:text-white"
+                className="p-1 text-xl rounded text-primaryBlue hover:bg-primaryBlue hover:text-white"
                 aria-label="Cerrar"
                 title="Cerrar"
               >
@@ -397,7 +409,7 @@ export default function HistorialClinicoView() {
             </div>
 
             {!previewBlob ? (
-              <div className="grid flex-1 place-items-center text-blue/60">
+              <div className="grid flex-1 place-items-center text-primaryBlue/60">
                 No hay archivo para mostrar
               </div>
             ) : previewExt === "pdf" ? (
@@ -415,24 +427,18 @@ export default function HistorialClinicoView() {
                     <button
                       disabled={previewPage <= 1}
                       onClick={() => setPreviewPage((p) => p - 1)}
-                      className={`px-2 py-1 border rounded ${
-                        previewPage <= 1
-                          ? "text-gray-400"
-                          : "hover:bg-blue text-blue hover:text-white"
-                      }`}
+                      className={`px-2 py-1  ${previewPage <= 1 ? "text-gray-400" : " text-primaryBlue "}`}
                     >
                       ◀
                     </button>
-                    <span className="text-blue">
+                    <span className="text-primaryBlue">
                       Página {previewPage} de {previewNumPages}
                     </span>
                     <button
                       disabled={previewPage >= previewNumPages}
                       onClick={() => setPreviewPage((p) => p + 1)}
-                      className={`px-2 py-1 border rounded ${
-                        previewPage >= previewNumPages
-                          ? "text-gray-400"
-                          : "hover:bg-blue text-blue hover:text-white"
+                      className={`px-2 py-1  ${
+                        previewPage >= previewNumPages ? "text-gray-400" : " text-primaryBlue "
                       }`}
                     >
                       ▶
@@ -442,7 +448,7 @@ export default function HistorialClinicoView() {
                   <a
                     href="#"
                     onClick={handleDownload}
-                    className="flex items-center justify-center gap-2 px-4 font-medium text-white rounded h-9 bg-green hover:bg-greenHover"
+                    className="flex items-center justify-center gap-2 px-4 font-medium text-white rounded h-9 bg-primaryGreen hover:bg-greenHover"
                   >
                     {downloading ? (
                       <svg className="w-5 h-5 animate-spin" viewBox="0 0 24 24" fill="none">
@@ -473,7 +479,7 @@ export default function HistorialClinicoView() {
                 <div className="grid flex-1 place-items-center">
                   <img
                     src={URL.createObjectURL(previewBlob)}
-                    className="max-h-[440px] w-auto object-contain border rounded"
+                    className="max-w-[500px]  w-auto object-contain border rounded"
                   />
                 </div>
 
@@ -481,7 +487,7 @@ export default function HistorialClinicoView() {
                   <a
                     href="#"
                     onClick={handleDownload}
-                    className="flex items-center justify-center gap-2 px-4 font-medium text-white rounded h-9 bg-green hover:bg-greenHover"
+                    className="flex items-center justify-center gap-2 px-4 font-medium text-white rounded h-9 bg-primaryGreen hover:bg-greenHover"
                   >
                     {downloading ? (
                       <svg className="w-5 h-5 animate-spin" viewBox="0 0 24 24" fill="none">

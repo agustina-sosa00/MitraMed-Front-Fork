@@ -32,7 +32,7 @@ export const Button: React.FC<IProp> = ({
   const enabled = `${
     custom
       ? "bg-gray-300 hover:bg-gray-400/60 border border-slate-400 "
-      : "bg-green hover:bg-greenHover cursor-pointer text-white border"
+      : "bg-primaryGreen hover:bg-greenHover cursor-pointer text-white border"
   }`;
 
   const disabledCls =

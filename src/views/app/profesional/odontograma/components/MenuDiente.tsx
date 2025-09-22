@@ -109,8 +109,8 @@ export const MenuDiente: React.FC<MenuToothProps> = ({
           onMouseLeave={() => setOpenSubMenu(null)}
         >
           <div
-            className={`flex items-center justify-between w-full px-3 py-2 text-sm rounded-t cursor-pointer text-blue hover:text-white transition-all duration-300 hover:bg-green ${
-              openSubMenu === "realizado" ? "bg-green text-white" : ""
+            className={`flex items-center justify-between w-full px-3 py-2 text-sm rounded-t cursor-pointer text-primaryBlue hover:text-white transition-all duration-300 hover:bg-primaryGreen ${
+              openSubMenu === "realizado" ? "bg-primaryGreen text-white" : ""
             }`}
           >
             Realizado <IoIosArrowDown className="-rotate-90" />
@@ -123,7 +123,7 @@ export const MenuDiente: React.FC<MenuToothProps> = ({
               {ITEMS.map((it) => (
                 <button
                   key={it.base}
-                  className="block px-3 py-2 text-sm text-left transition-all duration-300 w-44 hover:bg-green hover:text-white"
+                  className="block px-3 py-2 text-sm text-left transition-all duration-300 w-44 hover:bg-primaryGreen hover:text-white"
                   onClick={() => pick(it.base, "realizado")}
                 >
                   {it.label}
@@ -141,8 +141,8 @@ export const MenuDiente: React.FC<MenuToothProps> = ({
           onMouseLeave={() => setOpenSubMenu(null)}
         >
           <div
-            className={`flex items-center justify-between w-full px-3 py-2 text-sm cursor-pointer text-blue transition-all duration-300 hover:text-white hover:bg-green ${
-              openSubMenu === "a realizar" ? "bg-green text-white" : ""
+            className={`flex items-center justify-between w-full px-3 py-2 text-sm cursor-pointer text-primaryBlue transition-all duration-300 hover:text-white hover:bg-primaryGreen ${
+              openSubMenu === "a realizar" ? "bg-primaryGreen text-white" : ""
             }`}
           >
             A Realizar <IoIosArrowDown className="-rotate-90" />
@@ -155,7 +155,7 @@ export const MenuDiente: React.FC<MenuToothProps> = ({
               {ITEMS.map((it) => (
                 <button
                   key={it.base}
-                  className="block px-3 py-2 text-sm text-left transition-all duration-300 w-44 hover:bg-green hover:text-white"
+                  className="block px-3 py-2 text-sm text-left transition-all duration-300 w-44 hover:bg-primaryGreen hover:text-white"
                   onClick={() => pick(it.base, "a realizar")}
                 >
                   {it.label}

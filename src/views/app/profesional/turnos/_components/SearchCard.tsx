@@ -18,7 +18,7 @@ export default function SearchCard({ diaSeleccionado, setDiaSeleccionado }: Sear
   function getDayColor(selected: string, today: string) {
     if (selected < today) return "text-yellow-500"; // pasado
     if (selected > today) return "text-red-500"; // futuro
-    return "text-green"; // presente
+    return "text-primaryGreen"; // presente
   }
 
   function getDayName(dateStr: string) {
@@ -38,12 +38,12 @@ export default function SearchCard({ diaSeleccionado, setDiaSeleccionado }: Sear
   }
 
   return (
-    <div className="flex justify-center w-fit pb-2 px-7 lg:justify-start">
+    <div className="flex justify-center pb-2 w-fit px-7 lg:justify-start">
       <div className="flex items-end gap-2">
         {/* Boton Anterior */}
         <button
           onClick={() => handleChangeDay(-1)}
-          className="p-1 transition-all duration-200 border border-gray-300 rounded text-blue bg-lightGray hover:bg-gray-300"
+          className="p-1 transition-all duration-200 border border-gray-300 rounded text-primaryBlue bg-lightGray hover:bg-gray-300"
         >
           <HiArrowSmLeft className="text-2xl lg:text-3xl" />
         </button>
@@ -63,7 +63,7 @@ export default function SearchCard({ diaSeleccionado, setDiaSeleccionado }: Sear
         {/* Boton Siguiente */}
         <button
           onClick={() => handleChangeDay(1)}
-          className="p-1 transition-all duration-200 border border-gray-300 rounded text-blue bg-lightGray hover:bg-gray-300"
+          className="p-1 transition-all duration-200 border border-gray-300 rounded text-primaryBlue bg-lightGray hover:bg-gray-300"
         >
           <HiArrowSmLeft className="text-2xl rotate-180 lg:text-3xl " />
         </button>
@@ -71,7 +71,7 @@ export default function SearchCard({ diaSeleccionado, setDiaSeleccionado }: Sear
         {/* Boton Hoy */}
         <button
           onClick={handleToday}
-          className="px-2 py-1 ml-5 text-lg font-medium transition-all duration-200 border border-gray-300 rounded text-blue bg-lightGray hover:bg-gray-300"
+          className="px-2 py-1 ml-5 text-lg font-medium transition-all duration-200 border border-gray-300 rounded text-primaryBlue bg-lightGray hover:bg-gray-300"
         >
           Hoy
         </button>

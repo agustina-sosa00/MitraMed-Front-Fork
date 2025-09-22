@@ -33,13 +33,9 @@ export const Navbar: React.FC<IProp> = ({ logo, buttons }) => {
           <button
             type="button"
             onClick={handleOpenMenu}
-            className="inline-flex items-center justify-center w-10 h-10 text-sm rounded-lg text-blue lg:hidden "
+            className="inline-flex items-center justify-center w-10 h-10 text-sm rounded-lg text-primaryBlue lg:hidden "
           >
-            {openMenu ? (
-              <IoClose className="text-4xl" />
-            ) : (
-              <FiMenu className="text-3xl" />
-            )}
+            {openMenu ? <IoClose className="text-4xl" /> : <FiMenu className="text-3xl" />}
           </button>
         </div>
       </nav>
@@ -54,13 +50,13 @@ export const Navbar: React.FC<IProp> = ({ logo, buttons }) => {
               <Link
                 key={item.name}
                 to={item.link}
-                className="flex items-center justify-end gap-2   py-1 w-[90%] text-lg md:text-xl font-medium text-blue capitalize rounded cursor-pointer hover:text-green"
+                className="flex items-center justify-end gap-2   py-1 w-[90%] text-lg md:text-xl font-medium text-primaryBlue capitalize rounded cursor-pointer hover:text-primaryGreen"
               >
                 {item.name}
               </Link>
             ))}
             <button
-              className="flex items-center justify-end gap-2   py-1 w-[90%] text-lg md:text-xl font-medium text-green capitalize rounded cursor-pointer hover:text-green"
+              className="flex items-center justify-end gap-2   py-1 w-[90%] text-lg md:text-xl font-medium text-primaryGreen capitalize rounded cursor-pointer hover:text-primaryGreen"
               onClick={handleLogout}
             >
               cerrar sesión

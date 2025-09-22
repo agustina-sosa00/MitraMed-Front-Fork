@@ -152,20 +152,20 @@ export default function ConfigPacientesView() {
     <div className="relative flex flex-col items-center justify-center h-full px-4 py-10 bg-bottom bg-cover bg-perfil sm:min-h-screen">
       <div className="flex flex-col items-center justify-center h-full gap-3 p-5 bg-white border border-gray-200 rounded shadow-xl w-ful lg:w-1/2 ">
         {/* Datos solo lectura */}
-        <h2 className="mb-4 text-2xl font-semibold text-center sm:text-4xl sm:text-left text-green">
+        <h2 className="mb-4 text-2xl font-semibold text-center sm:text-4xl sm:text-left text-primaryGreen">
           Datos del Perfil
         </h2>
 
         <div className="grid grid-cols-1 gap-3 ">
           {(["nombre", "apellido", "fnac", "genero"] as (keyof Usuario)[]).map((field) => (
             <div key={field} className="flex items-center sm:gap-3">
-              <label className="w-1/3 text-sm font-medium text-blue sm:text-base">
+              <label className="w-1/3 text-sm font-medium text-primaryBlue sm:text-base">
                 {field === "fnac"
                   ? "Fecha de Nacimiento"
                   : (field as string).charAt(0).toUpperCase() + (field as string).slice(1)}
               </label>
               <p
-                className={`w-2/3 py-1 px-2 min-h-[35px] text-sm sm:text-base border border-gray-300 rounded  text-blue bg-gray-200`}
+                className={`w-2/3 py-1 px-2 min-h-[35px] text-sm sm:text-base border border-gray-300 rounded  text-primaryBlue bg-gray-200`}
               >
                 {usuario ? (field === "fnac" ? formatDate(usuario[field]) : usuario[field]) : ""}
               </p>
@@ -177,23 +177,23 @@ export default function ConfigPacientesView() {
         <div className="flex items-center justify-center w-full gap-2 ">
           {isEditingTelefono ? (
             <div className="flex items-center justify-center gap-2">
-              <label className="text-sm font-medium text-blue sm:text-base">Teléfono</label>
+              <label className="text-sm font-medium text-primaryBlue sm:text-base">Teléfono</label>
               <input
                 type="text"
-                className="w-1/6 text-sm sm:text-base py-1 px-2 min-h-[35px] border  border-gray-300 rounded focus:outline-none focus:border-green focus:ring-1 transition"
+                className="w-1/6 text-sm sm:text-base py-1 px-2 min-h-[35px] border  border-gray-300 rounded focus:outline-none focus:border-primaryGreen focus:ring-1 transition"
                 {...register("codarea")}
               />
-              <span className="flex items-center text-sm text-blue sm:text-base">15</span>
+              <span className="flex items-center text-sm text-primaryBlue sm:text-base">15</span>
               <input
                 type="text"
-                className="w-1/5 text-sm sm:text-base py-1 px-2  min-h-[35px] border border-gray-300 rounded focus:outline-none focus:border-green focus:ring-1 transition"
+                className="w-1/5 text-sm sm:text-base py-1 px-2  min-h-[35px] border border-gray-300 rounded focus:outline-none focus:border-primaryGreen focus:ring-1 transition"
                 {...register("telefono")}
               />{" "}
               <div className="flex gap-3">
                 <button
                   type="button"
                   onClick={handleSubmit(handleCambiarTelefono)}
-                  className="px-4 py-1 text-sm font-semibold text-white transition duration-200 rounded bg-green sm:text-base hover:bg-blue-700"
+                  className="px-4 py-1 text-sm font-semibold text-white transition duration-200 rounded bg-primaryGreen sm:text-base hover:bg-blue-700"
                 >
                   Confirmar
                 </button>
@@ -208,19 +208,19 @@ export default function ConfigPacientesView() {
             </div>
           ) : (
             <div className="flex gap-2">
-              <label className="text-sm font-medium text-blue sm:text-base">Teléfono</label>
+              <label className="text-sm font-medium text-primaryBlue sm:text-base">Teléfono</label>
               <div className="w-1/4 py-1 flex justify-center px-2 min-h-[35px] border border-gray-300 rounded bg-gray-200 ">
-                <p className="text-sm sm:text-base text-blue">{usuario?.codarea}</p>
+                <p className="text-sm sm:text-base text-primaryBlue">{usuario?.codarea}</p>
               </div>
-              <span className="flex items-center text-sm text-blue sm:text-base">15</span>
+              <span className="flex items-center text-sm text-primaryBlue sm:text-base">15</span>
               <div className=" bg-gray-200 py-1 px-2 min-h-[35px] border border-gray-300 rounded w-2/5 flex justify-center ">
-                <p className="text-sm sm:text-base text-blue">{usuario?.telefono}</p>
+                <p className="text-sm sm:text-base text-primaryBlue">{usuario?.telefono}</p>
               </div>
 
               <button
                 type="button"
                 onClick={() => setIsEditingTelefono(true)}
-                className="p-2 text-base font-semibold transition duration-200 border border-gray-300 rounded text-green hover:bg-green hover:text-white"
+                className="p-2 text-base font-semibold transition duration-200 border border-gray-300 rounded text-primaryGreen hover:bg-primaryGreen hover:text-white"
               >
                 <TiPencil />
               </button>
@@ -230,12 +230,12 @@ export default function ConfigPacientesView() {
 
         {/* Email */}
         <div className="flex items-center justify-center w-full gap-2 ">
-          <label className="text-sm font-medium text-blue sm:text-base">Email</label>
+          <label className="text-sm font-medium text-primaryBlue sm:text-base">Email</label>
           {isEditingEmail ? (
             <div className="flex gap-2">
               <input
                 type="email"
-                className=" text-sm sm:text-base py-1 px-2  min-h-[35px] border border-gray-300 rounded focus:outline-none focus:border-green focus:ring-1 transition"
+                className=" text-sm sm:text-base py-1 px-2  min-h-[35px] border border-gray-300 rounded focus:outline-none focus:border-primaryGreen focus:ring-1 transition"
                 {...register("email")}
               />
 
@@ -243,7 +243,7 @@ export default function ConfigPacientesView() {
                 <button
                   type="button"
                   onClick={handleSubmit(handleEmail)}
-                  className="px-4 py-1 text-sm font-semibold text-white transition duration-200 rounded bg-green sm:text-base hover:bg-blue-700"
+                  className="px-4 py-1 text-sm font-semibold text-white transition duration-200 rounded bg-primaryGreen sm:text-base hover:bg-blue-700"
                 >
                   Confirmar
                 </button>
@@ -259,13 +259,13 @@ export default function ConfigPacientesView() {
           ) : (
             <div className="flex gap-2">
               <div className="bg-gray-200 py-1 px-2 min-h-[35px] border border-gray-300 rounded  flex justify-center ">
-                <p className="text-sm sm:text-base text-blue">{usuario?.email}</p>
+                <p className="text-sm sm:text-base text-primaryBlue">{usuario?.email}</p>
               </div>
 
               <button
                 type="button"
                 onClick={() => setIsEditingEmail(true)}
-                className="p-2 text-base font-semibold transition duration-200 border border-gray-300 rounded text-green hover:bg-green hover:text-white"
+                className="p-2 text-base font-semibold transition duration-200 border border-gray-300 rounded text-primaryGreen hover:bg-primaryGreen hover:text-white"
               >
                 <TiPencil />
               </button>
@@ -274,7 +274,7 @@ export default function ConfigPacientesView() {
         </div>
         <div className="flex flex-col items-start gap-3 ">
           <button
-            className="px-4 py-1 text-sm font-semibold text-white transition duration-200 rounded bg-green sm:text-base hover:bg-greenHover"
+            className="px-4 py-1 text-sm font-semibold text-white transition duration-200 rounded bg-primaryGreen sm:text-base hover:bg-greenHover"
             onClick={() => navigate("?reestablecer_password=true&internal=true")}
           >
             {isGoogleAuth ? "Agregar contraseña" : "Cambiar Contraseña"}

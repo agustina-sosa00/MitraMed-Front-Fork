@@ -110,11 +110,11 @@ export const ConfirmDataUser = () => {
                 <DialogPanel className="flex flex-col items-center w-full max-w-2xl p-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl text-slate-800 ">
                   <DialogTitle
                     as="h3"
-                    className="mb-6 text-3xl font-semibold text-center text-green"
+                    className="mb-6 text-3xl font-semibold text-center text-primaryGreen"
                   >
                     Completa tus datos
                   </DialogTitle>
-                  <p className="mb-6 text-sm text-center text-blue">
+                  <p className="mb-6 text-sm text-center text-primaryBlue">
                     Para finalizar el proceso de autenticación, por favor complete los datos
                     faltantes.
                   </p>
@@ -131,7 +131,7 @@ export const ConfirmDataUser = () => {
                       <input
                         type="submit"
                         value="Confirmar"
-                        className="max-w-lg px-4 py-1 my-3 text-base text-white uppercase transition-colors rounded shadow-lg cursor-pointer bg-green hover:bg-greenHover"
+                        className="max-w-lg px-4 py-1 my-3 text-base text-white uppercase transition-colors rounded shadow-lg cursor-pointer bg-primaryGreen hover:bg-greenHover"
                       />
                     </div>
                   </form>

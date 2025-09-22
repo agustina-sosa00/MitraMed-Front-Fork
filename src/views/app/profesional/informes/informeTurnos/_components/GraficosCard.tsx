@@ -73,7 +73,7 @@ export default function GraficosCard() {
   ];
 
   return (
-    <div className="grid w-full grid-cols-2 h-full gap-4 mt-2 mb-6 justify-items-center border p-2 rounded bg-slate-100">
+    <div className="grid w-full h-full grid-cols-2 gap-4 p-2 mt-2 mb-6 border rounded justify-items-center bg-slate-100">
       {cardsConfig.map((card) => {
         const isEmpty = !hasSearched || !card.data || card.data.length === 0;
         const emptyData = [
@@ -85,19 +85,19 @@ export default function GraficosCard() {
             className="bg-white border border-gray-200 rounded-lg shadow-sm p-4 flex flex-col items-center w-full max-w-[540px] min-w-[340px]"
           >
             <h1
-              className={`h-6 text-2xl font-semibold mb-2 tracking-wider underline underline-offset-4 ${hasSearched ? "text-blue" : "text-gray-400"}`}
+              className={`h-6 text-2xl font-semibold mb-2 tracking-wider underline underline-offset-4 ${hasSearched ? "text-primaryBlue" : "text-gray-400"}`}
             >
               {card.title}
             </h1>
-            <div className="flex flex-col w-full items-center justify-center gap-2">
+            <div className="flex flex-col items-center justify-center w-full gap-2">
               <div
                 className={`w-full h-[250px] flex items-center justify-center ${isEmpty ? "pointer-events-none select-none donut-empty" : ""}`}
                 tabIndex={isEmpty ? -1 : undefined}
               >
                 <DonutChart data={isEmpty ? emptyData : card.data} />
                 {hasSearched && !isEmpty && (
-                  <div className="flex w-52 justify-start mt-2 pr-2 ">
-                    <span className="text-lg text-slate-600 font-semibold">
+                  <div className="flex justify-start pr-2 mt-2 w-52 ">
+                    <span className="text-lg font-semibold text-slate-600">
                       {card.data?.reduce((acc, item) => acc + Number(item.value), 0)} Registros
                     </span>
                   </div>
@@ -106,23 +106,23 @@ export default function GraficosCard() {
                 <style>{`.donut-empty svg text, .donut-empty .recharts-layer text, .donut-empty .recharts-label { display: none !important; }`}</style>
               </div>
               <div className="w-full pt-2">
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-x-3 gap-y-1 w-full">
+                <div className="grid w-full grid-cols-2 md:grid-cols-3 gap-x-3 gap-y-1">
                   {isEmpty ? (
-                    <div className="flex items-center gap-1 min-w-0 opacity-60 select-none pointer-events-none">
-                      <div className="w-3 h-3 rounded-sm bg-gray-300"></div>
+                    <div className="flex items-center min-w-0 gap-1 pointer-events-none select-none opacity-60">
+                      <div className="w-3 h-3 bg-gray-300 rounded-sm"></div>
                       <span className="text-[11px] font-medium text-gray-400 truncate max-w-[110px] cursor-default select-none">
                         Sin datos
                       </span>
                     </div>
                   ) : (
                     card.data?.map((item) => (
-                      <div key={item.name} className="flex items-center gap-1 min-w-0">
+                      <div key={item.name} className="flex items-center min-w-0 gap-1">
                         <div
                           className="w-3 h-3 rounded-sm"
                           style={{ backgroundColor: item.colors }}
                         ></div>
                         <span
-                          className="text-[11px] font-medium text-blue truncate max-w-[110px] cursor-default"
+                          className="text-[11px] font-medium text-primaryBlue truncate max-w-[110px] cursor-default"
                           title={item.name}
                         >
                           {item.name}

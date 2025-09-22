@@ -121,13 +121,13 @@ export default function HomePacientesView() {
           }}
         ></div>
         <div className="relative z-10 flex flex-col gap-5">
-          <h2 className="text-3xl font-extrabold text-green sm:text-5xl">
+          <h2 className="text-3xl font-extrabold text-primaryGreen sm:text-5xl">
             {usuario?.genero === "Femenino"
               ? `¡Bienvenida ${usuario?.nombre}!`
               : `¡Bienvenido ${usuario?.nombre}!`}
           </h2>
           <div className="flex flex-col items-center justify-center w-full gap-2 lg:flex-row ">
-            <p className="text-xl font-medium text-blue">Tu número de teléfono es:</p>
+            <p className="text-xl font-medium text-primaryBlue">Tu número de teléfono es:</p>
             {/* Telefono */}
 
             <div className="flex items-center justify-center gap-2">
@@ -136,13 +136,15 @@ export default function HomePacientesView() {
                   <div className="flex items-center justify-center gap-1">
                     <input
                       type="text"
-                      className="w-1/6 text-sm sm:text-base py-1 px-2 min-h-[35px] border  border-gray-300 rounded focus:outline-none focus:border-green focus:ring-1 transition"
+                      className="w-1/6 text-sm sm:text-base py-1 px-2 min-h-[35px] border  border-gray-300 rounded focus:outline-none focus:border-primaryGreen focus:ring-1 transition"
                       {...register("codarea")}
                     />
-                    <span className="flex items-center text-sm text-blue sm:text-base">15</span>
+                    <span className="flex items-center text-sm text-primaryBlue sm:text-base">
+                      15
+                    </span>
                     <input
                       type="text"
-                      className="w-1/4 text-sm sm:text-base py-1 px-2  min-h-[35px] border border-gray-300 rounded focus:outline-none focus:border-green focus:ring-1 transition"
+                      className="w-1/4 text-sm sm:text-base py-1 px-2  min-h-[35px] border border-gray-300 rounded focus:outline-none focus:border-primaryGreen focus:ring-1 transition"
                       {...register("telefono")}
                     />{" "}
                   </div>
@@ -151,7 +153,7 @@ export default function HomePacientesView() {
                     <button
                       type="button"
                       onClick={handleSubmit(handleCambiarTelefono)}
-                      className="px-4 py-1 text-sm font-semibold text-white transition duration-200 rounded bg-green sm:text-base hover:bg-blue-700"
+                      className="px-4 py-1 text-sm font-semibold text-white transition duration-200 rounded bg-primaryGreen sm:text-base hover:bg-blue-700"
                     >
                       Confirmar
                     </button>
@@ -173,7 +175,7 @@ export default function HomePacientesView() {
                   <button
                     type="button"
                     onClick={() => setIsEditingTelefono(true)}
-                    className="p-2 text-base font-semibold text-white transition duration-200 border rounded bg-green hover:bg-greenHover"
+                    className="p-2 text-base font-semibold text-white transition duration-200 border rounded bg-primaryGreen hover:bg-greenHover"
                   >
                     <TiPencil />
                   </button>
@@ -181,7 +183,7 @@ export default function HomePacientesView() {
               )}
             </div>
           </div>
-          <p className="text-xl font-medium text-blue">
+          <p className="text-xl font-medium text-primaryBlue">
             Estamos para ayudarte a que tu experiencia médica sea más cómoda, organizada y segura.
           </p>
         </div>
@@ -199,14 +201,16 @@ export default function HomePacientesView() {
 
           <div className="relative z-10 flex flex-col items-center justify-center w-full h-full mx-auto gap-7">
             <div className="flex flex-col items-center justify-center gap-2">
-              <p className="text-2xl font-semibold text-blue">¿Necesitas un turno?</p>
-              <p className=" text-blue">Agenda tu próxima consulta de rápida y eficazmente.</p>
+              <p className="text-2xl font-semibold text-primaryBlue">¿Necesitas un turno?</p>
+              <p className=" text-primaryBlue">
+                Agenda tu próxima consulta de rápida y eficazmente.
+              </p>
             </div>
 
             <div className="relative z-10 mx-auto w-fit">
               <Link
                 to="/turnos"
-                className="inline-block px-4 py-1 text-lg font-semibold text-white transition duration-300 rounded-lg bg-green hover:bg-greenHover"
+                className="inline-block px-4 py-1 text-lg font-semibold text-white transition duration-300 rounded-lg bg-primaryGreen hover:bg-greenHover"
               >
                 Sacar un Turno
               </Link>
@@ -224,8 +228,8 @@ export default function HomePacientesView() {
 
           <div className="relative z-10 flex flex-col items-center justify-center w-full h-full mx-auto gap-7">
             <div className="flex flex-col items-center justify-center gap-2">
-              <p className="text-2xl font-semibold text-blue">¿Quieres ver tus turnos?</p>
-              <p className="text-blue">
+              <p className="text-2xl font-semibold text-primaryBlue">¿Quieres ver tus turnos?</p>
+              <p className="text-primaryBlue">
                 Consulta el historial de tus turnos reservados
                 <br />y mantente al tanto de tus próximas citas.
               </p>
@@ -233,7 +237,7 @@ export default function HomePacientesView() {
             <div className="relative z-10 mx-auto w-fit">
               <Link
                 to="/mis-turnos"
-                className="inline-block px-4 py-1 text-lg font-semibold text-white transition duration-300 rounded-lg bg-green hover:bg-greenHover"
+                className="inline-block px-4 py-1 text-lg font-semibold text-white transition duration-300 rounded-lg bg-primaryGreen hover:bg-greenHover"
               >
                 Ver mis Turnos
               </Link>

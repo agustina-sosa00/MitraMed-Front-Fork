@@ -177,7 +177,7 @@ export default function NewPasswordModal() {
                       onSubmit={handleSubmit(handleForm)}
                     >
                       {token && (
-                        <p className="my-2 text-xs italic font-thin text-green">
+                        <p className="my-2 text-xs italic font-thin text-primaryGreen">
                           *Esta ventana es de un solo uso. Te recomendamos cambiar tu contraseña
                           antes de salir. De lo contrario, deberás solicitar un nuevo link de
                           recuperación.
@@ -189,7 +189,7 @@ export default function NewPasswordModal() {
                       <input
                         type="submit"
                         value="Enviar"
-                        className="w-1/2 py-1 my-3 text-base text-white uppercase transition-colors rounded shadow-lg cursor-pointer bg-green sm:p-2 hover:bg-greenHover"
+                        className="w-1/2 py-1 my-3 text-base text-white uppercase transition-colors rounded shadow-lg cursor-pointer bg-primaryGreen sm:p-2 hover:bg-greenHover"
                       />
                     </form>
                   ) : (
