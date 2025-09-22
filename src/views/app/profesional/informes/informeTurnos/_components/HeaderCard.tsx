@@ -71,11 +71,6 @@ export default function HeaderCard({ loader, setLoader }: DateRangePickerProps) 
   // El botón de limpiar solo debe estar habilitado cuando hay datos y hasSearched es true, y no está cargando
   const disabledButtonTrash = !(hasSearched && informeTurnosData?.data?.length > 0) || loader;
 
-  const [showPreview, setShowPreview] = useState(false);
-  const previewData = [
-    { Columna1: "Valor 1", Columna2: "Valor 2" },
-    { Columna1: "Otro 1", Columna2: "Otro 2" },
-  ];
   const rangePresets: RangePickerProps["presets"] = [
     { label: "Ayer", value: [dayjs().add(-1, "d"), dayjs().add(-1, "d")] },
     { label: "Últimos 7 días", value: [dayjs().add(-7, "d"), dayjs()] },
