@@ -1,5 +1,6 @@
 import { apiDropbox } from "@/lib/axiosDropbox";
 import { apiPhp } from "@/lib/axiosPhp";
+import { getLocalStorageParams } from "@/utils/index";
 import axios from "axios";
 import Cookies from "js-cookie";
 
@@ -16,8 +17,7 @@ export function grabarHistoria({
   obs: string;
   iddoctor: string;
 }) {
-  const modo = localStorage.getItem("_m");
-  const empresa = localStorage.getItem("_e");
+  const { empresa, modo, entorno } = getLocalStorageParams();
 
   const data = {
     _e: empresa,
@@ -29,7 +29,7 @@ export function grabarHistoria({
     iddoctor: iddoctor,
   };
   try {
-    const response = apiPhp.post(`/apinovades/mitramed/grabarHistoria.php`, data);
+    const response = apiPhp.post(`/${entorno}/mitramed/grabarHistoria.php`, data);
     return response;
   } catch (error) {
     throw new Error(`${error}`);
@@ -48,8 +48,8 @@ export async function grabarPacienteDocum({
   iddoctor: number;
 }) {
   try {
-    const modo = localStorage.getItem("_m");
-    const empresa = localStorage.getItem("_e");
+    const { empresa, modo, entorno } = getLocalStorageParams();
+
     const data = {
       _e: empresa,
       _m: modo,
@@ -58,7 +58,7 @@ export async function grabarPacienteDocum({
       extension: extension,
       iddoctor: iddoctor,
     };
-    const response = await apiPhp.post(`/apinovades/mitramed/grabarPacienteDocum.php`, data);
+    const response = await apiPhp.post(`/${entorno}/mitramed/grabarPacienteDocum.php`, data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -67,10 +67,10 @@ export async function grabarPacienteDocum({
 
 export async function getIdOpera({ dni, idhistoria }: { dni: number; idhistoria: number }) {
   try {
-    const modo = localStorage.getItem("_m");
-    const empresa = localStorage.getItem("_e");
+    const { empresa, modo, entorno } = getLocalStorageParams();
+
     const response = await apiPhp(
-      `apinovades/mitramed/obtenerIdOpera.php?_i={"_e":"${empresa}","_m":"${modo}","_d":"${dni}","_ih":"${idhistoria}"}`,
+      `/${entorno}/mitramed/obtenerIdOpera.php?_i={"_e":"${empresa}","_m":"${modo}","_d":"${dni}","_ih":"${idhistoria}"}`,
     );
     return response.data;
   } catch (error) {
@@ -80,8 +80,10 @@ export async function getIdOpera({ dni, idhistoria }: { dni: number; idhistoria:
 
 export default async function obtenerPacienteHc({ dni }: { dni: string }) {
   try {
+    const { empresa, modo, entorno } = getLocalStorageParams();
+
     const response = await apiPhp(
-      `/apinovades/mitramed/obtenerPacienteHc.php?_i={"_e":"20","_m":"homo","_d":${dni}}`,
+      `/${entorno}/mitramed/obtenerPacienteHc.php?_i={"_e":"${empresa}","_m":"${modo}","_d":${dni}}`,
     );
     return response.data;
   } catch (error) {
@@ -91,12 +93,11 @@ export default async function obtenerPacienteHc({ dni }: { dni: string }) {
 
 //region dropbox
 export const getDataDropbox = async () => {
-  const modo = localStorage.getItem("_m");
-  const empresa = localStorage.getItem("_e");
-
   try {
+    const { empresa, modo, entorno } = getLocalStorageParams();
+
     const response = await apiPhp(
-      `/apinovades/dropbox/obtenerDropboxDatos.php?_i={"_e":"${empresa}","_m":"${modo}"}`,
+      `/${entorno}/dropbox/obtenerDropboxDatos.php?_i={"_e":"${empresa}","_m":"${modo}"}`,
     );
     return response.data;
   } catch (error) {

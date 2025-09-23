@@ -1,9 +1,12 @@
 import { apiPhp } from "@/lib/axiosPhp";
+import { getLocalStorageParams } from "@/utils/index";
 
 export async function obtenerDoctores() {
   try {
+    const { empresa, modo, entorno } = getLocalStorageParams();
+
     const response = await apiPhp(
-      `/apinovades/mitramed/obtenerDoctores.php?_i={"_e":"20","_m":"homo"}`,
+      `/${entorno}/mitramed/obtenerDoctores.php?_i={"_e":"${empresa}","_m":"${modo}"}`,
     );
 
     return response.data;
@@ -14,11 +17,9 @@ export async function obtenerDoctores() {
 
 export async function obtenerTurnosDiarios({ fini, ffin, iddoctor }) {
   try {
-    const empresa = localStorage.getItem("_e");
-    const modo = localStorage.getItem("_m");
-    const tusuario = localStorage.getItem("_tu");
+    const { empresa, modo, entorno, tusuario } = getLocalStorageParams();
 
-    const url = `/apinovades/mitramed/obtenerTurnosDiarios.php?_i={"_e":"${empresa}","_m":"${modo}","_tu":"${tusuario}","_id":"${iddoctor}","_fini":"${fini}","_ffin":"${ffin}"}`;
+    const url = `/${entorno}/mitramed/obtenerTurnosDiarios.php?_i={"_e":"${empresa}","_m":"${modo}","_tu":"${tusuario}","_id":"${iddoctor}","_fini":"${fini}","_ffin":"${ffin}"}`;
 
     const response = await apiPhp(url);
 

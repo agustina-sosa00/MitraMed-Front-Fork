@@ -1,10 +1,15 @@
 import { apiPhp } from "@/lib/axiosPhp";
+import { getLocalStorageParams } from "@/utils/index";
 
 export const obtenerUsuProfesional = async (data) => {
-  const login = `/apinovades/generico/obtenerUsuProfesional.php?_i={"_e":"20","_m":"homo","_u":"${data.usuario}","_p":"${data.password}"}`;
-
   try {
-    const response = await apiPhp(login);
+    const { empresa, modo, entorno } = getLocalStorageParams();
+
+    const url = `/${entorno}/generico/obtenerUsuProfesional.php?_i={"_e":"${empresa}","_m":"${modo}","_u":"${data.usuario}","_p":"${data.password}"}`;
+
+    // console.log(url);
+
+    const response = await apiPhp(url);
 
     return response;
   } catch (error) {

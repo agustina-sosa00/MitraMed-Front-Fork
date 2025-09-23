@@ -1,6 +1,7 @@
 import { apiPhp } from "@/lib/axiosPhp";
 import axios, { AxiosError } from "axios";
 import { ToothChangeTuple } from "../types/odontogramaTypes";
+import { getLocalStorageParams } from "@/utils/index";
 interface BackendError {
   message?: string;
   error?: string;
@@ -8,8 +9,10 @@ interface BackendError {
 
 export async function getOdontogram({ dni }: { dni: string }) {
   try {
+    const { empresa, modo, entorno } = getLocalStorageParams();
+
     const response = await apiPhp(
-      `/apinovades/mitramed/obtenerOdontograma1.php?_i={"_e":"20","_m":"homo","_d":${dni}}`,
+      `/${entorno}/mitramed/obtenerOdontograma1.php?_i={"_e":"${empresa}","_m":"${modo}","_d":${dni}}`,
     );
     return response.data;
   } catch (error) {
@@ -37,8 +40,10 @@ export async function getOdontogram({ dni }: { dni: string }) {
 
 export async function postSaveOdontogram({ dni, data }: { dni: string; data: ToothChangeTuple[] }) {
   try {
+    const { empresa, modo, entorno } = getLocalStorageParams();
+
     const response = await apiPhp.post(
-      `/apinovades/mitramed/grabarOdontograma.php?_i={"_e":"20","_m":"homo","_d":${dni}}`,
+      `/${entorno}/mitramed/grabarOdontograma.php?_i={"_e":"${empresa}","_m":"${modo}","_d":${dni}}`,
       data,
     );
     return response.data;
