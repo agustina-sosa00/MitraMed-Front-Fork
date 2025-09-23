@@ -24,7 +24,6 @@ export async function enviarEmailRecordatorio(fecha: string, body: any) {
     const { empresa, modo, entorno } = getLocalStorageParams();
     // El body debe ser solo el array de doctores
     const doctoresArray = Array.isArray(body.datos) ? body.datos : body;
-    console.log("Body enviado:", doctoresArray);
     const response = await apiPhp.post(
       `/${entorno}/twilio/enviaEmail.php?_i={"_e":"${empresa}","_m":"${modo}","fecha":"${fecha}"}`,
       doctoresArray,

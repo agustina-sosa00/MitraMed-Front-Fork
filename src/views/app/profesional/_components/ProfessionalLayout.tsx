@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import { FaHouse } from "react-icons/fa6";
-import { FaTooth, FaArchive, FaUserCog, FaUserMd, FaNotesMedical } from "react-icons/fa";
+import { FaTooth, FaArchive, FaUserCog, FaCogs, FaUserMd, FaNotesMedical } from "react-icons/fa";
 import { HiDocumentReport } from "react-icons/hi";
 import { IoSettingsSharp } from "react-icons/io5";
 import { Navbar } from "@/views/app/_components/features/Navbar";
@@ -89,6 +89,24 @@ export default function ProfessionalLayout({ setLoader }: IProp) {
         },
       ],
     },
+    procesos: {
+      key: "procesos",
+      name: "Procesos",
+      icon: FaCogs, // Icono de reporte/documento más específico
+      link: "#", // No tiene link directo, es un desplegable
+      disabled: disabledButtonSidebar.informes,
+      description: "Automatizaciones y procesos del sistema.",
+      isDropdown: true,
+      subItems: [
+        {
+          key: "envio-email",
+          name: "Envío de Emails",
+          link: "/dashboard/procesos",
+          disabled: disabledButtonSidebar.tablaGral,
+          description: "Panel centralizado para envío de recordatorio de Emails a doctores.",
+        },
+      ],
+    },
     usuarios: {
       key: "usuarios",
       name: "Usuarios",
@@ -139,6 +157,7 @@ export default function ProfessionalLayout({ setLoader }: IProp) {
           buttons.historial,
           buttons.odontograma,
           buttons.informes,
+          buttons.procesos,
           buttons.usuarios,
           buttons.configuracion,
         ];

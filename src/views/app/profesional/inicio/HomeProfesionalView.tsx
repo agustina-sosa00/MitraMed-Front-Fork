@@ -23,7 +23,7 @@ export default function HomeProfesionalView() {
             .filter((b) => b.name !== "Inicio" && !b.disabled)
             .map((item) => (
               <CardInicioProfesionales
-                key={item.link}
+                key={item.key}
                 text={item.name}
                 description={item.description}
                 link={item.link}
