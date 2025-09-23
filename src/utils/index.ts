@@ -13,3 +13,14 @@ export function getToday() {
   const day = String(today.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
 }
+
+export function getLocalStorageParams() {
+  const empresa = localStorage.getItem("_e");
+  const modo = localStorage.getItem("_m");
+  const entornoStorage = localStorage.getItem("_env");
+  const entorno = entornoStorage === "des" ? "apinovades" : "apinova";
+  const tusuario = localStorage.getItem("_tu");
+  const iddoctor = localStorage.getItem("_iddoc");
+
+  return { empresa, modo, entorno, tusuario, iddoctor };
+}
