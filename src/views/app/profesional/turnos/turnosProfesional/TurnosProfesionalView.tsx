@@ -27,6 +27,7 @@ export default function TurnosProfesionalView() {
     queryKey: ["turnos-profesional", daySchedule],
     queryFn: () => obtenerTurnosDiarios({ fini: daySchedule, ffin: daySchedule }),
     enabled: !!daySchedule,
+    refetchInterval: 10000, // cada 10s
   });
 
   const columns = [
