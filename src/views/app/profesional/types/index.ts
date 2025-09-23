@@ -62,6 +62,7 @@ export type ContextType = {
   };
   buttonsSidebar: [
     {
+      key: string;
       name: string;
       icon: IconType;
       link: string;
