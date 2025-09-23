@@ -5,7 +5,7 @@ export const obtenerUsuProfesional = async (data) => {
   try {
     const { empresa, modo, entorno } = getLocalStorageParams();
 
-    const url = `/${entorno}/generico/obtenerUsuProfesional.php?_i={"_e":"${empresa}","_m":"${modo}","_u":"${data.usuario}","_p":"${data.password}"}`;
+    const url = `/${entorno}/mitramed/obtenerUsuProfesional.php?_i={"_e":"${empresa}","_m":"${modo}","_u":"${data.usuario}","_p":"${data.password}"}`;
 
     // console.log(url);
 
