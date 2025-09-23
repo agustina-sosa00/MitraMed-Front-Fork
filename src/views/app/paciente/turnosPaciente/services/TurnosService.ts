@@ -1,5 +1,6 @@
-import { Doctor, Horario, Turno, Usuario } from "@/views/auth/types";
+import { Doctor, Turno, Usuario } from "@/views/auth/types";
 import api from "../../../../../lib/axios";
+import { apiPhp } from "@/lib/axiosPhp";
 import { isAxiosError } from "axios";
 
 // Services de usuarios
@@ -180,6 +181,31 @@ export async function obtenerDiasSinAtencion({
 //   }
 // }
 
+// export async function obtenerTurnosDisponibles({
+//   idEspecialidad,
+//   idDoctor,
+//   fecha,
+// }: {
+//   idEspecialidad: string;
+//   idDoctor: string;
+//   fecha: string;
+// }) {
+//   try {
+//     const { data } = await api<Horario[]>(
+//       `/turnos/obtener_turnosdisponibles/${idEspecialidad}/${idDoctor}/${fecha}`,
+//     );
+
+//     console.log(data);
+//     return data;
+//   } catch (error) {
+//     if (isAxiosError(error) && error.response) {
+//       throw new Error(error.response.data.error);
+//     } else {
+//       throw new Error("Hubo un error...");
+//     }
+//   }
+// }
+
 export async function obtenerTurnosDisponibles({
   idEspecialidad,
   idDoctor,
@@ -190,10 +216,18 @@ export async function obtenerTurnosDisponibles({
   fecha: string;
 }) {
   try {
-    const { data } = await api<Horario[]>(
-      `/turnos/obtener_turnosdisponibles/${idEspecialidad}/${idDoctor}/${fecha}`,
+    const empresa = localStorage.getItem("_e");
+    const modo = localStorage.getItem("_m");
+    const entornoStorage = localStorage.getItem("_env");
+    const entorno = entornoStorage === "des" ? "apinovades" : "apinova";
+
+    const response = await apiPhp(
+      `/${entorno}/mitramed/obtenerTurnosHorarios.php?_i={"_e":"${empresa}","_m":"${modo}","_d":"${idDoctor}","_es":"${idEspecialidad}","_f":"${fecha}"}`,
     );
-    return data;
+
+    // console.log(response.data.data);
+
+    return response.data.data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.error);
