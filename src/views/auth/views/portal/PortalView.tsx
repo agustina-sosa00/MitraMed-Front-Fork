@@ -42,7 +42,7 @@ export default function PortalView({ setLoader }: IProp) {
 
   useEffect(() => {
     const viteEnv = import.meta.env.VITE_ENV;
-    if (!viteEnv) {
+    if (viteEnv === "development") {
       localStorage.setItem("_e", "20");
       localStorage.setItem("_m", "homo");
       localStorage.setItem("_env", "des");
