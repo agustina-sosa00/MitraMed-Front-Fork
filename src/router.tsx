@@ -17,11 +17,13 @@ import ProfessionalLayout from "./views/app/profesional/_components/Professional
 import HomeProfesionalView from "./views/app/profesional/inicio/HomeProfesionalView";
 import TurnosGeneralesView from "./views/app/profesional/turnos/turnosGenerales/TurnosGeneralesView";
 import TurnosProfesionalView from "./views/app/profesional/turnos/turnosProfesional/TurnosProfesionalView";
+import { useEffect, useState } from "react";
 import HistorialClinicoView from "./views/app/profesional/hc/HistorialClinicoView";
 import OdontogramView from "./views/app/profesional/odontograma/OdontogramaView";
 import InformeTurnosView from "./views/app/profesional/informes/informeTurnos/InformeTurnosView";
 import UsuariosProfesionalesView from "./views/app/profesional/usuarios/UsuariosProfesionalesView";
 import ConfiguracionView from "./views/app/profesional/configuracion/ConfiguracionView";
+import EnvioEmailView from "./views/app/profesional/procesos/EnvioEmailView";
 
 interface RouterProps {
   loader: boolean;
@@ -29,6 +31,13 @@ interface RouterProps {
 }
 
 export default function Router({ loader, setLoader }: RouterProps) {
+  // Para control inline de /dashboard/turnos-profesional
+  const [env, setEnv] = useState<string | null>(null);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setEnv(localStorage.getItem("_env"));
+    }
+  }, []);
   // const idProfesional = Cookies.get("idProfesional");
 
   return (
@@ -55,11 +64,15 @@ export default function Router({ loader, setLoader }: RouterProps) {
         <Route element={<ProfessionalProtectedRoute />}>
           <Route element={<ProfessionalLayout setLoader={setLoader} />}>
             <Route path="/dashboard/inicio" element={<HomeProfesionalView />} />
-            <Route path="/dashboard/turnos" element={<TurnosGeneralesView />} />
+            <Route
+              path="/dashboard/turnos"
+              element={env === "des" ? <TurnosGeneralesView /> : <Vista404 />}
+            />
             <Route path="/dashboard/turnos-profesional" element={<TurnosProfesionalView />} />
             <Route path="/dashboard/historia-clinica" element={<HistorialClinicoView />} />
             <Route path="/dashboard/odontograma" element={<OdontogramView />} />
             <Route path="/dashboard/informe-turnos" element={<InformeTurnosView />} />
+            <Route path="/dashboard/procesos" element={<EnvioEmailView />} />
             <Route path="/dashboard/usuarios" element={<UsuariosProfesionalesView />} />
             <Route path="/dashboard/configuracion" element={<ConfiguracionView />} />
             {/* {idProfesional && (
