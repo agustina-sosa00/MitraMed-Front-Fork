@@ -150,7 +150,7 @@ export default function HistorialClinicoView() {
     {
       key: "detalle",
       label: "Motivo de Consulta",
-      minWidth: "260",
+      minWidth: "230",
       maxWidth: "320",
     },
     {
@@ -349,8 +349,17 @@ export default function HistorialClinicoView() {
             <div className="w-full ">
               <label className="text-sm font-medium text-primaryBlue">Evolución:</label>
             </div>
-            <div className="w-full h-32 px-2 py-1 font-bold border border-gray-300 rounded xg:h-48 xxl:h-48 bg-lightGray text-primaryBlue">
-              {hcSelected && hcSelected.obs}
+            <div
+              className="w-full max-h-48 h-32 px-2 py-1 font-bold border border-gray-300 rounded xg:h-48 xxl:h-48 bg-lightGray text-primaryBlue overflow-y-auto"
+              style={{ whiteSpace: "pre-line" }}
+            >
+              {hcSelected && hcSelected.obs
+                ? hcSelected.obs
+                    .split("_")
+                    .map((item) => item.split("@")[0])
+                    .filter((val) => val && val !== "10")
+                    .join("\n")
+                : ""}
             </div>
           </div>
 
