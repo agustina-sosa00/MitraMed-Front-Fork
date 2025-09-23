@@ -76,6 +76,16 @@ export default function SideBar({ logo, buttons, isDisabled = false }: IProp) {
     setDniHistory("");
     setDniHistoryInput("");
     clearInformeTurnosData(); // Limpiar store de informeTurnos
+    // Limpiar localStorage desde _tu para abajo
+    const keysToRemove = [
+      "_tu",
+      "_iddoc",
+      "_idprof",
+      "mtm-tusuario",
+      "mtm-iddoctor",
+      // Agrega aquí cualquier otra clave que quieras limpiar
+    ];
+    keysToRemove.forEach((key) => localStorage.removeItem(key));
     Cookies.remove("accessProfessional");
     Cookies.remove("accessTokenDropbox");
     Cookies.remove("app_id_dropbox");
