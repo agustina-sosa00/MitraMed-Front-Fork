@@ -3,23 +3,61 @@ import { IconType } from "react-icons/lib";
 import { FiMenu } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
 import Cookies from "js-cookie";
-
 import { Link, useNavigate } from "react-router-dom";
+import { useInformeTurnosStore } from "../../profesional/informes/informeTurnos/store/informeTurnosStore";
+import { useOdontogramContext } from "../../../../context/OdontogramContext";
+import { useMedicalHistoryContext } from "../../../../context/MedicalHistoryContext";
+
 interface IProp {
   logo: string;
   buttons: { name: string; icon: IconType; link: string }[];
 }
 export const Navbar: React.FC<IProp> = ({ logo, buttons }) => {
+  const {
+    setDniOdontogram,
+    setOriginalData,
+    setTeethIdsState,
+    setHasConfirmed,
+    setUiLoading,
+    setDniInput,
+  } = useOdontogramContext();
+  const { setDniHistory, setDniInput: setDniHistoryInput } = useMedicalHistoryContext();
+  const { clearInformeTurnosData } = useInformeTurnosStore();
+
   const [openMenu, setOpenMenu] = useState(false);
   const handleOpenMenu = () => {
     setOpenMenu((prev) => !prev);
   };
   const navigate = useNavigate();
 
-  const handleLogout = () => {
+  function handleLogout() {
+    setDniOdontogram("");
+    setOriginalData({});
+    setTeethIdsState({});
+    setHasConfirmed(false);
+    setUiLoading(false);
+    setDniInput("");
+    setDniHistory("");
+    setDniHistoryInput("");
+    clearInformeTurnosData(); // Limpiar store de informeTurnos
+    // Limpiar localStorage desde _tu para abajo
+    const keysToRemove = [
+      "_tu",
+      "_iddoc",
+      "_idprof",
+      "mtm-tusuario",
+      "mtm-iddoctor",
+      // Agrega aquí cualquier otra clave que quieras limpiar
+    ];
+    keysToRemove.forEach((key) => localStorage.removeItem(key));
     Cookies.remove("accessProfessional");
+    Cookies.remove("accessTokenDropbox");
+    Cookies.remove("app_id_dropbox");
+    Cookies.remove("app_secret_dropbox");
+    Cookies.remove("refresh_token_dropbox");
     navigate("/");
-  };
+  }
+
   return (
     <div className="fixed top-0 z-50 block w-full lg:hidden ">
       <nav className="bg-gray-200 ">
