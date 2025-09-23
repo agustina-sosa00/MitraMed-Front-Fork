@@ -146,10 +146,19 @@ export default function TableCard() {
       ? filtrarDatosTabla(informeTurnosData.data)
       : [];
 
-  // Ordenar por fecha ascendente
-  const datosFiltradosOrdenados = [...datosFiltrados].sort(
-    (a, b) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime(),
-  );
+  // Ordenar por fecha, nespecialidad, ndoctor y hora_ini
+  const datosFiltradosOrdenados = [...datosFiltrados].sort((a, b) => {
+    const fechaDiff = new Date(a.fecha).getTime() - new Date(b.fecha).getTime();
+    if (fechaDiff !== 0) return fechaDiff;
+
+    const especialidadDiff = a.nespecialidad.localeCompare(b.nespecialidad);
+    if (especialidadDiff !== 0) return especialidadDiff;
+
+    const doctorDiff = a.ndoctor.localeCompare(b.ndoctor);
+    if (doctorDiff !== 0) return doctorDiff;
+
+    return a.hora_ini.localeCompare(b.hora_ini);
+  });
 
   let datosParaTabla = datosFiltradosOrdenados.map((item, idx) => ({
     id: idx + 1,
