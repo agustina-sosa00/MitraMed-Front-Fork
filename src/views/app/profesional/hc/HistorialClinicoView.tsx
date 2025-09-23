@@ -304,7 +304,7 @@ export default function HistorialClinicoView() {
   //region return
   return (
     <ContainView
-      title="HC"
+      title="Historia Clínica"
       padding="py-3 2xl:py-3 px-10"
       gapChildren="gap-1"
       sizeTitle="text-3xl 2xl:text-4xl"
