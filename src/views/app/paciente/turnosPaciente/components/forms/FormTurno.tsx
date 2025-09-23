@@ -19,7 +19,7 @@ import {
   obtenerEspecialidades,
   obtenerTurnosDisponibles,
 } from "@/views/app/paciente/turnosPaciente/services/TurnosService";
-import { Doctor, Especialidad, Horario, Turno } from "@/views/auth/types";
+import { Doctor, Especialidad, Turno } from "@/views/auth/types";
 
 type FormTurnoProps = {
   register: UseFormRegister<Turno>;
@@ -67,7 +67,7 @@ export default function FormTurno({ register, setValue, getValues, reset, watch 
     initialData: [],
   });
 
-  const { data: turnos, isLoading: isLoadingTurnos } = useQuery<Horario[], Error>({
+  const { data: turnos, isLoading: isLoadingTurnos } = useQuery({
     queryKey: ["turnos", idEspecialidad, idDoctor, fecha],
     queryFn: () => obtenerTurnosDisponibles({ idEspecialidad, idDoctor, fecha }),
     enabled: !!idEspecialidad && !!idDoctor && !!fecha,
@@ -249,7 +249,7 @@ export default function FormTurno({ register, setValue, getValues, reset, watch 
                     Cargando turnos...
                   </div>
                 ) : (
-                  turnos?.map((turno, index) => (
+                  turnos.map((turno, index) => (
                     <div
                       key={index}
                       className={`grid grid-cols-4 text-center border-b border-gray-400 relative ${
