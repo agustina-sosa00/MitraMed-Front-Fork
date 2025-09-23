@@ -108,15 +108,17 @@ export default function SignInForm({ rol, handle }: IProp) {
       }
 
       if (user) {
-        localStorage.setItem("_e", "20");
-        const viteEnv = import.meta.env.VITE_ENV;
-        if (viteEnv === "development") {
-          localStorage.setItem("_m", "homo");
-          localStorage.setItem("_env", "des");
-        } else {
-          localStorage.setItem("_m", "prod");
-          localStorage.setItem("_env", "prod");
-        }
+        // localStorage.setItem("_e", "20");
+        // const viteEnv = import.meta.env.VITE_ENV;
+
+        // if (viteEnv === "development") {
+        //   localStorage.setItem("_m", "homo");
+        //   localStorage.setItem("_env", "des");
+        // } else {
+        //   localStorage.setItem("_m", "prod");
+        //   localStorage.setItem("_env", "prod");
+        // }
+
         localStorage.setItem("_tu", user?.tusuario);
         localStorage.setItem("_iddoc", user?.iddoctor);
         localStorage.setItem("_idprof", user?.idprofesional);

@@ -39,6 +39,19 @@ export default function PortalView({ setLoader }: IProp) {
     setIsOpenDrawer(false);
     setCurrentRol(undefined);
   };
+
+  useEffect(() => {
+    const viteEnv = import.meta.env.VITE_ENV;
+    if (!viteEnv) {
+      localStorage.setItem("_e", "20");
+      localStorage.setItem("_m", "homo");
+      localStorage.setItem("_env", "des");
+    } else {
+      localStorage.setItem("_m", "prod");
+      localStorage.setItem("_env", "prod");
+    }
+  }, []);
+
   useEffect(() => {
     const accessToken = Cookies.get("accessToken");
     const refreshToken = Cookies.get("refreshToken");
