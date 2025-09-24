@@ -84,7 +84,7 @@ export default async function obtenerPacienteHc({ dni }: { dni: string }) {
     const { empresa, modo, entorno } = getLocalStorageParams();
 
     const response = await apiPhp(
-      `/${entorno}/mitramed/obtenerPacienteHc.php?_i={"_e":"${empresa}","_m":"${modo}","_d":${dni}}`,
+      `/${entorno}/mitramed/obtenerPacienteHC.php?_i={"_e":"${empresa}","_m":"${modo}","_d":${dni}}`,
     );
     return response.data;
   } catch (error) {
