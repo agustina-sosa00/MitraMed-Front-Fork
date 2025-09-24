@@ -42,7 +42,7 @@ export default function HistorialClinicoView() {
     dataPaciente,
     setDataPaciente,
     hc,
-    // idpaciente,
+    editMode,
     hcSelected,
     setHcSelected,
     refetchHC,
@@ -341,7 +341,7 @@ export default function HistorialClinicoView() {
     });
   }
 
-  console.log(previewBlob);
+  // console.log(previewBlob);
 
   //region return
   return (
@@ -378,12 +378,12 @@ export default function HistorialClinicoView() {
         </div>
 
         {/* Observaciones */}
-        <div className="flex flex-col gap-2 p-2 bg-white border border-gray-300 rounded w-[600px] xl:w-[700px] h-[420px] xg:h-[400px] xxl:h-[500px] ">
+        <div className="flex flex-col gap-2 p-2 bg-white border border-gray-300 rounded w-[600px] xl:w-[700px] h-[355px] xg:h-[400px] xxl:h-[500px] ">
           <div className="flex flex-col items-start w-full">
             <div className="w-full ">
               <label className="text-sm font-medium text-primaryBlue">Motivo de Consulta:</label>
             </div>
-            <div className="w-full h-8 px-2 py-1 font-bold border border-gray-300 rounded bg-lightGray text-primaryBlue">
+            <div className="w-full h-8 px-2 py-1 font-bold border border-gray-300 rounded bg-lightGray text-primaryBlue cursor-default">
               {hcSelected && hcSelected.detalle}
             </div>
           </div>
@@ -393,7 +393,7 @@ export default function HistorialClinicoView() {
               <label className="text-sm font-medium text-primaryBlue">Evolución:</label>
             </div>
             <div
-              className="w-full h-[290px] px-2 py-1 font-bold border border-gray-300 rounded bg-lightGray text-primaryBlue overflow-y-auto"
+              className="w-full h-[250px] px-2 py-1 font-bold border border-gray-300 rounded bg-lightGray text-primaryBlue overflow-y-auto cursor-default"
               style={{ whiteSpace: "pre-line" }}
             >
               {hcSelected && hcSelected.obs
@@ -405,43 +405,6 @@ export default function HistorialClinicoView() {
                 : ""}
             </div>
           </div>
-
-          {/* <div className="flex flex-col items-start w-full">
-            <div className="w-full ">
-              <label className="text-sm font-medium text-primaryBlue">Archivos:</label>
-            </div>
-
-            <div className="w-full px-2 py-1 border border-gray-300 rounded h-36 bg-lightGray">
-              {loadingMeta || (hasFile && (loadingBlob || !previewBlob)) ? (
-                <div className="grid w-full h-full place-items-center text-primaryBlue/60">
-                  Cargando archivo…
-                </div>
-              ) : !hasFile ? (
-                <div className="grid w-full h-full place-items-center text-primaryBlue/60" />
-              ) : previewExt === "pdf" ? (
-                <button
-                  onClick={() => setPreviewOpen(true)}
-                  className="block w-[120px] border rounded overflow-hidden hover:ring-2 ring-primaryBlue transition"
-                  title="Ver archivo"
-                >
-                  <Document file={previewBlob!} className="w-[120px] h-[120px]">
-                    <Page pageNumber={1} width={120} />
-                  </Document>
-                </button>
-              ) : (
-                <button
-                  onClick={() => setPreviewOpen(true)}
-                  className="block w-[120px] h-[120px] border rounded overflow-hidden hover:ring-2 ring-primaryBlue transition"
-                  title="Ver archivo"
-                >
-                  <img
-                    src={URL.createObjectURL(previewBlob!)}
-                    className="object-cover w-full h-full"
-                  />
-                </button>
-              )}
-            </div>
-          </div> */}
         </div>
       </div>
 
@@ -578,6 +541,7 @@ export default function HistorialClinicoView() {
             hc={dniHistory}
             focusState={focusState}
             setStateModal={setShowModal}
+            hcSelected={editMode ? hcSelected : undefined}
           />
         </Modal>
       )}

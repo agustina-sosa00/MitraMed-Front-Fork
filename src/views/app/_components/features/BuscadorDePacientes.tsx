@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { RiCloseLargeFill } from "react-icons/ri";
-import { FaRegEdit } from "react-icons/fa";
+import { FaEdit, FaRegEdit } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
 import { IoMdAdd } from "react-icons/io";
 import { FaUserCircle } from "react-icons/fa";
@@ -33,7 +33,7 @@ export default function BuscadorDePacientes({
   loading,
   setPreviewOpen,
 }: BuscadorDePacientesProps) {
-  const { hcSelected } = useMedicalHistoryContext();
+  const { hcSelected, setEditMode } = useMedicalHistoryContext();
 
   // region states y variables
   const isOdontologo = localStorage.getItem("mtm-tusuario");
@@ -107,6 +107,8 @@ export default function BuscadorDePacientes({
       });
     }
   }
+
+  // console.log(hcSelected);
 
   //region return
   return (
@@ -242,19 +244,33 @@ export default function BuscadorDePacientes({
         //region botones
       }
       {odontogram ? (
-        <div className="flex items-center justify-end w-full h-10 gap-2">
-          <Button
-            label="agregar registro"
-            icon={<IoMdAdd />}
-            disabledButton={!canEdit}
-            handle={() => setStateModal && setStateModal(true)}
-          />
-          <Button
-            label="ver archivos"
-            disabledButton={hcSelected === null}
-            icon={<FaRegEye />}
-            handle={() => setPreviewOpen?.(true)}
-          />
+        <div className="flex items-center justify-between w-full h-10 gap-2">
+          <div className="">
+            <Button
+              label="agregar registro"
+              icon={<IoMdAdd />}
+              disabledButton={!canEdit}
+              handle={() => setStateModal && setStateModal(true)}
+            />
+          </div>
+          <div className="flex gap-2">
+            <Button
+              label="editar"
+              disabledButton={!hcSelected}
+              icon={<FaEdit />}
+              handle={() => {
+                setEditMode(true);
+                setStateModal && setStateModal(true);
+              }}
+            />
+
+            <Button
+              label="ver archivos"
+              disabledButton={!hcSelected?.idopera}
+              icon={<FaRegEye />}
+              handle={() => setPreviewOpen?.(true)}
+            />
+          </div>
         </div>
       ) : null}
       {!odontogram ? (
