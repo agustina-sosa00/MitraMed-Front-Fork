@@ -41,7 +41,7 @@ export default function SelectorDeArchivos({ state, setState }: IProp) {
         {/* esta función recibe getRootProps que se usa para hacer el input que al hacer click te permite seleccionar un archivo */}
         {({ getRootProps, getInputProps }) => (
           <section className="flex items-center justify-center w-full ">
-            <div className="w-full p-3 border border-gray-300 rounded bg-lightGray">
+            <div className="w-full p-3 border border-gray-300 rounded bg-white">
               {state ? (
                 <div className="flex flex-col items-center justify-start ">
                   <p className="mb-2 font-semibold">Archivo seleccionado: {state.name}</p>
