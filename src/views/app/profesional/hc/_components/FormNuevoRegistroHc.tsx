@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import React from "react";
 import {
   grabarHistoria,
-  grabarPacienteDocum,
+  grabarHistoriaDocum,
   uploadFileDropbox,
 } from "@/views/app/profesional/hc/service/HistorialClinicoService";
 import { Button } from "@/views/_components/Button";
@@ -24,6 +24,7 @@ interface IProp {
   handle?: () => void;
   focusState?: boolean;
   setStateModal: (arg: boolean) => void;
+  hcSelected?: any;
 }
 
 export default function FormNuevoRegistroHc({
@@ -31,9 +32,13 @@ export default function FormNuevoRegistroHc({
   handle,
   focusState,
   setStateModal,
+  hcSelected,
 }: IProp) {
   const queryClient = useQueryClient();
-  const { dniHistory, idpaciente, setRefetchHC } = useMedicalHistoryContext();
+
+  const { dniHistory, idpaciente, setRefetchHC, setHasNewRegistroChanges, editMode, setEditMode } =
+    useMedicalHistoryContext();
+
   const [loader, setLoader] = useState<boolean>(false);
   const [dataForm, setDataForm] = useState({
     detalle: "",
@@ -41,11 +46,39 @@ export default function FormNuevoRegistroHc({
     archivo: "",
     medicamentos: "",
   });
+
+  // Al inicio del componente:
+  const [originalForm, setOriginalForm] = useState({
+    detalle: "",
+    obs: "",
+    archivo: "",
+    medicamentos: "",
+  });
+
   const [fileForm, setFileForm] = useState<File | null>(null);
-  // const [dataFileSaved, setDataFileSaved] = useState();
-  // const [image, setImage] = useState<string>("");
-  // const [fileSaved, setFileSaved] = useState<File | null>(null);
-  // const [dataToSendDropbox, setDataToSendDropbox] = useState();
+
+  const hasChanges = useMemo(() => {
+    if (!hcSelected) {
+      return (
+        !!dataForm.detalle.trim() ||
+        !!dataForm.obs.trim() ||
+        !!dataForm.archivo.trim() ||
+        !!dataForm.medicamentos.trim() ||
+        !!fileForm
+      );
+    }
+    // Si es edición, compara con originalForm
+    return (
+      dataForm.detalle !== originalForm.detalle ||
+      dataForm.obs !== originalForm.obs ||
+      dataForm.archivo !== originalForm.archivo ||
+      dataForm.medicamentos !== originalForm.medicamentos ||
+      !!fileForm
+    );
+  }, [dataForm, fileForm, hcSelected, originalForm]);
+
+  const habilitaGrabar =
+    !!dataForm.detalle.trim() && (!!dataForm.obs.trim() || !!fileForm) && hasChanges;
 
   //region mutates
   const saveHistory = useMutation({
@@ -53,13 +86,36 @@ export default function FormNuevoRegistroHc({
     onError: (error) => {
       console.log(error);
     },
-    onSuccess: (data) => {
-      console.log(data.data);
+    onSuccess: () => {
+      // console.log(data.data);
       setRefetchHC(true);
     },
   });
+
+  // Avisar al padre si cambia el estado de hasChanges
+  useEffect(() => {
+    setHasNewRegistroChanges(hasChanges);
+  }, [hasChanges]);
+
+  useEffect(() => {
+    if (hcSelected) {
+      const original = {
+        detalle: hcSelected.detalle || "",
+        obs: hcSelected.obs || "",
+        archivo: "",
+        medicamentos: "",
+      };
+      setDataForm(original);
+      setOriginalForm(original);
+    } else {
+      const empty = { detalle: "", obs: "", archivo: "", medicamentos: "" };
+      setDataForm(empty);
+      setOriginalForm(empty);
+    }
+  }, [hcSelected]);
+
   const uploadToDropbox = useMutation({ mutationFn: uploadFileDropbox });
-  const savePatientDocum = useMutation({ mutationFn: grabarPacienteDocum });
+  const savePatientDocum = useMutation({ mutationFn: grabarHistoriaDocum });
 
   //region function
   function handleOnChangeInput(e: React.ChangeEvent<HTMLInputElement>) {
@@ -99,7 +155,7 @@ export default function FormNuevoRegistroHc({
 
         await savePatientDocum.mutateAsync({
           idhistoria,
-          iddoctor: Number(infoProfessional.iddoctor),
+          // iddoctor: Number(infoProfessional.iddoctor),
           idopera: newFile!.name,
           extension: newFile!.extension,
         });
@@ -125,11 +181,33 @@ export default function FormNuevoRegistroHc({
     }
   }
 
+  function handleCloseModal() {
+    if (!hasChanges) {
+      setStateModal(false);
+    } else {
+      Swal.fire({
+        title: "Cambios sin Guardar",
+        text: "¿Desea Salir?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Sí",
+        cancelButtonText: "No",
+        confirmButtonColor: "#518915",
+        cancelButtonColor: "#ef4444",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          setStateModal(false);
+        }
+      });
+    }
+    setEditMode(false);
+  }
+
   return (
     <div className="flex flex-col items-start justify-center w-[700px] gap-2 p-3 bg-white border border-gray-300 rounded">
-      <div className="flex justify-center w-full">
-        <h1 className="text-xl font-bold text-center text-primaryBlue">
-          Agregar Datos de la Consulta
+      <div className="flex justify-center w-full mb-5">
+        <h1 className="text-2xl font-bold text-center text-primaryGreen uppercase">
+          {editMode ? "Editar Historia " : "Alta Historia"}
         </h1>
       </div>
       <form
@@ -157,19 +235,27 @@ export default function FormNuevoRegistroHc({
           focusName={"obs"}
         />
         <div className="flex w-full">
-          <div className=" w-36">
-            <label htmlFor="" className="mr-2 text-sm font-medium text-primaryBlue">
-              Subir Archivo:
-            </label>
-          </div>
+          <label
+            htmlFor=""
+            className="flex justify-end items-start w-36 text-right mr-2 text-sm text-primaryBlue"
+          >
+            Subir Archivo:
+          </label>
+
           <SelectorDeArchivos setState={setFileForm} state={fileForm!} />
         </div>
         <div className="flex justify-end w-full gap-2">
-          <Button type="button" label="guardar datos" handle={handleOnClickSave} loader={loader} />
           <Button
             type="button"
-            label="cancelar"
-            handle={() => setStateModal(false)}
+            label="Grabar"
+            handle={handleOnClickSave}
+            loader={loader}
+            disabledButton={!habilitaGrabar}
+          />
+          <Button
+            type="button"
+            label="salir"
+            handle={handleCloseModal}
             classButton="bg-red-500 rounded text-white font-medium  px-5 py-1 hover:bg-red-600"
           />
         </div>

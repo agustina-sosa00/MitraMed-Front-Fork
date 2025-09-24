@@ -37,16 +37,14 @@ export function grabarHistoria({
   }
 }
 
-export async function grabarPacienteDocum({
+export async function grabarHistoriaDocum({
   idhistoria,
   idopera,
   extension,
-  iddoctor,
 }: {
   idhistoria: number;
   idopera: string;
   extension: string;
-  iddoctor: number;
 }) {
   try {
     const { empresa, modo, entorno } = getLocalStorageParams();
@@ -57,10 +55,9 @@ export async function grabarPacienteDocum({
       idhistoria: idhistoria,
       idopera: idopera,
       extension: extension,
-      iddoctor: iddoctor,
     };
 
-    const response = await apiPhp.post(`/${entorno}/mitramed/grabarPacienteDocum.php`, data);
+    const response = await apiPhp.post(`/${entorno}/mitramed/grabarHistoriaDocum.php`, data);
     return response.data;
   } catch (error) {
     console.error(error);
