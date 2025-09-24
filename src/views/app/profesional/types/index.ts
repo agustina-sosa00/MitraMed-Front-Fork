@@ -39,7 +39,7 @@ export interface BuscadorDePacientesProps {
   isActive?: boolean;
   hasConfirmed?: boolean;
   loading?: boolean;
-  setPreviewOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setPreviewOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export type ContextType = {

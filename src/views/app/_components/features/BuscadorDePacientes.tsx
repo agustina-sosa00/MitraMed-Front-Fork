@@ -250,7 +250,7 @@ export default function BuscadorDePacientes({
             label="ver archivos"
             disabledButton={!canEdit}
             icon={<FaRegEye />}
-            handle={() => setPreviewOpen(true)}
+            handle={() => setPreviewOpen?.(true)}
           />
         </div>
       ) : null}
