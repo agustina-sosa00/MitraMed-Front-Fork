@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import React from "react";
 import {
   grabarHistoria,
-  grabarHistoriaDocum,
+  // grabarHistoriaDocum,
   uploadFileDropbox,
 } from "@/views/app/profesional/hc/service/HistorialClinicoService";
 import { Button } from "@/views/_components/Button";
@@ -115,7 +115,7 @@ export default function FormNuevoRegistroHc({
   }, [hcSelected]);
 
   const grabarArchivoDropbox = useMutation({ mutationFn: uploadFileDropbox });
-  const grabarHistoriaDocumDropbox = useMutation({ mutationFn: grabarHistoriaDocum });
+  // const grabarHistoriaDocumDropbox = useMutation({ mutationFn: grabarHistoriaDocum });
 
   //region function
   function handleOnChangeInput(e: React.ChangeEvent<HTMLInputElement>) {
