@@ -7,6 +7,7 @@ type HcRow = {
   detalle: string;
   ndoctor: string;
   obs: string;
+  idopera?: string;
 };
 
 interface MedicalHistoryContextType {
@@ -14,6 +15,8 @@ interface MedicalHistoryContextType {
   setDataPaciente: React.Dispatch<React.SetStateAction<any>>;
   hc: boolean;
   setHc: React.Dispatch<React.SetStateAction<boolean>>;
+  editMode: boolean;
+  setEditMode: React.Dispatch<React.SetStateAction<boolean>>;
   hcSelected: HcRow | null;
   setHcSelected: React.Dispatch<React.SetStateAction<HcRow | null>>;
   refetchHC: boolean;
@@ -28,12 +31,15 @@ interface MedicalHistoryContextType {
   setUiLoading: React.Dispatch<React.SetStateAction<boolean>>;
   dniInput: string;
   setDniInput: React.Dispatch<React.SetStateAction<string>>;
+  hasNewRegistroChanges: boolean;
+  setHasNewRegistroChanges: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const MedicalHistoryContext = createContext<MedicalHistoryContextType | undefined>(undefined);
 
 export const MedicalHistoryProvider = ({ children }) => {
   const [dataPaciente, setDataPaciente] = useState<any>(null);
   const [hc, setHc] = useState<boolean>(false);
+  const [editMode, setEditMode] = useState<boolean>(false);
   const [hcSelected, setHcSelected] = useState<HcRow | null>(null);
   const [refetchHC, setRefetchHC] = useState<boolean>(false);
   const [idpaciente, setIdpaciente] = useState<number | null>(null);
@@ -41,6 +47,7 @@ export const MedicalHistoryProvider = ({ children }) => {
   const [hasConfirmed, setHasConfirmed] = useState<boolean>(false);
   const [uiLoading, setUiLoading] = useState<boolean>(false);
   const [dniInput, setDniInput] = useState<string>("");
+  const [hasNewRegistroChanges, setHasNewRegistroChanges] = useState<boolean>(false);
 
   return (
     <MedicalHistoryContext.Provider
@@ -49,6 +56,8 @@ export const MedicalHistoryProvider = ({ children }) => {
         setDataPaciente,
         hc,
         setHc,
+        editMode,
+        setEditMode,
         hcSelected,
         setHcSelected,
         refetchHC,
@@ -63,6 +72,8 @@ export const MedicalHistoryProvider = ({ children }) => {
         setUiLoading,
         dniInput,
         setDniInput,
+        hasNewRegistroChanges,
+        setHasNewRegistroChanges,
       }}
     >
       {children}
