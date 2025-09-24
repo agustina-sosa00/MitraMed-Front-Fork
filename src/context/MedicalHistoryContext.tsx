@@ -2,6 +2,8 @@ import { createContext, useContext, useState } from "react";
 interface MedicalHistoryContextType {
   hc: boolean;
   setHc: React.Dispatch<React.SetStateAction<boolean>>;
+  idpaciente: number | null;
+  setIdpaciente: React.Dispatch<React.SetStateAction<number | null>>;
   dniHistory: string;
   setDniHistory: React.Dispatch<React.SetStateAction<string>>;
   hasConfirmed: boolean;
@@ -11,12 +13,11 @@ interface MedicalHistoryContextType {
   dniInput: string;
   setDniInput: React.Dispatch<React.SetStateAction<string>>;
 }
-const MedicalHistoryContext = createContext<
-  MedicalHistoryContextType | undefined
->(undefined);
+const MedicalHistoryContext = createContext<MedicalHistoryContextType | undefined>(undefined);
 
 export const MedicalHistoryProvider = ({ children }) => {
   const [hc, setHc] = useState<boolean>(false);
+  const [idpaciente, setIdpaciente] = useState<number | null>(null);
   const [dniHistory, setDniHistory] = useState<string>("");
   const [hasConfirmed, setHasConfirmed] = useState<boolean>(false);
   const [uiLoading, setUiLoading] = useState<boolean>(false);
@@ -26,6 +27,8 @@ export const MedicalHistoryProvider = ({ children }) => {
       value={{
         hc,
         setHc,
+        idpaciente,
+        setIdpaciente,
         dniHistory,
         setDniHistory,
         hasConfirmed,
@@ -44,9 +47,7 @@ export const MedicalHistoryProvider = ({ children }) => {
 export const useMedicalHistoryContext = () => {
   const context = useContext(MedicalHistoryContext);
   if (!context) {
-    throw new Error(
-      "useMedicalHistoryContext debe usarse dentro de un MedicalHistoryProvider"
-    );
+    throw new Error("useMedicalHistoryContext debe usarse dentro de un MedicalHistoryProvider");
   }
   return context;
 };

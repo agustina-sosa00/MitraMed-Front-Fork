@@ -5,13 +5,13 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 export function grabarHistoria({
-  dni,
+  idpaciente,
   fecha,
   detalle,
   obs,
   iddoctor,
 }: {
-  dni: number;
+  idpaciente: number;
   fecha: string;
   detalle: string;
   obs: string;
@@ -22,7 +22,7 @@ export function grabarHistoria({
   const data = {
     _e: empresa,
     _m: modo,
-    dni: dni,
+    idpaciente: idpaciente,
     fecha: fecha,
     detalle: detalle,
     obs: obs,

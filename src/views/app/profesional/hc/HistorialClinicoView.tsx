@@ -39,6 +39,8 @@ export default function HistorialClinicoView() {
 
   const {
     hc,
+    idpaciente,
+    setIdpaciente,
     dniHistory,
     setDniHistory,
     hasConfirmed,
@@ -83,6 +85,14 @@ export default function HistorialClinicoView() {
     gcTime: Infinity,
     initialData: () => queryClient.getQueryData(["medicalHistory", dniHistory]),
   });
+
+  useEffect(() => {
+    if (dataMedicalHistory?.data?.paciente?.idpaciente) {
+      setIdpaciente(dataMedicalHistory.data.paciente.idpaciente);
+    }
+  }, [dataMedicalHistory, setIdpaciente]);
+
+  console.log(idpaciente);
 
   const { mutate: mutateGetAccessTokenDropbox } = useMutation({
     mutationFn: getAccessTokenDropbox,
@@ -316,6 +326,7 @@ export default function HistorialClinicoView() {
           data={!dniHistory ? undefined : dataMedicalHistory?.data?.paciente}
           labelSearch={"dni"}
           onSearch={handleFindPatient}
+          setPreviewOpen={setPreviewOpen}
           setStateModal={setShowModal}
           odontogram={true}
           state={dniInput}
@@ -345,12 +356,12 @@ export default function HistorialClinicoView() {
             </div>
           </div>
 
-          <div className="flex flex-col items-start w-full">
-            <div className="w-full ">
+          <div className="flex flex-col items-start w-full ">
+            <div className="w-full">
               <label className="text-sm font-medium text-primaryBlue">Evolución:</label>
             </div>
             <div
-              className="w-full max-h-48 h-32 px-2 py-1 font-bold border border-gray-300 rounded xg:h-48 xxl:h-48 bg-lightGray text-primaryBlue overflow-y-auto"
+              className="w-full h-72 px-2 py-1 font-bold border border-gray-300 rounded bg-lightGray text-primaryBlue overflow-y-auto"
               style={{ whiteSpace: "pre-line" }}
             >
               {hcSelected && hcSelected.obs
@@ -363,7 +374,7 @@ export default function HistorialClinicoView() {
             </div>
           </div>
 
-          <div className="flex flex-col items-start w-full">
+          {/* <div className="flex flex-col items-start w-full">
             <div className="w-full ">
               <label className="text-sm font-medium text-primaryBlue">Archivos:</label>
             </div>
@@ -398,7 +409,7 @@ export default function HistorialClinicoView() {
                 </button>
               )}
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
 

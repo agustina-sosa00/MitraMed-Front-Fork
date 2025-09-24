@@ -33,7 +33,7 @@ export default function FormNuevoRegistroHc({
   setStateModal,
 }: IProp) {
   const queryClient = useQueryClient();
-  const { dniHistory } = useMedicalHistoryContext();
+  const { dniHistory, idpaciente } = useMedicalHistoryContext();
   const [loader, setLoader] = useState<boolean>(false);
   const [dataForm, setDataForm] = useState({
     detalle: "",
@@ -77,7 +77,7 @@ export default function FormNuevoRegistroHc({
       }
 
       const res = await saveHistory.mutateAsync({
-        dni: Number(dniHistory),
+        idpaciente: Number(idpaciente),
         fecha: getTodayDate(),
         detalle: dataForm.detalle,
         obs: dataForm.obs,
