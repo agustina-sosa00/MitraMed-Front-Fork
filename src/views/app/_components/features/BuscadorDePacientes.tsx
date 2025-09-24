@@ -239,7 +239,7 @@ export default function BuscadorDePacientes({
         //region botones
       }
       {odontogram ? (
-        <div className="flex items-center justify-end w-full h-10 ">
+        <div className="flex items-center justify-end w-full h-10 gap-2">
           <Button
             label="agregar registro"
             icon={<IoMdAdd />}
