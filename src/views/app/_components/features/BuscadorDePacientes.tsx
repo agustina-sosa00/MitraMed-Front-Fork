@@ -110,10 +110,6 @@ export default function BuscadorDePacientes({
     }
   }
 
-  console.log(String(hcSelected?.iddoctor));
-  console.log(idDoctorStorage);
-  console.log(tusuarioStorage);
-
   //region return
   return (
     <div className="flex flex-col w-full gap-2 ">

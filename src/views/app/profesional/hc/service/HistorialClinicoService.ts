@@ -4,38 +4,83 @@ import { getLocalStorageParams } from "@/utils/index";
 import axios from "axios";
 import Cookies from "js-cookie";
 
+type grabarHistoriaParams = {
+  idpaciente: number;
+  fecha: string;
+  detalle: string;
+  obs: string;
+  iddoctor: string;
+  idopera?: string | null;
+  extension?: string | null;
+};
+
 export function grabarHistoria({
   idpaciente,
   fecha,
   detalle,
   obs,
   iddoctor,
-}: {
-  idpaciente: number;
-  fecha: string;
-  detalle: string;
-  obs: string;
-  iddoctor: string;
-}) {
+  idopera = null,
+  extension = null,
+}: grabarHistoriaParams) {
   const { empresa, modo, entorno } = getLocalStorageParams();
 
   const data = {
     _e: empresa,
     _m: modo,
-    idpaciente: idpaciente,
-    fecha: fecha,
-    detalle: detalle,
-    obs: obs,
-    iddoctor: iddoctor,
+    idpaciente,
+    fecha,
+    detalle,
+    obs,
+    tproceso: 1,
+    idhistoria: null,
+    iddoctor,
+    idopera: idopera ?? null,
+    extension: extension ?? null,
   };
 
   try {
-    const response = apiPhp.post(`/${entorno}/mitramed/grabarHistoria.php`, data);
+    const url = `/${entorno}/mitramed/grabarHistoria.php`;
+
+    const response = apiPhp.post(url, data);
     return response;
   } catch (error) {
     throw new Error(`${error}`);
   }
 }
+
+// export function grabarHistoria({
+//   idpaciente,
+//   fecha,
+//   detalle,
+//   obs,
+//   iddoctor,
+// }: {
+//   idpaciente: number;
+//   fecha: string;
+//   detalle: string;
+//   obs: string;
+//   iddoctor: string;
+// }) {
+//   const { empresa, modo, entorno } = getLocalStorageParams();
+
+//   const data = {
+//     _e: empresa,
+//     _m: modo,
+//     idpaciente: idpaciente,
+//     fecha: fecha,
+//     detalle: detalle,
+//     obs: obs,
+//     iddoctor: iddoctor,
+//   };
+
+//   try {
+//     const response = apiPhp.post(`/${entorno}/mitramed/grabarHistoria.php`, data);
+//     return response;
+//   } catch (error) {
+//     throw new Error(`${error}`);
+//   }
+// }
 
 export async function grabarHistoriaDocum({
   idhistoria,

@@ -81,13 +81,13 @@ export default function FormNuevoRegistroHc({
     !!dataForm.detalle.trim() && (!!dataForm.obs.trim() || !!fileForm) && hasChanges;
 
   //region mutates
-  const saveHistory = useMutation({
+  const grabarHistoriaService = useMutation({
     mutationFn: grabarHistoria,
     onError: (error) => {
       console.log(error);
     },
-    onSuccess: () => {
-      // console.log(data.data);
+    onSuccess: (data) => {
+      console.log(data?.data);
       setRefetchHC(true);
     },
   });
@@ -114,8 +114,8 @@ export default function FormNuevoRegistroHc({
     }
   }, [hcSelected]);
 
-  const uploadToDropbox = useMutation({ mutationFn: uploadFileDropbox });
-  const savePatientDocum = useMutation({ mutationFn: grabarHistoriaDocum });
+  const grabarArchivoDropbox = useMutation({ mutationFn: uploadFileDropbox });
+  const grabarHistoriaDocumDropbox = useMutation({ mutationFn: grabarHistoriaDocum });
 
   //region function
   function handleOnChangeInput(e: React.ChangeEvent<HTMLInputElement>) {
@@ -134,33 +134,39 @@ export default function FormNuevoRegistroHc({
       let newFile: { file: File; name: string; extension: string } | null = null;
 
       if (fileForm) {
-        newFile = renombrarArchivo({ archivoOriginal: fileForm, dni: dniHistory });
-        await uploadToDropbox.mutateAsync({
+        newFile = renombrarArchivo({
+          archivoOriginal: fileForm,
+          iddoctor: infoProfessional.iddoctor,
+          dni: dniHistory,
+        });
+        await grabarArchivoDropbox.mutateAsync({
           fileOriginalName: fileForm.name,
           file: newFile!.file!,
         });
       }
 
-      const res = await saveHistory.mutateAsync({
+      await grabarHistoriaService.mutateAsync({
         idpaciente: Number(idpaciente),
+        iddoctor: infoProfessional.iddoctor,
         fecha: getTodayDate(),
         detalle: dataForm.detalle,
         obs: dataForm.obs,
-        iddoctor: infoProfessional.iddoctor,
+        idopera: newFile ? newFile.name : null,
+        extension: newFile ? newFile.extension : null,
       });
 
-      if (newFile) {
-        const idhistoria: number | undefined = res?.data?.data?.grabar_historia;
-        if (!idhistoria) throw new Error("No se obtuvo el id de la historia.");
+      // if (newFile) {
+      //   const idhistoria: number | undefined = response?.data?.data?.grabar_historia;
+      //   if (!idhistoria) throw new Error("No se obtuvo el id de la historia.");
 
-        await savePatientDocum.mutateAsync({
-          idhistoria,
-          // iddoctor: Number(infoProfessional.iddoctor),
-          idopera: newFile!.name,
-          extension: newFile!.extension,
-        });
-        setFileForm(null);
-      }
+      //   await grabarHistoriaDocumDropbox.mutateAsync({
+      //     idhistoria,
+      //     // iddoctor: Number(infoProfessional.iddoctor),
+      //     idopera: newFile!.name,
+      //     extension: newFile!.extension,
+      //   });
+      //   setFileForm(null);
+      // }
 
       await queryClient.invalidateQueries({
         queryKey: ["medicalHistory", dniHistory],
@@ -168,8 +174,9 @@ export default function FormNuevoRegistroHc({
 
       Swal.fire({
         icon: "success",
-        title: "Información guardada con éxito",
+        text: "Registro Grabado",
         confirmButtonColor: "#518915",
+        timer: 1000,
       });
 
       setDataForm({ detalle: "", obs: "", archivo: "", medicamentos: "" });
