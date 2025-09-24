@@ -418,7 +418,7 @@ export default function HistorialClinicoView() {
       {/* Modal de PREVIEW con botón de Descargar */}
       {previewOpen && (
         <Modal open={previewOpen} onClose={() => setPreviewOpen(false)}>
-          <div className="flex flex-col w-full h-[520px]">
+          <div className="flex flex-col w-full min-w-[600px] h-[520px]">
             <div className="flex items-center justify-end w-full px-2">
               <button
                 onClick={() => setPreviewOpen(false)}
