@@ -43,6 +43,8 @@ export function grabarHistoria({
     extension: extension ?? null,
   };
 
+  console.log(data);
+
   try {
     const url = `/${entorno}/mitramed/grabarHistoria.php`;
 

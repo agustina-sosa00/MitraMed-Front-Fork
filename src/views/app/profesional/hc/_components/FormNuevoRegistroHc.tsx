@@ -185,6 +185,7 @@ export default function FormNuevoRegistroHc({
 
       setDataForm({ detalle: "", obs: "", archivo: "", medicamentos: "" });
       setStateModal(false);
+      setEditMode(false);
     } catch (error) {
       throw new Error(`${error}`);
     } finally {
