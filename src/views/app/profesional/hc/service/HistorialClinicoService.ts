@@ -9,6 +9,8 @@ type grabarHistoriaParams = {
   fecha: string;
   detalle: string;
   obs: string;
+  idhistoria?: number | null;
+  tproceso?: number | null;
   iddoctor: string;
   idopera?: string | null;
   extension?: string | null;
@@ -20,6 +22,8 @@ export function grabarHistoria({
   detalle,
   obs,
   iddoctor,
+  idhistoria,
+  tproceso,
   idopera = null,
   extension = null,
 }: grabarHistoriaParams) {
@@ -32,8 +36,8 @@ export function grabarHistoria({
     fecha,
     detalle,
     obs,
-    tproceso: 1,
-    idhistoria: null,
+    idhistoria: idhistoria ?? null,
+    tproceso: tproceso ?? null,
     iddoctor,
     idopera: idopera ?? null,
     extension: extension ?? null,

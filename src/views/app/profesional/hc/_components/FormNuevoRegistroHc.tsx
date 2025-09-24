@@ -128,6 +128,8 @@ export default function FormNuevoRegistroHc({
     setDataForm({ ...dataForm, [name]: value });
   }
 
+  // console.log(editMode);
+  // console.log(hcSelected.idhistoria);
   async function handleOnClickSave() {
     setLoader(true);
     try {
@@ -151,6 +153,8 @@ export default function FormNuevoRegistroHc({
         fecha: getTodayDate(),
         detalle: dataForm.detalle,
         obs: dataForm.obs,
+        idhistoria: editMode ? hcSelected.idhistoria : null,
+        tproceso: editMode ? 2 : 1,
         idopera: newFile ? newFile.name : null,
         extension: newFile ? newFile.extension : null,
       });
