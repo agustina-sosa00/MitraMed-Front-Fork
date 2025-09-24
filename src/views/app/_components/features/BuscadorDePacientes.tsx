@@ -41,6 +41,8 @@ export default function BuscadorDePacientes({
   const inputRef = useRef<HTMLInputElement>(null);
   const hasValidPatient = Boolean(data?.dni);
   const canEdit = hasValidPatient && !isEditing && !loading && !errorState;
+  const idDoctorStorage = localStorage.getItem("_iddoc");
+  const tusuarioStorage = localStorage.getItem("_tu");
 
   //region useEffects
   useEffect(() => {
@@ -108,7 +110,9 @@ export default function BuscadorDePacientes({
     }
   }
 
-  // console.log(hcSelected);
+  console.log(String(hcSelected?.iddoctor));
+  console.log(idDoctorStorage);
+  console.log(tusuarioStorage);
 
   //region return
   return (
@@ -243,7 +247,7 @@ export default function BuscadorDePacientes({
       {
         //region botones
       }
-      {odontogram ? (
+      {hasConfirmed && odontogram ? (
         <div className="flex items-center justify-between w-full h-10 gap-2">
           <div className="">
             <Button
@@ -254,15 +258,17 @@ export default function BuscadorDePacientes({
             />
           </div>
           <div className="flex gap-2">
-            <Button
-              label="editar"
-              disabledButton={!hcSelected}
-              icon={<FaEdit />}
-              handle={() => {
-                setEditMode(true);
-                setStateModal && setStateModal(true);
-              }}
-            />
+            {(idDoctorStorage === String(hcSelected?.iddoctor) || tusuarioStorage === "4") && (
+              <Button
+                label="editar"
+                disabledButton={!hcSelected}
+                icon={<FaEdit />}
+                handle={() => {
+                  setEditMode(true);
+                  setStateModal && setStateModal(true);
+                }}
+              />
+            )}
 
             <Button
               label="ver archivos"

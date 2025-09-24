@@ -341,7 +341,7 @@ export default function HistorialClinicoView() {
     });
   }
 
-  // console.log(previewBlob);
+  // console.log(hcSelected);
 
   //region return
   return (
