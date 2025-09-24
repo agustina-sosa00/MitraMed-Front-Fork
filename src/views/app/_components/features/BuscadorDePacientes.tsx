@@ -10,6 +10,7 @@ import { Button } from "@/views/_components/Button";
 import { BuscadorDePacientesProps } from "@/views/app/profesional/types/index";
 import React from "react";
 import Swal from "sweetalert2";
+import { FaRegEye } from "react-icons/fa";
 
 export default function BuscadorDePacientes({
   onSearch,
@@ -29,6 +30,7 @@ export default function BuscadorDePacientes({
   isActive,
   hasConfirmed,
   loading,
+  setPreviewOpen,
 }: BuscadorDePacientesProps) {
   // region states y variables
   const isOdontologo = localStorage.getItem("mtm-tusuario");
@@ -243,7 +245,13 @@ export default function BuscadorDePacientes({
             icon={<IoMdAdd />}
             disabledButton={!canEdit}
             handle={() => setStateModal && setStateModal(true)}
-          />{" "}
+          />
+          <Button
+            label="ver archivos"
+            disabledButton={!canEdit}
+            icon={<FaRegEye />}
+            handle={() => setPreviewOpen(true)}
+          />
         </div>
       ) : null}
       {!odontogram ? (

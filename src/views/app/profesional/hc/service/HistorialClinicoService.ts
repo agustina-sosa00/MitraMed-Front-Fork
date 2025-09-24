@@ -28,6 +28,7 @@ export function grabarHistoria({
     obs: obs,
     iddoctor: iddoctor,
   };
+
   try {
     const response = apiPhp.post(`/${entorno}/mitramed/grabarHistoria.php`, data);
     return response;
