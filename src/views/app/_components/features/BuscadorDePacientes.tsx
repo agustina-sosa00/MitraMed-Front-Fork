@@ -11,6 +11,7 @@ import { BuscadorDePacientesProps } from "@/views/app/profesional/types/index";
 import React from "react";
 import Swal from "sweetalert2";
 import { FaRegEye } from "react-icons/fa";
+import { useMedicalHistoryContext } from "../../../../context/MedicalHistoryContext";
 
 export default function BuscadorDePacientes({
   onSearch,
@@ -32,6 +33,8 @@ export default function BuscadorDePacientes({
   loading,
   setPreviewOpen,
 }: BuscadorDePacientesProps) {
+  const { hcSelected } = useMedicalHistoryContext();
+
   // region states y variables
   const isOdontologo = localStorage.getItem("mtm-tusuario");
   const isEditing = !hasConfirmed;
@@ -248,7 +251,7 @@ export default function BuscadorDePacientes({
           />
           <Button
             label="ver archivos"
-            disabledButton={!canEdit}
+            disabledButton={hcSelected === null}
             icon={<FaRegEye />}
             handle={() => setPreviewOpen?.(true)}
           />

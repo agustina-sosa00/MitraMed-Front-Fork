@@ -33,7 +33,7 @@ export default function FormNuevoRegistroHc({
   setStateModal,
 }: IProp) {
   const queryClient = useQueryClient();
-  const { dniHistory, idpaciente } = useMedicalHistoryContext();
+  const { dniHistory, idpaciente, setRefetchHC } = useMedicalHistoryContext();
   const [loader, setLoader] = useState<boolean>(false);
   const [dataForm, setDataForm] = useState({
     detalle: "",
@@ -48,7 +48,16 @@ export default function FormNuevoRegistroHc({
   // const [dataToSendDropbox, setDataToSendDropbox] = useState();
 
   //region mutates
-  const saveHistory = useMutation({ mutationFn: grabarHistoria });
+  const saveHistory = useMutation({
+    mutationFn: grabarHistoria,
+    onError: (error) => {
+      console.log(error);
+    },
+    onSuccess: (data) => {
+      console.log(data.data);
+      setRefetchHC(true);
+    },
+  });
   const uploadToDropbox = useMutation({ mutationFn: uploadFileDropbox });
   const savePatientDocum = useMutation({ mutationFn: grabarPacienteDocum });
 

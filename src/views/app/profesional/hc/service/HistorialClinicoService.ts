@@ -59,6 +59,7 @@ export async function grabarPacienteDocum({
       extension: extension,
       iddoctor: iddoctor,
     };
+
     const response = await apiPhp.post(`/${entorno}/mitramed/grabarPacienteDocum.php`, data);
     return response.data;
   } catch (error) {
@@ -79,16 +80,21 @@ export async function getIdOpera({ dni, idhistoria }: { dni: number; idhistoria:
   }
 }
 
-export default async function obtenerPacienteHc({ dni }: { dni: string }) {
+export async function obtenerPacienteHc({ dni }: { dni: string }) {
   try {
     const { empresa, modo, entorno } = getLocalStorageParams();
+
+    // console.log("obtenerPacienteHc dni:", dni);
 
     const response = await apiPhp(
       `/${entorno}/mitramed/obtenerPacienteHC.php?_i={"_e":"${empresa}","_m":"${modo}","_d":${dni}}`,
     );
+
+    // console.log("obtenerPacienteHc response:", response);
+
     return response.data;
   } catch (error) {
-    throw new Error(`Error obteniendo datos del odontograma: ${error}`);
+    throw new Error(`Error obteniendo datos del HC: ${error}`);
   }
 }
 

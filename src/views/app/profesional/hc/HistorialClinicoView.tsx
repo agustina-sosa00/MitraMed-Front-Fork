@@ -7,11 +7,12 @@ import { Document, Page, pdfjs } from "react-pdf";
 import { FiDownload } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
 import { useMedicalHistoryContext } from "../../../../context/MedicalHistoryContext";
-import obtenerPacienteHc, {
+import {
   getDataDropbox,
   getAccessTokenDropbox,
   getIdOpera,
   downloadFileDropbox,
+  obtenerPacienteHc,
 } from "@/views/app/profesional/hc/service/HistorialClinicoService";
 import SearchPatient from "@/views/app/_components/features/BuscadorDePacientes";
 import workerSrc from "pdfjs-dist/build/pdf.worker?url";
@@ -38,8 +39,14 @@ export default function HistorialClinicoView() {
   const queryClient = useQueryClient();
 
   const {
+    dataPaciente,
+    setDataPaciente,
     hc,
-    idpaciente,
+    // idpaciente,
+    hcSelected,
+    setHcSelected,
+    refetchHC,
+    setRefetchHC,
     setIdpaciente,
     dniHistory,
     setDniHistory,
@@ -54,7 +61,8 @@ export default function HistorialClinicoView() {
   const infoProfessional = Cookies.get("dataProfessional");
   const [focusState, setFocusState] = useState(false);
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [hcSelected, setHcSelected] = useState<HcRow | null>(null);
+  // const [hcSelected, setHcSelected] = useState<HcRow | null>(null);
+  // const [dataPaciente, setDataPaciente] = useState<any>(null);
   const hasAccessTokenDropbox = Boolean(Cookies.get("accessTokenDropbox"));
 
   // preview archivo (thumbnail + modal)
@@ -86,13 +94,31 @@ export default function HistorialClinicoView() {
     initialData: () => queryClient.getQueryData(["medicalHistory", dniHistory]),
   });
 
+  const mutationObtenerPacienteHc = useMutation({
+    mutationFn: (dni: string) => obtenerPacienteHc({ dni }),
+    onError: (error) => {
+      console.error("Error obtenerPacienteHc:", error);
+    },
+    onSuccess: (data) => {
+      setDataPaciente(data?.data);
+    },
+  });
+
+  // Nuevo useEffect para escuchar refetchHC y disparar mutate
+  useEffect(() => {
+    if (refetchHC && dniHistory) {
+      mutationObtenerPacienteHc.mutate(dniHistory);
+      setRefetchHC(false);
+    }
+  }, [refetchHC, dniHistory]);
+
   useEffect(() => {
     if (dataMedicalHistory?.data?.paciente?.idpaciente) {
       setIdpaciente(dataMedicalHistory.data.paciente.idpaciente);
     }
   }, [dataMedicalHistory, setIdpaciente]);
 
-  console.log(idpaciente);
+  // console.log(idpaciente);
 
   const { mutate: mutateGetAccessTokenDropbox } = useMutation({
     mutationFn: getAccessTokenDropbox,
@@ -110,7 +136,7 @@ export default function HistorialClinicoView() {
   // meta del archivo según fila seleccionada
   const { data: fileMeta, isFetching: _loadingMeta } = useQuery({
     queryKey: ["fileMeta", dniHistory, hcSelected?.idhistoria],
-    enabled: Boolean(dniHistory && hcSelected?.idhistoria),
+    enabled: previewOpen,
     queryFn: () =>
       getIdOpera({
         dni: Number(dniHistory),
@@ -171,8 +197,8 @@ export default function HistorialClinicoView() {
     },
   ];
 
-  const dataHistoria = Array.isArray(dataMedicalHistory?.data?.hc)
-    ? dataMedicalHistory.data.hc.map((r: ApiHcRow, idx) => ({
+  const dataHistoria = Array.isArray(dataPaciente?.hc)
+    ? dataPaciente.hc.map((r: ApiHcRow, idx) => ({
         id: (idx + 1).toString(),
         ...r,
       }))
@@ -222,7 +248,7 @@ export default function HistorialClinicoView() {
     setPreviewExt(ext);
     fetchBlob({ archivo: `${idOpera}.${ext}` });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fileMeta?.data?.idopera, fileMeta?.data?.extension]);
+  }, [fileMeta?.data?.idopera, fileMeta?.data?.extension, previewOpen]);
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -251,12 +277,13 @@ export default function HistorialClinicoView() {
   }, [dropboxData, mutateGetAccessTokenDropbox]);
 
   function handleFindPatient(hc: string) {
-    setUiLoading(true);
-    setTimeout(() => {
-      setHasConfirmed(true);
-      setUiLoading(false);
-      setDniHistory(hc);
-    }, 2000);
+    mutationObtenerPacienteHc.mutate(hc);
+    setHasConfirmed(true);
+    setDniHistory(hc);
+    // setUiLoading(true);
+    // setTimeout(() => {
+    //   setUiLoading(false);
+    // }, 2000);
   }
 
   function handleOnFocusInput() {
@@ -276,6 +303,7 @@ export default function HistorialClinicoView() {
     setDniHistory("");
     setDniInput("");
     setHcSelected(null); // Limpiar selección de historia clínica
+    setDataPaciente(null);
   }
 
   function handleCancelEdit() {
@@ -313,6 +341,8 @@ export default function HistorialClinicoView() {
     });
   }
 
+  console.log(previewBlob);
+
   //region return
   return (
     <ContainView
@@ -325,7 +355,7 @@ export default function HistorialClinicoView() {
       <div className="flex items-center justify-start w-full gap-1 py-1 min-h-24 ">
         <SearchPatient
           noHc={hc}
-          data={!dniHistory ? undefined : dataMedicalHistory?.data?.paciente}
+          data={!dniHistory ? undefined : dataPaciente?.paciente}
           labelSearch={"dni"}
           onSearch={handleFindPatient}
           setPreviewOpen={setPreviewOpen}
