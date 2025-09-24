@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import React from "react";
 import {
+  grabarArchivoDropbox,
   grabarHistoria,
   // grabarHistoriaDocum,
-  uploadFileDropbox,
+  // uploadFileDropbox,
 } from "@/views/app/profesional/hc/service/HistorialClinicoService";
 import { Button } from "@/views/_components/Button";
 import { useMedicalHistoryContext } from "../../../../../context/MedicalHistoryContext";
@@ -34,7 +35,7 @@ export default function FormNuevoRegistroHc({
   setStateModal,
   hcSelected,
 }: IProp) {
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
   const { dniHistory, idpaciente, setRefetchHC, setHasNewRegistroChanges, editMode, setEditMode } =
     useMedicalHistoryContext();
@@ -114,7 +115,7 @@ export default function FormNuevoRegistroHc({
     }
   }, [hcSelected]);
 
-  const grabarArchivoDropbox = useMutation({ mutationFn: uploadFileDropbox });
+  const subirArchivoDropbox = useMutation({ mutationFn: grabarArchivoDropbox });
   // const grabarHistoriaDocumDropbox = useMutation({ mutationFn: grabarHistoriaDocum });
 
   //region function
@@ -141,7 +142,8 @@ export default function FormNuevoRegistroHc({
           iddoctor: infoProfessional.iddoctor,
           dni: dniHistory,
         });
-        await grabarArchivoDropbox.mutateAsync({
+
+        await subirArchivoDropbox.mutateAsync({
           fileOriginalName: fileForm.name,
           file: newFile!.file!,
         });
@@ -159,22 +161,9 @@ export default function FormNuevoRegistroHc({
         extension: newFile ? newFile.extension : null,
       });
 
-      // if (newFile) {
-      //   const idhistoria: number | undefined = response?.data?.data?.grabar_historia;
-      //   if (!idhistoria) throw new Error("No se obtuvo el id de la historia.");
-
-      //   await grabarHistoriaDocumDropbox.mutateAsync({
-      //     idhistoria,
-      //     // iddoctor: Number(infoProfessional.iddoctor),
-      //     idopera: newFile!.name,
-      //     extension: newFile!.extension,
-      //   });
-      //   setFileForm(null);
-      // }
-
-      await queryClient.invalidateQueries({
-        queryKey: ["medicalHistory", dniHistory],
-      });
+      // await queryClient.invalidateQueries({
+      //   queryKey: ["medicalHistory", dniHistory],
+      // });
 
       Swal.fire({
         icon: "success",

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import ClipLoader from "react-spinners/ClipLoader";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { TablaDefault } from "@/frontend-resourses/components";
 import { Modal } from "@/views/auth/_components/ui/Modal";
@@ -8,11 +9,12 @@ import { FiDownload } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
 import { useMedicalHistoryContext } from "../../../../context/MedicalHistoryContext";
 import {
-  getDataDropbox,
-  getAccessTokenDropbox,
+  // getDataDropbox,
+  // getAccessTokenDropbox,
   getIdOpera,
-  downloadFileDropbox,
+  // downloadFileDropbox,
   obtenerPacienteHc,
+  descargarArchivoDropbox,
 } from "@/views/app/profesional/hc/service/HistorialClinicoService";
 import SearchPatient from "@/views/app/_components/features/BuscadorDePacientes";
 import workerSrc from "pdfjs-dist/build/pdf.worker?url";
@@ -63,7 +65,7 @@ export default function HistorialClinicoView() {
   const [showModal, setShowModal] = useState<boolean>(false);
   // const [hcSelected, setHcSelected] = useState<HcRow | null>(null);
   // const [dataPaciente, setDataPaciente] = useState<any>(null);
-  const hasAccessTokenDropbox = Boolean(Cookies.get("accessTokenDropbox"));
+  // const hasAccessTokenDropbox = Boolean(Cookies.get("accessTokenDropbox"));
 
   // preview archivo (thumbnail + modal)
   const [previewOpen, setPreviewOpen] = useState(false);
@@ -74,14 +76,14 @@ export default function HistorialClinicoView() {
   const [_loadingBlob, setLoadingBlob] = useState(false);
   const [downloading, setDownloading] = useState(false);
 
-  const { data: dropboxData } = useQuery({
-    queryKey: ["dataDropboxQuery"],
-    queryFn: () => getDataDropbox(),
-    enabled: !hasAccessTokenDropbox,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-    staleTime: Infinity,
-  });
+  // const { data: dropboxData } = useQuery({
+  //   queryKey: ["dataDropboxQuery"],
+  //   queryFn: () => getDataDropbox(),
+  //   enabled: !hasAccessTokenDropbox,
+  //   refetchOnMount: false,
+  //   refetchOnWindowFocus: false,
+  //   staleTime: Infinity,
+  // });
 
   const { data: dataMedicalHistory } = useQuery({
     queryKey: ["medicalHistory", dniHistory],
@@ -120,22 +122,22 @@ export default function HistorialClinicoView() {
 
   // console.log(idpaciente);
 
-  const { mutate: mutateGetAccessTokenDropbox } = useMutation({
-    mutationFn: getAccessTokenDropbox,
-    onError: (error) => console.error(error),
-    onSuccess: (data) => {
-      const accessTokenDropbox = data?.access_token;
-      if (!accessTokenDropbox) return;
-      Cookies.set("accessTokenDropbox", accessTokenDropbox, {
-        expires: 5 / 24,
-      });
-    },
-  });
+  // const { mutate: mutateGetAccessTokenDropbox } = useMutation({
+  //   mutationFn: getAccessTokenDropbox,
+  //   onError: (error) => console.error(error),
+  //   onSuccess: (data) => {
+  //     const accessTokenDropbox = data?.access_token;
+  //     if (!accessTokenDropbox) return;
+  //     Cookies.set("accessTokenDropbox", accessTokenDropbox, {
+  //       expires: 5 / 24,
+  //     });
+  //   },
+  // });
 
   //region querys y mutates
   // meta del archivo según fila seleccionada
-  const { data: fileMeta, isFetching: _loadingMeta } = useQuery({
-    queryKey: ["fileMeta", dniHistory, hcSelected?.idhistoria],
+  const { data: datosArchivo, isFetching: _loadingMeta } = useQuery({
+    queryKey: ["datosArchivo", dniHistory, hcSelected?.idhistoria],
     enabled: previewOpen,
     queryFn: () =>
       getIdOpera({
@@ -146,15 +148,18 @@ export default function HistorialClinicoView() {
     refetchOnWindowFocus: false,
   });
 
-  const hasFile = Boolean(fileMeta?.data?.idopera && fileMeta?.data?.extension);
+  const hasFile = Boolean(datosArchivo?.data?.idopera && datosArchivo?.data?.extension);
 
+  // console.log(datosArchivo);
+  // console.log(hasFile);
+  // console.log(hcSelected);
   // descarga del blob para thumbnail/modal
-  const { mutate: fetchBlob } = useMutation({
-    mutationFn: downloadFileDropbox,
+  const { mutate: descargarDropbox } = useMutation({
+    mutationFn: descargarArchivoDropbox,
     onMutate: () => setLoadingBlob(true),
-    onSuccess: (blob) => {
-      setPreviewBlob(blob);
-      setPreviewExt(fileMeta?.data?.extension ?? null);
+    onSuccess: (data) => {
+      setPreviewBlob(data);
+      setPreviewExt(datosArchivo?.data?.extension ?? null);
       setPreviewPage(1);
     },
     onSettled: () => setLoadingBlob(false),
@@ -236,8 +241,8 @@ export default function HistorialClinicoView() {
   useEffect(() => {
     setPreviewPage(1);
     setPreviewNumPages(0);
-    const idOpera = fileMeta?.data?.idopera;
-    const ext = fileMeta?.data?.extension;
+    const idOpera = datosArchivo?.data?.idopera;
+    const ext = datosArchivo?.data?.extension;
 
     if (!idOpera || !ext) {
       setPreviewBlob(null);
@@ -246,9 +251,8 @@ export default function HistorialClinicoView() {
     }
 
     setPreviewExt(ext);
-    fetchBlob({ archivo: `${idOpera}.${ext}` });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fileMeta?.data?.idopera, fileMeta?.data?.extension, previewOpen]);
+    descargarDropbox({ idopera: idOpera, extension: ext });
+  }, [datosArchivo, previewOpen]);
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -259,22 +263,22 @@ export default function HistorialClinicoView() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  useEffect(() => {
-    if (!dropboxData?.data) return;
-    localStorage.setItem("mtm-folder", dropboxData?.data?.folders?.[1]);
-    Cookies.set("mtm-appIdDropbox", dropboxData?.data?.app_id, { expires: 7 });
-    Cookies.set("mtm-appSecretDropbox", dropboxData?.data?.app_secret, {
-      expires: 7,
-    });
-    Cookies.set("mtm-refreshTokenDropbox", dropboxData?.data?.refresh_token, {
-      expires: 7,
-    });
-    mutateGetAccessTokenDropbox({
-      refreshToken: dropboxData?.data?.refresh_token,
-      clientId: dropboxData?.data?.app_id,
-      clientSecret: dropboxData?.data?.app_secret,
-    });
-  }, [dropboxData, mutateGetAccessTokenDropbox]);
+  // useEffect(() => {
+  //   if (!dropboxData?.data) return;
+  //   localStorage.setItem("mtm-folder", dropboxData?.data?.folders?.[1]);
+  //   Cookies.set("mtm-appIdDropbox", dropboxData?.data?.app_id, { expires: 7 });
+  //   Cookies.set("mtm-appSecretDropbox", dropboxData?.data?.app_secret, {
+  //     expires: 7,
+  //   });
+  //   Cookies.set("mtm-refreshTokenDropbox", dropboxData?.data?.refresh_token, {
+  //     expires: 7,
+  //   });
+  //   mutateGetAccessTokenDropbox({
+  //     refreshToken: dropboxData?.data?.refresh_token,
+  //     clientId: dropboxData?.data?.app_id,
+  //     clientSecret: dropboxData?.data?.app_secret,
+  //   });
+  // }, [dropboxData, mutateGetAccessTokenDropbox]);
 
   function handleFindPatient(hc: string) {
     mutationObtenerPacienteHc.mutate(hc);
@@ -328,7 +332,7 @@ export default function HistorialClinicoView() {
       setDownloading(true);
       setTimeout(() => {
         const url = URL.createObjectURL(previewBlob);
-        const nombre = `${fileMeta?.data?.idopera}.${fileMeta?.data?.extension}`;
+        const nombre = `${datosArchivo?.data?.idopera}.${datosArchivo?.data?.extension}`;
         const a = document.createElement("a");
         a.href = url;
         a.download = nombre;
@@ -423,7 +427,12 @@ export default function HistorialClinicoView() {
               </button>
             </div>
 
-            {!previewBlob ? (
+            {_loadingBlob ? (
+              <div className="flex-1 flex items-center justify-center">
+                <ClipLoader color="#2563eb" size={48} speedMultiplier={0.8} />
+                <span className="ml-4 text-primaryBlue text-lg">Cargando archivo...</span>
+              </div>
+            ) : !previewBlob ? (
               <div className="grid flex-1 place-items-center text-primaryBlue/60">
                 No hay archivo para mostrar
               </div>
@@ -474,6 +483,7 @@ export default function HistorialClinicoView() {
                           r="10"
                           stroke="currentColor"
                           strokeWidth="4"
+                          fill="none"
                         />
                         <path
                           className="opacity-75"
@@ -513,6 +523,7 @@ export default function HistorialClinicoView() {
                           r="10"
                           stroke="currentColor"
                           strokeWidth="4"
+                          fill="none"
                         />
                         <path
                           className="opacity-75"

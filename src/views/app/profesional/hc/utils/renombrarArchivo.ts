@@ -23,7 +23,7 @@ export const renombrarArchivo = ({
   const baseName = `${iddoctorStr}${dni}${year}${month}${day}${hours}${minutes}${seconds}`;
   const nuevoNombre = `${baseName}.${extension}`;
 
-  console.log(nuevoNombre);
+  // console.log(nuevoNombre);
 
   const fileRenombrado = new File([archivoOriginal], nuevoNombre, {
     type: archivoOriginal.type,

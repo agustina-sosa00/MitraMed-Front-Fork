@@ -1,8 +1,8 @@
-import { apiDropbox } from "@/lib/axiosDropbox";
+// import { apiDropbox } from "@/lib/axiosDropbox";
 import { apiPhp } from "@/lib/axiosPhp";
 import { getLocalStorageParams } from "@/utils/index";
-import axios from "axios";
-import Cookies from "js-cookie";
+// import axios from "axios";
+// import Cookies from "js-cookie";
 
 type grabarHistoriaParams = {
   idpaciente: number;
@@ -160,54 +160,52 @@ export const getDataDropbox = async () => {
   }
 };
 
-export const getAccessTokenDropbox = async ({
-  refreshToken,
-  clientId,
-  clientSecret,
-}: {
-  refreshToken: string;
-  clientId: string;
-  clientSecret: string;
-}) => {
-  const dropboxURL = "https://api.dropbox.com";
-  try {
-    const data = new URLSearchParams();
-    data.append("grant_type", "refresh_token");
-    data.append("refresh_token", refreshToken);
-    data.append("client_id", clientId);
-    data.append("client_secret", clientSecret);
-    const response = await axios.post(`${dropboxURL}/oauth2/token`, data.toString(), {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Error al obtener token de Dropbox: ", error);
-  }
-};
+// export const getAccessTokenDropbox = async ({
+//   refreshToken,
+//   clientId,
+//   clientSecret,
+// }: {
+//   refreshToken: string;
+//   clientId: string;
+//   clientSecret: string;
+// }) => {
+//   const dropboxURL = "https://api.dropbox.com";
+//   try {
+//     const data = new URLSearchParams();
+//     data.append("grant_type", "refresh_token");
+//     data.append("refresh_token", refreshToken);
+//     data.append("client_id", clientId);
+//     data.append("client_secret", clientSecret);
+//     const response = await axios.post(`${dropboxURL}/oauth2/token`, data.toString(), {
+//       headers: {
+//         "Content-Type": "application/x-www-form-urlencoded",
+//       },
+//     });
+//     return response.data;
+//   } catch (error) {
+//     console.error("Error al obtener token de Dropbox: ", error);
+//   }
+// };
 
-export const uploadFileDropbox = async ({
+export const grabarArchivoDropbox = async ({
   fileOriginalName,
   file,
 }: {
   fileOriginalName: string;
   file: File;
 }) => {
-  const folder = localStorage.getItem("mtm-folder");
-  try {
-    const modo = localStorage.getItem("_m");
-    const accessToken = Cookies.get("accessTokenDropbox");
+  const { empresa, modo, entorno } = getLocalStorageParams();
 
-    const response = await apiDropbox.post(`/2/files/upload`, file, {
+  const formData = new FormData();
+  formData.append("_e", empresa!);
+  formData.append("_m", modo!);
+  formData.append("archivo", file);
+
+  try {
+    const url = `/${entorno}/dropbox/subirArchivoDropbox.php`;
+    const response = await apiPhp.post(url, formData, {
       headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/octet-stream",
-        "Dropbox-API-Arg": JSON.stringify({
-          path: `/${modo}/${folder}/${file.name}`,
-          mode: "add",
-          autorename: true,
-        }),
+        "Content-Type": "multipart/form-data",
       },
     });
     return response.data;
@@ -216,24 +214,81 @@ export const uploadFileDropbox = async ({
   }
 };
 
-export const downloadFileDropbox = async ({ archivo }: { archivo: string }) => {
-  const folder = localStorage.getItem("mtm-folder");
+export const descargarArchivoDropbox = async ({
+  idopera,
+  extension,
+}: {
+  idopera: string;
+  extension: string;
+}) => {
+  const { empresa, modo, entorno } = getLocalStorageParams();
 
-  const accessToken = Cookies.get("accessTokenDropbox");
+  const body = {
+    empresa,
+    modo,
+    idopera,
+    extension,
+  };
+
   try {
-    const modo = localStorage.getItem("_m");
-    const response = await apiDropbox.post(`/2/files/download`, null, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Dropbox-API-Arg": JSON.stringify({
-          path: `/${modo}/${folder}/${archivo}`,
-        }),
-        "Content-Type": "application/octet-stream",
-      },
+    const response = await apiPhp.post(`/${entorno}/dropbox/descargarArchivoDropbox.php`, body, {
       responseType: "blob",
     });
+
+    // console.log(response);
     return response.data;
   } catch (error) {
     throw new Error(`Error al descargar un archivo de Dropbox: ${error}`);
   }
 };
+
+// export const uploadFileDropbox = async ({
+//   fileOriginalName,
+//   file,
+// }: {
+//   fileOriginalName: string;
+//   file: File;
+// }) => {
+//   const folder = localStorage.getItem("mtm-folder");
+//   try {
+//     const modo = localStorage.getItem("_m");
+//     const accessToken = Cookies.get("accessTokenDropbox");
+
+//     const response = await apiDropbox.post(`/2/files/upload`, file, {
+//       headers: {
+//         Authorization: `Bearer ${accessToken}`,
+//         "Content-Type": "application/octet-stream",
+//         "Dropbox-API-Arg": JSON.stringify({
+//           path: `/${modo}/${folder}/${file.name}`,
+//           mode: "add",
+//           autorename: true,
+//         }),
+//       },
+//     });
+//     return response.data;
+//   } catch (error) {
+//     throw new Error(`Error subiendo el archivo: ${fileOriginalName}. Error: ${error}`);
+//   }
+// };
+
+// export const downloadFileDropbox = async ({ archivo }: { archivo: string }) => {
+//   const folder = localStorage.getItem("mtm-folder");
+
+//   const accessToken = Cookies.get("accessTokenDropbox");
+//   try {
+//     const modo = localStorage.getItem("_m");
+//     const response = await apiDropbox.post(`/2/files/download`, null, {
+//       headers: {
+//         Authorization: `Bearer ${accessToken}`,
+//         "Dropbox-API-Arg": JSON.stringify({
+//           path: `/${modo}/${folder}/${archivo}`,
+//         }),
+//         "Content-Type": "application/octet-stream",
+//       },
+//       responseType: "blob",
+//     });
+//     return response.data;
+//   } catch (error) {
+//     throw new Error(`Error al descargar un archivo de Dropbox: ${error}`);
+//   }
+// };
