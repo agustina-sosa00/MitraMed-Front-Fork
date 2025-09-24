@@ -8,6 +8,7 @@ type HcRow = {
   ndoctor: string;
   obs: string;
   idopera?: string;
+  iddoctor?: number;
 };
 
 interface MedicalHistoryContextType {
