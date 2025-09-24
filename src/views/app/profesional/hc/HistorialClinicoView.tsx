@@ -63,7 +63,7 @@ export default function HistorialClinicoView() {
   const [previewExt, setPreviewExt] = useState<string | null>(null);
   const [previewPage, setPreviewPage] = useState(1);
   const [previewNumPages, setPreviewNumPages] = useState(0);
-  const [loadingBlob, setLoadingBlob] = useState(false);
+  const [_loadingBlob, setLoadingBlob] = useState(false);
   const [downloading, setDownloading] = useState(false);
 
   const { data: dropboxData } = useQuery({
@@ -108,7 +108,7 @@ export default function HistorialClinicoView() {
 
   //region querys y mutates
   // meta del archivo según fila seleccionada
-  const { data: fileMeta, isFetching: loadingMeta } = useQuery({
+  const { data: fileMeta, isFetching: _loadingMeta } = useQuery({
     queryKey: ["fileMeta", dniHistory, hcSelected?.idhistoria],
     enabled: Boolean(dniHistory && hcSelected?.idhistoria),
     queryFn: () =>
@@ -149,8 +149,8 @@ export default function HistorialClinicoView() {
     {
       key: "fecha",
       label: "Fecha",
-      minWidth: "90",
-      maxWidth: "120",
+      minWidth: "100",
+      maxWidth: "100",
       renderCell: (item) => {
         const raw = item.fecha;
         const fecha = raw.split("-").reverse().join("/");
@@ -166,8 +166,8 @@ export default function HistorialClinicoView() {
     {
       key: "ndoctor",
       label: "Profesional",
-      minWidth: "190",
-      maxWidth: "320",
+      minWidth: "170",
+      maxWidth: "300",
     },
   ];
 
@@ -275,9 +275,11 @@ export default function HistorialClinicoView() {
     setUiLoading(false);
     setDniHistory("");
     setDniInput("");
+    setHcSelected(null); // Limpiar selección de historia clínica
   }
 
   function handleCancelEdit() {
+    // setHcSelected(null);
     setHasConfirmed(false);
   }
 
