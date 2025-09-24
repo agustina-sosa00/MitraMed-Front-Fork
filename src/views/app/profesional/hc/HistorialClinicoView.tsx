@@ -363,7 +363,7 @@ export default function HistorialClinicoView() {
               <label className="text-sm font-medium text-primaryBlue">Evolución:</label>
             </div>
             <div
-              className="w-full h-72 px-2 py-1 font-bold border border-gray-300 rounded bg-lightGray text-primaryBlue overflow-y-auto"
+              className="w-full h-[290px] px-2 py-1 font-bold border border-gray-300 rounded bg-lightGray text-primaryBlue overflow-y-auto"
               style={{ whiteSpace: "pre-line" }}
             >
               {hcSelected && hcSelected.obs
