@@ -6,6 +6,7 @@ import { Modal } from "@/views/auth/_components/ui/Modal";
 import { ContainView } from "@/views/app/_components/features/ContainView";
 import { Document, Page, pdfjs } from "react-pdf";
 import { FiDownload } from "react-icons/fi";
+import { IoTrashOutline } from "react-icons/io5";
 import { IoClose } from "react-icons/io5";
 import { useMedicalHistoryContext } from "../../../../context/MedicalHistoryContext";
 import {
@@ -106,20 +107,6 @@ export default function HistorialClinicoView() {
     },
   });
 
-  // Nuevo useEffect para escuchar refetchHC y disparar mutate
-  useEffect(() => {
-    if (refetchHC && dniHistory) {
-      mutationObtenerPacienteHc.mutate(dniHistory);
-      setRefetchHC(false);
-    }
-  }, [refetchHC, dniHistory]);
-
-  useEffect(() => {
-    if (dataMedicalHistory?.data?.paciente?.idpaciente) {
-      setIdpaciente(dataMedicalHistory.data.paciente.idpaciente);
-    }
-  }, [dataMedicalHistory, setIdpaciente]);
-
   // console.log(idpaciente);
 
   // const { mutate: mutateGetAccessTokenDropbox } = useMutation({
@@ -150,9 +137,6 @@ export default function HistorialClinicoView() {
 
   const hasFile = Boolean(datosArchivo?.data?.idopera && datosArchivo?.data?.extension);
 
-  // console.log(datosArchivo);
-  // console.log(hasFile);
-  // console.log(hcSelected);
   // descarga del blob para thumbnail/modal
   const { mutate: descargarDropbox } = useMutation({
     mutationFn: descargarArchivoDropbox,
@@ -211,6 +195,8 @@ export default function HistorialClinicoView() {
 
   const datosTabla = [...dataHistoria];
 
+  // console.log(hcSelected);
+
   const propsTabla = {
     datosParaTabla: datosTabla,
     objectColumns: columnasTabla,
@@ -239,22 +225,6 @@ export default function HistorialClinicoView() {
   };
 
   useEffect(() => {
-    setPreviewPage(1);
-    setPreviewNumPages(0);
-    const idOpera = datosArchivo?.data?.idopera;
-    const ext = datosArchivo?.data?.extension;
-
-    if (!idOpera || !ext) {
-      setPreviewBlob(null);
-      setPreviewExt(null);
-      return;
-    }
-
-    setPreviewExt(ext);
-    descargarDropbox({ idopera: idOpera, extension: ext });
-  }, [datosArchivo, previewOpen]);
-
-  useEffect(() => {
     function onKey(e: KeyboardEvent) {
       if (e.key !== "Escape") return;
       handleDeletePatient();
@@ -262,6 +232,43 @@ export default function HistorialClinicoView() {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
+
+  // Limpiar siempre al cerrar el modal
+  useEffect(() => {
+    if (!previewOpen) {
+      setPreviewBlob(null);
+      setPreviewExt(null);
+      setPreviewPage(1);
+      setPreviewNumPages(0);
+    }
+  }, [previewOpen]);
+
+  // Descargar archivo solo cuando previewOpen y datosArchivo están listos
+  useEffect(() => {
+    if (!previewOpen) return;
+    setPreviewBlob(null);
+    setPreviewExt(null);
+    setPreviewPage(1);
+    setPreviewNumPages(0);
+    const idOpera = datosArchivo?.data?.idopera;
+    const ext = datosArchivo?.data?.extension;
+    if (!idOpera || !ext) return;
+    setPreviewExt(ext);
+    descargarDropbox({ idopera: idOpera, extension: ext });
+  }, [previewOpen, datosArchivo]);
+
+  useEffect(() => {
+    if (refetchHC && dniHistory) {
+      mutationObtenerPacienteHc.mutate(dniHistory);
+      setRefetchHC(false);
+    }
+  }, [refetchHC, dniHistory]);
+
+  useEffect(() => {
+    if (dataMedicalHistory?.data?.paciente?.idpaciente) {
+      setIdpaciente(dataMedicalHistory.data.paciente.idpaciente);
+    }
+  }, [dataMedicalHistory, setIdpaciente]);
 
   // useEffect(() => {
   //   if (!dropboxData?.data) return;
@@ -306,7 +313,7 @@ export default function HistorialClinicoView() {
     setUiLoading(false);
     setDniHistory("");
     setDniInput("");
-    setHcSelected(null); // Limpiar selección de historia clínica
+    setHcSelected(null);
     setDataPaciente(null);
   }
 
@@ -315,16 +322,39 @@ export default function HistorialClinicoView() {
     setHasConfirmed(false);
   }
 
+  function handleDeleteFile(e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) {
+    e.preventDefault();
+    if (!hasFile) return;
+    Swal.fire({
+      title: "¿Eliminar Archivo?",
+      text: "Esta acción es irreversible",
+      showCancelButton: true,
+      confirmButtonText: "Sí",
+      cancelButtonText: "No",
+      confirmButtonColor: "#518915",
+      cancelButtonColor: "#d33",
+    }).then((res) => {
+      if (!res.isConfirmed) return;
+      setPreviewBlob(null);
+      setPreviewExt(null);
+      Swal.fire({
+        icon: "success",
+        text: "Archivo eliminado",
+        confirmButtonColor: "#518915",
+        timer: 1000,
+      });
+    });
+  }
+
   function handleDownload(e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>) {
     e.preventDefault();
     if (!previewBlob || !hasFile) return;
 
     Swal.fire({
       title: "¿Descargar Archivo?",
-      text: "Se descargará el archivo en tu dispositivo.",
       showCancelButton: true,
-      confirmButtonText: "Sí, descargar",
-      cancelButtonText: "Cancelar",
+      confirmButtonText: "Sí",
+      cancelButtonText: "No",
       confirmButtonColor: "#518915",
       cancelButtonColor: "#d33",
     }).then((res) => {
@@ -414,7 +444,14 @@ export default function HistorialClinicoView() {
 
       {/* Modal de PREVIEW con botón de Descargar */}
       {previewOpen && (
-        <Modal open={previewOpen} onClose={() => setPreviewOpen(false)}>
+        <Modal
+          open={previewOpen}
+          onClose={() => {
+            setPreviewOpen(false);
+            setPreviewBlob(null);
+            setPreviewExt(null);
+          }}
+        >
           <div className="flex flex-col w-full min-w-[600px] h-[520px]">
             <div className="flex items-center justify-end w-full px-2">
               <button
@@ -500,7 +537,7 @@ export default function HistorialClinicoView() {
                 </div>
               </div>
             ) : (
-              <div className="flex flex-col flex-1 px-4">
+              <div className="flex flex-1 px-4">
                 <div className="grid flex-1 place-items-center">
                   <img
                     src={URL.createObjectURL(previewBlob)}
@@ -508,7 +545,8 @@ export default function HistorialClinicoView() {
                   />
                 </div>
 
-                <div className="flex items-center justify-end w-full py-2">
+                {/* Botones */}
+                <div className="flex flex-col items-center justify-start py-2 gap-2">
                   <a
                     href="#"
                     onClick={handleDownload}
@@ -533,10 +571,17 @@ export default function HistorialClinicoView() {
                       </svg>
                     ) : (
                       <>
-                        Descargar <FiDownload />
+                        <FiDownload />
                       </>
                     )}
                   </a>
+                  <button
+                    onClick={handleDeleteFile}
+                    className="flex items-center justify-center gap-2 px-4 font-medium text-white rounded h-9 bg-red-500 hover:bg-red-600"
+                    title="Eliminar archivo"
+                  >
+                    <IoTrashOutline />
+                  </button>
                 </div>
               </div>
             )}
