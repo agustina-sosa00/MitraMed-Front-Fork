@@ -5,7 +5,7 @@ import {
 } from "@/views/app/profesional/turnos/turnosProfesional/mock/arrayTableProfessional";
 import { useState } from "react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
-import ActionsButtonsCard from "./ActionsButtonsCard";
+import { Button } from "@/views/_components/Button";
 
 interface IProp {
   close?: () => void;
@@ -20,17 +20,17 @@ export default function AltaTurnoModal({ close, handleChange }: IProp) {
     codarea: null,
     tel: null,
   });
-  const handleClose = () => {
+  function handleClose() {
     close && close();
-  };
+  }
 
-  const handleOnChange = (e) => {
+  function handleOnChange(e) {
     const { name, value } = e.target;
 
     setFormState({ ...formState, [name]: value });
-  };
+  }
 
-  const handleFindPatient = () => {
+  function handleFindPatient() {
     const hc = formState.hc;
     const patient = dataPatient.find((item) => item.hc === hc);
     setFormState({
@@ -39,11 +39,11 @@ export default function AltaTurnoModal({ close, handleChange }: IProp) {
       codarea: patient?.codarea || 0,
       tel: patient?.telefono || 0,
     });
-  };
+  }
 
-  const handleOnSubmit = (e) => {
+  function handleOnSubmit(e) {
     e.preventDefault();
-  };
+  }
 
   return (
     <div className="flex flex-col items-center w-full max-w-2xl p-8 bg-white rounded ">
@@ -154,24 +154,14 @@ export default function AltaTurnoModal({ close, handleChange }: IProp) {
             className={`px-2 py-1 text-sm font-bold border w-36 border-gray-300 rounded  bg-lightGray focus:outline-none focus:ring-1 focus:ring-primaryGreen focus:border-primaryGreen `}
           />
         </div>
-        <div className="flex justify-end w-full">
-          <ActionsButtonsCard
-            button={["guardar", "cancelar"]}
-            handleButton={(val) => {
-              if (val === "guardar") {
-                handleChange && handleChange(formState);
-                handleClose();
-              } else {
-                handleClose();
-              }
-            }}
-            classButton={(btn) =>
-              btn === "guardar"
-                ? "px-4 py-2 bg-primaryGreen text-white capitalize rounded hover:bg-greenHover transition-all duration-300"
-                : "px-4 py-2 bg-red-500 text-white capitalize rounded hover:bg-red-600 transition-all duration-300"
-            }
-            classContainer=" gap-2 flex "
+        <div className="flex items-end justify-end w-full gap-3 ">
+          <Button
+            label="Guardar"
+            classButton="bg-primaryGreen hover:bg-greenHover"
+            type="submit"
+            handle={() => handleChange(formState)}
           />
+          <Button label="Cancelar" classButton="bg-red-500 hover:bg-red-600" handle={handleClose} />
         </div>
       </form>
     </div>

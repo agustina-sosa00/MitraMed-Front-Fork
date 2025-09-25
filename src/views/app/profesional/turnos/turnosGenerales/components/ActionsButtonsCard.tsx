@@ -2,7 +2,8 @@ import Swal from "sweetalert2";
 interface IProp {
   handleButton?: (arg: string) => void;
   classButton?: (btn: string) => string;
-  button: string[];
+  buttonBox1: string[];
+  buttonBox2?: string[];
   type?: string;
   classContainer?: string;
   disabled?: string;
@@ -11,11 +12,10 @@ interface IProp {
 export default function ActionsButtonsCard({
   handleButton,
   classButton,
-  button,
-  classContainer,
+  buttonBox1,
+  buttonBox2,
   disabled,
 }: IProp) {
-  console.log(classContainer);
   function handleClick(item: string) {
     if (disabled === "disabled") {
       Swal.fire({
@@ -29,23 +29,40 @@ export default function ActionsButtonsCard({
       handleButton && handleButton(item);
     }
   }
-
   return (
-    <div className={`flex flex-1 gap-2 pb-2 `}>
-      {button.map((item) => (
-        <button
-          type="button"
-          key={item}
-          onClick={() => handleClick(item)}
-          className={
-            classButton
-              ? classButton(item)
-              : "px-2 py-1 font-medium capitalize transition-all duration-300 border border-gray-300 rounded hover:bg-gray-300 bg-lightGray text-primaryBlue"
-          }
-        >
-          {item}
-        </button>
-      ))}
+    <div className="flex items-center justify-between w-full pb-2">
+      <div className={`flex  gap-2  `}>
+        {buttonBox1?.map((item) => (
+          <button
+            type="button"
+            key={item}
+            onClick={() => handleClick(item)}
+            className={
+              classButton
+                ? classButton(item)
+                : "px-2 py-1 font-medium  transition-all duration-300 border border-gray-300 rounded hover:bg-gray-300 bg-lightGray text-primaryBlue"
+            }
+          >
+            {item}
+          </button>
+        ))}
+      </div>
+      <div className={`flex  gap-2  `}>
+        {buttonBox2?.map((item) => (
+          <button
+            type="button"
+            key={item}
+            onClick={() => handleClick(item)}
+            className={
+              classButton
+                ? classButton(item)
+                : "px-2 py-1 font-medium  transition-all duration-300 border border-gray-300 rounded hover:bg-gray-300 bg-lightGray text-primaryBlue"
+            }
+          >
+            {item}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }

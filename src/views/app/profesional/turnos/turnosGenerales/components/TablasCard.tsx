@@ -22,6 +22,7 @@ export default function TablasCard() {
     diaSeleccionado,
     turnosData,
     setTurnosData,
+    setTurnoSeleccionado,
   } = useTurnosGeneralesStore();
 
   // console.log(doctorSeleccionado?.idd  octor);
@@ -99,7 +100,7 @@ export default function TablasCard() {
       maxWidth: "100",
     },
     {
-      key: "paciente",
+      key: "npaciente",
       label: "Paciente",
       minWidth: "240",
       maxWidth: "240",
@@ -119,7 +120,6 @@ export default function TablasCard() {
 
   // Solo mostrar filas de turnos, sin completar con filas vacías
   const datosParaTabla2 = [...turnosDataTabla];
-
   const propsTabla1 = {
     datosParaTabla: doctoresDataTabla || [],
     selectFn: true,
@@ -142,6 +142,9 @@ export default function TablasCard() {
     datosParaTabla: datosParaTabla2,
     objectColumns: columnasTabla2,
     selectFn: true,
+    objectSelection: {
+      setSeleccionado: setTurnoSeleccionado,
+    },
     objectStyles: {
       heightContainer: "300px",
       withScrollbar: true,
