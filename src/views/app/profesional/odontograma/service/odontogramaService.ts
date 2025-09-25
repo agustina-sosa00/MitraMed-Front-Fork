@@ -12,7 +12,7 @@ export async function getOdontogram({ dni }: { dni: string }) {
     const { empresa, modo, entorno } = getLocalStorageParams();
 
     const response = await apiPhp(
-      `/${entorno}/mitramed/obtenerOdontograma1.php?_i={"_e":"${empresa}","_m":"${modo}","_d":${dni}}`,
+      `/${entorno}/mitramed/obtenerOdontograma.php?_i={"_e":"${empresa}","_m":"${modo}","_d":${dni}}`,
     );
     return response.data;
   } catch (error) {
