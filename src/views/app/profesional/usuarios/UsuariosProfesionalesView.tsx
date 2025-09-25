@@ -6,36 +6,7 @@ import { useUsuariosProfesionalStore } from "./store/usuariosProfesionalesStore"
 import { obtenerDoctores, obtenerUsuariosProf } from "./service/usuariosProfService";
 import TableCard from "./_components/TableCard";
 import HeaderCard from "./_components/HeaderCard";
-
-interface OutletContext {
-  setDisabledButtonSidebar: React.Dispatch<
-    React.SetStateAction<{
-      inicio: boolean;
-      turnos: boolean;
-      historial: boolean;
-      odontograma: boolean;
-      tablaGral: boolean;
-      turnosGrales: boolean;
-      informe: boolean;
-      informes: boolean;
-      usuarios: boolean;
-      configuracion: boolean;
-    }>
-  >;
-  disabledButtonSidebar: {
-    inicio: boolean;
-    turnos: boolean;
-    historial: boolean;
-    odontograma: boolean;
-    tablaGral: boolean;
-    turnosGrales: boolean;
-    informe: boolean;
-    informes: boolean;
-    usuarios: boolean;
-    configuracion: boolean;
-  };
-  buttonsSidebar: any[];
-}
+import { OutletContext } from "@/context/types";
 
 export default function UsuariosProfesionalesView() {
   const { setDisabledButtonSidebar } = useOutletContext<OutletContext>();
