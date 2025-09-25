@@ -36,7 +36,6 @@ export default function BuscadorDePacientes({
   const { hcSelected, setEditMode } = useMedicalHistoryContext();
 
   // region states y variables
-  const isOdontologo = localStorage.getItem("mtm-tusuario");
   const isEditing = !hasConfirmed;
   const inputRef = useRef<HTMLInputElement>(null);
   const hasValidPatient = Boolean(data?.dni);
@@ -300,7 +299,7 @@ export default function BuscadorDePacientes({
                   <MdCancel /> cancelar
                 </button>
               </div>
-            ) : isOdontologo !== "3" ? null : (
+            ) : !(tusuarioStorage === "3" || tusuarioStorage === "4") ? null : (
               <button
                 disabled={!canEdit}
                 onClick={() => setEditOdontogram && setEditOdontogram(true)}
