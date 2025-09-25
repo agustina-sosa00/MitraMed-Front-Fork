@@ -18,6 +18,10 @@ export const Modal = ({ children, open, onClose }: ModalProps) => {
         e.stopPropagation();
         handleClose();
       }
+      if (e.key === "Enter") {
+        e.stopPropagation();
+        // handleClose();
+      }
     }
     window.addEventListener("keydown", handleKeyDown, true);
     return () => window.removeEventListener("keydown", handleKeyDown, true);

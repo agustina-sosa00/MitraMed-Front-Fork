@@ -13,6 +13,9 @@ interface IProp {
   focusState?: boolean;
   focusName?: string;
   inputRef?: React.RefObject<HTMLInputElement>;
+  textareaRef?: React.RefObject<HTMLTextAreaElement>;
+  onKeyDownInput?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  onKeyDownTextarea?: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void;
 }
 export default function InputProfesionales({
   valueInput,
@@ -26,6 +29,9 @@ export default function InputProfesionales({
   field,
   focusState,
   inputRef,
+  textareaRef,
+  onKeyDownInput,
+  onKeyDownTextarea,
 }: IProp) {
   function formatearObs(obs: string) {
     return obs
@@ -53,6 +59,7 @@ export default function InputProfesionales({
             value={valueInput}
             placeholder={placeholderInput}
             onChange={handleInput}
+            onKeyDown={onKeyDownInput}
             className="flex-[1] h-8 px-2 py-1 border border-gray-300 rounded bg-white tracking-wide font-medium focus:outline-none text-primaryBlue focus:bg-sky-50 focus:ring"
             readOnly={focusState}
           />
@@ -66,10 +73,12 @@ export default function InputProfesionales({
             {labelInput}:
           </label>
           <textarea
+            ref={textareaRef}
             name={nameInput}
             value={valueInput ? formatearObs(valueInput) : ""}
             placeholder={placeholderInput}
             onChange={handleTextarea}
+            onKeyDown={onKeyDownTextarea}
             className=" flex-[1] h-44 px-2 py-1 border border-gray-300 rounded bg-white tracking-wide font-medium focus:outline-none text-primaryBlue focus:bg-sky-50 focus:ring"
             readOnly={focusState}
           ></textarea>

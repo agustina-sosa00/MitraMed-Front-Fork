@@ -8,12 +8,11 @@ import { FaUserCircle } from "react-icons/fa";
 import { RiSave3Line } from "react-icons/ri";
 import { Button } from "@/views/_components/Button";
 import { BuscadorDePacientesProps } from "@/views/app/profesional/types/index";
-import React from "react";
-import Swal from "sweetalert2";
 import { FaRegEye } from "react-icons/fa";
-import { useMedicalHistoryContext } from "../../../../context/MedicalHistoryContext";
+import { useMedicalHistoryContext } from "../../../../../context/MedicalHistoryContext";
+import Swal from "sweetalert2";
 
-export default function BuscadorDePacientes({
+export default function SearchPatientCard({
   onSearch,
   editOdontogram,
   handleSave,
@@ -113,81 +112,68 @@ export default function BuscadorDePacientes({
   return (
     <div className="flex flex-col w-full gap-2 ">
       <div className="flex items-center justify-between w-full h-10 ">
-        {hasConfirmed ? (
-          <>
-            {state.length > 0 && (
-              <div className={`flex  py-1 h-14 justify-between gap-1   w-2/3     items-center `}>
-                <div className="flex items-center justify-start gap-2">
-                  <label className="text-base font-bold text-primaryGreen">Ingresar DNI:</label>
-
-                  <div className="flex gap-1 w-36">
-                    <div
-                      className={` px-1 text-base flex items-center font-bold border  border-gray-300  rounded w-full bg-lightGray focus:outline-none  ${
-                        !hasConfirmed ? "bg-gray-200 text-gray-400 " : "text-primaryBlue"
-                      }`}
-                    >
-                      {state}
-                    </div>
-                    <button
-                      type="button"
-                      onClick={handleEditInput}
-                      disabled={editOdontogram}
-                      className={`h-8 px-2 py-1 border rounded bg-lightGray
-                    ${
+        <div className={`flex py-1 h-14 justify-start gap-1 w-2/3 items-center`}>
+          <div className="flex items-end gap-1">
+            <label className="text-base font-bold text-primaryGreen">Ingresar DNI:</label>
+            <div className="flex gap-1 w-36 ">
+              {hasConfirmed && state.length > 0 ? (
+                <>
+                  <div
+                    className={`px-1 text-base flex items-center font-bold border border-gray-300 rounded w-full bg-lightGray focus:outline-none text-primaryBlue`}
+                  >
+                    {state}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleEditInput}
+                    disabled={editOdontogram}
+                    className={`h-8 px-2 py-1 border rounded bg-lightGray ${
                       editOdontogram
                         ? "text-gray-400 cursor-not-allowed"
                         : "text-red-500 hover:bg-gray-200"
                     }`}
-                    >
-                      <RiCloseLargeFill className="text-xl " />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
-          </>
-        ) : (
-          <div className={`flex py-1 h-14 justify-start gap-1 w-2/3  items-center `}>
-            <div className="flex items-end gap-1">
-              {" "}
-              <label className="text-base font-bold text-primaryGreen">Ingresar DNI:</label>
-              <div className="flex gap-1 w-36 ">
-                <input
-                  ref={inputRef}
-                  type="text"
-                  name="dni"
-                  value={state}
-                  onChange={handleOnChangeDni}
-                  onKeyDown={handleKeyDown}
-                  autoFocus={!hasConfirmed}
-                  readOnly={!isEditing}
-                  disabled={!isEditing}
-                  className={`h-8 px-2 py-1 w-full bg-gray-200 font-bold rounded 
-                focus:outline-none text-primaryBlue focus-within:border-primaryGreen focus-within:ring-1 focus-within:ring-primaryGreen
-                ${errorState && "border-red-500"}`}
-                  autoComplete="off"
-                />
-                <button
-                  type="button"
-                  onClick={handleSearchPatient}
-                  className="flex items-center justify-center w-8 h-8 px-2 py-1 transition-all duration-300 bg-gray-200 border border-gray-300 rounded text-greenHover hover:text-white hover:bg-greenHover hover:border-primaryGreen "
-                >
-                  {loading ? (
-                    <svg className="w-8 circle-loader animate-spin" viewBox="25 25 50 50">
-                      <circle r="20" cy="50" cx="50" className="circleNormal"></circle>
-                    </svg>
-                  ) : (
-                    <FaMagnifyingGlass className="text-xl " />
-                  )}
-                </button>
-              </div>
+                  >
+                    <RiCloseLargeFill className="text-xl " />
+                  </button>
+                </>
+              ) : (
+                <>
+                  <input
+                    ref={inputRef}
+                    type="text"
+                    name="dni"
+                    value={state}
+                    onChange={handleOnChangeDni}
+                    onKeyDown={handleKeyDown}
+                    autoFocus={!hasConfirmed}
+                    readOnly={!isEditing}
+                    disabled={!isEditing}
+                    className={`h-8 px-2 py-1 w-full bg-gray-200 font-bold rounded 
+                      focus:outline-none text-primaryBlue focus-within:border-primaryGreen focus-within:ring-1 focus-within:ring-primaryGreen
+                      ${errorState && "border-red-500"}`}
+                    autoComplete="off"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleSearchPatient}
+                    className="flex items-center justify-center w-8 h-8 px-2 py-1 transition-all duration-300 bg-gray-200 border border-gray-300 rounded text-greenHover hover:text-white hover:bg-greenHover hover:border-primaryGreen "
+                  >
+                    {loading ? (
+                      <svg className="w-8 circle-loader animate-spin" viewBox="25 25 50 50">
+                        <circle r="20" cy="50" cx="50" className="circleNormal"></circle>
+                      </svg>
+                    ) : (
+                      <FaMagnifyingGlass className="text-xl " />
+                    )}
+                  </button>
+                </>
+              )}
             </div>
-
-            {errorState && errorState?.length > 0 && (
-              <p className="text-xs font-bold text-red-500 ">{errorState}</p>
-            )}
           </div>
-        )}
+          {errorState && errorState?.length > 0 && (
+            <p className="text-xs font-bold text-red-500 ">{errorState}</p>
+          )}
+        </div>
       </div>
 
       {

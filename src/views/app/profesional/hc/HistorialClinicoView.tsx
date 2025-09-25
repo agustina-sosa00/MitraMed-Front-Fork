@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { TablaDefault } from "@/frontend-resourses/components";
 import { Modal } from "@/views/auth/_components/ui/Modal";
 import { ContainView } from "@/views/app/_components/features/ContainView";
@@ -10,22 +10,18 @@ import { IoTrashOutline } from "react-icons/io5";
 import { IoClose } from "react-icons/io5";
 import { useMedicalHistoryContext } from "../../../../context/MedicalHistoryContext";
 import {
-  // getDataDropbox,
-  // getAccessTokenDropbox,
   getIdOpera,
-  // downloadFileDropbox,
   obtenerPacienteHc,
   descargarArchivoDropbox,
 } from "@/views/app/profesional/hc/service/HistorialClinicoService";
-import SearchPatient from "@/views/app/_components/features/BuscadorDePacientes";
+import SearchPatientCard from "@/views/app/profesional/_components/features/SearchPatientCard";
+import FormHistoria from "./_components/FormHistoria";
+import Cookies from "js-cookie";
+import Swal from "sweetalert2";
 import workerSrc from "pdfjs-dist/build/pdf.worker?url";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
 pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
-import Cookies from "js-cookie";
-import Swal from "sweetalert2";
-import FormNuevoRegistroHc from "./_components/FormNuevoRegistroHc";
-// import { generarFilasVacias } from "@/utils/tableUtils";
 
 type HcRow = {
   id: string | number;
@@ -39,8 +35,6 @@ type HcRow = {
 type ApiHcRow = Omit<HcRow, "id">;
 
 export default function HistorialClinicoView() {
-  const queryClient = useQueryClient();
-
   const {
     dataPaciente,
     setDataPaciente,
@@ -64,9 +58,6 @@ export default function HistorialClinicoView() {
   const infoProfessional = Cookies.get("dataProfessional");
   const [focusState, setFocusState] = useState(false);
   const [showModal, setShowModal] = useState<boolean>(false);
-  // const [hcSelected, setHcSelected] = useState<HcRow | null>(null);
-  // const [dataPaciente, setDataPaciente] = useState<any>(null);
-  // const hasAccessTokenDropbox = Boolean(Cookies.get("accessTokenDropbox"));
 
   // preview archivo (thumbnail + modal)
   const [previewOpen, setPreviewOpen] = useState(false);
@@ -77,28 +68,8 @@ export default function HistorialClinicoView() {
   const [_loadingBlob, setLoadingBlob] = useState(false);
   const [downloading, setDownloading] = useState(false);
 
-  // const { data: dropboxData } = useQuery({
-  //   queryKey: ["dataDropboxQuery"],
-  //   queryFn: () => getDataDropbox(),
-  //   enabled: !hasAccessTokenDropbox,
-  //   refetchOnMount: false,
-  //   refetchOnWindowFocus: false,
-  //   staleTime: Infinity,
-  // });
-
-  const { data: dataMedicalHistory } = useQuery({
-    queryKey: ["medicalHistory", dniHistory],
-    queryFn: () => obtenerPacienteHc({ dni: dniHistory }),
-    enabled: hasConfirmed && !!dniHistory,
-    staleTime: Infinity,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-    gcTime: Infinity,
-    initialData: () => queryClient.getQueryData(["medicalHistory", dniHistory]),
-  });
-
   const mutationObtenerPacienteHc = useMutation({
-    mutationFn: (dni: string) => obtenerPacienteHc({ dni }),
+    mutationFn: (dni: string) => obtenerPacienteHc(dni),
     onError: (error) => {
       console.error("Error obtenerPacienteHc:", error);
     },
@@ -107,53 +78,37 @@ export default function HistorialClinicoView() {
     },
   });
 
-  // console.log(idpaciente);
-
-  // const { mutate: mutateGetAccessTokenDropbox } = useMutation({
-  //   mutationFn: getAccessTokenDropbox,
-  //   onError: (error) => console.error(error),
-  //   onSuccess: (data) => {
-  //     const accessTokenDropbox = data?.access_token;
-  //     if (!accessTokenDropbox) return;
-  //     Cookies.set("accessTokenDropbox", accessTokenDropbox, {
-  //       expires: 5 / 24,
-  //     });
-  //   },
-  // });
-
-  //region querys y mutates
-  // meta del archivo según fila seleccionada
   const { data: datosArchivo, isFetching: _loadingMeta } = useQuery({
     queryKey: ["datosArchivo", dniHistory, hcSelected?.idhistoria],
-    enabled: previewOpen,
     queryFn: () =>
       getIdOpera({
         dni: Number(dniHistory),
         idhistoria: Number(hcSelected!.idhistoria),
       }),
+    enabled: previewOpen,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
   });
 
   const hasFile = Boolean(datosArchivo?.data?.idopera && datosArchivo?.data?.extension);
 
-  // descarga del blob para thumbnail/modal
   const { mutate: descargarDropbox } = useMutation({
     mutationFn: descargarArchivoDropbox,
     onMutate: () => setLoadingBlob(true),
+    onError: () => {
+      setPreviewBlob(null);
+      setPreviewExt(null);
+    },
     onSuccess: (data) => {
       setPreviewBlob(data);
       setPreviewExt(datosArchivo?.data?.extension ?? null);
       setPreviewPage(1);
     },
     onSettled: () => setLoadingBlob(false),
-    onError: () => {
-      setPreviewBlob(null);
-      setPreviewExt(null);
-    },
   });
 
   const columnasTabla = [
+    // ID
     {
       key: "id",
       label: "ID",
@@ -161,6 +116,7 @@ export default function HistorialClinicoView() {
       maxWidth: "37",
       renderCell: (item) => item.id,
     },
+    // FECHA
     {
       key: "fecha",
       label: "Fecha",
@@ -172,12 +128,14 @@ export default function HistorialClinicoView() {
         return fecha;
       },
     },
+    // DETALLE
     {
       key: "detalle",
       label: "Motivo de Consulta",
       minWidth: "230",
       maxWidth: "320",
     },
+    // NDOCTOR
     {
       key: "ndoctor",
       label: "Profesional",
@@ -193,12 +151,8 @@ export default function HistorialClinicoView() {
       }))
     : [];
 
-  const datosTabla = [...dataHistoria];
-
-  // console.log(hcSelected);
-
   const propsTabla = {
-    datosParaTabla: datosTabla,
+    datosParaTabla: dataHistoria,
     objectColumns: columnasTabla,
     objectStyles: {
       heightContainer: "353px",
@@ -224,6 +178,10 @@ export default function HistorialClinicoView() {
     objectSelection: { setSeleccionado: setHcSelected },
   };
 
+  // console.log(refetchHC);
+  // console.log(dniInput);
+  // console.log(dniHistory);
+
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       if (e.key !== "Escape") return;
@@ -232,6 +190,12 @@ export default function HistorialClinicoView() {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
+
+  useEffect(() => {
+    if (dataPaciente?.paciente?.idpaciente) {
+      setIdpaciente(dataPaciente.paciente.idpaciente);
+    }
+  }, [dataPaciente, setIdpaciente]);
 
   // Limpiar siempre al cerrar el modal
   useEffect(() => {
@@ -261,40 +225,18 @@ export default function HistorialClinicoView() {
     if (refetchHC && dniHistory) {
       mutationObtenerPacienteHc.mutate(dniHistory);
       setRefetchHC(false);
+      setHcSelected(null);
     }
   }, [refetchHC, dniHistory]);
 
-  useEffect(() => {
-    if (dataMedicalHistory?.data?.paciente?.idpaciente) {
-      setIdpaciente(dataMedicalHistory.data.paciente.idpaciente);
-    }
-  }, [dataMedicalHistory, setIdpaciente]);
-
-  // useEffect(() => {
-  //   if (!dropboxData?.data) return;
-  //   localStorage.setItem("mtm-folder", dropboxData?.data?.folders?.[1]);
-  //   Cookies.set("mtm-appIdDropbox", dropboxData?.data?.app_id, { expires: 7 });
-  //   Cookies.set("mtm-appSecretDropbox", dropboxData?.data?.app_secret, {
-  //     expires: 7,
-  //   });
-  //   Cookies.set("mtm-refreshTokenDropbox", dropboxData?.data?.refresh_token, {
-  //     expires: 7,
-  //   });
-  //   mutateGetAccessTokenDropbox({
-  //     refreshToken: dropboxData?.data?.refresh_token,
-  //     clientId: dropboxData?.data?.app_id,
-  //     clientSecret: dropboxData?.data?.app_secret,
-  //   });
-  // }, [dropboxData, mutateGetAccessTokenDropbox]);
-
-  function handleFindPatient(hc: string) {
-    mutationObtenerPacienteHc.mutate(hc);
-    setHasConfirmed(true);
-    setDniHistory(hc);
-    // setUiLoading(true);
-    // setTimeout(() => {
-    //   setUiLoading(false);
-    // }, 2000);
+  function handleFindPatient(dni: string) {
+    setUiLoading(true);
+    setTimeout(() => {
+      mutationObtenerPacienteHc.mutate(dni);
+      setHasConfirmed(true);
+      setDniHistory(dni);
+      setUiLoading(false);
+    }, 1000);
   }
 
   function handleOnFocusInput() {
@@ -375,9 +317,6 @@ export default function HistorialClinicoView() {
     });
   }
 
-  // console.log(hcSelected);
-
-  //region return
   return (
     <ContainView
       title="Historia Clínica"
@@ -387,7 +326,7 @@ export default function HistorialClinicoView() {
     >
       {/* Buscador */}
       <div className="flex items-center justify-start w-full gap-1 py-1 min-h-24 ">
-        <SearchPatient
+        <SearchPatientCard
           noHc={hc}
           data={!dniHistory ? undefined : dataPaciente?.paciente}
           labelSearch={"dni"}
@@ -591,7 +530,7 @@ export default function HistorialClinicoView() {
 
       {showModal && (
         <Modal onClose={() => setShowModal(false)} open={showModal}>
-          <FormNuevoRegistroHc
+          <FormHistoria
             handle={handleOnFocusInput}
             infoProfessional={JSON.parse(infoProfessional!)}
             hc={dniHistory}
