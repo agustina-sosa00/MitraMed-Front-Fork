@@ -23,7 +23,7 @@ export default function PreviewModal({ open, onClose, blob, ext }: Props) {
 
   return (
     <Modal open={open} onClose={onClose}>
-      <div className="flex flex-col w-full h-[520px]">
+      <div className="flex flex-col w-full max-h-[90vh] min-w-[600px] h-auto overflow-y-auto">
         <div className="flex items-center justify-end w-full px-2">
           <Button
             icon={<IoMdClose />}
@@ -75,10 +75,11 @@ export default function PreviewModal({ open, onClose, blob, ext }: Props) {
             </div>
           </div>
         ) : (
-          <div className="grid flex-1 px-4 place-items-center">
+          <div className="flex justify-center items-center max-h-[70vh] overflow-y-auto px-4">
             <img
               src={URL.createObjectURL(blob)}
-              className="max-h-[440px] w-auto object-contain border rounded"
+              className="max-h-full h-auto w-auto object-contain border rounded"
+              style={{ display: "block" }}
             />
           </div>
         )}

@@ -98,17 +98,17 @@ export default function SideBar({ logo, buttons, isDisabled = false }: IProp) {
     <nav className="flex-col justify-between hidden w-56 h-screen lg:flex">
       <section className="flex flex-col items-center justify-between h-full bg-gray-200">
         {/* Logo */}
-        <div className="flex items-center  h-[10%]">
+        <div className="flex items-center">
           <img src={logo} alt="logo" />
         </div>
 
         {/* Divider */}
-        <div className="flex justify-center w-full">
+        <div className="flex justify-center w-full mb-2">
           <div className="w-[80%] bg-primaryBlue h-[1px]" />
         </div>
 
         {/* Navegacion */}
-        <div className="flex flex-col w-full gap-2 pl-4 py-5 h-[65%]">
+        <div className="flex flex-col w-full gap-1.5 pl-1 h-[65%]">
           {mainButtons.map((item) => {
             if (item.isDropdown && item.subItems) {
               // Botón desplegable
@@ -219,7 +219,7 @@ export default function SideBar({ logo, buttons, isDisabled = false }: IProp) {
         </div>
 
         {/* Log Out */}
-        <div className="flex flex-col items-center w-full gap-3 py-5 h-[20%]">
+        <div className="flex flex-col items-center w-full gap-3 pt-5 h-[20%]">
           <div className="flex items-center justify-start gap-2 text-primaryBlue">
             <FaUserCircle className="text-xl xl:text-3xl" />
             {tusuario === "2" ? (

@@ -1,4 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useEffect, useState } from "react";
+
 // PORTAL
 import PortalView from "./views/auth/views/portal/PortalView";
 import PoliticasDePrivacidadView from "./views/auth/views/politicas/PoliticasDePrivacidadView";
@@ -17,13 +19,13 @@ import ProfessionalLayout from "./views/app/profesional/_components/Professional
 import HomeProfesionalView from "./views/app/profesional/inicio/HomeProfesionalView";
 import TurnosGeneralesView from "./views/app/profesional/turnos/turnosGenerales/TurnosGeneralesView";
 import TurnosProfesionalView from "./views/app/profesional/turnos/turnosProfesional/TurnosProfesionalView";
-import { useEffect, useState } from "react";
 import HistorialClinicoView from "./views/app/profesional/hc/HistorialClinicoView";
 import OdontogramView from "./views/app/profesional/odontograma/OdontogramaView";
 import InformeTurnosView from "./views/app/profesional/informes/informeTurnos/InformeTurnosView";
 import UsuariosProfesionalesView from "./views/app/profesional/usuarios/UsuariosProfesionalesView";
 import ConfiguracionView from "./views/app/profesional/configuracion/ConfiguracionView";
-import EnvioEmailView from "./views/app/profesional/procesos/EnvioEmailView";
+import EnvioEmailPacView from "./views/app/profesional/procesos/email/emailPac/EnvioEmailPacView";
+import EnvioEmailProfView from "./views/app/profesional/procesos/email/emailProf/EnvioEmailProfView";
 
 interface RouterProps {
   loader: boolean;
@@ -72,7 +74,8 @@ export default function Router({ loader, setLoader }: RouterProps) {
             <Route path="/dashboard/historia-clinica" element={<HistorialClinicoView />} />
             <Route path="/dashboard/odontograma" element={<OdontogramView />} />
             <Route path="/dashboard/informe-turnos" element={<InformeTurnosView />} />
-            <Route path="/dashboard/procesos" element={<EnvioEmailView />} />
+            <Route path="/dashboard/procesos/envio-email-prof" element={<EnvioEmailProfView />} />
+            <Route path="/dashboard/procesos/envio-email-pac" element={<EnvioEmailPacView />} />
             <Route path="/dashboard/usuarios" element={<UsuariosProfesionalesView />} />
             <Route path="/dashboard/configuracion" element={<ConfiguracionView />} />
             {/* {idProfesional && (

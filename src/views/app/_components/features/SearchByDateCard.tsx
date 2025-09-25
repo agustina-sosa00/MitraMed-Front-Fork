@@ -4,21 +4,33 @@ import dayjs from "dayjs";
 type SearchCardProps = {
   diaSeleccionado: string;
   setDiaSeleccionado: (date: string) => void;
+  presenteManana?: boolean; // Si true, el presente es mañana
 };
 
-export default function SearchCard({ diaSeleccionado, setDiaSeleccionado }: SearchCardProps) {
+export default function SearchByDateCard({
+  diaSeleccionado,
+  setDiaSeleccionado,
+  presenteManana = false,
+}: SearchCardProps) {
   const today = dayjs().format("YYYY-MM-DD");
+  const manana = dayjs().add(1, "day").format("YYYY-MM-DD");
   const selected = diaSeleccionado || today;
 
-  // console.log(diaSeleccionado);
-
-  const dayColor = getDayColor(selected, today);
+  // Si presenteManana, el presente es mañana, si no, es hoy
+  const dayColor = getDayColor(selected, today, manana, presenteManana);
   const nameDay = getDayName(selected);
 
-  function getDayColor(selected: string, today: string) {
-    if (selected < today) return "text-yellow-500"; // pasado
-    if (selected > today) return "text-red-500"; // futuro
-    return "text-primaryGreen"; // presente
+  function getDayColor(selected: string, today: string, manana: string, presenteManana: boolean) {
+    if (presenteManana) {
+      if (selected < manana) return "text-yellow-500"; // pasado
+      if (selected === manana) return "text-primaryGreen"; // mañana es presente
+      if (selected > manana) return "text-red-500"; // futuro
+      return ""; // hoy u otro, sin color especial
+    } else {
+      if (selected < today) return "text-yellow-500"; // pasado
+      if (selected > today) return "text-red-500"; // futuro
+      return "text-primaryGreen"; // presente (hoy)
+    }
   }
 
   function getDayName(dateStr: string) {

@@ -13,7 +13,7 @@ interface IProp {
 }
 
 export default function ProfessionalLayout({ setLoader }: IProp) {
-  // const isDevelopment = import.meta.env.VITE_ENV === "development";
+  const isDevelopment = import.meta.env.VITE_ENV === "development";
   const tusuario = localStorage.getItem("_tu");
 
   const [disabledButtonSidebar, setDisabledButtonSidebar] = useState({
@@ -47,14 +47,19 @@ export default function ProfessionalLayout({ setLoader }: IProp) {
       description:
         "Accedé a tus turnos de una manera sencilla, con filtros por fecha y una tabla organizada.",
     },
-    turnosGrales: {
-      key: "turnosGrales",
-      name: "Turnos",
-      icon: FaNotesMedical, // Icono de notas médicas para turnos generales
-      link: "/dashboard/turnos",
-      disabled: disabledButtonSidebar.turnosGrales,
-      description: "Panel con una tabla de turnos filtrados por cada profesional de la clínica",
-    },
+    ...(isDevelopment
+      ? {
+          turnosGrales: {
+            key: "turnosGrales",
+            name: "Turnos",
+            icon: FaNotesMedical, // Icono de notas médicas para turnos generales
+            link: "/dashboard/turnos",
+            disabled: disabledButtonSidebar.turnosGrales,
+            description:
+              "Panel con una tabla de turnos filtrados por cada profesional de la clínica",
+          },
+        }
+      : {}),
     historial: {
       key: "historial",
       name: "Historia Clinica",
@@ -99,11 +104,18 @@ export default function ProfessionalLayout({ setLoader }: IProp) {
       isDropdown: true,
       subItems: [
         {
-          key: "envio-email",
-          name: "Envío de Emails",
-          link: "/dashboard/procesos",
+          key: "envio-email-prof",
+          name: "Email Profesionales",
+          link: "/dashboard/procesos/envio-email-prof",
           disabled: disabledButtonSidebar.tablaGral,
-          description: "Panel centralizado para envío de recordatorio de Emails a doctores.",
+          description: "Panel centralizado para envío de recordatorio de Emails a Doctores.",
+        },
+        {
+          key: "envio-email-pac",
+          name: "Email Pacientes",
+          link: "/dashboard/procesos/envio-email-pac",
+          disabled: disabledButtonSidebar.tablaGral,
+          description: "Panel centralizado para envío de recordatorio de Emails a Pacients.",
         },
       ],
     },
@@ -139,18 +151,27 @@ export default function ProfessionalLayout({ setLoader }: IProp) {
     return () => clearTimeout(to);
   }, [setLoader]);
 
+  function safe<T>(arr: (T | undefined)[]): T[] {
+    return arr.filter(Boolean) as T[];
+  }
+
   function getButtonsForUser(userType: string | null, buttons: typeof allButtons) {
     switch (userType) {
       // Caso 1 Doctor y 3 Odontologo ven lo mismo
       case "1":
       case "3":
-        return [buttons.inicio, buttons.turnosProfesional, buttons.historial, buttons.odontograma];
+        return safe([
+          buttons.inicio,
+          buttons.turnosProfesional,
+          buttons.historial,
+          buttons.odontograma,
+        ]);
 
       case "2": // Secretaria
-        return [buttons.inicio, buttons.turnosGrales, buttons.odontograma];
+        return safe([buttons.inicio, buttons.turnosGrales, buttons.odontograma]);
 
       case "4": // Admin - ve todo
-        return [
+        return safe([
           buttons.inicio,
           buttons.turnosGrales,
           buttons.turnosProfesional,
@@ -160,10 +181,10 @@ export default function ProfessionalLayout({ setLoader }: IProp) {
           buttons.procesos,
           buttons.usuarios,
           buttons.configuracion,
-        ];
+        ]);
 
       default:
-        return [buttons.inicio];
+        return safe([buttons.inicio]);
     }
   }
 

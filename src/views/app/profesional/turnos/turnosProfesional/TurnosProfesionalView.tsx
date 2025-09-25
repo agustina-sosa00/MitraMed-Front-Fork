@@ -5,7 +5,7 @@ import { TablaDefault } from "../../../../../frontend-resourses/components";
 import { ContainView } from "../../../_components/features/ContainView";
 import { obtenerTurnosDiarios } from "./services/turnosProfesionalService";
 // import FiltrosTablaMisTurnos from "../turnosProfesionales/components/SearchCard";
-import SearchCard from "../_components/SearchCard";
+import SearchByDateCard from "../../../_components/features/SearchByDateCard";
 // import { generarFilasVacias } from "@/utils/tableUtils";
 
 interface TurnoTablaRow {
@@ -163,7 +163,7 @@ export default function TurnosProfesionalView() {
   return (
     <ContainView title="mis turnos" padding="py-5 px-10">
       <div className="flex w-full ">
-        <SearchCard diaSeleccionado={daySchedule} setDiaSeleccionado={_setDaySchedule} />
+        <SearchByDateCard diaSeleccionado={daySchedule} setDiaSeleccionado={_setDaySchedule} />
       </div>
 
       <div className="flex justify-center w-full px-5 overflow-y-auto lg:overflow-visible ">

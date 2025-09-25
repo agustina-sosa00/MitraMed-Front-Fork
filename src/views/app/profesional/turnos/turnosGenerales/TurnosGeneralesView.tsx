@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import TablasCard from "./components/TablasCard";
 import AltaTurnoModal from "./components/AltaTurnoModal";
 import ActionsButtonsCard from "./components/ActionsButtonsCard";
-import SearchCard from "../_components/SearchCard";
+import SearchByDateCard from "../../../_components/features/SearchByDateCard";
 import { useTurnosGeneralesStore } from "./store/turnosGeneralesStore";
 
 export default function TurnosGeneralesView() {
@@ -95,7 +95,10 @@ export default function TurnosGeneralesView() {
     <ContainView title="turnos">
       {/* Filtros y Botones */}
       <div className="flex items-end justify-between w-full">
-        <SearchCard diaSeleccionado={diaSeleccionado} setDiaSeleccionado={setDiaSeleccionado} />
+        <SearchByDateCard
+          diaSeleccionado={diaSeleccionado}
+          setDiaSeleccionado={setDiaSeleccionado}
+        />
 
         <ActionsButtonsCard
           disabled={!selectTurn || !selectProfessional ? "disabled" : ""}
