@@ -1,16 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-// import Cookies from "js-cookie";
-import Swal from "sweetalert2";
-
-import { ContainView } from "@/views/app/_components/features/ContainView";
-
-import { ContextType } from "@/views/app/profesional/types/index";
-import { useOdontogramContext } from "../../../../context/OdontogramContext";
-import SearchPatient from "@/views/app/_components/features/BuscadorDePacientes";
 import { useOutletContext } from "react-router-dom";
-import Diente from "./components/Diente";
-import ModalSeleccionDeCara from "./components/ModalSeleccionDeCara";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { ContainView } from "@/views/app/_components/features/ContainView";
+import { useOdontogramContext } from "../../../../context/OdontogramContext";
 import { RawRow, ToothChangeTuple } from "./types/odontogramaTypes";
 import { getOdontogram, grabarOdontogramaService } from "./service/odontogramaService";
 import { buildIdsState } from "./utils/buildTeethState";
@@ -21,12 +13,15 @@ import {
   sinProvisoriosDeTratamientosConCara,
 } from "./utils/odontogram.lookups";
 import { getLocalStorageParams } from "@/utils/index";
+import SearchPatientCard from "@/views/app/profesional/_components/features/SearchPatientCard";
+import Diente from "./components/Diente";
+import ModalSeleccionDeCara from "./components/ModalSeleccionDeCara";
+import Swal from "sweetalert2";
+import { OutletContext } from "@/context/types";
 
 export default function OdontogramView() {
-  const { setDisabledButtonSidebar } = useOutletContext<ContextType>();
+  const { setDisabledButtonSidebar } = useOutletContext<OutletContext>();
   const queryClient = useQueryClient();
-  //region cookies
-  // const idProfesional = Cookies.get("idProfesional");
 
   //region context
   const {
@@ -56,7 +51,7 @@ export default function OdontogramView() {
 
   const { iddoctor, idProfesional } = getLocalStorageParams();
 
-  console.log(idPaciente);
+  // console.log(idPaciente);
 
   //region mutate / query
   // const { data: infoUser } = useQuery({
@@ -70,7 +65,29 @@ export default function OdontogramView() {
   //   initialData: () => queryClient.getQueryData(["odontogram", dniOdontogram]),
   // });
 
-  // console.log(odontogramaData.data.odontograma);
+  const hasUnsaved = useMemo(() => {
+    return !isEqualTeeth(
+      sinProvisoriosDeTratamientosConCara(originalData),
+      sinProvisoriosDeTratamientosConCara(teethIdsState),
+    );
+  }, [originalData, teethIdsState]);
+
+  const dientesCambios = useMemo(() => {
+    const A = sinProvisoriosDeTratamientosConCara(originalData);
+    const B = sinProvisoriosDeTratamientosConCara(teethIdsState);
+
+    const cambiados = new Set<number>();
+    const todos = new Set<number>([...Object.keys(A).map(Number), ...Object.keys(B).map(Number)]);
+
+    for (const num of todos) {
+      const antes = A[num] || [];
+      const ahora = B[num] || [];
+      if (JSON.stringify(antes) !== JSON.stringify(ahora)) {
+        cambiados.add(num);
+      }
+    }
+    return cambiados;
+  }, [originalData, teethIdsState]);
 
   const { mutate: obtenerOdontograma } = useMutation({
     mutationFn: getOdontogram,
@@ -111,39 +128,35 @@ export default function OdontogramView() {
 
   //region useEffect
   useEffect(() => {
-    const next = editOdontogram
-      ? {
-          inicio: true,
-          turnos: true,
-          historial: true,
-          odontograma: false,
-          tablaGral: true,
-          turnosGrales: true,
-          informe: true,
-        }
-      : {
-          inicio: false,
-          turnos: false,
-          historial: false,
-          odontograma: false,
-          tablaGral: false,
-          turnosGrales: false,
-          informe: false,
-        };
-
-    setDisabledButtonSidebar((prev) => {
-      // evitar actualizar si no cambió
-      if (
-        prev.inicio === next.inicio &&
-        prev.turnos === next.turnos &&
-        prev.historial === next.historial &&
-        prev.odontograma === next.odontograma &&
-        prev.tablaGral === next.tablaGral &&
-        prev.turnosGrales === next.turnosGrales
-      )
-        return prev;
-      return next;
+    const shouldDisableSidebar = editOdontogram;
+    setDisabledButtonSidebar({
+      inicio: shouldDisableSidebar,
+      turnos: shouldDisableSidebar,
+      historial: shouldDisableSidebar,
+      odontograma: shouldDisableSidebar,
+      tablaGral: shouldDisableSidebar,
+      turnosGrales: shouldDisableSidebar,
+      informe: shouldDisableSidebar,
+      informes: shouldDisableSidebar,
+      usuarios: shouldDisableSidebar,
+      configuracion: shouldDisableSidebar,
     });
+
+    // Cleanup: cuando se desmonta el componente, resetear el sidebar
+    return () => {
+      setDisabledButtonSidebar({
+        inicio: false,
+        turnos: false,
+        historial: false,
+        odontograma: false,
+        tablaGral: false,
+        turnosGrales: false,
+        informe: false,
+        informes: false,
+        usuarios: false,
+        configuracion: false,
+      });
+    };
   }, [editOdontogram, setDisabledButtonSidebar]);
 
   // useEffect(() => {
@@ -212,8 +225,6 @@ export default function OdontogramView() {
     return () => window.removeEventListener("keydown", onKey);
   }, [openMenu, editOdontogram, teethChanged.length, contextMenu]);
 
-  //region function
-
   function handleSearch(dni: string) {
     setUiLoading(true);
 
@@ -222,17 +233,8 @@ export default function OdontogramView() {
       setHasConfirmed(true);
       setUiLoading(false);
       setDniOdontogram(dni.trim());
-    }, 2000);
+    }, 800);
   }
-
-  const hasUnsaved = useMemo(() => {
-    return !isEqualTeeth(
-      sinProvisoriosDeTratamientosConCara(originalData),
-      sinProvisoriosDeTratamientosConCara(teethIdsState),
-    );
-  }, [originalData, teethIdsState]);
-
-  console.log(teethChanged);
 
   function handleSave() {
     if (!hasUnsaved) {
@@ -273,24 +275,6 @@ export default function OdontogramView() {
     setOriginalData({});
   }
 
-  const dientesCambiados = useMemo(() => {
-    const A = sinProvisoriosDeTratamientosConCara(originalData);
-    const B = sinProvisoriosDeTratamientosConCara(teethIdsState);
-
-    const cambiados = new Set<number>();
-    const todos = new Set<number>([...Object.keys(A).map(Number), ...Object.keys(B).map(Number)]);
-
-    for (const num of todos) {
-      const antes = A[num] || [];
-      const ahora = B[num] || [];
-      if (JSON.stringify(antes) !== JSON.stringify(ahora)) {
-        cambiados.add(num);
-      }
-    }
-    return cambiados;
-  }, [originalData, teethIdsState]);
-
-  //region return
   return (
     <ContainView
       title="Odontograma"
@@ -302,7 +286,7 @@ export default function OdontogramView() {
     >
       {idProfesional !== "3" && (
         <div className="flex items-end justify-between w-full gap-1 min-h-20">
-          <SearchPatient
+          <SearchPatientCard
             data={!dniOdontogram ? undefined : odontogramaData?.data?.paciente}
             handleDeletePatient={handleDeletePatient}
             labelSearch="DNI"
@@ -350,7 +334,7 @@ export default function OdontogramView() {
               >
                 <p
                   className={`text-sm  ${editOdontogram ? "text-[#6e6d6d]" : "text-[#b6b5b5]"} ${
-                    dientesCambiados.has(toothNumber) && "text-[#ff9e00] font-bold"
+                    dientesCambios.has(toothNumber) && "text-[#ff9e00] font-bold"
                   } `}
                 >
                   {toothNumber}
@@ -403,7 +387,7 @@ export default function OdontogramView() {
               >
                 <p
                   className={`text-sm  ${editOdontogram ? "text-[#6e6d6d]" : "text-[#b6b5b5]"} ${
-                    dientesCambiados.has(toothNumber) && "text-[#ff9e00] font-bold"
+                    dientesCambios.has(toothNumber) && "text-[#ff9e00] font-bold"
                   } `}
                 >
                   {toothNumber}
