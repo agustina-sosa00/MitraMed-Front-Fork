@@ -70,7 +70,7 @@ export const Modal = ({ children, open, onClose }: ModalProps) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-auto px-8 py-8 text-left transition-all transform bg-white rounded-lg shadow-xl min-w-xl text-slate-800">
+              <Dialog.Panel className="w-auto px-8 py-8 text-left transition-all transform bg-white rounded-lg shadow-xl min-w-xl text-slate-800 max-h-[90vh] overflow-y-auto">
                 {children}
               </Dialog.Panel>
             </Transition.Child>
