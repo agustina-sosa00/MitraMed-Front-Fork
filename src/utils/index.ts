@@ -21,6 +21,7 @@ export function getLocalStorageParams() {
   const entorno = entornoStorage === "des" ? "apinovades" : "apinova";
   const tusuario = localStorage.getItem("_tu");
   const iddoctor = localStorage.getItem("_iddoc");
+  const idProfesional = localStorage.getItem("_idprof");
 
-  return { empresa, modo, entorno, tusuario, iddoctor };
+  return { empresa, modo, entorno, tusuario, iddoctor, idProfesional };
 }
