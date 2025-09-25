@@ -12,6 +12,7 @@ interface IProp {
   field?: boolean;
   focusState?: boolean;
   focusName?: string;
+  inputRef?: React.RefObject<HTMLInputElement>;
 }
 export default function InputProfesionales({
   valueInput,
@@ -24,6 +25,7 @@ export default function InputProfesionales({
   requiredInput,
   field,
   focusState,
+  inputRef,
 }: IProp) {
   function formatearObs(obs: string) {
     return obs
@@ -44,6 +46,7 @@ export default function InputProfesionales({
             {labelInput}:
           </label>
           <input
+            ref={inputRef}
             required={requiredInput}
             type={typeInput ? typeInput : "text"}
             name={nameInput}
