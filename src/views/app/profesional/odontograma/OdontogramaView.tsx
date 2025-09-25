@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 
 import { ContainView } from "@/views/app/_components/features/ContainView";
