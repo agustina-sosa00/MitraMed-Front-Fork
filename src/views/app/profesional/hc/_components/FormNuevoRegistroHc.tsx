@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { useMutation } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import React from "react";
@@ -56,7 +56,17 @@ export default function FormNuevoRegistroHc({
     medicamentos: "",
   });
 
+  // Ref para el primer input
+  const inputMotivoRef = useRef<HTMLInputElement>(null);
+
+  // Estado para el archivo seleccionado
   const [fileForm, setFileForm] = useState<File | null>(null);
+  // Al montar el form, enfocar el primer input
+  useEffect(() => {
+    if (inputMotivoRef.current) {
+      inputMotivoRef.current.focus();
+    }
+  }, []);
 
   const hasChanges = useMemo(() => {
     if (!hcSelected) {
@@ -226,6 +236,7 @@ export default function FormNuevoRegistroHc({
           field={true}
           focusState={focusState}
           focusName={"detalle"}
+          inputRef={inputMotivoRef}
         />
         <InputProfesionales
           valueInput={dataForm.obs}
@@ -235,16 +246,21 @@ export default function FormNuevoRegistroHc({
           focusState={focusState}
           focusName={"obs"}
         />
-        <div className="flex w-full">
-          <label
-            htmlFor=""
-            className="flex justify-end items-start w-36 text-right mr-2 text-sm text-primaryBlue"
-          >
-            Subir Archivo:
-          </label>
 
-          <SelectorDeArchivos setState={setFileForm} state={fileForm!} />
-        </div>
+        {/* Selector de Archivos */}
+        {(!editMode || (editMode && !hcSelected?.idopera)) && (
+          <div className="flex w-full">
+            <label
+              htmlFor=""
+              className="flex justify-end items-start w-36 text-right mr-2 text-sm text-primaryBlue"
+            >
+              Subir Archivo:
+            </label>
+            <SelectorDeArchivos setState={setFileForm} state={fileForm!} />
+          </div>
+        )}
+
+        {/* Botones */}
         <div className="flex justify-end w-full gap-2">
           <Button
             type="button"
