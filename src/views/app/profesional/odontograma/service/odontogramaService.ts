@@ -19,9 +19,10 @@ export async function getOdontogram({ dni }: { dni: string }) {
   try {
     const { empresa, modo, entorno } = getLocalStorageParams();
 
-    const response = await apiPhp(
-      `/${entorno}/mitramed/obtenerOdontograma.php?_i={"_e":"${empresa}","_m":"${modo}","_d":${dni}}`,
-    );
+    const url = `/${entorno}/mitramed/obtenerOdontograma.php?_i={"_e":"${empresa}","_m":"${modo}","_d":${dni}}`;
+
+    const response = await apiPhp(url);
+
     return response.data;
   } catch (error) {
     let msg = "Error obteniendo datos, pruebe con otro DNI";

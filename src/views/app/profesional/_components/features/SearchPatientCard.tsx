@@ -42,8 +42,8 @@ export default function SearchPatientCard({
   const idDoctorStorage = localStorage.getItem("_iddoc");
   const tusuarioStorage = localStorage.getItem("_tu");
 
-  const hoy = new Date();
-  const esHoy = hcSelected?.fecha && esMismaFecha(hcSelected.fecha, hoy.toISOString());
+  const hoyString = getHoyString();
+  const esHoy = hcSelected?.fecha === hoyString;
 
   const esMismoDoctor = idDoctorStorage === String(hcSelected?.iddoctor);
   const esGerente = tusuarioStorage === "4";
@@ -60,15 +60,14 @@ export default function SearchPatientCard({
     }
   }, [hasConfirmed]);
 
-  function esMismaFecha(fecha1: string, fecha2: string) {
-    const d1 = new Date(fecha1);
-    const d2 = new Date(fecha2);
-    return (
-      d1.getFullYear() === d2.getFullYear() &&
-      d1.getMonth() === d2.getMonth() &&
-      d1.getDate() === d2.getDate()
-    );
+  function getHoyString() {
+    const hoy = new Date();
+    const yyyy = hoy.getFullYear();
+    const mm = String(hoy.getMonth() + 1).padStart(2, "0");
+    const dd = String(hoy.getDate()).padStart(2, "0");
+    return `${yyyy}-${mm}-${dd}`;
   }
+
   // region functions
   function handleOnChangeDni(e: React.ChangeEvent<HTMLInputElement>) {
     setState(e.target.value);
@@ -165,6 +164,7 @@ export default function SearchPatientCard({
                     autoFocus={!hasConfirmed}
                     readOnly={!isEditing}
                     disabled={!isEditing}
+                    maxLength={8}
                     className={`h-8 px-2 py-1 w-full bg-gray-200 font-bold rounded 
                       focus:outline-none text-primaryBlue focus-within:border-primaryGreen focus-within:ring-1 focus-within:ring-primaryGreen
                       ${errorState && "border-red-500"}`}
@@ -256,17 +256,17 @@ export default function SearchPatientCard({
             />
           </div>
           <div className="flex gap-2">
-            {puedeEditar && (
-              <Button
-                label="editar"
-                disabledButton={!hcSelected}
-                icon={<FaEdit />}
-                handle={() => {
-                  setEditMode(true);
-                  setStateModal && setStateModal(true);
-                }}
-              />
-            )}
+            <Button
+              label="editar"
+              disabledButton={!hcSelected || !puedeEditar}
+              icon={<FaEdit />}
+              handle={() => {
+                setEditMode(true);
+                setStateModal && setStateModal(true);
+              }}
+            />
+            {/* {puedeEditar && (
+            )} */}
 
             <Button
               label="ver archivos"
