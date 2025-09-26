@@ -31,39 +31,42 @@ export default function EnvioEmailProfView() {
     // refetchInterval: 10000, // cada 10 segundos
   });
 
-  // Mutación para enviar emails
   const enviarEmail = useMutation({
     mutationFn: ({ fecha, body }: { fecha: string; body: any }) =>
       enviarEmailRecordatorio(fecha, body),
     onError: (error) => {
-      alert("Error al enviar emails");
       console.error(error);
     },
     onSuccess: (data) => {
-      alert("¡Emails enviados!");
       console.log(data);
     },
   });
-
-  // const fechaFormateada = dayjs(diaSeleccionado).locale("es").format("dddd D [de] MMMM [de] YYYY");
-  // console.log("Fecha seleccionada:", fechaFormateada);
 
   const datosTurnos = turnosProfesionales?.data.datos || [];
   const datosEmail = datosEmailProfesionales?.data.doctores || [];
   const ultimoProceso = datosEmailProfesionales?.data.proceso?.obtiene_ultimoprocesomov;
 
-  console.log(datosTurnos);
-  console.log(datosEmail);
+  const datosCompletos = datosTurnos.map((doctor) => {
+    const emailObj = datosEmail.find((e) => e.iddoctor === doctor.iddoctor);
+    return {
+      ...doctor,
+      email: emailObj ? emailObj.email : "",
+    };
+  });
+
+  const datosConEmail = Array.isArray(datosCompletos)
+    ? datosCompletos.filter((row) => row.email && row.email.trim() !== "")
+    : [];
 
   function handleEnviarEmails() {
-    enviarEmail.mutate({ fecha: diaSeleccionado, body: datosTurnos });
+    enviarEmail.mutate({ fecha: diaSeleccionado, body: datosConEmail });
   }
 
   return (
     <>
       <EnvioEmailView
         destinatario="Profesionales"
-        datosParaTabla={datosEmail}
+        datosParaTabla={datosCompletos}
         handleEnviarEmails={handleEnviarEmails}
         ultimoProceso={ultimoProceso}
         diaSeleccionado={diaSeleccionado}

@@ -10,10 +10,7 @@ export async function obtenerTurnosDoctoresDia(fecha: string) {
       `/${entorno}/mitramed/obtenerTurnosDoctoresDia.php?_i={"_e":"${empresa}","_m":"${modo}","_f":"${fecha}"}`,
     );
 
-    // console.log(response);
-
     return response.data;
-    // return { data: mockTurnos };
   } catch (error) {
     throw new Error(`${error}`);
   }
@@ -58,10 +55,6 @@ export async function enviarEmailRecordatorio(fecha: string, body: any) {
 
     const response = await apiPhp.post(url, body);
 
-    console.log(url);
-    console.log(body);
-
-    console.log(response);
     return response.data;
   } catch (error) {
     throw new Error(`${error}`);
