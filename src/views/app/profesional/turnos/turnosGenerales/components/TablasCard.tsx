@@ -97,7 +97,7 @@ export default function TablasCard() {
       maxWidth: "200",
     },
     {
-      key: "paciente",
+      key: "npaciente",
       label: "Paciente",
       minWidth: "250",
       maxWidth: "400",
