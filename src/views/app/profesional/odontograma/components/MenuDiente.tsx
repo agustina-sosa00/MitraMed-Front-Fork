@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { LuEraser } from "react-icons/lu";
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 
 import Swal from "sweetalert2";
 import { ToothChangeTuple, ToothItemIds } from "../types/odontogramaTypes";
@@ -46,8 +46,8 @@ export const MenuDiente: React.FC<MenuToothProps> = ({
   dataIds,
 }) => {
   //region cookies
-  const info = Cookies.get("dataProfessional");
-  const profesional = info && JSON.parse(info);
+  // const info = Cookies.get("dataProfessional");
+  // const profesional = info && JSON.parse(info);
 
   //region context
 
@@ -59,10 +59,7 @@ export const MenuDiente: React.FC<MenuToothProps> = ({
     const idtrat = buildIdTrat(base, action);
     updateToothIds([0, idtrat, 1]);
     if (!needsFace(base) && stateTeethChanged) {
-      stateTeethChanged((prev) => [
-        ...prev,
-        [toothNumber, 0, idtrat, 1, Number(profesional.idprofesional)],
-      ]);
+      stateTeethChanged((prev) => [...prev, [toothNumber, 0, idtrat, 1]]);
     }
     onClose();
     if (needsFace(base)) {
@@ -81,11 +78,11 @@ export const MenuDiente: React.FC<MenuToothProps> = ({
       cancelButtonColor: "#d33",
     }).then((result) => {
       if (!result.isConfirmed) return;
-      const idprof = Number(profesional?.idprofesional ?? 0);
+      // const idprof = Number(profesional?.idprofesional ?? 0);
 
       if (stateTeethChanged && dataIds.length > 0) {
         const toDisable: ToothChangeTuple[] = dataIds.map(
-          ([idcara, idtrat]) => [toothNumber, idcara, idtrat, 0, idprof] as ToothChangeTuple,
+          ([idcara, idtrat]) => [toothNumber, idcara, idtrat, 0] as ToothChangeTuple,
         );
         stateTeethChanged((prev) => [...prev, ...toDisable]);
       }
