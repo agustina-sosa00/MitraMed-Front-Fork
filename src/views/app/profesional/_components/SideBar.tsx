@@ -54,11 +54,14 @@ export default function SideBar({ logo, buttons, isDisabled = false }: IProp) {
   const dataUser: DataProfessional | null = raw ? JSON.parse(raw) : null;
   const tusuario = localStorage.getItem("mtm-tusuario");
 
-  // Filtrar botones principales (sin usuarios y configuración)
+  // --- Lógica de visibilidad de botones ---
   const mainButtons = buttons.filter((btn) => !["usuarios", "configuracion"].includes(btn.key));
 
-  // Obtener botones de admin para mostrar abajo
-  const adminButtons = buttons.filter((btn) => ["usuarios", "configuracion"].includes(btn.key));
+  const usuariosButtons = buttons.filter((btn) => btn.key === "usuarios");
+  const configButtons = buttons.filter((btn) => btn.key === "configuracion");
+
+  const showUsuarios = tusuario === "4" || tusuario === "5";
+  const showConfig = tusuario === "5";
 
   const toggleDropdown = (key: string) => {
     setOpenDropdowns((prev) =>
@@ -189,9 +192,35 @@ export default function SideBar({ logo, buttons, isDisabled = false }: IProp) {
         </div>
 
         {/* Config - Botones de Admin */}
-        {tusuario === "4" && adminButtons.length > 0 && (
+        {/* Usuarios - Solo para gerente y admin */}
+        {showUsuarios && usuariosButtons.length > 0 && (
           <div className="w-full">
-            {adminButtons.map((item) => {
+            {usuariosButtons.map((item) => {
+              const isActive = location.pathname === item.link;
+              return (
+                <Link key={item.name} to={item.link} className="block w-full py-1 pl-5">
+                  <button
+                    type="button"
+                    className={`flex items-center text-start gap-2 pl-2 py-1 w-[90%] text-lg font-medium rounded transition-all duration-300 ${
+                      item.disabled
+                        ? "text-gray-400 cursor-not-allowed"
+                        : "text-primaryBlue hover:bg-greenHover hover:text-white cursor-pointer"
+                    } ${isActive ? "bg-primaryGreen text-white" : ""}`}
+                    disabled={item.disabled}
+                  >
+                    <item.icon className="w-5 h-5" />
+                    {item.name}
+                  </button>
+                </Link>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Configuración - Solo para admin */}
+        {showConfig && configButtons.length > 0 && (
+          <div className="w-full">
+            {configButtons.map((item) => {
               const isActive = location.pathname === item.link;
               return (
                 <Link key={item.name} to={item.link} className="block w-full py-1 pl-5">
@@ -222,23 +251,16 @@ export default function SideBar({ logo, buttons, isDisabled = false }: IProp) {
         <div className="flex flex-col items-center w-full gap-3 pt-5 h-[20%]">
           <div className="flex items-center justify-start gap-2 text-primaryBlue">
             <FaUserCircle className="text-xl xl:text-3xl" />
-            {tusuario === "2" ? (
-              <p> {dataUser?.nombre}</p>
-            ) : tusuario === "1" ? (
-              <p>
-                Dr. {dataUser?.ndoctor} {dataUser?.adoctor}
-              </p>
-            ) : tusuario === "3" ? (
-              <p>
-                Dr. {dataUser?.ndoctor} {dataUser?.adoctor}
-              </p>
-            ) : (
-              tusuario === "4" && (
-                <p>
-                  {dataUser?.ndoctor} {dataUser?.adoctor}
-                </p>
-              )
-            )}
+            {(() => {
+              if (tusuario === "2" || tusuario === "5") return <p>{dataUser?.nombre}</p>;
+              if (["1", "3", "4", "5"].includes(tusuario || ""))
+                return (
+                  <p>
+                    Dr. {dataUser?.ndoctor} {dataUser?.adoctor}
+                  </p>
+                );
+              return null;
+            })()}
           </div>
 
           <p className="text-sm">
