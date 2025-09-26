@@ -180,6 +180,18 @@ export default function ProfessionalLayout({ setLoader }: IProp) {
           buttons.informes,
           buttons.procesos,
           buttons.usuarios,
+        ]);
+
+      case "5": // Admin - ve todo
+        return safe([
+          buttons.inicio,
+          buttons.turnosGrales,
+          buttons.turnosProfesional,
+          buttons.historial,
+          buttons.odontograma,
+          buttons.informes,
+          buttons.procesos,
+          buttons.usuarios,
           buttons.configuracion,
         ]);
 
