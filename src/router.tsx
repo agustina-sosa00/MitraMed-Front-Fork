@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-// import { useEffect, useState } from "react";
+import { getLocalStorageParams } from "./utils";
 
 // PORTAL
 import PortalView from "./views/auth/views/portal/PortalView";
@@ -7,7 +7,6 @@ import PoliticasDePrivacidadView from "./views/auth/views/politicas/PoliticasDeP
 import TerminosYCondicionesView from "./views/auth/views/terminos/TerminosYCondicionesView";
 import Vista404 from "./views/app/profesional/vista404/Vista404";
 // PACIENTES
-import PacienteProtectedRoute from "./views/app/paciente/_components/features/PacienteProtectedRoute";
 import PacienteLayout from "./views/app/_components/layouts/PacienteLayout";
 import HomePacientesView from "./views/app/paciente/inicio/HomePacientesView";
 import TurnosPacientesView from "./views/app/paciente/turnosPaciente/TurnosPacientesView";
@@ -27,7 +26,7 @@ import ConfiguracionView from "./views/app/profesional/configuracion/Configuraci
 import EnvioEmailPacView from "./views/app/profesional/procesos/email/emailPac/EnvioEmailPacView";
 import EnvioEmailProfView from "./views/app/profesional/procesos/email/emailProf/EnvioEmailProfView";
 import PlaceHolderDesarrolloView from "./views/app/profesional/placeholderDesarrollo/PlaceholderDesarrolloView";
-import { getLocalStorageParams } from "./utils";
+import PacienteProtectedRoute from "./views/app/paciente/_components/features/PacienteProtectedRoute";
 
 interface RouterProps {
   loader: boolean;
@@ -63,7 +62,7 @@ export default function Router({ loader, setLoader }: RouterProps) {
         </Route>
 
         <Route element={<ProfessionalProtectedRoute />}>
-          <Route element={<ProfessionalLayout setLoader={setLoader} />}>
+          <Route element={<ProfessionalLayout />}>
             <Route path="/dashboard/inicio" element={<HomeProfesionalView />} />
             <Route path="/dashboard/turnos" element={<TurnosGeneralesView />} />
             <Route path="/dashboard/turnos-profesional" element={<TurnosProfesionalView />} />
@@ -77,8 +76,6 @@ export default function Router({ loader, setLoader }: RouterProps) {
             />
             <Route path="/dashboard/usuarios" element={<UsuariosProfesionalesView />} />
             <Route path="/dashboard/configuracion" element={<ConfiguracionView />} />
-            {/* {idProfesional && (
-            )} */}
           </Route>
         </Route>
       </Routes>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ContainView } from "../../../_components/features/ContainView";
+import ContainView from "../../../_components/features/ContainView";
 import { TablaDefault } from "@/frontend-resourses/components";
 import Swal from "sweetalert2";
 import SearchByDateCard from "../../../_components/features/SearchByDateCard";
@@ -60,11 +60,12 @@ export default function EnvioEmailView({
   if (Array.isArray(datosParaTabla) && datosParaTabla.length > 0) {
     datosConId = datosParaTabla.map((row, idx) => ({ id: row.id ?? idx + 1, ...row }));
   } else {
-    datosConId = [
-      destinatario === "Profesionales"
-        ? { id: null, ndoctor: "No hay Turnos en la Fecha Seleccionada", email: "" }
-        : { id: null, npaciente: "No hay Turnos en la Fecha Seleccionada", email: "" },
-    ];
+    [];
+    // datosConId = [
+    //   destinatario === "Profesionales"
+    //     ? { id: null, ndoctor: "No hay Turnos en la Fecha Seleccionada", email: "" }
+    //     : { id: null, npaciente: "No hay Turnos en la Fecha Seleccionada", email: "" },
+    // ];
   }
 
   const propsTabla = {

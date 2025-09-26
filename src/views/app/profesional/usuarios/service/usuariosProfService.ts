@@ -37,9 +37,11 @@ export async function grabarUsuarioProf(data: any) {
       ...data,
     };
 
-    const response = await apiPhp.post(`/${entorno}/mitramed/grabarUsuarioProf.php`, payload);
+    const url = `/${entorno}/mitramed/grabarUsuarioProf.php`;
 
-    return response.data;
+    const response = await apiPhp.post(url, payload);
+
+    return response;
   } catch (error: any) {
     const errorData = error?.response?.data;
 

@@ -1,18 +1,13 @@
-// import React, { useEffect, useState } from "react";
-
 import { useState, useEffect } from "react";
 import { IoCloudUploadOutline, IoTrashOutline } from "react-icons/io5";
 import Dropzone from "react-dropzone";
 
-interface IProp {
+interface SelectorDeArchivosProps {
   state: File | null;
   setState: (arg: File | null) => void;
 }
 
-export default function SelectorDeArchivos({ state, setState }: IProp) {
-  // estado file para guardar el archivo y su vista previa
-  // const [file, setFile] = useState<File | null>(null);
-  //   estado preview guarda una url temporal para mostrar el archivo
+export default function SelectorDeArchivos({ state, setState }: SelectorDeArchivosProps) {
   const [preview, setPreview] = useState<string | null>(null);
 
   // Clean up preview URL when file changes or component unmounts
@@ -28,14 +23,10 @@ export default function SelectorDeArchivos({ state, setState }: IProp) {
     };
   }, [state]);
 
-  //   handleDrop: función que recibe por parámetros un array con los archivos seleccionados
-  const handleDrop = (acceptedFiles: File[]) => {
+  function handleDrop(acceptedFiles: File[]) {
     const uploaded = acceptedFiles[0];
     setState(uploaded);
-  };
-  // useEffect(() => {
-  //   file &&
-  // }, [file]);
+  }
 
   return (
     <div className="flex-[1]">

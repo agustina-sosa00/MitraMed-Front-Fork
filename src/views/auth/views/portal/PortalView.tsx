@@ -34,6 +34,7 @@ export default function PortalView({ setLoader }: PortalViewProps) {
       localStorage.setItem("_m", "homo");
       localStorage.setItem("_env", "des");
     } else {
+      localStorage.setItem("_e", "20");
       localStorage.setItem("_m", "prod");
       localStorage.setItem("_env", "prod");
     }

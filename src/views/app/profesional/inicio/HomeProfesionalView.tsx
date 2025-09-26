@@ -1,5 +1,5 @@
 // import Cookies from "js-cookie";
-import { ContainView } from "@/views/app/_components/features/ContainView";
+import ContainView from "@/views/app/_components/features/ContainView";
 import { useOutletContext } from "react-router-dom";
 import { ContextType } from "@/views/app/profesional/types/index";
 import CardInicioProfesionales from "./components/CardInicioProfesionales";

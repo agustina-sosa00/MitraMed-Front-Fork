@@ -2,11 +2,11 @@ import { FaUserCircle, FaChevronRight } from "react-icons/fa";
 import { IconType } from "react-icons/lib";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import Cookies from "js-cookie";
 import { useOdontogramContext } from "../../../../context/OdontogramContext";
 import { useMedicalHistoryContext } from "../../../../context/MedicalHistoryContext";
 import { useInformeTurnosStore } from "../informes/informeTurnos/store/informeTurnosStore";
 import { useTurnosGeneralesStore } from "../turnos/turnosGenerales/store/turnosGeneralesStore";
+import Cookies from "js-cookie";
 
 interface ISubItem {
   key: string;
@@ -16,7 +16,7 @@ interface ISubItem {
   description: string;
 }
 
-interface IProp {
+interface SideBarProps {
   logo: string;
   isDisabled?: boolean; // Nueva prop para controlar si todo el sidebar está deshabilitado
   buttons: {
@@ -36,7 +36,7 @@ interface DataProfessional {
   ndoctor?: string;
 }
 
-export default function SideBar({ logo, buttons, isDisabled = false }: IProp) {
+export default function SideBar({ logo, buttons, isDisabled = false }: SideBarProps) {
   const location = useLocation();
   const navigate = useNavigate();
   const [openDropdowns, setOpenDropdowns] = useState<string[]>([]);
@@ -74,11 +74,11 @@ export default function SideBar({ logo, buttons, isDisabled = false }: IProp) {
   const showUsuarios = tusuario === "4" || tusuario === "5";
   const showConfig = tusuario === "5";
 
-  const toggleDropdown = (key: string) => {
+  function toggleDropdown(key: string) {
     setOpenDropdowns((prev) =>
       prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key],
     );
-  };
+  }
 
   function handleLogout() {
     setDniOdontogram("");

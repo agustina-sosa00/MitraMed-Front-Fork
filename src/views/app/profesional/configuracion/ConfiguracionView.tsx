@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ContainView } from "@/views/app/_components/features/ContainView";
+import ContainView from "@/views/app/_components/features/ContainView";
 
 export default function ConfiguracionView() {
   const [isProd, setIsProd] = useState<boolean | null>(null); // null = no inicializado

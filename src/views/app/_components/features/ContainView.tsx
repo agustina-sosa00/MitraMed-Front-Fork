@@ -1,6 +1,4 @@
-import React from "react";
-
-interface IProp {
+interface ContainViewProps {
   children: React.ReactNode;
   title: string;
   onClick?: React.MouseEventHandler<HTMLDivElement>;
@@ -10,7 +8,7 @@ interface IProp {
   classContainer?: string;
 }
 
-export const ContainView: React.FC<IProp> = ({
+export default function ContainView({
   children,
   title,
   onClick,
@@ -18,7 +16,7 @@ export const ContainView: React.FC<IProp> = ({
   gapChildren,
   sizeTitle,
   classContainer,
-}) => {
+}: ContainViewProps) {
   return (
     <div
       className={`flex flex-col items-center  w-full min-h-screen gap-5 overflow-y-auto ${
@@ -43,4 +41,4 @@ export const ContainView: React.FC<IProp> = ({
       </div>
     </div>
   );
-};
+}

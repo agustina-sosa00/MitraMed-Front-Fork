@@ -3,7 +3,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { TablaDefault } from "@/frontend-resourses/components";
 import { Modal } from "@/views/_components/Modal";
-import { ContainView } from "@/views/app/_components/features/ContainView";
+import ContainView from "@/views/app/_components/features/ContainView";
 import { Document, Page, pdfjs } from "react-pdf";
 import { FiDownload } from "react-icons/fi";
 // import { IoTrashOutline } from "react-icons/io5";

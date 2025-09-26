@@ -1,7 +1,7 @@
 import { HiArrowSmLeft } from "react-icons/hi";
 import dayjs from "dayjs";
 
-type SearchCardProps = {
+type SearchByDateCardProps = {
   diaSeleccionado: string;
   setDiaSeleccionado: (date: string) => void;
   presenteManana?: boolean; // Si true, el presente es mañana
@@ -11,7 +11,7 @@ export default function SearchByDateCard({
   diaSeleccionado,
   setDiaSeleccionado,
   presenteManana = false,
-}: SearchCardProps) {
+}: SearchByDateCardProps) {
   const today = dayjs().format("YYYY-MM-DD");
   const manana = dayjs().add(1, "day").format("YYYY-MM-DD");
   const selected = diaSeleccionado || today;

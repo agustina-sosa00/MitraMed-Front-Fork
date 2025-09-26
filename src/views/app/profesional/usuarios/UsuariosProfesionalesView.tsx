@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useOutletContext } from "react-router-dom";
-import { ContainView } from "../../_components/features/ContainView";
 import { useUsuariosProfesionalStore } from "./store/usuariosProfesionalesStore";
 import { obtenerDoctores, obtenerUsuariosProf } from "./service/usuariosProfService";
+import { OutletContext } from "@/context/types";
+import ContainView from "../../_components/features/ContainView";
 import TableCard from "./_components/TableCard";
 import HeaderCard from "./_components/HeaderCard";
-import { OutletContext } from "@/context/types";
 
 export default function UsuariosProfesionalesView() {
   const { setDisabledButtonSidebar } = useOutletContext<OutletContext>();

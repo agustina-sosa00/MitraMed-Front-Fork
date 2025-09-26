@@ -174,7 +174,8 @@ export default function FormCard({
         });
       }
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log(data);
       showAlert({
         icon: "success",
         text: "Cambios grabados",

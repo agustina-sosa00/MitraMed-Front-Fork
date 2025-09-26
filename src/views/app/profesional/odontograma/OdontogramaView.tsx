@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import { ContainView } from "@/views/app/_components/features/ContainView";
+import ContainView from "@/views/app/_components/features/ContainView";
 import { useOdontogramContext } from "../../../../context/OdontogramContext";
 import { RawRow, ToothChangeTuple } from "./types/odontogramaTypes";
 import { getOdontogram, grabarOdontogramaService } from "./service/odontogramaService";

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ContainView } from "@/views/app/_components/features/ContainView";
+import ContainView from "@/views/app/_components/features/ContainView";
 import { useInformeTurnosStore } from "./store/informeTurnosStore";
 import TableCard from "./_components/TableCard";
 import GraficosCard from "./_components/GraficosCard";

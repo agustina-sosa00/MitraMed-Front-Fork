@@ -5,19 +5,19 @@ import { useMutation } from "@tanstack/react-query";
 import { obtenerUsuProfesional } from "@/views/auth/services/ProfessionalService";
 import { iniciarSesion } from "@/views/auth/services/UserService";
 import { Account } from "@/views/auth/types";
+import { IoClose } from "react-icons/io5";
 import Cookies from "js-cookie";
 import Captcha from "@/views/auth/_components/ui/Captcha";
 import Swal from "sweetalert2";
 import InputField from "@/views/auth/_components/ui/InputField";
 import ErrorMessage from "@/views/auth/_components/ui/ErrorMessage";
-import { IoClose } from "react-icons/io5";
 
-interface IProp {
+interface SignInFormProps {
   rol?: string;
   handle?: () => void;
 }
 
-export default function SignInForm({ rol, handle }: IProp) {
+export default function SignInForm({ rol, handle }: SignInFormProps) {
   const [validateCaptcha, setValidateCaptcha] = useState(false);
 
   const navigate = useNavigate();
@@ -107,31 +107,6 @@ export default function SignInForm({ rol, handle }: IProp) {
         return;
       }
 
-      if (user) {
-        // localStorage.setItem("_e", "20");
-        // const viteEnv = import.meta.env.VITE_ENV;
-
-        // if (viteEnv === "development") {
-        //   localStorage.setItem("_m", "homo");
-        //   localStorage.setItem("_env", "des");
-        // } else {
-        //   localStorage.setItem("_m", "prod");
-        //   localStorage.setItem("_env", "prod");
-        // }
-
-        localStorage.setItem("_tu", user?.tusuario);
-        localStorage.setItem("_iddoc", user?.iddoctor);
-        localStorage.setItem("_idprof", user?.idprofesional);
-
-        localStorage.setItem("mtm-tusuario", String(user?.tusuario));
-        localStorage.setItem("mtm-iddoctor", String(user?.iddoctor));
-
-        Cookies.set("dataProfessional", JSON.stringify(user));
-        navigate("/dashboard/inicio", { replace: true });
-        return;
-      }
-
-      // SIN VÍNCULO
       if (resp?.data?.code === 204) {
         Swal.fire({
           icon: "error",
@@ -142,7 +117,17 @@ export default function SignInForm({ rol, handle }: IProp) {
         return;
       }
 
-      Swal.fire({ icon: "error", title: resp?.data?.message ?? "Error" });
+      localStorage.setItem("_tu", user?.tusuario);
+      localStorage.setItem("_iddoc", user?.iddoctor);
+      localStorage.setItem("_idprof", user?.idprofesional);
+
+      localStorage.setItem("mtm-tusuario", String(user?.tusuario));
+      localStorage.setItem("mtm-iddoctor", String(user?.iddoctor));
+
+      Cookies.set("dataProfessional", JSON.stringify(user));
+      navigate("/dashboard/inicio", { replace: true });
+
+      // Swal.fire({ icon: "error", title: resp?.data?.message });
     },
   });
 
@@ -164,6 +149,7 @@ export default function SignInForm({ rol, handle }: IProp) {
 
   return (
     <>
+      {/* HEADER */}
       <div className="relative flex flex-col items-center w-full ">
         <button
           onClick={handle}
@@ -174,7 +160,6 @@ export default function SignInForm({ rol, handle }: IProp) {
         <h3 className="mb-2 text-3xl font-bold text-gray-800 underline">
           {rol === "paciente" ? "Pacientes" : "Profesionales"}
         </h3>
-        {/* <h4 className="text-xl font-medium tracking-wide text-gray-600">Inicia sesión</h4> */}
       </div>
 
       <form className="flex flex-col gap-4 px-0.5 " noValidate onSubmit={handleSubmit(handleForm)}>
@@ -270,31 +255,30 @@ export default function SignInForm({ rol, handle }: IProp) {
         />
       </form>
 
-      {/* Inicio con Google */}
+      {/* Inicio con Google Y Botones */}
       {rol === "paciente" ? (
-        <div className="flex justify-center my-6">
-          <button
-            type="button"
-            aria-label="Continuar con Google ID"
-            className="flex items-center gap-2 p-2 bg-gray-100 border border-gray-600 rounded bg-opacity-20 hover:bg-opacity-30"
-            onClick={() => {
-              window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${
-                import.meta.env.VITE_CLIENT_ID
-              }&redirect_uri=${
-                import.meta.env.VITE_REDIRECT_URI
-              }&response_type=code&scope=openid%20email%20https://www.googleapis.com/auth/userinfo.profile%20https://www.googleapis.com/auth/user.birthday.read%20https://www.googleapis.com/auth/user.gender.read%20https://www.googleapis.com/auth/user.phonenumbers.read&prompt=select_account`;
-            }}
-          >
-            <img src="/google-icon.png" alt="Google Icon" className="w-8 h-8" />
-            <span className="text-sm font-medium text-gray-700">Continuar con Google</span>
-          </button>
-        </div>
-      ) : null}
+        <>
+          {/* GOOGLE */}
+          <div className="flex justify-center my-6">
+            <button
+              type="button"
+              aria-label="Continuar con Google ID"
+              className="flex items-center gap-2 p-2 bg-gray-100 border border-gray-600 rounded bg-opacity-20 hover:bg-opacity-30"
+              onClick={() => {
+                window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${
+                  import.meta.env.VITE_CLIENT_ID
+                }&redirect_uri=${
+                  import.meta.env.VITE_REDIRECT_URI
+                }&response_type=code&scope=openid%20email%20https://www.googleapis.com/auth/userinfo.profile%20https://www.googleapis.com/auth/user.birthday.read%20https://www.googleapis.com/auth/user.gender.read%20https://www.googleapis.com/auth/user.phonenumbers.read&prompt=select_account`;
+              }}
+            >
+              <img src="/google-icon.png" alt="Google Icon" className="w-8 h-8" />
+              <span className="text-sm font-medium text-gray-700">Continuar con Google</span>
+            </button>
+          </div>
 
-      {/* Botones Footer */}
-      <div className="flex flex-col items-start gap-2 pl-1 text-sm text-gray-700 lg:pl-3 xl:text-base">
-        {rol === "paciente" ? (
-          <>
+          {/* BOTONES */}
+          <div className="flex flex-col items-start gap-2 pl-1 text-sm text-gray-700 lg:pl-3 xl:text-base">
             <p>
               No tienes cuenta?{" "}
               <button
@@ -317,9 +301,9 @@ export default function SignInForm({ rol, handle }: IProp) {
             >
               Reenviar correo de confirmación
             </button>
-          </>
-        ) : null}
-      </div>
+          </div>
+        </>
+      ) : null}
     </>
   );
 }

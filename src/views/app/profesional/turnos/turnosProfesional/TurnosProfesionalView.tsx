@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { IDataTable, tableSchedules } from "./mock/arrayTableProfessional";
 import { TablaDefault } from "../../../../../frontend-resourses/components";
-import { ContainView } from "../../../_components/features/ContainView";
+import ContainView from "../../../_components/features/ContainView";
 import { obtenerTurnosDiarios } from "./services/turnosProfesionalService";
 // import FiltrosTablaMisTurnos from "../turnosProfesionales/components/SearchCard";
 import SearchByDateCard from "../../../_components/features/SearchByDateCard";

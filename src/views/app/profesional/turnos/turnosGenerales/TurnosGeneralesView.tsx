@@ -2,7 +2,7 @@ import { IDataTable, IFormState } from "../turnosProfesional/mock/arrayTableProf
 import { useState } from "react";
 import { Modal } from "@/views/app/_components/ui/modals/Modal";
 import { TableNode } from "@/frontend-resourses/components/types";
-import { ContainView } from "@/views/app/_components/features/ContainView";
+import ContainView from "@/views/app/_components/features/ContainView";
 // import Swal from "sweetalert2";
 import TablasCard from "./components/TablasCard";
 import AltaTurnoModal from "./components/AltaTurnoModal";

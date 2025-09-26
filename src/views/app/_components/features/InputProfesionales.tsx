@@ -1,6 +1,4 @@
-import React from "react";
-
-interface IProp {
+interface InputProfesionalesProps {
   valueInput?: string;
   handleInput?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleTextarea?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
@@ -17,6 +15,7 @@ interface IProp {
   onKeyDownInput?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   onKeyDownTextarea?: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void;
 }
+
 export default function InputProfesionales({
   valueInput,
   handleInput,
@@ -32,7 +31,7 @@ export default function InputProfesionales({
   textareaRef,
   onKeyDownInput,
   onKeyDownTextarea,
-}: IProp) {
+}: InputProfesionalesProps) {
   function formatearObs(obs: string) {
     return obs
       .split("_")
