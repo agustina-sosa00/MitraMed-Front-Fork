@@ -14,8 +14,9 @@ interface TurnoTablaRow {
   hora_fin: string;
   estado: string;
   paciente: string;
+  nosocial: string;
   obs: string;
-  mit: string;
+  origen: string;
 }
 
 export default function TurnosProfesionalView() {
@@ -66,7 +67,7 @@ export default function TurnosProfesionalView() {
       minWidth: "250",
       maxWidth: "420",
     },
-    // OBS
+    // Obra Social
     {
       key: "nosocial",
       label: "Obra Social",
@@ -102,7 +103,18 @@ export default function TurnosProfesionalView() {
       origen: item.idnodo === 0 ? "Web" : "Mit",
     }));
   } else {
-    datosParaTabla = [];
+    datosParaTabla = [
+      {
+        id: "1",
+        hora_ini: "",
+        hora_fin: "",
+        estado: "",
+        paciente: "No hay turnos en la Fecha Seleccionada",
+        nosocial: "",
+        obs: "",
+        origen: "",
+      },
+    ];
   }
 
   const propsTabla = {
