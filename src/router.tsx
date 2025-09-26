@@ -7,7 +7,7 @@ import PoliticasDePrivacidadView from "./views/auth/views/politicas/PoliticasDeP
 import TerminosYCondicionesView from "./views/auth/views/terminos/TerminosYCondicionesView";
 import Vista404 from "./views/app/profesional/vista404/Vista404";
 // PACIENTES
-import PacienteProtectedRoute from "./views/_components/features/PacienteProtectedRoute";
+import PacienteProtectedRoute from "./views/app/paciente/_components/features/PacienteProtectedRoute";
 import PacienteLayout from "./views/app/_components/layouts/PacienteLayout";
 import HomePacientesView from "./views/app/paciente/inicio/HomePacientesView";
 import TurnosPacientesView from "./views/app/paciente/turnosPaciente/TurnosPacientesView";

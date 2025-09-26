@@ -1,6 +1,6 @@
 import { Fragment, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { useMedicalHistoryContext } from "../../../../context/MedicalHistoryContext";
+import { useMedicalHistoryContext } from "../../context/MedicalHistoryContext";
 import Swal from "sweetalert2";
 
 interface ModalProps {
