@@ -82,7 +82,7 @@ export default function Header({
                 onClick={() => handleOpenDrawer("paciente")}
                 className="px-2 py-1 text-xs transition-all duration-200 border rounded lg:text-base lg:px-4 border-primaryGreen text-primaryGreen hover:bg-primaryGreen hover:text-white"
               >
-                Iniciar sesión
+                Pacientes
               </button>
             </div>
           ) : (
