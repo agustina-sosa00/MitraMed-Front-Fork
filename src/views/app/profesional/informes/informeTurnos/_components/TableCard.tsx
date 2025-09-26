@@ -184,6 +184,9 @@ export default function TableCard() {
       addHeaderColor: "#022539",
       withScrollbar: true,
       columnasNumber: [3, 9],
+      viewport1440: {
+        heightContainer1440px: "660px",
+      },
     },
     sinDatos: hasSearched,
     selectFn: hasSearched,
