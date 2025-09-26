@@ -6,7 +6,7 @@ import { Modal } from "@/views/auth/_components/ui/Modal";
 import { ContainView } from "@/views/app/_components/features/ContainView";
 import { Document, Page, pdfjs } from "react-pdf";
 import { FiDownload } from "react-icons/fi";
-import { IoTrashOutline } from "react-icons/io5";
+// import { IoTrashOutline } from "react-icons/io5";
 import { IoClose } from "react-icons/io5";
 import { useMedicalHistoryContext } from "../../../../context/MedicalHistoryContext";
 import {
@@ -264,29 +264,29 @@ export default function HistorialClinicoView() {
     setHasConfirmed(false);
   }
 
-  function handleDeleteFile(e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) {
-    e.preventDefault();
-    if (!hasFile) return;
-    Swal.fire({
-      title: "¿Eliminar Archivo?",
-      text: "Esta acción es irreversible",
-      showCancelButton: true,
-      confirmButtonText: "Sí",
-      cancelButtonText: "No",
-      confirmButtonColor: "#518915",
-      cancelButtonColor: "#d33",
-    }).then((res) => {
-      if (!res.isConfirmed) return;
-      setPreviewBlob(null);
-      setPreviewExt(null);
-      Swal.fire({
-        icon: "success",
-        text: "Archivo eliminado",
-        confirmButtonColor: "#518915",
-        timer: 1000,
-      });
-    });
-  }
+  // function handleDeleteFile(e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) {
+  //   e.preventDefault();
+  //   if (!hasFile) return;
+  //   Swal.fire({
+  //     title: "¿Eliminar Archivo?",
+  //     text: "Esta acción es irreversible",
+  //     showCancelButton: true,
+  //     confirmButtonText: "Sí",
+  //     cancelButtonText: "No",
+  //     confirmButtonColor: "#518915",
+  //     cancelButtonColor: "#d33",
+  //   }).then((res) => {
+  //     if (!res.isConfirmed) return;
+  //     setPreviewBlob(null);
+  //     setPreviewExt(null);
+  //     Swal.fire({
+  //       icon: "success",
+  //       text: "Archivo eliminado",
+  //       confirmButtonColor: "#518915",
+  //       timer: 1000,
+  //     });
+  //   });
+  // }
 
   function handleDownload(e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>) {
     e.preventDefault();
@@ -514,13 +514,13 @@ export default function HistorialClinicoView() {
                       </>
                     )}
                   </a>
-                  <button
+                  {/* <button
                     onClick={handleDeleteFile}
                     className="flex items-center justify-center gap-2 px-4 font-medium text-white rounded h-9 bg-red-500 hover:bg-red-600"
                     title="Eliminar archivo"
                   >
                     <IoTrashOutline />
-                  </button>
+                  </button> */}
                 </div>
               </div>
             )}

@@ -42,6 +42,15 @@ export default function SearchPatientCard({
   const idDoctorStorage = localStorage.getItem("_iddoc");
   const tusuarioStorage = localStorage.getItem("_tu");
 
+  const hoy = new Date();
+  const esHoy = hcSelected?.fecha && esMismaFecha(hcSelected.fecha, hoy.toISOString());
+
+  const esMismoDoctor = idDoctorStorage === String(hcSelected?.iddoctor);
+  const esGerente = tusuarioStorage === "4";
+  const esAdmin = tusuarioStorage === "5";
+
+  const puedeEditar = ((esHoy && esMismoDoctor) || esGerente || esAdmin) && !!hcSelected;
+
   //region useEffects
   useEffect(() => {
     if (!hasConfirmed) {
@@ -51,6 +60,15 @@ export default function SearchPatientCard({
     }
   }, [hasConfirmed]);
 
+  function esMismaFecha(fecha1: string, fecha2: string) {
+    const d1 = new Date(fecha1);
+    const d2 = new Date(fecha2);
+    return (
+      d1.getFullYear() === d2.getFullYear() &&
+      d1.getMonth() === d2.getMonth() &&
+      d1.getDate() === d2.getDate()
+    );
+  }
   // region functions
   function handleOnChangeDni(e: React.ChangeEvent<HTMLInputElement>) {
     setState(e.target.value);
@@ -108,7 +126,6 @@ export default function SearchPatientCard({
     }
   }
 
-  //region return
   return (
     <div className="flex flex-col w-full gap-2 ">
       <div className="flex items-center justify-between w-full h-10 ">
@@ -239,7 +256,7 @@ export default function SearchPatientCard({
             />
           </div>
           <div className="flex gap-2">
-            {(idDoctorStorage === String(hcSelected?.iddoctor) || tusuarioStorage === "4") && (
+            {puedeEditar && (
               <Button
                 label="editar"
                 disabledButton={!hcSelected}
@@ -285,7 +302,11 @@ export default function SearchPatientCard({
                   <MdCancel /> cancelar
                 </button>
               </div>
-            ) : !(tusuarioStorage === "3" || tusuarioStorage === "4") ? null : (
+            ) : !(
+                tusuarioStorage === "3" ||
+                tusuarioStorage === "4" ||
+                tusuarioStorage === "5"
+              ) ? null : (
               <button
                 disabled={!canEdit}
                 onClick={() => setEditOdontogram && setEditOdontogram(true)}
