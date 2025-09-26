@@ -174,7 +174,7 @@ export default function SignInForm({ rol, handle }: IProp) {
         <h3 className="mb-2 text-3xl font-bold text-gray-800 underline">
           {rol === "paciente" ? "Pacientes" : "Profesionales"}
         </h3>
-        <h4 className="text-xl font-medium tracking-wide text-gray-600">Inicia sesión</h4>
+        {/* <h4 className="text-xl font-medium tracking-wide text-gray-600">Inicia sesión</h4> */}
       </div>
 
       <form className="flex flex-col gap-4 px-0.5 " noValidate onSubmit={handleSubmit(handleForm)}>
