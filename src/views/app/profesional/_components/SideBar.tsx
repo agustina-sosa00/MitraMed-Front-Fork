@@ -44,11 +44,19 @@ export default function SideBar({ logo, buttons, isDisabled = false }: IProp) {
     setDniOdontogram,
     setOriginalData,
     setTeethIdsState,
-    setHasConfirmed,
+    setHasConfirmed: setHasConfirmedOdontogram,
     setUiLoading,
     setDniInput,
+    setOdontogramaData,
   } = useOdontogramContext();
-  const { setDniHistory, setDniInput: setDniHistoryInput } = useMedicalHistoryContext();
+
+  const {
+    setDniHistory,
+    setDniInput: setDniHistoryInput,
+    setDataPaciente,
+    setHasConfirmed: setHasConfirmedHistory,
+  } = useMedicalHistoryContext();
+
   const { clearInformeTurnosData } = useInformeTurnosStore();
   const raw = Cookies.get("dataProfessional");
   const dataUser: DataProfessional | null = raw ? JSON.parse(raw) : null;
@@ -71,13 +79,16 @@ export default function SideBar({ logo, buttons, isDisabled = false }: IProp) {
 
   function handleLogout() {
     setDniOdontogram("");
+    setOdontogramaData(null);
     setOriginalData({});
     setTeethIdsState({});
-    setHasConfirmed(false);
+    setHasConfirmedOdontogram(false);
+    setHasConfirmedHistory(false);
     setUiLoading(false);
     setDniInput("");
     setDniHistory("");
     setDniHistoryInput("");
+    setDataPaciente(null);
     clearInformeTurnosData(); // Limpiar store de informeTurnos
     // Limpiar localStorage desde _tu para abajo
     const keysToRemove = [
