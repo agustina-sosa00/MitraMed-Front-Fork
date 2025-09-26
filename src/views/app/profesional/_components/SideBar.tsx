@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import { useOdontogramContext } from "../../../../context/OdontogramContext";
 import { useMedicalHistoryContext } from "../../../../context/MedicalHistoryContext";
 import { useInformeTurnosStore } from "../informes/informeTurnos/store/informeTurnosStore";
+import { useTurnosGeneralesStore } from "../turnos/turnosGenerales/store/turnosGeneralesStore";
 
 interface ISubItem {
   key: string;
@@ -57,6 +58,8 @@ export default function SideBar({ logo, buttons, isDisabled = false }: IProp) {
     setHasConfirmed: setHasConfirmedHistory,
   } = useMedicalHistoryContext();
 
+  const { setDiaSeleccionado } = useTurnosGeneralesStore();
+
   const { clearInformeTurnosData } = useInformeTurnosStore();
   const raw = Cookies.get("dataProfessional");
   const dataUser: DataProfessional | null = raw ? JSON.parse(raw) : null;
@@ -90,6 +93,7 @@ export default function SideBar({ logo, buttons, isDisabled = false }: IProp) {
     setDniHistoryInput("");
     setDataPaciente(null);
     clearInformeTurnosData(); // Limpiar store de informeTurnos
+    setDiaSeleccionado("");
     // Limpiar localStorage desde _tu para abajo
     const keysToRemove = [
       "_tu",

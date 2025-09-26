@@ -24,8 +24,6 @@ export default function TablasCard() {
     setTurnosData,
   } = useTurnosGeneralesStore();
 
-  // console.log(doctorSeleccionado?.idd  octor);
-
   const {
     data: doctoresQuery,
     // refetch: refetchDoctores,

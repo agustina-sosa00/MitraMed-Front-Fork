@@ -5,12 +5,13 @@ export async function obtenerDoctores() {
   try {
     const { empresa, modo, entorno } = getLocalStorageParams();
 
-    const response = await apiPhp(
-      `/${entorno}/mitramed/obtenerDoctores.php?_i={"_e":"${empresa}","_m":"${modo}"}`,
-    );
+    const url = `/${entorno}/mitramed/obtenerDoctores.php?_i={"_e":"${empresa}","_m":"${modo}"}`;
+
+    const response = await apiPhp(url);
 
     return response.data;
   } catch (error) {
+    console.log(error);
     throw new Error(`Error obteniendo datos de los usuarios: ${error}`);
   }
 }

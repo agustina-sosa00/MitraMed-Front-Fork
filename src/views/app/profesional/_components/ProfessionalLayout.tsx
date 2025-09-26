@@ -13,7 +13,7 @@ interface IProp {
 }
 
 export default function ProfessionalLayout({ setLoader }: IProp) {
-  const isDevelopment = import.meta.env.VITE_ENV === "development";
+  // const isDevelopment = import.meta.env.VITE_ENV === "development";
   const tusuario = localStorage.getItem("_tu");
 
   const [disabledButtonSidebar, setDisabledButtonSidebar] = useState({
@@ -41,25 +41,20 @@ export default function ProfessionalLayout({ setLoader }: IProp) {
     turnosProfesional: {
       key: "turnosProfesional",
       name: "Turnos Profesional",
-      icon: FaUserMd, // Icono de doctor para turnos de un profesional
+      icon: FaUserMd,
       link: "/dashboard/turnos-profesional",
       disabled: disabledButtonSidebar.turnos,
       description:
         "Accedé a tus turnos de una manera sencilla, con filtros por fecha y una tabla organizada.",
     },
-    ...(isDevelopment
-      ? {
-          turnosGrales: {
-            key: "turnosGrales",
-            name: "Turnos",
-            icon: FaNotesMedical, // Icono de notas médicas para turnos generales
-            link: "/dashboard/turnos",
-            disabled: disabledButtonSidebar.turnosGrales,
-            description:
-              "Panel con una tabla de turnos filtrados por cada profesional de la clínica",
-          },
-        }
-      : {}),
+    turnosGrales: {
+      key: "turnosGrales",
+      name: "Turnos",
+      icon: FaNotesMedical,
+      link: "/dashboard/turnos",
+      disabled: disabledButtonSidebar.turnosGrales,
+      description: "Panel con una tabla de turnos filtrados por cada profesional de la clínica",
+    },
     historial: {
       key: "historial",
       name: "Historia Clinica",
@@ -168,7 +163,7 @@ export default function ProfessionalLayout({ setLoader }: IProp) {
         ]);
 
       case "2": // Secretaria
-        return safe([buttons.inicio, buttons.turnosGrales, buttons.odontograma]);
+        return safe([buttons.inicio, buttons.turnosGrales, buttons.odontograma, buttons.procesos]);
 
       case "4": // Admin - ve todo
         return safe([

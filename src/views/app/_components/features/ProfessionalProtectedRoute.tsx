@@ -1,17 +1,16 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 
 const bloqueoPorRol: Record<string, RegExp[]> = {
-  "2": [/^\/dashboard\/turnos(\/|$)/, /^\/dashboard\/historial(\/|$)/],
   "1": [/^\/dashboard\/turnos-generales(\/|$)/, /^\/dashboard\/informe-turnos(\/|$)/],
+  // "2": [/^\/dashboard\/turnos(\/|$)/, /^\/dashboard\/historial(\/|$)/],
   "3": [/^\/dashboard\/turnos-generales(\/|$)/, /^\/dashboard\/informe-turnos(\/|$)/],
-
   "4": [],
-}; //este es un array de bloqueos para ciertas rutas
+};
 
 const redireccion = "/dashboard/inicio"; //ruta de redireccion en caso de no tener acceso
 
 export default function ProfessionalProtectedRoute() {
-  const tusuario = localStorage.getItem("mtm-tusuario") ?? "";
+  const tusuario = localStorage.getItem("_tu");
   const { pathname } = useLocation();
 
   if (!tusuario) return <Navigate to="/" replace />; //si no hay tusuario, redirige al inicio

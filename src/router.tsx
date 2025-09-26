@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 
 // PORTAL
 import PortalView from "./views/auth/views/portal/PortalView";
@@ -27,6 +27,7 @@ import ConfiguracionView from "./views/app/profesional/configuracion/Configuraci
 import EnvioEmailPacView from "./views/app/profesional/procesos/email/emailPac/EnvioEmailPacView";
 import EnvioEmailProfView from "./views/app/profesional/procesos/email/emailProf/EnvioEmailProfView";
 import PlaceHolderDesarrolloView from "./views/app/profesional/placeholderDesarrollo/PlaceholderDesarrolloView";
+import { getLocalStorageParams } from "./utils";
 
 interface RouterProps {
   loader: boolean;
@@ -34,14 +35,14 @@ interface RouterProps {
 }
 
 export default function Router({ loader, setLoader }: RouterProps) {
-  const [env, setEnv] = useState<string | null>(null);
-  // const isDevelopment = import.meta.env.VITE_ENV === "development";
+  // const [env, setEnv] = useState<string | null>(null);
+  const { entorno } = getLocalStorageParams();
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setEnv(localStorage.getItem("_env"));
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     setEnv(localStorage.getItem("_env"));
+  //   }
+  // }, []);
 
   return (
     <BrowserRouter>
@@ -72,7 +73,7 @@ export default function Router({ loader, setLoader }: RouterProps) {
             <Route path="/dashboard/procesos/envio-email-prof" element={<EnvioEmailProfView />} />
             <Route
               path="/dashboard/procesos/envio-email-pac"
-              element={env === "des" ? <EnvioEmailPacView /> : <PlaceHolderDesarrolloView />}
+              element={entorno === "des" ? <EnvioEmailPacView /> : <PlaceHolderDesarrolloView />}
             />
             <Route path="/dashboard/usuarios" element={<UsuariosProfesionalesView />} />
             <Route path="/dashboard/configuracion" element={<ConfiguracionView />} />
