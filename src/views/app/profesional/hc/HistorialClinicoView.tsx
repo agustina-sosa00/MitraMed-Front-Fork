@@ -113,7 +113,7 @@ export default function HistorialClinicoView() {
       key: "id",
       label: "ID",
       minWidth: "37",
-      maxWidth: "37",
+      maxWidth: "45",
       renderCell: (item) => item.id,
     },
     // FECHA
@@ -121,7 +121,7 @@ export default function HistorialClinicoView() {
       key: "fecha",
       label: "Fecha",
       minWidth: "100",
-      maxWidth: "100",
+      maxWidth: "120",
       renderCell: (item) => {
         const raw = item.fecha;
         const fecha = raw.split("-").reverse().join("/");
@@ -133,7 +133,7 @@ export default function HistorialClinicoView() {
       key: "detalle",
       label: "Motivo de Consulta",
       minWidth: "230",
-      maxWidth: "320",
+      maxWidth: "500",
     },
     // NDOCTOR
     {
@@ -159,20 +159,17 @@ export default function HistorialClinicoView() {
       addHeaderColor: "#022539",
       withScrollbar: true,
       withBorder: true,
-      widthContainer: "550px",
-
       viewport1440: {
-        widthContainer1440px: "550px",
-        heightContainer1440px: "400px",
+        heightContainer1440px: "700px",
       },
-      viewport1536: {
-        widthContainer1536px: "600px",
-        heightContainer1536px: "400px",
-      },
-      viewport1920: {
-        widthContainer1920px: "700px",
-        heightContainer1920px: "500px",
-      },
+      // viewport1536: {
+      //   widthContainer1536px: "600px",
+      //   heightContainer1536px: "400px",
+      // },
+      // viewport1920: {
+      //   widthContainer1920px: "700px",
+      //   heightContainer1920px: "500px",
+      // },
     },
     selectFn: hasConfirmed,
     objectSelection: { setSeleccionado: setHcSelected },
@@ -351,7 +348,7 @@ export default function HistorialClinicoView() {
         </div>
 
         {/* Observaciones */}
-        <div className="flex flex-col gap-2 p-2 bg-white border border-gray-300 rounded w-[600px] xl:w-[700px] h-[355px] xg:h-[400px] xxl:h-[500px] ">
+        <div className="flex flex-col gap-2 p-2 bg-white border border-gray-300 rounded w-[600px] xl:w-[700px] h-[355px] xg:h-[400px] xxl:h-[700px] ">
           <div className="flex flex-col items-start w-full">
             <div className="w-full ">
               <label className="text-sm font-medium text-primaryBlue">Motivo de Consulta:</label>
@@ -366,7 +363,7 @@ export default function HistorialClinicoView() {
               <label className="text-sm font-medium text-primaryBlue">Evolución:</label>
             </div>
             <div
-              className="w-full h-[250px] px-2 py-1 font-bold border border-gray-300 rounded bg-lightGray text-primaryBlue overflow-y-auto cursor-default"
+              className="w-full h-[250px] xl:h-[590px] px-2 py-1 font-bold border border-gray-300 rounded bg-lightGray text-primaryBlue overflow-y-auto cursor-default"
               style={{ whiteSpace: "pre-line" }}
             >
               {hcSelected && hcSelected.obs

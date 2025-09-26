@@ -113,7 +113,7 @@ export default function SideBar({ logo, buttons, isDisabled = false }: IProp) {
   }
 
   return (
-    <nav className="flex-col justify-between hidden w-56 h-screen lg:flex">
+    <nav className="flex-col justify-between hidden w-52 h-screen lg:flex">
       <section className="flex flex-col items-center justify-between h-full bg-gray-200">
         {/* Logo */}
         <div className="flex items-center">
@@ -162,14 +162,14 @@ export default function SideBar({ logo, buttons, isDisabled = false }: IProp) {
 
                   {/* Subitems */}
                   {isOpen && (
-                    <div className="mt-1 ml-4">
+                    <div className="mt-1 ml-1">
                       {item.subItems.map((subItem) => {
                         const isActiveSubItem = location.pathname === subItem.link;
                         return (
                           <Link key={subItem.key} to={subItem.link}>
                             <button
                               disabled={subItem.disabled}
-                              className={`flex items-center w-[85%] text-start gap-1 pl-4 py-1 text-base font-medium rounded ${
+                              className={`flex items-center w-[85%] text-start gap-1 ml-2 pl-1 py-1 text-base font-medium rounded ${
                                 subItem.disabled
                                   ? "text-gray-400 cursor-not-allowed"
                                   : "hover:bg-greenHover hover:text-white text-primaryBlue cursor-pointer transition-all duration-300"
@@ -213,7 +213,7 @@ export default function SideBar({ logo, buttons, isDisabled = false }: IProp) {
             {usuariosButtons.map((item) => {
               const isActive = location.pathname === item.link;
               return (
-                <Link key={item.name} to={item.link} className="block w-full py-1 pl-5">
+                <Link key={item.name} to={item.link} className="block w-full py-1 pl-1">
                   <button
                     type="button"
                     className={`flex items-center text-start gap-2 pl-2 py-1 w-[90%] text-lg font-medium rounded transition-all duration-300 ${
@@ -238,7 +238,7 @@ export default function SideBar({ logo, buttons, isDisabled = false }: IProp) {
             {configButtons.map((item) => {
               const isActive = location.pathname === item.link;
               return (
-                <Link key={item.name} to={item.link} className="block w-full py-1 pl-5">
+                <Link key={item.name} to={item.link} className="block w-full py-1 pl-1">
                   <button
                     type="button"
                     className={`flex items-center text-start gap-2 pl-2 py-1 w-[90%] text-lg font-medium rounded transition-all duration-300 ${
