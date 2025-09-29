@@ -24,6 +24,7 @@ import InformeTurnosView from "./views/app/profesional/informes/informeTurnos/In
 import UsuariosProfesionalesView from "./views/app/profesional/usuarios/UsuariosProfesionalesView";
 import ConfiguracionView from "./views/app/profesional/configuracion/ConfiguracionView";
 import EnvioEmailView from "./views/app/profesional/procesos/EnvioEmailView";
+import ConfiguracionHorariosView from "./views/app/profesional/configuracionHorarios/ConfiguracionHorariosView";
 
 interface RouterProps {
   loader: boolean;
@@ -38,7 +39,6 @@ export default function Router({ loader, setLoader }: RouterProps) {
       setEnv(localStorage.getItem("_env"));
     }
   }, []);
-  // const idProfesional = Cookies.get("idProfesional");
 
   return (
     <BrowserRouter>
@@ -75,8 +75,7 @@ export default function Router({ loader, setLoader }: RouterProps) {
             <Route path="/dashboard/procesos" element={<EnvioEmailView />} />
             <Route path="/dashboard/usuarios" element={<UsuariosProfesionalesView />} />
             <Route path="/dashboard/configuracion" element={<ConfiguracionView />} />
-            {/* {idProfesional && (
-            )} */}
+            <Route path="/dashboard/horarios" element={<ConfiguracionHorariosView />} />
           </Route>
         </Route>
 

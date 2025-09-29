@@ -30,7 +30,7 @@ export default function ActionsButtonsCard({
     }
   }
   return (
-    <div className="flex items-center justify-between w-full pb-2">
+    <div className={`flex items-center  w-full ${buttonBox2 ? "justify-between" : "justify-end"} `}>
       <div className={`flex  gap-2  `}>
         {buttonBox1?.map((item) => (
           <button
@@ -47,6 +47,7 @@ export default function ActionsButtonsCard({
           </button>
         ))}
       </div>
+
       <div className={`flex  gap-2  `}>
         {buttonBox2?.map((item) => (
           <button

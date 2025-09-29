@@ -1,7 +1,15 @@
 import { Outlet } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import { FaHouse } from "react-icons/fa6";
-import { FaTooth, FaArchive, FaUserCog, FaCogs, FaUserMd, FaNotesMedical } from "react-icons/fa";
+import {
+  FaTooth,
+  FaArchive,
+  FaUserCog,
+  FaCogs,
+  FaUserMd,
+  FaNotesMedical,
+  FaClock,
+} from "react-icons/fa";
 import { HiDocumentReport } from "react-icons/hi";
 import { IoSettingsSharp } from "react-icons/io5";
 import { Navbar } from "@/views/app/_components/features/Navbar";
@@ -107,6 +115,14 @@ export default function ProfessionalLayout({ setLoader }: IProp) {
         },
       ],
     },
+    configHorario: {
+      key: "config-horario",
+      name: "Horarios",
+      icon: FaClock,
+      link: "/dashboard/horarios",
+      disabled: disabledButtonSidebar.configuracion,
+      description: "Configuración de horarios de la clínica.",
+    },
     usuarios: {
       key: "usuarios",
       name: "Usuarios",
@@ -135,6 +151,7 @@ export default function ProfessionalLayout({ setLoader }: IProp) {
   }, [disabledButtonSidebar]);
 
   useEffect(() => {
+    setLoader(true);
     const to = setTimeout(() => setLoader(false), 300);
     return () => clearTimeout(to);
   }, [setLoader]);
@@ -158,6 +175,7 @@ export default function ProfessionalLayout({ setLoader }: IProp) {
           buttons.odontograma,
           buttons.informes,
           buttons.procesos,
+          buttons.configHorario,
           buttons.usuarios,
           buttons.configuracion,
         ];
@@ -173,7 +191,7 @@ export default function ProfessionalLayout({ setLoader }: IProp) {
       <TextAlert />
 
       {/* CONTENT */}
-      <div className="flex w-full h-screen bg-white relative">
+      <div className="relative flex w-full h-screen bg-white">
         <SideBar
           logo="https://i.imgur.com/HBsiL82.png"
           buttons={buttonsSidebar}

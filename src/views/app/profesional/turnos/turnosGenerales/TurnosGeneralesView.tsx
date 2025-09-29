@@ -125,14 +125,14 @@ export default function TurnosGeneralesView() {
       {/* Filtros y Botones */}
       <div className="flex items-end justify-between w-full">
         <SearchCard diaSeleccionado={diaSeleccionado} setDiaSeleccionado={setDiaSeleccionado} />
-
-        <ActionsButtonsCard
-          disabled={!turnoSeleccionado ? "disabled" : ""}
-          handleButton={handleBoxButton}
-          buttonBox1={["Alta Turno", "Presentación", "Facturación"]}
-          buttonBox2={["Anular Turno"]}
-        />
-        {/* <div className="flex flex-1"></div> */}
+        <div className="w-full pb-2">
+          <ActionsButtonsCard
+            disabled={!turnoSeleccionado ? "disabled" : ""}
+            handleButton={handleBoxButton}
+            buttonBox1={["Alta Turno", "Presentación", "Facturación"]}
+            buttonBox2={["Anular Turno"]}
+          />
+        </div>
       </div>
 
       {/* Tablas */}
