@@ -53,8 +53,8 @@ export default function EnvioEmailProfView() {
     onError: (error) => {
       console.error(error);
     },
-    onSuccess: (_data) => {
-      // console.log(data);
+    onSuccess: (data) => {
+      console.log(data);
       // grabarProceso.mutate({ fecha: fechaHoy, tproceso, idProfesional });
     },
   });

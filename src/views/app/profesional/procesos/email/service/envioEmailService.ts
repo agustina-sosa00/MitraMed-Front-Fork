@@ -9,6 +9,9 @@ export async function obtenerTurnosDoctoresDia(fecha: string) {
     const url = `/${entorno}/mitramed/obtenerTurnosDoctoresDia.php?_i={"_e":"${empresa}","_m":"${modo}","_f":"${fecha}"}`;
     const response = await apiPhp(url);
 
+    // console.log(`url1: ${url}`);
+    // console.log("response1:", JSON.stringify(response.data, null, 2));
+
     return response.data;
   } catch (error) {
     throw new Error(`${error}`);
@@ -23,6 +26,8 @@ export async function obtenerDoctoresDatosEmail(fecha: string) {
 
     const response = await apiPhp(url);
 
+    // console.log(`url2: ${url}`);
+    // console.log("response2:", JSON.stringify(response.data, null, 2));
     return response.data;
   } catch (error) {
     throw new Error(`${error}`);
@@ -36,8 +41,11 @@ export async function enviarEmailRecordatorio(fecha: string, body: any) {
     const url = `/${entorno}/twilio/enviaEmail.php?_i={"_e":"${empresa}","_m":"${modo}","fecha":"${fecha}"}`;
 
     // console.log(url);
-    const prueba = [body[1]];
-    const response = await apiPhp.post(url, prueba);
+    // const prueba = [body[1]];
+
+    // console.log(url, prueba);
+
+    const response = await apiPhp.post(url, body);
 
     return response.data;
   } catch (error) {
