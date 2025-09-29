@@ -4,20 +4,20 @@ import {
   obtenerDoctoresDatosEmail,
   enviarEmailRecordatorio,
   obtenerTurnosDoctoresDia,
-  grabarProcesoService,
+  // grabarProcesoService,
 } from "../service/envioEmailService";
 import EnvioEmailView from "../EnvioEmailView";
 import dayjs from "dayjs";
 import "dayjs/locale/es";
-import { getLocalStorageParams } from "@/utils/index";
+// import { getLocalStorageParams } from "@/utils/index";
 
 export default function EnvioEmailProfView() {
   const mañana = new Date();
   mañana.setDate(mañana.getDate() + 1);
-  const fechaHoy = dayjs().format("YYYY-MM-DD");
-  const tproceso = 1; // Email recordatorio
+  // const fechaHoy = dayjs().format("YYYY-MM-DD");
+  // const tproceso = 1; // Email recordatorio
 
-  const { idProfesional } = getLocalStorageParams();
+  // const { idProfesional } = getLocalStorageParams();
 
   const [diaSeleccionado, setDiaSeleccionado] = useState(
     dayjs().add(1, "day").format("YYYY-MM-DD"),
@@ -37,15 +37,15 @@ export default function EnvioEmailProfView() {
     refetchInterval: 10000, // cada 10 segundos
   });
 
-  const grabarProceso = useMutation({
-    mutationFn: grabarProcesoService,
-    onError: (error) => {
-      console.error(error);
-    },
-    onSuccess: () => {
-      // console.log(data);
-    },
-  });
+  // const grabarProceso = useMutation({
+  //   mutationFn: grabarProcesoService,
+  //   onError: (error) => {
+  //     console.error(error);
+  //   },
+  //   onSuccess: () => {
+  //     // console.log(data);
+  //   },
+  // });
 
   const enviarEmail = useMutation({
     mutationFn: ({ fecha, body }: { fecha: string; body: any }) =>
@@ -53,28 +53,32 @@ export default function EnvioEmailProfView() {
     onError: (error) => {
       console.error(error);
     },
-    onSuccess: (data) => {
-      console.log(data);
-      grabarProceso.mutate({ fecha: fechaHoy, tproceso, idProfesional });
+    onSuccess: (_data) => {
+      // console.log(data);
+      // grabarProceso.mutate({ fecha: fechaHoy, tproceso, idProfesional });
     },
   });
 
-  const datosTurnos = turnosProfesionales?.data || [];
+  const datosTurnos = Array.isArray(turnosProfesionales?.data) ? turnosProfesionales.data : [];
+
   const datosEmail = datosEmailProfesionales?.data.doctores || [];
   const ultimoProceso = datosEmailProfesionales?.data.proceso?.obtiene_ultimoprocesomov;
 
-  const datosConTurnos = datosEmail
-    .filter((doctor) => doctor.email && doctor.email.trim() !== "")
-    .map((doctor) => {
-      const turnosDelDoctor = datosTurnos.filter((turno) => turno.iddoctor === doctor.iddoctor);
-      return {
-        ...doctor,
-        info: turnosDelDoctor,
-      };
-    });
+  const datosEmailConTurnos = datosEmail.map((doctor) => ({
+    ...doctor,
+    info: datosTurnos.filter((turno) => turno.iddoctor === doctor.iddoctor),
+  }));
+
+  // console.log(datosEmailConTurnos);
+
+  // console.log(datosEmail);
+
+  // console.log(datosTurnos);
+  // console.log(turnosProfesionales.data);
+  // console.log(datosConTurnos);
 
   function handleEnviarEmails() {
-    enviarEmail.mutate({ fecha: diaSeleccionado, body: datosConTurnos });
+    enviarEmail.mutate({ fecha: diaSeleccionado, body: datosEmailConTurnos });
   }
 
   return (
