@@ -155,6 +155,8 @@ export default function SideBar({ logo, buttons, isDisabled = false }: IProp) {
                   return (
                     <div key={item.key} className="flex flex-col items-center w-full gap-2">
                       <button
+                        // onMouseEnter={() => toggleDropdown(item.key)}
+                        // onMouseLeave={() => toggleDropdown(item.key)}
                         onClick={() => toggleDropdown(item.key)}
                         disabled={item.disabled}
                         className={`group flex items-center justify-between w-[90%] text-start gap-1 pl-2 py-1 text-base font-medium rounded ${
@@ -253,6 +255,8 @@ export default function SideBar({ logo, buttons, isDisabled = false }: IProp) {
                 } ${openSubMenu || userAreaActive ? "bg-primaryGreen text-white" : ""}`}
                 disabled={isDisabled}
                 onClick={isDisabled ? undefined : handleOpenSubMenu}
+                // onMouseEnter={isDisabled ? undefined : handleOpenSubMenu}
+                // onMouseLeave={isDisabled ? undefined : handleOpenSubMenu}
               >
                 <div className="flex items-center gap-2">
                   <FaUserCircle className="w-5 h-5" />
