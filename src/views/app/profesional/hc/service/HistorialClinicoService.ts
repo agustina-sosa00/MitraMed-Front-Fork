@@ -8,7 +8,7 @@ type grabarHistoriaParams = {
   obs: string;
   idhistoria?: number | null;
   tproceso?: number | null;
-  iddoctor: string;
+  iddoctor: string | null;
   idopera?: string | null;
   extension?: string | null;
 };
