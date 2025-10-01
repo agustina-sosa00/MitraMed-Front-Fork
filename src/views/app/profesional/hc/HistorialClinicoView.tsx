@@ -16,7 +16,7 @@ import {
 } from "@/views/app/profesional/hc/service/HistorialClinicoService";
 import SearchPatientCard from "@/views/app/profesional/_components/features/SearchPatientCard";
 import FormHistoria from "./_components/FormHistoria";
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 import workerSrc from "pdfjs-dist/build/pdf.worker?url";
 import "react-pdf/dist/Page/AnnotationLayer.css";
@@ -38,12 +38,12 @@ export default function HistorialClinicoView() {
   const {
     dataPaciente,
     setDataPaciente,
-    hc,
     editMode,
     hcSelected,
     setHcSelected,
     refetchHC,
     setRefetchHC,
+    // idpaciente,
     setIdpaciente,
     dniHistory,
     setDniHistory,
@@ -53,11 +53,14 @@ export default function HistorialClinicoView() {
     setUiLoading,
     dniInput,
     setDniInput,
+    clearContext,
+    // getContext,
   } = useMedicalHistoryContext();
 
-  const infoProfessional = Cookies.get("dataProfessional");
-  const [focusState, setFocusState] = useState(false);
+  // const infoProfessional = Cookies.get("dataProfessional");
+  const [focusState, _setFocusState] = useState(false);
   const [showModal, setShowModal] = useState<boolean>(false);
+  const padre = 1;
 
   // preview archivo (thumbnail + modal)
   const [previewOpen, setPreviewOpen] = useState(false);
@@ -65,8 +68,10 @@ export default function HistorialClinicoView() {
   const [previewExt, setPreviewExt] = useState<string | null>(null);
   const [previewPage, setPreviewPage] = useState(1);
   const [previewNumPages, setPreviewNumPages] = useState(0);
-  const [_loadingBlob, setLoadingBlob] = useState(false);
+  const [loadingBlob, setLoadingBlob] = useState(false);
   const [downloading, setDownloading] = useState(false);
+
+  const [errorState, setErrorState] = useState("");
 
   const mutationObtenerPacienteHc = useMutation({
     mutationFn: (dni: string) => obtenerPacienteHc(dni),
@@ -74,11 +79,20 @@ export default function HistorialClinicoView() {
       console.error("Error obtenerPacienteHc:", error);
     },
     onSuccess: (data) => {
+      // console.log(data);
+      if (!data.data) {
+        setErrorState(data.message || "Paciente inexistente");
+        return;
+      }
+
       setDataPaciente(data?.data);
+      setIdpaciente(data?.data?.paciente?.idpaciente);
+      setDniHistory(data?.data?.paciente?.dni);
+      setHasConfirmed(true);
     },
   });
 
-  const { data: datosArchivo, isFetching: _loadingMeta } = useQuery({
+  const { data: datosArchivo } = useQuery({
     queryKey: ["datosArchivo", dniHistory, hcSelected?.idhistoria],
     queryFn: () =>
       getIdOpera({
@@ -175,10 +189,6 @@ export default function HistorialClinicoView() {
     objectSelection: { setSeleccionado: setHcSelected },
   };
 
-  // console.log(refetchHC);
-  // console.log(dniInput);
-  // console.log(dniHistory);
-
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       if (e.key !== "Escape") return;
@@ -187,12 +197,6 @@ export default function HistorialClinicoView() {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
-
-  useEffect(() => {
-    if (dataPaciente?.paciente?.idpaciente) {
-      setIdpaciente(dataPaciente.paciente.idpaciente);
-    }
-  }, [dataPaciente, setIdpaciente]);
 
   // Limpiar siempre al cerrar el modal
   useEffect(() => {
@@ -230,60 +234,18 @@ export default function HistorialClinicoView() {
     setUiLoading(true);
     setTimeout(() => {
       mutationObtenerPacienteHc.mutate(dni);
-      setHasConfirmed(true);
-      setDniHistory(dni);
       setUiLoading(false);
     }, 1000);
   }
 
-  function handleOnFocusInput() {
-    if (dniHistory.length > 0) return setFocusState(false);
-    setFocusState(true);
-    Swal.fire({
-      icon: "warning",
-      title: "Antes de completar , debe ingresar un número de historia clínica",
-      confirmButtonText: "Aceptar",
-      confirmButtonColor: "#518915",
-    });
-  }
-
   function handleDeletePatient() {
-    setHasConfirmed(false);
-    setUiLoading(false);
-    setDniHistory("");
-    setDniInput("");
-    setHcSelected(null);
-    setDataPaciente(null);
+    clearContext();
   }
 
   function handleCancelEdit() {
     // setHcSelected(null);
     setHasConfirmed(false);
   }
-
-  // function handleDeleteFile(e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) {
-  //   e.preventDefault();
-  //   if (!hasFile) return;
-  //   Swal.fire({
-  //     title: "¿Eliminar Archivo?",
-  //     text: "Esta acción es irreversible",
-  //     showCancelButton: true,
-  //     confirmButtonText: "Sí",
-  //     cancelButtonText: "No",
-  //     confirmButtonColor: "#518915",
-  //     cancelButtonColor: "#d33",
-  //   }).then((res) => {
-  //     if (!res.isConfirmed) return;
-  //     setPreviewBlob(null);
-  //     setPreviewExt(null);
-  //     Swal.fire({
-  //       icon: "success",
-  //       text: "Archivo eliminado",
-  //       confirmButtonColor: "#518915",
-  //       timer: 1000,
-  //     });
-  //   });
-  // }
 
   function handleDownload(e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>) {
     e.preventDefault();
@@ -324,19 +286,19 @@ export default function HistorialClinicoView() {
       {/* Buscador */}
       <div className="flex items-center justify-start w-full gap-1 py-1 min-h-24 ">
         <SearchPatientCard
-          noHc={hc}
-          data={!dniHistory ? undefined : dataPaciente?.paciente}
-          labelSearch={"dni"}
+          padre={padre}
+          data={hasConfirmed ? dataPaciente?.paciente : null}
+          dniInput={dniInput}
+          setDniInput={setDniInput}
           onSearch={handleFindPatient}
           setPreviewOpen={setPreviewOpen}
           setStateModal={setShowModal}
-          odontogram={true}
-          state={dniInput}
-          setState={setDniInput}
           hasConfirmed={hasConfirmed}
           loading={uiLoading}
           handleDeletePatient={handleDeletePatient}
           handleCancel={handleCancelEdit}
+          errorState={errorState}
+          setErrorState={setErrorState}
         />
       </div>
 
@@ -400,7 +362,7 @@ export default function HistorialClinicoView() {
               </button>
             </div>
 
-            {_loadingBlob ? (
+            {loadingBlob ? (
               <div className="flex-1 flex items-center justify-center">
                 <ClipLoader color="#2563eb" size={48} speedMultiplier={0.8} />
                 <span className="ml-4 text-primaryBlue text-lg">Cargando archivo...</span>
@@ -528,8 +490,8 @@ export default function HistorialClinicoView() {
       {showModal && (
         <Modal onClose={() => setShowModal(false)} open={showModal}>
           <FormHistoria
-            handle={handleOnFocusInput}
-            infoProfessional={JSON.parse(infoProfessional!)}
+            // handle={handleOnFocusInput}
+            // infoProfessional={JSON.parse(infoProfessional!)}
             hc={dniHistory}
             focusState={focusState}
             setStateModal={setShowModal}
