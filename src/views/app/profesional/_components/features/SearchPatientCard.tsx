@@ -7,22 +7,58 @@ import { IoMdAdd } from "react-icons/io";
 import { FaUserCircle } from "react-icons/fa";
 import { RiSave3Line } from "react-icons/ri";
 import { Button } from "@/views/_components/Button";
-import { BuscadorDePacientesProps } from "@/views/app/profesional/types/index";
+// import { BuscadorDePacientesProps } from "@/views/app/profesional/types/index";
 import { FaRegEye } from "react-icons/fa";
 import { useMedicalHistoryContext } from "../../../../../context/MedicalHistoryContext";
 import Swal from "sweetalert2";
 
+type Paciente = {
+  nombre: string;
+  apellido: string;
+  dni: string;
+  fnacim: string;
+  edad: string;
+  idosocial: number;
+  nosocial: string | null;
+  idplan: number;
+  nplan: string | null;
+};
+
+interface SearchPatientCardProps {
+  padre: number;
+  data: Partial<Paciente>;
+  dniInput: string;
+  setDniInput: (arg: string) => void;
+  onSearch: (arg: string) => void;
+  showData?: boolean;
+  setShowData?: (arg: boolean) => void;
+  setStateModal?: (arg: boolean) => void;
+  odontogram?: boolean;
+  editOdontogram?: boolean;
+  setEditOdontogram?: (arg: boolean) => void;
+  handleSave?: () => void;
+  handleCancel?: () => void;
+  handleDeletePatient?: () => void;
+  changes?: boolean;
+  errorState?: string;
+  setErrorState?: (arg: string) => void;
+  isActive?: boolean;
+  hasConfirmed?: boolean;
+  loading?: boolean;
+  setPreviewOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
 export default function SearchPatientCard({
+  padre,
+  data,
+  dniInput,
+  setDniInput,
   onSearch,
   editOdontogram,
-  handleSave,
   setEditOdontogram,
-  odontogram,
-  data,
-  handleDeletePatient,
   setStateModal,
-  state,
-  setState,
+  handleSave,
+  handleDeletePatient,
   handleCancel,
   errorState,
   setErrorState,
@@ -31,8 +67,11 @@ export default function SearchPatientCard({
   hasConfirmed,
   loading,
   setPreviewOpen,
-}: BuscadorDePacientesProps) {
+  // odontogram,
+}: SearchPatientCardProps) {
   const { hcSelected, setEditMode } = useMedicalHistoryContext();
+
+  // console.log(padre);
 
   // region states y variables
   const isEditing = !hasConfirmed;
@@ -70,23 +109,23 @@ export default function SearchPatientCard({
 
   // region functions
   function handleOnChangeDni(e: React.ChangeEvent<HTMLInputElement>) {
-    setState(e.target.value);
+    setDniInput(e.target.value);
     setErrorState?.("");
   }
 
   function handleSearchPatient() {
-    if (state.length === 0) {
+    if (dniInput.length === 0) {
       setErrorState?.("Debe ingresar un DNI");
       inputRef.current?.focus();
       return;
     }
-    if (!/^\d+$/.test(state)) {
+    if (!/^\d+$/.test(dniInput)) {
       setErrorState?.("El DNI debe ser numérico y sin punto. Ej: 12345678");
       inputRef.current?.focus();
       return;
     }
 
-    onSearch?.(state);
+    onSearch?.(dniInput);
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
@@ -132,12 +171,12 @@ export default function SearchPatientCard({
           <div className="flex items-end gap-1">
             <label className="text-base font-bold text-primaryGreen">Ingresar DNI:</label>
             <div className="flex gap-1 w-36 ">
-              {hasConfirmed && state.length > 0 ? (
+              {hasConfirmed && dniInput.length > 0 ? (
                 <>
                   <div
                     className={`px-1 text-base flex items-center font-bold border border-gray-300 rounded w-full bg-lightGray focus:outline-none text-primaryBlue`}
                   >
-                    {state}
+                    {dniInput}
                   </div>
                   <button
                     type="button"
@@ -158,7 +197,7 @@ export default function SearchPatientCard({
                     ref={inputRef}
                     type="text"
                     name="dni"
-                    value={state}
+                    value={dniInput}
                     onChange={handleOnChangeDni}
                     onKeyDown={handleKeyDown}
                     autoFocus={!hasConfirmed}
@@ -245,7 +284,7 @@ export default function SearchPatientCard({
       {
         //region botones
       }
-      {hasConfirmed && odontogram ? (
+      {hasConfirmed && padre === 1 ? (
         <div className="flex items-center justify-between w-full h-10 gap-2">
           <div className="">
             <Button
@@ -276,8 +315,7 @@ export default function SearchPatientCard({
             />
           </div>
         </div>
-      ) : null}
-      {!odontogram ? (
+      ) : (
         <div className="w-full">
           <div className="absolute bottom-0 right-0 flex items-center gap-2 p-2 ">
             {editOdontogram ? (
@@ -321,7 +359,52 @@ export default function SearchPatientCard({
             )}
           </div>
         </div>
-      ) : null}
+      )}
+      {/* {!odontogram ? (
+        <div className="w-full">
+          <div className="absolute bottom-0 right-0 flex items-center gap-2 p-2 ">
+            {editOdontogram ? (
+              <div className="flex flex-col gap-2">
+                <button
+                  disabled={isActive || !changes}
+                  onClick={handleSave}
+                  className={`flex items-center justify-center w-32 h-8 gap-1 px-2 py-1 text-white capitalize rounded  ${
+                    isActive || !changes
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-primaryGreen hover:bg-greenHover"
+                  } `}
+                >
+                  <RiSave3Line />
+                  guardar
+                </button>
+                <button
+                  disabled={isActive}
+                  onClick={handleCancelButton}
+                  className="flex items-center justify-center w-32 h-8 gap-1 px-2 py-1 text-white capitalize bg-red-500 rounded hover:bg-red-600"
+                >
+                  <MdCancel /> cancelar
+                </button>
+              </div>
+            ) : !(
+                tusuarioStorage === "3" ||
+                tusuarioStorage === "4" ||
+                tusuarioStorage === "5"
+              ) ? null : (
+              <button
+                disabled={!canEdit}
+                onClick={() => setEditOdontogram && setEditOdontogram(true)}
+                className={`h-8 px-2 py-1 flex items-center gap-1 justify-center text-white capitalize rounded w-32   ${
+                  !canEdit
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-primaryGreen hover:bg-greenHover"
+                }`}
+              >
+                <FaRegEdit /> editar
+              </button>
+            )}
+          </div>
+        </div>
+      ) : null} */}
     </div>
   );
 }
