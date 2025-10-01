@@ -48,6 +48,7 @@ export default function OdontogramView() {
   const [editOdontogram, setEditOdontogram] = useState(false);
   const [errorState, setErrorState] = useState("");
   const [idPaciente, setIdPaciente] = useState("");
+  const padre = 2;
 
   const { iddoctor, idProfesional } = getLocalStorageParams();
 
@@ -83,18 +84,17 @@ export default function OdontogramView() {
         setErrorState(data.message || "Paciente inexistente");
         return;
       }
+      const raw = (data.data.odontograma || []) as RawRow[];
+      const dientes = buildIdsState(raw);
+
+      setHasConfirmed(true);
 
       setOdontogramaData(data);
-      setHasConfirmed(true);
       setIdPaciente(data.data.paciente.idpaciente);
-
-      // if (!hasConfirmed || uiLoading || !data) return;
-
-      const raw = (data.data.odontograma || []) as RawRow[];
-      const built = buildIdsState(raw);
-
-      if (Object.keys(originalData).length === 0) setOriginalData(built);
-      if (Object.keys(teethIdsState).length === 0) setTeethIdsState(built);
+      setOriginalData(dientes);
+      setTeethIdsState(dientes);
+      // if (Object.keys(originalData).length === 0)
+      // if (Object.keys(teethIdsState).length === 0)
     },
   });
 
@@ -105,9 +105,6 @@ export default function OdontogramView() {
         setOriginalData(teethIdsState);
         setTeethChanged([]);
         setEditOdontogram(false);
-        // queryClient.invalidateQueries({
-        //   queryKey: ["odontogram", dniOdontogram],
-        // });
       }
     },
     onError: (err) => console.log(err),
@@ -247,13 +244,12 @@ export default function OdontogramView() {
     >
       <div className="flex items-end justify-between w-full gap-1 min-h-20">
         <SearchPatientCard
-          data={odontogramaData?.data?.paciente || undefined}
-          handleDeletePatient={handleDeletePatient}
-          labelSearch="DNI"
+          padre={padre}
+          data={hasConfirmed ? odontogramaData?.data?.paciente : null}
+          dniInput={dniInput}
+          setDniInput={setDniInput}
           onSearch={handleSearch}
-          odontogram={false}
-          state={dniInput}
-          setState={setDniInput}
+          handleDeletePatient={handleDeletePatient}
           editOdontogram={editOdontogram}
           setEditOdontogram={setEditOdontogram}
           handleSave={handleSave}
@@ -266,8 +262,6 @@ export default function OdontogramView() {
           loading={uiLoading}
         />
       </div>
-      {/* {idProfesional !== "3" && (
-      )} */}
 
       <div className="w-full my-2 border border-gray-300"></div>
 
@@ -303,7 +297,7 @@ export default function OdontogramView() {
                 <Diente
                   toothNumber={toothNumber}
                   isActive={editOdontogram && contextMenu === toothNumber}
-                  setState={setContextMenu}
+                  setContextMenu={setContextMenu}
                   handle={() => setOpenMenu(true)}
                   toothSelectState={toothSelect}
                   setToothSelectState={setToothSelect}
@@ -356,7 +350,7 @@ export default function OdontogramView() {
                 <Diente
                   toothNumber={toothNumber}
                   isActive={editOdontogram && contextMenu === toothNumber}
-                  setState={setContextMenu}
+                  setContextMenu={setContextMenu}
                   handle={() => setOpenMenu(true)}
                   toothSelectState={toothSelect}
                   setToothSelectState={setToothSelect}
