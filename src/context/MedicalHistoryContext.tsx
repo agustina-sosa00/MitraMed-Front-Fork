@@ -34,7 +34,10 @@ interface MedicalHistoryContextType {
   setDniInput: React.Dispatch<React.SetStateAction<string>>;
   hasNewRegistroChanges: boolean;
   setHasNewRegistroChanges: React.Dispatch<React.SetStateAction<boolean>>;
+  clearContext: () => void;
+  getContext: () => void;
 }
+
 const MedicalHistoryContext = createContext<MedicalHistoryContextType | undefined>(undefined);
 
 export const MedicalHistoryProvider = ({ children }) => {
@@ -49,6 +52,34 @@ export const MedicalHistoryProvider = ({ children }) => {
   const [uiLoading, setUiLoading] = useState<boolean>(false);
   const [dniInput, setDniInput] = useState<string>("");
   const [hasNewRegistroChanges, setHasNewRegistroChanges] = useState<boolean>(false);
+
+  function getContext() {
+    console.log("dataPaciente:", dataPaciente);
+    console.log("hc:", hc);
+    console.log("editMode:", editMode);
+    console.log("hcSelected:", hcSelected);
+    console.log("refetchHC:", refetchHC);
+    console.log("idpaciente:", idpaciente);
+    console.log("dniHistory:", dniHistory);
+    console.log("hasConfirmed:", hasConfirmed);
+    console.log("uiLoading:", uiLoading);
+    console.log("dniInput:", dniInput);
+    console.log("hasNewRegistroChanges:", hasNewRegistroChanges);
+  }
+
+  function clearContext() {
+    setDataPaciente(null);
+    setHc(false);
+    setEditMode(false);
+    setHcSelected(null);
+    setRefetchHC(false);
+    setIdpaciente(null);
+    setDniHistory("");
+    setHasConfirmed(false);
+    setUiLoading(false);
+    setDniInput("");
+    setHasNewRegistroChanges(false);
+  }
 
   return (
     <MedicalHistoryContext.Provider
@@ -75,6 +106,8 @@ export const MedicalHistoryProvider = ({ children }) => {
         setDniInput,
         hasNewRegistroChanges,
         setHasNewRegistroChanges,
+        clearContext,
+        getContext,
       }}
     >
       {children}
