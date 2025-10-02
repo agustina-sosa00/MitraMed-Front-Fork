@@ -1,7 +1,7 @@
 import { FaUserCircle, FaChevronRight } from "react-icons/fa";
 import { IconType } from "react-icons/lib";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Cookies from "js-cookie";
 import { useOdontogramContext } from "../../../../context/OdontogramContext";
 import { useMedicalHistoryContext } from "../../../../context/MedicalHistoryContext";
@@ -44,6 +44,10 @@ export default function SideBar({ logo, buttons, isDisabled = false }: SideBarPr
   const [openDropdowns, setOpenDropdowns] = useState<string[]>([]);
   const [openSubMenu, setOpenSubMenu] = useState<boolean>(false);
 
+  // timers para hover-intent
+  const dropTimer = useRef<number | null>(null);
+  const userTimer = useRef<number | null>(null);
+
   const {
     setDniOdontogram,
     setOriginalData,
@@ -75,20 +79,38 @@ export default function SideBar({ logo, buttons, isDisabled = false }: SideBarPr
   const showUsuarios = tusuario === "4" || tusuario === "5";
   const showConfig = tusuario === "5";
 
-  // acordeón de menús
-  const toggleDropdown = (key: string) => {
-    setOpenSubMenu(false);
-    setOpenDropdowns((prev) => (prev[0] === key ? [] : [key]));
+  const openDropdown = (key: string) => {
+    if (dropTimer.current) window.clearTimeout(dropTimer.current);
+    setOpenDropdowns([key]);
   };
-
-  useEffect(() => {
+  const scheduleCloseDropdown = () => {
+    if (dropTimer.current) window.clearTimeout(dropTimer.current);
+    dropTimer.current = window.setTimeout(() => setOpenDropdowns([]), 140);
+  };
+  const closeDropdown = () => {
+    if (dropTimer.current) window.clearTimeout(dropTimer.current);
     setOpenDropdowns([]);
-    setOpenSubMenu(false);
-  }, [location.pathname]);
+  };
+  const toggleDropdownClick = (key: string) =>
+    setOpenDropdowns((prev) => (prev[0] === key ? [] : [key]));
 
-  // opcional: si cambiás de ruta, cerrá submenú
-  useEffect(() => {
+  const openUser = () => {
+    if (userTimer.current) window.clearTimeout(userTimer.current);
+    setOpenSubMenu(true);
+  };
+  const scheduleCloseUser = () => {
+    if (userTimer.current) window.clearTimeout(userTimer.current);
+    userTimer.current = window.setTimeout(() => setOpenSubMenu(false), 140);
+  };
+  const closeUser = () => {
+    if (userTimer.current) window.clearTimeout(userTimer.current);
     setOpenSubMenu(false);
+  };
+  const toggleUser = () => setOpenSubMenu((v) => !v);
+
+  useEffect(() => {
+    closeDropdown();
+    closeUser();
   }, [location.pathname]);
 
   function handleLogout() {
@@ -118,10 +140,6 @@ export default function SideBar({ logo, buttons, isDisabled = false }: SideBarPr
     navigate("/");
   }
 
-  function handleOpenSubMenu() {
-    setOpenDropdowns([]);
-    setOpenSubMenu((prev) => !prev);
-  }
   const userAreaActive = [...usuariosButtons, ...configButtons].some(
     (b) => location.pathname === b.link || location.pathname.startsWith(b.link + "/"),
   );
@@ -153,11 +171,14 @@ export default function SideBar({ logo, buttons, isDisabled = false }: SideBarPr
                   );
 
                   return (
-                    <div key={item.key} className="flex flex-col items-center w-full gap-2">
+                    <div
+                      key={item.key}
+                      className="relative flex flex-col items-center w-full gap-2"
+                      onMouseEnter={() => openDropdown(item.key)}
+                      onMouseLeave={scheduleCloseDropdown}
+                    >
                       <button
-                        // onMouseEnter={() => toggleDropdown(item.key)}
-                        // onMouseLeave={() => toggleDropdown(item.key)}
-                        onClick={() => toggleDropdown(item.key)}
+                        onClick={() => toggleDropdownClick(item.key)}
                         disabled={item.disabled}
                         className={`group flex items-center justify-between w-[90%] text-start gap-1 pl-2 py-1 text-base font-medium rounded ${
                           item.disabled
@@ -176,16 +197,18 @@ export default function SideBar({ logo, buttons, isDisabled = false }: SideBarPr
                               : hasActiveSubItem
                                 ? "text-white"
                                 : "text-primaryBlue group-hover:text-white"
-                          }  `}
+                          } ${isOpen ? "rotate-90" : ""}`}
                         />
                       </button>
 
                       {isOpen && (
                         <SubMenuSidebar
-                          setOpenSubMenu={() => toggleDropdown(item.key)}
+                          setOpenSubMenu={closeDropdown}
                           menuPosition={heigth / 2}
+                          onPanelEnter={() => openDropdown(item.key)}
+                          onPanelLeave={scheduleCloseDropdown}
                         >
-                          <div className="flex flex-col w-[200px] py-3 gap-3 px-4 bg-white rounded rounded-tl-none rounded-bl-none ">
+                          <div className="flex flex-col w-[200px] py-3 gap-3 px-4 bg-white rounded rounded-tl-none rounded-bl-none shadow-lg">
                             {item.subItems.map((subItem) => {
                               const isActiveSubItem = location.pathname === subItem.link;
                               return (
@@ -193,10 +216,10 @@ export default function SideBar({ logo, buttons, isDisabled = false }: SideBarPr
                                   key={subItem.key}
                                   to={subItem.link}
                                   onClick={() => {
-                                    setOpenDropdowns([]);
-                                    setOpenSubMenu(false);
+                                    closeDropdown();
+                                    closeUser();
                                   }}
-                                  className="flex w-full "
+                                  className="flex w-full"
                                 >
                                   <button
                                     disabled={subItem.disabled}
@@ -244,7 +267,11 @@ export default function SideBar({ logo, buttons, isDisabled = false }: SideBarPr
           </div>
 
           {/* Botón usuario (abre submenú) */}
-          <div className="flex flex-col items-center w-full gap-1.5 py-3">
+          <div
+            className="flex flex-col items-center w-full gap-1.5 py-3"
+            onMouseEnter={openUser}
+            onMouseLeave={scheduleCloseUser}
+          >
             <div className="flex justify-center w-full">
               <button
                 type="button"
@@ -254,9 +281,7 @@ export default function SideBar({ logo, buttons, isDisabled = false }: SideBarPr
                     : "text-primaryBlue hover:bg-greenHover hover:text-white cursor-pointer"
                 } ${openSubMenu || userAreaActive ? "bg-primaryGreen text-white" : ""}`}
                 disabled={isDisabled}
-                onClick={isDisabled ? undefined : handleOpenSubMenu}
-                // onMouseEnter={isDisabled ? undefined : handleOpenSubMenu}
-                // onMouseLeave={isDisabled ? undefined : handleOpenSubMenu}
+                onClick={isDisabled ? undefined : toggleUser}
               >
                 <div className="flex items-center gap-2">
                   <FaUserCircle className="w-5 h-5" />
@@ -274,83 +299,98 @@ export default function SideBar({ logo, buttons, isDisabled = false }: SideBarPr
                 <FaChevronRight className="mr-2 text-xs transition-all duration-200 transform" />
               </button>
             </div>
+
+            {/* OVERLAY + SUBMENÚ (fuera del <nav>) */}
+            {openSubMenu && (
+              <SubMenuSidebar
+                setOpenSubMenu={setOpenSubMenu}
+                menuPosition={"bottom-0"} // mantenemos tu alineación existente
+                onPanelEnter={openUser}
+                onPanelLeave={scheduleCloseUser}
+              >
+                <div className="w-[200px] bg-white gap-4 flex flex-col py-3 rounded-md rounded-tl-none rounded-bl-none rounded-br-none shadow-lg">
+                  {/* Usuarios */}
+                  {showUsuarios && usuariosButtons.length > 0 && (
+                    <div className="w-full">
+                      {usuariosButtons.map((item) => {
+                        const isActive = location.pathname === item.link;
+                        return (
+                          <Link
+                            key={item.name}
+                            to={item.link}
+                            className="flex justify-center w-full"
+                            onClick={() => setOpenSubMenu(false)}
+                          >
+                            <button
+                              type="button"
+                              className={`flex items-center text-start gap-2 pl-2 py-1 w-[90%] text-base font-medium rounded transition-all duration-300 ${
+                                item.disabled
+                                  ? "text-gray-400 cursor-not-allowed"
+                                  : "text-primaryBlue hover:bg-greenHover hover:text-white cursor-pointer"
+                              } ${isActive ? "bg-primaryGreen text-white" : ""}`}
+                              disabled={item.disabled}
+                            >
+                              <item.icon className="w-5 h-5" />
+                              {item.name}
+                            </button>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  )}
+
+                  {/* Config */}
+                  {showConfig && configButtons.length > 0 && (
+                    <div className="w-full">
+                      {configButtons.map((item) => {
+                        const isActive = location.pathname === item.link;
+                        return (
+                          <Link
+                            key={item.name}
+                            to={item.link}
+                            className="flex justify-center w-full"
+                            onClick={() => setOpenSubMenu(false)}
+                          >
+                            <button
+                              type="button"
+                              className={`flex items-center text-start gap-2 pl-2 py-1 w-[90%] text-base font-medium rounded transition-all duration-300 ${
+                                item.disabled
+                                  ? "text-gray-400 cursor-not-allowed"
+                                  : "text-primaryBlue hover:bg-greenHover hover:text-white cursor-pointer"
+                              } ${isActive ? "bg-primaryGreen text-white" : ""}`}
+                              disabled={item.disabled}
+                            >
+                              <item.icon className="w-5 h-5" />
+                              {item.name}
+                            </button>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  )}
+
+                  {/* Logout */}
+                  <div className="flex justify-center w-full">
+                    <button
+                      type="button"
+                      className={`flex items-center text-start gap-2 pl-2 py-1 w-[90%] text-base font-medium rounded transition-all duration-300 ${
+                        isDisabled
+                          ? "text-gray-400 cursor-not-allowed"
+                          : "text-primaryBlue hover:bg-greenHover hover:text-white cursor-pointer"
+                      }`}
+                      disabled={isDisabled}
+                      onClick={isDisabled ? undefined : handleLogout}
+                    >
+                      <IoLogOut className="w-5 h-5" />
+                      Cerrar Sesión
+                    </button>
+                  </div>
+                </div>
+              </SubMenuSidebar>
+            )}
           </div>
         </section>
       </nav>
-
-      {/* OVERLAY + SUBMENÚ (fuera del <nav>) */}
-      {openSubMenu && (
-        <SubMenuSidebar setOpenSubMenu={setOpenSubMenu} menuPosition={"bottom-0"}>
-          <div className="w-[200px] bg-white gap-4 flex flex-col py-3 rounded-md rounded-tl-none rounded-bl-none rounded-br-none shadow-lg">
-            {/* Usuarios */}
-            {showUsuarios && usuariosButtons.length > 0 && (
-              <div className="w-full">
-                {usuariosButtons.map((item) => {
-                  const isActive = location.pathname === item.link;
-                  return (
-                    <Link key={item.name} to={item.link} className="flex justify-center w-full">
-                      <button
-                        type="button"
-                        className={`flex items-center text-start gap-2 pl-2 py-1 w-[90%] text-base font-medium rounded transition-all duration-300 ${
-                          item.disabled
-                            ? "text-gray-400 cursor-not-allowed"
-                            : "text-primaryBlue hover:bg-greenHover hover:text-white cursor-pointer"
-                        } ${isActive ? "bg-primaryGreen text-white" : ""}`}
-                        disabled={item.disabled}
-                      >
-                        <item.icon className="w-5 h-5" />
-                        {item.name}
-                      </button>
-                    </Link>
-                  );
-                })}
-              </div>
-            )}
-
-            {/* Config */}
-            {showConfig && configButtons.length > 0 && (
-              <div className="w-full">
-                {configButtons.map((item) => {
-                  const isActive = location.pathname === item.link;
-                  return (
-                    <Link key={item.name} to={item.link} className="flex justify-center w-full">
-                      <button
-                        type="button"
-                        className={`flex items-center text-start gap-2 pl-2 py-1 w-[90%] text-base font-medium rounded transition-all duration-300 ${
-                          item.disabled
-                            ? "text-gray-400 cursor-not-allowed"
-                            : "text-primaryBlue hover:bg-greenHover hover:text-white cursor-pointer"
-                        } ${isActive ? "bg-primaryGreen text-white" : ""}`}
-                        disabled={item.disabled}
-                      >
-                        <item.icon className="w-5 h-5" />
-                        {item.name}
-                      </button>
-                    </Link>
-                  );
-                })}
-              </div>
-            )}
-
-            {/* Logout */}
-            <div className="flex justify-center w-full">
-              <button
-                type="button"
-                className={`flex items-center text-start gap-2 pl-2 py-1 w-[90%] text-base font-medium rounded transition-all duration-300 ${
-                  isDisabled
-                    ? "text-gray-400 cursor-not-allowed"
-                    : "text-primaryBlue hover:bg-greenHover hover:text-white cursor-pointer"
-                }`}
-                disabled={isDisabled}
-                onClick={isDisabled ? undefined : handleLogout}
-              >
-                <IoLogOut className="w-5 h-5" />
-                Cerrar Sesión
-              </button>
-            </div>
-          </div>
-        </SubMenuSidebar>
-      )}
     </>
   );
 }
