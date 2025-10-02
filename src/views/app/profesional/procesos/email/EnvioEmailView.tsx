@@ -1,9 +1,9 @@
 import { useState } from "react";
-import ContainView from "../../../_components/features/ContainView";
 import { TablaDefault } from "@/frontend-resourses/components";
 import Swal from "sweetalert2";
 import SearchByDateCard from "../../../_components/features/SearchByDateCard";
 import ClipLoader from "react-spinners/ClipLoader";
+import TitleView from "@/views/app/_components/features/TitleView";
 // import { useMutation } from "@tanstack/react-query";
 // import { obtenerTurnosDoctoresDia } from "./service";
 // import { useState } from "react";
@@ -116,19 +116,20 @@ export default function EnvioEmailView({
       setLoading(false);
     }
   }
-
+  //region return
   return (
-    <ContainView title={`Turnos ${destinatario}`}>
-      <div className="bg-white rounded-lg shadow px-6 py-3 border border-gray-200 w-full flex flex-col md:flex-row items-start justify-between">
+    <>
+      <TitleView title={`Turnos ${destinatario}`} />
+      <div className="flex flex-col items-start justify-between w-full px-6 py-3 bg-white border border-gray-200 rounded-lg shadow md:flex-row">
         <div>
-          <h2 className="text-2xl font-bold text-primaryBlue mb-2">Recordatorio de turnos</h2>
-          <p className="text-gray-700 mb-0 max-w-2xl">
+          <h2 className="mb-2 text-2xl font-bold text-primaryBlue">Recordatorio de turnos</h2>
+          <p className="max-w-2xl mb-0 text-gray-700">
             Este proceso automatiza el envío masivo de emails a {destinatario}, informando los
             turnos programados para mañana.
           </p>
         </div>
 
-        <div className="mt-4 md:mt-0 md:ml-8 flex-shrink-0 self-end md:self-center">
+        <div className="self-end flex-shrink-0 mt-4 md:mt-0 md:ml-8 md:self-center">
           <button
             className={
               `px-6 py-2 rounded font-semibold shadow transition-all duration-200 text-lg flex items-center gap-2 ` +
@@ -146,7 +147,7 @@ export default function EnvioEmailView({
         </div>
       </div>
 
-      <div className="flex w-full my-2 items-end">
+      <div className="flex items-end w-full my-2">
         <SearchByDateCard
           presenteManana={true}
           diaSeleccionado={diaSeleccionado}
@@ -157,7 +158,7 @@ export default function EnvioEmailView({
           className="flex items-center h-10 gap-2 px-4 rounded-lg bg-blue-50 border border-blue-300 shadow-sm text-blue-900 font-semibold text-sm mb-2.5"
           // title="Fecha y hora del último envío de emails"
         >
-          <span className="inline-block w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+          <span className="inline-block w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
           <span>
             Último proceso:
             <span className="ml-2 font-mono text-blue-800">
@@ -170,6 +171,6 @@ export default function EnvioEmailView({
       <div className="flex justify-start w-full px-5 overflow-y-auto lg:overflow-visible ">
         <TablaDefault props={propsTabla} />
       </div>
-    </ContainView>
+    </>
   );
 }

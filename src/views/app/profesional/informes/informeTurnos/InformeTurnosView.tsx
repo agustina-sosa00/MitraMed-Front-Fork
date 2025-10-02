@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import ContainView from "@/views/app/_components/features/ContainView";
 import { useInformeTurnosStore } from "./store/informeTurnosStore";
 import TableCard from "./_components/TableCard";
 import GraficosCard from "./_components/GraficosCard";
 import HeaderCard from "./_components/HeaderCard";
+import TitleView from "@/views/app/_components/features/TitleView";
 
 export default function InformeTurnosView() {
   const { informeTurnosData, setHasSearched } = useInformeTurnosStore();
@@ -17,7 +17,8 @@ export default function InformeTurnosView() {
   }, []);
 
   return (
-    <ContainView title="informe de turnos" padding="mt-2 px-4">
+    <>
+      <TitleView title="informe de turnos" />
       {/* Buscador */}
       <HeaderCard loader={loader} setLoader={setLoader} />
 
@@ -26,6 +27,6 @@ export default function InformeTurnosView() {
 
       {/* Graficos */}
       <GraficosCard />
-    </ContainView>
+    </>
   );
 }

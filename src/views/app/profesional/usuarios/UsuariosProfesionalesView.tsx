@@ -4,9 +4,9 @@ import { useOutletContext } from "react-router-dom";
 import { useUsuariosProfesionalStore } from "./store/usuariosProfesionalesStore";
 import { obtenerDoctores, obtenerUsuariosProf } from "./service/usuariosProfService";
 import { OutletContext } from "@/context/types";
-import ContainView from "../../_components/features/ContainView";
 import TableCard from "./_components/TableCard";
 import HeaderCard from "./_components/HeaderCard";
+import TitleView from "../../_components/features/TitleView";
 
 export default function UsuariosProfesionalesView() {
   const { setDisabledButtonSidebar } = useOutletContext<OutletContext>();
@@ -90,13 +90,14 @@ export default function UsuariosProfesionalesView() {
       });
     };
   }, [consulta, edicion, alta, setDisabledButtonSidebar]);
-
+  //region return
   return (
-    <ContainView title="Usuarios">
-      <div className="flex flex-col w-fit justify-center px-6 py-4 gap-2 border-2 rounded bg-slate-100 shadow-lg">
+    <>
+      <TitleView title="Usuarios" />
+      <div className="flex flex-col justify-center gap-2 px-6 py-4 border-2 rounded shadow-lg w-fit bg-slate-100">
         <HeaderCard />
         <TableCard />
       </div>
-    </ContainView>
+    </>
   );
 }

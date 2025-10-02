@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { IDataTable, tableSchedules } from "./mock/arrayTableProfessional";
 import { TablaDefault } from "../../../../../frontend-resourses/components";
-import ContainView from "../../../_components/features/ContainView";
 import { obtenerTurnosDiarios } from "./services/turnosProfesionalService";
 // import FiltrosTablaMisTurnos from "../turnosProfesionales/components/SearchCard";
 import SearchByDateCard from "../../../_components/features/SearchByDateCard";
+import TitleView from "@/views/app/_components/features/TitleView";
 // import { generarFilasVacias } from "@/utils/tableUtils";
 
 interface TurnoTablaRow {
@@ -171,9 +171,10 @@ export default function TurnosProfesionalView() {
     const day = String(today.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   }
-
+  //region return
   return (
-    <ContainView title="mis turnos" padding="py-5 px-10">
+    <>
+      <TitleView title="mis turnos" />
       <div className="flex w-full ">
         <SearchByDateCard diaSeleccionado={daySchedule} setDiaSeleccionado={_setDaySchedule} />
       </div>
@@ -181,6 +182,6 @@ export default function TurnosProfesionalView() {
       <div className="flex justify-center w-full px-5 overflow-y-auto lg:overflow-visible ">
         <TablaDefault props={propsTabla} />
       </div>
-    </ContainView>
+    </>
   );
 }

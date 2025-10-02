@@ -7,6 +7,7 @@ import { IoSettingsSharp } from "react-icons/io5";
 import Navbar from "@/views/app/_components/features/Navbar";
 import SideBar from "./SideBar";
 import TextAlert from "@/views/_components/TextAlert";
+import ContainView from "../../_components/features/ContainView";
 
 export default function ProfessionalLayout() {
   // const isDevelopment = import.meta.env.VITE_ENV === "development";
@@ -192,7 +193,7 @@ export default function ProfessionalLayout() {
       <TextAlert />
 
       {/* CONTENT */}
-      <div className="flex w-full h-screen bg-white relative">
+      <div className="relative flex w-full h-screen bg-white">
         <SideBar
           logo="https://i.imgur.com/HBsiL82.png"
           buttons={buttonsSidebar}
@@ -203,13 +204,15 @@ export default function ProfessionalLayout() {
           <Navbar logo="https://i.imgur.com/HBsiL82.png" buttons={buttonsSidebar} />
 
           <div className="flex-1 overflow-y-auto">
-            <Outlet
-              context={{
-                setDisabledButtonSidebar,
-                disabledButtonSidebar,
-                buttonsSidebar,
-              }}
-            />
+            <ContainView>
+              <Outlet
+                context={{
+                  setDisabledButtonSidebar,
+                  disabledButtonSidebar,
+                  buttonsSidebar,
+                }}
+              />
+            </ContainView>
           </div>
         </div>
       </div>

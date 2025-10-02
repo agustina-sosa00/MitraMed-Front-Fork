@@ -2,13 +2,13 @@ import { IDataTable, IFormState } from "../turnosProfesional/mock/arrayTableProf
 import { useState } from "react";
 import { Modal } from "@/views/app/_components/ui/modals/Modal";
 import { TableNode } from "@/frontend-resourses/components/types";
-import ContainView from "@/views/app/_components/features/ContainView";
 // import Swal from "sweetalert2";
 import TablasCard from "./components/TablasCard";
 import AltaTurnoModal from "./components/AltaTurnoModal";
 // import ActionsButtonsCard from "./components/ActionsButtonsCard";
 import SearchByDateCard from "../../../_components/features/SearchByDateCard";
 import { useTurnosGeneralesStore } from "./store/turnosGeneralesStore";
+import TitleView from "@/views/app/_components/features/TitleView";
 
 export default function TurnosGeneralesView() {
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -92,7 +92,8 @@ export default function TurnosGeneralesView() {
 
   //region return
   return (
-    <ContainView title="turnos">
+    <>
+      <TitleView title="turnos" />
       {/* Filtros y Botones */}
       <div className="flex items-end justify-between w-full">
         <SearchByDateCard
@@ -119,6 +120,6 @@ export default function TurnosGeneralesView() {
           />
         </Modal>
       )}
-    </ContainView>
+    </>
   );
 }

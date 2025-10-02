@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import ContainView from "@/views/app/_components/features/ContainView";
 import { useOdontogramContext } from "../../../../context/OdontogramContext";
 import { RawRow, ToothChangeTuple } from "./types/odontogramaTypes";
 import { getOdontogram, grabarOdontogramaService } from "./service/odontogramaService";
@@ -18,6 +17,7 @@ import SearchPatientCard from "@/views/app/profesional/_components/features/Sear
 import Diente from "./components/Diente";
 import ModalSeleccionDeCara from "./components/ModalSeleccionDeCara";
 import Swal from "sweetalert2";
+import TitleView from "../../_components/features/TitleView";
 
 export default function OdontogramView() {
   const { setDisabledButtonSidebar } = useOutletContext<OutletContext>();
@@ -232,17 +232,14 @@ export default function OdontogramView() {
     setTeethIdsState({});
     setOriginalData({});
   }
-
+  //region return
   return (
-    <ContainView
-      title="Odontograma"
-      padding="py-3 2xl:py-20 px-10"
-      gapChildren="gap-1"
-      sizeTitle="text-3xl 2xl:text-4xl"
-      classContainer="relative"
-      onClick={() => setContextMenu(null)}
-    >
-      <div className="flex items-end justify-between w-full gap-1 min-h-20">
+    <>
+      <TitleView title="Odontograma" />
+      <div
+        className="flex items-center justify-start w-full gap-1 py-1 min-h-24"
+        onClick={() => setContextMenu(null)}
+      >
         <SearchPatientCard
           padre={padre}
           data={hasConfirmed ? odontogramaData?.data?.paciente : null}
@@ -404,6 +401,6 @@ export default function OdontogramView() {
           }
         />
       )}
-    </ContainView>
+    </>
   );
 }

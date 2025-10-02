@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { TablaDefault } from "@/frontend-resourses/components";
-import { Modal } from "@/views/_components/Modal";
-import ContainView from "@/views/app/_components/features/ContainView";
 import { Document, Page, pdfjs } from "react-pdf";
 import { FiDownload } from "react-icons/fi";
 // import { IoTrashOutline } from "react-icons/io5";
@@ -21,6 +19,8 @@ import Swal from "sweetalert2";
 import workerSrc from "pdfjs-dist/build/pdf.worker?url";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
+import TitleView from "../../_components/features/TitleView";
+import { Modal } from "@/views/_components/Modal";
 pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
 
 type HcRow = {
@@ -277,12 +277,8 @@ export default function HistorialClinicoView() {
   }
 
   return (
-    <ContainView
-      title="Historia Clínica"
-      padding="py-3 2xl:py-3 px-10"
-      gapChildren="gap-1"
-      sizeTitle="text-3xl 2xl:text-4xl"
-    >
+    <>
+      <TitleView title="Historia Clínica" />
       {/* Buscador */}
       <div className="flex items-center justify-start w-full gap-1 py-1 min-h-24 ">
         <SearchPatientCard
@@ -315,7 +311,7 @@ export default function HistorialClinicoView() {
             <div className="w-full ">
               <label className="text-sm font-medium text-primaryBlue">Motivo de Consulta:</label>
             </div>
-            <div className="w-full h-8 px-2 py-1 font-bold border border-gray-300 rounded bg-lightGray text-primaryBlue cursor-default">
+            <div className="w-full h-8 px-2 py-1 font-bold border border-gray-300 rounded cursor-default bg-lightGray text-primaryBlue">
               {hcSelected && hcSelected.detalle}
             </div>
           </div>
@@ -363,9 +359,9 @@ export default function HistorialClinicoView() {
             </div>
 
             {loadingBlob ? (
-              <div className="flex-1 flex items-center justify-center">
+              <div className="flex items-center justify-center flex-1">
                 <ClipLoader color="#2563eb" size={48} speedMultiplier={0.8} />
-                <span className="ml-4 text-primaryBlue text-lg">Cargando archivo...</span>
+                <span className="ml-4 text-lg text-primaryBlue">Cargando archivo...</span>
               </div>
             ) : !previewBlob ? (
               <div className="grid flex-1 place-items-center text-primaryBlue/60">
@@ -444,7 +440,7 @@ export default function HistorialClinicoView() {
                 </div>
 
                 {/* Botones */}
-                <div className="flex flex-col items-center justify-start py-2 gap-2">
+                <div className="flex flex-col items-center justify-start gap-2 py-2">
                   <a
                     href="#"
                     onClick={handleDownload}
@@ -475,7 +471,7 @@ export default function HistorialClinicoView() {
                   </a>
                   {/* <button
                     onClick={handleDeleteFile}
-                    className="flex items-center justify-center gap-2 px-4 font-medium text-white rounded h-9 bg-red-500 hover:bg-red-600"
+                    className="flex items-center justify-center gap-2 px-4 font-medium text-white bg-red-500 rounded h-9 hover:bg-red-600"
                     title="Eliminar archivo"
                   >
                     <IoTrashOutline />
@@ -499,6 +495,6 @@ export default function HistorialClinicoView() {
           />
         </Modal>
       )}
-    </ContainView>
+    </>
   );
 }

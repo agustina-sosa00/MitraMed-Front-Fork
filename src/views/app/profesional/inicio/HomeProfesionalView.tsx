@@ -1,8 +1,8 @@
 // import Cookies from "js-cookie";
-import ContainView from "@/views/app/_components/features/ContainView";
 import { useOutletContext } from "react-router-dom";
 import { ContextType } from "@/views/app/profesional/types/index";
 import CardInicioProfesionales from "./components/CardInicioProfesionales";
+import TitleView from "../../_components/features/TitleView";
 
 export default function HomeProfesionalView() {
   const { buttonsSidebar } = useOutletContext<ContextType>();
@@ -10,13 +10,8 @@ export default function HomeProfesionalView() {
   // const dataProfesional = data ? JSON.parse(data) : null;
 
   return (
-    <ContainView
-      gapChildren="gap-2"
-      sizeTitle="text-3xl 2xl:text-4xl"
-      padding="py-5 px-10"
-      title="Inicio"
-      // title={`${dataProfesional.ndoctor && dataProfesional.adoctor ? `¡Bienvenido/a ${dataProfesional.ndoctor} ${dataProfesional.adoctor}!` : `¡Bienvenido/a ${dataProfesional.nombre}!`}`}
-    >
+    <>
+      <TitleView title="Inicio" />
       <div className="flex flex-col justify-center w-full ">
         <div className="grid w-full gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {buttonsSidebar
@@ -31,6 +26,6 @@ export default function HomeProfesionalView() {
             ))}
         </div>
       </div>
-    </ContainView>
+    </>
   );
 }
