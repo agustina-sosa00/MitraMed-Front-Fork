@@ -24,6 +24,8 @@ export async function obtenerTurnosDiarios({ fini, ffin, iddoctor }) {
 
     const response = await apiPhp(url);
 
+    // console.log(response);
+
     return response.data;
   } catch (error) {
     throw new Error(`${error}`);

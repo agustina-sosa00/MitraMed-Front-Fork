@@ -3,7 +3,7 @@ export const renombrarArchivo = ({
   archivoOriginal,
   dni,
 }: {
-  iddoctor: string | number;
+  iddoctor: string | null;
   archivoOriginal: File | null;
   dni: string;
 }) => {

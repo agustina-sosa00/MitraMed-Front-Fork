@@ -18,7 +18,7 @@ interface ISubItem {
   description: string;
 }
 
-interface IProp {
+interface SideBarProps {
   logo: string;
   isDisabled?: boolean;
   buttons: {
@@ -38,7 +38,7 @@ interface DataProfessional {
   ndoctor?: string;
 }
 
-export default function SideBar({ logo, buttons, isDisabled = false }: IProp) {
+export default function SideBar({ logo, buttons, isDisabled = false }: SideBarProps) {
   const location = useLocation();
   const navigate = useNavigate();
   const [openDropdowns, setOpenDropdowns] = useState<string[]>([]);

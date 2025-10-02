@@ -33,7 +33,7 @@ export default function TableCard() {
       key: "fecha",
       label: "Fecha",
       minWidth: "75",
-      maxWidth: "75",
+      maxWidth: "95",
       resaltar: true,
       renderCell: (item: any) => (
         <span className="!text-[11px]">
@@ -54,7 +54,7 @@ export default function TableCard() {
       key: "dni",
       label: "DNI",
       minWidth: "55",
-      maxWidth: "70",
+      maxWidth: "80",
       renderCell: (item: any) => <span className="!text-[11px]">{item.dni}</span>,
     },
     // EDAD
@@ -72,7 +72,7 @@ export default function TableCard() {
       key: "paciente",
       label: "Paciente",
       minWidth: "200",
-      maxWidth: "260",
+      maxWidth: "280",
       renderCell: (item: any) => (
         <span className="!text-[11px] !uppercase">
           {item.apellido ? item.apellido : ""}
@@ -86,7 +86,7 @@ export default function TableCard() {
       key: "nespecialidad",
       label: "Especialidad",
       minWidth: "150",
-      maxWidth: "150",
+      maxWidth: "270",
       renderCell: (item: any) => <span className="!text-[11px]">{item.nespecialidad}</span>,
     },
     // PROFESIONAL
@@ -94,7 +94,7 @@ export default function TableCard() {
       key: "ndoctor",
       label: "Profesional",
       minWidth: "180",
-      maxWidth: "180",
+      maxWidth: "270",
       renderCell: (item: any) => <span className="!text-[11px]">{item.ndoctor}</span>,
     },
     // OBRA SOCIAL
@@ -102,7 +102,7 @@ export default function TableCard() {
       key: "nosocial",
       label: "Obra Social",
       minWidth: "120",
-      maxWidth: "120",
+      maxWidth: "200",
       renderCell: (item: any) => <span className="!text-[11px]">{item.nosocial}</span>,
     },
     // $ IMPORTE
@@ -110,12 +110,12 @@ export default function TableCard() {
       key: "importe",
       label: "$ Importe",
       minWidth: "100",
-      maxWidth: "100",
+      maxWidth: "180",
       resaltar: true,
       renderCell: (item: any) => (
         <PriceInput
           value={item.importe}
-          addInputClassName={`w-20 h-4 text-xs font-bold bg-transparent border-0`}
+          addInputClassName={`w-full h-4 text-xs text-left font-bold bg-transparent border-0`}
           disabled
           withPrefix={false}
         />
@@ -126,7 +126,7 @@ export default function TableCard() {
       key: "",
       label: "",
       minWidth: "50",
-      maxWidth: "50",
+      maxWidth: "70",
       renderCell: (item: any) => {
         if (item.idusuario) {
           return <span className="!text-[11px]">Web</span>;
@@ -184,6 +184,9 @@ export default function TableCard() {
       addHeaderColor: "#022539",
       withScrollbar: true,
       columnasNumber: [3, 9],
+      viewport1440: {
+        heightContainer1440px: "660px",
+      },
     },
     sinDatos: hasSearched,
     selectFn: hasSearched,

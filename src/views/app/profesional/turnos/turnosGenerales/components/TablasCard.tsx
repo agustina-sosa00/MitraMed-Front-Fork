@@ -59,20 +59,20 @@ export default function TablasCard() {
     {
       key: "id",
       label: "ID",
-      minWidth: "20",
-      maxWidth: "20",
+      minWidth: "37",
+      maxWidth: "37",
     },
     {
       key: "ndoctor",
       label: "Profesional",
       minWidth: "180",
-      maxWidth: "180",
+      maxWidth: "300",
     },
     {
       key: "nespecialidad",
       label: "Especialidad",
       minWidth: "170",
-      maxWidth: "170",
+      maxWidth: "300",
     },
   ];
 
@@ -94,19 +94,19 @@ export default function TablasCard() {
       key: "nestado",
       label: "Estado",
       minWidth: "120",
-      maxWidth: "120",
+      maxWidth: "200",
     },
     {
-      key: "paciente",
+      key: "npaciente",
       label: "Paciente",
-      minWidth: "260",
-      maxWidth: "260",
+      minWidth: "250",
+      maxWidth: "400",
     },
     {
       key: "obs",
       label: "Obs",
       minWidth: "190",
-      maxWidth: "190",
+      maxWidth: "400",
     },
   ];
 
@@ -136,7 +136,7 @@ export default function TablasCard() {
     },
     objectColumns: columnasTabla1,
     objectStyles: {
-      heightContainer: "300px",
+      heightContainer: "450px",
       withScrollbar: true,
       addHeaderColor: "#022539",
       columnasNumber: [1],
@@ -151,7 +151,7 @@ export default function TablasCard() {
     objectColumns: columnasTabla2,
     selectFn: true,
     objectStyles: {
-      heightContainer: "300px",
+      heightContainer: "450px",
       withScrollbar: true,
       addHeaderColor: "#022539",
       columnasNumber: [1, 2, 3],

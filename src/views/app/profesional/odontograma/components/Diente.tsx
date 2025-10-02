@@ -2,7 +2,6 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { FaRegCircle } from "react-icons/fa";
 import { GrClose } from "react-icons/gr";
 import { IoMdArrowDropup } from "react-icons/io";
-
 import { MenuDiente } from "./MenuDiente";
 import { ToothChangeTuple, ToothItemIds } from "../types/odontogramaTypes";
 import {
@@ -17,7 +16,7 @@ import {
 interface DienteV2Props {
   toothNumber: number;
   isActive: boolean;
-  setState: (num: number | null) => void;
+  setContextMenu: (num: number | null) => void;
   handle: () => void;
   toothSelectState: number;
   setToothSelectState: (arg: number) => void;
@@ -31,7 +30,7 @@ interface DienteV2Props {
 export default function Diente({
   toothNumber,
   isActive,
-  setState,
+  setContextMenu,
   handle,
   setToothSelectState,
   dataIds,
@@ -61,7 +60,7 @@ export default function Diente({
   //region functions
   function handleContextMenu(e: React.MouseEvent) {
     e.preventDefault();
-    setState(toothNumber);
+    setContextMenu(toothNumber);
     setToothSelectState(toothNumber);
     setPositionMenu({ x: e.clientX, y: e.clientY });
   }
@@ -86,6 +85,9 @@ export default function Diente({
   return (
     <div onContextMenu={handleContextMenu}>
       <div className="!relative ">
+        {
+          //region iconos de tratamientos
+        }
         {dataIds.length > 0 && (
           <div className="absolute w-8 h-8 lg:h-14 lg:w-14 xl:w-16 xl:h-16">
             {dataIds.map(([idcara, idtrat, hab], idx) => {
@@ -201,7 +203,7 @@ export default function Diente({
             updateToothIds={updateToothIds}
             handle={handle}
             clearTooth={clearTooth}
-            onClose={() => setState(null)}
+            onClose={() => setContextMenu(null)}
             stateTeethChanged={stateTeethChanged}
             toothNumber={toothNumber}
             dataIds={dataIds}

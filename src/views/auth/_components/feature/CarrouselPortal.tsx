@@ -1,10 +1,10 @@
 import { useState } from "react";
+import { arrayInfoCarousel } from "@/views/auth/mock/arrayInfoCarousel";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { arrayInfoCarousel } from "@/views/auth/mock/arrayInfoCarousel";
 
-interface IProp {
+interface CarrouselPortalProps {
   state: boolean;
   setState: React.Dispatch<React.SetStateAction<boolean>>;
   currentRol?: "paciente" | "profesional";
@@ -12,22 +12,10 @@ interface IProp {
   handleCloseDrawer: () => void;
   setLoader: React.Dispatch<React.SetStateAction<boolean>>;
 }
-export default function CarrouselPortal({
-  handleOpenDrawer,
 
-  setLoader,
-}: IProp) {
+export default function CarrouselPortal({ handleOpenDrawer, setLoader }: CarrouselPortalProps) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
-
-  const handleImageLoad = (index: number) => {
-    if (index === 0) {
-      setImageLoaded(true);
-      setTimeout(() => {
-        setLoader(false);
-      }, 300);
-    }
-  };
 
   const sliderSettings = {
     dots: true,
@@ -38,9 +26,18 @@ export default function CarrouselPortal({
     autoplay: true,
     autoplaySpeed: 5000,
     afterChange: (current: number) => {
-      setCurrentSlide(current); // Actualiza el índice del slide cuando cambia
+      setCurrentSlide(current);
     },
   };
+
+  function handleImageLoad(index: number) {
+    if (index === 0) {
+      setImageLoaded(true);
+      setTimeout(() => {
+        setLoader(false);
+      }, 300);
+    }
+  }
 
   return (
     <div className="relative h-full lg:h-[90vh] w-full overflow-hidden">

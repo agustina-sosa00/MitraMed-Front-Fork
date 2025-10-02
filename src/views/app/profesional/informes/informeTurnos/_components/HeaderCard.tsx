@@ -633,7 +633,7 @@ export default function HeaderCard({ loader, setLoader }: DateRangePickerProps) 
         </div>
 
         {/* Filtro */}
-        <div className="flex max-w-md gap-2 px-4 py-2 mt-2 bg-white border rounded">
+        <div className="flex max-w-lg gap-2 px-4 py-2 mt-2 bg-white border rounded">
           {/* Botones de Filtro */}
           {filtroButtons.map((filtro) => (
             <ActionButton

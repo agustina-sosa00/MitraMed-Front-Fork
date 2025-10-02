@@ -2,7 +2,7 @@ import { anularTurnoUsuario } from "@/views/app/paciente/turnosPaciente/services
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { CardMisTurnosPaciente } from "@/views/auth/_components/ui/CardMisTurnosPaciente";
+import { MisTurnosPacienteCard } from "@/views/app/paciente/_components/MisTurnosPacienteCard";
 import { TurnosUsuario } from "@/views/auth/types";
 
 interface TurnosPendientesProps {
@@ -75,7 +75,7 @@ export default function TurnosPendientes({ turnosPendientes }: TurnosPendientesP
     <div className="flex flex-wrap items-center justify-center w-full gap-3 px-3 overflow-y-auto max-h-96 ">
       {turnosPendientes.map((turno) => (
         <>
-          <CardMisTurnosPaciente
+          <MisTurnosPacienteCard
             key={turno.idturno}
             especialidad={turno.nespecialidad}
             doctor={turno.ndoctor}

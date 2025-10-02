@@ -1,6 +1,6 @@
 // PreviewModal.tsx
 import { useState } from "react";
-import { Modal } from "@/views/auth/_components/ui/Modal";
+import { Modal } from "@/views/_components/Modal";
 import { Button } from "@/views/_components/Button";
 import { IoMdClose, IoMdArrowRoundBack } from "react-icons/io";
 import { Document, Page, pdfjs } from "react-pdf";

@@ -14,22 +14,23 @@ import InputProfesionales from "@/views/app/_components/features/InputProfesiona
 import SelectorDeArchivos from "@/views/app/_components/features/SelectorDeArchivos";
 import { renombrarArchivo } from "../utils/renombrarArchivo";
 import { getTodayDate } from "@/views/auth/utils/authUtils";
+import { getLocalStorageParams } from "@/utils/index";
 
 interface FormHistoriaProps {
   hc: string;
-  infoProfessional: {
-    adoctor: string;
-    ndoctor: string;
-    iddoctor: string;
-  };
-  handle?: () => void;
+  // infoProfessional: {
+  //   adoctor: string;
+  //   ndoctor: string;
+  //   iddoctor: string;
+  // };
+  // handle?: () => void;
   focusState?: boolean;
   setStateModal: (arg: boolean) => void;
   hcSelected?: any;
 }
 
 export default function FormHistoria({
-  infoProfessional,
+  // infoProfessional,
   // handle,
   focusState,
   setStateModal,
@@ -37,6 +38,8 @@ export default function FormHistoria({
 }: FormHistoriaProps) {
   const { dniHistory, idpaciente, setRefetchHC, setHasNewRegistroChanges, editMode, setEditMode } =
     useMedicalHistoryContext();
+
+  const { iddoctor } = getLocalStorageParams();
 
   const [loader, setLoader] = useState<boolean>(false);
   const [dataForm, setDataForm] = useState({
@@ -150,7 +153,7 @@ export default function FormHistoria({
       if (fileForm) {
         newFile = renombrarArchivo({
           archivoOriginal: fileForm,
-          iddoctor: infoProfessional.iddoctor,
+          iddoctor: iddoctor,
           dni: dniHistory,
         });
 
@@ -162,7 +165,7 @@ export default function FormHistoria({
 
       await grabarHistoriaService.mutateAsync({
         idpaciente: Number(idpaciente),
-        iddoctor: infoProfessional.iddoctor,
+        iddoctor: iddoctor,
         fecha: getTodayDate(),
         detalle: dataForm.detalle,
         obs: dataForm.obs,

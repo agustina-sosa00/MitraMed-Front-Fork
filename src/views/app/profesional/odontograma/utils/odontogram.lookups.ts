@@ -1,6 +1,6 @@
 import { TeethIdsState } from "@/views/app/profesional/odontograma/types/odontogramaTypes";
 
-export type BoxName =
+type BoxName =
   | "arriba-izquierda"
   | "arriba-derecha"
   | "abajo-izquierda"

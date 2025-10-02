@@ -7,8 +7,6 @@ export const obtenerUsuProfesional = async (data) => {
 
     const url = `/${entorno}/mitramed/obtenerUsuProfesional.php?_i={"_e":"${empresa}","_m":"${modo}","_u":"${data.usuario}","_p":"${data.password}"}`;
 
-    // console.log(url);
-
     const response = await apiPhp(url);
 
     return response;

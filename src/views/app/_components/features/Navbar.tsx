@@ -1,18 +1,19 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { IconType } from "react-icons/lib";
 import { FiMenu } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
-import Cookies from "js-cookie";
 import { Link, useNavigate } from "react-router-dom";
 import { useInformeTurnosStore } from "../../profesional/informes/informeTurnos/store/informeTurnosStore";
 import { useOdontogramContext } from "../../../../context/OdontogramContext";
 import { useMedicalHistoryContext } from "../../../../context/MedicalHistoryContext";
+import Cookies from "js-cookie";
 
-interface IProp {
+interface NavBarProps {
   logo: string;
   buttons: { name: string; icon: IconType; link: string }[];
 }
-export const Navbar: React.FC<IProp> = ({ logo, buttons }) => {
+
+export default function Navbar({ logo, buttons }: NavBarProps) {
   const {
     setDniOdontogram,
     setOriginalData,
@@ -21,6 +22,7 @@ export const Navbar: React.FC<IProp> = ({ logo, buttons }) => {
     setUiLoading,
     setDniInput,
   } = useOdontogramContext();
+
   const { setDniHistory, setDniInput: setDniHistoryInput } = useMedicalHistoryContext();
   const { clearInformeTurnosData } = useInformeTurnosStore();
 
@@ -28,6 +30,7 @@ export const Navbar: React.FC<IProp> = ({ logo, buttons }) => {
   const handleOpenMenu = () => {
     setOpenMenu((prev) => !prev);
   };
+
   const navigate = useNavigate();
 
   function handleLogout() {
@@ -104,4 +107,4 @@ export const Navbar: React.FC<IProp> = ({ logo, buttons }) => {
       )}
     </div>
   );
-};
+}

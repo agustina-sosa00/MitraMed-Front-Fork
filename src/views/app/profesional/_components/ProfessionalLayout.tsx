@@ -1,19 +1,15 @@
 import { Outlet } from "react-router-dom";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { FaHouse } from "react-icons/fa6";
 import { FaTooth, FaArchive, FaUserCog, FaCogs, FaUserMd, FaNotesMedical } from "react-icons/fa";
 import { HiDocumentReport } from "react-icons/hi";
 import { IoSettingsSharp } from "react-icons/io5";
-import { Navbar } from "@/views/app/_components/features/Navbar";
+import Navbar from "@/views/app/_components/features/Navbar";
 import SideBar from "./SideBar";
 import TextAlert from "@/views/_components/TextAlert";
 import ContainView from "../../_components/features/ContainView";
 
-interface IProp {
-  setLoader: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-export default function ProfessionalLayout({ setLoader }: IProp) {
+export default function ProfessionalLayout() {
   // const isDevelopment = import.meta.env.VITE_ENV === "development";
   const tusuario = localStorage.getItem("_tu");
 
@@ -141,11 +137,6 @@ export default function ProfessionalLayout({ setLoader }: IProp) {
   const isSidebarDisabled = useMemo(() => {
     return Object.values(disabledButtonSidebar).some((disabled) => disabled);
   }, [disabledButtonSidebar]);
-
-  useEffect(() => {
-    const to = setTimeout(() => setLoader(false), 300);
-    return () => clearTimeout(to);
-  }, [setLoader]);
 
   function safe<T>(arr: (T | undefined)[]): T[] {
     return arr.filter(Boolean) as T[];
