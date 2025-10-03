@@ -27,7 +27,7 @@ export const Button: React.FC<IProp> = ({
 }) => {
   const base = `${height ? `h-${height}` : "h-10"} flex items-center ${
     padding ? `px-${padding}` : "px-5"
-  } rounded capitalize font-medium gap-1 transition-all duration-300`;
+  } rounded  font-medium gap-1 transition-all duration-300`;
 
   const enabled = `${
     custom

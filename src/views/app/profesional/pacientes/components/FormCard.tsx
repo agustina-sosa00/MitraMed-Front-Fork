@@ -1,8 +1,10 @@
 import { FlexibleInputField } from "@/frontend-resourses/components";
+import { usePacientesStore } from "../store/pacientesStore";
 
 export default function FormCard({ inputs }) {
   const left = inputs.filter((i) => i.box === "left");
   const right = inputs.filter((i) => i.box === "right");
+  const estado = usePacientesStore((state) => state.estado);
 
   return (
     <div className="flex flex-col w-full">
@@ -12,13 +14,13 @@ export default function FormCard({ inputs }) {
       <div className="flex w-full gap-4 pt-2">
         <div className="w-1/2 flex flex-col items-start gap-2">
           {left.map((item, idx) => (
-            <FlexibleInputField key={item.label ?? idx} {...item} />
+            <FlexibleInputField key={item.label ?? idx} {...item} disabled={estado !== "m"} />
           ))}
         </div>
 
         <div className="w-1/2 flex flex-col items-start gap-2">
           {right.map((item, idx) => (
-            <FlexibleInputField key={item.label ?? idx} {...item} />
+            <FlexibleInputField key={item.label ?? idx} {...item} disabled={estado !== "m"} />
           ))}
         </div>
       </div>

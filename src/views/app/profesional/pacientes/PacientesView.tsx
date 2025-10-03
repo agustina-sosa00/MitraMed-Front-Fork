@@ -14,6 +14,7 @@ export default function PacientesView() {
     {
       label: "Cond. Trib",
       inputWidth: "w-60",
+
       type: "select",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       box: "left",

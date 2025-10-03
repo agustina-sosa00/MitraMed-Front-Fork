@@ -77,7 +77,7 @@ export default function Router({ loader, setLoader }: RouterProps) {
             />
             <Route path="/dashboard/usuarios" element={<UsuariosProfesionalesView />} />
             <Route path="/dashboard/configuracion" element={<ConfiguracionView />} />
-            <Route path="/dashboard/clientes" element={<PacientesView />} />
+            <Route path="/dashboard/pacientes" element={<PacientesView />} />
           </Route>
         </Route>
       </Routes>
