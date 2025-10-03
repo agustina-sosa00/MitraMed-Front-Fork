@@ -15,7 +15,6 @@ import { IoSettingsSharp } from "react-icons/io5";
 import Navbar from "@/views/app/_components/features/Navbar";
 import SideBar from "./SideBar";
 import TextAlert from "@/views/_components/TextAlert";
-import ContainView from "../../_components/features/ContainView";
 
 export default function ProfessionalLayout() {
   // const isDevelopment = import.meta.env.VITE_ENV === "development";
@@ -223,15 +222,19 @@ export default function ProfessionalLayout() {
           <Navbar logo="https://i.imgur.com/HBsiL82.png" buttons={buttonsSidebar} />
 
           <div className="flex-1 overflow-y-auto">
-            <ContainView>
-              <Outlet
-                context={{
-                  setDisabledButtonSidebar,
-                  disabledButtonSidebar,
-                  buttonsSidebar,
-                }}
-              />
-            </ContainView>
+            <div
+              className={`flex flex-col items-center bg-[#f5f5f5] w-full min-h-screen gap-5 px-5 py-4 overflow-y-auto `}
+            >
+              <div className={`flex flex-col items-center justify-start w-full lg:w-full  `}>
+                <Outlet
+                  context={{
+                    setDisabledButtonSidebar,
+                    disabledButtonSidebar,
+                    buttonsSidebar,
+                  }}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
