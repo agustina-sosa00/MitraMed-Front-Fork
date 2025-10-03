@@ -2,11 +2,15 @@ import { FlexibleInputField } from "@/frontend-resourses/components";
 import TitleView from "../../_components/features/TitleView";
 import FormCard from "./components/FormCard";
 import HeaderCard from "./components/HeaderCard";
+import { usePacientesStore } from "./store/pacientesStore";
 
 export default function PacientesView() {
+  const dataPaciente = usePacientesStore((state) => state.dataPaciente);
+
   const inputs = [
     {
       label: "DNI",
+      key: "dni",
       inputWidth: "w-40",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       box: "left",
@@ -14,7 +18,7 @@ export default function PacientesView() {
     {
       label: "Cond. Trib",
       inputWidth: "w-60",
-
+      key: "ctrib",
       type: "select",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       box: "left",
@@ -27,15 +31,24 @@ export default function PacientesView() {
     {
       label: "C.U.I.T",
       inputWidth: "w-40",
+      key: "cuil",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       box: "left",
     },
     {
       label: "Domicilio",
       inputWidth: "w-60",
+      key: "domicilio1",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       box: "left",
     },
+    // {
+    //   label: "",
+    //   inputWidth: "w-60",
+    //   key: "domicilio2",
+    //   inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
+    //   box: "left",
+    // },
     {
       label: "Celular",
       key: "telefono",
@@ -49,6 +62,8 @@ export default function PacientesView() {
         <div className="flex items-center gap-2">
           <FlexibleInputField
             inputType="text"
+            key="codarea"
+            value={dataPaciente?.codarea}
             inputClassName="text-center max-h-6 lg:max-h-7"
             inputWidth="w-14"
             maxLength={6}
@@ -59,6 +74,7 @@ export default function PacientesView() {
     },
     {
       label: "Tel. Fijo",
+      key: "",
       inputWidth: "w-28",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       box: "right",
@@ -66,72 +82,84 @@ export default function PacientesView() {
 
     {
       label: "Email",
+      key: "email",
       inputWidth: "w-70",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       box: "right",
     },
     {
       label: "Provincia",
+      key: "",
       inputWidth: "w-60",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       box: "left",
     },
     {
       label: "Localidad",
+      key: "",
       inputWidth: "w-60",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       box: "left",
     },
     {
       label: "Cod. Postal",
+      key: "",
       inputWidth: "w-20",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       box: "left",
     },
     {
       label: "Estado Civil",
+      key: "idestadociv",
       inputWidth: "w-40",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
-      box: "left",
+      box: "right",
     },
     {
       label: "Sexo",
+      key: "idsexo",
       inputWidth: "w-40",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       box: "right",
     },
     {
       label: "Fecha Nac.",
+      key: "fnacim",
       inputWidth: "w-40",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       box: "right",
     },
     {
       label: "F. Alta",
+      key: "f_alta",
       inputWidth: "w-60",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       box: "right",
     },
     {
       label: "Obra Social",
+      key: "nosocial",
       inputWidth: "w-40",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       box: "left",
     },
     {
       label: "Plan",
+      key: "nplan",
       inputWidth: "w-40",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       box: "left",
     },
     {
       label: "Afiliado",
+      key: "",
       inputWidth: "w-40",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       box: "left",
     },
     {
       label: "Obs",
+      key: "obs",
       // inputWidth: "w-80",
       inputClassName: "rounded h-32 focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       inputType: "textarea",

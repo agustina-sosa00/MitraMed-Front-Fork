@@ -5,6 +5,7 @@ export default function FormCard({ inputs }) {
   const left = inputs.filter((i) => i.box === "left");
   const right = inputs.filter((i) => i.box === "right");
   const estado = usePacientesStore((state) => state.estado);
+  const dataPaciente = usePacientesStore((state) => state.dataPaciente);
 
   return (
     <div className="flex flex-col w-full">
@@ -13,14 +14,24 @@ export default function FormCard({ inputs }) {
       </div>
       <div className="flex w-full gap-4 pt-2">
         <div className="w-1/2 flex flex-col items-start gap-2">
-          {left.map((item, idx) => (
-            <FlexibleInputField key={item.label ?? idx} {...item} disabled={estado !== "m"} />
+          {left.map((item) => (
+            <FlexibleInputField
+              key={item.key}
+              value={dataPaciente?.[item.key]}
+              {...item}
+              disabled={estado !== "m"}
+            />
           ))}
         </div>
 
         <div className="w-1/2 flex flex-col items-start gap-2">
-          {right.map((item, idx) => (
-            <FlexibleInputField key={item.label ?? idx} {...item} disabled={estado !== "m"} />
+          {right.map((item) => (
+            <FlexibleInputField
+              key={item.key}
+              value={dataPaciente?.[item.key]}
+              {...item}
+              disabled={estado !== "m"}
+            />
           ))}
         </div>
       </div>

@@ -1,31 +1,66 @@
+import { useEffect, useRef } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { IoClose } from "react-icons/io5";
 import { FlexibleInputField } from "@/frontend-resourses/components";
 import { Button } from "@/views/_components/Button";
-import { IoClose } from "react-icons/io5";
 import { usePacientesStore } from "../store/pacientesStore";
-import { useEffect, useRef } from "react";
+import { obtenerPaciente } from "../service/PacientesService";
 
 export default function HeaderCard() {
   const estado = usePacientesStore((state) => state.estado);
+  const setEstado = usePacientesStore((state) => state.setEstado);
+  const dniInput = usePacientesStore((state) => state.dniInput);
+  const setDniInput = usePacientesStore((state) => state.setDniInput);
+  const dataPaciente = usePacientesStore((state) => state.dataPaciente);
+  const setDataPaciente = usePacientesStore((state) => state.setDataPaciente);
+
   const autofocusHC = estado === "i";
   const inputRefHc = useRef<HTMLInputElement>(null);
+
+  const { mutate: getPacienteMutate } = useMutation({
+    mutationFn: obtenerPaciente,
+    onError(error) {
+      throw new Error(`${error}`);
+    },
+    onSuccess(data) {
+      console.log(data);
+      setEstado("c");
+      setDataPaciente(data.data);
+      console.log(dataPaciente);
+    },
+  });
+
   useEffect(() => {
     if (autofocusHC) {
       inputRefHc.current?.focus();
     }
   }, [estado]);
+
+  function handleOnClickHC() {
+    getPacienteMutate({ dni: dniInput });
+  }
+
+  //region return
   return (
     <div className="w-full flex flex-col gap-2">
       <div className="flex items-end justify-start w-full h-10 gap-10  ">
         <div className="flex items-end justify-start  h-16 gap-2">
           <FlexibleInputField
             label="HC"
+            value={dniInput}
+            onChange={(e) => setDniInput(e)}
             inputRef={inputRefHc}
             inputWidth="w-32"
             labelWidth="60px"
             inputClassName="rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen"
             containerWidth="w-42"
           />
-          <Button label="Procesar" height=" !h-7" disabledButton={estado !== "i"} />
+          <Button
+            label="Procesar"
+            height=" !h-7"
+            // disabledButton={estado !== "i"}
+            handle={handleOnClickHC}
+          />
           <Button
             icon={<IoClose />}
             classButton={` text-red-600  h-7 bg-gray-200 border-none hover:bg-gray-300`}
@@ -52,6 +87,8 @@ export default function HeaderCard() {
       <div className="flex items-end  justify-start  gap-3">
         <FlexibleInputField
           label="Apellido"
+          key={"apellido"}
+          value={dataPaciente?.apellido}
           inputWidth="w-50"
           labelWidth="60px"
           labelAlign="left"
@@ -61,6 +98,8 @@ export default function HeaderCard() {
         />
         <FlexibleInputField
           label="Nombre"
+          key={"nombre"}
+          value={dataPaciente?.nombre}
           inputWidth="w-60"
           labelWidth="60px"
           labelAlign="left"
