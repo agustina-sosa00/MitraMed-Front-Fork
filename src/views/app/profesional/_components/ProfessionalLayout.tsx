@@ -1,7 +1,15 @@
 import { Outlet } from "react-router-dom";
 import { useMemo, useState } from "react";
 import { FaHouse } from "react-icons/fa6";
-import { FaTooth, FaArchive, FaUserCog, FaCogs, FaUserMd, FaNotesMedical } from "react-icons/fa";
+import {
+  FaTooth,
+  FaArchive,
+  FaUserCog,
+  FaCogs,
+  FaUserMd,
+  FaNotesMedical,
+  FaUsers,
+} from "react-icons/fa";
 import { HiDocumentReport } from "react-icons/hi";
 import { IoSettingsSharp } from "react-icons/io5";
 import Navbar from "@/views/app/_components/features/Navbar";
@@ -22,6 +30,7 @@ export default function ProfessionalLayout() {
     turnosGrales: false,
     informe: false,
     informes: false,
+    pacientes: false,
     usuarios: false,
     configuracion: false,
   });
@@ -111,6 +120,14 @@ export default function ProfessionalLayout() {
         },
       ],
     },
+    pacientes: {
+      key: "pacientes",
+      name: "Pacientes",
+      icon: FaUsers,
+      link: "/dashboard/pacientes",
+      disabled: disabledButtonSidebar.pacientes,
+      description: "Panel centralizado para realizar un seguimiento de las ventas.",
+    },
     usuarios: {
       key: "usuarios",
       name: "Usuarios",
@@ -166,6 +183,7 @@ export default function ProfessionalLayout() {
           buttons.odontograma,
           buttons.informes,
           buttons.procesos,
+          buttons.pacientes,
           buttons.usuarios,
         ]);
 
@@ -178,6 +196,7 @@ export default function ProfessionalLayout() {
           buttons.odontograma,
           buttons.informes,
           buttons.procesos,
+          buttons.pacientes,
           buttons.usuarios,
           buttons.configuracion,
         ]);
