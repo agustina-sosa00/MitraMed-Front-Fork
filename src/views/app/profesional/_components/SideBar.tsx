@@ -39,14 +39,12 @@ interface DataProfessional {
 }
 
 export default function SideBar({ logo, buttons, isDisabled = false }: SideBarProps) {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const [openDropdowns, setOpenDropdowns] = useState<string[]>([]);
-  const [openSubMenu, setOpenSubMenu] = useState<boolean>(false);
-
-  // timers para hover-intent
-  const dropTimer = useRef<number | null>(null);
-  const userTimer = useRef<number | null>(null);
+  const {
+    setDniHistory,
+    setDniInput: setDniHistoryInput,
+    setDataPaciente,
+    setHasConfirmed: setHasConfirmedHistory,
+  } = useMedicalHistoryContext();
 
   const {
     setDniOdontogram,
@@ -58,16 +56,16 @@ export default function SideBar({ logo, buttons, isDisabled = false }: SideBarPr
     setOdontogramaData,
   } = useOdontogramContext();
 
-  const {
-    setDniHistory,
-    setDniInput: setDniHistoryInput,
-    setDataPaciente,
-    setHasConfirmed: setHasConfirmedHistory,
-  } = useMedicalHistoryContext();
-
   const { setDiaSeleccionado } = useTurnosGeneralesStore();
   const { clearInformeTurnosData } = useInformeTurnosStore();
 
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const [openDropdowns, setOpenDropdowns] = useState<string[]>([]);
+  const [openSubMenu, setOpenSubMenu] = useState<boolean>(false);
+  const dropTimer = useRef<number | null>(null);
+  const userTimer = useRef<number | null>(null);
   const raw = Cookies.get("dataProfessional");
   const dataUser: DataProfessional | null = raw ? JSON.parse(raw) : null;
   const tusuario = localStorage.getItem("mtm-tusuario");
@@ -79,34 +77,9 @@ export default function SideBar({ logo, buttons, isDisabled = false }: SideBarPr
   const showUsuarios = tusuario === "4" || tusuario === "5";
   const showConfig = tusuario === "5";
 
-  const openDropdown = (key: string) => {
-    if (dropTimer.current) window.clearTimeout(dropTimer.current);
-    setOpenDropdowns([key]);
-  };
-  const scheduleCloseDropdown = () => {
-    if (dropTimer.current) window.clearTimeout(dropTimer.current);
-    dropTimer.current = window.setTimeout(() => setOpenDropdowns([]), 140);
-  };
-  const closeDropdown = () => {
-    if (dropTimer.current) window.clearTimeout(dropTimer.current);
-    setOpenDropdowns([]);
-  };
-  const toggleDropdownClick = (key: string) =>
-    setOpenDropdowns((prev) => (prev[0] === key ? [] : [key]));
-
-  const openUser = () => {
-    if (userTimer.current) window.clearTimeout(userTimer.current);
-    setOpenSubMenu(true);
-  };
-  const scheduleCloseUser = () => {
-    if (userTimer.current) window.clearTimeout(userTimer.current);
-    userTimer.current = window.setTimeout(() => setOpenSubMenu(false), 140);
-  };
-  const closeUser = () => {
-    if (userTimer.current) window.clearTimeout(userTimer.current);
-    setOpenSubMenu(false);
-  };
-  const toggleUser = () => setOpenSubMenu((v) => !v);
+  const userAreaActive = [...usuariosButtons, ...configButtons].some(
+    (b) => location.pathname === b.link || location.pathname.startsWith(b.link + "/"),
+  );
 
   useEffect(() => {
     closeDropdown();
@@ -140,10 +113,45 @@ export default function SideBar({ logo, buttons, isDisabled = false }: SideBarPr
     navigate("/");
   }
 
-  const userAreaActive = [...usuariosButtons, ...configButtons].some(
-    (b) => location.pathname === b.link || location.pathname.startsWith(b.link + "/"),
-  );
+  function openDropdown(key: string) {
+    if (dropTimer.current) window.clearTimeout(dropTimer.current);
+    setOpenDropdowns([key]);
+  }
 
+  function scheduleCloseDropdown() {
+    if (dropTimer.current) window.clearTimeout(dropTimer.current);
+    dropTimer.current = window.setTimeout(() => setOpenDropdowns([]), 140);
+  }
+
+  function closeDropdown() {
+    if (dropTimer.current) window.clearTimeout(dropTimer.current);
+    setOpenDropdowns([]);
+  }
+
+  function toggleDropdownClick(key: string) {
+    setOpenDropdowns((prev) => (prev[0] === key ? [] : [key]));
+  }
+
+  function openUser() {
+    if (userTimer.current) window.clearTimeout(userTimer.current);
+    setOpenSubMenu(true);
+  }
+
+  function scheduleCloseUser() {
+    if (userTimer.current) window.clearTimeout(userTimer.current);
+    userTimer.current = window.setTimeout(() => setOpenSubMenu(false), 140);
+  }
+
+  function closeUser() {
+    if (userTimer.current) window.clearTimeout(userTimer.current);
+    setOpenSubMenu(false);
+  }
+
+  function toggleUser() {
+    setOpenSubMenu((v) => !v);
+  }
+
+  //region return
   return (
     <>
       {/* SIDEBAR */}
