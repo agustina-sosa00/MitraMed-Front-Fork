@@ -13,6 +13,8 @@ export default function HeaderCard() {
   const setDniInput = usePacientesStore((s) => s.setDniInput);
   const dataPaciente = usePacientesStore((s) => s.dataPaciente);
   const setDataPaciente = usePacientesStore((s) => s.setDataPaciente);
+  const startEdit = usePacientesStore((s) => s.startEdit);
+  const cancelEditToBackup = usePacientesStore((s) => s.cancelEditToBackup);
 
   const autofocusHC = estado === "i";
   const inputRefHc = useRef<HTMLInputElement>(null);
@@ -28,10 +30,6 @@ export default function HeaderCard() {
     },
   });
 
-  useEffect(() => {
-    if (autofocusHC) inputRefHc.current?.focus();
-  }, [estado, autofocusHC]);
-
   const handleOnClickHC = useCallback(() => {
     const dni = (dniInput ?? "").trim();
     if (estado !== "i" || !dni) return;
@@ -44,18 +42,9 @@ export default function HeaderCard() {
     setEstado("i");
   }, [setDniInput, setDataPaciente, setEstado]);
 
-  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (estado !== "i") return;
-
-    if (e.key === "Enter") {
-      e.preventDefault();
-      if ((dniInput ?? "").trim()) handleOnClickHC();
-    }
-
-    if (e.key === "Escape") {
-      if (dniInput) setDniInput("");
-    }
-  }
+  useEffect(() => {
+    if (autofocusHC) inputRefHc.current?.focus();
+  }, [estado, autofocusHC]);
 
   useEffect(() => {
     if (estado !== "c") return;
@@ -69,6 +58,19 @@ export default function HeaderCard() {
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [estado, handleCancel]);
+
+  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (estado !== "i") return;
+
+    if (e.key === "Enter") {
+      e.preventDefault();
+      if ((dniInput ?? "").trim()) handleOnClickHC();
+    }
+
+    if (e.key === "Escape") {
+      if (dniInput) setDniInput("");
+    }
+  }
 
   return (
     <div className="w-full flex flex-col gap-2">
@@ -104,17 +106,24 @@ export default function HeaderCard() {
         </div>
 
         <div className="flex-[1] h-7 flex gap-2 justify-end">
-          <Button label="Editar" classButton="h-7" disabledButton={estado !== "c"} />
+          <Button
+            label="Editar"
+            classButton="h-7"
+            disabledButton={estado !== "c"}
+            handle={() => startEdit()}
+          />
           <Button
             label="Cancelar Edicion"
             classButton={`h-7 ${estado !== "m" ? "" : " bg-red-500 hover:bg-red-600"} `}
             disabledButton={estado !== "m"}
+            handle={() => cancelEditToBackup()}
           />
           <Button label="Guardar en BD" classButton="h-7" disabledButton={estado !== "m"} />
           <Button
             label="Borrar de BD"
-            classButton={`h-7 ${estado !== "m" ? "" : " bg-red-500 hover:bg-red-600"} `}
-            disabledButton={estado !== "m"}
+            // classButton={`h-7 ${estado !== "m" ? "" : " bg-red-500 hover:bg-red-600"} `}
+            classButton={`h-7  `}
+            disabledButton={true}
           />
         </div>
       </div>

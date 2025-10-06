@@ -7,6 +7,7 @@ import { usePacientesStore } from "./store/pacientesStore";
 export default function PacientesView() {
   const dataPaciente = usePacientesStore((state) => state.dataPaciente);
   const estado = usePacientesStore((state) => state.estado);
+  const setDataPaciente = usePacientesStore((state) => state.setDataPaciente);
 
   const inputs = [
     {
@@ -15,6 +16,7 @@ export default function PacientesView() {
       inputWidth: "w-40",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       box: "left",
+      maxLength: 8,
     },
     {
       label: "Cond. Trib",
@@ -66,9 +68,10 @@ export default function PacientesView() {
             key="codarea"
             value={dataPaciente?.codarea || ""}
             inputClassName="text-center max-h-6 lg:max-h-7"
-            inputWidth="w-14"
-            maxLength={6}
+            inputWidth="w-20"
+            maxLength={5}
             disabled={estado !== "m"}
+            onChange={(value) => handleInputChange("codarea", value)}
           />
           <span className="text-sm text-gray-400 font-medium">15</span>
         </div>
@@ -168,12 +171,19 @@ export default function PacientesView() {
       box: "right",
     },
   ];
+
+  function handleInputChange(field, value) {
+    setDataPaciente({
+      ...dataPaciente,
+      [field]: value,
+    });
+  }
   return (
     <>
       <TitleView title="Pacientes" />
       <div className="flex flex-col w-full gap-5">
         <HeaderCard />
-        <FormCard inputs={inputs} />
+        <FormCard inputs={inputs} handleInputChange={handleInputChange} />
       </div>
     </>
   );
