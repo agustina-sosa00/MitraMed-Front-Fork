@@ -59,7 +59,7 @@ export default function PacientesView() {
       inputClassName: "max-h-6 lg:max-h-7",
       type: "text",
       box: "right",
-      maxLength: 10,
+      maxLength: 7,
       required: true,
       middleComponent: (
         <div className="flex items-center gap-2">
