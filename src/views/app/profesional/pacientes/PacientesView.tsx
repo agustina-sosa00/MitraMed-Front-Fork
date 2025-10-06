@@ -6,6 +6,7 @@ import { usePacientesStore } from "./store/pacientesStore";
 
 export default function PacientesView() {
   const dataPaciente = usePacientesStore((state) => state.dataPaciente);
+  const estado = usePacientesStore((state) => state.estado);
 
   const inputs = [
     {
@@ -63,10 +64,11 @@ export default function PacientesView() {
           <FlexibleInputField
             inputType="text"
             key="codarea"
-            value={dataPaciente?.codarea}
+            value={dataPaciente?.codarea || ""}
             inputClassName="text-center max-h-6 lg:max-h-7"
             inputWidth="w-14"
             maxLength={6}
+            disabled={estado !== "m"}
           />
           <span className="text-sm text-gray-400 font-medium">15</span>
         </div>
@@ -74,7 +76,7 @@ export default function PacientesView() {
     },
     {
       label: "Tel. Fijo",
-      key: "",
+      key: "telFijo",
       inputWidth: "w-28",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       box: "right",
@@ -89,21 +91,21 @@ export default function PacientesView() {
     },
     {
       label: "Provincia",
-      key: "",
+      key: "provincia",
       inputWidth: "w-60",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       box: "left",
     },
     {
       label: "Localidad",
-      key: "",
+      key: "localidad",
       inputWidth: "w-60",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       box: "left",
     },
     {
       label: "Cod. Postal",
-      key: "",
+      key: "codPostal",
       inputWidth: "w-20",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       box: "left",
@@ -152,7 +154,7 @@ export default function PacientesView() {
     },
     {
       label: "Afiliado",
-      key: "",
+      key: "afiliado",
       inputWidth: "w-40",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       box: "left",

@@ -17,7 +17,7 @@ export default function FormCard({ inputs }) {
           {left.map((item) => (
             <FlexibleInputField
               key={item.key}
-              value={dataPaciente?.[item.key]}
+              value={dataPaciente?.[item.key] || ""}
               {...item}
               disabled={estado !== "m"}
             />
@@ -28,7 +28,7 @@ export default function FormCard({ inputs }) {
           {right.map((item) => (
             <FlexibleInputField
               key={item.key}
-              value={dataPaciente?.[item.key]}
+              value={dataPaciente?.[item.key] || ""}
               {...item}
               disabled={estado !== "m"}
             />
