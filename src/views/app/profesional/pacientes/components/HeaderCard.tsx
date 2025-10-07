@@ -5,8 +5,9 @@ import { FlexibleInputField } from "@/frontend-resourses/components";
 import { Button } from "@/views/_components/Button";
 import { usePacientesStore } from "../store/pacientesStore";
 import { obtenerPaciente } from "../service/PacientesService";
+import { IoSearchSharp } from "react-icons/io5";
 
-export default function HeaderCard() {
+export default function HeaderCard({ handleOpenModalSearch }) {
   const estado = usePacientesStore((s) => s.estado);
   const setEstado = usePacientesStore((s) => s.setEstado);
   const dniInput = usePacientesStore((s) => s.dniInput);
@@ -88,6 +89,14 @@ export default function HeaderCard() {
             containerWidth="w-42"
             disabled={estado !== "i"}
             maxLength={8}
+          />
+          <Button
+            icon={<IoSearchSharp />}
+            padding="2"
+            custom
+            classButton="text-primaryGreen h-7  border-none hover:bg-gray-300"
+            disabledButton={estado !== "i"}
+            handle={handleOpenModalSearch}
           />
           <Button
             label="Procesar"

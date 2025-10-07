@@ -3,37 +3,6 @@ import { persist } from "zustand/middleware";
 
 type Estado = "i" | "c" | "m";
 
-// export type PacienteApi = {
-//   apellido: string;
-//   codarea: string;
-//   codarea1: string;
-//   credencial: string;
-//   ctrib: number;
-//   cuil: string;
-//   dni: string;
-//   domicilio1: string;
-//   domicilio2: string;
-//   email: string;
-//   f_alta: string;
-//   fnacim: string;
-//   idcodloc: number;
-//   idestadociv: number;
-//   idosocial: number;
-//   idpaciente: number;
-//   idplan: number;
-//   idsexo: number;
-//   nlocalidad: string | null;
-//   nombre: string;
-//   nosocial: string | null;
-//   nplan: string | null;
-//   nprovincia: string | null;
-//   ntelefono1: string;
-//   obs: string;
-//   tdoc: number;
-//   telefono: string;
-//   telefono1: string;
-// };
-
 export type ClientData = {
   [key: string]: any;
 };

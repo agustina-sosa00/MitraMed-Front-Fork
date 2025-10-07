@@ -3,11 +3,16 @@ import TitleView from "../../_components/features/TitleView";
 import FormCard from "./components/FormCard";
 import HeaderCard from "./components/HeaderCard";
 import { usePacientesStore } from "./store/pacientesStore";
+import { useState } from "react";
+import { Modal } from "../../_components/ui/modals/Modal";
+import BusquedaPacienteModal from "./components/BusquedaPacienteModal";
 
 export default function PacientesView() {
   const dataPaciente = usePacientesStore((state) => state.dataPaciente);
   const estado = usePacientesStore((state) => state.estado);
   const setDataPaciente = usePacientesStore((state) => state.setDataPaciente);
+
+  const [openModal, setOpenModal] = useState(false);
 
   const inputs = [
     {
@@ -178,12 +183,22 @@ export default function PacientesView() {
       [field]: value,
     });
   }
+
+  function handleOpenModalSearch() {
+    setOpenModal(true);
+  }
+
   return (
     <>
       <TitleView title="Pacientes" />
       <div className="flex flex-col w-full gap-5">
-        <HeaderCard />
+        <HeaderCard handleOpenModalSearch={handleOpenModalSearch} />
         <FormCard inputs={inputs} handleInputChange={handleInputChange} />
+        {openModal && (
+          <Modal close={() => setOpenModal(false)} title="Modal" modalWidth="w-[900px]">
+            <BusquedaPacienteModal />
+          </Modal>
+        )}
       </div>
     </>
   );

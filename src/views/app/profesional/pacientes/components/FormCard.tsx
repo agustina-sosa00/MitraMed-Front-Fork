@@ -30,7 +30,9 @@ export default function FormCard({ inputs, handleInputChange }) {
           {right.map((item) => {
             const raw = dataPaciente?.[item.key];
             const f_Alta =
-              item.key === "f_alta" ? formatDate(new Date(raw as string)) : (raw ?? "");
+              item.key === "f_alta" && raw
+                ? formatDate(new Date(String(raw).replace(" ", "T")))
+                : "";
             return (
               <FlexibleInputField
                 key={item.key}
