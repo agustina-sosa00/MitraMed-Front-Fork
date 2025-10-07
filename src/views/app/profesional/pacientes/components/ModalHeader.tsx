@@ -15,7 +15,6 @@ export default function ModalHeader({ handleCloseModal }) {
   const setSelectTable = usePacientesStore((s) => s.setSelectTable);
   console.log(estado);
   const dataPaciente = usePacientesStore((s) => s.dataPaciente);
-  const dataPacientesModal = usePacientesStore((s) => s.dataPacientesModal);
   const hasSelection = !!dataPaciente;
   const [dataInputs, setDataInputs] = useState({
     apellido: "",
