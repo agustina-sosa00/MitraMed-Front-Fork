@@ -198,7 +198,7 @@ export default function PacientesView() {
           <Modal
             close={() => setOpenModal(false)}
             title="Consultar Paciente"
-            modalWidth="w-[900px]"
+            modalWidth="w-[1000px]"
           >
             <BusquedaPacienteModal />
           </Modal>
