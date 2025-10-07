@@ -106,7 +106,7 @@ export default function HeaderCard({ handleOpenModalSearch }) {
         <div className="flex items-end justify-start h-16 gap-2">
           <FlexibleInputField
             label="HC"
-            value={dniInput}
+            value={dataPaciente?.dni ? dataPaciente.dni : dniInput}
             onChange={(e) => setDniInput(e)}
             onKeyDown={handleKeyDown}
             inputRef={inputRefHc}

@@ -202,7 +202,7 @@ export default function PacientesView() {
         <FormCard inputs={inputs} handleInputChange={handleInputChange} />
         {openModal && (
           <Modal close={handleCloseModal} title="Consultar Paciente" modalWidth="w-[1000px]">
-            <BusquedaPacienteModal />
+            <BusquedaPacienteModal handleCloseModal={handleCloseModal} />
           </Modal>
         )}
       </div>

@@ -25,6 +25,9 @@ interface PacientesStore {
   dataPacientesModal: any;
   setDataPacientesModal: (v: any) => void;
 
+  selectTable: boolean;
+  setSelectTable: (v: boolean) => void;
+
   reset: () => void;
 }
 
@@ -54,6 +57,9 @@ export const usePacientesStore = create<PacientesStore>()(
 
       dataPacientesModal: null,
       setDataPacientesModal: (v) => set({ dataPacientesModal: v }),
+
+      selectTable: false,
+      setSelectTable: (v) => set({ selectTable: v }),
 
       reset: () =>
         set({

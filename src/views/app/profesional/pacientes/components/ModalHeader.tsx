@@ -8,10 +8,15 @@ import { consultaPacientes } from "../service/PacientesService";
 import { useEffect, useRef, useState } from "react";
 import { usePacientesStore } from "../store/pacientesStore";
 
-export default function ModalHeader() {
+export default function ModalHeader({ handleCloseModal }) {
   const estado = usePacientesStore((s) => s.estado);
+  const setEstado = usePacientesStore((s) => s.setEstado);
   const setDataPacientesModal = usePacientesStore((s) => s.setDataPacientesModal);
+  const setSelectTable = usePacientesStore((s) => s.setSelectTable);
   console.log(estado);
+  const dataPaciente = usePacientesStore((s) => s.dataPaciente);
+  const dataPacientesModal = usePacientesStore((s) => s.dataPacientesModal);
+  const hasSelection = !!dataPaciente;
   const [dataInputs, setDataInputs] = useState({
     apellido: "",
     nombre: "",
@@ -25,6 +30,13 @@ export default function ModalHeader() {
   const autofocusHC = estado === "i";
   const inputRefHc = useRef<Array<HTMLInputElement | null>>([]);
   const searchBtnRef = useRef<HTMLButtonElement | null>(null);
+
+  const buscarDisabled =
+    dataInputs.apellido === "" &&
+    dataInputs.dni === "" &&
+    dataInputs.loc === "" &&
+    dataInputs.dom1 === "" &&
+    dataInputs.nombre === "";
 
   const inputs = [
     {
@@ -70,26 +82,20 @@ export default function ModalHeader() {
     },
   ];
 
-  const buscarDisabled =
-    dataInputs.apellido === "" &&
-    dataInputs.dni === "" &&
-    dataInputs.loc === "" &&
-    dataInputs.dom1 === "" &&
-    dataInputs.nombre === "";
-
   const buttonsModal = [
     {
       label: "Seleccionar",
       className: "h-7 !w-auto",
       icons: <FaCheck />,
-      disabledButton: estado === "i",
+      disabledButton: !hasSelection,
+      handle: handleSelectPaciente,
     },
     {
       label: "Cancelar",
       customRed: true,
       className: "h-7 w-full flex justify-center ",
       icons: <IoMdClose />,
-      disabledButton: estado === "i",
+      disabledButton: !hasSelection,
     },
   ];
 
@@ -101,6 +107,7 @@ export default function ModalHeader() {
     onSuccess(data) {
       console.log(data);
       setDataPacientesModal(data.data);
+      setSelectTable(true);
     },
   });
 
@@ -143,6 +150,13 @@ export default function ModalHeader() {
       if (btn && !btn.disabled) btn.focus();
     };
   }
+
+  function handleSelectPaciente() {
+    setEstado("c");
+    handleCloseModal();
+  }
+
+  //region return
   return (
     <div className="w- h-28 flex">
       <div className="w-full flex flex-wrap  gap-x-5 flex-row ">
@@ -188,6 +202,7 @@ export default function ModalHeader() {
             classButton={item.className}
             icon={item.icons}
             disabledButton={item.disabledButton}
+            handle={item.handle}
           />
         ))}
       </div>

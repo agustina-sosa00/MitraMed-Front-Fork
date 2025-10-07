@@ -1,11 +1,31 @@
 import { TablaDefault } from "@/frontend-resourses/components";
 import { usePacientesStore } from "../store/pacientesStore";
+type HcRow = {
+  nombre: string;
+  apellido: string;
+  domicilio1: string;
+  nlocalidad: string;
+  cuil: string;
+  ctrib: string;
+};
+type ApiHcRow = Omit<HcRow, "id">;
 
 export default function ModalTable() {
+  const setDataPaciente = usePacientesStore((s) => s.setDataPaciente);
+  const dataPaciente = usePacientesStore((s) => s.dataPaciente);
+  console.log(dataPaciente);
   const dataPacientesModal = usePacientesStore((s) => s.dataPacientesModal);
+  const selectTable = usePacientesStore((s) => s.selectTable);
+
+  const pacientesEncontrados = Array.isArray(dataPacientesModal)
+    ? dataPacientesModal.map((r: ApiHcRow, idx) => ({
+        id: (idx + 1).toString(),
+        ...r,
+      }))
+    : [];
 
   const propsTabla = {
-    datosParaTabla: dataPacientesModal || [],
+    datosParaTabla: pacientesEncontrados || [],
     objectColumns: [
       {
         key: "apellido",
@@ -50,6 +70,8 @@ export default function ModalTable() {
       addHeaderColor: "#022539",
       withBorder: true,
     },
+    selectFn: selectTable,
+    objectSelection: { setSeleccionado: setDataPaciente },
   };
   return (
     <div className="w-full ">
