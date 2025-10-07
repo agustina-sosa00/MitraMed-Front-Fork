@@ -3,8 +3,27 @@ import { Button } from "@/views/_components/Button";
 import { IoSearchSharp } from "react-icons/io5";
 import { FaCheck } from "react-icons/fa6";
 import { IoMdClose } from "react-icons/io";
+import { useMutation } from "@tanstack/react-query";
+import { consultaPacientes } from "../service/PacientesService";
+import { useEffect, useRef, useState } from "react";
+import { usePacientesStore } from "../store/pacientesStore";
 
 export default function ModalHeader() {
+  const estado = usePacientesStore((s) => s.estado);
+  console.log(estado);
+  const [dataInputs, setDataInputs] = useState({
+    apellido: "",
+    nombre: "",
+    dni: "",
+    cuil: "",
+    dom1: "",
+    dom2: "",
+    loc: "",
+  });
+
+  const autofocusHC = estado === "i";
+  const inputRefHc = useRef<HTMLInputElement>(null);
+
   const inputs = [
     {
       key: "apellido",
@@ -13,6 +32,7 @@ export default function ModalHeader() {
       inputWidth: "w-full",
       containerClassName: "!w-60 ",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
+      inputRef: inputRefHc,
     },
     {
       key: "nombre",
@@ -31,7 +51,7 @@ export default function ModalHeader() {
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
     },
     {
-      key: "localidad",
+      key: "loc",
       label: "Localidad",
       labelWidth: "60px",
       containerClassName: "!w-60 ",
@@ -39,7 +59,7 @@ export default function ModalHeader() {
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
     },
     {
-      key: "domicilio",
+      key: "dom1",
       label: "Domicilio",
       labelWidth: "60px",
       containerClassName: "!w-[500px]",
@@ -52,21 +72,62 @@ export default function ModalHeader() {
     {
       label: "Buscar",
       custom: true,
-      className: "h-7 w-full flex justify-center text-primaryGreen border-none",
+      className: "h-7 w-full flex justify-center text-primaryGreen ",
       icons: <IoSearchSharp />,
+      handle: () => handleClickSearch(),
+      disabledButton:
+        dataInputs.apellido === "" &&
+        dataInputs.dni === "" &&
+        dataInputs.loc === "" &&
+        dataInputs.dom1 === "" &&
+        dataInputs.nombre === ""
+          ? true
+          : false,
     },
     {
       label: "Seleccionar",
       className: "h-7 !w-auto",
       icons: <FaCheck />,
+      disabledButton: estado === "i",
     },
     {
       label: "Cancelar",
       customRed: true,
       className: "h-7 w-full flex justify-center ",
       icons: <IoMdClose />,
+      disabledButton: estado === "i",
     },
   ];
+
+  const { mutate: postConsultaPacientes } = useMutation({
+    mutationFn: consultaPacientes,
+    onError(error) {
+      throw new Error(`${error}`);
+    },
+    onSuccess(data) {
+      console.log(data);
+    },
+  });
+
+  useEffect(() => {
+    if (autofocusHC) inputRefHc.current?.focus();
+  }, [estado, autofocusHC]);
+
+  function handleOnChange(field, value) {
+    setDataInputs({ ...dataInputs, [field]: value });
+  }
+
+  function handleClickSearch() {
+    postConsultaPacientes({
+      apellido: dataInputs.apellido,
+      nombre: dataInputs.nombre,
+      dni: dataInputs.dni,
+      cuil: dataInputs.cuil,
+      dom1: dataInputs.dom1,
+      dom2: dataInputs.dom2,
+      loc: dataInputs.loc,
+    });
+  }
 
   return (
     <div className="w- h-28 flex">
@@ -75,6 +136,10 @@ export default function ModalHeader() {
           <FlexibleInputField
             key={item.key}
             label={item.label}
+            name={item.key}
+            value={dataInputs[item.key]}
+            onChange={(value) => handleOnChange(item.key, value)}
+            inputRef={item.inputRef}
             inputWidth={item.inputWidth}
             inputClassName={item.inputClassName}
             labelWidth={item.labelWidth}
@@ -91,6 +156,8 @@ export default function ModalHeader() {
             customRed={item.customRed}
             classButton={item.className}
             icon={item.icons}
+            disabledButton={item.disabledButton}
+            handle={item.handle}
           />
         ))}
       </div>

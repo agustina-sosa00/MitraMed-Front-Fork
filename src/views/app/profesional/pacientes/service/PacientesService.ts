@@ -14,3 +14,40 @@ export async function obtenerPaciente({ dni }) {
     throw new Error(`${error}`);
   }
 }
+
+export async function consultaPacientes({
+  apellido,
+  nombre,
+  dni,
+  cuil,
+  dom1,
+  dom2,
+  loc,
+}: {
+  apellido: string;
+  nombre: string;
+  dni: string;
+  cuil: string;
+  dom1: string;
+  dom2: string;
+  loc: string;
+}) {
+  const data = {
+    empresa: empresa,
+    modo: modo,
+    apellido: apellido,
+    nombre: nombre,
+    dni: dni,
+    cuil: cuil,
+    dom1: dom1,
+    dom2: dom2,
+    loc: loc,
+  };
+  try {
+    console.log(data);
+    const response = await apiPhp.post(`/${entorno}/mitramed/consultaPacientes.php?`, data);
+    return response.data;
+  } catch (error) {
+    throw new Error(`${error}`);
+  }
+}
