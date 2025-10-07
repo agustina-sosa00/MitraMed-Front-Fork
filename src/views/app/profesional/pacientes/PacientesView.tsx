@@ -195,7 +195,11 @@ export default function PacientesView() {
         <HeaderCard handleOpenModalSearch={handleOpenModalSearch} />
         <FormCard inputs={inputs} handleInputChange={handleInputChange} />
         {openModal && (
-          <Modal close={() => setOpenModal(false)} title="Modal" modalWidth="w-[900px]">
+          <Modal
+            close={() => setOpenModal(false)}
+            title="Consultar Paciente"
+            modalWidth="w-[900px]"
+          >
             <BusquedaPacienteModal />
           </Modal>
         )}
