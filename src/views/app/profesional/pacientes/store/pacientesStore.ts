@@ -22,6 +22,9 @@ interface PacientesStore {
   startEdit: () => void;
   cancelEditToBackup: () => void;
 
+  dataPacientesModal: any;
+  setDataPacientesModal: (v: any) => void;
+
   reset: () => void;
 }
 
@@ -49,12 +52,16 @@ export const usePacientesStore = create<PacientesStore>()(
             : s,
         ),
 
+      dataPacientesModal: null,
+      setDataPacientesModal: (v) => set({ dataPacientesModal: v }),
+
       reset: () =>
         set({
           estado: "i",
           dniInput: "",
           dataPaciente: null,
           backupPaciente: null,
+          dataPacientesModal: null,
         }),
     }),
     {

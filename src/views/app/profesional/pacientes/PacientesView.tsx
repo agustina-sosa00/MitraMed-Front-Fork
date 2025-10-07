@@ -11,6 +11,7 @@ export default function PacientesView() {
   const dataPaciente = usePacientesStore((state) => state.dataPaciente);
   const estado = usePacientesStore((state) => state.estado);
   const setDataPaciente = usePacientesStore((state) => state.setDataPaciente);
+  const setDataPacientesModal = usePacientesStore((state) => state.setDataPacientesModal);
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -188,6 +189,11 @@ export default function PacientesView() {
     setOpenModal(true);
   }
 
+  function handleCloseModal() {
+    setDataPacientesModal(null);
+    setOpenModal(false);
+  }
+
   return (
     <>
       <TitleView title="Pacientes" />
@@ -195,11 +201,7 @@ export default function PacientesView() {
         <HeaderCard handleOpenModalSearch={handleOpenModalSearch} />
         <FormCard inputs={inputs} handleInputChange={handleInputChange} />
         {openModal && (
-          <Modal
-            close={() => setOpenModal(false)}
-            title="Consultar Paciente"
-            modalWidth="w-[1000px]"
-          >
+          <Modal close={handleCloseModal} title="Consultar Paciente" modalWidth="w-[1000px]">
             <BusquedaPacienteModal />
           </Modal>
         )}

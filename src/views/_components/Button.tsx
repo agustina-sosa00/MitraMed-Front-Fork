@@ -12,6 +12,8 @@ interface IProp {
   padding?: string;
   custom?: boolean;
   customRed?: boolean;
+  buttonRef?: React.Ref<HTMLButtonElement>;
+  onKeyDown?: React.KeyboardEventHandler<HTMLButtonElement>;
 }
 
 export const Button: React.FC<IProp> = ({
@@ -26,6 +28,8 @@ export const Button: React.FC<IProp> = ({
   padding,
   custom,
   customRed,
+  buttonRef,
+  onKeyDown,
 }) => {
   const base = `${height ? `h-${height}` : "h-10"} flex items-center ${
     padding ? `px-${padding}` : "px-5"
@@ -44,8 +48,10 @@ export const Button: React.FC<IProp> = ({
 
   return (
     <button
+      ref={buttonRef}
       type={type}
       onClick={handle}
+      onKeyDown={onKeyDown}
       disabled={disabledButton}
       className={`${base} ${classButton ?? ""} ${disabledButton ? disabledCls : enabled}`}
     >

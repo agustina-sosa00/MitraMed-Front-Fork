@@ -1,46 +1,46 @@
 import { TablaDefault } from "@/frontend-resourses/components";
+import { usePacientesStore } from "../store/pacientesStore";
 
 export default function ModalTable() {
+  const dataPacientesModal = usePacientesStore((s) => s.dataPacientesModal);
+
   const propsTabla = {
-    datosParaTabla: [
-      {
-        id: 1,
-        nombre: "Paciente 1",
-        domicilio: "Calle 123, Ciudad, Provincia",
-        localidad: "Localidad 1",
-        cuit: "1234567890",
-        cTrib: "1",
-      },
-    ],
+    datosParaTabla: dataPacientesModal || [],
     objectColumns: [
       {
-        key: "nombre",
-        label: "Nombre",
-        minWidth: "270",
+        key: "apellido",
+        label: "Apellido",
+        minWidth: "190",
         maxWidth: "270",
       },
       {
-        key: "domicilio",
+        key: "nombre",
+        label: "Nombre",
+        minWidth: "180",
+        maxWidth: "270",
+      },
+      {
+        key: "domicilio1",
         label: "Domicilio",
-        minWidth: "260",
+        minWidth: "190",
         maxWidth: "260",
       },
       {
-        key: "localidad",
+        key: "nlocalidad",
         label: "Localidad",
-        minWidth: "200",
+        minWidth: "100",
         maxWidth: "200",
       },
       {
-        key: "cuit",
+        key: "cuil",
         label: "CUIT",
         minWidth: "90",
         maxWidth: "90",
       },
       {
-        key: "cTrib",
+        key: "ctrib",
         label: "C. Trib",
-        minWidth: "100",
+        minWidth: "40",
         maxWidth: "120",
       },
     ],

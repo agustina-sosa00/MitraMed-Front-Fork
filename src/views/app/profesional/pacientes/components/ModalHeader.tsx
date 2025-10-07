@@ -10,6 +10,7 @@ import { usePacientesStore } from "../store/pacientesStore";
 
 export default function ModalHeader() {
   const estado = usePacientesStore((s) => s.estado);
+  const setDataPacientesModal = usePacientesStore((s) => s.setDataPacientesModal);
   console.log(estado);
   const [dataInputs, setDataInputs] = useState({
     apellido: "",
@@ -22,7 +23,8 @@ export default function ModalHeader() {
   });
 
   const autofocusHC = estado === "i";
-  const inputRefHc = useRef<HTMLInputElement>(null);
+  const inputRefHc = useRef<Array<HTMLInputElement | null>>([]);
+  const searchBtnRef = useRef<HTMLButtonElement | null>(null);
 
   const inputs = [
     {
@@ -68,22 +70,14 @@ export default function ModalHeader() {
     },
   ];
 
+  const buscarDisabled =
+    dataInputs.apellido === "" &&
+    dataInputs.dni === "" &&
+    dataInputs.loc === "" &&
+    dataInputs.dom1 === "" &&
+    dataInputs.nombre === "";
+
   const buttonsModal = [
-    {
-      label: "Buscar",
-      custom: true,
-      className: "h-7 w-full flex justify-center text-primaryGreen ",
-      icons: <IoSearchSharp />,
-      handle: () => handleClickSearch(),
-      disabledButton:
-        dataInputs.apellido === "" &&
-        dataInputs.dni === "" &&
-        dataInputs.loc === "" &&
-        dataInputs.dom1 === "" &&
-        dataInputs.nombre === ""
-          ? true
-          : false,
-    },
     {
       label: "Seleccionar",
       className: "h-7 !w-auto",
@@ -106,11 +100,12 @@ export default function ModalHeader() {
     },
     onSuccess(data) {
       console.log(data);
+      setDataPacientesModal(data.data);
     },
   });
 
   useEffect(() => {
-    if (autofocusHC) inputRefHc.current?.focus();
+    if (autofocusHC) inputRefHc.current[0]?.focus();
   }, [estado, autofocusHC]);
 
   function handleOnChange(field, value) {
@@ -129,17 +124,39 @@ export default function ModalHeader() {
     });
   }
 
+  function handleInputKeyDown(index: number) {
+    return (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key !== "Enter") return;
+      e.preventDefault();
+
+      // siguiente input
+      for (let i = index + 1; i < inputRefHc.current.length; i++) {
+        const el = inputRefHc.current[i];
+        if (el && !el.disabled) {
+          el.focus();
+          return;
+        }
+      }
+
+      // último: foco al botón si está habilitado
+      const btn = searchBtnRef.current;
+      if (btn && !btn.disabled) btn.focus();
+    };
+  }
   return (
     <div className="w- h-28 flex">
       <div className="w-full flex flex-wrap  gap-x-5 flex-row ">
-        {inputs.map((item) => (
+        {inputs.map((item, index) => (
           <FlexibleInputField
             key={item.key}
             label={item.label}
             name={item.key}
             value={dataInputs[item.key]}
             onChange={(value) => handleOnChange(item.key, value)}
-            inputRef={item.inputRef}
+            onKeyDown={handleInputKeyDown(index)}
+            inputRef={(el: HTMLInputElement | null) => {
+              inputRefHc.current[index] = el;
+            }}
             inputWidth={item.inputWidth}
             inputClassName={item.inputClassName}
             labelWidth={item.labelWidth}
@@ -148,16 +165,29 @@ export default function ModalHeader() {
         ))}
       </div>
       <div className="  justify-center items-center flex flex-col gap-1 ">
+        <Button
+          label="Buscar"
+          custom={true}
+          classButton="h-7 w-full flex justify-center text-primaryGreen "
+          icon={<IoSearchSharp />}
+          disabledButton={buscarDisabled}
+          handle={() => handleClickSearch()}
+          buttonRef={searchBtnRef}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !buscarDisabled) {
+              e.preventDefault();
+              handleClickSearch();
+            }
+          }}
+        />
         {buttonsModal.map((item, index) => (
           <Button
             key={index}
             label={item.label}
-            custom={item.custom}
             customRed={item.customRed}
             classButton={item.className}
             icon={item.icons}
             disabledButton={item.disabledButton}
-            handle={item.handle}
           />
         ))}
       </div>
