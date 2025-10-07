@@ -20,6 +20,33 @@ export default function HeaderCard({ handleOpenModalSearch }) {
   const autofocusHC = estado === "i";
   const inputRefHc = useRef<HTMLInputElement>(null);
 
+  const buttonsHedear = [
+    {
+      label: "Editar",
+      classButton: "h-7",
+      disabledButton: estado !== "c",
+      handle: () => startEdit(),
+    },
+    {
+      label: "Cancelar Edicion",
+      customRed: true,
+      classButton: "h-7",
+      disabledButton: estado !== "m",
+      handle: () => cancelEditToBackup(),
+    },
+    {
+      label: "Guardar en BD",
+      classButton: "h-7",
+      disabledButton: estado !== "m",
+    },
+    {
+      label: "Borrar de BD",
+      classButton: "h-7",
+      disabledButton: true,
+      customRed: true,
+    },
+  ];
+
   const { mutate: getPacienteMutate } = useMutation({
     mutationFn: obtenerPaciente,
     onError(error) {
@@ -115,25 +142,16 @@ export default function HeaderCard({ handleOpenModalSearch }) {
         </div>
 
         <div className="flex-[1] h-7 flex gap-2 justify-end">
-          <Button
-            label="Editar"
-            classButton="h-7"
-            disabledButton={estado !== "c"}
-            handle={() => startEdit()}
-          />
-          <Button
-            label="Cancelar Edicion"
-            classButton={`h-7 ${estado !== "m" ? "" : " bg-red-500 hover:bg-red-600"} `}
-            disabledButton={estado !== "m"}
-            handle={() => cancelEditToBackup()}
-          />
-          <Button label="Guardar en BD" classButton="h-7" disabledButton={estado !== "m"} />
-          <Button
-            label="Borrar de BD"
-            // classButton={`h-7 ${estado !== "m" ? "" : " bg-red-500 hover:bg-red-600"} `}
-            classButton={`h-7  `}
-            disabledButton={true}
-          />
+          {buttonsHedear.map((item, index) => (
+            <Button
+              key={index}
+              label={item.label}
+              classButton={item.classButton}
+              disabledButton={item.disabledButton}
+              handle={item.handle}
+              customRed={item.customRed}
+            />
+          ))}
         </div>
       </div>
 
