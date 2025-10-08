@@ -17,7 +17,7 @@ interface PacientesStoreProps {
   dataPaciente: ClientData | null;
   setDataPaciente: (v: ClientData | null) => void;
 
-  backupPaciente: ClientData | null;
+  dataPacientesModi: ClientData | null;
 
   startEdit: () => void;
   cancelEditToBackup: () => void;
@@ -43,15 +43,17 @@ export const usePacientesStore = create<PacientesStoreProps>()(
       dataPaciente: null,
       setDataPaciente: (v) => set({ dataPaciente: v }),
 
-      backupPaciente: null,
+      dataPacientesModi: null,
 
       startEdit: () =>
-        set((s) => (s.dataPaciente ? { estado: "M", backupPaciente: { ...s.dataPaciente } } : s)),
+        set((s) =>
+          s.dataPaciente ? { estado: "M", dataPacientesModi: { ...s.dataPaciente } } : s,
+        ),
 
       cancelEditToBackup: () =>
         set((s) =>
-          s.backupPaciente
-            ? { estado: "C", dataPaciente: s.backupPaciente, backupPaciente: null }
+          s.dataPacientesModi
+            ? { estado: "C", dataPaciente: s.dataPacientesModi, dataPacientesModi: null }
             : s,
         ),
 
@@ -66,7 +68,7 @@ export const usePacientesStore = create<PacientesStoreProps>()(
           estado: "I",
           dniInput: "",
           dataPaciente: null,
-          backupPaciente: null,
+          dataPacientesModi: null,
           dataPacientesModal: null,
         }),
     }),
