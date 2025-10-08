@@ -13,8 +13,12 @@ export default function ModalHeader({ handleCloseModal }) {
   const setEstado = usePacientesStore((s) => s.setEstado);
   const setDataPacientesModal = usePacientesStore((s) => s.setDataPacientesModal);
   const setSelectTable = usePacientesStore((s) => s.setSelectTable);
-  console.log(estado);
   const dataPaciente = usePacientesStore((s) => s.dataPaciente);
+  const errorMessage = usePacientesStore((s) => s.errorMessage);
+  const setErrorMessage = usePacientesStore((s) => s.setErrorMessage);
+  const clearErrorMessage = usePacientesStore((s) => s.clearErrorMessage);
+  console.log(estado);
+
   const hasSelection = !!dataPaciente;
   const [dataInputs, setDataInputs] = useState({
     apellido: "",
@@ -104,6 +108,10 @@ export default function ModalHeader({ handleCloseModal }) {
       throw new Error(`${error}`);
     },
     onSuccess(data) {
+      if (data.data.length === 0) {
+        setErrorMessage("modal", "Paciente inexistente");
+        inputRefHc.current[0]?.focus();
+      }
       console.log(data);
       setDataPacientesModal(data.data);
       setSelectTable(true);
@@ -115,6 +123,9 @@ export default function ModalHeader({ handleCloseModal }) {
   }, [estado, autofocusHC]);
 
   function handleOnChange(field, value) {
+    if (value.length === 0) {
+      clearErrorMessage("modal");
+    }
     setDataInputs({ ...dataInputs, [field]: value });
   }
 
@@ -157,7 +168,7 @@ export default function ModalHeader({ handleCloseModal }) {
 
   //region return
   return (
-    <div className="w- h-28 flex">
+    <div className="w- h-32 flex">
       <div className="w-full flex flex-wrap  gap-x-5 flex-row ">
         {inputs.map((item, index) => (
           <FlexibleInputField
@@ -176,6 +187,9 @@ export default function ModalHeader({ handleCloseModal }) {
             containerClassName={item.containerClassName}
           />
         ))}
+        <div className="w-full h-6 text-red-500 font-semibold">
+          {errorMessage?.place === "modal" && errorMessage?.message}
+        </div>
       </div>
       <div className="  justify-center items-center flex flex-col gap-1 ">
         <Button

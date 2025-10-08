@@ -1,11 +1,14 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-type Estado = "I" | "C" | "M";
+export type Estado = "I" | "C" | "M";
 
 export type ClientData = {
   [key: string]: any;
 };
+
+export type ErrorPlace = "header" | "modal";
+export type UiError = { place: ErrorPlace; message: string } | null;
 
 interface PacientesStoreProps {
   estado: Estado;
@@ -27,6 +30,10 @@ interface PacientesStoreProps {
 
   selectTable: boolean;
   setSelectTable: (v: boolean) => void;
+
+  errorMessage: UiError;
+  setErrorMessage: (place: ErrorPlace, message: string) => void;
+  clearErrorMessage: (place?: ErrorPlace) => void;
 
   reset: () => void;
 }
@@ -63,6 +70,14 @@ export const usePacientesStore = create<PacientesStoreProps>()(
       selectTable: false,
       setSelectTable: (v) => set({ selectTable: v }),
 
+      errorMessage: null,
+      setErrorMessage: (place, message) => set({ errorMessage: { place, message } }),
+      clearErrorMessage: (place) =>
+        set((s) => {
+          if (!s.errorMessage) return s;
+          return !place || s.errorMessage.place === place ? { errorMessage: null } : s;
+        }),
+
       reset: () =>
         set({
           estado: "I",
@@ -70,17 +85,18 @@ export const usePacientesStore = create<PacientesStoreProps>()(
           dataPaciente: null,
           dataPacientesModi: null,
           dataPacientesModal: null,
+          selectTable: false,
+          errorMessage: null,
         }),
     }),
     {
       name: "pacientes",
-
+      // Persistimos solo lo necesario; no persistimos errores ni backups.
       partialize: (state) => ({
         dataPaciente: state.dataPaciente,
         dniInput: state.dniInput,
         estado: state.estado,
-        // backupPaciente: state.backupPaciente,
-      }), //me guardo la info del usuario, el dni y el estado, para mantenerlo siempre a menos que lo resetee
+      }),
     },
   ),
 );

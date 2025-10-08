@@ -6,6 +6,10 @@ import { Button } from "@/views/_components/Button";
 import { usePacientesStore } from "../store/pacientesStore";
 import { obtenerPaciente } from "../service/PacientesService";
 import { IoSearchSharp } from "react-icons/io5";
+import { BsDatabaseFill } from "react-icons/bs";
+import { BsDatabaseFillX } from "react-icons/bs";
+import { LuPencil } from "react-icons/lu";
+import { LuPencilOff } from "react-icons/lu";
 
 export default function HeaderCard({ handleOpenModalSearch }) {
   const estado = usePacientesStore((s) => s.estado);
@@ -16,8 +20,11 @@ export default function HeaderCard({ handleOpenModalSearch }) {
   const setDataPaciente = usePacientesStore((s) => s.setDataPaciente);
   const startEdit = usePacientesStore((s) => s.startEdit);
   const cancelEditToBackup = usePacientesStore((s) => s.cancelEditToBackup);
-
-  const autofocusHC = estado === "I";
+  const reset = usePacientesStore((s) => s.reset);
+  const errorMessage = usePacientesStore((s) => s.errorMessage);
+  const setErrorMessage = usePacientesStore((s) => s.setErrorMessage);
+  const clearErrorMessage = usePacientesStore((s) => s.clearErrorMessage);
+  // const autofocusHC = estado === "I";
   const inputRefHc = useRef<HTMLInputElement>(null);
 
   const buttonsHedear = [
@@ -26,24 +33,28 @@ export default function HeaderCard({ handleOpenModalSearch }) {
       classButton: "h-7",
       disabledButton: estado !== "C",
       handle: () => startEdit(),
+      icon: <LuPencil />,
     },
     {
-      label: "Cancelar Edicion",
+      label: "Cancelar",
       customRed: true,
       classButton: "h-7",
       disabledButton: estado !== "M",
       handle: () => cancelEditToBackup(),
+      icon: <LuPencilOff />,
     },
     {
-      label: "Guardar en BD",
+      label: "Guardar",
       classButton: "h-7",
       disabledButton: estado !== "M",
+      icon: <BsDatabaseFill />,
     },
     {
-      label: "Borrar de BD",
+      label: "Borrar",
       classButton: "h-7",
       disabledButton: true,
       customRed: true,
+      icon: <BsDatabaseFillX />,
     },
   ];
 
@@ -53,26 +64,30 @@ export default function HeaderCard({ handleOpenModalSearch }) {
       throw new Error(`${error}`);
     },
     onSuccess(data) {
+      if (!data.data) {
+        setErrorMessage("header", "Paciente inexistente");
+        inputRefHc.current?.focus();
+        return;
+      }
       setEstado("C");
       setDataPaciente(data.data);
     },
   });
 
   const handleOnClickHC = useCallback(() => {
+    clearErrorMessage("header");
     const dni = (dniInput ?? "").trim();
     if (estado !== "I" || !dni) return;
     getPacienteMutate({ dni });
   }, [dniInput, estado, getPacienteMutate]);
 
   const handleCancel = useCallback(() => {
-    setDniInput("");
-    setDataPaciente(null);
-    setEstado("I");
-  }, [setDniInput, setDataPaciente, setEstado]);
+    reset();
+  }, [reset]);
 
   useEffect(() => {
-    if (autofocusHC) inputRefHc.current?.focus();
-  }, [estado, autofocusHC]);
+    inputRefHc.current?.focus();
+  }, [estado]);
 
   useEffect(() => {
     if (estado !== "C") return;
@@ -100,48 +115,85 @@ export default function HeaderCard({ handleOpenModalSearch }) {
     }
   }
 
-  return (
-    <div className="w-full flex flex-col gap-2">
-      <div className="flex items-end justify-start w-full h-10 gap-10">
-        <div className="flex items-end justify-start h-16 gap-2">
-          <FlexibleInputField
-            label="HC"
-            value={dataPaciente?.dni ? dataPaciente.dni : dniInput}
-            onChange={(e) => setDniInput(e)}
-            onKeyDown={handleKeyDown}
-            inputRef={inputRefHc}
-            inputWidth="w-32"
-            labelWidth="60px"
-            inputClassName="rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen"
-            containerWidth="w-42"
-            disabled={estado !== "I"}
-            maxLength={8}
-          />
-          <Button
-            icon={<IoSearchSharp />}
-            padding="2"
-            custom
-            classButton="text-white bg-primaryBlue h-7  border-none hover:bg-gray-300"
-            disabledButton={estado !== "I"}
-            handle={handleOpenModalSearch}
-          />
-          <Button
-            label="Procesar"
-            height=" !h-7"
-            disabledButton={estado !== "I" || !(dniInput ?? "").trim()}
-            handle={handleOnClickHC}
-          />
-          <Button
-            icon={<IoClose />}
-            classButton="text-red-600 h-7 bg-gray-200 border-none hover:bg-gray-300"
-            padding="2"
-            custom
-            disabledButton={estado !== "C"}
-            handle={handleCancel}
-          />
-        </div>
+  function handleOnChange(e) {
+    console.log(e);
+    if (e.length === 0) {
+      clearErrorMessage("header");
+    }
+    setDniInput(e);
+  }
 
-        <div className="flex-[1] h-7 flex gap-2 justify-end">
+  return (
+    <div className="w-full flex flex-col">
+      <div className="flex items-center justify-center w-full h-20 gap-10">
+        <div className=" w-2/3  flex flex-col items-start justify-center gap-2 ">
+          {" "}
+          <div className="flex items-center justify-start w-full gap-2">
+            <FlexibleInputField
+              label="HC"
+              value={dataPaciente?.dni ? dataPaciente.dni : dniInput}
+              onChange={handleOnChange}
+              onKeyDown={handleKeyDown}
+              inputRef={inputRefHc}
+              inputWidth="w-32"
+              labelWidth="60px"
+              inputClassName="rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen"
+              containerWidth="w-42"
+              disabled={estado !== "I"}
+              maxLength={8}
+            />
+            <Button
+              icon={<IoSearchSharp />}
+              padding="2"
+              custom
+              classButton="text-white bg-primaryBlue h-7  border-none hover:bg-gray-300"
+              disabledButton={estado !== "I"}
+              handle={handleOpenModalSearch}
+            />
+            <Button
+              label="Procesar"
+              height=" !h-7"
+              disabledButton={estado !== "I" || !(dniInput ?? "").trim()}
+              handle={handleOnClickHC}
+            />
+            <Button
+              icon={<IoClose />}
+              classButton="text-red-600 h-7 bg-gray-200 border-none hover:bg-gray-300"
+              padding="2"
+              custom
+              disabledButton={estado !== "C"}
+              handle={handleCancel}
+            />
+            <p className="font-semibold text-red-500">
+              {errorMessage?.place === "header" && errorMessage?.message}
+            </p>
+          </div>
+          <div className="flex items-center justify-start gap-3">
+            <FlexibleInputField
+              label="Apellido"
+              key="apellido"
+              value={dataPaciente?.apellido ?? ""}
+              inputWidth="w-50"
+              labelWidth="60px"
+              labelAlign="left"
+              containerWidth="w-42"
+              inputClassName="rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen"
+              disabled
+            />
+            <FlexibleInputField
+              label="Nombre"
+              key="nombre"
+              value={dataPaciente?.nombre ?? ""}
+              inputWidth="w-60"
+              labelWidth="60px"
+              labelAlign="left"
+              containerWidth="w-42"
+              inputClassName="rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen"
+              disabled
+            />
+          </div>
+        </div>{" "}
+        <div className=" w-1/3  h-full justify-end px-4 items-center flex gap-2 flex-wrap">
           {buttonsHedear.map((item, index) => (
             <Button
               key={index}
@@ -150,34 +202,10 @@ export default function HeaderCard({ handleOpenModalSearch }) {
               disabledButton={item.disabledButton}
               handle={item.handle}
               customRed={item.customRed}
+              icon={item.icon}
             />
           ))}
         </div>
-      </div>
-
-      <div className="flex items-end justify-start gap-3">
-        <FlexibleInputField
-          label="Apellido"
-          key="apellido"
-          value={dataPaciente?.apellido ?? ""}
-          inputWidth="w-50"
-          labelWidth="60px"
-          labelAlign="left"
-          containerWidth="w-42"
-          inputClassName="rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen"
-          disabled
-        />
-        <FlexibleInputField
-          label="Nombre"
-          key="nombre"
-          value={dataPaciente?.nombre ?? ""}
-          inputWidth="w-60"
-          labelWidth="60px"
-          labelAlign="left"
-          containerWidth="w-42"
-          inputClassName="rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen"
-          disabled
-        />
       </div>
 
       <div className="w-full border border-gray-300" />
