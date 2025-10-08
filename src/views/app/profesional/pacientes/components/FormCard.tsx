@@ -1,7 +1,7 @@
 import { FlexibleInputField } from "@/frontend-resourses/components";
 import { usePacientesStore } from "../store/pacientesStore";
 import { formatDate } from "@/utils/index";
-import { ReactNode } from "react";
+import { ReactNode, useRef } from "react";
 
 type InputType = "number" | "text" | "select" | "tel" | "email" | "date" | "textarea";
 type Box = "left" | "right";
@@ -22,13 +22,44 @@ interface Field {
   containerClassName?: string;
 }
 
-export default function FormCard({
-  handleInputChange,
-}: {
-  handleInputChange: (k: string, v: string) => void;
-}) {
+export default function FormCard({ handleInputChange }) {
   const dataPaciente = usePacientesStore((s) => s.dataPaciente);
   const estado = usePacientesStore((s) => s.estado);
+
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  // Mueve el foco al siguiente elemento "focusable" dentro del grid
+  function handleEnterNavigation(e: React.KeyboardEvent<HTMLDivElement>) {
+    if (e.key !== "Enter") return;
+    e.preventDefault();
+    e.stopPropagation();
+
+    const root = gridRef.current;
+    if (!root) return;
+
+    // inputs navegables (en orden DOM: primero toda la izquierda y luego la derecha)
+    const focusables = Array.from(
+      root.querySelectorAll<HTMLElement>(
+        'input:not([type="hidden"]):not([disabled]):not([readonly]), textarea:not([disabled]):not([readonly]), select:not([disabled]):not([readonly])',
+      ),
+    );
+
+    if (focusables.length === 0) return;
+
+    const active = (document.activeElement as HTMLElement) || null;
+    const idx = focusables.findIndex((el) => el === active || (!!active && el.contains(active)));
+
+    // si no lo encontró, arrancamos por el primero
+    if (idx === -1) {
+      focusables[0].focus();
+      return;
+    }
+
+    // siguiente
+    const next = focusables[idx + 1];
+    if (next) next.focus();
+    // si no hay "next", no hacemos nada (ya está en el último de la derecha)
+  }
 
   const inputs: Field[] = [
     {
@@ -158,6 +189,7 @@ export default function FormCard({
       inputWidth: "w-40",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       box: "right",
+      // si querés un placeholder tipo “dd/mm/aaaa” configurarlo en FlexibleInputField
     },
     {
       label: "F. Alta",
@@ -208,7 +240,8 @@ export default function FormCard({
         <p className="text-gray-600 text-lg font-semibold">Datos del paciente</p>
       </div>
 
-      <div className="flex w-full gap-4 pt-2">
+      {/* Capturamos Enter acá para mover foco en orden vertical y luego a la derecha */}
+      <div ref={gridRef} onKeyDown={handleEnterNavigation} className="flex w-full gap-4 pt-2">
         {/* Columna izquierda */}
         <div className="w-1/2 flex flex-col items-start gap-2">
           {left.map((item) => (
