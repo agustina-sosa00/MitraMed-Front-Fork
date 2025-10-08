@@ -17,7 +17,6 @@ export default function ModalHeader({ handleCloseModal }) {
   const errorMessage = usePacientesStore((s) => s.errorMessage);
   const setErrorMessage = usePacientesStore((s) => s.setErrorMessage);
   const clearErrorMessage = usePacientesStore((s) => s.clearErrorMessage);
-  console.log(estado);
 
   const hasSelection = !!dataPaciente;
   const [dataInputs, setDataInputs] = useState({
@@ -112,7 +111,7 @@ export default function ModalHeader({ handleCloseModal }) {
         setErrorMessage("modal", "Paciente inexistente");
         inputRefHc.current[0]?.focus();
       }
-      console.log(data);
+
       setDataPacientesModal(data.data);
       setSelectTable(true);
     },

@@ -116,7 +116,6 @@ export default function HeaderCard({ handleOpenModalSearch }) {
   }
 
   function handleOnChange(e) {
-    console.log(e);
     if (e.length === 0) {
       clearErrorMessage("header");
     }

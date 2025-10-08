@@ -44,7 +44,6 @@ export async function consultaPacientes({
     loc: loc,
   };
   try {
-    console.log(data);
     const response = await apiPhp.post(`/${entorno}/mitramed/consultaPacientes.php?`, data);
     return response.data;
   } catch (error) {

@@ -12,8 +12,6 @@ type ApiHcRow = Omit<HcRow, "id">;
 
 export default function ModalTable() {
   const setDataPaciente = usePacientesStore((s) => s.setDataPaciente);
-  const dataPaciente = usePacientesStore((s) => s.dataPaciente);
-  console.log(dataPaciente);
   const dataPacientesModal = usePacientesStore((s) => s.dataPacientesModal);
   const selectTable = usePacientesStore((s) => s.selectTable);
 
