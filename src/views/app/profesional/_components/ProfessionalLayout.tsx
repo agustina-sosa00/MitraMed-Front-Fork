@@ -15,10 +15,13 @@ import { IoSettingsSharp } from "react-icons/io5";
 import Navbar from "@/views/app/_components/features/Navbar";
 import SideBar from "./SideBar";
 import TextAlert from "@/views/_components/TextAlert";
+import { usePacientesStore } from "../pacientes/store/pacientesStore";
 
 export default function ProfessionalLayout() {
   // const isDevelopment = import.meta.env.VITE_ENV === "development";
   const tusuario = localStorage.getItem("_tu");
+
+  const estado = usePacientesStore((s) => s.estado);
 
   const [disabledButtonSidebar, setDisabledButtonSidebar] = useState({
     inicio: false,
@@ -40,7 +43,7 @@ export default function ProfessionalLayout() {
       name: "Inicio",
       icon: FaHouse,
       link: "/dashboard/inicio",
-      disabled: disabledButtonSidebar.inicio,
+      disabled: disabledButtonSidebar.inicio || estado === "m",
       description: "",
     },
     turnosProfesional: {
@@ -48,7 +51,7 @@ export default function ProfessionalLayout() {
       name: "Turnos Profesional",
       icon: FaUserMd,
       link: "/dashboard/turnos-profesional",
-      disabled: disabledButtonSidebar.turnos,
+      disabled: disabledButtonSidebar.turnos || estado === "m",
       description:
         "Accedé a tus turnos de una manera sencilla, con filtros por fecha y una tabla organizada.",
     },
@@ -57,7 +60,7 @@ export default function ProfessionalLayout() {
       name: "Turnos",
       icon: FaNotesMedical,
       link: "/dashboard/turnos",
-      disabled: disabledButtonSidebar.turnosGrales,
+      disabled: disabledButtonSidebar.turnosGrales || estado === "m",
       description: "Panel con una tabla de turnos filtrados por cada profesional de la clínica",
     },
     historial: {
@@ -65,7 +68,7 @@ export default function ProfessionalLayout() {
       name: "Historia Clinica",
       icon: FaArchive,
       link: "/dashboard/historia-clinica",
-      disabled: disabledButtonSidebar.historial,
+      disabled: disabledButtonSidebar.historial || estado === "m",
       description: "Accedé al historial clínico, subí documentos y dejá observaciones.",
     },
     odontograma: {
@@ -73,7 +76,7 @@ export default function ProfessionalLayout() {
       name: "Odontograma",
       icon: FaTooth,
       link: "/dashboard/odontograma",
-      disabled: disabledButtonSidebar.odontograma,
+      disabled: disabledButtonSidebar.odontograma || estado === "m",
       description: "Marcá diagnósticos y procedimientos por pieza, cara y estado.",
     },
     informes: {
@@ -81,7 +84,7 @@ export default function ProfessionalLayout() {
       name: "Informes",
       icon: HiDocumentReport, // Icono de reporte/documento más específico
       link: "#", // No tiene link directo, es un desplegable
-      disabled: disabledButtonSidebar.informes,
+      disabled: disabledButtonSidebar.informes || estado === "m",
       description: "Informes y reportes del sistema.",
       isDropdown: true,
       subItems: [
@@ -89,7 +92,7 @@ export default function ProfessionalLayout() {
           key: "informe-turnos",
           name: "Informe de Turnos",
           link: "/dashboard/informe-turnos",
-          disabled: disabledButtonSidebar.tablaGral,
+          disabled: disabledButtonSidebar.tablaGral || estado === "m",
           description: "Panel centralizado para realizar un seguimiento de las ventas.",
         },
       ],
@@ -99,7 +102,7 @@ export default function ProfessionalLayout() {
       name: "Procesos",
       icon: FaCogs, // Icono de reporte/documento más específico
       link: "#", // No tiene link directo, es un desplegable
-      disabled: disabledButtonSidebar.informes,
+      disabled: disabledButtonSidebar.informes || estado === "m",
       description: "Automatizaciones y procesos del sistema.",
       isDropdown: true,
       subItems: [
@@ -107,14 +110,14 @@ export default function ProfessionalLayout() {
           key: "envio-email-prof",
           name: "Email Profesionales",
           link: "/dashboard/procesos/envio-email-prof",
-          disabled: disabledButtonSidebar.tablaGral,
+          disabled: disabledButtonSidebar.tablaGral || estado === "m",
           description: "Panel centralizado para envío de recordatorio de Emails a Doctores.",
         },
         {
           key: "envio-email-pac",
           name: "Email Pacientes",
           link: "/dashboard/procesos/envio-email-pac",
-          disabled: disabledButtonSidebar.tablaGral,
+          disabled: disabledButtonSidebar.tablaGral || estado === "m",
           description: "Panel centralizado para envío de recordatorio de Emails a Pacients.",
         },
       ],
@@ -124,7 +127,7 @@ export default function ProfessionalLayout() {
       name: "Pacientes",
       icon: FaUsers,
       link: "/dashboard/pacientes",
-      disabled: disabledButtonSidebar.pacientes,
+      disabled: disabledButtonSidebar.pacientes || estado === "m",
       description: "Panel centralizado para realizar un seguimiento de las ventas.",
     },
     usuarios: {
@@ -132,7 +135,7 @@ export default function ProfessionalLayout() {
       name: "Usuarios",
       icon: FaUserCog,
       link: "/dashboard/usuarios",
-      disabled: disabledButtonSidebar.usuarios,
+      disabled: disabledButtonSidebar.usuarios || estado === "m",
       description: "Gestión de usuarios del sistema.",
     },
     configuracion: {
@@ -140,14 +143,14 @@ export default function ProfessionalLayout() {
       name: "Configuración",
       icon: IoSettingsSharp,
       link: "/dashboard/configuracion",
-      disabled: disabledButtonSidebar.configuracion,
+      disabled: disabledButtonSidebar.configuracion || estado === "m",
       description: "Configuración general del sistema.",
     },
   };
 
   const buttonsSidebar = useMemo(() => {
     return getButtonsForUser(tusuario, allButtons);
-  }, [tusuario, disabledButtonSidebar]);
+  }, [tusuario, disabledButtonSidebar, estado]);
 
   // Calcular si el sidebar debe estar completamente deshabilitado
   const isSidebarDisabled = useMemo(() => {

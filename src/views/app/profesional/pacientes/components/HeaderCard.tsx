@@ -121,7 +121,7 @@ export default function HeaderCard({ handleOpenModalSearch }) {
             icon={<IoSearchSharp />}
             padding="2"
             custom
-            classButton="text-primaryGreen h-7  border-none hover:bg-gray-300"
+            classButton="text-white bg-primaryBlue h-7  border-none hover:bg-gray-300"
             disabledButton={estado !== "i"}
             handle={handleOpenModalSearch}
           />
