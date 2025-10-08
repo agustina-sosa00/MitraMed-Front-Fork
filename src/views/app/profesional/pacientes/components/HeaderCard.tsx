@@ -17,27 +17,27 @@ export default function HeaderCard({ handleOpenModalSearch }) {
   const startEdit = usePacientesStore((s) => s.startEdit);
   const cancelEditToBackup = usePacientesStore((s) => s.cancelEditToBackup);
 
-  const autofocusHC = estado === "i";
+  const autofocusHC = estado === "I";
   const inputRefHc = useRef<HTMLInputElement>(null);
 
   const buttonsHedear = [
     {
       label: "Editar",
       classButton: "h-7",
-      disabledButton: estado !== "c",
+      disabledButton: estado !== "C",
       handle: () => startEdit(),
     },
     {
       label: "Cancelar Edicion",
       customRed: true,
       classButton: "h-7",
-      disabledButton: estado !== "m",
+      disabledButton: estado !== "M",
       handle: () => cancelEditToBackup(),
     },
     {
       label: "Guardar en BD",
       classButton: "h-7",
-      disabledButton: estado !== "m",
+      disabledButton: estado !== "M",
     },
     {
       label: "Borrar de BD",
@@ -53,21 +53,21 @@ export default function HeaderCard({ handleOpenModalSearch }) {
       throw new Error(`${error}`);
     },
     onSuccess(data) {
-      setEstado("c");
+      setEstado("C");
       setDataPaciente(data.data);
     },
   });
 
   const handleOnClickHC = useCallback(() => {
     const dni = (dniInput ?? "").trim();
-    if (estado !== "i" || !dni) return;
+    if (estado !== "I" || !dni) return;
     getPacienteMutate({ dni });
   }, [dniInput, estado, getPacienteMutate]);
 
   const handleCancel = useCallback(() => {
     setDniInput("");
     setDataPaciente(null);
-    setEstado("i");
+    setEstado("I");
   }, [setDniInput, setDataPaciente, setEstado]);
 
   useEffect(() => {
@@ -75,7 +75,7 @@ export default function HeaderCard({ handleOpenModalSearch }) {
   }, [estado, autofocusHC]);
 
   useEffect(() => {
-    if (estado !== "c") return;
+    if (estado !== "C") return;
 
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -88,7 +88,7 @@ export default function HeaderCard({ handleOpenModalSearch }) {
   }, [estado, handleCancel]);
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (estado !== "i") return;
+    if (estado !== "I") return;
 
     if (e.key === "Enter") {
       e.preventDefault();
@@ -114,7 +114,7 @@ export default function HeaderCard({ handleOpenModalSearch }) {
             labelWidth="60px"
             inputClassName="rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen"
             containerWidth="w-42"
-            disabled={estado !== "i"}
+            disabled={estado !== "I"}
             maxLength={8}
           />
           <Button
@@ -122,13 +122,13 @@ export default function HeaderCard({ handleOpenModalSearch }) {
             padding="2"
             custom
             classButton="text-white bg-primaryBlue h-7  border-none hover:bg-gray-300"
-            disabledButton={estado !== "i"}
+            disabledButton={estado !== "I"}
             handle={handleOpenModalSearch}
           />
           <Button
             label="Procesar"
             height=" !h-7"
-            disabledButton={estado !== "i" || !(dniInput ?? "").trim()}
+            disabledButton={estado !== "I" || !(dniInput ?? "").trim()}
             handle={handleOnClickHC}
           />
           <Button
@@ -136,7 +136,7 @@ export default function HeaderCard({ handleOpenModalSearch }) {
             classButton="text-red-600 h-7 bg-gray-200 border-none hover:bg-gray-300"
             padding="2"
             custom
-            disabledButton={estado !== "c"}
+            disabledButton={estado !== "C"}
             handle={handleCancel}
           />
         </div>

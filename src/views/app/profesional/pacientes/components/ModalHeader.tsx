@@ -26,7 +26,7 @@ export default function ModalHeader({ handleCloseModal }) {
     loc: "",
   });
 
-  const autofocusHC = estado === "i";
+  const autofocusHC = estado === "I";
   const inputRefHc = useRef<Array<HTMLInputElement | null>>([]);
   const searchBtnRef = useRef<HTMLButtonElement | null>(null);
 
@@ -151,7 +151,7 @@ export default function ModalHeader({ handleCloseModal }) {
   }
 
   function handleSelectPaciente() {
-    setEstado("c");
+    setEstado("C");
     handleCloseModal();
   }
 

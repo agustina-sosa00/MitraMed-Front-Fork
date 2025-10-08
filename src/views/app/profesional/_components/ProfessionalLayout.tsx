@@ -43,7 +43,7 @@ export default function ProfessionalLayout() {
       name: "Inicio",
       icon: FaHouse,
       link: "/dashboard/inicio",
-      disabled: disabledButtonSidebar.inicio || estado === "m",
+      disabled: disabledButtonSidebar.inicio || estado === "M",
       description: "",
     },
     turnosProfesional: {
@@ -51,7 +51,7 @@ export default function ProfessionalLayout() {
       name: "Turnos Profesional",
       icon: FaUserMd,
       link: "/dashboard/turnos-profesional",
-      disabled: disabledButtonSidebar.turnos || estado === "m",
+      disabled: disabledButtonSidebar.turnos || estado === "M",
       description:
         "Accedé a tus turnos de una manera sencilla, con filtros por fecha y una tabla organizada.",
     },
@@ -60,7 +60,7 @@ export default function ProfessionalLayout() {
       name: "Turnos",
       icon: FaNotesMedical,
       link: "/dashboard/turnos",
-      disabled: disabledButtonSidebar.turnosGrales || estado === "m",
+      disabled: disabledButtonSidebar.turnosGrales || estado === "M",
       description: "Panel con una tabla de turnos filtrados por cada profesional de la clínica",
     },
     historial: {
@@ -68,7 +68,7 @@ export default function ProfessionalLayout() {
       name: "Historia Clinica",
       icon: FaArchive,
       link: "/dashboard/historia-clinica",
-      disabled: disabledButtonSidebar.historial || estado === "m",
+      disabled: disabledButtonSidebar.historial || estado === "M",
       description: "Accedé al historial clínico, subí documentos y dejá observaciones.",
     },
     odontograma: {
@@ -76,7 +76,7 @@ export default function ProfessionalLayout() {
       name: "Odontograma",
       icon: FaTooth,
       link: "/dashboard/odontograma",
-      disabled: disabledButtonSidebar.odontograma || estado === "m",
+      disabled: disabledButtonSidebar.odontograma || estado === "M",
       description: "Marcá diagnósticos y procedimientos por pieza, cara y estado.",
     },
     informes: {
@@ -84,7 +84,7 @@ export default function ProfessionalLayout() {
       name: "Informes",
       icon: HiDocumentReport, // Icono de reporte/documento más específico
       link: "#", // No tiene link directo, es un desplegable
-      disabled: disabledButtonSidebar.informes || estado === "m",
+      disabled: disabledButtonSidebar.informes || estado === "M",
       description: "Informes y reportes del sistema.",
       isDropdown: true,
       subItems: [
@@ -92,7 +92,7 @@ export default function ProfessionalLayout() {
           key: "informe-turnos",
           name: "Informe de Turnos",
           link: "/dashboard/informe-turnos",
-          disabled: disabledButtonSidebar.tablaGral || estado === "m",
+          disabled: disabledButtonSidebar.tablaGral || estado === "M",
           description: "Panel centralizado para realizar un seguimiento de las ventas.",
         },
       ],
@@ -102,7 +102,7 @@ export default function ProfessionalLayout() {
       name: "Procesos",
       icon: FaCogs, // Icono de reporte/documento más específico
       link: "#", // No tiene link directo, es un desplegable
-      disabled: disabledButtonSidebar.informes || estado === "m",
+      disabled: disabledButtonSidebar.informes || estado === "M",
       description: "Automatizaciones y procesos del sistema.",
       isDropdown: true,
       subItems: [
@@ -110,14 +110,14 @@ export default function ProfessionalLayout() {
           key: "envio-email-prof",
           name: "Email Profesionales",
           link: "/dashboard/procesos/envio-email-prof",
-          disabled: disabledButtonSidebar.tablaGral || estado === "m",
+          disabled: disabledButtonSidebar.tablaGral || estado === "M",
           description: "Panel centralizado para envío de recordatorio de Emails a Doctores.",
         },
         {
           key: "envio-email-pac",
           name: "Email Pacientes",
           link: "/dashboard/procesos/envio-email-pac",
-          disabled: disabledButtonSidebar.tablaGral || estado === "m",
+          disabled: disabledButtonSidebar.tablaGral || estado === "M",
           description: "Panel centralizado para envío de recordatorio de Emails a Pacients.",
         },
       ],
@@ -127,7 +127,7 @@ export default function ProfessionalLayout() {
       name: "Pacientes",
       icon: FaUsers,
       link: "/dashboard/pacientes",
-      disabled: disabledButtonSidebar.pacientes || estado === "m",
+      disabled: disabledButtonSidebar.pacientes || estado === "M",
       description: "Panel centralizado para realizar un seguimiento de las ventas.",
     },
     usuarios: {
@@ -135,7 +135,7 @@ export default function ProfessionalLayout() {
       name: "Usuarios",
       icon: FaUserCog,
       link: "/dashboard/usuarios",
-      disabled: disabledButtonSidebar.usuarios || estado === "m",
+      disabled: disabledButtonSidebar.usuarios || estado === "M",
       description: "Gestión de usuarios del sistema.",
     },
     configuracion: {
@@ -143,7 +143,7 @@ export default function ProfessionalLayout() {
       name: "Configuración",
       icon: IoSettingsSharp,
       link: "/dashboard/configuracion",
-      disabled: disabledButtonSidebar.configuracion || estado === "m",
+      disabled: disabledButtonSidebar.configuracion || estado === "M",
       description: "Configuración general del sistema.",
     },
   };

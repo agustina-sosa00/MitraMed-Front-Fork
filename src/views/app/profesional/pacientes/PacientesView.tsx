@@ -76,7 +76,7 @@ export default function PacientesView() {
             inputClassName="text-center max-h-6 lg:max-h-7"
             inputWidth="w-20"
             maxLength={5}
-            disabled={estado !== "m"}
+            disabled={estado !== "M"}
             onChange={(value) => handleInputChange("codarea", value)}
           />
           <span className="text-sm text-gray-400 font-medium">15</span>

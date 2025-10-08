@@ -21,7 +21,7 @@ export default function FormCard({ inputs, handleInputChange }) {
               value={dataPaciente?.[item.key] || ""}
               onChange={(value) => handleInputChange(item.key, value)}
               {...item}
-              disabled={estado !== "m"}
+              disabled={estado !== "M"}
             />
           ))}
         </div>
@@ -39,7 +39,7 @@ export default function FormCard({ inputs, handleInputChange }) {
                 value={f_Alta || dataPaciente?.[item.key] || ""}
                 {...item}
                 onChange={(value) => handleInputChange(item.key, value)}
-                disabled={estado !== "m" || item.key === "f_alta"}
+                disabled={estado !== "M" || item.key === "f_alta"}
               />
             );
           })}

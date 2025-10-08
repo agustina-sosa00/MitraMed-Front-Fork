@@ -287,11 +287,11 @@ export default function SideBar({ logo, buttons, isDisabled = false }: SideBarPr
               <button
                 type="button"
                 className={`flex items-center justify-between text-start gap-2 pl-2 py-1 w-[90%] text-base font-medium rounded transition-all duration-300 ${
-                  isDisabled || estado === "m"
+                  isDisabled || estado === "M"
                     ? "text-gray-400 cursor-not-allowed"
                     : "text-primaryBlue hover:bg-greenHover hover:text-white cursor-pointer"
                 } ${openSubMenu || userAreaActive ? "bg-primaryGreen text-white" : ""}`}
-                disabled={isDisabled || estado === "m"}
+                disabled={isDisabled || estado === "M"}
                 onClick={isDisabled ? undefined : toggleUser}
               >
                 <div className="flex items-center gap-2">

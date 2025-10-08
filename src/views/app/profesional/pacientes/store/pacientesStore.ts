@@ -1,13 +1,13 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-type Estado = "i" | "c" | "m";
+type Estado = "I" | "C" | "M";
 
 export type ClientData = {
   [key: string]: any;
 };
 
-interface PacientesStore {
+interface PacientesStoreProps {
   estado: Estado;
   setEstado: (v: Estado) => void;
 
@@ -31,10 +31,10 @@ interface PacientesStore {
   reset: () => void;
 }
 
-export const usePacientesStore = create<PacientesStore>()(
+export const usePacientesStore = create<PacientesStoreProps>()(
   persist(
     (set) => ({
-      estado: "i",
+      estado: "I",
       setEstado: (v) => set({ estado: v }),
 
       dniInput: "",
@@ -46,12 +46,12 @@ export const usePacientesStore = create<PacientesStore>()(
       backupPaciente: null,
 
       startEdit: () =>
-        set((s) => (s.dataPaciente ? { estado: "m", backupPaciente: { ...s.dataPaciente } } : s)),
+        set((s) => (s.dataPaciente ? { estado: "M", backupPaciente: { ...s.dataPaciente } } : s)),
 
       cancelEditToBackup: () =>
         set((s) =>
           s.backupPaciente
-            ? { estado: "c", dataPaciente: s.backupPaciente, backupPaciente: null }
+            ? { estado: "C", dataPaciente: s.backupPaciente, backupPaciente: null }
             : s,
         ),
 
@@ -63,7 +63,7 @@ export const usePacientesStore = create<PacientesStore>()(
 
       reset: () =>
         set({
-          estado: "i",
+          estado: "I",
           dniInput: "",
           dataPaciente: null,
           backupPaciente: null,
@@ -77,7 +77,7 @@ export const usePacientesStore = create<PacientesStore>()(
         dataPaciente: state.dataPaciente,
         dniInput: state.dniInput,
         estado: state.estado,
-        backupPaciente: state.backupPaciente,
+        // backupPaciente: state.backupPaciente,
       }), //me guardo la info del usuario, el dni y el estado, para mantenerlo siempre a menos que lo resetee
     },
   ),
