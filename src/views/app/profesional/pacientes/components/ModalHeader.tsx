@@ -108,7 +108,7 @@ export default function ModalHeader({ handleCloseModal }) {
     },
     onSuccess(data) {
       if (data.data.length === 0) {
-        setErrorMessage("modal", "Paciente inexistente");
+        setErrorMessage("modal", "Sin registros");
         inputRefHc.current[0]?.focus();
       }
 

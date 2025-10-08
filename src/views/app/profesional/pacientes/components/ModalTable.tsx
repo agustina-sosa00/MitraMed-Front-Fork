@@ -50,7 +50,7 @@ export default function ModalTable() {
         maxWidth: "200",
       },
       {
-        key: "cuil",
+        key: "dni",
         label: "CUIT",
         minWidth: "90",
         maxWidth: "90",

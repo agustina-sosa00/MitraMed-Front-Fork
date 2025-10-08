@@ -24,6 +24,7 @@ export default function HeaderCard({ handleOpenModalSearch }) {
   const errorMessage = usePacientesStore((s) => s.errorMessage);
   const setErrorMessage = usePacientesStore((s) => s.setErrorMessage);
   const clearErrorMessage = usePacientesStore((s) => s.clearErrorMessage);
+
   // const autofocusHC = estado === "I";
   const inputRefHc = useRef<HTMLInputElement>(null);
 
@@ -47,6 +48,7 @@ export default function HeaderCard({ handleOpenModalSearch }) {
       label: "Guardar",
       classButton: "h-7",
       disabledButton: estado !== "M",
+      handle: () => cancelEditToBackup(),
       icon: <BsDatabaseFill />,
     },
     {

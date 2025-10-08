@@ -104,7 +104,7 @@ export default function FormCard({ handleInputChange }) {
     {
       label: "Celular",
       key: "telefono",
-      inputWidth: "w-28",
+      inputWidth: "w-20",
       inputClassName: "max-h-6 lg:max-h-7",
       type: "text",
       box: "right",
@@ -117,12 +117,12 @@ export default function FormCard({ handleInputChange }) {
             key="codarea"
             value={dataPaciente?.codarea || ""}
             inputClassName="text-center max-h-6 lg:max-h-7"
-            inputWidth="w-20"
+            inputWidth="w-16"
             maxLength={5}
             disabled={estado !== "M"}
             onChange={(value) => handleInputChange("codarea", value)}
           />
-          <span className="text-sm text-gray-400 font-medium">15</span>
+          <span className="text-sm text-gray-500 font-medium">15</span>
         </div>
       ),
     },
@@ -285,6 +285,7 @@ export default function FormCard({ handleInputChange }) {
                 inputClassName={item.inputClassName}
                 containerWidth={item.containerWidth}
                 containerClassName={item.containerClassName}
+                middleComponent={item.middleComponent}
               />
             );
           })}

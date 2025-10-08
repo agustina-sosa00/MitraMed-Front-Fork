@@ -51,18 +51,26 @@ export const usePacientesStore = create<PacientesStoreProps>()(
       setDataPaciente: (v) => set({ dataPaciente: v }),
 
       dataPacientesModi: null,
-
       startEdit: () =>
-        set((s) =>
-          s.dataPaciente ? { estado: "M", dataPacientesModi: { ...s.dataPaciente } } : s,
-        ),
+        set((s) => {
+          if (!s.dataPaciente) return {};
+          if (s.estado === "M" && s.dataPacientesModi) return {};
+          return {
+            estado: "M",
+
+            dataPacientesModi: JSON.parse(JSON.stringify(s.dataPaciente)),
+          };
+        }),
 
       cancelEditToBackup: () =>
-        set((s) =>
-          s.dataPacientesModi
-            ? { estado: "C", dataPaciente: s.dataPacientesModi, dataPacientesModi: null }
-            : s,
-        ),
+        set((s) => {
+          if (!s.dataPacientesModi) return {};
+          return {
+            estado: "C",
+            dataPaciente: s.dataPacientesModi,
+            dataPacientesModi: null,
+          };
+        }),
 
       dataPacientesModal: null,
       setDataPacientesModal: (v) => set({ dataPacientesModal: v }),
