@@ -9,6 +9,7 @@ import { useInformeTurnosStore } from "../informes/informeTurnos/store/informeTu
 import { useTurnosGeneralesStore } from "../turnos/turnosGenerales/store/turnosGeneralesStore";
 import { IoLogOut } from "react-icons/io5";
 import SubMenuSidebar from "./SubMenuSidebar";
+import { usePacientesStore } from "../pacientes/store/pacientesStore";
 
 interface ISubItem {
   key: string;
@@ -58,6 +59,8 @@ export default function SideBar({ logo, buttons, isDisabled = false }: SideBarPr
 
   const { setDiaSeleccionado } = useTurnosGeneralesStore();
   const { clearInformeTurnosData } = useInformeTurnosStore();
+
+  const estado = usePacientesStore((s) => s.estado);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -182,8 +185,8 @@ export default function SideBar({ logo, buttons, isDisabled = false }: SideBarPr
                     <div
                       key={item.key}
                       className="relative flex flex-col items-center w-full gap-2"
-                      onMouseEnter={() => openDropdown(item.key)}
-                      onMouseLeave={scheduleCloseDropdown}
+                      // onMouseEnter={() => openDropdown(item.key)}
+                      // onMouseLeave={scheduleCloseDropdown}
                     >
                       <button
                         onClick={() => toggleDropdownClick(item.key)}
@@ -277,18 +280,18 @@ export default function SideBar({ logo, buttons, isDisabled = false }: SideBarPr
           {/* Botón usuario (abre submenú) */}
           <div
             className="flex flex-col items-center w-full gap-1.5 py-3"
-            onMouseEnter={openUser}
-            onMouseLeave={scheduleCloseUser}
+            // onMouseEnter={openUser}
+            // onMouseLeave={scheduleCloseUser}
           >
             <div className="flex justify-center w-full">
               <button
                 type="button"
                 className={`flex items-center justify-between text-start gap-2 pl-2 py-1 w-[90%] text-base font-medium rounded transition-all duration-300 ${
-                  isDisabled
+                  isDisabled || estado === "M"
                     ? "text-gray-400 cursor-not-allowed"
                     : "text-primaryBlue hover:bg-greenHover hover:text-white cursor-pointer"
                 } ${openSubMenu || userAreaActive ? "bg-primaryGreen text-white" : ""}`}
-                disabled={isDisabled}
+                disabled={isDisabled || estado === "M"}
                 onClick={isDisabled ? undefined : toggleUser}
               >
                 <div className="flex items-center gap-2">

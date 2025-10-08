@@ -25,3 +25,7 @@ export function getLocalStorageParams() {
 
   return { empresa, modo, entorno, tusuario, iddoctor, idProfesional };
 }
+
+export function inputTrim(value: any) {
+  return (typeof value === "string" ? value : (value?.target?.value ?? "")).trim();
+}

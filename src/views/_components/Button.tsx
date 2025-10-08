@@ -11,6 +11,9 @@ interface IProp {
   height?: string;
   padding?: string;
   custom?: boolean;
+  customRed?: boolean;
+  buttonRef?: React.Ref<HTMLButtonElement>;
+  onKeyDown?: React.KeyboardEventHandler<HTMLButtonElement>;
 }
 
 export const Button: React.FC<IProp> = ({
@@ -24,15 +27,20 @@ export const Button: React.FC<IProp> = ({
   height,
   padding,
   custom,
+  customRed,
+  buttonRef,
+  onKeyDown,
 }) => {
   const base = `${height ? `h-${height}` : "h-10"} flex items-center ${
     padding ? `px-${padding}` : "px-5"
-  } rounded capitalize font-medium gap-1 transition-all duration-300`;
+  } rounded  font-medium gap-1 transition-all duration-300`;
 
   const enabled = `${
     custom
       ? "bg-gray-300 hover:bg-gray-400/60 border border-slate-400 "
-      : "bg-primaryGreen hover:bg-greenHover cursor-pointer text-white border"
+      : customRed
+        ? "bg-red-500 hover:bg-red-600 cursor-pointer text-white "
+        : "bg-primaryGreen hover:bg-greenHover cursor-pointer text-white border"
   }`;
 
   const disabledCls =
@@ -40,8 +48,10 @@ export const Button: React.FC<IProp> = ({
 
   return (
     <button
+      ref={buttonRef}
       type={type}
       onClick={handle}
+      onKeyDown={onKeyDown}
       disabled={disabledButton}
       className={`${base} ${classButton ?? ""} ${disabledButton ? disabledCls : enabled}`}
     >

@@ -27,6 +27,7 @@ import EnvioEmailPacView from "./views/app/profesional/procesos/email/emailPac/E
 import EnvioEmailProfView from "./views/app/profesional/procesos/email/emailProf/EnvioEmailProfView";
 import PlaceHolderDesarrolloView from "./views/app/profesional/placeholderDesarrollo/PlaceholderDesarrolloView";
 import PacienteProtectedRoute from "./views/app/paciente/_components/features/PacienteProtectedRoute";
+import PacientesView from "./views/app/profesional/pacientes/PacientesView";
 
 interface RouterProps {
   loader: boolean;
@@ -76,6 +77,7 @@ export default function Router({ loader, setLoader }: RouterProps) {
             />
             <Route path="/dashboard/usuarios" element={<UsuariosProfesionalesView />} />
             <Route path="/dashboard/configuracion" element={<ConfiguracionView />} />
+            <Route path="/dashboard/pacientes" element={<PacientesView />} />
           </Route>
         </Route>
       </Routes>

@@ -4,9 +4,10 @@ interface IPropsModal {
   close?: () => void;
   title: string;
   children: React.ReactNode;
+  modalWidth?: string;
 }
 
-export const Modal: React.FC<IPropsModal> = ({ close, title, children }) => {
+export const Modal: React.FC<IPropsModal> = ({ close, title, children, modalWidth }) => {
   const handleClose = () => {
     close && close();
   };
@@ -17,7 +18,7 @@ export const Modal: React.FC<IPropsModal> = ({ close, title, children }) => {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="flex flex-col items-center w-full max-w-2xl p-8 bg-white rounded shadow-xl"
+        className={`flex flex-col items-center  p-8 bg-white rounded shadow-xl ${modalWidth ? modalWidth : "w-full max-w-2xl"}`}
       >
         <h3 className="mb-6 text-2xl font-semibold text-center text-primaryBlue">{title}</h3>
 
