@@ -67,13 +67,20 @@ export default function ModalTable() {
       heightContainer: "253px",
       addHeaderColor: "#022539",
       withBorder: true,
+      withScrollbar: true,
     },
     selectFn: selectTable,
     objectSelection: { setSeleccionado: setDataPaciente },
   };
   return (
-    <div className="w-full ">
+    <div className="w-full h-full flex flex-col gap-2">
       <TablaDefault props={propsTabla} />
+      <div className="w-full  bg-gray-200 rounded text-gray-700 flex px-2  py-2 items- font-bold gap-1">
+        <span className="h-6 text-sm flex items-center pt-1.5"> Total de Regitros: </span>
+        <span className="text-xl h-6  flex items-center  text-primaryBlue ">
+          {pacientesEncontrados.length}
+        </span>
+      </div>
     </div>
   );
 }
