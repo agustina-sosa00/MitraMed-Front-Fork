@@ -167,7 +167,7 @@ export default function ModalHeader({ handleCloseModal }) {
 
   //region return
   return (
-    <div className="w- h-32 flex">
+    <div className="w-full h-32 flex">
       <div className="w-full flex flex-wrap  gap-x-5 flex-row ">
         {inputs.map((item, index) => (
           <FlexibleInputField

@@ -126,8 +126,8 @@ export default function HeaderCard({ handleOpenModalSearch }) {
 
   return (
     <div className="w-full flex flex-col">
-      <div className="flex items-center justify-center w-full h-20 gap-10">
-        <div className=" w-2/3  flex flex-col items-start justify-center gap-2 ">
+      <div className="flex items-center justify-center w-full h-28 gap-10">
+        <div className=" w-2/3  flex flex-col items-start justify-center gap-5 ">
           {" "}
           <div className="flex items-center justify-start w-full gap-2">
             <FlexibleInputField
@@ -196,12 +196,12 @@ export default function HeaderCard({ handleOpenModalSearch }) {
             />
           </div>
         </div>{" "}
-        <div className=" w-1/3  h-full justify-end px-4 items-center flex gap-2 flex-wrap">
+        <div className=" w-1/3  gap-y-5 gap-x-2 justify-end px-4 items-center flex flex-wrap">
           {buttonsHedear.map((item, index) => (
             <Button
               key={index}
               label={item.label}
-              classButton={item.classButton}
+              classButton={`${item.classButton} w-32 flex justify-center `}
               disabledButton={item.disabledButton}
               handle={item.handle}
               customRed={item.customRed}

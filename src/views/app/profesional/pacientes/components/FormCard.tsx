@@ -24,8 +24,10 @@ interface Field {
 
 export default function FormCard({ handleInputChange }) {
   const dataPaciente = usePacientesStore((s) => s.dataPaciente);
+  const dataPacientesModi = usePacientesStore((s) => s.dataPacientesModi);
   const estado = usePacientesStore((s) => s.estado);
 
+  const dataInputs = estado === "C" ? dataPaciente : estado === "M" ? dataPacientesModi : null;
   const gridRef = useRef<HTMLDivElement>(null);
 
   // Mueve el foco al siguiente elemento "focusable" dentro del grid
@@ -265,7 +267,7 @@ export default function FormCard({ handleInputChange }) {
         {/* Columna derecha */}
         <div className="w-1/2 flex flex-col items-start gap-2">
           {right.map((item) => {
-            const raw = dataPaciente?.[item.key];
+            const raw = dataInputs?.[item.key];
             const f_Alta =
               item.key === "f_alta" && raw
                 ? formatDate(new Date(String(raw).replace(" ", "T")))
@@ -275,7 +277,7 @@ export default function FormCard({ handleInputChange }) {
               <FlexibleInputField
                 key={item.key}
                 label={item.label}
-                value={f_Alta || dataPaciente?.[item.key] || ""}
+                value={f_Alta || dataInputs?.[item.key] || ""}
                 inputType={item.type ?? "text"}
                 inputWidth={item.inputWidth}
                 maxLength={item.maxLength}
