@@ -1,6 +1,6 @@
 import { FlexibleInputField } from "@/frontend-resourses/components";
 import { usePacientesStore } from "../store/pacientesStore";
-import { formatDate } from "@/utils/index";
+import { formatearFechaDMA } from "@/utils/index";
 import { ReactNode, useRef } from "react";
 
 type InputType = "number" | "text" | "select" | "tel" | "email" | "date" | "textarea";
@@ -26,43 +26,33 @@ export default function FormCard({ handleInputChange }) {
   const dataPaciente = usePacientesStore((s) => s.dataPaciente);
   const dataPacientesModi = usePacientesStore((s) => s.dataPacientesModi);
   const estado = usePacientesStore((s) => s.estado);
-
+  console.log(dataPaciente);
   const dataInputs = estado === "C" ? dataPaciente : estado === "M" ? dataPacientesModi : null;
   const gridRef = useRef<HTMLDivElement>(null);
 
-  // Mueve el foco al siguiente elemento "focusable" dentro del grid
   function handleEnterNavigation(e: React.KeyboardEvent<HTMLDivElement>) {
     if (e.key !== "Enter") return;
     e.preventDefault();
     e.stopPropagation();
-
     const root = gridRef.current;
     if (!root) return;
-
-    // inputs navegables (en orden DOM: primero toda la izquierda y luego la derecha)
     const focusables = Array.from(
       root.querySelectorAll<HTMLElement>(
         'input:not([type="hidden"]):not([disabled]):not([readonly]), textarea:not([disabled]):not([readonly]), select:not([disabled]):not([readonly])',
       ),
     );
-
     if (focusables.length === 0) return;
-
     const active = (document.activeElement as HTMLElement) || null;
     const idx = focusables.findIndex((el) => el === active || (!!active && el.contains(active)));
-
-    // si no lo encontró, arrancamos por el primero
     if (idx === -1) {
       focusables[0].focus();
       return;
     }
-
-    // siguiente
     const next = focusables[idx + 1];
     if (next) next.focus();
-    // si no hay "next", no hacemos nada (ya está en el último de la derecha)
   }
 
+  //region inputs
   const inputs: Field[] = [
     {
       label: "DNI",
@@ -236,15 +226,14 @@ export default function FormCard({ handleInputChange }) {
   const left = inputs.filter((i) => i.box === "left");
   const right = inputs.filter((i) => i.box === "right");
 
+  //region return
   return (
     <div className="flex flex-col w-full">
       <div>
         <p className="text-gray-600 text-lg font-semibold">Datos del paciente</p>
       </div>
 
-      {/* Capturamos Enter acá para mover foco en orden vertical y luego a la derecha */}
       <div ref={gridRef} onKeyDown={handleEnterNavigation} className="flex w-full gap-4 pt-2">
-        {/* Columna izquierda */}
         <div className="w-1/2 flex flex-col items-start gap-2">
           {left.map((item) => (
             <FlexibleInputField
@@ -264,20 +253,20 @@ export default function FormCard({ handleInputChange }) {
           ))}
         </div>
 
-        {/* Columna derecha */}
         <div className="w-1/2 flex flex-col items-start gap-2">
           {right.map((item) => {
             const raw = dataInputs?.[item.key];
             const f_Alta =
-              item.key === "f_alta" && raw
-                ? formatDate(new Date(String(raw).replace(" ", "T")))
-                : "";
+              item.key === "f_alta" && raw ? formatearFechaDMA(new Date(String(raw)), true) : "";
+
+            const f_nac =
+              item.key === "fnacim" && raw ? formatearFechaDMA(new Date(String(raw))) : "";
 
             return (
               <FlexibleInputField
                 key={item.key}
                 label={item.label}
-                value={f_Alta || dataInputs?.[item.key] || ""}
+                value={f_Alta || f_nac || dataInputs?.[item.key] || ""}
                 inputType={item.type ?? "text"}
                 inputWidth={item.inputWidth}
                 maxLength={item.maxLength}
