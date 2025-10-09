@@ -92,17 +92,24 @@ export default function HeaderCard({ handleOpenModalSearch }) {
   }, [estado]);
 
   useEffect(() => {
-    if (estado !== "C") return;
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key !== "Escape") return;
 
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
+      if (estado === "M") {
+        e.preventDefault();
+        cancelEditToBackup();
+        return;
+      }
+
+      if (estado === "C") {
+        e.preventDefault();
         handleCancel();
       }
-    };
+    }
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [estado, handleCancel]);
+  }, [estado, cancelEditToBackup, handleCancel]);
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     if (estado !== "I") return;
