@@ -131,6 +131,7 @@ export default function HeaderCard({ handleOpenModalSearch }) {
     setDniInput(e);
   }
 
+  //region return
   return (
     <div className="w-full flex flex-col">
       <div className="flex items-center justify-center w-full h-28 gap-10">

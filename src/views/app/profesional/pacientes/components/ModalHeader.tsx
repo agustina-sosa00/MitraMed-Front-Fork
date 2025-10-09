@@ -144,24 +144,34 @@ export default function ModalHeader({ handleCloseModal }: Props) {
   }, [estado]);
 
   useEffect(
-    function onEscCancelWhenHasResults() {
+    function onEscClearOrClose() {
       function onKeyDown(e: KeyboardEvent) {
         if (e.key !== "Escape") return;
+        const hasInputs =
+          !!dataInputs.apellido.trim() ||
+          !!dataInputs.nombre.trim() ||
+          !!dataInputs.dni.trim() ||
+          !!dataInputs.cuil.trim() ||
+          !!dataInputs.dom1.trim() ||
+          !!dataInputs.dom2.trim() ||
+          !!dataInputs.loc.trim();
 
-        const hasData = Array.isArray(dataPacientesModal)
+        const hasResults = Array.isArray(dataPacientesModal)
           ? dataPacientesModal.length > 0
           : !!dataPacientesModal;
 
-        if (hasData) {
+        if (hasInputs || hasResults) {
           e.preventDefault();
           handleCancel();
+          return;
         }
+        e.preventDefault();
+        handleCloseModal();
       }
-
-      window.addEventListener("keydown", onKeyDown);
-      return () => window.removeEventListener("keydown", onKeyDown);
+      document.addEventListener("keydown", onKeyDown);
+      return () => document.removeEventListener("keydown", onKeyDown);
     },
-    [dataPacientesModal, handleCancel],
+    [dataInputs, dataPacientesModal, handleCancel, handleCloseModal],
   );
 
   function focusByKey(key: string) {
