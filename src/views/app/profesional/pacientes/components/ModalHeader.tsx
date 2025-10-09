@@ -13,6 +13,8 @@ type Props = { handleCloseModal: () => void };
 export default function ModalHeader({ handleCloseModal }: Props) {
   const estado = usePacientesStore((s) => s.estado);
   const setEstado = usePacientesStore((s) => s.setEstado);
+  const dataPacientesModal = usePacientesStore((s) => s.dataPacientesModal);
+
   const setDataPacientesModal = usePacientesStore((s) => s.setDataPacientesModal);
   const setSelectTable = usePacientesStore((s) => s.setSelectTable);
   const dataPaciente = usePacientesStore((s) => s.dataPaciente);
@@ -48,7 +50,6 @@ export default function ModalHeader({ handleCloseModal }: Props) {
       loc: "",
     });
     reset();
-    // Asegurar re-render antes de enfocar
     requestAnimationFrame(() => {
       focusByKey("apellido");
     });
@@ -141,6 +142,27 @@ export default function ModalHeader({ handleCloseModal }: Props) {
   useEffect(() => {
     if (estado === "I") focusByKey("apellido");
   }, [estado]);
+
+  useEffect(
+    function onEscCancelWhenHasResults() {
+      function onKeyDown(e: KeyboardEvent) {
+        if (e.key !== "Escape") return;
+
+        const hasData = Array.isArray(dataPacientesModal)
+          ? dataPacientesModal.length > 0
+          : !!dataPacientesModal;
+
+        if (hasData) {
+          e.preventDefault();
+          handleCancel();
+        }
+      }
+
+      window.addEventListener("keydown", onKeyDown);
+      return () => window.removeEventListener("keydown", onKeyDown);
+    },
+    [dataPacientesModal, handleCancel],
+  );
 
   function focusByKey(key: string) {
     const el = inputRefsByKey.current[key];
