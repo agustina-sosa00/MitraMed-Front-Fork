@@ -66,5 +66,6 @@ export function formatearFechaDMA(
 
   const hh = pad2(fecha.getHours());
   const min = pad2(fecha.getMinutes());
-  return `${dd}-${mm}-${yyyy} ${hh}:${min}`;
+  const sec = pad2(fecha.getSeconds());
+  return `${dd}-${mm}-${yyyy} ${hh}:${min}:${sec}`;
 }

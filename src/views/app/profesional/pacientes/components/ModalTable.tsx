@@ -30,6 +30,7 @@ export default function ModalTable() {
         label: "Apellido",
         minWidth: "190",
         maxWidth: "270",
+        resaltar: true,
       },
       {
         key: "nombre",
@@ -68,19 +69,21 @@ export default function ModalTable() {
       addHeaderColor: "#022539",
       withBorder: true,
       withScrollbar: true,
+      addFooterColor: "gray",
+    },
+    objectFooter: {
+      footer: true,
+      datosFooter: {
+        apellido: pacientesEncontrados.length,
+      },
+      footerHeight: "h-8",
     },
     selectFn: selectTable,
     objectSelection: { setSeleccionado: setDataPaciente },
   };
   return (
-    <div className="w-full h-full flex flex-col gap-2">
+    <div className="w-full h-full flex flex-col gap-2 ">
       <TablaDefault props={propsTabla} />
-      <div className="w-full  bg-gray-200 rounded text-gray-700 flex px-2  py-2 items- font-bold gap-1">
-        <span className="h-6 text-sm flex items-center pt-1.5"> Total de Regitros: </span>
-        <span className="text-xl h-6  flex items-center  text-primaryBlue ">
-          {pacientesEncontrados.length}
-        </span>
-      </div>
     </div>
   );
 }

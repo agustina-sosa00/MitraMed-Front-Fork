@@ -140,7 +140,12 @@ export default function FormCard({ handleInputChange }) {
       inputWidth: "w-60",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       box: "left",
-      type: "text",
+      type: "select",
+      options: [
+        { value: "0", label: "" },
+        { value: "BSAS", label: "Buenos Aires" },
+        { value: "COR", label: "Cordoba" },
+      ],
     },
     {
       label: "Localidad",
@@ -148,7 +153,12 @@ export default function FormCard({ handleInputChange }) {
       inputWidth: "w-60",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       box: "left",
-      type: "text",
+      type: "select",
+      options: [
+        { value: "0", label: "" },
+        { value: "LDZ", label: "Lomas de Zamora" },
+        { value: "LAN", label: "Lanús" },
+      ],
     },
     {
       label: "Cod. Postal",
@@ -164,7 +174,12 @@ export default function FormCard({ handleInputChange }) {
       inputWidth: "w-40",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       box: "right",
-      type: "text",
+      type: "select",
+      options: [
+        { value: "0", label: "" },
+        { value: "SOL", label: "Soltero" },
+        { value: "CAS", label: "Casado" },
+      ],
     },
     {
       label: "Sexo",
@@ -172,7 +187,12 @@ export default function FormCard({ handleInputChange }) {
       inputWidth: "w-40",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       box: "right",
-      type: "text",
+      type: "select",
+      options: [
+        { value: "0", label: "" },
+        { value: "FEM", label: "Femenino" },
+        { value: "MAS", label: "Masculino" },
+      ],
     },
     {
       label: "Fecha Nac.",
@@ -195,7 +215,12 @@ export default function FormCard({ handleInputChange }) {
       inputWidth: "w-40",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       box: "left",
-      type: "text",
+      type: "select",
+      options: [
+        { value: "0", label: "" },
+        { value: "MED", label: "Medife" },
+        { value: "OTR", label: "Otros" },
+      ],
     },
     {
       label: "Plan",
@@ -203,7 +228,12 @@ export default function FormCard({ handleInputChange }) {
       inputWidth: "w-40",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       box: "left",
-      type: "text",
+      type: "select",
+      options: [
+        { value: "0", label: "" },
+        { value: "CF", label: "Consumidor Final" },
+        { value: "RI", label: "Responsable Inscripto" },
+      ],
     },
     {
       label: "Afiliado",
@@ -216,9 +246,9 @@ export default function FormCard({ handleInputChange }) {
     {
       label: "Obs",
       key: "obs",
-      inputClassName: "rounded h-32 focus:outline-none focus:ring-1 focus:ring-primaryGreen",
+      inputClassName: "rounded !h-24 focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       box: "right",
-      type: "textarea",
+      type: "text",
     },
   ];
 
@@ -233,7 +263,7 @@ export default function FormCard({ handleInputChange }) {
       </div>
 
       <div ref={gridRef} onKeyDown={handleEnterNavigation} className="flex w-full gap-4 pt-2">
-        <div className="w-1/2 flex flex-col items-start gap-2">
+        <div className="w-1/2  flex flex-col items-start gap-2">
           {left.map((item) => (
             <FlexibleInputField
               key={item.key}
