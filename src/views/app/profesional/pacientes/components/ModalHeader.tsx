@@ -223,6 +223,8 @@ export default function ModalHeader({ handleCloseModal }: Props) {
 
   function handleSelectPaciente() {
     setEstado("C");
+    setErrorMessage("modal", "");
+    setErrorMessage("header", "");
     handleCloseModal();
   }
 

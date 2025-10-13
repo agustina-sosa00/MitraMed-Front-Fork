@@ -10,7 +10,6 @@ export default function PacientesView() {
   const dataPacientesModi = usePacientesStore((state) => state.dataPacientesModi);
   const setDataPacientesModi = usePacientesStore((state) => state.setDataPacientesModi);
   const setDataPacientesModal = usePacientesStore((state) => state.setDataPacientesModal);
-  console.log(dataPacientesModi);
   const [openModal, setOpenModal] = useState(false);
 
   function handleInputChange(field, value) {

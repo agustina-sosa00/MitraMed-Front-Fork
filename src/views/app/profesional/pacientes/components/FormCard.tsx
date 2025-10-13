@@ -26,7 +26,6 @@ export default function FormCard({ handleInputChange }) {
   const dataPaciente = usePacientesStore((s) => s.dataPaciente);
   const dataPacientesModi = usePacientesStore((s) => s.dataPacientesModi);
   const estado = usePacientesStore((s) => s.estado);
-  console.log(dataPaciente);
   const dataInputs = estado === "C" ? dataPaciente : estado === "M" ? dataPacientesModi : null;
   const gridRef = useRef<HTMLDivElement>(null);
 
