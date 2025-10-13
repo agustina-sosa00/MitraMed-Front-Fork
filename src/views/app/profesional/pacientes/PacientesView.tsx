@@ -7,16 +7,14 @@ import { Modal } from "../../_components/ui/modals/Modal";
 import BusquedaPacienteModal from "./components/BusquedaPacienteModal";
 
 export default function PacientesView() {
-  const dataPaciente = usePacientesStore((state) => state.dataPaciente);
-
-  const setDataPaciente = usePacientesStore((state) => state.setDataPaciente);
+  const dataPacientesModi = usePacientesStore((state) => state.dataPacientesModi);
+  const setDataPacientesModi = usePacientesStore((state) => state.setDataPacientesModi);
   const setDataPacientesModal = usePacientesStore((state) => state.setDataPacientesModal);
-
   const [openModal, setOpenModal] = useState(false);
 
   function handleInputChange(field, value) {
-    setDataPaciente({
-      ...dataPaciente,
+    setDataPacientesModi({
+      ...dataPacientesModi,
       [field]: value,
     });
   }

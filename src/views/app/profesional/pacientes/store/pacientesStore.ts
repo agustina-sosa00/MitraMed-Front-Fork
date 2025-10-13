@@ -1,5 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { compararDataArrays } from "../utils/compararDataArrays";
+import Swal from "sweetalert2";
 
 export type Estado = "I" | "C" | "M";
 
@@ -21,6 +23,7 @@ interface PacientesStoreProps {
   setDataPaciente: (v: ClientData | null) => void;
 
   dataPacientesModi: ClientData | null;
+  setDataPacientesModi: (v: ClientData | null) => void;
 
   startEdit: () => void;
   cancelEditToBackup: () => void;
@@ -40,7 +43,7 @@ interface PacientesStoreProps {
 
 export const usePacientesStore = create<PacientesStoreProps>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       estado: "I",
       setEstado: (v) => set({ estado: v }),
 
@@ -51,26 +54,52 @@ export const usePacientesStore = create<PacientesStoreProps>()(
       setDataPaciente: (v) => set({ dataPaciente: v }),
 
       dataPacientesModi: null,
+      setDataPacientesModi: (v) => set({ dataPacientesModi: v }),
+
       startEdit: () =>
         set((s) => {
           if (!s.dataPaciente) return {};
           if (s.estado === "M" && s.dataPacientesModi) return {};
           return {
             estado: "M",
-
             dataPacientesModi: JSON.parse(JSON.stringify(s.dataPaciente)),
           };
         }),
 
-      cancelEditToBackup: () =>
-        set((s) => {
-          if (!s.dataPacientesModi) return {};
-          return {
-            estado: "C",
-            dataPaciente: s.dataPacientesModi,
-            dataPacientesModi: null,
-          };
-        }),
+      cancelEditToBackup: () => {
+        const { dataPaciente, dataPacientesModi } = get();
+        const hayCambios = compararDataArrays(dataPacientesModi, dataPaciente, ["id", "f_alta"]);
+        if (hayCambios) {
+          Swal.fire({
+            title: "Existen Cambios sin Guardar",
+            icon: "warning",
+            text: "¿Desea Salir?",
+            showCancelButton: true,
+            confirmButtonColor: "#518915",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Si",
+            cancelButtonText: "No",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              set((s) => {
+                if (!s.dataPacientesModi) return {};
+                return {
+                  estado: "C",
+                  dataPacientesModi: null,
+                };
+              });
+            }
+          });
+        } else {
+          set((s) => {
+            if (!s.dataPacientesModi) return {};
+            return {
+              estado: "C",
+              dataPacientesModi: null,
+            };
+          });
+        }
+      },
 
       dataPacientesModal: null,
       setDataPacientesModal: (v) => set({ dataPacientesModal: v }),
@@ -86,7 +115,7 @@ export const usePacientesStore = create<PacientesStoreProps>()(
           return !place || s.errorMessage.place === place ? { errorMessage: null } : s;
         }),
 
-      reset: () =>
+      reset: () => {
         set({
           estado: "I",
           dniInput: "",
@@ -95,11 +124,11 @@ export const usePacientesStore = create<PacientesStoreProps>()(
           dataPacientesModal: null,
           selectTable: false,
           errorMessage: null,
-        }),
+        });
+      },
     }),
     {
       name: "pacientes",
-      // Persistimos solo lo necesario; no persistimos errores ni backups.
       partialize: (state) => ({
         dataPaciente: state.dataPaciente,
         dniInput: state.dniInput,

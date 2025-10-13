@@ -30,6 +30,7 @@ export default function ModalTable() {
         label: "Apellido",
         minWidth: "190",
         maxWidth: "270",
+        resaltar: true,
       },
       {
         key: "nombre",
@@ -67,12 +68,21 @@ export default function ModalTable() {
       heightContainer: "253px",
       addHeaderColor: "#022539",
       withBorder: true,
+      withScrollbar: true,
+      addFooterColor: "gray",
+    },
+    objectFooter: {
+      footer: true,
+      datosFooter: {
+        apellido: pacientesEncontrados.length,
+      },
+      footerHeight: "h-8",
     },
     selectFn: selectTable,
     objectSelection: { setSeleccionado: setDataPaciente },
   };
   return (
-    <div className="w-full ">
+    <div className="w-full h-full flex flex-col gap-2 ">
       <TablaDefault props={propsTabla} />
     </div>
   );
