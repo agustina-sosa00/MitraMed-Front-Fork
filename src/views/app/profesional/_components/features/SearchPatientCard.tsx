@@ -1,16 +1,16 @@
 import { useEffect, useRef } from "react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
-import { RiCloseLargeFill } from "react-icons/ri";
 import { FaEdit, FaRegEdit } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
 import { IoMdAdd } from "react-icons/io";
 import { FaUserCircle } from "react-icons/fa";
 import { RiSave3Line } from "react-icons/ri";
-import { Button } from "@/views/_components/Button";
 // import { BuscadorDePacientesProps } from "@/views/app/profesional/types/index";
 import { FaRegEye } from "react-icons/fa";
 import { useMedicalHistoryContext } from "../../../../../context/MedicalHistoryContext";
 import Swal from "sweetalert2";
+import { ActionButton } from "@/frontend-resourses/components";
+import { IoClose } from "react-icons/io5";
 
 type Paciente = {
   nombre: string;
@@ -163,7 +163,7 @@ export default function SearchPatientCard({
       });
     }
   }
-
+  //region return
   return (
     <div className="flex flex-col w-full gap-2 ">
       <div className="flex items-center justify-between w-full h-10 ">
@@ -174,22 +174,18 @@ export default function SearchPatientCard({
               {hasConfirmed && dniInput.length > 0 ? (
                 <>
                   <div
-                    className={`px-1 text-base flex items-center font-bold border border-gray-300 rounded w-full bg-lightGray focus:outline-none text-primaryBlue`}
+                    className={`px-1 text-base h-8 flex items-center font-bold border border-gray-300 rounded w-full bg-lightGray focus:outline-none text-primaryBlue`}
                   >
                     {dniInput}
                   </div>
-                  <button
-                    type="button"
+                  <ActionButton
                     onClick={handleEditInput}
                     disabled={editOdontogram}
-                    className={`h-8 px-2 py-1 border rounded bg-lightGray ${
-                      editOdontogram
-                        ? "text-gray-400 cursor-not-allowed"
-                        : "text-red-500 hover:bg-gray-200"
-                    }`}
-                  >
-                    <RiCloseLargeFill className="text-xl " />
-                  </button>
+                    icon={<IoClose />}
+                    addClassName="h-8 p-2 !rounded"
+                    color="customGray"
+                    customColorText="red-500"
+                  />
                 </>
               ) : (
                 <>
@@ -209,19 +205,14 @@ export default function SearchPatientCard({
                       ${errorState && "border-red-500"}`}
                     autoComplete="off"
                   />
-                  <button
-                    type="button"
+                  <ActionButton
                     onClick={handleSearchPatient}
-                    className="flex items-center justify-center w-8 h-8 px-2 py-1 transition-all duration-300 bg-gray-200 border border-gray-300 rounded text-greenHover hover:text-white hover:bg-greenHover hover:border-primaryGreen "
-                  >
-                    {loading ? (
-                      <svg className="w-8 circle-loader animate-spin" viewBox="25 25 50 50">
-                        <circle r="20" cy="50" cx="50" className="circleNormal"></circle>
-                      </svg>
-                    ) : (
-                      <FaMagnifyingGlass className="text-xl " />
-                    )}
-                  </button>
+                    loader={loading}
+                    icon={<FaMagnifyingGlass />}
+                    color="customGray"
+                    customColorText="primaryGreen"
+                    addClassName="h-8 p-2 !rounded transition-all duration-300"
+                  />
                 </>
               )}
             </div>
@@ -284,37 +275,44 @@ export default function SearchPatientCard({
       {
         //region botones
       }
-      {hasConfirmed && padre === 1 ? (
-        <div className="flex items-center justify-between w-full h-10 gap-2">
-          <div className="">
-            <Button
-              label="agregar registro"
-              icon={<IoMdAdd />}
-              disabledButton={!canEdit}
-              handle={() => setStateModal && setStateModal(true)}
-            />
+      {padre === 1 ? (
+        hasConfirmed ? (
+          <div className="flex items-center justify-between w-full h-8 gap-2">
+            <div className="">
+              <ActionButton
+                text="Agregar Registro"
+                icon={<IoMdAdd />}
+                disabled={!canEdit}
+                onClick={() => setStateModal && setStateModal(true)}
+                addClassName="!rounded h-8"
+                color="green-mtm"
+              />
+            </div>
+            <div className="flex gap-2 h-full">
+              <ActionButton
+                text="Editar"
+                disabledButton={!hcSelected || !puedeEditar}
+                icon={<FaEdit />}
+                onClick={() => {
+                  setEditMode(true);
+                  setStateModal && setStateModal(true);
+                }}
+                addClassName="!rounded h-8"
+                color="customGray"
+                customColorText="primaryGreen"
+              />
+              <ActionButton
+                text="Ver Archivos"
+                disabled={!hcSelected?.idopera}
+                icon={<FaRegEye />}
+                onClick={() => setPreviewOpen?.(true)}
+                addClassName="!rounded h-8"
+                color="customGray"
+                customColorText="primaryBlue"
+              />
+            </div>
           </div>
-          <div className="flex gap-2">
-            <Button
-              label="editar"
-              disabledButton={!hcSelected || !puedeEditar}
-              icon={<FaEdit />}
-              handle={() => {
-                setEditMode(true);
-                setStateModal && setStateModal(true);
-              }}
-            />
-            {/* {puedeEditar && (
-            )} */}
-
-            <Button
-              label="ver archivos"
-              disabledButton={!hcSelected?.idopera}
-              icon={<FaRegEye />}
-              handle={() => setPreviewOpen?.(true)}
-            />
-          </div>
-        </div>
+        ) : null
       ) : (
         <div className="w-full">
           <div className="absolute bottom-0 right-0 flex items-center gap-2 p-2 ">
@@ -323,21 +321,21 @@ export default function SearchPatientCard({
                 <button
                   disabled={isActive || !changes}
                   onClick={handleSave}
-                  className={`flex items-center justify-center w-32 h-8 gap-1 px-2 py-1 text-white capitalize rounded  ${
+                  className={`flex items-center justify-center w-32 h-8 gap-1 px-2 py-1 text-white  rounded  ${
                     isActive || !changes
                       ? "bg-gray-400 cursor-not-allowed"
                       : "bg-primaryGreen hover:bg-greenHover"
                   } `}
                 >
                   <RiSave3Line />
-                  guardar
+                  Guardar
                 </button>
                 <button
                   disabled={isActive}
                   onClick={handleCancelButton}
-                  className="flex items-center justify-center w-32 h-8 gap-1 px-2 py-1 text-white capitalize bg-red-500 rounded hover:bg-red-600"
+                  className="flex items-center justify-center w-32 h-8 gap-1 px-2 py-1 text-white  bg-red-500 rounded hover:bg-red-600"
                 >
-                  <MdCancel /> cancelar
+                  <MdCancel /> Cancelar
                 </button>
               </div>
             ) : !(
@@ -348,13 +346,13 @@ export default function SearchPatientCard({
               <button
                 disabled={!canEdit}
                 onClick={() => setEditOdontogram && setEditOdontogram(true)}
-                className={`h-8 px-2 py-1 flex items-center gap-1 justify-center text-white capitalize rounded w-32   ${
+                className={`h-8 px-2 py-1 flex items-center gap-1 justify-center text-white  rounded w-32   ${
                   !canEdit
                     ? "bg-gray-400 cursor-not-allowed"
                     : "bg-primaryGreen hover:bg-greenHover"
                 }`}
               >
-                <FaRegEdit /> editar
+                <FaRegEdit /> Editar
               </button>
             )}
           </div>

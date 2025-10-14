@@ -1,12 +1,12 @@
 // PreviewModal.tsx
 import { useState } from "react";
 import { Modal } from "@/views/_components/Modal";
-import { Button } from "@/views/_components/Button";
 import { IoMdClose, IoMdArrowRoundBack } from "react-icons/io";
 import { Document, Page, pdfjs } from "react-pdf";
 import workerSrc from "pdfjs-dist/build/pdf.worker?url";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
+import { ActionButton } from "@/frontend-resourses/components";
 
 pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
 
@@ -25,10 +25,10 @@ export default function PreviewModal({ open, onClose, blob, ext }: Props) {
     <Modal open={open} onClose={onClose}>
       <div className="flex flex-col w-full max-h-[90vh] min-w-[600px] h-auto overflow-y-auto">
         <div className="flex items-center justify-end w-full px-2">
-          <Button
+          <ActionButton
             icon={<IoMdClose />}
-            handle={onClose}
-            classButton="text-xl text-primaryBlue rounded hover:bg-primaryBlue hover:text-white p-1"
+            onClick={onClose}
+            addClassName="text-xl text-primaryBlue rounded hover:bg-primaryBlue hover:text-white p-1"
           />
         </div>
 

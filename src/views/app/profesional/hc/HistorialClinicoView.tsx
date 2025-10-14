@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { TablaDefault } from "@/frontend-resourses/components";
+import { ActionButton, TablaDefault } from "@/frontend-resourses/components";
 import { Document, Page, pdfjs } from "react-pdf";
 import { FiDownload } from "react-icons/fi";
 // import { IoTrashOutline } from "react-icons/io5";
@@ -275,7 +275,7 @@ export default function HistorialClinicoView() {
       }, 300);
     });
   }
-
+  //region return
   return (
     <>
       <TitleView title="Historia Clínica" />
@@ -348,14 +348,11 @@ export default function HistorialClinicoView() {
         >
           <div className="flex flex-col w-full min-w-[600px] h-[520px]">
             <div className="flex items-center justify-end w-full px-2">
-              <button
+              <ActionButton
                 onClick={() => setPreviewOpen(false)}
-                className="p-1 text-xl rounded text-primaryBlue hover:bg-primaryBlue hover:text-white"
-                aria-label="Cerrar"
-                title="Cerrar"
-              >
-                <IoClose />
-              </button>
+                addClassName="h-8  rounded text-primaryBlue hover:bg-primaryBlue hover:text-white"
+                icon={<IoClose />}
+              />
             </div>
 
             {loadingBlob ? (

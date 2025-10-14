@@ -1,5 +1,6 @@
 import { HiArrowSmLeft } from "react-icons/hi";
 import dayjs from "dayjs";
+import { ActionButton } from "@/frontend-resourses/components";
 
 type SearchByDateCardProps = {
   diaSeleccionado: string;
@@ -53,12 +54,13 @@ export default function SearchByDateCard({
     <div className="flex justify-center pb-2 w-fit px-7 lg:justify-start">
       <div className="flex items-end gap-2">
         {/* Boton Anterior */}
-        <button
+        <ActionButton
           onClick={() => handleChangeDay(-1)}
-          className="p-1 transition-all duration-200 border border-gray-300 rounded text-primaryBlue bg-lightGray hover:bg-gray-300"
-        >
-          <HiArrowSmLeft className="text-2xl lg:text-3xl" />
-        </button>
+          color="customWhite"
+          customColorText="primaryBlue"
+          icon={<HiArrowSmLeft />}
+          addIconClassName="text-2xl   "
+        />
 
         {/* Input Date */}
         <div className="flex flex-col">
@@ -73,20 +75,22 @@ export default function SearchByDateCard({
         </div>
 
         {/* Boton Siguiente */}
-        <button
+        <ActionButton
           onClick={() => handleChangeDay(1)}
-          className="p-1 transition-all duration-200 border border-gray-300 rounded text-primaryBlue bg-lightGray hover:bg-gray-300"
-        >
-          <HiArrowSmLeft className="text-2xl rotate-180 lg:text-3xl " />
-        </button>
+          color="customWhite"
+          customColorText="primaryBlue"
+          icon={<HiArrowSmLeft />}
+          addIconClassName="text-2xl rotate-180  "
+        />
 
         {/* Boton Hoy */}
-        <button
+        <ActionButton
           onClick={handleToday}
-          className="px-2 py-1 ml-5 text-lg font-medium transition-all duration-200 border border-gray-300 rounded text-primaryBlue bg-lightGray hover:bg-gray-300"
-        >
-          Hoy
-        </button>
+          text="Hoy"
+          color="customWhite"
+          customColorText="primaryBlue"
+          addClassName="!rounded py-1 ml-5 text-lg  border-gray-300  "
+        />
       </div>
     </div>
   );
