@@ -24,7 +24,7 @@ interface FormHistoriaProps {
   //   iddoctor: string;
   // };
   // handle?: () => void;
-  focusState?: boolean;
+
   setStateModal: (arg: boolean) => void;
   hcSelected?: any;
 }
@@ -32,7 +32,7 @@ interface FormHistoriaProps {
 export default function FormHistoria({
   // infoProfessional,
   // handle,
-  focusState,
+
   setStateModal,
   hcSelected,
 }: FormHistoriaProps) {
@@ -243,7 +243,6 @@ export default function FormHistoria({
           handleInput={handleOnChangeInput}
           labelInput={"Motivo de Consulta"}
           field={true}
-          focusState={focusState}
           focusName={"detalle"}
           inputRef={inputMotivoRef}
         />
@@ -252,7 +251,6 @@ export default function FormHistoria({
           nameInput="obs"
           handleTextarea={handleOnChangeTextarea}
           labelInput={"Evolución"}
-          focusState={focusState}
           focusName={"obs"}
         />
 

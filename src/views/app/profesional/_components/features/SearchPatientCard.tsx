@@ -1,13 +1,10 @@
 import { useEffect, useRef } from "react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
-import { FaEdit, FaRegEdit } from "react-icons/fa";
+import { FaRegEdit } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
-import { IoMdAdd } from "react-icons/io";
 import { FaUserCircle } from "react-icons/fa";
 import { RiSave3Line } from "react-icons/ri";
 // import { BuscadorDePacientesProps } from "@/views/app/profesional/types/index";
-import { FaRegEye } from "react-icons/fa";
-import { useMedicalHistoryContext } from "../../../../../context/MedicalHistoryContext";
 import Swal from "sweetalert2";
 import { ActionButton } from "@/frontend-resourses/components";
 import { IoClose } from "react-icons/io5";
@@ -49,14 +46,13 @@ interface SearchPatientCardProps {
 }
 
 export default function SearchPatientCard({
-  padre,
   data,
   dniInput,
   setDniInput,
   onSearch,
   editOdontogram,
   setEditOdontogram,
-  setStateModal,
+
   handleSave,
   handleDeletePatient,
   handleCancel,
@@ -66,11 +62,9 @@ export default function SearchPatientCard({
   isActive,
   hasConfirmed,
   loading,
-  setPreviewOpen,
+
   // odontogram,
 }: SearchPatientCardProps) {
-  const { hcSelected, setEditMode } = useMedicalHistoryContext();
-
   // console.log(padre);
 
   // region states y variables
@@ -78,17 +72,7 @@ export default function SearchPatientCard({
   const inputRef = useRef<HTMLInputElement>(null);
   const hasValidPatient = Boolean(data?.dni);
   const canEdit = hasValidPatient && !isEditing && !loading && !errorState;
-  const idDoctorStorage = localStorage.getItem("_iddoc");
   const tusuarioStorage = localStorage.getItem("_tu");
-
-  const hoyString = getHoyString();
-  const esHoy = hcSelected?.fecha === hoyString;
-
-  const esMismoDoctor = idDoctorStorage === String(hcSelected?.iddoctor);
-  const esGerente = tusuarioStorage === "4";
-  const esAdmin = tusuarioStorage === "5";
-
-  const puedeEditar = ((esHoy && esMismoDoctor) || esGerente || esAdmin) && !!hcSelected;
 
   //region useEffects
   useEffect(() => {
@@ -98,14 +82,6 @@ export default function SearchPatientCard({
       });
     }
   }, [hasConfirmed]);
-
-  function getHoyString() {
-    const hoy = new Date();
-    const yyyy = hoy.getFullYear();
-    const mm = String(hoy.getMonth() + 1).padStart(2, "0");
-    const dd = String(hoy.getDate()).padStart(2, "0");
-    return `${yyyy}-${mm}-${dd}`;
-  }
 
   // region functions
   function handleOnChangeDni(e: React.ChangeEvent<HTMLInputElement>) {
@@ -275,89 +251,47 @@ export default function SearchPatientCard({
       {
         //region botones
       }
-      {padre === 1 ? (
-        hasConfirmed ? (
-          <div className="flex items-center justify-between w-full h-8 gap-2">
-            <div className="">
-              <ActionButton
-                text="Agregar Registro"
-                icon={<IoMdAdd />}
-                disabled={!canEdit}
-                onClick={() => setStateModal && setStateModal(true)}
-                addClassName="!rounded h-8"
-                color="green-mtm"
-              />
-            </div>
-            <div className="flex gap-2 h-full">
-              <ActionButton
-                text="Editar"
-                disabledButton={!hcSelected || !puedeEditar}
-                icon={<FaEdit />}
-                onClick={() => {
-                  setEditMode(true);
-                  setStateModal && setStateModal(true);
-                }}
-                addClassName="!rounded h-8"
-                color="customGray"
-                customColorText="primaryGreen"
-              />
-              <ActionButton
-                text="Ver Archivos"
-                disabled={!hcSelected?.idopera}
-                icon={<FaRegEye />}
-                onClick={() => setPreviewOpen?.(true)}
-                addClassName="!rounded h-8"
-                color="customGray"
-                customColorText="primaryBlue"
-              />
-            </div>
-          </div>
-        ) : null
-      ) : (
-        <div className="w-full">
-          <div className="absolute bottom-0 right-0 flex items-center gap-2 p-2 ">
-            {editOdontogram ? (
-              <div className="flex flex-col gap-2">
-                <button
-                  disabled={isActive || !changes}
-                  onClick={handleSave}
-                  className={`flex items-center justify-center w-32 h-8 gap-1 px-2 py-1 text-white  rounded  ${
-                    isActive || !changes
-                      ? "bg-gray-400 cursor-not-allowed"
-                      : "bg-primaryGreen hover:bg-greenHover"
-                  } `}
-                >
-                  <RiSave3Line />
-                  Guardar
-                </button>
-                <button
-                  disabled={isActive}
-                  onClick={handleCancelButton}
-                  className="flex items-center justify-center w-32 h-8 gap-1 px-2 py-1 text-white  bg-red-500 rounded hover:bg-red-600"
-                >
-                  <MdCancel /> Cancelar
-                </button>
-              </div>
-            ) : !(
-                tusuarioStorage === "3" ||
-                tusuarioStorage === "4" ||
-                tusuarioStorage === "5"
-              ) ? null : (
+      <div className="w-full">
+        <div className="absolute bottom-0 right-0 flex items-center gap-2 p-2 ">
+          {editOdontogram ? (
+            <div className="flex flex-col gap-2">
               <button
-                disabled={!canEdit}
-                onClick={() => setEditOdontogram && setEditOdontogram(true)}
-                className={`h-8 px-2 py-1 flex items-center gap-1 justify-center text-white  rounded w-32   ${
-                  !canEdit
+                disabled={isActive || !changes}
+                onClick={handleSave}
+                className={`flex items-center justify-center w-32 h-8 gap-1 px-2 py-1 text-white  rounded  ${
+                  isActive || !changes
                     ? "bg-gray-400 cursor-not-allowed"
                     : "bg-primaryGreen hover:bg-greenHover"
-                }`}
+                } `}
               >
-                <FaRegEdit /> Editar
+                <RiSave3Line />
+                Guardar
               </button>
-            )}
-          </div>
+              <button
+                disabled={isActive}
+                onClick={handleCancelButton}
+                className="flex items-center justify-center w-32 h-8 gap-1 px-2 py-1 text-white  bg-red-500 rounded hover:bg-red-600"
+              >
+                <MdCancel /> Cancelar
+              </button>
+            </div>
+          ) : !(
+              tusuarioStorage === "3" ||
+              tusuarioStorage === "4" ||
+              tusuarioStorage === "5"
+            ) ? null : (
+            <button
+              disabled={!canEdit}
+              onClick={() => setEditOdontogram && setEditOdontogram(true)}
+              className={`h-8 px-2 py-1 flex items-center gap-1 justify-center text-white  rounded w-32   ${
+                !canEdit ? "bg-gray-400 cursor-not-allowed" : "bg-primaryGreen hover:bg-greenHover"
+              }`}
+            >
+              <FaRegEdit /> Editar
+            </button>
+          )}
         </div>
-      )}
+      </div>
       {/* {!odontogram ? (
         <div className="w-full">
           <div className="absolute bottom-0 right-0 flex items-center gap-2 p-2 ">

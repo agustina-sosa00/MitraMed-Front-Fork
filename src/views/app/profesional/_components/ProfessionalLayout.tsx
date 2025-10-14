@@ -226,7 +226,7 @@ export default function ProfessionalLayout() {
 
           <div className="flex-1 overflow-y-auto">
             <div
-              className={`flex flex-col items-center bg-[#f5f5f5] w-full min-h-screen gap-5 px-5 py-4 overflow-y-auto `}
+              className={`flex flex-col items-center bg-[#f5f5f5] w-full min-h-screen gap-5 px-5 pt-4 overflow-y-auto `}
             >
               <div className={`flex flex-col items-center justify-start w-full lg:w-full  `}>
                 <Outlet
