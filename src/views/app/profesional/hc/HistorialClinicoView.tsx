@@ -62,7 +62,6 @@ export default function HistorialClinicoView() {
 
   // const infoProfessional = Cookies.get("dataProfessional");
   const [showModal, setShowModal] = useState<boolean>(false);
-  const padre = 1;
 
   // preview archivo (thumbnail + modal)
   const [previewOpen, setPreviewOpen] = useState(false);
@@ -302,9 +301,8 @@ export default function HistorialClinicoView() {
     <>
       <TitleView title="Historia Clínica" />
       {/* Buscador */}
-      <div className="flex items-center justify-start w-full gap-1 pt-1 min-h-24 ">
+      <div className="flex items-center justify-start w-full gap-1 py-1 min-h-24 ">
         <SearchPatientCard
-          padre={padre}
           data={hasConfirmed ? dataPaciente?.paciente : null}
           dniInput={dniInput}
           setDniInput={setDniInput}
@@ -321,7 +319,7 @@ export default function HistorialClinicoView() {
       </div>
 
       {/* Botones */}
-      <div className="w-full h-9 flex items-center justify-between pb-1 ">
+      <div className="w-full h-9 flex items-center justify-between  ">
         {" "}
         <ActionButton
           text="Agregar Registro"

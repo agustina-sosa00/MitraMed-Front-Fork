@@ -1,11 +1,7 @@
 import { useEffect, useRef } from "react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
-import { FaRegEdit } from "react-icons/fa";
-import { MdCancel } from "react-icons/md";
 import { FaUserCircle } from "react-icons/fa";
-import { RiSave3Line } from "react-icons/ri";
 // import { BuscadorDePacientesProps } from "@/views/app/profesional/types/index";
-import Swal from "sweetalert2";
 import { ActionButton } from "@/frontend-resourses/components";
 import { IoClose } from "react-icons/io5";
 
@@ -22,7 +18,6 @@ type Paciente = {
 };
 
 interface SearchPatientCardProps {
-  padre: number;
   data: Partial<Paciente>;
   dniInput: string;
   setDniInput: (arg: string) => void;
@@ -32,14 +27,10 @@ interface SearchPatientCardProps {
   setStateModal?: (arg: boolean) => void;
   odontogram?: boolean;
   editOdontogram?: boolean;
-  setEditOdontogram?: (arg: boolean) => void;
-  handleSave?: () => void;
   handleCancel?: () => void;
   handleDeletePatient?: () => void;
-  changes?: boolean;
   errorState?: string;
   setErrorState?: (arg: string) => void;
-  isActive?: boolean;
   hasConfirmed?: boolean;
   loading?: boolean;
   setPreviewOpen?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -51,18 +42,12 @@ export default function SearchPatientCard({
   setDniInput,
   onSearch,
   editOdontogram,
-  setEditOdontogram,
-
-  handleSave,
   handleDeletePatient,
   handleCancel,
   errorState,
   setErrorState,
-  changes,
-  isActive,
   hasConfirmed,
   loading,
-
   // odontogram,
 }: SearchPatientCardProps) {
   // console.log(padre);
@@ -70,9 +55,6 @@ export default function SearchPatientCard({
   // region states y variables
   const isEditing = !hasConfirmed;
   const inputRef = useRef<HTMLInputElement>(null);
-  const hasValidPatient = Boolean(data?.dni);
-  const canEdit = hasValidPatient && !isEditing && !loading && !errorState;
-  const tusuarioStorage = localStorage.getItem("_tu");
 
   //region useEffects
   useEffect(() => {
@@ -119,26 +101,6 @@ export default function SearchPatientCard({
     }
   }
 
-  function handleCancelButton() {
-    if (!changes) {
-      handleCancel?.();
-    } else {
-      Swal.fire({
-        title: "Existen Cambios sin Guardar",
-        icon: "warning",
-        text: "¿Desea Salir?",
-        showCancelButton: true,
-        confirmButtonColor: "#518915",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Si",
-        cancelButtonText: "No",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          handleCancel?.();
-        }
-      });
-    }
-  }
   //region return
   return (
     <div className="flex flex-col w-full gap-2 ">
@@ -248,50 +210,6 @@ export default function SearchPatientCard({
         </div>
       )}
 
-      {
-        //region botones
-      }
-      <div className="w-full">
-        <div className="absolute bottom-0 right-0 flex items-center gap-2 p-2 ">
-          {editOdontogram ? (
-            <div className="flex flex-col gap-2">
-              <button
-                disabled={isActive || !changes}
-                onClick={handleSave}
-                className={`flex items-center justify-center w-32 h-8 gap-1 px-2 py-1 text-white  rounded  ${
-                  isActive || !changes
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-primaryGreen hover:bg-greenHover"
-                } `}
-              >
-                <RiSave3Line />
-                Guardar
-              </button>
-              <button
-                disabled={isActive}
-                onClick={handleCancelButton}
-                className="flex items-center justify-center w-32 h-8 gap-1 px-2 py-1 text-white  bg-red-500 rounded hover:bg-red-600"
-              >
-                <MdCancel /> Cancelar
-              </button>
-            </div>
-          ) : !(
-              tusuarioStorage === "3" ||
-              tusuarioStorage === "4" ||
-              tusuarioStorage === "5"
-            ) ? null : (
-            <button
-              disabled={!canEdit}
-              onClick={() => setEditOdontogram && setEditOdontogram(true)}
-              className={`h-8 px-2 py-1 flex items-center gap-1 justify-center text-white  rounded w-32   ${
-                !canEdit ? "bg-gray-400 cursor-not-allowed" : "bg-primaryGreen hover:bg-greenHover"
-              }`}
-            >
-              <FaRegEdit /> Editar
-            </button>
-          )}
-        </div>
-      </div>
       {/* {!odontogram ? (
         <div className="w-full">
           <div className="absolute bottom-0 right-0 flex items-center gap-2 p-2 ">
