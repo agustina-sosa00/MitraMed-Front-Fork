@@ -21,6 +21,7 @@ import TitleView from "../../_components/features/TitleView";
 import { RiSave3Line } from "react-icons/ri";
 import { MdCancel } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
+import { ActionButton } from "@/frontend-resourses/components";
 
 export default function OdontogramView() {
   const { setDisabledButtonSidebar } = useOutletContext<OutletContext>();
@@ -284,43 +285,40 @@ export default function OdontogramView() {
       <div className="w-full my-2 border border-gray-300"></div>
 
       {/* botones */}
-      <div className="absolute bottom-0 right-0 flex items-center gap-2 p-2 ">
+      <div className="absolute bottom-7 right-3 flex items-center gap-2 p-2 ">
         {editOdontogram ? (
           <div className="flex flex-col gap-2">
-            <button
+            <ActionButton
               disabled={isActive || !hasUnsaved}
               onClick={handleSave}
-              className={`flex items-center justify-center w-32 h-8 gap-1 px-2 py-1 text-white  rounded  ${
-                isActive || !hasUnsaved
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-primaryGreen hover:bg-greenHover"
-              } `}
-            >
-              <RiSave3Line />
-              Guardar
-            </button>
-            <button
+              icon={<RiSave3Line />}
+              text="Guardar"
+              color="green-mtm"
+              addClassName="!rounded w-32"
+            />
+
+            <ActionButton
               disabled={isActive}
               onClick={handleCancelButton}
-              className="flex items-center justify-center w-32 h-8 gap-1 px-2 py-1 text-white  bg-red-500 rounded hover:bg-red-600"
-            >
-              <MdCancel /> Cancelar
-            </button>
+              icon={<MdCancel />}
+              text="Cancelar"
+              color="red"
+              addClassName="!rounded w-32"
+            />
           </div>
         ) : !(
             tusuarioStorage === "3" ||
             tusuarioStorage === "4" ||
             tusuarioStorage === "5"
           ) ? null : (
-          <button
+          <ActionButton
             disabled={!canEdit}
             onClick={() => setEditOdontogram && setEditOdontogram(true)}
-            className={`h-8 px-2 py-1 flex items-center gap-1 justify-center text-white  rounded w-32   ${
-              !canEdit ? "bg-gray-400 cursor-not-allowed" : "bg-primaryGreen hover:bg-greenHover"
-            }`}
-          >
-            <FaRegEdit /> Editar
-          </button>
+            icon={<FaRegEdit />}
+            text="Editar"
+            color="green-mtm"
+            addClassName="!rounded w-32"
+          />
         )}
       </div>
 

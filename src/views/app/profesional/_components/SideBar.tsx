@@ -10,6 +10,7 @@ import { useTurnosGeneralesStore } from "../turnos/turnosGenerales/store/turnosG
 import { IoLogOut } from "react-icons/io5";
 import SubMenuSidebar from "./SubMenuSidebar";
 import { usePacientesStore } from "../pacientes/store/pacientesStore";
+import { ActionButton } from "@/frontend-resourses/components";
 
 interface ISubItem {
   key: string;
@@ -80,9 +81,9 @@ export default function SideBar({ logo, buttons, isDisabled = false }: SideBarPr
   const showUsuarios = tusuario === "4" || tusuario === "5";
   const showConfig = tusuario === "5";
 
-  const userAreaActive = [...usuariosButtons, ...configButtons].some(
-    (b) => location.pathname === b.link || location.pathname.startsWith(b.link + "/"),
-  );
+  // const userAreaActive = [...usuariosButtons, ...configButtons].some(
+  //   (b) => location.pathname === b.link || location.pathname.startsWith(b.link + "/"),
+  // );
 
   useEffect(() => {
     closeDropdown();
@@ -188,7 +189,33 @@ export default function SideBar({ logo, buttons, isDisabled = false }: SideBarPr
                       // onMouseEnter={() => openDropdown(item.key)}
                       // onMouseLeave={scheduleCloseDropdown}
                     >
-                      <button
+                      <ActionButton
+                        color="sidebar"
+                        disabled={item.disabled}
+                        addIconClassName="w-full group-hover:text-white"
+                        icon={
+                          <div className="w-full flex items-center  !justify-between">
+                            <div className="flex items-center gap-1">
+                              <item.icon />
+                              {item.name}
+                            </div>
+                            <FaChevronRight
+                              className={`text-xs mr-2 transform transition-all duration-200 ${
+                                item.disabled
+                                  ? "text-gray-400"
+                                  : hasActiveSubItem
+                                    ? "text-white"
+                                    : "text-primaryBlue "
+                              } `}
+                            />
+                          </div>
+                        }
+                        // text={item.name}
+                        addClassName="w-[90%] h-8 pl-2 py-1 text-base font-medium rounded hover:text-white !justify-start gap-1"
+                        active={hasActiveSubItem}
+                        onClick={() => toggleDropdownClick(item.key)}
+                      />
+                      {/* <button
                         onClick={() => toggleDropdownClick(item.key)}
                         disabled={item.disabled}
                         className={`group flex items-center justify-between w-[90%] text-start gap-1 pl-2 py-1 text-base font-medium rounded ${
@@ -208,9 +235,9 @@ export default function SideBar({ logo, buttons, isDisabled = false }: SideBarPr
                               : hasActiveSubItem
                                 ? "text-white"
                                 : "text-primaryBlue group-hover:text-white"
-                          } ${isOpen ? "rotate-90" : ""}`}
+                          } `}
                         />
-                      </button>
+                      </button> */}
 
                       {isOpen && (
                         <SubMenuSidebar
@@ -219,7 +246,7 @@ export default function SideBar({ logo, buttons, isDisabled = false }: SideBarPr
                           onPanelEnter={() => openDropdown(item.key)}
                           onPanelLeave={scheduleCloseDropdown}
                         >
-                          <div className="flex flex-col w-[200px] py-3 gap-3 px-4 bg-white rounded rounded-tl-none rounded-bl-none shadow-lg">
+                          <div className="flex flex-col w-[220px] py-3 gap-3 px-4 bg-white rounded rounded-tl-none rounded-bl-none shadow-lg">
                             {item.subItems.map((subItem) => {
                               const isActiveSubItem = location.pathname === subItem.link;
                               return (
@@ -232,7 +259,15 @@ export default function SideBar({ logo, buttons, isDisabled = false }: SideBarPr
                                   }}
                                   className="flex w-full"
                                 >
-                                  <button
+                                  <ActionButton
+                                    color="sidebarSub"
+                                    disabled={subItem.disabled}
+                                    // icon={<item.icon />}
+                                    text={subItem.name}
+                                    addClassName="w-full h-8 pl-2 py-1 text-base font-medium rounded !justify-start gap-1"
+                                    active={isActiveSubItem}
+                                  />
+                                  {/* <button
                                     disabled={subItem.disabled}
                                     className={`flex items-center text-start gap-1 px-2 py-1 w-full text-base font-medium rounded ${
                                       subItem.disabled
@@ -241,7 +276,7 @@ export default function SideBar({ logo, buttons, isDisabled = false }: SideBarPr
                                     } ${isActiveSubItem ? "bg-primaryGreen text-white" : ""}`}
                                   >
                                     {subItem.name}
-                                  </button>
+                                  </button> */}
                                 </Link>
                               );
                             })}
@@ -259,17 +294,25 @@ export default function SideBar({ logo, buttons, isDisabled = false }: SideBarPr
                       onClick={() => setOpenDropdowns([])}
                       className="flex justify-center w-full"
                     >
-                      <button
+                      <ActionButton
+                        color="sidebar"
+                        disabled={item.disabled || isDisabled}
+                        icon={<item.icon />}
+                        text={item.name}
+                        addClassName="w-[90%] h-8 pl-2 py-1 text-base font-medium rounded !justify-start gap-1"
+                        active={isActive}
+                      />
+                      {/* <button
                         disabled={item.disabled}
                         className={`flex items-center w-[90%] text-start gap-1 pl-2 py-1 text-base font-medium rounded ${
                           item.disabled
                             ? "text-gray-400 cursor-not-allowed"
-                            : "hover:bg-greenHover hover:text-white text-primaryBlue cursor-pointer transition-all duration-300"
+                            : "hover:bg-greenHover hover:text-white text-primaryBlue cursor-pointer"
                         } ${isActive ? "bg-primaryGreen text-white" : ""}`}
                       >
                         <item.icon />
                         {item.name}
-                      </button>
+                      </button> */}
                     </Link>
                   );
                 }
@@ -284,7 +327,32 @@ export default function SideBar({ logo, buttons, isDisabled = false }: SideBarPr
             // onMouseLeave={scheduleCloseUser}
           >
             <div className="flex justify-center w-full">
-              <button
+              <ActionButton
+                disabled={isDisabled || estado === "M"}
+                onClick={isDisabled ? undefined : toggleUser}
+                addClassName="w-[90%]"
+                addIconClassName="w-full hover:text-white"
+                color="sidebar"
+                icon={
+                  <div className="flex items-center w-full justify-between">
+                    <div className="flex  items-center gap-2">
+                      <FaUserCircle className="w-5 h-5" />
+                      {(() => {
+                        if (tusuario === "2" || tusuario === "5") return <p>{dataUser?.nombre}</p>;
+                        if (["1", "3", "4", "5"].includes(tusuario || ""))
+                          return (
+                            <p className="text-sm">
+                              Dr. {dataUser?.ndoctor} {dataUser?.adoctor}
+                            </p>
+                          );
+                        return null;
+                      })()}
+                    </div>{" "}
+                    <FaChevronRight className="mr-2 text-xs transition-all duration-200 transform" />
+                  </div>
+                }
+              />
+              {/* <button
                 type="button"
                 className={`flex items-center justify-between text-start gap-2 pl-2 py-1 w-[90%] text-base font-medium rounded transition-all duration-300 ${
                   isDisabled || estado === "M"
@@ -308,7 +376,7 @@ export default function SideBar({ logo, buttons, isDisabled = false }: SideBarPr
                   })()}
                 </div>
                 <FaChevronRight className="mr-2 text-xs transition-all duration-200 transform" />
-              </button>
+              </button> */}
             </div>
 
             {/* OVERLAY + SUBMENÚ (fuera del <nav>) */}
@@ -332,7 +400,15 @@ export default function SideBar({ logo, buttons, isDisabled = false }: SideBarPr
                             className="flex justify-center w-full"
                             onClick={() => setOpenSubMenu(false)}
                           >
-                            <button
+                            <ActionButton
+                              disabled={item.disabled}
+                              icon={<item.icon />}
+                              text={item.name}
+                              addClassName="w-[90%] h-8 pl-2 py-1 text-base font-medium rounded !justify-start gap-1"
+                              active={isActive}
+                              color="sidebarSub"
+                            />
+                            {/* <button
                               type="button"
                               className={`flex items-center text-start gap-2 pl-2 py-1 w-[90%] text-base font-medium rounded transition-all duration-300 ${
                                 item.disabled
@@ -343,7 +419,7 @@ export default function SideBar({ logo, buttons, isDisabled = false }: SideBarPr
                             >
                               <item.icon className="w-5 h-5" />
                               {item.name}
-                            </button>
+                            </button> */}
                           </Link>
                         );
                       })}
@@ -362,7 +438,16 @@ export default function SideBar({ logo, buttons, isDisabled = false }: SideBarPr
                             className="flex justify-center w-full"
                             onClick={() => setOpenSubMenu(false)}
                           >
-                            <button
+                            <ActionButton
+                              disabled={item.disabled}
+                              icon={<item.icon />}
+                              text={item.name}
+                              color="sidebarSub"
+                              active={isActive}
+                              addClassName="w-[90%] h-8 pl-2 py-1 text-base font-medium rounded !justify-start gap-1"
+                              addIconClassName="hover:text-white"
+                            />
+                            {/* <button
                               type="button"
                               className={`flex items-center text-start gap-2 pl-2 py-1 w-[90%] text-base font-medium rounded transition-all duration-300 ${
                                 item.disabled
@@ -373,7 +458,7 @@ export default function SideBar({ logo, buttons, isDisabled = false }: SideBarPr
                             >
                               <item.icon className="w-5 h-5" />
                               {item.name}
-                            </button>
+                            </button> */}
                           </Link>
                         );
                       })}

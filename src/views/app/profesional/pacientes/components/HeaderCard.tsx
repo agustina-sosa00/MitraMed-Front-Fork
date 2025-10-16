@@ -65,6 +65,7 @@ export default function HeaderCard({ handleOpenModalSearch }) {
       throw new Error(`${error}`);
     },
     onSuccess(data) {
+      console.log(data);
       if (!data.data) {
         setErrorMessage("header", "Paciente inexistente");
         inputRefHc.current?.focus();

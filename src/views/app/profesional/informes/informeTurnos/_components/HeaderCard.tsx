@@ -611,7 +611,6 @@ export default function HeaderCard({ loader, setLoader }: DateRangePickerProps) 
               disabled={!selectedDates.from || !selectedDates.to || hasSearched}
               color="green-mtm"
             />
-            {/* <Button /> */}
 
             <ActionButton
               icon={<IoClose />}
@@ -710,7 +709,21 @@ export default function HeaderCard({ loader, setLoader }: DateRangePickerProps) 
 
       {/* Botón Exportar */}
       <div className="">
-        <button
+        <ActionButton
+          disabled={!hasSearched}
+          onClick={handleExportExcel}
+          icon={
+            <img
+              src={excelIcon}
+              alt="Excel"
+              className={`w-4 h-4 ${hasSearched ? "" : "grayscale opacity-50"}`}
+            />
+          }
+          text="Exportar"
+          color="blue-mtm"
+          addClassName="!rounded w-28"
+        />
+        {/* <button
           className={`ml-4 px-3 py-1 rounded text-sm font-semibold shadow flex items-center gap-2 ${
             hasSearched
               ? "bg-gray-500 text-white hover:bg-gray-600 cursor-pointer transition"
@@ -726,7 +739,7 @@ export default function HeaderCard({ loader, setLoader }: DateRangePickerProps) 
             className={`w-5 h-5 ${hasSearched ? "" : "grayscale opacity-50"}`}
           />
           Exportar
-        </button>
+        </button> */}
       </div>
 
       {/* Modal de Filtro */}

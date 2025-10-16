@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { TablaDefault } from "@/frontend-resourses/components";
+import { ActionButton, TablaDefault } from "@/frontend-resourses/components";
 import Swal from "sweetalert2";
 import SearchByDateCard from "../../../_components/features/SearchByDateCard";
-import ClipLoader from "react-spinners/ClipLoader";
 import TitleView from "@/views/app/_components/features/TitleView";
 // import { useMutation } from "@tanstack/react-query";
 // import { obtenerTurnosDoctoresDia } from "./service";
@@ -130,20 +129,16 @@ export default function EnvioEmailView({
         </div>
 
         <div className="self-end flex-shrink-0 mt-4 md:mt-0 md:ml-8 md:self-center">
-          <button
-            className={
-              `px-6 py-2 rounded font-semibold shadow transition-all duration-200 text-lg flex items-center gap-2 ` +
-              (hayDatos && !loading
-                ? "bg-primaryGreen text-white hover:bg-greenHover"
-                : "bg-gray-300 text-gray-400 cursor-default opacity-80")
-            }
-            type="button"
+          <ActionButton
+            loader={loading}
+            textLoader={true}
             onClick={handleProcesar}
             disabled={!hayDatos || loading}
-          >
-            {loading && <ClipLoader color="#2563eb" size={20} speedMultiplier={0.8} />}
-            {loading ? "Procesando..." : "Procesar"}
-          </button>
+            color={hayDatos && !loading ? "green-mtm" : "customGray"}
+            text="Procesar"
+            addClassName="w-36
+            "
+          />
         </div>
       </div>
 

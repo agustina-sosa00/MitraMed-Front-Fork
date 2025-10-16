@@ -104,6 +104,7 @@ export default function SearchPatientCard({
   //region return
   return (
     <div className="flex flex-col w-full gap-2 ">
+      {/* div + boton // input + boton */}
       <div className="flex items-center justify-between w-full h-10 ">
         <div className={`flex py-1 h-14 justify-start gap-1 w-2/3 items-center`}>
           <div className="flex items-end gap-1">
