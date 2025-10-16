@@ -3,13 +3,11 @@ import { saveAs } from "file-saver";
 
 import { useEffect, useState, useRef } from "react";
 import excelIcon from "@/frontend-resourses/assets/icons/excel.png";
-import { Button } from "@/views/_components/Button";
 import { ConfigProvider, DatePicker } from "antd";
 import type { RangePickerProps } from "antd/es/date-picker";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { useInformeTurnosStore } from "../store/informeTurnosStore";
 import { useMemo } from "react";
-import { close } from "@/frontend-resourses/assets/icons";
 import { useMutation } from "@tanstack/react-query";
 import { obtenerInformeTurnos } from "../service/InformeTurnosService";
 import { PriceInput } from "@/frontend-resourses/components";
@@ -21,6 +19,7 @@ import esES from "antd/locale/es_ES";
 import Swal from "sweetalert2";
 
 import ModalFiltro1 from "@/frontend-resourses/components/Modales/ModalFiltro1";
+import { IoClose } from "react-icons/io5";
 
 type DateRangePickerProps = {
   loader: boolean;
@@ -562,6 +561,7 @@ export default function HeaderCard({ loader, setLoader }: DateRangePickerProps) 
     saveAs(blob, "informeTurnos.xlsx");
   }
 
+  //region return
   return (
     <div className="flex justify-between w-full p-2 mb-1 border rounded bg-slate-100">
       {/* Date Picker y Filtro */}
@@ -602,32 +602,23 @@ export default function HeaderCard({ loader, setLoader }: DateRangePickerProps) 
 
           {/* Botones Procesar y Cancelar */}
           <div className="flex items-end gap-2">
-            <Button
-              label="Procesar"
+            <ActionButton
+              text="Procesar"
               loader={loader}
-              handle={handleSearch}
-              classButton="w-38 flex justify-center text-xs h-6"
+              onClick={handleSearch}
+              addClassName="w-28 flex justify-center text-xs h-7 "
               icon={<FaMagnifyingGlass className="" />}
-              disabledButton={!selectedDates.from || !selectedDates.to || hasSearched}
+              disabled={!selectedDates.from || !selectedDates.to || hasSearched}
+              color="green-mtm"
             />
 
-            <Button
-              classButton={` text-white text-xs h-6  ${
-                disabledButtonTrash
-                  ? "cursor-not-allowed pointer-events-none"
-                  : "bg-gray-200 hover:bg-gray-300 cursor-pointer"
-              } `}
-              padding="2"
-              handle={handleClean}
-              icon={
-                <img
-                  src={close}
-                  alt="Cerrar"
-                  className={`w-3 h-3 ${disabledButtonTrash ? "grayscale opacity-40" : ""}`}
-                />
-              }
-              custom={true}
-              disabledButton={disabledButtonTrash}
+            <ActionButton
+              icon={<IoClose />}
+              addClassName="h-7"
+              color="customGray"
+              customColorText={"red-500"}
+              disabled={disabledButtonTrash}
+              onClick={handleClean}
             />
           </div>
         </div>
@@ -718,7 +709,21 @@ export default function HeaderCard({ loader, setLoader }: DateRangePickerProps) 
 
       {/* Botón Exportar */}
       <div className="">
-        <button
+        <ActionButton
+          disabled={!hasSearched}
+          onClick={handleExportExcel}
+          icon={
+            <img
+              src={excelIcon}
+              alt="Excel"
+              className={`w-4 h-4 ${hasSearched ? "" : "grayscale opacity-50"}`}
+            />
+          }
+          text="Exportar"
+          color="blue-mtm"
+          addClassName="!rounded w-28"
+        />
+        {/* <button
           className={`ml-4 px-3 py-1 rounded text-sm font-semibold shadow flex items-center gap-2 ${
             hasSearched
               ? "bg-gray-500 text-white hover:bg-gray-600 cursor-pointer transition"
@@ -734,7 +739,7 @@ export default function HeaderCard({ loader, setLoader }: DateRangePickerProps) 
             className={`w-5 h-5 ${hasSearched ? "" : "grayscale opacity-50"}`}
           />
           Exportar
-        </button>
+        </button> */}
       </div>
 
       {/* Modal de Filtro */}

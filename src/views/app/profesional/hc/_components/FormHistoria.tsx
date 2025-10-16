@@ -8,13 +8,13 @@ import {
   // grabarHistoriaDocum,
   // uploadFileDropbox,
 } from "@/views/app/profesional/hc/service/HistorialClinicoService";
-import { Button } from "@/views/_components/Button";
 import { useMedicalHistoryContext } from "../../../../../context/MedicalHistoryContext";
 import InputProfesionales from "@/views/app/_components/features/InputProfesionales";
 import SelectorDeArchivos from "@/views/app/_components/features/SelectorDeArchivos";
 import { renombrarArchivo } from "../utils/renombrarArchivo";
 import { getTodayDate } from "@/views/auth/utils/authUtils";
 import { getLocalStorageParams } from "@/utils/index";
+import { ActionButton } from "@/frontend-resourses/components";
 
 interface FormHistoriaProps {
   hc: string;
@@ -24,7 +24,7 @@ interface FormHistoriaProps {
   //   iddoctor: string;
   // };
   // handle?: () => void;
-  focusState?: boolean;
+
   setStateModal: (arg: boolean) => void;
   hcSelected?: any;
 }
@@ -32,7 +32,7 @@ interface FormHistoriaProps {
 export default function FormHistoria({
   // infoProfessional,
   // handle,
-  focusState,
+
   setStateModal,
   hcSelected,
 }: FormHistoriaProps) {
@@ -243,7 +243,6 @@ export default function FormHistoria({
           handleInput={handleOnChangeInput}
           labelInput={"Motivo de Consulta"}
           field={true}
-          focusState={focusState}
           focusName={"detalle"}
           inputRef={inputMotivoRef}
         />
@@ -252,7 +251,6 @@ export default function FormHistoria({
           nameInput="obs"
           handleTextarea={handleOnChangeTextarea}
           labelInput={"Evolución"}
-          focusState={focusState}
           focusName={"obs"}
         />
 
@@ -270,20 +268,22 @@ export default function FormHistoria({
         )}
 
         {/* Botones */}
-        <div className="flex justify-end w-full gap-2">
-          <Button
-            type="button"
-            label="Grabar"
-            handle={handleOnClickSave}
+        <div className="flex justify-end items-center w-full gap-2">
+          <ActionButton
+            text="Grabar"
+            onClick={handleOnClickSave}
             loader={loader}
-            disabledButton={!habilitaGrabar}
+            disabled={!habilitaGrabar}
+            color="green-mtm"
+            addClassName="w-24 h-8 !rounded"
           />
-
-          <Button
-            type="button"
-            label="salir"
-            handle={handleCloseModal}
-            classButton="bg-red-500 rounded text-white font-medium  px-5 py-1 hover:bg-red-600"
+          <ActionButton
+            text="Salir"
+            onClick={handleCloseModal}
+            loader={loader}
+            disabled={!habilitaGrabar}
+            color="red"
+            addClassName="w-24 h-8 !rounded"
           />
         </div>
       </form>

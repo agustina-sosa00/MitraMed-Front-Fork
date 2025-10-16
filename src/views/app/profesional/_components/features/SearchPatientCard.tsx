@@ -1,16 +1,9 @@
 import { useEffect, useRef } from "react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
-import { RiCloseLargeFill } from "react-icons/ri";
-import { FaEdit, FaRegEdit } from "react-icons/fa";
-import { MdCancel } from "react-icons/md";
-import { IoMdAdd } from "react-icons/io";
 import { FaUserCircle } from "react-icons/fa";
-import { RiSave3Line } from "react-icons/ri";
-import { Button } from "@/views/_components/Button";
 // import { BuscadorDePacientesProps } from "@/views/app/profesional/types/index";
-import { FaRegEye } from "react-icons/fa";
-import { useMedicalHistoryContext } from "../../../../../context/MedicalHistoryContext";
-import Swal from "sweetalert2";
+import { ActionButton } from "@/frontend-resourses/components";
+import { IoClose } from "react-icons/io5";
 
 type Paciente = {
   nombre: string;
@@ -25,7 +18,6 @@ type Paciente = {
 };
 
 interface SearchPatientCardProps {
-  padre: number;
   data: Partial<Paciente>;
   dniInput: string;
   setDniInput: (arg: string) => void;
@@ -35,60 +27,34 @@ interface SearchPatientCardProps {
   setStateModal?: (arg: boolean) => void;
   odontogram?: boolean;
   editOdontogram?: boolean;
-  setEditOdontogram?: (arg: boolean) => void;
-  handleSave?: () => void;
   handleCancel?: () => void;
   handleDeletePatient?: () => void;
-  changes?: boolean;
   errorState?: string;
   setErrorState?: (arg: string) => void;
-  isActive?: boolean;
   hasConfirmed?: boolean;
   loading?: boolean;
   setPreviewOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function SearchPatientCard({
-  padre,
   data,
   dniInput,
   setDniInput,
   onSearch,
   editOdontogram,
-  setEditOdontogram,
-  setStateModal,
-  handleSave,
   handleDeletePatient,
   handleCancel,
   errorState,
   setErrorState,
-  changes,
-  isActive,
   hasConfirmed,
   loading,
-  setPreviewOpen,
   // odontogram,
 }: SearchPatientCardProps) {
-  const { hcSelected, setEditMode } = useMedicalHistoryContext();
-
   // console.log(padre);
 
   // region states y variables
   const isEditing = !hasConfirmed;
   const inputRef = useRef<HTMLInputElement>(null);
-  const hasValidPatient = Boolean(data?.dni);
-  const canEdit = hasValidPatient && !isEditing && !loading && !errorState;
-  const idDoctorStorage = localStorage.getItem("_iddoc");
-  const tusuarioStorage = localStorage.getItem("_tu");
-
-  const hoyString = getHoyString();
-  const esHoy = hcSelected?.fecha === hoyString;
-
-  const esMismoDoctor = idDoctorStorage === String(hcSelected?.iddoctor);
-  const esGerente = tusuarioStorage === "4";
-  const esAdmin = tusuarioStorage === "5";
-
-  const puedeEditar = ((esHoy && esMismoDoctor) || esGerente || esAdmin) && !!hcSelected;
 
   //region useEffects
   useEffect(() => {
@@ -98,14 +64,6 @@ export default function SearchPatientCard({
       });
     }
   }, [hasConfirmed]);
-
-  function getHoyString() {
-    const hoy = new Date();
-    const yyyy = hoy.getFullYear();
-    const mm = String(hoy.getMonth() + 1).padStart(2, "0");
-    const dd = String(hoy.getDate()).padStart(2, "0");
-    return `${yyyy}-${mm}-${dd}`;
-  }
 
   // region functions
   function handleOnChangeDni(e: React.ChangeEvent<HTMLInputElement>) {
@@ -143,29 +101,10 @@ export default function SearchPatientCard({
     }
   }
 
-  function handleCancelButton() {
-    if (!changes) {
-      handleCancel?.();
-    } else {
-      Swal.fire({
-        title: "Existen Cambios sin Guardar",
-        icon: "warning",
-        text: "¿Desea Salir?",
-        showCancelButton: true,
-        confirmButtonColor: "#518915",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Si",
-        cancelButtonText: "No",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          handleCancel?.();
-        }
-      });
-    }
-  }
-
+  //region return
   return (
     <div className="flex flex-col w-full gap-2 ">
+      {/* div + boton // input + boton */}
       <div className="flex items-center justify-between w-full h-10 ">
         <div className={`flex py-1 h-14 justify-start gap-1 w-2/3 items-center`}>
           <div className="flex items-end gap-1">
@@ -174,22 +113,18 @@ export default function SearchPatientCard({
               {hasConfirmed && dniInput.length > 0 ? (
                 <>
                   <div
-                    className={`px-1 text-base flex items-center font-bold border border-gray-300 rounded w-full bg-lightGray focus:outline-none text-primaryBlue`}
+                    className={`px-1 text-base h-8 flex items-center font-bold border border-gray-300 rounded w-full bg-lightGray focus:outline-none text-primaryBlue`}
                   >
                     {dniInput}
                   </div>
-                  <button
-                    type="button"
+                  <ActionButton
                     onClick={handleEditInput}
                     disabled={editOdontogram}
-                    className={`h-8 px-2 py-1 border rounded bg-lightGray ${
-                      editOdontogram
-                        ? "text-gray-400 cursor-not-allowed"
-                        : "text-red-500 hover:bg-gray-200"
-                    }`}
-                  >
-                    <RiCloseLargeFill className="text-xl " />
-                  </button>
+                    icon={<IoClose />}
+                    addClassName="h-8 p-2 !rounded"
+                    color="customGray"
+                    customColorText="red-500"
+                  />
                 </>
               ) : (
                 <>
@@ -209,19 +144,14 @@ export default function SearchPatientCard({
                       ${errorState && "border-red-500"}`}
                     autoComplete="off"
                   />
-                  <button
-                    type="button"
+                  <ActionButton
                     onClick={handleSearchPatient}
-                    className="flex items-center justify-center w-8 h-8 px-2 py-1 transition-all duration-300 bg-gray-200 border border-gray-300 rounded text-greenHover hover:text-white hover:bg-greenHover hover:border-primaryGreen "
-                  >
-                    {loading ? (
-                      <svg className="w-8 circle-loader animate-spin" viewBox="25 25 50 50">
-                        <circle r="20" cy="50" cx="50" className="circleNormal"></circle>
-                      </svg>
-                    ) : (
-                      <FaMagnifyingGlass className="text-xl " />
-                    )}
-                  </button>
+                    loader={loading}
+                    icon={<FaMagnifyingGlass />}
+                    color="customGray"
+                    customColorText="primaryGreen"
+                    addClassName="h-8 p-2 !rounded transition-all duration-300"
+                  />
                 </>
               )}
             </div>
@@ -281,85 +211,6 @@ export default function SearchPatientCard({
         </div>
       )}
 
-      {
-        //region botones
-      }
-      {hasConfirmed && padre === 1 ? (
-        <div className="flex items-center justify-between w-full h-10 gap-2">
-          <div className="">
-            <Button
-              label="agregar registro"
-              icon={<IoMdAdd />}
-              disabledButton={!canEdit}
-              handle={() => setStateModal && setStateModal(true)}
-            />
-          </div>
-          <div className="flex gap-2">
-            <Button
-              label="editar"
-              disabledButton={!hcSelected || !puedeEditar}
-              icon={<FaEdit />}
-              handle={() => {
-                setEditMode(true);
-                setStateModal && setStateModal(true);
-              }}
-            />
-            {/* {puedeEditar && (
-            )} */}
-
-            <Button
-              label="ver archivos"
-              disabledButton={!hcSelected?.idopera}
-              icon={<FaRegEye />}
-              handle={() => setPreviewOpen?.(true)}
-            />
-          </div>
-        </div>
-      ) : (
-        <div className="w-full">
-          <div className="absolute bottom-0 right-0 flex items-center gap-2 p-2 ">
-            {editOdontogram ? (
-              <div className="flex flex-col gap-2">
-                <button
-                  disabled={isActive || !changes}
-                  onClick={handleSave}
-                  className={`flex items-center justify-center w-32 h-8 gap-1 px-2 py-1 text-white capitalize rounded  ${
-                    isActive || !changes
-                      ? "bg-gray-400 cursor-not-allowed"
-                      : "bg-primaryGreen hover:bg-greenHover"
-                  } `}
-                >
-                  <RiSave3Line />
-                  guardar
-                </button>
-                <button
-                  disabled={isActive}
-                  onClick={handleCancelButton}
-                  className="flex items-center justify-center w-32 h-8 gap-1 px-2 py-1 text-white capitalize bg-red-500 rounded hover:bg-red-600"
-                >
-                  <MdCancel /> cancelar
-                </button>
-              </div>
-            ) : !(
-                tusuarioStorage === "3" ||
-                tusuarioStorage === "4" ||
-                tusuarioStorage === "5"
-              ) ? null : (
-              <button
-                disabled={!canEdit}
-                onClick={() => setEditOdontogram && setEditOdontogram(true)}
-                className={`h-8 px-2 py-1 flex items-center gap-1 justify-center text-white capitalize rounded w-32   ${
-                  !canEdit
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-primaryGreen hover:bg-greenHover"
-                }`}
-              >
-                <FaRegEdit /> editar
-              </button>
-            )}
-          </div>
-        </div>
-      )}
       {/* {!odontogram ? (
         <div className="w-full">
           <div className="absolute bottom-0 right-0 flex items-center gap-2 p-2 ">

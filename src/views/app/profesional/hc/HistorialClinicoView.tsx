@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { TablaDefault } from "@/frontend-resourses/components";
+import { ActionButton, TablaDefault } from "@/frontend-resourses/components";
 import { Document, Page, pdfjs } from "react-pdf";
 import { FiDownload } from "react-icons/fi";
 // import { IoTrashOutline } from "react-icons/io5";
@@ -21,6 +21,8 @@ import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
 import TitleView from "../../_components/features/TitleView";
 import { Modal } from "@/views/_components/Modal";
+import { IoMdAdd } from "react-icons/io";
+import { FaEdit, FaRegEye } from "react-icons/fa";
 pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
 
 type HcRow = {
@@ -54,13 +56,12 @@ export default function HistorialClinicoView() {
     dniInput,
     setDniInput,
     clearContext,
+    setEditMode,
     // getContext,
   } = useMedicalHistoryContext();
 
   // const infoProfessional = Cookies.get("dataProfessional");
-  const [focusState, _setFocusState] = useState(false);
   const [showModal, setShowModal] = useState<boolean>(false);
-  const padre = 1;
 
   // preview archivo (thumbnail + modal)
   const [previewOpen, setPreviewOpen] = useState(false);
@@ -105,6 +106,18 @@ export default function HistorialClinicoView() {
   });
 
   const hasFile = Boolean(datosArchivo?.data?.idopera && datosArchivo?.data?.extension);
+  const hasValidPatient = Boolean(dataPaciente?.paciente.dni);
+  const canEdit = hasValidPatient && hasConfirmed && !uiLoading && !errorState;
+  const idDoctorStorage = localStorage.getItem("_iddoc");
+  const tusuarioStorage = localStorage.getItem("_tu");
+  const hoyString = getHoyString();
+  const esHoy = hcSelected?.fecha === hoyString;
+
+  const esMismoDoctor = idDoctorStorage === String(hcSelected?.iddoctor);
+  const esGerente = tusuarioStorage === "4";
+  const esAdmin = tusuarioStorage === "5";
+
+  const puedeEditar = ((esHoy && esMismoDoctor) || esGerente || esAdmin) && !!hcSelected;
 
   const { mutate: descargarDropbox } = useMutation({
     mutationFn: descargarArchivoDropbox,
@@ -276,13 +289,20 @@ export default function HistorialClinicoView() {
     });
   }
 
+  function getHoyString() {
+    const hoy = new Date();
+    const yyyy = hoy.getFullYear();
+    const mm = String(hoy.getMonth() + 1).padStart(2, "0");
+    const dd = String(hoy.getDate()).padStart(2, "0");
+    return `${yyyy}-${mm}-${dd}`;
+  }
+  //region return
   return (
     <>
       <TitleView title="Historia Clínica" />
       {/* Buscador */}
       <div className="flex items-center justify-start w-full gap-1 py-1 min-h-24 ">
         <SearchPatientCard
-          padre={padre}
           data={hasConfirmed ? dataPaciente?.paciente : null}
           dniInput={dniInput}
           setDniInput={setDniInput}
@@ -296,6 +316,42 @@ export default function HistorialClinicoView() {
           errorState={errorState}
           setErrorState={setErrorState}
         />
+      </div>
+
+      {/* Botones */}
+      <div className="w-full h-9 flex items-center justify-between  ">
+        {" "}
+        <ActionButton
+          text="Agregar Registro"
+          icon={<IoMdAdd />}
+          disabled={!canEdit}
+          onClick={() => setShowModal(true)}
+          addClassName="!rounded h-8"
+          color="green-mtm"
+        />
+        <div className="flex gap-2">
+          <ActionButton
+            text="Editar"
+            disabled={!hcSelected || !puedeEditar}
+            icon={<FaEdit />}
+            onClick={() => {
+              setEditMode(true);
+              setShowModal(true);
+            }}
+            addClassName="!rounded h-8"
+            color="customGray"
+            customColorText="primaryGreen"
+          />
+          <ActionButton
+            text="Ver Archivos"
+            disabled={!hcSelected?.idopera}
+            icon={<FaRegEye />}
+            onClick={() => setPreviewOpen?.(true)}
+            addClassName="!rounded h-8"
+            color="customGray"
+            customColorText="primaryBlue"
+          />
+        </div>
       </div>
 
       {/* Tabla y Observaciones */}
@@ -348,14 +404,11 @@ export default function HistorialClinicoView() {
         >
           <div className="flex flex-col w-full min-w-[600px] h-[520px]">
             <div className="flex items-center justify-end w-full px-2">
-              <button
+              <ActionButton
                 onClick={() => setPreviewOpen(false)}
-                className="p-1 text-xl rounded text-primaryBlue hover:bg-primaryBlue hover:text-white"
-                aria-label="Cerrar"
-                title="Cerrar"
-              >
-                <IoClose />
-              </button>
+                addClassName="h-8  rounded text-primaryBlue hover:bg-primaryBlue hover:text-white"
+                icon={<IoClose />}
+              />
             </div>
 
             {loadingBlob ? (
@@ -489,7 +542,6 @@ export default function HistorialClinicoView() {
             // handle={handleOnFocusInput}
             // infoProfessional={JSON.parse(infoProfessional!)}
             hc={dniHistory}
-            focusState={focusState}
             setStateModal={setShowModal}
             hcSelected={editMode ? hcSelected : undefined}
           />

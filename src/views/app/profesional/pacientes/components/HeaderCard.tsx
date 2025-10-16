@@ -1,8 +1,7 @@
 import { useEffect, useRef, useCallback } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { IoClose } from "react-icons/io5";
-import { FlexibleInputField } from "@/frontend-resourses/components";
-import { Button } from "@/views/_components/Button";
+import { ActionButton, FlexibleInputField } from "@/frontend-resourses/components";
 import { usePacientesStore } from "../store/pacientesStore";
 import { obtenerPaciente } from "../service/PacientesService";
 import { IoSearchSharp } from "react-icons/io5";
@@ -66,6 +65,7 @@ export default function HeaderCard({ handleOpenModalSearch }) {
       throw new Error(`${error}`);
     },
     onSuccess(data) {
+      console.log(data);
       if (!data.data) {
         setErrorMessage("header", "Paciente inexistente");
         inputRefHc.current?.focus();
@@ -130,7 +130,6 @@ export default function HeaderCard({ handleOpenModalSearch }) {
     }
     setDniInput(e);
   }
-
   //region return
   return (
     <div className="w-full flex flex-col">
@@ -151,30 +150,28 @@ export default function HeaderCard({ handleOpenModalSearch }) {
               disabled={estado !== "I"}
               maxLength={8}
             />
-            <Button
+            <ActionButton
               icon={<IoSearchSharp />}
-              padding="2"
-              custom
-              classButton={`text-white bg-primaryBlue h-7  border-none hover:bg-blueHover ${
-                estado !== "I" && "!bg-gray-300 !text-gray-400 text cursor-not-allowed"
-              }`}
-              disabledButton={estado !== "I"}
-              handle={handleOpenModalSearch}
+              color="blue-mtm"
+              addClassName={`h-7 p-2  !rounded`}
+              disabled={estado !== "I"}
+              onClick={handleOpenModalSearch}
             />
-            <Button
-              label="Procesar"
-              height=" !h-7"
-              disabledButton={estado !== "I" || !(dniInput ?? "").trim()}
-              handle={handleOnClickHC}
+            <ActionButton
+              text="Procesar"
+              addClassName={`h-7 px-4 !rounded`}
+              disabled={estado !== "I" || !(dniInput ?? "").trim()}
+              onClick={handleOnClickHC}
             />
-            <Button
+            <ActionButton
               icon={<IoClose />}
-              classButton="text-red-600 h-7 bg-gray-200 border-none hover:bg-gray-300"
-              padding="2"
-              custom
-              disabledButton={estado !== "C"}
-              handle={handleCancel}
+              disabled={estado !== "C"}
+              onClick={handleCancel}
+              addClassName="h-7 p-2 !rounded"
+              color="customGray"
+              customColorText="red-600"
             />
+
             <p className="font-semibold text-red-500">
               {errorMessage?.place === "header" && errorMessage?.message}
             </p>
@@ -206,14 +203,14 @@ export default function HeaderCard({ handleOpenModalSearch }) {
         </div>{" "}
         <div className=" w-1/3  gap-y-5 gap-x-2 justify-end px-4 items-center flex flex-wrap">
           {buttonsHedear.map((item, index) => (
-            <Button
+            <ActionButton
               key={index}
-              label={item.label}
-              classButton={`${item.classButton} w-32 flex justify-center `}
-              disabledButton={item.disabledButton}
-              handle={item.handle}
-              customRed={item.customRed}
+              text={item.label}
+              color={item.customRed ? "red" : "green-mtm"}
+              onClick={item.handle}
+              disabled={item.disabledButton}
               icon={item.icon}
+              addClassName={`${item.classButton} w-32 flex justify-center !rounded`}
             />
           ))}
         </div>

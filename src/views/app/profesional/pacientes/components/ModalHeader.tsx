@@ -1,5 +1,4 @@
-import { FlexibleInputField } from "@/frontend-resourses/components";
-import { Button } from "@/views/_components/Button";
+import { ActionButton, FlexibleInputField } from "@/frontend-resourses/components";
 import { IoClose, IoSearchSharp } from "react-icons/io5";
 import { FaCheck } from "react-icons/fa6";
 import { IoMdClose } from "react-icons/io";
@@ -105,6 +104,7 @@ export default function ModalHeader({ handleCloseModal }: Props) {
       icons: <FaCheck />,
       disabledButton: !hasSelection,
       handle: handleSelectPaciente,
+      color: "green-mtm",
     },
     {
       label: "Cancelar",
@@ -113,6 +113,7 @@ export default function ModalHeader({ handleCloseModal }: Props) {
       icons: <IoMdClose />,
       disabledButton: !hasSelection,
       handle: handleCancel,
+      color: "red",
     },
   ];
 
@@ -122,6 +123,8 @@ export default function ModalHeader({ handleCloseModal }: Props) {
     dataInputs.loc === "" &&
     dataInputs.dom1 === "" &&
     dataInputs.nombre === "";
+
+  console.log(buscarDisabled);
 
   const { mutate: postConsultaPacientes } = useMutation({
     mutationFn: consultaPacientes,
@@ -187,13 +190,20 @@ export default function ModalHeader({ handleCloseModal }: Props) {
   function focusNextFrom(currentKey: string) {
     const idx = focusOrder.indexOf(currentKey as any);
     if (idx >= 0 && idx < focusOrder.length - 1) {
-      // siguiente input del orden
       if (focusByKey(focusOrder[idx + 1])) return;
     }
-    // último paso: botón Buscar
-    if (searchBtnRef.current && !searchBtnRef.current.disabled) {
-      searchBtnRef.current.focus();
-    }
+
+    // último paso: llevar el foco al botón "Buscar"
+    const btn = searchBtnRef.current;
+    if (!btn) return;
+
+    // Esperar al próximo frame para que el botón ya no esté disabled
+    requestAnimationFrame(() => {
+      // Si ya está habilitado, enfoca
+      if (!btn.disabled) {
+        btn.focus();
+      }
+    });
   }
 
   function handleOnChange(field: string, value: string) {
@@ -250,19 +260,18 @@ export default function ModalHeader({ handleCloseModal }: Props) {
           />
         ))}
 
-        <Button
+        <ActionButton
           icon={<IoClose />}
-          classButton="text-red-600 h-7 bg-gray-200 border-none hover:bg-gray-300"
-          padding="2"
-          custom
-          disabledButton={
+          addClassName={` h-7  p-2 !rounded`}
+          disabled={
             dataInputs.apellido === "" &&
             dataInputs.dni === "" &&
             dataInputs.loc === "" &&
             dataInputs.dom1 === "" &&
             dataInputs.nombre === ""
           }
-          handle={handleCancel}
+          color="customGray"
+          onClick={handleCancel}
         />
 
         {inputs.slice(3).map((item) => (
@@ -289,14 +298,15 @@ export default function ModalHeader({ handleCloseModal }: Props) {
       </div>
 
       <div className="justify-center items-center flex flex-col gap-3">
-        <Button
-          label="Buscar"
-          custom
-          classButton="h-7 w-full flex justify-center text-primaryGreen"
+        <ActionButton
+          text="Buscar"
+          addClassName={`h-7 w-full flex justify-center`}
+          onClick={handleClickSearch}
+          disabled={buscarDisabled}
+          color="customGray"
+          customColorText="primaryGreen"
           icon={<IoSearchSharp />}
-          disabledButton={buscarDisabled}
-          handle={handleClickSearch}
-          buttonRef={searchBtnRef}
+          ref={searchBtnRef}
           onKeyDown={(e) => {
             if (e.key === "Enter" && !buscarDisabled) {
               e.preventDefault();
@@ -304,15 +314,16 @@ export default function ModalHeader({ handleCloseModal }: Props) {
             }
           }}
         />
+
         {buttonsModal.map((item, index) => (
-          <Button
+          <ActionButton
             key={index}
-            label={item.label}
-            customRed={item.customRed}
-            classButton={item.className}
+            text={item.label}
+            onClick={item.handle}
+            addClassName={item.className}
+            disabled={item.disabledButton}
+            color={item.color}
             icon={item.icons}
-            disabledButton={item.disabledButton}
-            handle={item.handle}
           />
         ))}
       </div>

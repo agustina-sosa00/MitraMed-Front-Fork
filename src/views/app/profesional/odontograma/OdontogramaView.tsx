@@ -18,6 +18,10 @@ import Diente from "./components/Diente";
 import ModalSeleccionDeCara from "./components/ModalSeleccionDeCara";
 import Swal from "sweetalert2";
 import TitleView from "../../_components/features/TitleView";
+import { RiSave3Line } from "react-icons/ri";
+import { MdCancel } from "react-icons/md";
+import { FaRegEdit } from "react-icons/fa";
+import { ActionButton } from "@/frontend-resourses/components";
 
 export default function OdontogramView() {
   const { setDisabledButtonSidebar } = useOutletContext<OutletContext>();
@@ -48,10 +52,12 @@ export default function OdontogramView() {
   const [editOdontogram, setEditOdontogram] = useState(false);
   const [errorState, setErrorState] = useState("");
   const [idPaciente, setIdPaciente] = useState("");
-  const padre = 2;
 
   const { iddoctor, idProfesional } = getLocalStorageParams();
-
+  const tusuarioStorage = localStorage.getItem("_tu");
+  const hasValidPatient = Boolean(odontogramaData?.data?.paciente?.dni);
+  const canEdit = hasValidPatient && hasConfirmed && !uiLoading && !errorState;
+  const isActive = editOdontogram && contextMenu === toothSelect;
   const hasUnsaved = useMemo(() => {
     return !isEqualTeeth(
       sinProvisoriosDeTratamientosConCara(originalData),
@@ -232,6 +238,27 @@ export default function OdontogramView() {
     setTeethIdsState({});
     setOriginalData({});
   }
+
+  function handleCancelButton() {
+    if (!hasUnsaved) {
+      handleCancelEdit?.();
+    } else {
+      Swal.fire({
+        title: "Existen Cambios sin Guardar",
+        icon: "warning",
+        text: "¿Desea Salir?",
+        showCancelButton: true,
+        confirmButtonColor: "#518915",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si",
+        cancelButtonText: "No",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          handleCancelEdit?.();
+        }
+      });
+    }
+  }
   //region return
   return (
     <>
@@ -241,26 +268,59 @@ export default function OdontogramView() {
         onClick={() => setContextMenu(null)}
       >
         <SearchPatientCard
-          padre={padre}
           data={hasConfirmed ? odontogramaData?.data?.paciente : null}
           dniInput={dniInput}
           setDniInput={setDniInput}
           onSearch={handleSearch}
           handleDeletePatient={handleDeletePatient}
           editOdontogram={editOdontogram}
-          setEditOdontogram={setEditOdontogram}
-          handleSave={handleSave}
           handleCancel={handleCancelEdit}
           errorState={errorState}
           setErrorState={setErrorState}
-          isActive={editOdontogram && contextMenu === toothSelect}
-          changes={hasUnsaved}
           hasConfirmed={hasConfirmed}
           loading={uiLoading}
         />
       </div>
 
       <div className="w-full my-2 border border-gray-300"></div>
+
+      {/* botones */}
+      <div className="absolute bottom-7 right-3 flex items-center gap-2 p-2 ">
+        {editOdontogram ? (
+          <div className="flex flex-col gap-2">
+            <ActionButton
+              disabled={isActive || !hasUnsaved}
+              onClick={handleSave}
+              icon={<RiSave3Line />}
+              text="Guardar"
+              color="green-mtm"
+              addClassName="!rounded w-32"
+            />
+
+            <ActionButton
+              disabled={isActive}
+              onClick={handleCancelButton}
+              icon={<MdCancel />}
+              text="Cancelar"
+              color="red"
+              addClassName="!rounded w-32"
+            />
+          </div>
+        ) : !(
+            tusuarioStorage === "3" ||
+            tusuarioStorage === "4" ||
+            tusuarioStorage === "5"
+          ) ? null : (
+          <ActionButton
+            disabled={!canEdit}
+            onClick={() => setEditOdontogram && setEditOdontogram(true)}
+            icon={<FaRegEdit />}
+            text="Editar"
+            color="green-mtm"
+            addClassName="!rounded w-32"
+          />
+        )}
+      </div>
 
       {
         // region render tooth

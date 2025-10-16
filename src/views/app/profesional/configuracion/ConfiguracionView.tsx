@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import TitleView from "../../_components/features/TitleView";
+import { ActionButton } from "@/frontend-resourses/components";
 
 export default function ConfiguracionView() {
   const [isProd, setIsProd] = useState<boolean | null>(null); // null = no inicializado
@@ -121,13 +122,14 @@ export default function ConfiguracionView() {
         </div>
       </div>
       <div className="flex justify-center mt-6">
-        <button
-          className="px-6 py-2 text-white transition rounded shadow bg-emerald-700 hover:bg-emerald-800"
+        <ActionButton
           onClick={handleSave}
           disabled={pendingProd === isProd && pendingProdMode === isProdMode}
-        >
-          Guardar cambios
-        </button>
+          color="customGray"
+          customColorText="primaryBlue"
+          text="Guardar cambios"
+          addClassName="!rounded transition"
+        />
       </div>
     </>
   );
