@@ -192,18 +192,6 @@ export default function TurnosGeneralesView() {
             buttonBox2={["Anular Turno"]}
           />
         </div>
-
-        <SearchByDateCard
-          diaSeleccionado={diaSeleccionado}
-          setDiaSeleccionado={setDiaSeleccionado}
-        />
-
-        {/* <ActionsButtonsCard
-          disabled={!selectTurn || !selectProfessional ? "disabled" : ""}
-          handleButton={handleBoxButton}
-          button={["alta turno", "presentación", "facturación"]}
-        /> */}
-        {/* <div className="flex flex-1"></div> */}
       </div>
 
       {/* Tablas */}
