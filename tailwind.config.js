@@ -37,6 +37,9 @@ export default {
         profesional: "url('https://i.imgur.com/s1eeBP9.png')",
         // profesional: "url('https://i.imgur.com/Egqa5IF.png')",
       },
+      boxShadow: {
+        xg: "5px 5px 5px 0px rgba(0, 0, 0, 0.1)",
+      },
     },
   },
   plugins: [],

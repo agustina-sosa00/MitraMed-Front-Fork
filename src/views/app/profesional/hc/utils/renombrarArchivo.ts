@@ -1,7 +1,9 @@
 export const renombrarArchivo = ({
+  iddoctor,
   archivoOriginal,
   dni,
 }: {
+  iddoctor: string | null;
   archivoOriginal: File | null;
   dni: string;
 }) => {
@@ -15,15 +17,19 @@ export const renombrarArchivo = ({
   const hours = String(date.getHours()).padStart(2, "0");
   const minutes = String(date.getMinutes()).padStart(2, "0");
   const seconds = String(date.getSeconds()).padStart(2, "0");
+  const iddoctorStr = String(iddoctor).padStart(2, "0");
 
   const extension = archivoOriginal.name.split(".").pop() ?? "";
-  const baseName = `${dni}${year}${month}${day}${hours}${minutes}${seconds}`;
+  const baseName = `${iddoctorStr}${dni}${year}${month}${day}${hours}${minutes}${seconds}`;
   const nuevoNombre = `${baseName}.${extension}`;
+
+  // console.log(nuevoNombre);
 
   const fileRenombrado = new File([archivoOriginal], nuevoNombre, {
     type: archivoOriginal.type,
   });
 
+  console.log(fileRenombrado);
   return {
     file: fileRenombrado,
     name: baseName,

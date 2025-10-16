@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { ContainView } from "@/views/app/_components/features/ContainView";
+import TitleView from "../../_components/features/TitleView";
+import { ActionButton } from "@/frontend-resourses/components";
 
 export default function ConfiguracionView() {
   const [isProd, setIsProd] = useState<boolean | null>(null); // null = no inicializado
@@ -46,15 +47,10 @@ export default function ConfiguracionView() {
     setIsProd(pendingProd);
     setIsProdMode(pendingProdMode);
   };
-
+  //region return
   return (
-    <ContainView
-      title="configuración"
-      padding="py-3 2xl:py-20  px-10"
-      gapChildren="gap-1"
-      sizeTitle="text-3xl 2xl:text-4xl"
-      classContainer="gap-3"
-    >
+    <>
+      <TitleView title="configuración" />
       <div className="flex items-center justify-center w-full gap-8 px-4 py-10">
         {/* Card Entorno */}
         <div className="flex flex-col w-full max-w-sm gap-4 p-6 bg-white shadow-md rounded-xl">
@@ -126,14 +122,15 @@ export default function ConfiguracionView() {
         </div>
       </div>
       <div className="flex justify-center mt-6">
-        <button
-          className="px-6 py-2 bg-emerald-700 text-white rounded shadow hover:bg-emerald-800 transition"
+        <ActionButton
           onClick={handleSave}
           disabled={pendingProd === isProd && pendingProdMode === isProdMode}
-        >
-          Guardar cambios
-        </button>
+          color="customGray"
+          customColorText="primaryBlue"
+          text="Guardar cambios"
+          addClassName="!rounded transition"
+        />
       </div>
-    </ContainView>
+    </>
   );
 }

@@ -1,8 +1,31 @@
-import { apiDropbox } from "@/lib/axiosDropbox";
 import { apiPhp } from "@/lib/axiosPhp";
 import { getLocalStorageParams } from "@/utils/index";
-import axios from "axios";
-import Cookies from "js-cookie";
+
+type grabarHistoriaParams = {
+  idpaciente: number;
+  fecha: string;
+  detalle: string;
+  obs: string;
+  idhistoria?: number | null;
+  tproceso?: number | null;
+  iddoctor: string | null;
+  idopera?: string | null;
+  extension?: string | null;
+};
+
+export async function obtenerPacienteHc(dni: string) {
+  try {
+    const { empresa, modo, entorno } = getLocalStorageParams();
+
+    const response = await apiPhp(
+      `/${entorno}/mitramed/obtenerPacienteHC.php?_i={"_e":"${empresa}","_m":"${modo}","_d":${dni}}`,
+    );
+
+    return response.data;
+  } catch (error) {
+    throw new Error(`Error obteniendo datos del HC: ${error}`);
+  }
+}
 
 export function grabarHistoria({
   idpaciente,
@@ -10,43 +33,47 @@ export function grabarHistoria({
   detalle,
   obs,
   iddoctor,
-}: {
-  idpaciente: number;
-  fecha: string;
-  detalle: string;
-  obs: string;
-  iddoctor: string;
-}) {
+  idhistoria,
+  tproceso,
+  idopera = null,
+  extension = null,
+}: grabarHistoriaParams) {
   const { empresa, modo, entorno } = getLocalStorageParams();
 
   const data = {
     _e: empresa,
     _m: modo,
-    idpaciente: idpaciente,
-    fecha: fecha,
-    detalle: detalle,
-    obs: obs,
-    iddoctor: iddoctor,
+    idpaciente,
+    fecha,
+    detalle,
+    obs,
+    idhistoria: idhistoria ?? null,
+    tproceso: tproceso ?? null,
+    iddoctor,
+    idopera: idopera ?? null,
+    extension: extension ?? null,
   };
 
+  console.log(data);
+
   try {
-    const response = apiPhp.post(`/${entorno}/mitramed/grabarHistoria.php`, data);
+    const url = `/${entorno}/mitramed/grabarHistoria.php`;
+
+    const response = apiPhp.post(url, data);
     return response;
   } catch (error) {
     throw new Error(`${error}`);
   }
 }
 
-export async function grabarPacienteDocum({
+export async function grabarHistoriaDocum({
   idhistoria,
   idopera,
   extension,
-  iddoctor,
 }: {
   idhistoria: number;
   idopera: string;
   extension: string;
-  iddoctor: number;
 }) {
   try {
     const { empresa, modo, entorno } = getLocalStorageParams();
@@ -57,10 +84,9 @@ export async function grabarPacienteDocum({
       idhistoria: idhistoria,
       idopera: idopera,
       extension: extension,
-      iddoctor: iddoctor,
     };
 
-    const response = await apiPhp.post(`/${entorno}/mitramed/grabarPacienteDocum.php`, data);
+    const response = await apiPhp.post(`/${entorno}/mitramed/grabarHistoriaDocum.php`, data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -80,24 +106,6 @@ export async function getIdOpera({ dni, idhistoria }: { dni: number; idhistoria:
   }
 }
 
-export async function obtenerPacienteHc({ dni }: { dni: string }) {
-  try {
-    const { empresa, modo, entorno } = getLocalStorageParams();
-
-    // console.log("obtenerPacienteHc dni:", dni);
-
-    const response = await apiPhp(
-      `/${entorno}/mitramed/obtenerPacienteHC.php?_i={"_e":"${empresa}","_m":"${modo}","_d":${dni}}`,
-    );
-
-    // console.log("obtenerPacienteHc response:", response);
-
-    return response.data;
-  } catch (error) {
-    throw new Error(`Error obteniendo datos del HC: ${error}`);
-  }
-}
-
 //region dropbox
 export const getDataDropbox = async () => {
   try {
@@ -112,54 +120,25 @@ export const getDataDropbox = async () => {
   }
 };
 
-export const getAccessTokenDropbox = async ({
-  refreshToken,
-  clientId,
-  clientSecret,
-}: {
-  refreshToken: string;
-  clientId: string;
-  clientSecret: string;
-}) => {
-  const dropboxURL = "https://api.dropbox.com";
-  try {
-    const data = new URLSearchParams();
-    data.append("grant_type", "refresh_token");
-    data.append("refresh_token", refreshToken);
-    data.append("client_id", clientId);
-    data.append("client_secret", clientSecret);
-    const response = await axios.post(`${dropboxURL}/oauth2/token`, data.toString(), {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Error al obtener token de Dropbox: ", error);
-  }
-};
-
-export const uploadFileDropbox = async ({
+export const grabarArchivoDropbox = async ({
   fileOriginalName,
   file,
 }: {
   fileOriginalName: string;
   file: File;
 }) => {
-  const folder = localStorage.getItem("mtm-folder");
-  try {
-    const modo = localStorage.getItem("_m");
-    const accessToken = Cookies.get("accessTokenDropbox");
+  const { empresa, modo, entorno } = getLocalStorageParams();
 
-    const response = await apiDropbox.post(`/2/files/upload`, file, {
+  const formData = new FormData();
+  formData.append("_e", empresa!);
+  formData.append("_m", modo!);
+  formData.append("archivo", file);
+
+  try {
+    const url = `/${entorno}/dropbox/subirArchivoDropbox.php`;
+    const response = await apiPhp.post(url, formData, {
       headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/octet-stream",
-        "Dropbox-API-Arg": JSON.stringify({
-          path: `/${modo}/${folder}/${file.name}`,
-          mode: "add",
-          autorename: true,
-        }),
+        "Content-Type": "multipart/form-data",
       },
     });
     return response.data;
@@ -168,22 +147,28 @@ export const uploadFileDropbox = async ({
   }
 };
 
-export const downloadFileDropbox = async ({ archivo }: { archivo: string }) => {
-  const folder = localStorage.getItem("mtm-folder");
+export const descargarArchivoDropbox = async ({
+  idopera,
+  extension,
+}: {
+  idopera: string;
+  extension: string;
+}) => {
+  const { empresa, modo, entorno } = getLocalStorageParams();
 
-  const accessToken = Cookies.get("accessTokenDropbox");
+  const body = {
+    empresa,
+    modo,
+    idopera,
+    extension,
+  };
+
   try {
-    const modo = localStorage.getItem("_m");
-    const response = await apiDropbox.post(`/2/files/download`, null, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Dropbox-API-Arg": JSON.stringify({
-          path: `/${modo}/${folder}/${archivo}`,
-        }),
-        "Content-Type": "application/octet-stream",
-      },
+    const response = await apiPhp.post(`/${entorno}/dropbox/descargarArchivoDropbox.php`, body, {
       responseType: "blob",
     });
+
+    // console.log(response);
     return response.data;
   } catch (error) {
     throw new Error(`Error al descargar un archivo de Dropbox: ${error}`);

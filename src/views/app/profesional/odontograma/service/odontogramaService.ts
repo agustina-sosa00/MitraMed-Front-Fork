@@ -2,18 +2,27 @@ import { apiPhp } from "@/lib/axiosPhp";
 import axios, { AxiosError } from "axios";
 import { ToothChangeTuple } from "../types/odontogramaTypes";
 import { getLocalStorageParams } from "@/utils/index";
+
 interface BackendError {
   message?: string;
   error?: string;
 }
 
+type GrabarOdontogramaParams = {
+  idPaciente: string;
+  iddoctor: string | null;
+  idProfesional: string | null;
+  data: ToothChangeTuple[];
+};
+
 export async function getOdontogram({ dni }: { dni: string }) {
   try {
     const { empresa, modo, entorno } = getLocalStorageParams();
 
-    const response = await apiPhp(
-      `/${entorno}/mitramed/obtenerOdontograma1.php?_i={"_e":"${empresa}","_m":"${modo}","_d":${dni}}`,
-    );
+    const url = `/${entorno}/mitramed/obtenerOdontograma.php?_i={"_e":"${empresa}","_m":"${modo}","_d":${dni}}`;
+
+    const response = await apiPhp(url);
+
     return response.data;
   } catch (error) {
     let msg = "Error obteniendo datos, pruebe con otro DNI";
@@ -35,6 +44,25 @@ export async function getOdontogram({ dni }: { dni: string }) {
     }
 
     throw new Error(msg);
+  }
+}
+
+export async function grabarOdontogramaService({
+  idPaciente,
+  iddoctor,
+  idProfesional,
+  data,
+}: GrabarOdontogramaParams) {
+  try {
+    const { empresa, modo, entorno } = getLocalStorageParams();
+
+    const url = `/${entorno}/mitramed/grabarOdontograma.php?_i={"_e":"${empresa}","_m":"${modo}","_pac":${idPaciente},"_doc":${iddoctor},"_usu":${idProfesional}}`;
+
+    const response = await apiPhp.post(url, data);
+
+    return response.data;
+  } catch (error) {
+    throw new Error(`Error guardando datos del odontograma: ${error}`);
   }
 }
 

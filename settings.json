@@ -1,0 +1,14 @@
+{
+  "editor.quickSuggestions": { "strings": true },
+  "tailwindCSS.emmetCompletions": true,
+  "tailwindCSS.includeLanguages": {
+    "javascript": "javascript",
+    "javascriptreact": "javascriptreact",
+    "typescript": "typescript",
+    "typescriptreact": "typescriptreact",
+    "html": "html"
+  },
+  "editor.folding": true,
+  "editor.foldingStrategy": "indentation", // si falla, probá "indentation"
+  "editor.showFoldingControls": "always"
+}

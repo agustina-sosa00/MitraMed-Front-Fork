@@ -1,4 +1,4 @@
-import { CardMisTurnosPaciente } from "@/views/auth/_components/ui/CardMisTurnosPaciente";
+import { MisTurnosPacienteCard } from "@/views/app/paciente/_components/MisTurnosPacienteCard";
 import { TurnosUsuario } from "@/views/auth/types";
 
 interface HistorialTurnosProps {
@@ -29,7 +29,7 @@ export default function HistorialTurnos({ turnosHistoricos }: HistorialTurnosPro
   return (
     <div className="flex flex-wrap items-center justify-center w-full gap-3 px-3 overflow-y-auto max-h-96 ">
       {turnosHistoricos.map((turno) => (
-        <CardMisTurnosPaciente
+        <MisTurnosPacienteCard
           key={turno.idturno}
           especialidad={turno.nespecialidad}
           doctor={turno.ndoctor}

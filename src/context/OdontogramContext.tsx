@@ -13,6 +13,8 @@ interface OdontogramContextType {
   setUiLoading: React.Dispatch<React.SetStateAction<boolean>>;
   dniInput: string;
   setDniInput: React.Dispatch<React.SetStateAction<string>>;
+  odontogramaData: any;
+  setOdontogramaData: React.Dispatch<React.SetStateAction<any>>;
 }
 
 const OdontogramContext = createContext<OdontogramContextType | undefined>(undefined);
@@ -24,6 +26,7 @@ export const OdontogramProvider = ({ children }) => {
   const [hasConfirmed, setHasConfirmed] = useState<boolean>(false);
   const [uiLoading, setUiLoading] = useState<boolean>(false);
   const [dniInput, setDniInput] = useState<string>("");
+  const [odontogramaData, setOdontogramaData] = useState<any>(null);
 
   return (
     <OdontogramContext.Provider
@@ -40,6 +43,8 @@ export const OdontogramProvider = ({ children }) => {
         setUiLoading,
         dniInput,
         setDniInput,
+        odontogramaData,
+        setOdontogramaData,
       }}
     >
       {children}

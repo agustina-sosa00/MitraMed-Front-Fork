@@ -1,36 +1,32 @@
-// import React, { useEffect, useState } from "react";
-import { useState } from "react";
-import { IoCloudUploadOutline } from "react-icons/io5";
+import { useState, useEffect } from "react";
+import { IoCloudUploadOutline, IoTrashOutline } from "react-icons/io5";
 import Dropzone from "react-dropzone";
 
-interface IProp {
-  state: File;
-  setState: (arg: File) => void;
+interface SelectorDeArchivosProps {
+  state: File | null;
+  setState: (arg: File | null) => void;
 }
 
-export default function SelectorDeArchivos({ state, setState }: IProp) {
-  // estado file para guardar el archivo y su vista previa
-  // const [file, setFile] = useState<File | null>(null);
-  //   estado preview guarda una url temporal para mostrar el archivo
+export default function SelectorDeArchivos({ state, setState }: SelectorDeArchivosProps) {
   const [preview, setPreview] = useState<string | null>(null);
 
-  //   handleDrop: función que recibe por parámetros un array con los archivos seleccionados
-  const handleDrop = (acceptedFiles: File[]) => {
-    // tomamos solo el primer archivo subido o seleccionado
-    const uploaded = acceptedFiles[0];
-    // seteamos el archivo al estado file
-    // setFile(uploaded);
-    setState(uploaded);
-    if (uploaded) {
-      // usamos createObjectURL() para generar una url temporal
-      const url = URL.createObjectURL(uploaded);
-      //   se setea al estado preview
-      setPreview(url);
+  // Clean up preview URL when file changes or component unmounts
+  useEffect(() => {
+    if (!state) {
+      setPreview(null);
+      return;
     }
-  };
-  // useEffect(() => {
-  //   file &&
-  // }, [file]);
+    const url = URL.createObjectURL(state);
+    setPreview(url);
+    return () => {
+      URL.revokeObjectURL(url);
+    };
+  }, [state]);
+
+  function handleDrop(acceptedFiles: File[]) {
+    const uploaded = acceptedFiles[0];
+    setState(uploaded);
+  }
 
   return (
     <div className="flex-[1]">
@@ -41,23 +37,31 @@ export default function SelectorDeArchivos({ state, setState }: IProp) {
         {/* esta función recibe getRootProps que se usa para hacer el input que al hacer click te permite seleccionar un archivo */}
         {({ getRootProps, getInputProps }) => (
           <section className="flex items-center justify-center w-full ">
-            <div className="w-full p-3 border border-gray-300 rounded bg-lightGray">
+            <div className="w-full p-3 border border-gray-300 rounded bg-white">
               {state ? (
-                <div className="flex flex-col items-center justify-start ">
-                  <p className="mb-2 font-semibold">Archivo seleccionado: {state.name}</p>
-
-                  {state.type.startsWith("image/") && (
-                    <img src={preview!} alt="Preview" className="border w-36" />
+                <div className="flex flex-col items-center justify-start relative">
+                  <button
+                    type="button"
+                    className="absolute top-0 right-0 p-1 text-gray-500 hover:text-red-600"
+                    title="Eliminar archivo"
+                    onClick={() => setState(null)}
+                  >
+                    <IoTrashOutline className="text-xl" />
+                  </button>
+                  <p className="mb-2 font-semibold">{state.name}</p>
+                  {state.type.startsWith("image/") && preview && (
+                    <img src={preview} alt="Preview" className="border w-36" />
                   )}
-
-                  {/* {file.type === "application/pdf" && (
+                  {/*
+                  {state.type === "application/pdf" && preview && (
                     <iframe
-                      src={preview! ?? ""}
+                      src={preview}
                       width="40%"
                       height="400px"
                       title="PDF preview"
                     />
-                  )} */}
+                  )}
+                  */}
                 </div>
               ) : (
                 <div

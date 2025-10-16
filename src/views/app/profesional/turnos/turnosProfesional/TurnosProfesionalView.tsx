@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { IDataTable, tableSchedules } from "./mock/arrayTableProfessional";
 import { TablaDefault } from "../../../../../frontend-resourses/components";
-import { ContainView } from "../../../_components/features/ContainView";
 import { obtenerTurnosDiarios } from "./services/turnosProfesionalService";
 // import FiltrosTablaMisTurnos from "../turnosProfesionales/components/SearchCard";
-import SearchCard from "../_components/SearchCard";
+import SearchByDateCard from "../../../_components/features/SearchByDateCard";
+import TitleView from "@/views/app/_components/features/TitleView";
 // import { generarFilasVacias } from "@/utils/tableUtils";
 
 interface TurnoTablaRow {
@@ -14,8 +14,9 @@ interface TurnoTablaRow {
   hora_fin: string;
   estado: string;
   paciente: string;
+  nosocial: string;
   obs: string;
-  mit: string;
+  origen: string;
 }
 
 export default function TurnosProfesionalView() {
@@ -66,7 +67,7 @@ export default function TurnosProfesionalView() {
       minWidth: "250",
       maxWidth: "420",
     },
-    // OBS
+    // Obra Social
     {
       key: "nosocial",
       label: "Obra Social",
@@ -102,7 +103,18 @@ export default function TurnosProfesionalView() {
       origen: item.idnodo === 0 ? "Web" : "Mit",
     }));
   } else {
-    datosParaTabla = [];
+    datosParaTabla = [
+      {
+        id: "1",
+        hora_ini: "",
+        hora_fin: "",
+        estado: "",
+        paciente: "No hay turnos en la Fecha Seleccionada",
+        nosocial: "",
+        obs: "",
+        origen: "",
+      },
+    ];
   }
 
   const propsTabla = {
@@ -159,16 +171,17 @@ export default function TurnosProfesionalView() {
     const day = String(today.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   }
-
+  //region return
   return (
-    <ContainView title="mis turnos" padding="py-5 px-10">
+    <>
+      <TitleView title="mis turnos" />
       <div className="flex w-full ">
-        <SearchCard diaSeleccionado={daySchedule} setDiaSeleccionado={_setDaySchedule} />
+        <SearchByDateCard diaSeleccionado={daySchedule} setDiaSeleccionado={_setDaySchedule} />
       </div>
 
       <div className="flex justify-center w-full px-5 overflow-y-auto lg:overflow-visible ">
         <TablaDefault props={propsTabla} />
       </div>
-    </ContainView>
+    </>
   );
 }

@@ -1,28 +1,29 @@
 import { useEffect, useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { TablaDefault } from "@/frontend-resourses/components";
-import { Modal } from "@/views/auth/_components/ui/Modal";
-import { ContainView } from "@/views/app/_components/features/ContainView";
+import ClipLoader from "react-spinners/ClipLoader";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { ActionButton, TablaDefault } from "@/frontend-resourses/components";
 import { Document, Page, pdfjs } from "react-pdf";
 import { FiDownload } from "react-icons/fi";
+// import { IoTrashOutline } from "react-icons/io5";
 import { IoClose } from "react-icons/io5";
 import { useMedicalHistoryContext } from "../../../../context/MedicalHistoryContext";
 import {
-  getDataDropbox,
-  getAccessTokenDropbox,
   getIdOpera,
-  downloadFileDropbox,
   obtenerPacienteHc,
+  descargarArchivoDropbox,
 } from "@/views/app/profesional/hc/service/HistorialClinicoService";
-import SearchPatient from "@/views/app/_components/features/BuscadorDePacientes";
+import SearchPatientCard from "@/views/app/profesional/_components/features/SearchPatientCard";
+import FormHistoria from "./_components/FormHistoria";
+// import Cookies from "js-cookie";
+import Swal from "sweetalert2";
 import workerSrc from "pdfjs-dist/build/pdf.worker?url";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
+import TitleView from "../../_components/features/TitleView";
+import { Modal } from "@/views/_components/Modal";
+import { IoMdAdd } from "react-icons/io";
+import { FaEdit, FaRegEye } from "react-icons/fa";
 pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
-import Cookies from "js-cookie";
-import Swal from "sweetalert2";
-import FormNuevoRegistroHc from "./_components/FormNuevoRegistroHc";
-// import { generarFilasVacias } from "@/utils/tableUtils";
 
 type HcRow = {
   id: string | number;
@@ -36,17 +37,15 @@ type HcRow = {
 type ApiHcRow = Omit<HcRow, "id">;
 
 export default function HistorialClinicoView() {
-  const queryClient = useQueryClient();
-
   const {
     dataPaciente,
     setDataPaciente,
-    hc,
-    // idpaciente,
+    editMode,
     hcSelected,
     setHcSelected,
     refetchHC,
     setRefetchHC,
+    // idpaciente,
     setIdpaciente,
     dniHistory,
     setDniHistory,
@@ -56,14 +55,13 @@ export default function HistorialClinicoView() {
     setUiLoading,
     dniInput,
     setDniInput,
+    clearContext,
+    setEditMode,
+    // getContext,
   } = useMedicalHistoryContext();
 
-  const infoProfessional = Cookies.get("dataProfessional");
-  const [focusState, setFocusState] = useState(false);
+  // const infoProfessional = Cookies.get("dataProfessional");
   const [showModal, setShowModal] = useState<boolean>(false);
-  // const [hcSelected, setHcSelected] = useState<HcRow | null>(null);
-  // const [dataPaciente, setDataPaciente] = useState<any>(null);
-  const hasAccessTokenDropbox = Boolean(Cookies.get("accessTokenDropbox"));
 
   // preview archivo (thumbnail + modal)
   const [previewOpen, setPreviewOpen] = useState(false);
@@ -71,124 +69,100 @@ export default function HistorialClinicoView() {
   const [previewExt, setPreviewExt] = useState<string | null>(null);
   const [previewPage, setPreviewPage] = useState(1);
   const [previewNumPages, setPreviewNumPages] = useState(0);
-  const [_loadingBlob, setLoadingBlob] = useState(false);
+  const [loadingBlob, setLoadingBlob] = useState(false);
   const [downloading, setDownloading] = useState(false);
 
-  const { data: dropboxData } = useQuery({
-    queryKey: ["dataDropboxQuery"],
-    queryFn: () => getDataDropbox(),
-    enabled: !hasAccessTokenDropbox,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-    staleTime: Infinity,
-  });
-
-  const { data: dataMedicalHistory } = useQuery({
-    queryKey: ["medicalHistory", dniHistory],
-    queryFn: () => obtenerPacienteHc({ dni: dniHistory }),
-    enabled: hasConfirmed && !!dniHistory,
-    staleTime: Infinity,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-    gcTime: Infinity,
-    initialData: () => queryClient.getQueryData(["medicalHistory", dniHistory]),
-  });
+  const [errorState, setErrorState] = useState("");
 
   const mutationObtenerPacienteHc = useMutation({
-    mutationFn: (dni: string) => obtenerPacienteHc({ dni }),
+    mutationFn: (dni: string) => obtenerPacienteHc(dni),
     onError: (error) => {
       console.error("Error obtenerPacienteHc:", error);
     },
     onSuccess: (data) => {
+      // console.log(data);
+      if (!data.data) {
+        setErrorState(data.message || "Paciente inexistente");
+        return;
+      }
+
       setDataPaciente(data?.data);
+      setIdpaciente(data?.data?.paciente?.idpaciente);
+      setDniHistory(data?.data?.paciente?.dni);
+      setHasConfirmed(true);
     },
   });
 
-  // Nuevo useEffect para escuchar refetchHC y disparar mutate
-  useEffect(() => {
-    if (refetchHC && dniHistory) {
-      mutationObtenerPacienteHc.mutate(dniHistory);
-      setRefetchHC(false);
-    }
-  }, [refetchHC, dniHistory]);
-
-  useEffect(() => {
-    if (dataMedicalHistory?.data?.paciente?.idpaciente) {
-      setIdpaciente(dataMedicalHistory.data.paciente.idpaciente);
-    }
-  }, [dataMedicalHistory, setIdpaciente]);
-
-  // console.log(idpaciente);
-
-  const { mutate: mutateGetAccessTokenDropbox } = useMutation({
-    mutationFn: getAccessTokenDropbox,
-    onError: (error) => console.error(error),
-    onSuccess: (data) => {
-      const accessTokenDropbox = data?.access_token;
-      if (!accessTokenDropbox) return;
-      Cookies.set("accessTokenDropbox", accessTokenDropbox, {
-        expires: 5 / 24,
-      });
-    },
-  });
-
-  //region querys y mutates
-  // meta del archivo según fila seleccionada
-  const { data: fileMeta, isFetching: _loadingMeta } = useQuery({
-    queryKey: ["fileMeta", dniHistory, hcSelected?.idhistoria],
-    enabled: previewOpen,
+  const { data: datosArchivo } = useQuery({
+    queryKey: ["datosArchivo", dniHistory, hcSelected?.idhistoria],
     queryFn: () =>
       getIdOpera({
         dni: Number(dniHistory),
         idhistoria: Number(hcSelected!.idhistoria),
       }),
+    enabled: previewOpen,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
   });
 
-  const hasFile = Boolean(fileMeta?.data?.idopera && fileMeta?.data?.extension);
+  const hasFile = Boolean(datosArchivo?.data?.idopera && datosArchivo?.data?.extension);
+  const hasValidPatient = Boolean(dataPaciente?.paciente.dni);
+  const canEdit = hasValidPatient && hasConfirmed && !uiLoading && !errorState;
+  const idDoctorStorage = localStorage.getItem("_iddoc");
+  const tusuarioStorage = localStorage.getItem("_tu");
+  const hoyString = getHoyString();
+  const esHoy = hcSelected?.fecha === hoyString;
 
-  // descarga del blob para thumbnail/modal
-  const { mutate: fetchBlob } = useMutation({
-    mutationFn: downloadFileDropbox,
+  const esMismoDoctor = idDoctorStorage === String(hcSelected?.iddoctor);
+  const esGerente = tusuarioStorage === "4";
+  const esAdmin = tusuarioStorage === "5";
+
+  const puedeEditar = ((esHoy && esMismoDoctor) || esGerente || esAdmin) && !!hcSelected;
+
+  const { mutate: descargarDropbox } = useMutation({
+    mutationFn: descargarArchivoDropbox,
     onMutate: () => setLoadingBlob(true),
-    onSuccess: (blob) => {
-      setPreviewBlob(blob);
-      setPreviewExt(fileMeta?.data?.extension ?? null);
-      setPreviewPage(1);
-    },
-    onSettled: () => setLoadingBlob(false),
     onError: () => {
       setPreviewBlob(null);
       setPreviewExt(null);
     },
+    onSuccess: (data) => {
+      setPreviewBlob(data);
+      setPreviewExt(datosArchivo?.data?.extension ?? null);
+      setPreviewPage(1);
+    },
+    onSettled: () => setLoadingBlob(false),
   });
 
   const columnasTabla = [
+    // ID
     {
       key: "id",
       label: "ID",
       minWidth: "37",
-      maxWidth: "37",
+      maxWidth: "45",
       renderCell: (item) => item.id,
     },
+    // FECHA
     {
       key: "fecha",
       label: "Fecha",
       minWidth: "100",
-      maxWidth: "100",
+      maxWidth: "120",
       renderCell: (item) => {
         const raw = item.fecha;
         const fecha = raw.split("-").reverse().join("/");
         return fecha;
       },
     },
+    // DETALLE
     {
       key: "detalle",
       label: "Motivo de Consulta",
       minWidth: "230",
-      maxWidth: "320",
+      maxWidth: "500",
     },
+    // NDOCTOR
     {
       key: "ndoctor",
       label: "Profesional",
@@ -204,51 +178,29 @@ export default function HistorialClinicoView() {
       }))
     : [];
 
-  const datosTabla = [...dataHistoria];
-
   const propsTabla = {
-    datosParaTabla: datosTabla,
+    datosParaTabla: dataHistoria,
     objectColumns: columnasTabla,
     objectStyles: {
       heightContainer: "353px",
       addHeaderColor: "#022539",
       withScrollbar: true,
       withBorder: true,
-      widthContainer: "550px",
-
       viewport1440: {
-        widthContainer1440px: "550px",
-        heightContainer1440px: "400px",
+        heightContainer1440px: "700px",
       },
-      viewport1536: {
-        widthContainer1536px: "600px",
-        heightContainer1536px: "400px",
-      },
-      viewport1920: {
-        widthContainer1920px: "700px",
-        heightContainer1920px: "500px",
-      },
+      // viewport1536: {
+      //   widthContainer1536px: "600px",
+      //   heightContainer1536px: "400px",
+      // },
+      // viewport1920: {
+      //   widthContainer1920px: "700px",
+      //   heightContainer1920px: "500px",
+      // },
     },
     selectFn: hasConfirmed,
     objectSelection: { setSeleccionado: setHcSelected },
   };
-
-  useEffect(() => {
-    setPreviewPage(1);
-    setPreviewNumPages(0);
-    const idOpera = fileMeta?.data?.idopera;
-    const ext = fileMeta?.data?.extension;
-
-    if (!idOpera || !ext) {
-      setPreviewBlob(null);
-      setPreviewExt(null);
-      return;
-    }
-
-    setPreviewExt(ext);
-    fetchBlob({ archivo: `${idOpera}.${ext}` });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fileMeta?.data?.idopera, fileMeta?.data?.extension, previewOpen]);
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -259,51 +211,48 @@ export default function HistorialClinicoView() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
+  // Limpiar siempre al cerrar el modal
   useEffect(() => {
-    if (!dropboxData?.data) return;
-    localStorage.setItem("mtm-folder", dropboxData?.data?.folders?.[1]);
-    Cookies.set("mtm-appIdDropbox", dropboxData?.data?.app_id, { expires: 7 });
-    Cookies.set("mtm-appSecretDropbox", dropboxData?.data?.app_secret, {
-      expires: 7,
-    });
-    Cookies.set("mtm-refreshTokenDropbox", dropboxData?.data?.refresh_token, {
-      expires: 7,
-    });
-    mutateGetAccessTokenDropbox({
-      refreshToken: dropboxData?.data?.refresh_token,
-      clientId: dropboxData?.data?.app_id,
-      clientSecret: dropboxData?.data?.app_secret,
-    });
-  }, [dropboxData, mutateGetAccessTokenDropbox]);
+    if (!previewOpen) {
+      setPreviewBlob(null);
+      setPreviewExt(null);
+      setPreviewPage(1);
+      setPreviewNumPages(0);
+    }
+  }, [previewOpen]);
 
-  function handleFindPatient(hc: string) {
-    mutationObtenerPacienteHc.mutate(hc);
-    setHasConfirmed(true);
-    setDniHistory(hc);
-    // setUiLoading(true);
-    // setTimeout(() => {
-    //   setUiLoading(false);
-    // }, 2000);
-  }
+  // Descargar archivo solo cuando previewOpen y datosArchivo están listos
+  useEffect(() => {
+    if (!previewOpen) return;
+    setPreviewBlob(null);
+    setPreviewExt(null);
+    setPreviewPage(1);
+    setPreviewNumPages(0);
+    const idOpera = datosArchivo?.data?.idopera;
+    const ext = datosArchivo?.data?.extension;
+    if (!idOpera || !ext) return;
+    setPreviewExt(ext);
+    descargarDropbox({ idopera: idOpera, extension: ext });
+  }, [previewOpen, datosArchivo]);
 
-  function handleOnFocusInput() {
-    if (dniHistory.length > 0) return setFocusState(false);
-    setFocusState(true);
-    Swal.fire({
-      icon: "warning",
-      title: "Antes de completar , debe ingresar un número de historia clínica",
-      confirmButtonText: "Aceptar",
-      confirmButtonColor: "#518915",
-    });
+  useEffect(() => {
+    if (refetchHC && dniHistory) {
+      mutationObtenerPacienteHc.mutate(dniHistory);
+      setRefetchHC(false);
+      setHcSelected(null);
+    }
+  }, [refetchHC, dniHistory]);
+
+  function handleFindPatient(dni: string) {
+    setUiLoading(true);
+    setTimeout(() => {
+      mutationObtenerPacienteHc.mutate(dni);
+      setUiLoading(false);
+    }, 1000);
   }
 
   function handleDeletePatient() {
-    setHasConfirmed(false);
-    setUiLoading(false);
-    setDniHistory("");
-    setDniInput("");
-    setHcSelected(null); // Limpiar selección de historia clínica
-    setDataPaciente(null);
+    clearContext();
   }
 
   function handleCancelEdit() {
@@ -317,10 +266,9 @@ export default function HistorialClinicoView() {
 
     Swal.fire({
       title: "¿Descargar Archivo?",
-      text: "Se descargará el archivo en tu dispositivo.",
       showCancelButton: true,
-      confirmButtonText: "Sí, descargar",
-      cancelButtonText: "Cancelar",
+      confirmButtonText: "Sí",
+      cancelButtonText: "No",
       confirmButtonColor: "#518915",
       cancelButtonColor: "#d33",
     }).then((res) => {
@@ -328,7 +276,7 @@ export default function HistorialClinicoView() {
       setDownloading(true);
       setTimeout(() => {
         const url = URL.createObjectURL(previewBlob);
-        const nombre = `${fileMeta?.data?.idopera}.${fileMeta?.data?.extension}`;
+        const nombre = `${datosArchivo?.data?.idopera}.${datosArchivo?.data?.extension}`;
         const a = document.createElement("a");
         a.href = url;
         a.download = nombre;
@@ -341,33 +289,69 @@ export default function HistorialClinicoView() {
     });
   }
 
-  console.log(previewBlob);
-
+  function getHoyString() {
+    const hoy = new Date();
+    const yyyy = hoy.getFullYear();
+    const mm = String(hoy.getMonth() + 1).padStart(2, "0");
+    const dd = String(hoy.getDate()).padStart(2, "0");
+    return `${yyyy}-${mm}-${dd}`;
+  }
   //region return
   return (
-    <ContainView
-      title="Historia Clínica"
-      padding="py-3 2xl:py-3 px-10"
-      gapChildren="gap-1"
-      sizeTitle="text-3xl 2xl:text-4xl"
-    >
+    <>
+      <TitleView title="Historia Clínica" />
       {/* Buscador */}
       <div className="flex items-center justify-start w-full gap-1 py-1 min-h-24 ">
-        <SearchPatient
-          noHc={hc}
-          data={!dniHistory ? undefined : dataPaciente?.paciente}
-          labelSearch={"dni"}
+        <SearchPatientCard
+          data={hasConfirmed ? dataPaciente?.paciente : null}
+          dniInput={dniInput}
+          setDniInput={setDniInput}
           onSearch={handleFindPatient}
           setPreviewOpen={setPreviewOpen}
           setStateModal={setShowModal}
-          odontogram={true}
-          state={dniInput}
-          setState={setDniInput}
           hasConfirmed={hasConfirmed}
           loading={uiLoading}
           handleDeletePatient={handleDeletePatient}
           handleCancel={handleCancelEdit}
+          errorState={errorState}
+          setErrorState={setErrorState}
         />
+      </div>
+
+      {/* Botones */}
+      <div className="w-full h-9 flex items-center justify-between  ">
+        {" "}
+        <ActionButton
+          text="Agregar Registro"
+          icon={<IoMdAdd />}
+          disabled={!canEdit}
+          onClick={() => setShowModal(true)}
+          addClassName="!rounded h-8"
+          color="green-mtm"
+        />
+        <div className="flex gap-2">
+          <ActionButton
+            text="Editar"
+            disabled={!hcSelected || !puedeEditar}
+            icon={<FaEdit />}
+            onClick={() => {
+              setEditMode(true);
+              setShowModal(true);
+            }}
+            addClassName="!rounded h-8"
+            color="customGray"
+            customColorText="primaryGreen"
+          />
+          <ActionButton
+            text="Ver Archivos"
+            disabled={!hcSelected?.idopera}
+            icon={<FaRegEye />}
+            onClick={() => setPreviewOpen?.(true)}
+            addClassName="!rounded h-8"
+            color="customGray"
+            customColorText="primaryBlue"
+          />
+        </div>
       </div>
 
       {/* Tabla y Observaciones */}
@@ -378,12 +362,12 @@ export default function HistorialClinicoView() {
         </div>
 
         {/* Observaciones */}
-        <div className="flex flex-col gap-2 p-2 bg-white border border-gray-300 rounded w-[600px] xl:w-[700px] h-[420px] xg:h-[400px] xxl:h-[500px] ">
+        <div className="flex flex-col gap-2 p-2 bg-white border border-gray-300 rounded w-[600px] xl:w-[700px] h-[355px] xg:h-[400px] xxl:h-[700px] ">
           <div className="flex flex-col items-start w-full">
             <div className="w-full ">
               <label className="text-sm font-medium text-primaryBlue">Motivo de Consulta:</label>
             </div>
-            <div className="w-full h-8 px-2 py-1 font-bold border border-gray-300 rounded bg-lightGray text-primaryBlue">
+            <div className="w-full h-8 px-2 py-1 font-bold border border-gray-300 rounded cursor-default bg-lightGray text-primaryBlue">
               {hcSelected && hcSelected.detalle}
             </div>
           </div>
@@ -393,7 +377,7 @@ export default function HistorialClinicoView() {
               <label className="text-sm font-medium text-primaryBlue">Evolución:</label>
             </div>
             <div
-              className="w-full h-[290px] px-2 py-1 font-bold border border-gray-300 rounded bg-lightGray text-primaryBlue overflow-y-auto"
+              className="w-full h-[250px] xl:h-[590px] px-2 py-1 font-bold border border-gray-300 rounded bg-lightGray text-primaryBlue overflow-y-auto cursor-default"
               style={{ whiteSpace: "pre-line" }}
             >
               {hcSelected && hcSelected.obs
@@ -405,62 +389,34 @@ export default function HistorialClinicoView() {
                 : ""}
             </div>
           </div>
-
-          {/* <div className="flex flex-col items-start w-full">
-            <div className="w-full ">
-              <label className="text-sm font-medium text-primaryBlue">Archivos:</label>
-            </div>
-
-            <div className="w-full px-2 py-1 border border-gray-300 rounded h-36 bg-lightGray">
-              {loadingMeta || (hasFile && (loadingBlob || !previewBlob)) ? (
-                <div className="grid w-full h-full place-items-center text-primaryBlue/60">
-                  Cargando archivo…
-                </div>
-              ) : !hasFile ? (
-                <div className="grid w-full h-full place-items-center text-primaryBlue/60" />
-              ) : previewExt === "pdf" ? (
-                <button
-                  onClick={() => setPreviewOpen(true)}
-                  className="block w-[120px] border rounded overflow-hidden hover:ring-2 ring-primaryBlue transition"
-                  title="Ver archivo"
-                >
-                  <Document file={previewBlob!} className="w-[120px] h-[120px]">
-                    <Page pageNumber={1} width={120} />
-                  </Document>
-                </button>
-              ) : (
-                <button
-                  onClick={() => setPreviewOpen(true)}
-                  className="block w-[120px] h-[120px] border rounded overflow-hidden hover:ring-2 ring-primaryBlue transition"
-                  title="Ver archivo"
-                >
-                  <img
-                    src={URL.createObjectURL(previewBlob!)}
-                    className="object-cover w-full h-full"
-                  />
-                </button>
-              )}
-            </div>
-          </div> */}
         </div>
       </div>
 
       {/* Modal de PREVIEW con botón de Descargar */}
       {previewOpen && (
-        <Modal open={previewOpen} onClose={() => setPreviewOpen(false)}>
+        <Modal
+          open={previewOpen}
+          onClose={() => {
+            setPreviewOpen(false);
+            setPreviewBlob(null);
+            setPreviewExt(null);
+          }}
+        >
           <div className="flex flex-col w-full min-w-[600px] h-[520px]">
             <div className="flex items-center justify-end w-full px-2">
-              <button
+              <ActionButton
                 onClick={() => setPreviewOpen(false)}
-                className="p-1 text-xl rounded text-primaryBlue hover:bg-primaryBlue hover:text-white"
-                aria-label="Cerrar"
-                title="Cerrar"
-              >
-                <IoClose />
-              </button>
+                addClassName="h-8  rounded text-primaryBlue hover:bg-primaryBlue hover:text-white"
+                icon={<IoClose />}
+              />
             </div>
 
-            {!previewBlob ? (
+            {loadingBlob ? (
+              <div className="flex items-center justify-center flex-1">
+                <ClipLoader color="#2563eb" size={48} speedMultiplier={0.8} />
+                <span className="ml-4 text-lg text-primaryBlue">Cargando archivo...</span>
+              </div>
+            ) : !previewBlob ? (
               <div className="grid flex-1 place-items-center text-primaryBlue/60">
                 No hay archivo para mostrar
               </div>
@@ -511,6 +467,7 @@ export default function HistorialClinicoView() {
                           r="10"
                           stroke="currentColor"
                           strokeWidth="4"
+                          fill="none"
                         />
                         <path
                           className="opacity-75"
@@ -527,7 +484,7 @@ export default function HistorialClinicoView() {
                 </div>
               </div>
             ) : (
-              <div className="flex flex-col flex-1 px-4">
+              <div className="flex flex-1 px-4">
                 <div className="grid flex-1 place-items-center">
                   <img
                     src={URL.createObjectURL(previewBlob)}
@@ -535,7 +492,8 @@ export default function HistorialClinicoView() {
                   />
                 </div>
 
-                <div className="flex items-center justify-end w-full py-2">
+                {/* Botones */}
+                <div className="flex flex-col items-center justify-start gap-2 py-2">
                   <a
                     href="#"
                     onClick={handleDownload}
@@ -550,6 +508,7 @@ export default function HistorialClinicoView() {
                           r="10"
                           stroke="currentColor"
                           strokeWidth="4"
+                          fill="none"
                         />
                         <path
                           className="opacity-75"
@@ -559,10 +518,17 @@ export default function HistorialClinicoView() {
                       </svg>
                     ) : (
                       <>
-                        Descargar <FiDownload />
+                        <FiDownload />
                       </>
                     )}
                   </a>
+                  {/* <button
+                    onClick={handleDeleteFile}
+                    className="flex items-center justify-center gap-2 px-4 font-medium text-white bg-red-500 rounded h-9 hover:bg-red-600"
+                    title="Eliminar archivo"
+                  >
+                    <IoTrashOutline />
+                  </button> */}
                 </div>
               </div>
             )}
@@ -572,15 +538,15 @@ export default function HistorialClinicoView() {
 
       {showModal && (
         <Modal onClose={() => setShowModal(false)} open={showModal}>
-          <FormNuevoRegistroHc
-            handle={handleOnFocusInput}
-            infoProfessional={JSON.parse(infoProfessional!)}
+          <FormHistoria
+            // handle={handleOnFocusInput}
+            // infoProfessional={JSON.parse(infoProfessional!)}
             hc={dniHistory}
-            focusState={focusState}
             setStateModal={setShowModal}
+            hcSelected={editMode ? hcSelected : undefined}
           />
         </Modal>
       )}
-    </ContainView>
+    </>
   );
 }

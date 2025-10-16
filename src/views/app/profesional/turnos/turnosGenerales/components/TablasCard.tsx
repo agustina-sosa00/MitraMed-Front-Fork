@@ -25,8 +25,6 @@ export default function TablasCard() {
     setTurnoSeleccionado,
   } = useTurnosGeneralesStore();
 
-  // console.log(doctorSeleccionado?.idd  octor);
-
   const {
     data: doctoresQuery,
     // refetch: refetchDoctores,
@@ -69,54 +67,64 @@ export default function TablasCard() {
       key: "ndoctor",
       label: "Profesional",
       minWidth: "180",
-      maxWidth: "180",
+      maxWidth: "300",
     },
     {
       key: "nespecialidad",
       label: "Especialidad",
       minWidth: "170",
-      maxWidth: "170",
+      maxWidth: "300",
     },
   ];
 
   const columnasTabla2 = [
-    { key: "id", label: "ID", minWidth: "37", maxWidth: "37" },
+    { key: "id", label: "ID", minWidth: "20", maxWidth: "20" },
     {
       key: "hora_ini",
       label: "Hora Ini",
-      minWidth: "80",
-      maxWidth: "80",
+      minWidth: "70",
+      maxWidth: "70",
     },
     {
       key: "hora_fin",
       label: "Hora Fin",
-      minWidth: "80",
-      maxWidth: "80",
+      minWidth: "72",
+      maxWidth: "72",
     },
     {
       key: "nestado",
       label: "Estado",
-      minWidth: "100",
-      maxWidth: "100",
+      minWidth: "120",
+      maxWidth: "200",
     },
     {
       key: "npaciente",
       label: "Paciente",
-      minWidth: "240",
-      maxWidth: "240",
+      minWidth: "250",
+      maxWidth: "400",
     },
     {
       key: "obs",
       label: "Obs",
-      minWidth: "180",
-      maxWidth: "180",
+      minWidth: "190",
+      maxWidth: "400",
     },
   ];
 
-  // Asegurarse de que cada turno tenga un id único para la tabla y siempre mostrar 12 filas
-  const turnosDataTabla = Array.isArray(turnosData)
-    ? turnosData.map((item, idx) => ({ id: idx + 1, ...item }))
-    : [];
+  // Si no hay turnos, mostrar una fila única con mensaje personalizado
+  const turnosDataTabla =
+    Array.isArray(turnosData) && turnosData.length > 0
+      ? turnosData.map((item, idx) => ({ id: idx + 1, ...item }))
+      : [
+          {
+            id: 0,
+            hora_ini: "",
+            hora_fin: "",
+            nestado: "",
+            paciente: "No hay Turnos en la Fecha Seleccionada.",
+            obs: "",
+          },
+        ];
 
   // Solo mostrar filas de turnos, sin completar con filas vacías
   const datosParaTabla2 = [...turnosDataTabla];
@@ -128,7 +136,7 @@ export default function TablasCard() {
     },
     objectColumns: columnasTabla1,
     objectStyles: {
-      heightContainer: "300px",
+      heightContainer: "450px",
       withScrollbar: true,
       addHeaderColor: "#022539",
       columnasNumber: [1],
@@ -146,7 +154,7 @@ export default function TablasCard() {
       setSeleccionado: setTurnoSeleccionado,
     },
     objectStyles: {
-      heightContainer: "300px",
+      heightContainer: "450px",
       withScrollbar: true,
       addHeaderColor: "#022539",
       columnasNumber: [1, 2, 3],

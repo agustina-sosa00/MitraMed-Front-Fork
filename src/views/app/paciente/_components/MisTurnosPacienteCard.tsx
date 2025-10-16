@@ -9,7 +9,7 @@ interface IProp {
   handle?: (id: number | undefined) => void;
   id?: number;
 }
-export const CardMisTurnosPaciente: React.FC<IProp> = ({
+export const MisTurnosPacienteCard: React.FC<IProp> = ({
   especialidad,
   doctor,
   fecha,

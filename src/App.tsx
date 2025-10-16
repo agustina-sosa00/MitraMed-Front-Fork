@@ -1,8 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Router from "./router";
 
 export default function App() {
-  const [loader, setLoader] = useState(true);
+  const [loader, setLoader] = useState(false);
+
+  useEffect(() => {
+    setLoader(true);
+    const timer = setTimeout(() => {
+      setLoader(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <>
       {loader ? (
