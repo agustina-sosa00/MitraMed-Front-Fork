@@ -9,8 +9,14 @@ import { BsDatabaseFill } from "react-icons/bs";
 import { BsDatabaseFillX } from "react-icons/bs";
 import { LuPencil } from "react-icons/lu";
 import { LuPencilOff } from "react-icons/lu";
+import { FaCheck } from "react-icons/fa";
+import { useProfesionalStore } from "../../_store/ProfesionalStore";
 
 export default function HeaderCard({ handleOpenModalSearch }) {
+  // store global profesional
+  const loader = useProfesionalStore((s) => s.loader);
+  const setLoader = useProfesionalStore((s) => s.setLoader);
+  // store pacientes
   const estado = usePacientesStore((s) => s.estado);
   const setEstado = usePacientesStore((s) => s.setEstado);
   const dniInput = usePacientesStore((s) => s.dniInput);
@@ -36,13 +42,13 @@ export default function HeaderCard({ handleOpenModalSearch }) {
       icon: <LuPencil />,
     },
     {
-      label: "Cancelar",
-      customRed: true,
+      label: "Borrar",
       classButton: "h-7",
-      disabledButton: estado !== "M",
-      handle: () => cancelEditToBackup(),
-      icon: <LuPencilOff />,
+      disabledButton: true,
+      customRed: true,
+      icon: <BsDatabaseFillX />,
     },
+
     {
       label: "Guardar",
       classButton: "h-7",
@@ -51,11 +57,12 @@ export default function HeaderCard({ handleOpenModalSearch }) {
       icon: <BsDatabaseFill />,
     },
     {
-      label: "Borrar",
-      classButton: "h-7",
-      disabledButton: true,
+      label: "Cancelar",
       customRed: true,
-      icon: <BsDatabaseFillX />,
+      classButton: "h-7",
+      disabledButton: estado !== "M",
+      handle: () => cancelEditToBackup(),
+      icon: <LuPencilOff />,
     },
   ];
 
@@ -71,8 +78,12 @@ export default function HeaderCard({ handleOpenModalSearch }) {
         inputRefHc.current?.focus();
         return;
       }
-      setEstado("C");
-      setDataPaciente(data.data);
+      setLoader(true);
+      setTimeout(() => {
+        setEstado("C");
+        setDataPaciente(data.data);
+        setLoader(false);
+      }, 2000);
     },
   });
 
@@ -143,7 +154,7 @@ export default function HeaderCard({ handleOpenModalSearch }) {
               onChange={handleOnChange}
               onKeyDown={handleKeyDown}
               inputRef={inputRefHc}
-              inputWidth="w-32"
+              inputWidth="w-24"
               labelWidth="60px"
               inputClassName="rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen"
               containerWidth="w-42"
@@ -158,10 +169,13 @@ export default function HeaderCard({ handleOpenModalSearch }) {
               onClick={handleOpenModalSearch}
             />
             <ActionButton
-              text="Procesar"
+              icon={<FaCheck />}
               addClassName={`h-7 px-4 !rounded`}
               disabled={estado !== "I" || !(dniInput ?? "").trim()}
               onClick={handleOnClickHC}
+              color="green-mtm"
+              loader={loader}
+              colorLoader="#fffff"
             />
             <ActionButton
               icon={<IoClose />}
