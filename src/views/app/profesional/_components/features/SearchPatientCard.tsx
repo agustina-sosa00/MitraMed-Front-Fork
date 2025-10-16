@@ -28,7 +28,7 @@ interface SearchPatientCardProps {
   odontogram?: boolean;
   editOdontogram?: boolean;
   handleCancel?: () => void;
-  handleDeletePatient?: () => void;
+  handleCleanPatient?: () => void;
   errorState?: string;
   setErrorState?: (arg: string) => void;
   hasConfirmed?: boolean;
@@ -42,7 +42,7 @@ export default function SearchPatientCard({
   setDniInput,
   onSearch,
   editOdontogram,
-  handleDeletePatient,
+  handleCleanPatient,
   handleCancel,
   errorState,
   setErrorState,
@@ -96,7 +96,7 @@ export default function SearchPatientCard({
 
   function handleEditInput() {
     if (!editOdontogram) {
-      handleDeletePatient?.();
+      handleCleanPatient?.();
       inputRef.current?.focus();
     }
   }

@@ -96,6 +96,7 @@ export default function OdontogramView() {
       setHasConfirmed(true);
 
       setOdontogramaData(data);
+
       setIdPaciente(data.data.paciente.idpaciente);
       setOriginalData(dientes);
       setTeethIdsState(dientes);
@@ -184,7 +185,7 @@ export default function OdontogramView() {
         return;
       }
 
-      handleDeletePatient();
+      handleCleanPatient();
     }
 
     window.addEventListener("keydown", onKey);
@@ -230,11 +231,12 @@ export default function OdontogramView() {
     setEditOdontogram(false);
   }
 
-  function handleDeletePatient() {
+  function handleCleanPatient() {
     setHasConfirmed(false);
     setUiLoading(false);
     setDniOdontogram("");
     setDniInput("");
+    setIdPaciente("");
     setTeethIdsState({});
     setOriginalData({});
   }
@@ -272,7 +274,7 @@ export default function OdontogramView() {
           dniInput={dniInput}
           setDniInput={setDniInput}
           onSearch={handleSearch}
-          handleDeletePatient={handleDeletePatient}
+          handleCleanPatient={handleCleanPatient}
           editOdontogram={editOdontogram}
           handleCancel={handleCancelEdit}
           errorState={errorState}
