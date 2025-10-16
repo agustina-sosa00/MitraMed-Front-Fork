@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { ContainView } from "../../_components/features/ContainView";
 import ActionsButtonsCard from "../turnos/turnosGenerales/components/ActionsButtonsCard";
 import CardTablas from "./components/CardTablas";
 import { Modal } from "../../_components/ui/modals/Modal";
 import CardModal from "./components/CardModal";
 import { useConfiguracionHorariosStore } from "./store/ConfiguracionHorariosStore";
+import TitleView from "../../_components/features/TitleView";
 
 export default function ConfiguracionHorariosView() {
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -35,13 +35,8 @@ export default function ConfiguracionHorariosView() {
   // };
 
   return (
-    <ContainView
-      title="Configuración de Horarios"
-      padding="py-3 2xl:py-3 px-5"
-      gapChildren="gap-1"
-      sizeTitle="text-3xl 2xl:text-4xl"
-      classContainer="gap-6 py-3 "
-    >
+    <>
+      <TitleView title="Configuración de Horarios" />
       <div className="flex justify-between w-full">
         <ActionsButtonsCard
           buttonBox1={["Alta Horario", "Modificar", "Eliminar"]}
@@ -52,9 +47,9 @@ export default function ConfiguracionHorariosView() {
       <CardTablas />
       {openModal && modalName && (
         <Modal close={() => setOpenModal(!openModal)} title={modalName}>
-          <CardModal key={modalName} mode={modalName === "Modificar" ? "editar" : "crear"} />
+          <CardModal key={modalName} modo={modalName === "Modificar" ? "editar" : "alta"} />
         </Modal>
       )}
-    </ContainView>
+    </>
   );
 }

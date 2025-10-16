@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Button } from "@/views/_components/Button";
 import { useConfiguracionHorariosStore } from "../store/ConfiguracionHorariosStore";
 
-type DayId = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+// type DayId = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
 type Modo = "alta" | "editar";
 
@@ -15,18 +15,18 @@ export default function CardModal({ modo = "alta", onClose }: Props) {
   // --- store ---
   const seleccionado = useConfiguracionHorariosStore((s) => s.seleccionado);
   const agregarHorario = useConfiguracionHorariosStore((s) => s.agregarHorario);
-  const editarHorario = useConfiguracionHorariosStore((s) => s.editarHorario);
-  const editingHorario = useConfiguracionHorariosStore((s) => s.editingHorario);
+  const editarHorario = useConfiguracionHorariosStore((s) => s.editingHorario);
+  // const editingHorario = useConfiguracionHorariosStore((s) => s.editingHorario);
   const setEditingHorario = useConfiguracionHorariosStore((s) => s.setEditingHorario);
 
   // --- form local ---
   const [horaIni, setHoraIni] = useState("");
   const [horaFin, setHoraFin] = useState("");
 
-  const horarioParaEditar = useMemo(
-    () => (modo === "editar" ? editingHorario : null),
-    [modo, editingHorario],
-  );
+  // const horarioParaEditar = useMemo(
+  //   () => (modo === "editar" ? editingHorario : null),
+  //   [modo, editingHorario],
+  // );
 
   const resetForm = useCallback(() => {
     setHoraIni("");
@@ -35,15 +35,16 @@ export default function CardModal({ modo = "alta", onClose }: Props) {
 
   // precarga si es editar
   useEffect(() => {
-    if (horarioParaEditar) {
-      setHoraIni(horarioParaEditar.hora_ini);
-      setHoraFin(horarioParaEditar.hora_fin);
-    } else if (modo === "alta") {
+    // if (horarioParaEditar) {
+    //   setHoraIni(horarioParaEditar.hora_ini);
+    //   setHoraFin(horarioParaEditar.hora_fin);
+    // }
+    if (modo === "alta") {
       // aseguramos que "Alta" esté siempre limpio
       setEditingHorario(null);
       resetForm();
     }
-  }, [modo, horarioParaEditar, setEditingHorario, resetForm]);
+  }, [modo, setEditingHorario, resetForm]);
 
   // helper simple
   const validarHoras = () => {
@@ -60,11 +61,6 @@ export default function CardModal({ modo = "alta", onClose }: Props) {
     if (error) {
       alert(error);
       return;
-    }
-
-    if (modo === "editar" && horarioParaEditar) {
-      // EDITAR
-      editarHorario(horarioParaEditar.id, { hora_ini: horaIni, hora_fin: horaFin });
     } else {
       // ALTA
       const { doctorId, dia } = seleccionado;
@@ -81,7 +77,6 @@ export default function CardModal({ modo = "alta", onClose }: Props) {
     onClose?.();
   }, [
     modo,
-    horarioParaEditar,
     editarHorario,
     agregarHorario,
     seleccionado,

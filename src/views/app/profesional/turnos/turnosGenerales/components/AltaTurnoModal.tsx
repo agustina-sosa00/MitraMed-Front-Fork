@@ -1,14 +1,10 @@
 // import InputField from "@/components/ui/InputField";
-import {
-  dataPatient,
-  IFormState,
-} from "@/views/app/profesional/turnos/turnosProfesional/mock/arrayTableProfessional";
-import { useEffect, useState } from "react";
+import { IFormState } from "@/views/app/profesional/turnos/turnosProfesional/mock/arrayTableProfessional";
+import { useState } from "react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { Button } from "@/views/_components/Button";
 import { useMutation } from "@tanstack/react-query";
 import { obtenerPacienteHc } from "../../../hc/service/HistorialClinicoService";
-import { Loader } from "@/views/auth/_components/ui/Loader";
 
 interface IProp {
   close?: () => void;
@@ -25,7 +21,7 @@ export default function AltaTurnoModal({ close, handleChange }: IProp) {
   });
   const [loader, setLoader] = useState(false);
   const { mutate: mutationObtenerPacienteHc } = useMutation({
-    mutationFn: () => obtenerPacienteHc({ dni: formState.hc }),
+    mutationFn: () => obtenerPacienteHc(formState.hc),
     onError: (error) => {
       throw new Error(`Error obteniendo datos del HC: ${error}`);
     },

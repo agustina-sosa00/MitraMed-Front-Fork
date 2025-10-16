@@ -1,38 +1,30 @@
 import { IFormState } from "../turnosProfesional/mock/arrayTableProfessional";
 import { useState } from "react";
 import { Modal } from "@/views/app/_components/ui/modals/Modal";
-<<<<<<< HEAD
-import { ContainView } from "@/views/app/_components/features/ContainView";
 import Swal from "sweetalert2";
-=======
-import { TableNode } from "@/frontend-resourses/components/types";
 // import Swal from "sweetalert2";
->>>>>>> c422358471e8ab56bb6c1fdf2aba02998dfeca80
 import TablasCard from "./components/TablasCard";
 import AltaTurnoModal from "./components/AltaTurnoModal";
-// import ActionsButtonsCard from "./components/ActionsButtonsCard";
+import ActionsButtonsCard from "./components/ActionsButtonsCard";
 import SearchByDateCard from "../../../_components/features/SearchByDateCard";
 import { useTurnosGeneralesStore } from "./store/turnosGeneralesStore";
 import TitleView from "@/views/app/_components/features/TitleView";
 
 export default function TurnosGeneralesView() {
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const [modalName, _setModalName] = useState<string>("");
+  const [modalName, setModalName] = useState<string>("");
 
   const { diaSeleccionado, setDiaSeleccionado, turnoSeleccionado, turnosData, setTurnosData } =
     useTurnosGeneralesStore();
 
-<<<<<<< HEAD
   const handleBoxButton = (labelButton: string) => {
     if (labelButton === "Alta Turno") {
       if (!turnoSeleccionado) return;
-=======
-  const [_selectProfessional, _setSelectProfessional] = useState<{
-    id: number;
-    name: string;
-    especiality: string;
-  }>();
->>>>>>> c422358471e8ab56bb6c1fdf2aba02998dfeca80
+      // const [selectProfessional, setSelectProfessional] = useState<{
+      //   id: number;
+      //   name: string;
+      //   especiality: string;
+      // }>();
 
       if (turnoSeleccionado.npaciente !== null) {
         Swal.fire({
@@ -44,14 +36,12 @@ export default function TurnosGeneralesView() {
         return; // importante: salir
       }
 
-<<<<<<< HEAD
       handleOpenModal(labelButton);
       return;
     } else if (labelButton === "Presentación") handlePresentacion();
     else if (labelButton === "Facturación") handleFacturacion();
     else if (labelButton === "Anular Turno") handleAnularTurno();
   };
-=======
   // const handleBoxButton = (item: string) => {
   //   if (item === "alta turno") {
   //     handleOpenModal(item);
@@ -61,15 +51,12 @@ export default function TurnosGeneralesView() {
   //     handleFacturacion();
   //   }
   // };
->>>>>>> c422358471e8ab56bb6c1fdf2aba02998dfeca80
 
-  // const handleOpenModal = (item: string) => {
-  //   setModalName(item);
-  //   setOpenModal(!openModal);
-  // };
+  const handleOpenModal = (item: string) => {
+    setModalName(item);
+    setOpenModal(!openModal);
+  };
 
-<<<<<<< HEAD
-=======
   // const handleFacturacion = () => {
   //   Swal.fire({
   //     icon: "question",
@@ -110,7 +97,6 @@ export default function TurnosGeneralesView() {
   //   });
   // };
 
->>>>>>> c422358471e8ab56bb6c1fdf2aba02998dfeca80
   const handleChangeDataTurn = (form: IFormState) => {
     if (!turnoSeleccionado || !form) return;
     const updatedArray = turnosData?.map((item) =>
@@ -194,8 +180,10 @@ export default function TurnosGeneralesView() {
       <TitleView title="turnos" />
       {/* Filtros y Botones */}
       <div className="flex items-end justify-between w-full">
-<<<<<<< HEAD
-        <SearchCard diaSeleccionado={diaSeleccionado} setDiaSeleccionado={setDiaSeleccionado} />
+        <SearchByDateCard
+          diaSeleccionado={diaSeleccionado}
+          setDiaSeleccionado={setDiaSeleccionado}
+        />
         <div className="w-full pb-2">
           <ActionsButtonsCard
             disabled={!turnoSeleccionado ? "disabled" : ""}
@@ -204,7 +192,7 @@ export default function TurnosGeneralesView() {
             buttonBox2={["Anular Turno"]}
           />
         </div>
-=======
+
         <SearchByDateCard
           diaSeleccionado={diaSeleccionado}
           setDiaSeleccionado={setDiaSeleccionado}
@@ -216,7 +204,6 @@ export default function TurnosGeneralesView() {
           button={["alta turno", "presentación", "facturación"]}
         /> */}
         {/* <div className="flex flex-1"></div> */}
->>>>>>> c422358471e8ab56bb6c1fdf2aba02998dfeca80
       </div>
 
       {/* Tablas */}
