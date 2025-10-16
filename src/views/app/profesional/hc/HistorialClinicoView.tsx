@@ -80,7 +80,6 @@ export default function HistorialClinicoView() {
       console.error("Error obtenerPacienteHc:", error);
     },
     onSuccess: (data) => {
-      // console.log(data);
       if (!data.data) {
         setErrorState(data.message || "Paciente inexistente");
         return;
@@ -205,7 +204,7 @@ export default function HistorialClinicoView() {
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       if (e.key !== "Escape") return;
-      handleDeletePatient();
+      handleCleanPatient();
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -251,7 +250,7 @@ export default function HistorialClinicoView() {
     }, 1000);
   }
 
-  function handleDeletePatient() {
+  function handleCleanPatient() {
     clearContext();
   }
 
@@ -311,7 +310,7 @@ export default function HistorialClinicoView() {
           setStateModal={setShowModal}
           hasConfirmed={hasConfirmed}
           loading={uiLoading}
-          handleDeletePatient={handleDeletePatient}
+          handleCleanPatient={handleCleanPatient}
           handleCancel={handleCancelEdit}
           errorState={errorState}
           setErrorState={setErrorState}
@@ -325,7 +324,10 @@ export default function HistorialClinicoView() {
           text="Agregar Registro"
           icon={<IoMdAdd />}
           disabled={!canEdit}
-          onClick={() => setShowModal(true)}
+          onClick={() => {
+            setEditMode(false);
+            setShowModal(true);
+          }}
           addClassName="!rounded h-8"
           color="green-mtm"
         />
@@ -537,7 +539,13 @@ export default function HistorialClinicoView() {
       )}
 
       {showModal && (
-        <Modal onClose={() => setShowModal(false)} open={showModal}>
+        <Modal
+          onClose={() => {
+            setEditMode(false);
+            setShowModal(false);
+          }}
+          open={showModal}
+        >
           <FormHistoria
             // handle={handleOnFocusInput}
             // infoProfessional={JSON.parse(infoProfessional!)}
