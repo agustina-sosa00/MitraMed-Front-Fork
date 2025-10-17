@@ -7,25 +7,63 @@ import { useProfesionalStore } from "../../_store/ProfesionalStore";
 export default function ModalInputsHeader({ handleCloseModalInput }) {
   const loader = useProfesionalStore((s) => s.loader);
   const setLoader = useProfesionalStore((s) => s.setLoader);
+  const [inputValue, setInputValue] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
-  const [input, setInput] = useState("");
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
 
-  function handleEscInInput(
-    e: React.KeyboardEvent<HTMLInputElement>,
-    onCloseModal: () => void,
-    setValue: (v: string) => void,
-  ) {
-    if (e.key !== "Escape") return;
-    e.preventDefault();
-    e.stopPropagation();
+  useEffect(
+    function handleEscape() {
+      function onKeyDownEsc(e: KeyboardEvent) {
+        if (e.key !== "Escape") return;
 
-    const hasText = (e.currentTarget.value ?? "").trim().length > 0;
-    if (hasText)
-      setValue(""); // limpia input
-    else onCloseModal(); // cierra modal
+        e.preventDefault();
+        e.stopPropagation();
+
+        const hasInput = inputValue.trim().length > 0;
+        if (hasInput) {
+          setInputValue("");
+
+          requestAnimationFrame(() => inputRef.current?.focus());
+        } else {
+          handleCloseModalInput();
+        }
+      }
+      document.addEventListener("keydown", onKeyDownEsc);
+      return () => {
+        document.removeEventListener("keydown", onKeyDownEsc);
+      };
+    },
+    [inputValue],
+  );
+
+  function handleInputKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key === "Enter") {
+      const btn = buttonRef.current;
+      if (!btn) return;
+      requestAnimationFrame(() => {
+        if (!btn.disabled) btn.focus();
+      });
+      return;
+    }
+    if (e.key === "Escape") {
+      e.preventDefault();
+      e.stopPropagation();
+      const hasText = (e.currentTarget.value ?? "").trim().length > 0;
+      if (hasText) setInputValue("");
+      else handleCloseModalInput();
+    }
+  }
+
+  function handleButtonKeyDown(e: React.KeyboardEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    if (e.key === "Enter") {
+      console.log("button enter");
+      return;
+    }
   }
   return (
     <div className="w-full h-20 flex items-center gap-2">
@@ -35,9 +73,9 @@ export default function ModalInputsHeader({ handleCloseModalInput }) {
         labelWidth="80px"
         inputClassName="rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen"
         inputRef={inputRef}
-        value={input}
-        onChange={setInput}
-        onKeyDown={(e) => handleEscInInput(e, handleCloseModalInput, setInput)}
+        value={inputValue}
+        onChange={setInputValue}
+        onKeyDown={handleInputKeyDown}
       />
       <ActionButton
         icon={<FaCheck />}
@@ -47,9 +85,12 @@ export default function ModalInputsHeader({ handleCloseModalInput }) {
         onClick={() => {
           setLoader(true);
           setTimeout(() => {
+            console.log("button");
             setLoader(false);
           }, 1000);
         }}
+        ref={buttonRef}
+        onKeyDown={handleButtonKeyDown}
       />
       <ActionButton icon={<IoClose />} addClassName="h-8" color="red" />
     </div>

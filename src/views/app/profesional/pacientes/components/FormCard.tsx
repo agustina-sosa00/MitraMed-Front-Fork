@@ -34,7 +34,6 @@ export default function FormCard({ handleInputChange }) {
   const gridRef = useRef<HTMLDivElement>(null);
 
   const [openModal, setOpenModal] = useState(false);
-  const [labelModal, setLabelModal] = useState("");
   //region inputs
   const inputs: Field[] = [
     {
@@ -290,7 +289,6 @@ export default function FormCard({ handleInputChange }) {
                   addClassName="h-7"
                   color="blue-mtm"
                   onClick={() => {
-                    setLabelModal(item.label);
                     handleOpenModalInput();
                   }}
                   disabled={estado !== "M"}
