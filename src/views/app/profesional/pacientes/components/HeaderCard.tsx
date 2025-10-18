@@ -156,7 +156,7 @@ export default function HeaderCard({ handleOpenModalSearch }) {
               inputRef={inputRefHc}
               inputWidth="w-24"
               labelWidth="60px"
-              inputClassName="rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen"
+              inputClassName="rounded focus:outline-none focus:ring-1  !text-gray-900 focus:ring-primaryGreen"
               containerWidth="w-42"
               disabled={estado !== "I"}
               maxLength={8}
@@ -199,7 +199,7 @@ export default function HeaderCard({ handleOpenModalSearch }) {
               labelWidth="60px"
               labelAlign="left"
               containerWidth="w-42"
-              inputClassName="rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen"
+              inputClassName="rounded focus:outline-none !text-gray-900 focus:ring-1 focus:ring-primaryGreen"
               disabled
             />
             <FlexibleInputField
@@ -210,7 +210,7 @@ export default function HeaderCard({ handleOpenModalSearch }) {
               labelWidth="60px"
               labelAlign="left"
               containerWidth="w-42"
-              inputClassName="rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen"
+              inputClassName="rounded focus:outline-none !text-gray-900 focus:ring-1 focus:ring-primaryGreen"
               disabled
             />
           </div>
