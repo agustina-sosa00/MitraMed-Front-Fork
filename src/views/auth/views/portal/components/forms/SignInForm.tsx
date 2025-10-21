@@ -7,7 +7,7 @@ import { iniciarSesion } from "@/views/auth/services/UserService";
 import { Account } from "@/views/auth/types";
 import { IoClose } from "react-icons/io5";
 import Cookies from "js-cookie";
-import Captcha from "@/views/auth/_components/ui/Captcha";
+// import Captcha from "@/views/auth/_components/ui/Captcha";
 import Swal from "sweetalert2";
 import InputField from "@/views/auth/_components/ui/InputField";
 import ErrorMessage from "@/views/auth/_components/ui/ErrorMessage";
@@ -18,7 +18,7 @@ interface SignInFormProps {
 }
 
 export default function SignInForm({ rol, handle }: SignInFormProps) {
-  const [validateCaptcha, setValidateCaptcha] = useState(false);
+  // const [validateCaptcha, setValidateCaptcha] = useState(false);
 
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -32,10 +32,10 @@ export default function SignInForm({ rol, handle }: SignInFormProps) {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
     setFocus,
-  } = useForm({ defaultValues: initialValues });
-
+  } = useForm({ defaultValues: initialValues, mode: "onChange", reValidateMode: "onChange" });
+  const disabled = isValid;
   useEffect(() => {
     if (rol === "paciente") {
       setFocus("email");
@@ -238,17 +238,17 @@ export default function SignInForm({ rol, handle }: SignInFormProps) {
         </div>
 
         {/* CAPTCHA */}
-        <div className="flex justify-center ">
+        {/* <div className="flex justify-center ">
           <Captcha setState={setValidateCaptcha} />
-        </div>
+        </div> */}
 
         {/* Boton Submit */}
         <input
-          disabled={!validateCaptcha}
+          disabled={!disabled}
           type="submit"
           value="Iniciar sesión"
           className={`w-full p-2 mt-4 text-base font-semibold uppercase transition-all rounded-lg shadow-md xl:p-3 xl:text-lg  ${
-            !validateCaptcha
+            !disabled
               ? "bg-gray-200 text-gray-400 cursor-text"
               : "bg-primaryGreen  hover:bg-greenHover text-white cursor-pointer"
           }`}

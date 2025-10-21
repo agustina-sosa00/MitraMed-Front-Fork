@@ -356,6 +356,7 @@ export default function FormCard({ handleInputChange }) {
             })}
           </div>
         </div>
+
         <FlexibleInputField
           key={"obs"}
           label={"Obs"}

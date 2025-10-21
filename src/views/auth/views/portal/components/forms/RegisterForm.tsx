@@ -29,7 +29,7 @@ export default function RegisterForm({
   const [showPassword, setShowPassword] = useState(false);
 
   const fieldsRender = (field: string) => !faltantes || faltantes?.includes(field);
-
+  console.log(register);
   return (
     <>
       <div className="flex flex-col w-full ">

@@ -5,13 +5,13 @@ import { useMutation } from "@tanstack/react-query";
 import { crearCuenta } from "@/views/auth/services/UserService";
 import { Modal } from "@/views/_components/Modal";
 import Swal from "sweetalert2";
-import Captcha from "@/views/auth/_components/ui/Captcha";
-import { useState } from "react";
+// import Captcha from "@/views/auth/_components/ui/Captcha";
+// import { useState } from "react";
 import { NewAccount } from "@/views/auth/types";
 import RegisterForm from "../forms/RegisterForm";
 
 export default function CreateAccountModal() {
-  const [validateCaptcha, setValidateCaptcha] = useState(false);
+  // const [validateCaptcha, setValidateCaptcha] = useState(false);
 
   const navigate = useNavigate();
 
@@ -35,12 +35,13 @@ export default function CreateAccountModal() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
     reset,
     watch,
     control,
-  } = useForm({ defaultValues: initialValues });
+  } = useForm({ defaultValues: initialValues, mode: "onChange", reValidateMode: "onChange" });
 
+  const disabled = isValid;
   const { mutate } = useMutation({
     mutationFn: crearCuenta,
     onError: (error) => {
@@ -86,6 +87,25 @@ export default function CreateAccountModal() {
         <form className="py-2" noValidate onSubmit={handleSubmit(handleForm)}>
           <div className="flex flex-col gap-4 px-10">
             <RegisterForm register={register} errors={errors} watch={watch} control={control} />
+            {/* <div className="flex justify-center w-full">
+              <Captcha setState={setValidateCaptcha} />
+            </div> */}
+
+            <input
+              disabled={!disabled}
+              type="submit"
+              value="Registrarme"
+              className={`w-full p-2 mt-4 text-base font-semibold uppercase transition-all rounded-lg shadow-md cursor-pointer xl:p-3 xl:text-lg  ${
+                !disabled
+                  ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                  : "bg-primaryGreen hover:bg-greenHover text-white"
+              }`}
+            />
+          </div>
+        </form>
+        {/* <form className="py-2" noValidate onSubmit={handleSubmit(handleForm)}>
+          <div className="flex flex-col gap-4 px-10">
+            <RegisterForm register={register} errors={errors} watch={watch} control={control} />
             <div className="flex justify-center w-full">
               <Captcha setState={setValidateCaptcha} />
             </div>
@@ -100,7 +120,7 @@ export default function CreateAccountModal() {
               }`}
             />
           </div>
-        </form>
+        </form> */}
 
         <div className="flex flex-col items-start gap-2 mx-2 ">
           <p className="">
