@@ -6,7 +6,6 @@ import { Document, Page, pdfjs } from "react-pdf";
 import { FiDownload } from "react-icons/fi";
 // import { IoTrashOutline } from "react-icons/io5";
 import { IoClose } from "react-icons/io5";
-import { useMedicalHistoryContext } from "../../../../context/MedicalHistoryContext";
 import {
   getIdOpera,
   obtenerPacienteHc,
@@ -23,6 +22,7 @@ import TitleView from "../../_components/features/TitleView";
 import { Modal } from "@/views/_components/Modal";
 import { IoMdAdd } from "react-icons/io";
 import { FaEdit, FaRegEye } from "react-icons/fa";
+import { useHistorialClinicoStore } from "./store/HistoriaClinicaStore";
 pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
 
 type HcRow = {
@@ -37,29 +37,26 @@ type HcRow = {
 type ApiHcRow = Omit<HcRow, "id">;
 
 export default function HistorialClinicoView() {
-  const {
-    dataPaciente,
-    setDataPaciente,
-    editMode,
-    hcSelected,
-    setHcSelected,
-    refetchHC,
-    setRefetchHC,
-    // idpaciente,
-    setIdpaciente,
-    dniHistory,
-    setDniHistory,
-    hasConfirmed,
-    setHasConfirmed,
-    uiLoading,
-    setUiLoading,
-    dniInput,
-    setDniInput,
-    clearContext,
-    setEditMode,
-    // getContext,
-  } = useMedicalHistoryContext();
+  const dataPaciente = useHistorialClinicoStore((state) => state.dataPaciente);
+  const setDataPaciente = useHistorialClinicoStore((state) => state.setDataPaciente);
+  const editMode = useHistorialClinicoStore((state) => state.editMode);
+  const setEditMode = useHistorialClinicoStore((state) => state.setEditMode);
+  const hcSelected = useHistorialClinicoStore((state) => state.hcSelected);
+  const setHcSelected = useHistorialClinicoStore((state) => state.setHcSelected);
+  const refetchHC = useHistorialClinicoStore((state) => state.refetchHC);
+  const setRefetchHC = useHistorialClinicoStore((state) => state.serRefetchHC);
+  const setIdPaciente = useHistorialClinicoStore((state) => state.setIdPaciente);
+  const dniHistory = useHistorialClinicoStore((state) => state.dniHistory);
+  const setDniHistory = useHistorialClinicoStore((state) => state.setDniHistory);
+  const hasConfirmed = useHistorialClinicoStore((state) => state.hasConfirmed);
+  const setHasConfirmed = useHistorialClinicoStore((state) => state.setHasConfirmed);
+  const uiLoading = useHistorialClinicoStore((state) => state.uiLoading);
+  const setUiLoading = useHistorialClinicoStore((state) => state.setUiLoading);
+  const dniInput = useHistorialClinicoStore((state) => state.dniInput);
+  const setDniInput = useHistorialClinicoStore((state) => state.setDniInput);
+  const reset = useHistorialClinicoStore((state) => state.reset);
 
+  console.log(dataPaciente);
   // const infoProfessional = Cookies.get("dataProfessional");
   const [showModal, setShowModal] = useState<boolean>(false);
 
@@ -86,7 +83,7 @@ export default function HistorialClinicoView() {
       }
 
       setDataPaciente(data?.data);
-      setIdpaciente(data?.data?.paciente?.idpaciente);
+      setIdPaciente(data?.data?.paciente?.idpaciente);
       setDniHistory(data?.data?.paciente?.dni);
       setHasConfirmed(true);
     },
@@ -251,7 +248,7 @@ export default function HistorialClinicoView() {
   }
 
   function handleCleanPatient() {
-    clearContext();
+    reset();
   }
 
   function handleCancelEdit() {

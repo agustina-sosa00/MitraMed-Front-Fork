@@ -8,13 +8,13 @@ import {
   // grabarHistoriaDocum,
   // uploadFileDropbox,
 } from "@/views/app/profesional/hc/service/HistorialClinicoService";
-import { useMedicalHistoryContext } from "../../../../../context/MedicalHistoryContext";
 import InputProfesionales from "@/views/app/_components/features/InputProfesionales";
 import SelectorDeArchivos from "@/views/app/_components/features/SelectorDeArchivos";
 import { renombrarArchivo } from "../utils/renombrarArchivo";
 import { getTodayDate } from "@/views/auth/utils/authUtils";
 import { getLocalStorageParams } from "@/utils/index";
 import { ActionButton } from "@/frontend-resourses/components";
+import { useHistorialClinicoStore } from "../store/HistoriaClinicaStore";
 
 interface FormHistoriaProps {
   hc: string;
@@ -36,8 +36,14 @@ export default function FormHistoria({
   setStateModal,
   hcSelected,
 }: FormHistoriaProps) {
-  const { dniHistory, idpaciente, setRefetchHC, setHasNewRegistroChanges, editMode, setEditMode } =
-    useMedicalHistoryContext();
+  const editMode = useHistorialClinicoStore((state) => state.editMode);
+  const setEditMode = useHistorialClinicoStore((state) => state.setEditMode);
+  const idPaciente = useHistorialClinicoStore((state) => state.idPaciente);
+  const dniHistory = useHistorialClinicoStore((state) => state.dniHistory);
+  const setRefetchHC = useHistorialClinicoStore((state) => state.serRefetchHC);
+  const setHasNewRegistroChanges = useHistorialClinicoStore(
+    (state) => state.setHasNewRegistroChanges,
+  );
 
   const { iddoctor } = getLocalStorageParams();
 
@@ -164,7 +170,7 @@ export default function FormHistoria({
       }
 
       await grabarHistoriaService.mutateAsync({
-        idpaciente: Number(idpaciente),
+        idpaciente: Number(idPaciente),
         iddoctor: iddoctor,
         fecha: getTodayDate(),
         detalle: dataForm.detalle,

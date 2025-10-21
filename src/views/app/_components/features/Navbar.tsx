@@ -5,8 +5,8 @@ import { IoClose } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 import { useInformeTurnosStore } from "../../profesional/informes/informeTurnos/store/informeTurnosStore";
 import { useOdontogramContext } from "../../../../context/OdontogramContext";
-import { useMedicalHistoryContext } from "../../../../context/MedicalHistoryContext";
 import Cookies from "js-cookie";
+import { useHistorialClinicoStore } from "../../profesional/hc/store/HistoriaClinicaStore";
 
 interface NavBarProps {
   logo: string;
@@ -14,6 +14,9 @@ interface NavBarProps {
 }
 
 export default function Navbar({ logo, buttons }: NavBarProps) {
+  const setDniHistory = useHistorialClinicoStore((state) => state.setDniHistory);
+  const setDniHistoryInput = useHistorialClinicoStore((state) => state.setDniInput);
+
   const {
     setDniOdontogram,
     setOriginalData,
@@ -23,7 +26,6 @@ export default function Navbar({ logo, buttons }: NavBarProps) {
     setDniInput,
   } = useOdontogramContext();
 
-  const { setDniHistory, setDniInput: setDniHistoryInput } = useMedicalHistoryContext();
   const { clearInformeTurnosData } = useInformeTurnosStore();
 
   const [openMenu, setOpenMenu] = useState(false);

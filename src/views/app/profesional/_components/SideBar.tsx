@@ -4,13 +4,13 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import Cookies from "js-cookie";
 import { useOdontogramContext } from "../../../../context/OdontogramContext";
-import { useMedicalHistoryContext } from "../../../../context/MedicalHistoryContext";
 import { useInformeTurnosStore } from "../informes/informeTurnos/store/informeTurnosStore";
 import { useTurnosGeneralesStore } from "../turnos/turnosGenerales/store/turnosGeneralesStore";
 import { IoLogOut } from "react-icons/io5";
 import SubMenuSidebar from "./SubMenuSidebar";
 import { usePacientesStore } from "../pacientes/store/pacientesStore";
 import { ActionButton } from "@/frontend-resourses/components";
+import { useHistorialClinicoStore } from "../hc/store/HistoriaClinicaStore";
 
 interface ISubItem {
   key: string;
@@ -41,12 +41,10 @@ interface DataProfessional {
 }
 
 export default function SideBar({ logo, buttons, isDisabled = false }: SideBarProps) {
-  const {
-    setDniHistory,
-    setDniInput: setDniHistoryInput,
-    setDataPaciente,
-    setHasConfirmed: setHasConfirmedHistory,
-  } = useMedicalHistoryContext();
+  const setDataPaciente = useHistorialClinicoStore((state) => state.setDataPaciente);
+  const setDniHistory = useHistorialClinicoStore((state) => state.setDniHistory);
+  const setDniHistoryInput = useHistorialClinicoStore((state) => state.setDniInput);
+  const setHasConfirmedHistory = useHistorialClinicoStore((state) => state.setHasConfirmed);
 
   const {
     setDniOdontogram,

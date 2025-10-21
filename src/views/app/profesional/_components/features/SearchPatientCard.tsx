@@ -10,15 +10,16 @@ type Paciente = {
   apellido: string;
   dni: string;
   fnacim: string;
-  edad: string;
+  edad: number;
   idosocial: number;
+  idpaciente: number;
   nosocial: string | null;
   idplan: number;
   nplan: string | null;
 };
 
 interface SearchPatientCardProps {
-  data: Partial<Paciente>;
+  data?: Partial<Paciente> | null;
   dniInput: string;
   setDniInput: (arg: string) => void;
   onSearch: (arg: string) => void;
