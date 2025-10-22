@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 type DataPaciente = {
   hc: {
     detalle: string;
@@ -46,7 +47,7 @@ interface HistorialClinicoStore {
   setHcSelected: (v: HcRow | null) => void;
 
   refetchHC: boolean;
-  serRefetchHC: (v: boolean) => void;
+  setRefetchHC: (v: boolean) => void;
 
   idPaciente: number | null;
   setIdPaciente: (v: number | null) => void;
@@ -69,45 +70,53 @@ interface HistorialClinicoStore {
   reset: () => void;
 }
 
-export const useHistorialClinicoStore = create<HistorialClinicoStore>()((set) => ({
-  dataPaciente: null,
-  setDataPaciente: (v) => set({ dataPaciente: v }),
-
-  editMode: false,
-  setEditMode: (v) => set({ editMode: v }),
-
-  hcSelected: null,
-  setHcSelected: (v) => set({ hcSelected: v }),
-
-  refetchHC: false,
-  serRefetchHC: (v) => set({ refetchHC: v }),
-
-  idPaciente: null,
-  setIdPaciente: (v) => set({ idPaciente: v }),
-
-  dniHistory: "",
-  setDniHistory: (v) => set({ dniHistory: v }),
-
-  hasConfirmed: false,
-  setHasConfirmed: (v) => set({ hasConfirmed: v }),
-
-  uiLoading: false,
-  setUiLoading: (v) => set({ uiLoading: v }),
-
-  dniInput: "",
-  setDniInput: (v) => set({ dniInput: v }),
-
-  hasNewRegistroChanges: false,
-  setHasNewRegistroChanges: (v) => set({ hasNewRegistroChanges: v }),
-
-  reset: () =>
-    set({
+export const useHistorialClinicoStore = create<HistorialClinicoStore>()(
+  persist(
+    (set) => ({
       dataPaciente: null,
+      setDataPaciente: (v) => set({ dataPaciente: v }),
+
+      editMode: false,
+      setEditMode: (v) => set({ editMode: v }),
+
+      hcSelected: null,
+      setHcSelected: (v) => set({ hcSelected: v }),
+
+      refetchHC: false,
+      setRefetchHC: (v) => set({ refetchHC: v }),
+
       idPaciente: null,
+      setIdPaciente: (v) => set({ idPaciente: v }),
+
       dniHistory: "",
+      setDniHistory: (v) => set({ dniHistory: v }),
+
       hasConfirmed: false,
+      setHasConfirmed: (v) => set({ hasConfirmed: v }),
+
       uiLoading: false,
+      setUiLoading: (v) => set({ uiLoading: v }),
+
       dniInput: "",
+      setDniInput: (v) => set({ dniInput: v }),
+
       hasNewRegistroChanges: false,
+      setHasNewRegistroChanges: (v) => set({ hasNewRegistroChanges: v }),
+
+      reset: () =>
+        set({
+          dataPaciente: null,
+          idPaciente: null,
+          dniHistory: "",
+          hasConfirmed: false,
+          uiLoading: false,
+          dniInput: "",
+          hasNewRegistroChanges: false,
+        }),
     }),
-}));
+    {
+      name: "historial-clinico-store",
+      partialize: (state) => ({ hcSelected: state.hcSelected }),
+    },
+  ),
+);

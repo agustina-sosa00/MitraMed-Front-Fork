@@ -40,10 +40,11 @@ export default function FormHistoria({
   const setEditMode = useHistorialClinicoStore((state) => state.setEditMode);
   const idPaciente = useHistorialClinicoStore((state) => state.idPaciente);
   const dniHistory = useHistorialClinicoStore((state) => state.dniHistory);
-  const setRefetchHC = useHistorialClinicoStore((state) => state.serRefetchHC);
+  const setRefetchHC = useHistorialClinicoStore((state) => state.setRefetchHC);
   const setHasNewRegistroChanges = useHistorialClinicoStore(
     (state) => state.setHasNewRegistroChanges,
   );
+  const setHcSelected = useHistorialClinicoStore((state) => state.setHcSelected);
 
   const { iddoctor } = getLocalStorageParams();
 
@@ -150,7 +151,6 @@ export default function FormHistoria({
     const { name, value } = e.target;
     setDataForm({ ...dataForm, [name]: value });
   }
-
   async function handleOnClickSave() {
     setLoader(true);
     try {
@@ -181,6 +181,18 @@ export default function FormHistoria({
         extension: newFile ? newFile.extension : null,
       });
 
+      const dataHcSelected = {
+        id: hcSelected.id,
+        fecha: hcSelected.fecha,
+        iddoctor: hcSelected.iddoctor,
+        idhistoria: hcSelected.idhistoria,
+        idopera: hcSelected.idopera,
+        idpaciente: hcSelected.idpaciente,
+        ndoctor: hcSelected.ndoctor,
+        detalle: dataForm.detalle,
+        obs: dataForm.obs,
+      };
+      setHcSelected(dataHcSelected);
       // await queryClient.invalidateQueries({
       //   queryKey: ["medicalHistory", dniHistory],
       // });
@@ -286,7 +298,6 @@ export default function FormHistoria({
           <ActionButton
             text="Salir"
             onClick={handleCloseModal}
-            loader={loader}
             disabled={!habilitaGrabar}
             color="red"
             addClassName="w-24 h-8 !rounded"

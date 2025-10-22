@@ -44,7 +44,7 @@ export default function HistorialClinicoView() {
   const hcSelected = useHistorialClinicoStore((state) => state.hcSelected);
   const setHcSelected = useHistorialClinicoStore((state) => state.setHcSelected);
   const refetchHC = useHistorialClinicoStore((state) => state.refetchHC);
-  const setRefetchHC = useHistorialClinicoStore((state) => state.serRefetchHC);
+  const setRefetchHC = useHistorialClinicoStore((state) => state.setRefetchHC);
   const setIdPaciente = useHistorialClinicoStore((state) => state.setIdPaciente);
   const dniHistory = useHistorialClinicoStore((state) => state.dniHistory);
   const setDniHistory = useHistorialClinicoStore((state) => state.setDniHistory);
@@ -56,7 +56,6 @@ export default function HistorialClinicoView() {
   const setDniInput = useHistorialClinicoStore((state) => state.setDniInput);
   const reset = useHistorialClinicoStore((state) => state.reset);
 
-  console.log(dataPaciente);
   // const infoProfessional = Cookies.get("dataProfessional");
   const [showModal, setShowModal] = useState<boolean>(false);
 
@@ -235,7 +234,6 @@ export default function HistorialClinicoView() {
     if (refetchHC && dniHistory) {
       mutationObtenerPacienteHc.mutate(dniHistory);
       setRefetchHC(false);
-      setHcSelected(null);
     }
   }, [refetchHC, dniHistory]);
 
