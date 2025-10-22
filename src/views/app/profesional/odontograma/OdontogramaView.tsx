@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import { useOdontogramContext } from "../../../../context/OdontogramContext";
 import { RawRow, ToothChangeTuple } from "./types/odontogramaTypes";
 import { getOdontogram, grabarOdontogramaService } from "./service/odontogramaService";
 import { buildIdsState } from "./utils/buildTeethState";
@@ -12,7 +11,7 @@ import {
   sinProvisoriosDeTratamientosConCara,
 } from "./utils/odontogram.lookups";
 import { getLocalStorageParams } from "@/utils/index";
-import { OutletContext } from "@/context/types";
+import { OutletContext } from "@/views/app/profesional/types/types";
 import SearchPatientCard from "@/views/app/profesional/_components/features/SearchPatientCard";
 import Diente from "./components/Diente";
 import ModalSeleccionDeCara from "./components/ModalSeleccionDeCara";
@@ -22,27 +21,26 @@ import { RiSave3Line } from "react-icons/ri";
 import { MdCancel } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
 import { ActionButton } from "@/frontend-resourses/components";
+import { useOdontogramaStore } from "./store/OdontogramaStore";
 
 export default function OdontogramView() {
   const { setDisabledButtonSidebar } = useOutletContext<OutletContext>();
   // const queryClient = useQueryClient();
 
-  const {
-    // dniOdontogram,
-    setDniOdontogram,
-    originalData,
-    setOriginalData,
-    teethIdsState,
-    setTeethIdsState,
-    hasConfirmed,
-    setHasConfirmed,
-    uiLoading,
-    setUiLoading,
-    dniInput,
-    setDniInput,
-    odontogramaData,
-    setOdontogramaData,
-  } = useOdontogramContext();
+  const originalData = useOdontogramaStore((state) => state.originalData);
+  const setOriginalData = useOdontogramaStore((state) => state.setOriginalData);
+  const teethIdsState = useOdontogramaStore((state) => state.teethIdsState);
+  const setTeethIdsState = useOdontogramaStore((state) => state.setTeethIdsState);
+  const hasConfirmed = useOdontogramaStore((state) => state.hasConfirmed);
+  const setHasConfirmed = useOdontogramaStore((state) => state.setHasConfirmed);
+  const uiLoading = useOdontogramaStore((state) => state.uiLoading);
+  const setUiLoading = useOdontogramaStore((state) => state.setUiLoading);
+  const dniInput = useOdontogramaStore((state) => state.dniInput);
+  const setDniInput = useOdontogramaStore((state) => state.setDniInput);
+  const odontogramaData = useOdontogramaStore((state) => state.odontogramaData);
+  const setOdontogramaData = useOdontogramaStore((state) => state.setOdontogramaData);
+
+  console.log("odontogramaData", odontogramaData);
 
   //region states
   const [contextMenu, setContextMenu] = useState<number | null>(null);
@@ -198,7 +196,7 @@ export default function OdontogramView() {
     setTimeout(() => {
       obtenerOdontograma({ dni });
       setUiLoading(false);
-      setDniOdontogram(dni.trim());
+      // setDniOdontograma(dni.trim());
     }, 800);
   }
 
@@ -234,7 +232,7 @@ export default function OdontogramView() {
   function handleCleanPatient() {
     setHasConfirmed(false);
     setUiLoading(false);
-    setDniOdontogram("");
+    // setDniOdontogram("");
     setDniInput("");
     setIdPaciente("");
     setTeethIdsState({});

@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useOutletContext } from "react-router-dom";
 import { useUsuariosProfesionalStore } from "./store/usuariosProfesionalesStore";
 import { obtenerDoctores, obtenerUsuariosProf } from "./service/usuariosProfService";
-import { OutletContext } from "@/context/types";
+import { OutletContext } from "@/views/app/profesional/types/types";
 import TableCard from "./_components/TableCard";
 import HeaderCard from "./_components/HeaderCard";
 import TitleView from "../../_components/features/TitleView";

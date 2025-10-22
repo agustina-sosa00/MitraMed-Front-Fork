@@ -4,9 +4,9 @@ import { FiMenu } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 import { useInformeTurnosStore } from "../../profesional/informes/informeTurnos/store/informeTurnosStore";
-import { useOdontogramContext } from "../../../../context/OdontogramContext";
 import Cookies from "js-cookie";
 import { useHistorialClinicoStore } from "../../profesional/hc/store/HistoriaClinicaStore";
+import { useOdontogramaStore } from "../../profesional/odontograma/store/OdontogramaStore";
 
 interface NavBarProps {
   logo: string;
@@ -16,15 +16,12 @@ interface NavBarProps {
 export default function Navbar({ logo, buttons }: NavBarProps) {
   const setDniHistory = useHistorialClinicoStore((state) => state.setDniHistory);
   const setDniHistoryInput = useHistorialClinicoStore((state) => state.setDniInput);
-
-  const {
-    setDniOdontogram,
-    setOriginalData,
-    setTeethIdsState,
-    setHasConfirmed,
-    setUiLoading,
-    setDniInput,
-  } = useOdontogramContext();
+  const setDniOdontograma = useOdontogramaStore((state) => state.setDniOdontograma);
+  const setOriginalData = useOdontogramaStore((state) => state.setOriginalData);
+  const setTeethIdsState = useOdontogramaStore((state) => state.setTeethIdsState);
+  const setHasConfirmed = useOdontogramaStore((state) => state.setHasConfirmed);
+  const setUiLoading = useOdontogramaStore((state) => state.setUiLoading);
+  const setDniInput = useOdontogramaStore((state) => state.setDniInput);
 
   const { clearInformeTurnosData } = useInformeTurnosStore();
 
@@ -36,7 +33,7 @@ export default function Navbar({ logo, buttons }: NavBarProps) {
   const navigate = useNavigate();
 
   function handleLogout() {
-    setDniOdontogram("");
+    setDniOdontograma("");
     setOriginalData({});
     setTeethIdsState({});
     setHasConfirmed(false);

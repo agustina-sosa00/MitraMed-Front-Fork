@@ -3,7 +3,6 @@ import { IconType } from "react-icons/lib";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import Cookies from "js-cookie";
-import { useOdontogramContext } from "../../../../context/OdontogramContext";
 import { useInformeTurnosStore } from "../informes/informeTurnos/store/informeTurnosStore";
 import { useTurnosGeneralesStore } from "../turnos/turnosGenerales/store/turnosGeneralesStore";
 import { IoLogOut } from "react-icons/io5";
@@ -11,6 +10,7 @@ import SubMenuSidebar from "./SubMenuSidebar";
 import { usePacientesStore } from "../pacientes/store/pacientesStore";
 import { ActionButton } from "@/frontend-resourses/components";
 import { useHistorialClinicoStore } from "../hc/store/HistoriaClinicaStore";
+import { useOdontogramaStore } from "../odontograma/store/OdontogramaStore";
 
 interface ISubItem {
   key: string;
@@ -45,16 +45,13 @@ export default function SideBar({ logo, buttons, isDisabled = false }: SideBarPr
   const setDniHistory = useHistorialClinicoStore((state) => state.setDniHistory);
   const setDniHistoryInput = useHistorialClinicoStore((state) => state.setDniInput);
   const setHasConfirmedHistory = useHistorialClinicoStore((state) => state.setHasConfirmed);
-
-  const {
-    setDniOdontogram,
-    setOriginalData,
-    setTeethIdsState,
-    setHasConfirmed: setHasConfirmedOdontogram,
-    setUiLoading,
-    setDniInput,
-    setOdontogramaData,
-  } = useOdontogramContext();
+  const setDniOdontograma = useOdontogramaStore((state) => state.setDniOdontograma);
+  const setOriginalData = useOdontogramaStore((state) => state.setOriginalData);
+  const setTeethIdsState = useOdontogramaStore((state) => state.setTeethIdsState);
+  const setHasConfirmedOdontogram = useOdontogramaStore((state) => state.setHasConfirmed);
+  const setUiLoading = useOdontogramaStore((state) => state.setUiLoading);
+  const setDniInput = useOdontogramaStore((state) => state.setDniInput);
+  const setOdontogramaData = useOdontogramaStore((state) => state.setOdontogramaData);
 
   const { setDiaSeleccionado } = useTurnosGeneralesStore();
   const { clearInformeTurnosData } = useInformeTurnosStore();
@@ -89,7 +86,7 @@ export default function SideBar({ logo, buttons, isDisabled = false }: SideBarPr
   }, [location.pathname]);
 
   function handleLogout() {
-    setDniOdontogram("");
+    setDniOdontograma("");
     setOdontogramaData(null);
     setOriginalData({});
     setTeethIdsState({});
