@@ -15,6 +15,7 @@ import { getTodayDate } from "@/views/auth/utils/authUtils";
 import { getLocalStorageParams } from "@/utils/index";
 import { ActionButton } from "@/frontend-resourses/components";
 import { useHistorialClinicoStore } from "../store/HistoriaClinicaStore";
+import { useProfesionalStore } from "../../_store/ProfesionalStore";
 
 interface FormHistoriaProps {
   hc: string;
@@ -36,6 +37,10 @@ export default function FormHistoria({
   setStateModal,
   hcSelected,
 }: FormHistoriaProps) {
+  const loader = useProfesionalStore((s) => s.loader);
+  const setLoader = useProfesionalStore((s) => s.setLoader);
+  const setLoaderKey = useProfesionalStore((s) => s.setLoaderKey);
+
   const editMode = useHistorialClinicoStore((state) => state.editMode);
   const setEditMode = useHistorialClinicoStore((state) => state.setEditMode);
   const idPaciente = useHistorialClinicoStore((state) => state.idPaciente);
@@ -48,7 +53,6 @@ export default function FormHistoria({
 
   const { iddoctor } = getLocalStorageParams();
 
-  const [loader, setLoader] = useState<boolean>(false);
   const [dataForm, setDataForm] = useState({
     detalle: "",
     obs: "",
@@ -153,6 +157,7 @@ export default function FormHistoria({
   }
   async function handleOnClickSave() {
     setLoader(true);
+    setLoaderKey("grabarHistoria-hc");
     try {
       let newFile: { file: File; name: string; extension: string } | null = null;
 
@@ -180,19 +185,21 @@ export default function FormHistoria({
         idopera: newFile ? newFile.name : null,
         extension: newFile ? newFile.extension : null,
       });
+      if (editMode) {
+        const dataHcSelected = {
+          id: hcSelected?.id,
+          fecha: hcSelected?.fecha,
+          iddoctor: hcSelected?.iddoctor,
+          idhistoria: hcSelected?.idhistoria,
+          idopera: hcSelected?.idopera,
+          idpaciente: hcSelected?.idpaciente,
+          ndoctor: hcSelected?.ndoctor,
+          detalle: dataForm?.detalle,
+          obs: dataForm?.obs,
+        };
+        setHcSelected(dataHcSelected);
+      }
 
-      const dataHcSelected = {
-        id: hcSelected.id,
-        fecha: hcSelected.fecha,
-        iddoctor: hcSelected.iddoctor,
-        idhistoria: hcSelected.idhistoria,
-        idopera: hcSelected.idopera,
-        idpaciente: hcSelected.idpaciente,
-        ndoctor: hcSelected.ndoctor,
-        detalle: dataForm.detalle,
-        obs: dataForm.obs,
-      };
-      setHcSelected(dataHcSelected);
       // await queryClient.invalidateQueries({
       //   queryKey: ["medicalHistory", dniHistory],
       // });
@@ -291,6 +298,8 @@ export default function FormHistoria({
             text="Grabar"
             onClick={handleOnClickSave}
             loader={loader}
+            loaderKey="grabarHistoria-hc"
+            colorLoader="#fffff"
             disabled={!habilitaGrabar}
             color="green-mtm"
             addClassName="w-24 h-8 !rounded"

@@ -7,6 +7,7 @@ import { useProfesionalStore } from "../../_store/ProfesionalStore";
 export default function ModalInputsHeader({ handleCloseModalInput }) {
   const loader = useProfesionalStore((s) => s.loader);
   const setLoader = useProfesionalStore((s) => s.setLoader);
+  const setLoaderKey = useProfesionalStore((s) => s.setLoaderKey);
   const [inputValue, setInputValue] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -82,8 +83,11 @@ export default function ModalInputsHeader({ handleCloseModalInput }) {
         addClassName="h-8"
         color="green-mtm"
         loader={loader}
+        loaderKey="modalInputsHeader-pacientes"
+        colorLoader="#ffffff"
         onClick={() => {
           setLoader(true);
+          setLoaderKey("modalInputsHeader-pacientes");
           setTimeout(() => {
             console.log("button");
             setLoader(false);
