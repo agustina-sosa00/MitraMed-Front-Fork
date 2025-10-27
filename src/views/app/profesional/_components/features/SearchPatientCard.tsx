@@ -51,8 +51,6 @@ export default function SearchPatientCard({
   loading,
   // odontogram,
 }: SearchPatientCardProps) {
-  // console.log(padre);
-
   // region states y variables
   const isEditing = !hasConfirmed;
   const inputRef = useRef<HTMLInputElement>(null);

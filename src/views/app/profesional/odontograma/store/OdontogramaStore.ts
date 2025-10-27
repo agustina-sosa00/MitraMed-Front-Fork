@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { OdontogramaData, TeethIdsState } from "../types/odontogramaTypes";
+import { OdontogramaData, TeethIdsState, ToothChangeTuple } from "../types/odontogramaTypes";
 import { persist } from "zustand/middleware";
 
 interface OdontogramaStore {
@@ -23,6 +23,29 @@ interface OdontogramaStore {
 
   odontogramaData: OdontogramaData | null;
   setOdontogramaData: (v: OdontogramaData | null) => void;
+
+  contextMenu: number | null;
+  setContextMenu: (v: number | null) => void;
+
+  toothSelect: number;
+  setToothSelect: (v: number) => void;
+
+  editOdontograma: boolean;
+  setEditOdontograma: (v: boolean) => void;
+
+  teethChanged: ToothChangeTuple[];
+  setTeethChanged: (
+    v: ToothChangeTuple[] | ((prev: ToothChangeTuple[]) => ToothChangeTuple[]),
+  ) => void;
+  idPaciente: string;
+  setIdPaciente: (v: string) => void;
+
+  errorState: string;
+  setErrorState: (v: string) => void;
+
+  handleCleanPatient: () => void;
+
+  handleCancelEdit: () => void;
 }
 
 export const useOdontogramaStore = create<OdontogramaStore>()(
@@ -54,6 +77,43 @@ export const useOdontogramaStore = create<OdontogramaStore>()(
 
       odontogramaData: null,
       setOdontogramaData: (v) => set({ odontogramaData: v }),
+
+      contextMenu: null,
+      setContextMenu: (v) => set({ contextMenu: v }),
+
+      toothSelect: 0,
+      setToothSelect: (v) => set({ toothSelect: v }),
+
+      editOdontograma: false,
+      setEditOdontograma: (v) => set({ editOdontograma: v }),
+
+      teethChanged: [],
+      setTeethChanged: (v) =>
+        set((state) => ({
+          teethChanged: typeof v === "function" ? v(state.teethChanged) : v,
+        })),
+      idPaciente: "",
+      setIdPaciente: (v) => set({ idPaciente: v }),
+
+      errorState: "",
+      setErrorState: (v) => set({ errorState: v }),
+
+      handleCleanPatient: () =>
+        set({
+          hasConfirmed: false,
+          uiLoading: false,
+          dniInput: "",
+          idPaciente: "",
+          teethIdsState: {},
+          originalData: {},
+        }),
+
+      handleCancelEdit: () =>
+        set((state) => ({
+          teethChanged: [],
+          teethIdsState: state.originalData,
+          editOdontograma: false,
+        })),
     }),
     {
       name: "odontograma-store",
