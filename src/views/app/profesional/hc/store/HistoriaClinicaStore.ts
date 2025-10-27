@@ -67,6 +67,33 @@ interface HistorialClinicoStore {
   hasNewRegistroChanges: boolean;
   setHasNewRegistroChanges: (v: boolean) => void;
 
+  errorState: string;
+  setErrorState: (v: string) => void;
+
+  previewOpen: boolean;
+  setPreviewOpen: (v: boolean) => void;
+
+  showModal: boolean;
+  setShowModal: (v: boolean) => void;
+
+  loadingBlob: boolean;
+  setLoadingBlob: (v: boolean) => void;
+
+  previewBlob: Blob | null;
+  setPreviewBlob: (v: Blob | null) => void;
+
+  previewExt: string;
+  setPreviewExt: (v: string) => void;
+
+  previewPage: number;
+  setPreviewPage: (v: number | ((prev: number) => number)) => void;
+
+  previewNumPages: number;
+  setPreviewNumPages: (v: number) => void;
+
+  downloading: boolean;
+  setDownloading: (v: boolean) => void;
+
   reset: () => void;
 }
 
@@ -102,6 +129,36 @@ export const useHistorialClinicoStore = create<HistorialClinicoStore>()(
 
       hasNewRegistroChanges: false,
       setHasNewRegistroChanges: (v) => set({ hasNewRegistroChanges: v }),
+
+      errorState: "",
+      setErrorState: (v) => set({ errorState: v }),
+
+      previewOpen: false,
+      setPreviewOpen: (v) => set({ previewOpen: v }),
+
+      showModal: false,
+      setShowModal: (v) => set({ showModal: v }),
+
+      loadingBlob: false,
+      setLoadingBlob: (v) => set({ loadingBlob: v }),
+
+      previewBlob: null,
+      setPreviewBlob: (v) => set({ previewBlob: v }),
+
+      previewExt: "",
+      setPreviewExt: (v) => set({ previewExt: v }),
+
+      previewPage: 1,
+      setPreviewPage: (v) =>
+        set((state) => ({
+          previewPage: typeof v === "function" ? v(state.previewPage) : v,
+        })),
+
+      previewNumPages: 1,
+      setPreviewNumPages: (v) => set({ previewNumPages: v }),
+
+      downloading: false,
+      setDownloading: (v) => set({ downloading: v }),
 
       reset: () =>
         set({

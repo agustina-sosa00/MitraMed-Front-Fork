@@ -7,6 +7,7 @@ import { useProfesionalStore } from "../../_store/ProfesionalStore";
 export default function ModalInputsHeader({ handleCloseModalInput }) {
   const loader = useProfesionalStore((s) => s.loader);
   const setLoader = useProfesionalStore((s) => s.setLoader);
+  const loaderKey = useProfesionalStore((s) => s.loaderKey);
   const setLoaderKey = useProfesionalStore((s) => s.setLoaderKey);
   const [inputValue, setInputValue] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -82,8 +83,7 @@ export default function ModalInputsHeader({ handleCloseModalInput }) {
         icon={<FaCheck />}
         addClassName="h-8"
         color="green-mtm"
-        loader={loader}
-        loaderKey="modalInputsHeader-pacientes"
+        loader={loaderKey === "modalInputsHeader-pacientes" && loader}
         colorLoader="#ffffff"
         onClick={() => {
           setLoader(true);

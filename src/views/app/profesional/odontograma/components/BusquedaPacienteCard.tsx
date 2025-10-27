@@ -4,13 +4,15 @@ import { useOdontogramaStore } from "../store/OdontogramaStore";
 import { getOdontogram } from "../service/odontogramaService";
 import { buildIdsState } from "../utils/buildTeethState";
 import { RawRow } from "../types/odontogramaTypes";
+import { useProfesionalStore } from "../../_store/ProfesionalStore";
 
 export default function BusquedaPacienteCard() {
+  const setLoader = useProfesionalStore((s) => s.setLoader);
+  const setLoaderKey = useProfesionalStore((s) => s.setLoaderKey);
+
   const setContextMenu = useOdontogramaStore((state) => state.setContextMenu);
   const dniInput = useOdontogramaStore((state) => state.dniInput);
   const setDniInput = useOdontogramaStore((state) => state.setDniInput);
-  const uiLoading = useOdontogramaStore((state) => state.uiLoading);
-  const setUiLoading = useOdontogramaStore((state) => state.setUiLoading);
   const errorState = useOdontogramaStore((state) => state.errorState);
   const setErrorState = useOdontogramaStore((state) => state.setErrorState);
   const setHasConfirmed = useOdontogramaStore((state) => state.setHasConfirmed);
@@ -45,11 +47,11 @@ export default function BusquedaPacienteCard() {
   });
 
   function handleSearch(dni: string) {
-    setUiLoading(true);
-
+    setLoader(true);
+    setLoaderKey("buscador-odontograma");
     setTimeout(() => {
       obtenerOdontograma({ dni });
-      setUiLoading(false);
+      setLoader(false);
       // setDniOdontograma(dni.trim());
     }, 800);
   }
@@ -69,7 +71,7 @@ export default function BusquedaPacienteCard() {
         errorState={errorState}
         setErrorState={setErrorState}
         hasConfirmed={hasConfirmed}
-        loading={uiLoading}
+        loaderKeyProp="buscador-odontograma"
       />
     </div>
   );

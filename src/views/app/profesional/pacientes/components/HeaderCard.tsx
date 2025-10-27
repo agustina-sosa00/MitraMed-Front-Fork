@@ -16,7 +16,7 @@ export default function HeaderCard({ handleOpenModalSearch }) {
   // store global profesional
   const loader = useProfesionalStore((s) => s.loader);
   const setLoader = useProfesionalStore((s) => s.setLoader);
-  // const loaderKey = useProfesionalStore((s) => s.loaderKey);
+  const loaderKey = useProfesionalStore((s) => s.loaderKey);
   const setLoaderKey = useProfesionalStore((s) => s.setLoaderKey);
   // store pacientes
   const estado = usePacientesStore((s) => s.estado);
@@ -177,7 +177,7 @@ export default function HeaderCard({ handleOpenModalSearch }) {
               disabled={estado !== "I" || !(dniInput ?? "").trim()}
               onClick={handleOnClickHC}
               color="green-mtm"
-              loader={loader}
+              loader={loaderKey === "headerCard-pacientes" && loader}
               loaderKey="headerCard-pacientes"
               colorLoader="#fffff"
             />
