@@ -169,6 +169,7 @@ export const useHistorialClinicoStore = create<HistorialClinicoStore>()(
           uiLoading: false,
           dniInput: "",
           hasNewRegistroChanges: false,
+          hcSelected: null,
         }),
     }),
     {

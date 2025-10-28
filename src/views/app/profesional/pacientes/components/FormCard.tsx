@@ -269,10 +269,6 @@ export default function FormCard({ handleInputChange }) {
   //region return
   return (
     <div className="flex flex-col w-full pb-5">
-      {/* <div>
-        <p className="text-gray-600 text-lg  font-semibold">Datos del paciente</p>
-      </div> */}
-
       <div className="w-full flex flex-col gap-2">
         <div ref={gridRef} onKeyDown={handleEnterNavigation} className="flex w-full gap-4 ">
           <div className="w-1/2  flex flex-col items-start  gap-2">
