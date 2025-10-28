@@ -1,7 +1,7 @@
 import { Fragment, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { useMedicalHistoryContext } from "../../context/MedicalHistoryContext";
 import Swal from "sweetalert2";
+import { useHistorialClinicoStore } from "../app/profesional/hc/store/HistoriaClinicaStore";
 
 interface ModalProps {
   children: React.ReactNode;
@@ -10,7 +10,7 @@ interface ModalProps {
 }
 
 export const Modal = ({ children, open, onClose }: ModalProps) => {
-  const { hasNewRegistroChanges } = useMedicalHistoryContext();
+  const hasNewRegistroChanges = useHistorialClinicoStore((state) => state.hasNewRegistroChanges);
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {

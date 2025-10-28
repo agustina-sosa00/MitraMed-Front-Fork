@@ -13,7 +13,7 @@ export default function HomeProfesionalView() {
     <>
       <TitleView title="Inicio" />
       <div className="flex flex-col justify-center w-full ">
-        <div className="grid w-full gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid w-full py-4 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {buttonsSidebar
             .filter((b) => b.name !== "Inicio" && !b.disabled)
             .map((item) => (

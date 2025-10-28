@@ -124,8 +124,6 @@ export default function ModalHeader({ handleCloseModal }: Props) {
     dataInputs.dom1 === "" &&
     dataInputs.nombre === "";
 
-  console.log(buscarDisabled);
-
   const { mutate: postConsultaPacientes } = useMutation({
     mutationFn: consultaPacientes,
     onError(error) {

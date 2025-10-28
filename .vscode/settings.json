@@ -1,5 +1,16 @@
 {
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "cSpell.words": ["redireccion", "resetee", "tusuario"]
+  "cSpell.words": [
+    "Clinico",
+    "odontogram",
+    "odontograma",
+    "Odontograma",
+    "redireccion",
+    "resetee",
+    "Seleccion",
+    "Swal",
+    "sweetalert",
+    "tusuario"
+  ]
 }

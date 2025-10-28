@@ -31,7 +31,7 @@ export default function PacientesView() {
   return (
     <>
       <TitleView title="Pacientes" />
-      <div className="flex flex-col w-full gap-5">
+      <div className="flex flex-col w-full gap-3">
         <HeaderCard handleOpenModalSearch={handleOpenModalSearch} />
         <FormCard handleInputChange={handleInputChange} />
         {openModal && (

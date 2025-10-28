@@ -4,21 +4,23 @@ import { FaUserCircle } from "react-icons/fa";
 // import { BuscadorDePacientesProps } from "@/views/app/profesional/types/index";
 import { ActionButton } from "@/frontend-resourses/components";
 import { IoClose } from "react-icons/io5";
+import { useProfesionalStore } from "../../_store/ProfesionalStore";
 
 type Paciente = {
   nombre: string;
   apellido: string;
   dni: string;
   fnacim: string;
-  edad: string;
+  edad: number;
   idosocial: number;
+  idpaciente: number;
   nosocial: string | null;
   idplan: number;
   nplan: string | null;
 };
 
 interface SearchPatientCardProps {
-  data: Partial<Paciente>;
+  data?: Partial<Paciente> | null;
   dniInput: string;
   setDniInput: (arg: string) => void;
   onSearch: (arg: string) => void;
@@ -33,7 +35,8 @@ interface SearchPatientCardProps {
   setErrorState?: (arg: string) => void;
   hasConfirmed?: boolean;
   loading?: boolean;
-  setPreviewOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+  loaderKeyProp?: string;
+  setPreviewOpen?: (arg) => void;
 }
 
 export default function SearchPatientCard({
@@ -47,10 +50,11 @@ export default function SearchPatientCard({
   errorState,
   setErrorState,
   hasConfirmed,
-  loading,
+  loaderKeyProp,
   // odontogram,
 }: SearchPatientCardProps) {
-  // console.log(padre);
+  const loader = useProfesionalStore((s) => s.loader);
+  const loaderKey = useProfesionalStore((s) => s.loaderKey);
 
   // region states y variables
   const isEditing = !hasConfirmed;
@@ -146,7 +150,8 @@ export default function SearchPatientCard({
                   />
                   <ActionButton
                     onClick={handleSearchPatient}
-                    loader={loading}
+                    loader={loaderKey === loaderKeyProp && loader}
+                    loaderKey={loaderKey}
                     icon={<FaMagnifyingGlass />}
                     color="customGray"
                     customColorText="primaryGreen"

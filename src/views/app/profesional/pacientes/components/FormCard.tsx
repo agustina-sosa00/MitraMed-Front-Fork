@@ -1,7 +1,10 @@
-import { FlexibleInputField } from "@/frontend-resourses/components";
+import { ActionButton, FlexibleInputField } from "@/frontend-resourses/components";
 import { usePacientesStore } from "../store/pacientesStore";
 import { formatearFechaDMA } from "@/utils/index";
-import { ReactNode, useRef } from "react";
+import { ReactNode, useRef, useState } from "react";
+import { IoSearchSharp } from "react-icons/io5";
+import { Modal } from "@/views/app/_components/ui/modals/Modal";
+import BusquedaModalInputs from "./BusquedaModalInputs";
 
 type InputType = "number" | "text" | "select" | "tel" | "email" | "date" | "textarea";
 type Box = "left" | "right";
@@ -20,6 +23,7 @@ interface Field {
   inputClassName?: string;
   containerWidth?: string;
   containerClassName?: string;
+  buttonSearch?: boolean;
 }
 
 export default function FormCard({ handleInputChange }) {
@@ -28,35 +32,14 @@ export default function FormCard({ handleInputChange }) {
   const estado = usePacientesStore((s) => s.estado);
   const dataInputs = estado === "C" ? dataPaciente : estado === "M" ? dataPacientesModi : null;
   const gridRef = useRef<HTMLDivElement>(null);
-
-  function handleEnterNavigation(e: React.KeyboardEvent<HTMLDivElement>) {
-    if (e.key !== "Enter") return;
-    e.preventDefault();
-    e.stopPropagation();
-    const root = gridRef.current;
-    if (!root) return;
-    const focusables = Array.from(
-      root.querySelectorAll<HTMLElement>(
-        'input:not([type="hidden"]):not([disabled]):not([readonly]), textarea:not([disabled]):not([readonly]), select:not([disabled]):not([readonly])',
-      ),
-    );
-    if (focusables.length === 0) return;
-    const active = (document.activeElement as HTMLElement) || null;
-    const idx = focusables.findIndex((el) => el === active || (!!active && el.contains(active)));
-    if (idx === -1) {
-      focusables[0].focus();
-      return;
-    }
-    const next = focusables[idx + 1];
-    if (next) next.focus();
-  }
-
+  console.log(dataInputs);
+  const [openModal, setOpenModal] = useState(false);
   //region inputs
   const inputs: Field[] = [
     {
       label: "DNI",
       key: "dni",
-      inputWidth: "w-40",
+      inputWidth: "w-24",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       box: "left",
       maxLength: 8,
@@ -78,25 +61,40 @@ export default function FormCard({ handleInputChange }) {
     {
       label: "C.U.I.T",
       key: "cuil",
-      inputWidth: "w-40",
+      inputWidth: "w-32",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       box: "left",
       type: "text",
+    },
+    {
+      label: "Fecha Nac.",
+      key: "fnacim",
+      inputWidth: "w-40",
+      inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
+      box: "left",
     },
     {
       label: "Domicilio",
       key: "domicilio1",
-      inputWidth: "w-60",
+      inputWidth: "w-80 xxl:w-[500px]",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       box: "left",
       type: "text",
     },
-
+    {
+      label: "Domicilio 2",
+      key: "domicilio2",
+      inputWidth: "w-80 xxl:w-[500px]",
+      inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
+      box: "left",
+      type: "text",
+    },
     {
       label: "Celular",
       key: "telefono",
-      inputWidth: "w-20",
-      inputClassName: "max-h-6 lg:max-h-7",
+      inputWidth: "w-24",
+      inputClassName:
+        "max-h-6 lg:max-h-7 rounded  focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       type: "text",
       box: "right",
       maxLength: 7,
@@ -107,7 +105,7 @@ export default function FormCard({ handleInputChange }) {
             inputType="text"
             key="codarea"
             value={dataPaciente?.codarea || ""}
-            inputClassName="text-center max-h-6 lg:max-h-7"
+            inputClassName="text-center rounded max-h-6 lg:max-h-7 !text-gray-900 focus:outline-none focus:ring-1 focus:ring-primaryGreen"
             inputWidth="w-16"
             maxLength={5}
             disabled={estado !== "M"}
@@ -129,41 +127,35 @@ export default function FormCard({ handleInputChange }) {
     {
       label: "Email",
       key: "email",
-      inputWidth: "w-70",
+      inputWidth: "w-70 max-w-[500px]",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       box: "right",
       type: "email",
     },
-    {
-      label: "Provincia",
-      key: "provincia",
-      inputWidth: "w-60",
-      inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
-      box: "left",
-      type: "select",
-      options: [
-        { value: "0", label: "" },
-        { value: "BSAS", label: "Buenos Aires" },
-        { value: "COR", label: "Cordoba" },
-      ],
-    },
+
     {
       label: "Localidad",
       key: "localidad",
       inputWidth: "w-60",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       box: "left",
-      type: "select",
-      options: [
-        { value: "0", label: "" },
-        { value: "LDZ", label: "Lomas de Zamora" },
-        { value: "LAN", label: "Lanús" },
-      ],
+      type: "text",
+      buttonSearch: true,
+      containerWidth: "100px",
+      containerClassName: "",
     },
     {
       label: "Cod. Postal",
       key: "codPostal",
       inputWidth: "w-20",
+      inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
+      box: "left",
+      type: "text",
+    },
+    {
+      label: "Provincia",
+      key: "provincia",
+      inputWidth: "w-60",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       box: "left",
       type: "text",
@@ -194,14 +186,7 @@ export default function FormCard({ handleInputChange }) {
         { value: "MAS", label: "Masculino" },
       ],
     },
-    {
-      label: "Fecha Nac.",
-      key: "fnacim",
-      inputWidth: "w-40",
-      inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
-      box: "right",
-      // si querés un placeholder tipo “dd/mm/aaaa” configurarlo en FlexibleInputField
-    },
+
     {
       label: "F. Alta",
       key: "f_alta",
@@ -212,22 +197,19 @@ export default function FormCard({ handleInputChange }) {
     {
       label: "Obra Social",
       key: "nosocial",
-      inputWidth: "w-40",
+      inputWidth: "w-48",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
-      box: "left",
-      type: "select",
-      options: [
-        { value: "0", label: "" },
-        { value: "MED", label: "Medife" },
-        { value: "OTR", label: "Otros" },
-      ],
+      box: "right",
+      type: "text",
+      buttonSearch: true,
+      containerWidth: "100px",
     },
     {
       label: "Plan",
       key: "nplan",
       inputWidth: "w-40",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
-      box: "left",
+      box: "right",
       type: "select",
       options: [
         { value: "0", label: "" },
@@ -240,76 +222,146 @@ export default function FormCard({ handleInputChange }) {
       key: "afiliado",
       inputWidth: "w-40",
       inputClassName: "rounded focus:outline-none focus:ring-1 focus:ring-primaryGreen",
-      box: "left",
-      type: "text",
-    },
-    {
-      label: "Obs",
-      key: "obs",
-      inputClassName: "rounded !h-24 focus:outline-none focus:ring-1 focus:ring-primaryGreen",
       box: "right",
       type: "text",
     },
+    // {
+    //   label: "Obs",
+    //   key: "obs",
+    //   inputClassName: "rounded !h-32 focus:outline-none focus:ring-1 focus:ring-primaryGreen",
+    //   box: "right",
+    //   type: "text",
+    // },
   ];
 
   const left = inputs.filter((i) => i.box === "left");
   const right = inputs.filter((i) => i.box === "right");
 
+  function handleEnterNavigation(e: React.KeyboardEvent<HTMLDivElement>) {
+    if (e.key !== "Enter") return;
+    e.preventDefault();
+    e.stopPropagation();
+    const root = gridRef.current;
+    if (!root) return;
+    const focusables = Array.from(
+      root.querySelectorAll<HTMLElement>(
+        'input:not([type="hidden"]):not([disabled]):not([readonly]), textarea:not([disabled]):not([readonly]), select:not([disabled]):not([readonly])',
+      ),
+    );
+    if (focusables.length === 0) return;
+    const active = (document.activeElement as HTMLElement) || null;
+    const idx = focusables.findIndex((el) => el === active || (!!active && el.contains(active)));
+    if (idx === -1) {
+      focusables[0].focus();
+      return;
+    }
+    const next = focusables[idx + 1];
+    if (next) next.focus();
+  }
+
+  function handleOpenModalInput() {
+    setOpenModal(true);
+  }
+  function handleCloseModalInput() {
+    setOpenModal(false);
+  }
+
   //region return
   return (
-    <div className="flex flex-col w-full">
-      <div>
-        <p className="text-gray-600 text-lg font-semibold">Datos del paciente</p>
-      </div>
+    <div className="flex flex-col w-full pb-5">
+      <div className="w-full flex flex-col gap-2">
+        <div ref={gridRef} onKeyDown={handleEnterNavigation} className="flex w-full gap-4 ">
+          <div className="w-1/2  flex flex-col items-start  gap-2">
+            {left.map((item) => (
+              <div className="w-full flex items-center gap-2 justify-start">
+                <FlexibleInputField
+                  key={item.key}
+                  label={item.label}
+                  value={dataInputs?.[item.key] ?? ""}
+                  inputType={item.type ?? "text"}
+                  inputWidth={item.inputWidth}
+                  maxLength={item.maxLength}
+                  options={item.type === "select" ? item.options : undefined}
+                  onChange={(v) => handleInputChange(item.key, v)}
+                  disabled={estado !== "M"}
+                  inputClassName={`!text-gray-900 ${item.inputClassName}`}
+                  containerWidth={item.containerWidth}
+                  containerClassName={item.containerClassName}
+                  rightComponent={item.rightComponent}
+                />
+                {item.buttonSearch && (
+                  <ActionButton
+                    icon={<IoSearchSharp />}
+                    addClassName="h-7"
+                    color="blue-mtm"
+                    onClick={() => {
+                      handleOpenModalInput();
+                    }}
+                    disabled={estado !== "M"}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
 
-      <div ref={gridRef} onKeyDown={handleEnterNavigation} className="flex w-full gap-4 pt-2">
-        <div className="w-1/2  flex flex-col items-start gap-2">
-          {left.map((item) => (
-            <FlexibleInputField
-              key={item.key}
-              label={item.label}
-              value={dataPaciente?.[item.key] ?? ""}
-              inputType={item.type ?? "text"}
-              inputWidth={item.inputWidth}
-              maxLength={item.maxLength}
-              options={item.type === "select" ? item.options : undefined}
-              onChange={(v) => handleInputChange(item.key, v)}
-              disabled={estado !== "M"}
-              inputClassName={item.inputClassName}
-              containerWidth={item.containerWidth}
-              containerClassName={item.containerClassName}
-            />
-          ))}
+          {openModal && (
+            <Modal close={handleCloseModalInput} modalWidth="w-[800px]">
+              <BusquedaModalInputs handleCloseModalInput={handleCloseModalInput} />
+            </Modal>
+          )}
+
+          <div className="w-1/2 flex flex-col items-start gap-2">
+            {right.map((item) => {
+              const raw = dataInputs?.[item.key];
+              const f_Alta =
+                item.key === "f_alta" && raw ? formatearFechaDMA(new Date(String(raw)), true) : "";
+
+              const f_nac =
+                item.key === "fnacim" && raw ? formatearFechaDMA(new Date(String(raw))) : "";
+
+              return (
+                <div className="w-full flex items-center gap-2 justify-start">
+                  <FlexibleInputField
+                    key={item.key}
+                    label={item.label}
+                    value={f_Alta || f_nac || dataInputs?.[item.key] || ""}
+                    inputType={item.type ?? "text"}
+                    inputWidth={item.inputWidth}
+                    maxLength={item.maxLength}
+                    options={item.type === "select" ? item.options : undefined}
+                    onChange={(v) => handleInputChange(item.key, v)}
+                    disabled={estado !== "M" || item.key === "f_alta"}
+                    inputClassName={`!text-gray-900 ${item.inputClassName}`}
+                    containerWidth={item.containerWidth}
+                    containerClassName={item.containerClassName}
+                    middleComponent={item.middleComponent}
+                  />
+                  {item.buttonSearch && (
+                    <ActionButton
+                      icon={<IoSearchSharp />}
+                      addClassName="h-7"
+                      color="blue-mtm"
+                      onClick={() => {
+                        handleOpenModalInput();
+                      }}
+                      disabled={estado !== "M"}
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
 
-        <div className="w-1/2 flex flex-col items-start gap-2">
-          {right.map((item) => {
-            const raw = dataInputs?.[item.key];
-            const f_Alta =
-              item.key === "f_alta" && raw ? formatearFechaDMA(new Date(String(raw)), true) : "";
-
-            const f_nac =
-              item.key === "fnacim" && raw ? formatearFechaDMA(new Date(String(raw))) : "";
-
-            return (
-              <FlexibleInputField
-                key={item.key}
-                label={item.label}
-                value={f_Alta || f_nac || dataInputs?.[item.key] || ""}
-                inputType={item.type ?? "text"}
-                inputWidth={item.inputWidth}
-                maxLength={item.maxLength}
-                options={item.type === "select" ? item.options : undefined}
-                onChange={(v) => handleInputChange(item.key, v)}
-                disabled={estado !== "M" || item.key === "f_alta"}
-                inputClassName={item.inputClassName}
-                containerWidth={item.containerWidth}
-                containerClassName={item.containerClassName}
-                middleComponent={item.middleComponent}
-              />
-            );
-          })}
-        </div>
+        <FlexibleInputField
+          key={"obs"}
+          label={"Obs"}
+          value={dataInputs?.obs || ""}
+          inputType={"text"}
+          onChange={(v) => handleInputChange("obs", v)}
+          disabled={estado !== "M"}
+          inputClassName="rounded !h-32 focus:outline-none focus:ring-1 focus:ring-primaryGreen max-w-[1350px]"
+        />
       </div>
     </div>
   );

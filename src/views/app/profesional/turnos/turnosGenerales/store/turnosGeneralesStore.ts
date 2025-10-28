@@ -16,6 +16,8 @@ interface TurnosGeneralesStore {
   setDiaSeleccionado: (dia: string) => void;
   turnosData: Record<string, any>[];
   setTurnosData: (turnos: Record<string, any>[]) => void;
+  turnoSeleccionado: Record<string, any> | null;
+  setTurnoSeleccionado: (turno: Record<string, any> | null) => void;
 }
 
 export const useTurnosGeneralesStore = create<TurnosGeneralesStore>((set) => ({
@@ -27,4 +29,6 @@ export const useTurnosGeneralesStore = create<TurnosGeneralesStore>((set) => ({
   setDiaSeleccionado: (dia) => set({ diaSeleccionado: dia }),
   turnosData: [],
   setTurnosData: (turnos) => set({ turnosData: turnos }),
+  turnoSeleccionado: null,
+  setTurnoSeleccionado: (turno) => set({ turnoSeleccionado: turno }),
 }));

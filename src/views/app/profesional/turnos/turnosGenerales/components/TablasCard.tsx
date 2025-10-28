@@ -22,6 +22,7 @@ export default function TablasCard() {
     diaSeleccionado,
     turnosData,
     setTurnosData,
+    setTurnoSeleccionado,
   } = useTurnosGeneralesStore();
 
   const {
@@ -127,7 +128,6 @@ export default function TablasCard() {
 
   // Solo mostrar filas de turnos, sin completar con filas vacías
   const datosParaTabla2 = [...turnosDataTabla];
-
   const propsTabla1 = {
     datosParaTabla: doctoresDataTabla || [],
     selectFn: true,
@@ -150,6 +150,9 @@ export default function TablasCard() {
     datosParaTabla: datosParaTabla2,
     objectColumns: columnasTabla2,
     selectFn: true,
+    objectSelection: {
+      setSeleccionado: setTurnoSeleccionado,
+    },
     objectStyles: {
       heightContainer: "450px",
       withScrollbar: true,

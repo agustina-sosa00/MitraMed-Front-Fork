@@ -8,13 +8,14 @@ import {
   // grabarHistoriaDocum,
   // uploadFileDropbox,
 } from "@/views/app/profesional/hc/service/HistorialClinicoService";
-import { useMedicalHistoryContext } from "../../../../../context/MedicalHistoryContext";
 import InputProfesionales from "@/views/app/_components/features/InputProfesionales";
 import SelectorDeArchivos from "@/views/app/_components/features/SelectorDeArchivos";
 import { renombrarArchivo } from "../utils/renombrarArchivo";
 import { getTodayDate } from "@/views/auth/utils/authUtils";
 import { getLocalStorageParams } from "@/utils/index";
 import { ActionButton } from "@/frontend-resourses/components";
+import { useHistorialClinicoStore } from "../store/HistoriaClinicaStore";
+import { useProfesionalStore } from "../../_store/ProfesionalStore";
 
 interface FormHistoriaProps {
   hc: string;
@@ -36,12 +37,22 @@ export default function FormHistoria({
   setStateModal,
   hcSelected,
 }: FormHistoriaProps) {
-  const { dniHistory, idpaciente, setRefetchHC, setHasNewRegistroChanges, editMode, setEditMode } =
-    useMedicalHistoryContext();
+  const loader = useProfesionalStore((s) => s.loader);
+  const setLoader = useProfesionalStore((s) => s.setLoader);
+  const setLoaderKey = useProfesionalStore((s) => s.setLoaderKey);
+
+  const editMode = useHistorialClinicoStore((state) => state.editMode);
+  const setEditMode = useHistorialClinicoStore((state) => state.setEditMode);
+  const idPaciente = useHistorialClinicoStore((state) => state.idPaciente);
+  const dniHistory = useHistorialClinicoStore((state) => state.dniHistory);
+  const setRefetchHC = useHistorialClinicoStore((state) => state.setRefetchHC);
+  const setHasNewRegistroChanges = useHistorialClinicoStore(
+    (state) => state.setHasNewRegistroChanges,
+  );
+  const setHcSelected = useHistorialClinicoStore((state) => state.setHcSelected);
 
   const { iddoctor } = getLocalStorageParams();
 
-  const [loader, setLoader] = useState<boolean>(false);
   const [dataForm, setDataForm] = useState({
     detalle: "",
     obs: "",
@@ -144,9 +155,9 @@ export default function FormHistoria({
     const { name, value } = e.target;
     setDataForm({ ...dataForm, [name]: value });
   }
-
   async function handleOnClickSave() {
     setLoader(true);
+    setLoaderKey("grabarHistoria-hc");
     try {
       let newFile: { file: File; name: string; extension: string } | null = null;
 
@@ -164,7 +175,7 @@ export default function FormHistoria({
       }
 
       await grabarHistoriaService.mutateAsync({
-        idpaciente: Number(idpaciente),
+        idpaciente: Number(idPaciente),
         iddoctor: iddoctor,
         fecha: getTodayDate(),
         detalle: dataForm.detalle,
@@ -174,6 +185,20 @@ export default function FormHistoria({
         idopera: newFile ? newFile.name : null,
         extension: newFile ? newFile.extension : null,
       });
+      if (editMode) {
+        const dataHcSelected = {
+          id: hcSelected?.id,
+          fecha: hcSelected?.fecha,
+          iddoctor: hcSelected?.iddoctor,
+          idhistoria: hcSelected?.idhistoria,
+          idopera: hcSelected?.idopera,
+          idpaciente: hcSelected?.idpaciente,
+          ndoctor: hcSelected?.ndoctor,
+          detalle: dataForm?.detalle,
+          obs: dataForm?.obs,
+        };
+        setHcSelected(dataHcSelected);
+      }
 
       // await queryClient.invalidateQueries({
       //   queryKey: ["medicalHistory", dniHistory],
@@ -273,6 +298,8 @@ export default function FormHistoria({
             text="Grabar"
             onClick={handleOnClickSave}
             loader={loader}
+            loaderKey="grabarHistoria-hc"
+            colorLoader="#fffff"
             disabled={!habilitaGrabar}
             color="green-mtm"
             addClassName="w-24 h-8 !rounded"
@@ -280,7 +307,6 @@ export default function FormHistoria({
           <ActionButton
             text="Salir"
             onClick={handleCloseModal}
-            loader={loader}
             disabled={!habilitaGrabar}
             color="red"
             addClassName="w-24 h-8 !rounded"

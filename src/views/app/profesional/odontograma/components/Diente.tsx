@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaRegCircle } from "react-icons/fa";
 import { GrClose } from "react-icons/gr";
 import { IoMdArrowDropup } from "react-icons/io";
@@ -12,33 +12,31 @@ import {
   toneClass,
   TRAT,
 } from "../utils/odontogram.lookups";
+import { useOdontogramaStore } from "../store/OdontogramaStore";
 
 interface DienteV2Props {
   toothNumber: number;
   isActive: boolean;
-  setContextMenu: (num: number | null) => void;
   handle: () => void;
-  toothSelectState: number;
-  setToothSelectState: (arg: number) => void;
   dataIds: ToothItemIds[];
-  updateToothIds: (item: ToothItemIds) => void;
-  clearTooth: () => void;
-  stateTeethChanged?: Dispatch<SetStateAction<ToothChangeTuple[]>>;
+  stateTeethChanged?: (
+    v: ToothChangeTuple[] | ((prev: ToothChangeTuple[]) => ToothChangeTuple[]),
+  ) => void;
   styleDisabled?: boolean;
 }
 
 export default function Diente({
   toothNumber,
   isActive,
-  setContextMenu,
   handle,
-  setToothSelectState,
   dataIds,
-  updateToothIds,
-  clearTooth,
-  stateTeethChanged,
   styleDisabled,
 }: DienteV2Props) {
+  const setTeethChanged = useOdontogramaStore((state) => state.setTeethChanged);
+  const setContextMenu = useOdontogramaStore((state) => state.setContextMenu);
+  const setToothSelect = useOdontogramaStore((state) => state.setToothSelect);
+  const setTeethIdsState = useOdontogramaStore((state) => state.setTeethIdsState);
+
   //region states y variables
   const [width, setWidth] = useState(false);
   const [positionMenu, setPositionMenu] = useState({ x: 0, y: 0 });
@@ -57,11 +55,16 @@ export default function Diente({
     setWidth(widthTotal - x > 385);
   }, [positionMenu.x, positionMenu.y]);
 
+  const lateralFill = (side: "left" | "right") =>
+    isLeft
+      ? fillForFace(side === "left" ? CARA.DISTAL : CARA.MESIAL)
+      : fillForFace(side === "left" ? CARA.MESIAL : CARA.DISTAL);
+
   //region functions
   function handleContextMenu(e: React.MouseEvent) {
     e.preventDefault();
     setContextMenu(toothNumber);
-    setToothSelectState(toothNumber);
+    setToothSelect(toothNumber);
     setPositionMenu({ x: e.clientX, y: e.clientY });
   }
 
@@ -76,10 +79,16 @@ export default function Diente({
     return styleDisabled ? "#fff" : "#ececec";
   }
 
-  const lateralFill = (side: "left" | "right") =>
-    isLeft
-      ? fillForFace(side === "left" ? CARA.DISTAL : CARA.MESIAL)
-      : fillForFace(side === "left" ? CARA.MESIAL : CARA.DISTAL);
+  function clearTooth() {
+    setTeethIdsState((prev) => ({ ...prev, [toothNumber]: [] }));
+  }
+
+  function updateToothIds(tuple) {
+    setTeethIdsState((prev) => ({
+      ...prev,
+      [toothNumber]: [...(prev[toothNumber] || []), tuple],
+    }));
+  }
 
   //region return
   return (
@@ -204,7 +213,7 @@ export default function Diente({
             handle={handle}
             clearTooth={clearTooth}
             onClose={() => setContextMenu(null)}
-            stateTeethChanged={stateTeethChanged}
+            stateTeethChanged={setTeethChanged}
             toothNumber={toothNumber}
             dataIds={dataIds}
           />
