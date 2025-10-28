@@ -96,7 +96,12 @@ export default function ModalInputsHeader({ handleCloseModalInput }) {
         ref={buttonRef}
         onKeyDown={handleButtonKeyDown}
       />
-      <ActionButton icon={<IoClose />} addClassName="h-8" color="red" />
+      <ActionButton
+        icon={<IoClose />}
+        addClassName="h-8"
+        color="red"
+        onClick={handleCloseModalInput}
+      />
     </div>
   );
 }
